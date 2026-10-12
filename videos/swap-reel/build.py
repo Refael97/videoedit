@@ -10,14 +10,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent
 RAW = json.loads((ROOT / "data/words.json").read_text(encoding="utf-8"))["words"]
+# The "original characters / real faces" sentence is cut out of the narration (assets/audio/vo.mp3 is
+# vo-full.mp3 minus CUT). Authored times stay in full-take time and go through W().
+CUT = (42.6, 47.15)
+CUT_D = CUT[1] - CUT[0]
+
+
+def W(t):
+    return t if t <= CUT[0] else (CUT[0] if t < CUT[1] else round(t - CUT_D, 3))
 
 DISPLAY = {"להיגספילד,": "ל-Higgsfield,", "ג'נג'וטסו,": "Genjutsu,", "ג'נג'וטסו": "Genjutsu",
            "בסידאנס": "ב-Seedance", "בקאפקאט": "ב-CapCut"}
 WORDS = []
 for x in RAW:
-    if x["text"] == "—":
+    if x["text"] == "—" or CUT[0] <= x["start"] < CUT[1]:
         continue
-    WORDS.append({"t": DISPLAY.get(x["text"], x["text"]), "s": round(x["start"], 3), "e": round(x["end"], 3)})
+    WORDS.append({"t": DISPLAY.get(x["text"], x["text"]), "s": W(round(x["start"], 3)), "e": W(round(x["end"], 3))})
 
 PHRASES = """אנשים כבר עושים כסף
 מהחלפת דמויות
@@ -56,9 +64,6 @@ Genjutsu עבד לנו
 המקורי ב-CapCut
 ויש לכם סרטון
 שעוצר את הגלילה!
-רק דמויות מקוריות,
-ופנים של אנשים אמיתיים
-רק באישור שלהם.
 רוצים את תבנית
 הפרומפט המדויקת?
 כתבו בתגובות "פרומפט",
@@ -98,9 +103,9 @@ SCENES = {
     "s06": (22.34, 29.62), # Genjutsu UI
     "s07": (29.62, 38.1),  # tip: Seedance vs Genjutsu
     "s08": (38.1, 42.66),  # sound back, haircut reveal
-    "s09": (42.66, 47.05), # rules
-    "s10": (47.05, DURATION),  # CTA
+    "s10": (47.05, 0),     # CTA (end = DURATION)
 }
+SCENES = {k: (W(a), W(b) if b else DURATION) for k, (a, b) in SCENES.items()}
 
 # timed videos: (id, src, start, duration, media_start, css class)
 H = [0.0, 0.62, 1.24, 1.86, 2.48, 3.1, 3.72, 4.34, 4.96, 5.6]
@@ -116,9 +121,7 @@ VIDEOS += [("v4a", "assets/video/boxer.mp4", s, e - s, 4.0, "card card-a"), ("v4
 s, e = SCENES["s07"]
 VIDEOS += [("v7", "assets/video/boxer-ai.mp4", s, e - s, 6.0, "full blur")]
 s, e = SCENES["s08"]
-VIDEOS += [("v8a", "assets/video/haircut.mp4", s, 2.2, 1.0, "full"), ("v8b", "assets/video/haircut-ai.mp4", s, e - s, 1.0, "full reveal")]
-s, e = SCENES["s09"]
-VIDEOS += [("v9", "assets/video/metro-ai.mp4", s, e - s, 9.0, "full")]
+VIDEOS += [("v8a", "assets/video/haircut.mp4", s, 2.2, 1.0, "full"), ("v8b", "assets/video/haircut-ai.mp4", s, e - s, 4.0, "full reveal")]
 s, e = SCENES["s10"]
 for k, n in enumerate(["metro-ai", "street-ai", "boxer-ai", "haircut-ai"]):
     VIDEOS.append((f"v10{k}", f"assets/video/{n}.mp4", s, e - s, 1.0, f"quad q{k}"))
@@ -132,6 +135,7 @@ SFX = [("impact", 0.0, 0.7)] + [("whoosh", t - 0.05, 0.35) for t in H[1:9]] + [
     ("pop", 34.2, 0.45), ("riser", 38.1, 0.35), ("impact", 40.29, 0.75), ("whoosh", 42.62, 0.5), ("pop", 43.44, 0.4),
     ("pop", 45.96, 0.4), ("whoosh", 47.0, 0.5), ("impact", 50.0, 0.7),
 ]
+SFX = [(n, W(t), v) for n, t, v in SFX if not (CUT[0] < t < CUT[1])]
 
 
 def scene_attrs(sid):
@@ -165,7 +169,7 @@ page = (ROOT / "src/template.html").read_text(encoding="utf-8")
 page = (page.replace("{{VIDEOS}}", build_videos()).replace("{{CAPTIONS}}", build_captions())
         .replace("{{SFX}}", build_sfx()).replace("{{DURATION}}", f"{DURATION:.2f}")
         .replace("{{CAP_DATA}}", json.dumps([{"s": g["s"], "w": [{"s": w["s"], "hi": w["hi"]} for w in g["w"]]} for g in CAPS]))
-        .replace("{{HOOK_CUTS}}", json.dumps(H)))
+        .replace("{{HOOK_CUTS}}", json.dumps(H)).replace("{{CUT}}", json.dumps(CUT)))
 for sid in SCENES:
     page = page.replace("{{SCENE:" + sid + "}}", scene_attrs(sid))
 assert "{{" not in page, re.findall(r"\{\{[^}]+\}\}", page)[:5]
