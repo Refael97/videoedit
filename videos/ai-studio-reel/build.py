@@ -7,9 +7,18 @@ import json
 import html
 from pathlib import Path
 
+from tools.timing import load_words, build_captions as phrase_captions, warp_points, make_warp
+
 ROOT = Path(__file__).parent
-CAPS = json.loads((ROOT / "data/captions.json").read_text(encoding="utf-8"))
-DURATION = 80.0
+# Authored times below refer to take v1; they are warped onto the current take (data/words.json).
+WORDS_V1 = load_words("words-v1.json")
+WORDS = load_words("words.json") if (ROOT / "data/words.json").exists() else WORDS_V1
+WARP_PTS = warp_points(WORDS_V1, WORDS)
+W = make_warp(WARP_PTS)
+CAPS = phrase_captions(WORDS)
+(ROOT / "data/captions.json").write_text(json.dumps(CAPS, ensure_ascii=False), encoding="utf-8")
+DURATION = round(WORDS[-1]["e"] + 1.52, 2)
+CLIP_LEN = 5.04
 
 # Scene windows (global seconds), aligned to the voiceover word timings.
 SCENES = {
@@ -26,8 +35,10 @@ SCENES = {
     "s09": (49.45, 61.85),
     "s10": (61.85, 67.8),
     "s10b": (67.8, 71.65),
-    "s11": (71.65, DURATION),
+    "s11": (71.65, 80.0),
 }
+SCENES = {k: (round(W(a), 3), round(W(b), 3)) for k, (a, b) in SCENES.items()}
+SCENES["s11"] = (SCENES["s11"][0], DURATION)
 
 # b-roll: (id, file, scene, playback rate)
 BROLL = [
@@ -78,8 +89,9 @@ def build_captions():
 
 def build_broll():
     out = []
-    for vid, src, sid, rate in BROLL:
+    for vid, src, sid, _ in BROLL:
         s, e = SCENES[sid]
+        rate = round(min(1.0, (CLIP_LEN - 0.05) / (e - s)), 3)
         out.append(
             f'<div class="vwrap" id="{vid}w"><video id="{vid}" class="clip bg-video" src="{src}" muted playsinline '
             f'data-start="{s:.3f}" data-duration="{e - s:.3f}" data-playback-rate="{rate}" data-track-index="0"></video></div>'
@@ -127,6 +139,7 @@ def build_sfx():
     out = []
     for k, (sid, src, s, vol) in enumerate(SFX):
         d = SFX_LEN[Path(src).stem]
+        s = W(s)
         out.append(
             f'<audio id="{sid}" src="{src}" data-start="{s:.3f}" data-duration="{d}" data-track-index="{10 + k % 2}" data-volume="{vol}"></audio>'
         )
@@ -144,6 +157,7 @@ page = (
     .replace("{{SFX}}", build_sfx())
     .replace("{{CAP_DATA}}", CAP_DATA)
     .replace("{{DURATION}}", f"{DURATION:.2f}")
+    .replace("{{WARP}}", json.dumps(WARP_PTS))
 )
 for sid in SCENES:
     page = page.replace("{{SCENE:" + sid + "}}", scene_attrs(sid))
