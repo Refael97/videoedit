@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      /* "What are you wearing today?" trend — iMessage overlay on top of the outfit clip.
+         Geometry, colors and timing measured from the reference (720x1280, scaled x1.5). */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      #src { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      .bubble { position: absolute; display: flex; align-items: center; white-space: nowrap; border-radius: 34px; }
+      .bubble .tail { position: absolute; bottom: 0; width: 26px; height: 24px; }
+      .recv { background: #f5eef6; color: #1b1b1d; font-size: 25.5px; height: 66px; padding: 0 38px; }
+      .recv .tail { left: -9px; }
+      #b1 { left: 102px; top: 265px; }
+      #b2 { left: 102px; top: 355px; }
+
+      #reply { left: 90px; top: 288px; height: 63px; padding: 0 64px 0 22px; background: #dbf8c0; color: #111; font-size: 28px; border-radius: 30px; }
+      #reply .tail { right: -9px; }
+      #reply .at { color: #1f5a9c; margin-left: 9px; }
+
+      #photo { position: absolute; left: 97px; top: 372px; width: 308px; height: 410px; overflow: hidden; }
+      #photo img { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12.66" data-width="1080" data-height="1920">
+      <video id="src" class="clip" src="assets/video/source.mp4" muted playsinline data-start="0" data-duration="12.66" data-track-index="0"></video>
+
+      <div id="b1" class="bubble recv clip" data-start="1.70" data-duration="1.15" data-track-index="2">hey girl<svg class="tail" viewBox="0 0 26 24"><path d="M26 0 C26 12 20 21 0 24 C12 24 20 22 26 17 Z" fill="#f5eef6" /></svg></div>
+      <div id="b2" class="bubble recv clip" data-start="2.10" data-duration="0.75" data-track-index="3">what are you wearing today?<svg class="tail" viewBox="0 0 26 24"><path d="M26 0 C26 12 20 21 0 24 C12 24 20 22 26 17 Z" fill="#f5eef6" /></svg></div>
+
+      <div id="reply" class="bubble clip" data-start="9.00" data-duration="1.35" data-track-index="4">I’m wearing<span class="at">@visorillaofficial</span><svg class="tail" viewBox="0 0 26 24"><path d="M0 0 C0 12 6 21 26 24 C14 24 6 22 0 17 Z" fill="#dbf8c0" /></svg></div>
+      <div id="photo" class="clip" data-start="9.75" data-duration="0.60" data-track-index="5"><img src="assets/img/outfit.jpg" alt="" /></div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // received messages: quick slide-in from the left, then a pop for the second one
+      tl.fromTo("#b1", { x: -160, opacity: 0.4 }, { x: 0, opacity: 1, duration: 0.1, ease: "power2.out" }, 1.70);
+      tl.fromTo("#b2", { scale: 0.85, opacity: 0, transformOrigin: "0% 100%" }, { scale: 1, opacity: 1, duration: 0.08, ease: "power2.out" }, 2.10);
+      // her reply: slides in from the right with a small overshoot, then the photo pops in
+      tl.fromTo("#reply", { x: 220, opacity: 0.5 }, { x: 0, opacity: 1, duration: 0.08, ease: "power2.out" }, 9.00);
+      tl.fromTo("#reply", { scale: 1.04 }, { scale: 1, duration: 0.2, ease: "power2.out", transformOrigin: "100% 100%" }, 9.08);
+      tl.fromTo("#photo", { scale: 0.9, opacity: 0, transformOrigin: "0% 0%" }, { scale: 1, opacity: 1, duration: 0.1, ease: "power2.out" }, 9.75);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
