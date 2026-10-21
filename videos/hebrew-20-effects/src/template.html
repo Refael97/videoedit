@@ -121,8 +121,8 @@
       #magHead { left: 0; right: 0; top: 330px; text-align: center; z-index: 2; font-family: "Rubik"; font-weight: 900; font-size: 168px; letter-spacing: -4px; color: #e3261a; direction: ltr; line-height: 1; }
       #magDate { left: 70px; right: 70px; top: 300px; z-index: 2; display: flex; justify-content: space-between; font-size: 26px; font-weight: 700; color: #111; }
       .mline { z-index: 7; color: #111; font-weight: 900; text-align: right; }
-      #magL1 { right: 60px; top: 1000px; font-size: 64px; line-height: 1; }
-      #magL1 small { display: block; font-size: 32px; font-weight: 400; margin-top: 8px; }
+      #magL1 { right: 40px; top: 640px; font-size: 50px; line-height: 1; }
+      #magL1 small { display: block; font-size: 26px; font-weight: 700; margin-top: 8px; color: #e3261a; }
       #magL2 { left: 60px; top: 760px; font-size: 44px; text-align: left; line-height: 1.05; }
       #magBadge { left: 70px; top: 1180px; width: 200px; height: 200px; border-radius: 50%; background: #e3261a; color: #fff; z-index: 7; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 900; transform: rotate(-12deg); }
       #magBadge b { font-size: 84px; line-height: 0.9; } #magBadge span { font-size: 28px; }
@@ -274,7 +274,7 @@
       <div id="growthW" class="clip fx" data-start="16.82" data-duration="1.98" data-track-index="13" style="inset: 0"><svg id="growth" viewBox="0 0 1080 1920"><defs><linearGradient id="gl" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#ff3b30" /><stop offset="1" stop-color="#ffb02e" /></linearGradient></defs><path id="gPath" d="M40 1500 C 260 1480, 360 1360, 470 1300 S 680 1180, 760 900 S 930 520, 1050 380" fill="none" stroke="url(#gl)" stroke-width="16" stroke-linecap="round" /><circle id="gDot" cx="1050" cy="380" r="22" fill="#ffb02e" /></svg></div>
       <div id="gCount" class="clip abs" data-start="16.82" data-duration="1.98" data-track-index="14"><span id="gNum">1K</span><small>צפיות</small></div>
       <div id="onair" class="clip abs" data-start="18.8" data-duration="2.12" data-track-index="13">ON AIR</div>
-      <div id="magL1" class="clip abs mline" data-start="27.26" data-duration="2.3" data-track-index="13">עורך וידאו<br />AI<small>מהסרטון הגולמי לסרטון ויראלי</small></div>
+      <div id="magL1" class="clip abs mline" data-start="27.26" data-duration="2.3" data-track-index="13">עורך וידאו<br />AI<small>מגולמי לוויראלי</small></div>
       <div id="magL2" class="clip abs mline" data-start="27.26" data-duration="2.3" data-track-index="14">CLAUDE<br />EDITS<br />VIDEO</div>
       <div id="magBadge" class="clip abs" data-start="27.26" data-duration="2.3" data-track-index="15"><b>20</b><span>אפקטים</span></div>
       <div id="magBar" class="clip abs" data-start="27.26" data-duration="2.3" data-track-index="16"></div>
@@ -413,11 +413,12 @@
       tl.to("#cam", { x: 14, duration: 0.04, yoyo: true, repeat: 5, ease: "none" }, 13.0);
 
       // ---------- 07 zoom portal ----------
-      both(ET[6], { clipPath: "circle(0px at 50% 36%)", scale: 1.0 });
-      tl.to("#cam", { clipPath: "circle(150px at 50% 36%)", duration: 0.3, ease: "back.out(1.6)" }, ET[6] + 0.05);
+      // the shot sits small inside the portal (clip radius is in the scaled layer's units), then flies through
+      both(ET[6], { clipPath: "circle(0px at 50% 36%)", scale: 0.42, transformOrigin: "50% 36%" });
+      tl.to("#cam", { clipPath: "circle(357px at 50% 36%)", duration: 0.3, ease: "back.out(1.6)" }, ET[6] + 0.05);
       tl.fromTo("#portalRing", { scale: 0, rotation: 0 }, { scale: 1, rotation: 90, duration: 0.35, ease: "back.out(1.6)", immediateRender: false }, ET[6] + 0.05);
       tl.to("#portalRing", { rotation: 270, duration: 0.8, ease: "none" }, ET[6] + 0.4);
-      tl.to("#cam", { clipPath: "circle(1500px at 50% 36%)", duration: 0.55, ease: "power3.in" }, ET[6] + 1.0);
+      tl.to("#cam", { scale: 1, clipPath: "circle(1500px at 50% 36%)", duration: 0.55, ease: "power3.in" }, ET[6] + 1.0);
       tl.to("#portalRing", { scale: 9, opacity: 0, duration: 0.5, ease: "power3.in" }, ET[6] + 1.0);
       tl.fromTo("#cam", { filter: "blur(10px)" }, { filter: "blur(0px)", duration: 0.4, immediateRender: false }, ET[6] + 1.35);
 
