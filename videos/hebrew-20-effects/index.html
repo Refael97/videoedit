@@ -118,7 +118,7 @@
       #pcStrip { left: -40px; top: 1340px; width: 1160px; height: 140px; background: #ffd23f; transform: rotate(-6deg); z-index: 2; }
 
       /* 13 magazine */
-      #magHead { left: 0; right: 0; top: 330px; text-align: center; z-index: 2; font-family: "Rubik"; font-weight: 900; font-size: 250px; letter-spacing: -6px; color: #e3261a; direction: ltr; line-height: 1; }
+      #magHead { left: 0; right: 0; top: 330px; text-align: center; z-index: 2; font-family: "Rubik"; font-weight: 900; font-size: 168px; letter-spacing: -4px; color: #e3261a; direction: ltr; line-height: 1; }
       #magDate { left: 70px; right: 70px; top: 300px; z-index: 2; display: flex; justify-content: space-between; font-size: 26px; font-weight: 700; color: #111; }
       .mline { z-index: 7; color: #111; font-weight: 900; text-align: right; }
       #magL1 { right: 60px; top: 1000px; font-size: 64px; line-height: 1; }
@@ -236,7 +236,7 @@
       <div id="pcCircle" class="clip abs" data-start="22.88" data-duration="2.2" data-track-index="4"></div>
       <div id="pcDot" class="clip abs" data-start="22.88" data-duration="2.2" data-track-index="5"></div>
       <div id="pcStrip" class="clip abs" data-start="22.88" data-duration="2.2" data-track-index="6"></div>
-      <div id="magHead" class="clip abs" data-start="27.26" data-duration="2.3" data-track-index="3">REFAEL</div>
+      <div id="magHead" class="clip abs" data-start="27.26" data-duration="2.3" data-track-index="3">REFAEL AI</div>
       <div id="magDate" class="clip abs" data-start="27.26" data-duration="2.3" data-track-index="4"><span>גיליון אוקטובר 2026</span><span>מהדורת AI</span></div>
       <div class="clip abs panel" id="pan1" data-start="18.8" data-duration="2.12" data-track-index="3" style="left: 40px; top: 470px; transform: perspective(900px) rotateY(28deg)"></div>
       <div class="clip abs panel" id="pan2" data-start="18.8" data-duration="2.12" data-track-index="4" style="left: 390px; top: 380px; width: 300px; height: 280px"></div>
@@ -610,6 +610,8 @@
       tl.fromTo("#magL1", { x: 300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, ET[12] + 0.3);
       tl.fromTo("#magL2", { x: -300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, ET[12] + 0.45);
       pop("#magBadge", ET[12] + 0.7); pop("#magBar", ET[12] + 0.85);
+      tl.set("#hdr", { color: "#111", textShadow: "0 0 0 rgba(0,0,0,0)" }, ET[12]);
+      tl.set("#hdr", { color: "#fff", textShadow: "0 3px 0 rgba(0,0,0,0.7), 0 0 18px rgba(0,0,0,0.6)" }, ET[13]);
       flash(ET[12] + 0.02, 0.9, 0.3);
 
       // ---------- 14 liquid glass ----------
