@@ -3,3 +3,4 @@ renders/
 .hyperframes/
 node_modules/
 assets/video/.tmp-*
+__pycache__/
