@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/kit/vendor/gsap.min.js"></script>
+    <script src="assets/kit/kit.js"></script>
+    <link rel="stylesheet" href="assets/kit/kit.css" />
+    <style>
+      /* scene-specific placement only; look & motion live in the kit */
+      #s1 .bg-photo { transform-origin: 50% 60%; }
+      #s4 .frame-cloud { left: 190px; top: 760px; width: 700px; height: 860px; background-image: url("assets/kit/img/sky.jpg"); }
+      #s4 .file { position: absolute; left: 50px; top: 90px; }
+      #s4 .select { left: 42px; top: 82px; width: 616px; height: 696px; }
+      #s5 .laptop { left: 110px; top: 640px; }
+      #s5 .screen img { width: 100%; height: 100%; object-fit: cover; }
+      #s5 .mini { position: absolute; left: 140px; top: 150px; width: 470px; padding: 26px; border-radius: 22px; text-align: right; font-size: 24px; }
+      #s5 .mini .bar { height: 54px; border-radius: 14px; background: #f0eff4; margin-top: 16px; position: relative; }
+      #s5 .mini .bar::after { content: ""; position: absolute; left: 10px; top: 10px; width: 34px; height: 34px; border-radius: 50%; background: var(--green); }
+      #ring { left: 290px; top: 940px; width: 500px; height: 500px; border-radius: 50%; border: 14px solid rgba(80, 240, 150, 0.9); box-shadow: 0 0 80px rgba(80, 240, 150, 0.8); z-index: 30; opacity: 0; }
+      #cactus1 { left: 400px; top: 1130px; }
+      #cactus2 { left: 80px; top: 960px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="mg-root" data-composition-id="main" data-start="0" data-duration="28" data-width="1080" data-height="1920">
+      <!-- S1 · hook over a photo -->
+      <div id="s1" class="clip scene" data-start="0" data-duration="3.6" data-track-index="1">
+        <img class="bg-photo" src="assets/kit/img/sunset.jpg" alt="" />
+        <div class="center" style="top: 560px"><div id="s1a" class="t-md t-white">מה אם הייתם יכולים ליצור</div></div>
+        <div class="center" style="top: 680px"><div id="s1b" class="t-xl t-white">מודעות כאלה</div></div>
+      </div>
+
+      <!-- S2 · question with one green hero word -->
+      <div id="s2" class="clip scene" data-start="3.0" data-duration="3.8" data-track-index="2">
+        <div class="bg-aurora"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
+        <div class="center" style="top: 780px"><div id="s2a" class="t-sm t-muted">בלי לגעת אפילו</div></div>
+        <div class="center" style="top: 860px"><div id="s2b" class="t-xl acc-green">בעורך וידאו?</div></div>
+      </div>
+
+      <!-- S3 · rolling "no ..." list -->
+      <div id="s3" class="clip scene" data-start="6.4" data-duration="3.6" data-track-index="1">
+        <div class="bg-aurora"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
+        <div id="roll" class="roll" style="top: 800px">
+          <div class="row"><span class="arrow">←</span>בלי סטודיו.</div>
+          <div class="row"><span class="arrow">←</span>בלי מעצב.</div>
+          <div class="row"><span class="arrow">←</span>בלי מצלמה.</div>
+          <div class="row"><span class="arrow">←</span>בלי טיימליין.</div>
+          <div class="row"><span class="arrow">←</span>בלי צוות.</div>
+        </div>
+      </div>
+
+      <!-- S4 · "just Claude and one prompt" + the prompt file -->
+      <div id="s4" class="clip scene" data-start="9.6" data-duration="4.2" data-track-index="2">
+        <div class="bg-aurora"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
+        <div class="center" style="top: 330px"><div id="s4a" class="t-md">רק <span class="acc-serif">Claude.</span></div></div>
+        <div class="center" style="top: 450px"><div id="s4b" class="t-lg">ו<span class="acc-green">פרומפט</span> אחד.</div></div>
+        <div class="abs frame-cloud" id="s4f">
+          <div class="card file" id="s4file" dir="rtl"><div class="dot"></div><h4>prompt.md</h4><div class="sub">פרומפט ל-Claude Code</div><pre>תכין מודעה של דקה בלי עורך.
+בפנים: פרסומת לעסק מקומי,
+שקיעה במדבר, צבעים חמים,
+טקסט קצר וחד.</pre></div>
+          <div class="select" id="s4sel"><i></i><i></i><i></i><i></i><span class="tag">prompt.md</span></div>
+        </div>
+        <svg id="cur" class="cursor" viewBox="0 0 24 24" style="left: 0; top: 0; opacity: 0"><path d="M4 2l16 10-7 1.5L9.5 21z" fill="#111" stroke="#fff" stroke-width="1.5" /></svg>
+      </div>
+      <div id="ring" class="clip abs" data-start="13.2" data-duration="1.1" data-track-index="5"></div>
+
+      <!-- S5 · floating laptop in the sky -->
+      <div id="s5" class="clip scene" data-start="13.2" data-duration="4.3" data-track-index="1">
+        <div class="bg-sky" style="background-image: url('assets/kit/img/sky.jpg')"></div>
+        <div class="laptop" id="lap">
+          <div class="lid"><div class="screen"><img src="assets/kit/img/sunset.jpg" alt="" /><div class="card mini" id="mini">Claude Code<div class="bar"></div></div></div></div>
+          <div class="base"></div>
+        </div>
+        <div class="abs" id="p1" style="right: 70px; top: 520px"><span class="pill">פתחתי</span></div>
+        <div class="abs" id="p2" style="left: 70px; top: 1300px"><span class="pill">Claude Code</span></div>
+        <div class="center" id="p3" style="top: 1500px"><span class="pill light">וזה מה שהוא בנה לי</span></div>
+      </div>
+
+      <!-- S6 · dark horizon, highlighted word -->
+      <div id="s6" class="clip scene" data-start="17.2" data-duration="3.8" data-track-index="2">
+        <div class="bg-dark"></div><div class="horizon" id="hz"></div>
+        <div class="center" style="top: 640px"><div id="s6a" class="t-md t-white">אני יודע.</div></div>
+        <div class="center" style="top: 770px"><div id="s6b" class="t-lg t-white">גם אני לא <span class="hl" id="hl1"><span class="box"></span>האמנתי.</span></div></div>
+      </div>
+
+      <!-- S7 · dot-matrix number + pixel mascot -->
+      <div id="s7" class="clip scene" data-start="20.6" data-duration="3.8" data-track-index="1">
+        <div class="bg-aurora"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
+        <div class="center" style="top: 420px"><div id="s7a" class="t-md">רק ל-</div></div>
+        <div class="dots" id="d50" style="left: 320px; top: 580px"></div>
+        <div class="center" style="top: 960px"><div id="s7b" class="t-md">ה<span class="acc-serif">ראשונים</span> שמגיבים</div></div>
+        <div class="pixels" id="cactus1"></div>
+      </div>
+
+      <!-- S8 · profile + CTA -->
+      <div id="s8" class="clip scene" data-start="24.0" data-duration="4.0" data-track-index="2">
+        <div class="bg-aurora"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
+        <div class="abs avatar" id="av" style="left: 390px; top: 470px"><img src="assets/avatar.jpg" alt="" /></div>
+        <div class="center" style="top: 830px"><div id="handle" class="t-md" style="direction: ltr">@refael.ai</div></div>
+        <div class="center" style="top: 990px"><span class="cta" id="cta">תגיבו "פרומפט"</span></div>
+        <div class="center" style="top: 1170px"><div id="s8b" class="t-sm t-muted">עקבו, תגיבו, ו-50 הראשונים מקבלים בחינם.</div></div>
+        <div class="pixels" id="cactus2"></div>
+      </div>
+
+      <audio id="music" src="assets/music.mp3" data-start="0" data-duration="28" data-track-index="20" data-volume="0.5"></audio>
+      <audio id="sx0" src="assets/whoosh.wav" data-start="2.95" data-duration="0.7" data-track-index="21" data-volume="0.4"></audio>
+      <audio id="sx1" src="assets/whoosh.wav" data-start="6.35" data-duration="0.7" data-track-index="22" data-volume="0.4"></audio>
+      <audio id="sx2" src="assets/pop.wav" data-start="11.4" data-duration="0.12" data-track-index="21" data-volume="0.4"></audio>
+      <audio id="sx3" src="assets/riser.wav" data-start="12.0" data-duration="1.6" data-track-index="23" data-volume="0.35"></audio>
+      <audio id="sx4" src="assets/impact.wav" data-start="17.2" data-duration="0.9" data-track-index="21" data-volume="0.45"></audio>
+      <audio id="sx5" src="assets/whoosh.wav" data-start="20.55" data-duration="0.7" data-track-index="22" data-volume="0.4"></audio>
+      <audio id="sx6" src="assets/pop.wav" data-start="26.0" data-duration="0.12" data-track-index="21" data-volume="0.45"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // S1
+      tl.fromTo("#s1 .bg-photo", { scale: 1.18 }, { scale: 1.0, duration: 3.6, ease: "power1.out", immediateRender: false }, 0);
+      MG.blurIn(tl, "#s1a", 0.2);
+      MG.hero(tl, "#s1b", 1.2);
+      MG.dissolve(tl, "#s1", "#s2", 3.0);
+
+      // S2
+      MG.drift(tl, "#s2", 3.0, 3.8);
+      MG.blurIn(tl, "#s2a", 3.5, { stagger: 0.12 });
+      MG.hero(tl, "#s2b", 4.4);
+      MG.blurOut(tl, ["#s2a", "#s2b"], 6.15);
+
+      // S3
+      MG.drift(tl, "#s3", 6.4, 3.6);
+      tl.fromTo("#roll", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.4, immediateRender: false }, 6.45);
+      MG.roll(tl, "#roll", 6.5, 0.62);
+      MG.dissolve(tl, "#s3", "#s4", 9.55, 0.35);
+
+      // S4
+      MG.drift(tl, "#s4", 9.6, 4.2);
+      MG.blurIn(tl, "#s4a", 9.8);
+      MG.rise(tl, "#s4f", 10.0, { y: 220 });
+      MG.flipIn(tl, "#s4file", 10.35);
+      MG.blurIn(tl, "#s4b", 10.7, { stagger: 0.14 });
+      MG.select(tl, "#s4sel", 11.4);
+      MG.cursor(tl, "#cur", [[900, 1750, 11.5], [600, 1160, 12.4]], { click: true });
+
+      // S4 -> S5 through a portal opened from the file card
+      MG.portal(tl, "#s5", 13.2, { x: 50, y: 62, dur: 0.75, ring: "#ring" });
+
+      // S5
+      MG.float(tl, "#lap", 13.4, 3.8, { from: 40, to: -30 });
+      tl.fromTo("#lap", { scale: 0.85 }, { scale: 1, duration: 1.2, ease: "expo.out", immediateRender: false }, 13.4);
+      MG.rise(tl, "#mini", 14.0, { y: 60 });
+      MG.rise(tl, "#p1", 14.2, { y: 40 });
+      MG.rise(tl, "#p2", 14.6, { y: 40 });
+      MG.rise(tl, "#p3", 15.8, { y: 40 });
+      MG.dissolve(tl, "#s5", null, 17.0, 0.3);
+
+      // S6
+      tl.fromTo("#hz", { y: 420 }, { y: 0, duration: 1.2, ease: "expo.out", immediateRender: false }, 17.2);
+      MG.blurIn(tl, "#s6a", 17.6);
+      MG.blurIn(tl, "#s6b", 18.4, { stagger: 0.14 });
+      MG.highlight(tl, "#hl1", 19.2);
+      MG.dissolve(tl, "#s6", "#s7", 20.45, 0.35);
+
+      // S7
+      MG.drift(tl, "#s7", 20.6, 3.8);
+      MG.dots("#d50", "50", 40);
+      MG.pixels("#cactus1", MG.SPRITES.cactus, MG.SPRITES.cactusPalette, 20);
+      MG.blurIn(tl, "#s7a", 20.9);
+      MG.dotsIn(tl, "#d50", 21.3, 0.8);
+      MG.blurIn(tl, "#s7b", 22.1);
+      MG.rise(tl, "#cactus1", 21.8, { y: 120 });
+      MG.hop(tl, "#cactus1", 22.6, 1.5);
+      MG.dissolve(tl, "#s7", "#s8", 23.85, 0.35);
+
+      // S8
+      MG.drift(tl, "#s8", 24.0, 4.0);
+      MG.pixels("#cactus2", MG.SPRITES.cactus, MG.SPRITES.cactusPalette, 14);
+      MG.rise(tl, "#av", 24.2, { y: 80, scale: 0.8 });
+      tl.fromTo("#av", { boxShadow: "0 0 0 0px #1fc24a, 0 30px 70px rgba(0,0,0,0.18)" }, { boxShadow: "0 0 0 10px #1fc24a, 0 30px 70px rgba(0,0,0,0.18)", duration: 0.6, immediateRender: false }, 24.6);
+      MG.type(tl, "#handle", 24.8, 0.7);
+      MG.rise(tl, "#cta", 25.7, { y: 60, scale: 0.9 });
+      tl.to("#cta", { scale: 1.06, duration: 0.35, yoyo: true, repeat: 3, ease: "sine.inOut" }, 26.4);
+      MG.blurIn(tl, "#s8b", 26.1, { stagger: 0.05 });
+      MG.rise(tl, "#cactus2", 26.0, { y: 80 });
+      MG.hop(tl, "#cactus2", 26.6, 1.3, { h: -26 });
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
