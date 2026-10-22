@@ -130,3 +130,11 @@ and are seek-safe. Build DOM-generating parts (`MG.dots`, `MG.pixels`) before th
   always `MG.hide` it first, or it flashes on screen early.
 - Animate transforms only (x/y/scale) — `left/top/width/fontSize` tweens snap to pixels and fail lint.
   To "grow a card to full screen", build it full size and scale it down with `transform-origin: 0 0`.
+- Never tween `filter` from an unset value to a multi-function filter (`blur() brightness()`): GSAP
+  starts brightness at 0 and you get a black frame. Set the start explicitly (`blur(0px) brightness(1)`).
+- Narration must sit on top: loudnorm the placed VO to -16 LUFS, music bed ~0.14 with the voice carve
+  (`hyperframes-audio` carve script). Check `volumedetect` on the render before sending.
+- Showcase websites must feel premium and alive (see scene 9 of `videos/pastel-ad-he`): hero image
+  drift, headline lines rising out of masks, counters, a drawing chart / progress rings, a marquee,
+  floating review/badge cards — never a static screenshot. Pick trades common in Israel.
+
