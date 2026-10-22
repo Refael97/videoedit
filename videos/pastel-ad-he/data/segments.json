@@ -1,0 +1,94 @@
+{
+ "hook": {
+  "start": 2.84,
+  "end": 5.48
+ },
+ "editor": {
+  "start": 5.7,
+  "end": 7.5
+ },
+ "no1": {
+  "start": 7.72,
+  "end": 8.6
+ },
+ "no2": {
+  "start": 8.82,
+  "end": 9.7
+ },
+ "no3": {
+  "start": 9.92,
+  "end": 10.8
+ },
+ "prompt": {
+  "start": 11.02,
+  "end": 12.94
+ },
+ "opened": {
+  "start": 13.16,
+  "end": 16.84
+ },
+ "built": {
+  "start": 17.08,
+  "end": 18.52
+ },
+ "losing": {
+  "start": 19.0,
+  "end": 22.6
+ },
+ "describe": {
+  "start": 22.82,
+  "end": 25.62
+ },
+ "writes": {
+  "start": 25.84,
+  "end": 28.96
+ },
+ "land": {
+  "start": 29.18,
+  "end": 29.74
+ },
+ "roof": {
+  "start": 29.96,
+  "end": 30.92
+ },
+ "plumb": {
+  "start": 31.14,
+  "end": 32.06
+ },
+ "real": {
+  "start": 32.28,
+  "end": 35.16
+ },
+ "frame": {
+  "start": 35.48,
+  "end": 38.28
+ },
+ "know": {
+  "start": 39.72,
+  "end": 40.28
+ },
+ "believe": {
+  "start": 40.52,
+  "end": 41.56
+ },
+ "want": {
+  "start": 42.04,
+  "end": 42.68
+ },
+ "follow": {
+  "start": 42.92,
+  "end": 45.56
+ },
+ "send": {
+  "start": 45.86,
+  "end": 47.22
+ },
+ "first": {
+  "start": 47.56,
+  "end": 49.48
+ },
+ "paid": {
+  "start": 50.06,
+  "end": 52.06
+ }
+}

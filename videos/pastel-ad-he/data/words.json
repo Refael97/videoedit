@@ -1,0 +1,640 @@
+{
+ "words": [
+  {
+   "text": "מה",
+   "start": 2.84,
+   "end": 3.0,
+   "seg": "hook"
+  },
+  {
+   "text": "אם",
+   "start": 3.04,
+   "end": 3.08,
+   "seg": "hook"
+  },
+  {
+   "text": "הייתם",
+   "start": 3.16,
+   "end": 3.4,
+   "seg": "hook"
+  },
+  {
+   "text": "יכולים",
+   "start": 3.48,
+   "end": 3.72,
+   "seg": "hook"
+  },
+  {
+   "text": "ליצור",
+   "start": 3.76,
+   "end": 4.12,
+   "seg": "hook"
+  },
+  {
+   "text": "פרסומות",
+   "start": 4.28,
+   "end": 4.76,
+   "seg": "hook"
+  },
+  {
+   "text": "כאלה...",
+   "start": 4.88,
+   "end": 5.48,
+   "seg": "hook"
+  },
+  {
+   "text": "בלי",
+   "start": 5.7,
+   "end": 5.82,
+   "seg": "editor"
+  },
+  {
+   "text": "לגעת",
+   "start": 5.9,
+   "end": 6.22,
+   "seg": "editor"
+  },
+  {
+   "text": "אפילו",
+   "start": 6.3,
+   "end": 6.62,
+   "seg": "editor"
+  },
+  {
+   "text": "בתוכנת",
+   "start": 6.66,
+   "end": 7.02,
+   "seg": "editor"
+  },
+  {
+   "text": "עריכה?",
+   "start": 7.1,
+   "end": 7.5,
+   "seg": "editor"
+  },
+  {
+   "text": "בלי",
+   "start": 7.72,
+   "end": 7.88,
+   "seg": "no1"
+  },
+  {
+   "text": "מעצב.",
+   "start": 8.2,
+   "end": 8.6,
+   "seg": "no1"
+  },
+  {
+   "text": "בלי",
+   "start": 8.82,
+   "end": 8.98,
+   "seg": "no2"
+  },
+  {
+   "text": "מצלמה.",
+   "start": 9.06,
+   "end": 9.7,
+   "seg": "no2"
+  },
+  {
+   "text": "בלי",
+   "start": 9.92,
+   "end": 10.08,
+   "seg": "no3"
+  },
+  {
+   "text": "טיימליין.",
+   "start": 10.16,
+   "end": 10.8,
+   "seg": "no3"
+  },
+  {
+   "text": "רק",
+   "start": 11.02,
+   "end": 11.34,
+   "seg": "prompt"
+  },
+  {
+   "text": "קלוד,",
+   "start": 11.42,
+   "end": 11.98,
+   "seg": "prompt"
+  },
+  {
+   "text": "ופרומפט",
+   "start": 12.1,
+   "end": 12.46,
+   "seg": "prompt"
+  },
+  {
+   "text": "אחד.",
+   "start": 12.54,
+   "end": 12.94,
+   "seg": "prompt"
+  },
+  {
+   "text": "פתחתי",
+   "start": 13.16,
+   "end": 13.56,
+   "seg": "opened"
+  },
+  {
+   "text": "את",
+   "start": 13.6,
+   "end": 13.64,
+   "seg": "opened"
+  },
+  {
+   "text": "קלוד",
+   "start": 13.72,
+   "end": 13.96,
+   "seg": "opened"
+  },
+  {
+   "text": "קוד,",
+   "start": 14.04,
+   "end": 14.44,
+   "seg": "opened"
+  },
+  {
+   "text": "כתבתי",
+   "start": 14.6,
+   "end": 14.92,
+   "seg": "opened"
+  },
+  {
+   "text": "מה",
+   "start": 15.0,
+   "end": 15.08,
+   "seg": "opened"
+  },
+  {
+   "text": "אני",
+   "start": 15.16,
+   "end": 15.24,
+   "seg": "opened"
+  },
+  {
+   "text": "רוצה,",
+   "start": 15.44,
+   "end": 15.8,
+   "seg": "opened"
+  },
+  {
+   "text": "ולחצתי",
+   "start": 15.88,
+   "end": 16.36,
+   "seg": "opened"
+  },
+  {
+   "text": "אנטר.",
+   "start": 16.48,
+   "end": 16.84,
+   "seg": "opened"
+  },
+  {
+   "text": "הנה",
+   "start": 17.08,
+   "end": 17.24,
+   "seg": "built"
+  },
+  {
+   "text": "מה",
+   "start": 17.32,
+   "end": 17.4,
+   "seg": "built"
+  },
+  {
+   "text": "שהוא",
+   "start": 17.44,
+   "end": 17.56,
+   "seg": "built"
+  },
+  {
+   "text": "בנה",
+   "start": 17.6,
+   "end": 17.8,
+   "seg": "built"
+  },
+  {
+   "text": "לי.",
+   "start": 17.88,
+   "end": 18.52,
+   "seg": "built"
+  },
+  {
+   "text": "רוב",
+   "start": 19.0,
+   "end": 19.16,
+   "seg": "losing"
+  },
+  {
+   "text": "העסקים",
+   "start": 19.2,
+   "end": 19.56,
+   "seg": "losing"
+  },
+  {
+   "text": "המקומיים",
+   "start": 19.6,
+   "end": 20.2,
+   "seg": "losing"
+  },
+  {
+   "text": "מפסידים",
+   "start": 20.24,
+   "end": 20.6,
+   "seg": "losing"
+  },
+  {
+   "text": "לקוחות",
+   "start": 20.68,
+   "end": 21.16,
+   "seg": "losing"
+  },
+  {
+   "text": "בגלל",
+   "start": 21.2,
+   "end": 21.587,
+   "seg": "losing"
+  },
+  {
+   "text": "אתר",
+   "start": 21.693,
+   "end": 21.8,
+   "seg": "losing"
+  },
+  {
+   "text": "גרוע.",
+   "start": 21.88,
+   "end": 22.6,
+   "seg": "losing"
+  },
+  {
+   "text": "עכשיו,",
+   "start": 22.82,
+   "end": 23.14,
+   "seg": "describe"
+  },
+  {
+   "text": "פשוט",
+   "start": 23.38,
+   "end": 23.62,
+   "seg": "describe"
+  },
+  {
+   "text": "מתארים",
+   "start": 23.74,
+   "end": 24.1,
+   "seg": "describe"
+  },
+  {
+   "text": "את",
+   "start": 24.18,
+   "end": 24.26,
+   "seg": "describe"
+  },
+  {
+   "text": "האתר",
+   "start": 24.3,
+   "end": 24.58,
+   "seg": "describe"
+  },
+  {
+   "text": "שאתם",
+   "start": 24.62,
+   "end": 24.9,
+   "seg": "describe"
+  },
+  {
+   "text": "רוצים.",
+   "start": 25.1,
+   "end": 25.62,
+   "seg": "describe"
+  },
+  {
+   "text": "קלוד",
+   "start": 25.84,
+   "end": 26.0,
+   "seg": "writes"
+  },
+  {
+   "text": "כותב",
+   "start": 26.08,
+   "end": 26.48,
+   "seg": "writes"
+  },
+  {
+   "text": "אותו,",
+   "start": 26.56,
+   "end": 26.88,
+   "seg": "writes"
+  },
+  {
+   "text": "מעצב",
+   "start": 27.12,
+   "end": 27.36,
+   "seg": "writes"
+  },
+  {
+   "text": "אותו,",
+   "start": 27.44,
+   "end": 27.76,
+   "seg": "writes"
+  },
+  {
+   "text": "ומעלה",
+   "start": 27.88,
+   "end": 28.16,
+   "seg": "writes"
+  },
+  {
+   "text": "אותו",
+   "start": 28.24,
+   "end": 28.4,
+   "seg": "writes"
+  },
+  {
+   "text": "לאוויר.",
+   "start": 28.48,
+   "end": 28.96,
+   "seg": "writes"
+  },
+  {
+   "text": "גננים.",
+   "start": 29.18,
+   "end": 29.74,
+   "seg": "land"
+  },
+  {
+   "text": "קבלני",
+   "start": 29.96,
+   "end": 30.36,
+   "seg": "roof"
+  },
+  {
+   "text": "גגות.",
+   "start": 30.44,
+   "end": 30.92,
+   "seg": "roof"
+  },
+  {
+   "text": "אינסטלטורים.",
+   "start": 31.14,
+   "end": 32.06,
+   "seg": "plumb"
+  },
+  {
+   "text": "אתר",
+   "start": 32.28,
+   "end": 32.6,
+   "seg": "real"
+  },
+  {
+   "text": "אמיתי,",
+   "start": 32.68,
+   "end": 33.24,
+   "seg": "real"
+  },
+  {
+   "text": "תוך",
+   "start": 33.32,
+   "end": 33.4,
+   "seg": "real"
+  },
+  {
+   "text": "דקות,",
+   "start": 33.48,
+   "end": 34.12,
+   "seg": "real"
+  },
+  {
+   "text": "שנבנה",
+   "start": 34.2,
+   "end": 34.52,
+   "seg": "real"
+  },
+  {
+   "text": "עם",
+   "start": 34.6,
+   "end": 34.68,
+   "seg": "real"
+  },
+  {
+   "text": "קלוד.",
+   "start": 34.76,
+   "end": 35.16,
+   "seg": "real"
+  },
+  {
+   "text": "כל",
+   "start": 35.48,
+   "end": 35.72,
+   "seg": "frame"
+  },
+  {
+   "text": "פריים",
+   "start": 35.8,
+   "end": 36.04,
+   "seg": "frame"
+  },
+  {
+   "text": "בסרטון",
+   "start": 36.12,
+   "end": 36.6,
+   "seg": "frame"
+  },
+  {
+   "text": "הזה,",
+   "start": 36.64,
+   "end": 36.92,
+   "seg": "frame"
+  },
+  {
+   "text": "הגיע",
+   "start": 37.0,
+   "end": 37.24,
+   "seg": "frame"
+  },
+  {
+   "text": "מפרומפט",
+   "start": 37.36,
+   "end": 37.8,
+   "seg": "frame"
+  },
+  {
+   "text": "אחד.",
+   "start": 38.0,
+   "end": 38.28,
+   "seg": "frame"
+  },
+  {
+   "text": "אני",
+   "start": 39.72,
+   "end": 39.88,
+   "seg": "know"
+  },
+  {
+   "text": "יודע.",
+   "start": 39.96,
+   "end": 40.28,
+   "seg": "know"
+  },
+  {
+   "text": "גם",
+   "start": 40.52,
+   "end": 40.6,
+   "seg": "believe"
+  },
+  {
+   "text": "אני",
+   "start": 40.68,
+   "end": 40.84,
+   "seg": "believe"
+  },
+  {
+   "text": "לא",
+   "start": 40.88,
+   "end": 40.92,
+   "seg": "believe"
+  },
+  {
+   "text": "האמנתי.",
+   "start": 40.96,
+   "end": 41.56,
+   "seg": "believe"
+  },
+  {
+   "text": "רוצים",
+   "start": 42.04,
+   "end": 42.36,
+   "seg": "want"
+  },
+  {
+   "text": "אותו?",
+   "start": 42.44,
+   "end": 42.68,
+   "seg": "want"
+  },
+  {
+   "text": "תוודאו",
+   "start": 42.92,
+   "end": 43.24,
+   "seg": "follow"
+  },
+  {
+   "text": "שאתם",
+   "start": 43.28,
+   "end": 43.56,
+   "seg": "follow"
+  },
+  {
+   "text": "עוקבים",
+   "start": 43.613,
+   "end": 43.88,
+   "seg": "follow"
+  },
+  {
+   "text": "אחריי,",
+   "start": 44.0,
+   "end": 44.32,
+   "seg": "follow"
+  },
+  {
+   "text": "ותגיבו",
+   "start": 44.36,
+   "end": 44.84,
+   "seg": "follow"
+  },
+  {
+   "text": "\"פרומפט\".",
+   "start": 45.0,
+   "end": 45.56,
+   "seg": "follow"
+  },
+  {
+   "text": "אני",
+   "start": 45.86,
+   "end": 46.02,
+   "seg": "send"
+  },
+  {
+   "text": "אשלח",
+   "start": 46.1,
+   "end": 46.26,
+   "seg": "send"
+  },
+  {
+   "text": "לכם",
+   "start": 46.3,
+   "end": 46.5,
+   "seg": "send"
+  },
+  {
+   "text": "אותו",
+   "start": 46.58,
+   "end": 46.7,
+   "seg": "send"
+  },
+  {
+   "text": "בהודעה.",
+   "start": 46.74,
+   "end": 47.22,
+   "seg": "send"
+  },
+  {
+   "text": "חמישים",
+   "start": 47.56,
+   "end": 47.88,
+   "seg": "first"
+  },
+  {
+   "text": "הראשונים",
+   "start": 47.92,
+   "end": 48.36,
+   "seg": "first"
+  },
+  {
+   "text": "מקבלים",
+   "start": 48.48,
+   "end": 48.76,
+   "seg": "first"
+  },
+  {
+   "text": "אותו",
+   "start": 48.84,
+   "end": 48.973,
+   "seg": "first"
+  },
+  {
+   "text": "בחינם.",
+   "start": 49.027,
+   "end": 49.48,
+   "seg": "first"
+  },
+  {
+   "text": "אחרי",
+   "start": 50.06,
+   "end": 50.46,
+   "seg": "paid"
+  },
+  {
+   "text": "זה...",
+   "start": 50.54,
+   "end": 51.1,
+   "seg": "paid"
+  },
+  {
+   "text": "הוא",
+   "start": 51.14,
+   "end": 51.18,
+   "seg": "paid"
+  },
+  {
+   "text": "בתשלום.",
+   "start": 51.3,
+   "end": 52.06,
+   "seg": "paid"
+  }
+ ]
+}

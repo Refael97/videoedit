@@ -6,6 +6,8 @@
   const MG = {};
   const q = (sel) => (typeof sel === "string" ? Array.from(document.querySelectorAll(sel)) : [].concat(sel));
   const fx = { immediateRender: false };
+  // Park targets invisible from the start of the timeline; their entrance tween reveals them on cue.
+  MG.hide = function (tl, sel, vars = { opacity: 0 }) { tl.set(q(sel), vars, 0); };
 
   // Wrap every word of the matched elements in <span class="w">, keeping nested accent spans intact.
   MG.split = function (sel) {
@@ -42,6 +44,7 @@
   MG.blurIn = function (tl, sel, t, o = {}) {
     MG.split(sel);
     const words = q(sel).flatMap((el) => Array.from(el.querySelectorAll(".w")));
+    MG.hide(tl, words);
     tl.fromTo(words, { opacity: 0, filter: "blur(18px)", y: o.y ?? 26, scale: o.scale ?? 1 },
       { opacity: 1, filter: "blur(0px)", y: 0, scale: 1, duration: o.dur ?? 0.55, stagger: o.stagger ?? 0.09, ease: o.ease ?? "power3.out", ...fx }, t);
     return words.length * (o.stagger ?? 0.09) + (o.dur ?? 0.55);
@@ -53,12 +56,14 @@
 
   // Hero word: big, starts oversized + blurred, lands with a slight overshoot.
   MG.hero = function (tl, sel, t, o = {}) {
+    MG.hide(tl, sel);
     tl.fromTo(q(sel), { opacity: 0, scale: o.from ?? 1.35, filter: "blur(24px)" },
       { opacity: 1, scale: 1, filter: "blur(0px)", duration: o.dur ?? 0.7, ease: "expo.out", ...fx }, t);
   };
 
   // Highlight box sweeps in behind a word (.hl > .box).
   MG.highlight = function (tl, sel, t) {
+    MG.hide(tl, q(sel).map((e) => e.querySelector(".box")), { scaleX: 0 });
     tl.fromTo(q(sel).map((e) => e.querySelector(".box")), { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power4.out", ...fx }, t);
   };
 
@@ -86,14 +91,21 @@
 
   // Card swings in like a page turning toward the viewer.
   MG.flipIn = function (tl, sel, t, o = {}) {
+    MG.hide(tl, sel);
     tl.fromTo(q(sel), { opacity: 0, rotationY: o.rot ?? -75, rotationZ: o.tilt ?? 6, x: o.x ?? 260, z: -200, transformPerspective: 1600, transformOrigin: o.origin ?? "100% 50%" },
       { opacity: 1, rotationY: 0, rotationZ: 0, x: 0, z: 0, duration: o.dur ?? 0.8, ease: "expo.out", ...fx }, t);
   };
 
   // Rise from below with a soft blur — default entrance for UI cards.
   MG.rise = function (tl, sel, t, o = {}) {
+    MG.hide(tl, sel);
     tl.fromTo(q(sel), { opacity: 0, y: o.y ?? 160, scale: o.scale ?? 0.94, filter: "blur(10px)" },
       { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: o.dur ?? 0.7, ease: "expo.out", stagger: o.stagger ?? 0, ...fx }, t);
+  };
+
+  // Slow continuous camera push on a whole scene: keeps every frame moving (no dead holds).
+  MG.push = function (tl, sel, t, dur, from = 1.0, to = 1.045) {
+    tl.fromTo(q(sel), { scale: from }, { scale: to, duration: dur, ease: "sine.inOut", ...fx }, t);
   };
 
   // Gentle idle float (hovering laptop / card).
@@ -117,7 +129,7 @@
   // Scene change: soft blur dissolve (outgoing scene blurs/zooms away, incoming resolves).
   MG.dissolve = function (tl, outSel, inSel, t, d = 0.45) {
     if (outSel) tl.to(q(outSel), { opacity: 0, filter: "blur(30px)", scale: 1.06, duration: d, ease: "power2.in" }, t);
-    if (inSel) tl.fromTo(q(inSel), { opacity: 0, filter: "blur(30px)", scale: 0.96 }, { opacity: 1, filter: "blur(0px)", scale: 1, duration: d + 0.15, ease: "power3.out", ...fx }, t + d * 0.5);
+    if (inSel) tl.fromTo(q(inSel), { opacity: 0, filter: "blur(30px)", scale: 0.96 }, { opacity: 1, filter: "blur(0px)", scale: 1, duration: d + 0.3, ease: "power3.out", ...fx }, t);
   };
 
   // Typewriter: reveals the text of `sel` character by character (works for RTL).
@@ -130,12 +142,14 @@
         Array.from(txt).forEach((c) => { const s = document.createElement("span"); s.textContent = c; s.className = "ch"; el.appendChild(s); });
       }
       const chars = el.querySelectorAll(".ch");
+      MG.hide(tl, Array.from(chars));
       tl.fromTo(chars, { opacity: 0 }, { opacity: 1, duration: 0.01, stagger: dur / Math.max(1, chars.length), ...fx }, t);
     });
   };
 
   // Green selection rectangle with handles drawing itself around an element.
   MG.select = function (tl, sel, t) {
+    MG.hide(tl, sel);
     tl.fromTo(q(sel), { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)", ...fx }, t);
   };
 
@@ -184,7 +198,8 @@
   };
   // Dots pop on in a diagonal wave.
   MG.dotsIn = function (tl, el, t, dur = 0.7) {
-    const on = q(el)[0].querySelectorAll("i:not(.off)");
+    const on = Array.from(q(el)[0].querySelectorAll("i:not(.off)"));
+    MG.hide(tl, on);
     tl.fromTo(on, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.25, ease: "back.out(3)", stagger: { each: dur / Math.max(1, on.length), from: "start" }, ...fx }, t);
   };
 
@@ -218,6 +233,26 @@
     cactusPalette: { g: "#139a3a", G: "#28c94f", w: "#ffffff", k: "#111111", p: "#ff8fb1", b: "#c2603a" },
     star: [".....y.....", "....yYy....", "yyyyYYYyyyy", ".yYYYYYYYy.", "..yYYYYYy..", "..yYy.yYy..", ".yy.....yy."],
     starPalette: { y: "#e0a400", Y: "#ffd23f" },
+    wizard: [
+      ".......hy.......",
+      "......hhh.......",
+      ".....hhhhh......",
+      "....hhhyhhh.....",
+      "..hhhhhhhhhhh...",
+      ".......gg.......",
+      "......gGGg....y.",
+      "..g...gwGw...n..",
+      ".gGg..gkGk..n...",
+      ".gGg..gGGg.gGg..",
+      ".gGGggpGGpggGGg.",
+      "..gGGGGGGGGGGg..",
+      "....ggGGGGgg....",
+      "......gGGg......",
+      "......gGGg......",
+      ".....bbbbbb.....",
+      ".....bbbbbb.....",
+    ],
+    wizardPalette: { h: "#3a35c8", y: "#ffd23f", n: "#8a5a2b", g: "#139a3a", G: "#28c94f", w: "#ffffff", k: "#111111", p: "#ff8fb1", b: "#c2603a" },
   };
   // Sprite hops in steps (pixel-art feel: stepped ease).
   MG.hop = function (tl, sel, t, dur, o = {}) {

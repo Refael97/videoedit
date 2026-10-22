@@ -37,9 +37,15 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
-.mg-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #f3f1f5; font-family: var(--font); color: var(--ink); direction: rtl; }
+.mg-root { --W: 1080px; --H: 1920px; position: relative; width: var(--W); height: var(--H); overflow: hidden; background: #f3f1f5; font-family: var(--font); color: var(--ink); direction: rtl; }
 .mg-root[data-dir="ltr"] { direction: ltr; }
+/* 16:9 desktop format: <div class="mg-root" data-format="landscape"> + html/body 1920x1080 */
+.mg-root[data-format="landscape"] { --W: 1920px; --H: 1080px; }
+.mg-root[data-format="landscape"] .bg-aurora .b1 { width: 1100px; height: 1100px; left: -300px; top: 380px; }
+.mg-root[data-format="landscape"] .bg-aurora .b2 { width: 1000px; height: 1000px; right: -200px; left: auto; top: -380px; }
+.mg-root[data-format="landscape"] .bg-aurora .b3 { width: 900px; height: 900px; left: 1100px; top: 700px; }
+.mg-root[data-format="landscape"] .bg-aurora .b4 { width: 900px; height: 700px; left: 500px; top: 120px; }
+.mg-root[data-format="landscape"] .horizon { left: -400px; width: 2720px; height: 2720px; top: 760px; }
 /* Hebrew face: Assistant (default) or Rubik — set data-font="rubik" on the root */
 .mg-root[data-font="rubik"] { --font: "Rubik", system-ui, sans-serif; }
 .scene { position: absolute; inset: 0; overflow: hidden; }
