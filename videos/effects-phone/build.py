@@ -2,7 +2,8 @@
 """index.html = src/template.html + narration word times.
 
 assets/vo.mp3 is the take with a 0.3 s lead-in, so every word time is shifted by LEAD.
-Run: python3 tools/make_clips.py (phone clips, once), then python3 build.py
+Phone clips: render fx/ (20 motion-graphic effects, 540x960, one per slot) and copy it to
+assets/video/phone-clips.mp4. Then: python3 build.py
 """
 import html
 import json
