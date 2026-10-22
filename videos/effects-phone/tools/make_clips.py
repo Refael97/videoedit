@@ -24,7 +24,10 @@ for k in range(20):
     a = a + 0.15
     target = slots[k + 1] - slots[k]
     f = (b - a) / target
-    parts.append(f"[0:v]trim=start={a:.3f}:end={b:.3f},setpts=(PTS-STARTPTS)/{f:.4f},fps=30,scale=540:960[v{k}]")
+    # exact frame count per clip from the cumulative slot grid, so the clips never drift off their names
+    n = round((slots[k + 1] - slots[0]) * 30) - round((slots[k] - slots[0]) * 30)
+    parts.append(f"[0:v]trim=start={a:.3f}:end={b:.3f},setpts=(PTS-STARTPTS)/{f:.4f},fps=30,"
+                 f"tpad=stop_mode=clone:stop={n},trim=end_frame={n},setpts=PTS-STARTPTS,scale=540:960[v{k}]")
 graph = ";".join(parts) + ";" + "".join(f"[v{k}]" for k in range(20)) + "concat=n=20:v=1:a=0[out]"
 subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", src, "-filter_complex", graph, "-map", "[out]",
                 "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-pix_fmt", "yuv420p", "-g", "30",
