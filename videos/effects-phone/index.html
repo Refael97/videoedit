@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/kit/vendor/gsap.min.js"></script>
+    <script src="assets/kit/kit.js"></script>
+    <link rel="stylesheet" href="assets/kit/kit.css" />
+    <style>
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { background: #000; }
+      #twinw { position: absolute; inset: 0; transform-origin: 50% 35%; }
+      #twin { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      #shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 32%, rgba(0, 0, 0, 0) 62%, rgba(0, 0, 0, 0.35) 100%); }
+
+      /* title + two-column effect list */
+      #ttl { position: absolute; left: 0; right: 0; top: 120px; text-align: center; color: #fff; font-weight: 800; font-size: 64px; line-height: 1.04; letter-spacing: -1.5px; text-shadow: 0 4px 0 rgba(0, 0, 0, 0.35), 0 0 30px rgba(0, 0, 0, 0.5); }
+      #ttl b { color: #ffd23f; }
+      .col { position: absolute; top: 290px; list-style: none; padding: 16px 20px; border-radius: 20px; background: rgba(15, 15, 18, 0.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 6px; }
+      #colA { right: 40px; } #colB { left: 40px; }
+      .col li { display: flex; align-items: center; gap: 12px; font-size: 26px; font-weight: 500; color: rgba(255, 255, 255, 0.72); white-space: nowrap; height: 36px; }
+      .col li i { font-style: normal; font-size: 18px; font-weight: 700; color: rgba(255, 255, 255, 0.45); width: 30px; direction: ltr; text-align: center; }
+      .col li.on { color: #ffd23f; font-weight: 800; }
+      .col li.on i { color: #ffd23f; }
+
+      /* phone in the middle */
+      #phone { position: absolute; left: 345px; top: 1170px; width: 390px; height: 694px; border-radius: 52px; background: #0b0b0d; padding: 10px; box-shadow: 0 0 0 3px #2c2c30, 0 40px 90px rgba(0, 0, 0, 0.55); transform-origin: 50% 100%; }
+      #screen { position: relative; width: 100%; height: 100%; border-radius: 42px; overflow: hidden; background: #000; }
+      #clips { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      #pill { position: absolute; left: 16px; top: 16px; padding: 6px 14px; border-radius: 20px; background: rgba(0, 0, 0, 0.6); color: #fff; font-size: 20px; font-weight: 700; direction: ltr; z-index: 3; }
+
+      /* instagram screens inside the phone */
+      .ig { position: absolute; inset: 0; background: #000; color: #fff; direction: rtl; font-size: 17px; opacity: 0; }
+      .ig .top { height: 64px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 19px; border-bottom: 1px solid #222; }
+      .cm { display: flex; gap: 12px; padding: 12px 16px; align-items: flex-start; }
+      .cm .a { width: 40px; height: 40px; border-radius: 50%; flex: none; overflow: hidden; background: #333; }
+      .cm .a img { width: 100%; height: 100%; object-fit: cover; }
+      .cm b { display: block; font-size: 15px; color: #ddd; }
+      .cm span { font-size: 18px; }
+      #igc .bar { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px 22px; border-top: 1px solid #222; display: flex; gap: 10px; align-items: center; background: #000; }
+      #igc .bar .em { font-size: 24px; letter-spacing: 6px; }
+      #igc .bar .in { flex: 1; height: 46px; border-radius: 23px; border: 1px solid #333; display: flex; align-items: center; padding: 0 16px; font-size: 18px; color: #888; position: relative; }
+      #igc .bar .in #ctype { position: absolute; right: 16px; color: #fff; font-weight: 700; }
+      #igc .bar .post { color: #3d8bff; font-weight: 700; font-size: 18px; }
+      #igp .hd { display: flex; align-items: center; gap: 18px; padding: 18px 16px 8px; }
+      #igp .hd .ph { width: 92px; height: 92px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 3px #000, 0 0 0 6px #e1306c; }
+      #igp .hd .ph img { width: 100%; height: 100%; object-fit: cover; }
+      #igp .st { flex: 1; display: flex; justify-content: space-around; text-align: center; font-size: 15px; }
+      #igp .st b { display: block; font-size: 20px; direction: ltr; }
+      #igp .nm { padding: 4px 16px; font-size: 16px; line-height: 1.4; }
+      #igp .nm b { font-size: 17px; }
+      #igp .btns { display: flex; gap: 8px; padding: 10px 16px; }
+      #igp .btns span { flex: 1; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; background: #262626; position: relative; overflow: hidden; }
+      #igp .btns #fol { background: #0095f6; }
+      #igp .btns #fol em { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-style: normal; background: #262626; opacity: 0; }
+      #igp .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 10px; }
+      #igp .grid img { width: 100%; height: 160px; object-fit: cover; }
+
+      /* captions */
+      .capc { position: absolute; left: 60px; right: 60px; text-align: center; color: #fff; font-weight: 800; text-shadow: 0 4px 0 rgba(0, 0, 0, 0.45), 0 0 30px rgba(0, 0, 0, 0.55); }
+      .capc.mid { top: 1180px; font-size: 76px; line-height: 1.08; }
+      .capc.top { top: 300px; font-size: 56px; line-height: 1.12; }
+      .capc .y { color: #ffd23f; }
+      #c26 { font-size: 260px; line-height: 0.9; color: #ffd23f; letter-spacing: -8px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="mg-root" data-composition-id="main" data-start="0" data-duration="38.7" data-width="1080" data-height="1920">
+      <div id="twinw"><video id="twin" class="clip" src="assets/video/twin.mp4" muted playsinline data-start="0" data-duration="38.7" data-track-index="0"></video></div>
+      <div id="shade"></div>
+
+      <div id="list" class="clip" data-start="0" data-duration="23.530" data-track-index="2" style="position: absolute; inset: 0">
+        <div id="ttl"><b>20</b> אפקטים לווידאו<br />ש-Claude יודע ליצור</div>
+        <ul class="col" id="colA"><li id="li0"><i>01</i>מסלול</li><li id="li1"><i>02</i>השתלטות צ&#x27;אט</li><li id="li2"><i>03</i>בריחה מהפריים</li><li id="li3"><i>04</i>זום חד</li><li id="li4"><i>05</i>רשימה קופצת</li><li id="li5"><i>06</i>סערת כותרות</li><li id="li6"><i>07</i>פורטל זום</li><li id="li7"><i>08</i>עקומת צמיחה</li><li id="li8"><i>09</i>חשיפת אולפן</li><li id="li9"><i>10</i>שכבת B-Roll</li></ul>
+        <ul class="col" id="colB"><li id="li10"><i>11</i>גזיר נייר</li><li id="li11"><i>12</i>דולי זום</li><li id="li12"><i>13</i>שער מגזין</li><li id="li13"><i>14</i>זכוכית נוזלית</li><li id="li14"><i>15</i>חיתוך זום</li><li id="li15"><i>16</i>מסך ירוק</li><li id="li16"><i>17</i>שבירת פריים</li><li id="li17"><i>18</i>זום דיגיטלי</li><li id="li18"><i>19</i>מוקאפ טלפון</li><li id="li19"><i>20</i>צ&#x27;קליסט</li></ul>
+      </div>
+
+      <div id="phone">
+        <div id="screen">
+          <video id="clips" class="clip" src="assets/video/phone-clips.mp4" muted playsinline data-start="0.300" data-duration="22.830" data-track-index="3"></video>
+          <span id="pill">01/20</span>
+          <div class="ig" id="igc">
+            <div class="top">תגובות</div>
+            <div class="cm"><span class="a"><img src="assets/img/law.jpg" alt="" /></span><div><b>dana.marketing</b><span>עריכה 🙏</span></div></div>
+            <div class="cm"><span class="a"><img src="assets/img/fit.jpg" alt="" /></span><div><b>coach.yoni</b><span>עריכה</span></div></div>
+            <div class="cm"><span class="a"><img src="assets/img/agency.jpg" alt="" /></span><div><b>studio.nova</b><span>עריכה!! מטורף</span></div></div>
+            <div class="cm" id="mycm"><span class="a"><img src="assets/img/desert.jpg" alt="" /></span><div><b>את/ה</b><span>עריכה</span></div></div>
+            <div class="bar"><span class="em">❤️🔥👏</span><span class="in"><span id="cph">הוסיפו תגובה…</span><span id="ctype">עריכה</span></span><span class="post">פרסום</span></div>
+          </div>
+          <div class="ig" id="igp">
+            <div class="top">refaelleviii</div>
+            <div class="hd"><span class="ph"><img src="assets/img/avatar.jpg" alt="" /></span><div class="st"><div><b>148</b>פוסטים</div><div><b id="folnum">12.4K</b>עוקבים</div><div><b>310</b>במעקב</div></div></div>
+            <div class="nm"><b>רפאל לוי</b><br />מומחה AI ושיווק דיגיטלי 🚀<br />סרטונים, אתרים ופרסומות עם Claude</div>
+            <div class="btns"><span id="fol">עקבו<em>עוקבים ✓</em></span><span>הודעה</span></div>
+            <div class="grid"><img src="assets/img/law.jpg" alt="" /><img src="assets/img/agency.jpg" alt="" /><img src="assets/img/fit.jpg" alt="" /><img src="assets/img/desert.jpg" alt="" /><img src="assets/img/sky.jpg" alt="" /><img src="assets/img/avatar.jpg" alt="" /></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- outro captions -->
+      <div class="clip capc mid" id="g1" data-start="0" data-duration="38.7" data-track-index="5">אני הולך לשחרר</div>
+      <div class="clip capc mid" id="g2" data-start="0" data-duration="38.7" data-track-index="6"><span id="c26">26</span></div>
+      <div class="clip capc mid" id="g3" data-start="0" data-duration="38.7" data-track-index="7">אפקטים שונים של <span class="y">Claude</span></div>
+      <div class="clip capc mid" id="g4" data-start="0" data-duration="38.7" data-track-index="8">בימים הקרובים,</div>
+      <div class="clip capc mid" id="g5" data-start="0" data-duration="38.7" data-track-index="9">ובפעם האחרונה שעשיתי את זה,</div>
+      <div class="clip capc mid" id="g6" data-start="0" data-duration="38.7" data-track-index="10">זה <span class="y">שבר</span> את האינטרנט.</div>
+      <div class="clip capc top" id="g7" data-start="0" data-duration="38.7" data-track-index="11">אם אתם רוצים, תגיבו <span class="y">"עריכה"</span></div>
+      <div class="clip capc top" id="g8" data-start="0" data-duration="38.7" data-track-index="12">ואני אשלח לכם את רשימת ההמתנה.</div>
+      <div class="clip capc top" id="g9" data-start="0" data-duration="38.7" data-track-index="13">ותעקבו לעוד טיפים של <span class="y">AI</span> כמו זה.</div>
+
+      <audio id="vo" src="assets/vo.mp3" data-start="0" data-track-index="20" data-volume="1"></audio>
+      <audio id="music" src="assets/music.mp3" data-start="0" data-duration="38.7" data-track-index="21" data-volume="0.12"></audio>
+      <audio id="x1" src="assets/whoosh.wav" data-start="23.0" data-duration="0.7" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="x2" src="assets/impact.wav" data-start="24.1" data-duration="0.9" data-track-index="23" data-volume="0.4"></audio>
+      <audio id="x3" src="assets/whoosh.wav" data-start="30.9" data-duration="0.7" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="x4" src="assets/pop.wav" data-start="32.6" data-duration="0.12" data-track-index="24" data-volume="0.4"></audio>
+      <audio id="x5" src="assets/pop.wav" data-start="36.3" data-duration="0.12" data-track-index="25" data-volume="0.4"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const WD = [0.3, 0.98, 1.74, 2.46, 2.98, 3.9, 4.22, 4.78, 5.22, 6.06, 6.54, 7.34, 7.9, 8.54, 8.98, 9.66, 10.193, 10.86, 11.42, 12.14, 12.54, 13.26, 13.62, 14.22, 14.54, 15.34, 15.82, 16.54, 17.1, 17.66, 18.1, 18.7, 19.18, 19.9, 20.14, 20.94, 21.34, 22.14, 23.18, 23.46, 23.62, 24.14, 24.62, 25.02, 25.5, 25.82, 25.98, 26.34, 26.7, 27.58, 28.06, 28.46, 28.9, 29.02, 29.42, 29.74, 30.14, 30.26, 31.1, 31.26, 31.62, 32.06, 32.54, 33.34, 33.54, 33.82, 34.06, 34.22, 34.58, 35.42, 36.22, 36.5, 36.86, 37.02, 37.42, 37.74];
+      const SL = [0.3, 0.98, 2.46, 3.9, 4.78, 6.06, 7.34, 8.54, 9.66, 10.86, 12.14, 13.26, 14.22, 15.34, 16.54, 17.66, 18.7, 19.9, 20.94, 22.14, 23.13];
+      const fx = { immediateRender: false };
+      const w = (i) => WD[i] - 0.05;
+
+      // presenter: slow push the whole time, a little punch on every effect
+      tl.fromTo("#twinw", { scale: 1.0 }, { scale: 1.06, duration: 38.7, ease: "none", ...fx }, 0);
+
+      // ---------- the 20 effects: list highlight + phone swaps on every spoken name ----------
+      tl.fromTo("#ttl", { opacity: 0, y: -30, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out", ...fx }, 0);
+      tl.fromTo(".col", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "expo.out", ...fx }, 0.1);
+      tl.fromTo("#phone", { y: 760, rotation: -4 }, { y: 0, rotation: 0, duration: 0.7, ease: "expo.out", ...fx }, 0.0);
+      const items = document.querySelectorAll(".col li");
+      // highlight with tl.set (seek-safe; tl.call callbacks are skipped when the renderer seeks)
+      const on = (k, t, yes) => {
+        tl.set(items[k], { color: yes ? "#ffd23f" : "rgba(255,255,255,0.72)", fontWeight: yes ? 800 : 500 }, t);
+        tl.set(items[k].querySelector("i"), { color: yes ? "#ffd23f" : "rgba(255,255,255,0.45)" }, t);
+      };
+      SL.slice(0, 20).forEach((t, k) => {
+        on(k, t - 0.04, true);
+        if (k) on(k - 1, t - 0.04, false);
+        tl.set("#pill", { textContent: String(k + 1).padStart(2, "0") + "/20" }, t - 0.04);
+        tl.fromTo(items[k], { scale: 1.12 }, { scale: 1, duration: 0.35, ease: "back.out(2)", ...fx }, t - 0.04);
+        if (k) tl.fromTo("#phone", { scale: 1.035 }, { scale: 1, duration: 0.35, ease: "power2.out", ...fx }, t - 0.04);
+      });
+
+      // ---------- outro: list and phone leave, big captions over the presenter ----------
+      tl.to("#list", { opacity: 0, y: -40, filter: "blur(10px)", duration: 0.45, ease: "power2.in" }, SL[20] - 0.1);
+      tl.to("#phone", { y: 800, rotation: 4, duration: 0.6, ease: "power3.in" }, SL[20] - 0.1);
+      const groups = [["#g1", 38, 41], ["#g2", 41, 43], ["#g3", 43, 47], ["#g4", 47, 49], ["#g5", 49, 54], ["#g6", 54, 58]];
+      MG.hide(tl, "#g1, #g2, #g3, #g4, #g5, #g6, #g7, #g8, #g9");
+      groups.forEach(([id, a, b]) => {
+        tl.fromTo(id, { opacity: 0, scale: 0.85, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out", ...fx }, w(a));
+        tl.to(id, { opacity: 0, filter: "blur(12px)", duration: 0.2 }, w(b) - 0.12);
+      });
+      tl.fromTo("#c26", { scale: 2.2 }, { scale: 1, duration: 0.6, ease: "expo.out", ...fx }, w(41));
+      tl.to("#twinw", { scale: 1.16, duration: 0.25, ease: "power3.out" }, w(41));
+      tl.to("#twinw", { scale: 1.06, duration: 0.8, ease: "power2.inOut" }, w(43));
+      tl.fromTo("#twinw", { x: 0 }, { x: 14, duration: 0.05, yoyo: true, repeat: 5, ease: "none", ...fx }, w(55));
+
+      // ---------- CTA: comment "עריכה" in the phone, then the profile ----------
+      tl.fromTo("#g7", { opacity: 0, y: -30, filter: "blur(14px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out", ...fx }, w(58));
+      tl.to("#g7", { opacity: 0, duration: 0.2 }, w(63) - 0.12);
+      tl.to("#phone", { y: 0, rotation: 0, duration: 0.7, ease: "expo.out" }, w(58));
+      tl.set("#clips", { opacity: 0 }, w(58));
+      tl.set("#pill", { opacity: 0 }, w(58));
+      tl.fromTo("#igc", { opacity: 0 }, { opacity: 1, duration: 0.3, ...fx }, w(58));
+      MG.hide(tl, "#mycm, #ctype");
+      tl.set("#cph", { opacity: 0 }, w(61));
+      MG.type(tl, "#ctype", w(61), 0.6);
+      tl.set("#ctype", { opacity: 1 }, w(61));
+      tl.to("#ctype", { opacity: 0, duration: 0.1 }, w(62) + 0.6);
+      tl.set("#cph", { opacity: 1 }, w(62) + 0.6);
+      tl.fromTo("#mycm", { opacity: 0, y: 20, backgroundColor: "rgba(61,139,255,0.25)" }, { opacity: 1, y: 0, backgroundColor: "rgba(61,139,255,0)", duration: 0.9, ease: "power2.out", ...fx }, w(62) + 0.6);
+      tl.fromTo("#g8", { opacity: 0, y: -30, filter: "blur(14px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out", ...fx }, w(63));
+      tl.to("#g8", { opacity: 0, duration: 0.2 }, w(69) - 0.12);
+      tl.fromTo("#g9", { opacity: 0, y: -30, filter: "blur(14px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out", ...fx }, w(69));
+      tl.to("#igc", { opacity: 0, duration: 0.3 }, w(69) - 0.1);
+      tl.fromTo("#igp", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out", ...fx }, w(69) - 0.1);
+      tl.fromTo("#fol", { scale: 1 }, { scale: 0.9, duration: 0.1, yoyo: true, repeat: 1, ...fx }, w(70));
+      tl.set("#fol em", { opacity: 1 }, w(70) + 0.15);
+      tl.set("#folnum", { textContent: "12.4K" }, 0);
+      tl.set("#folnum", { textContent: "12.5K" }, w(70) + 0.2);
+      tl.fromTo("#phone", { scale: 1 }, { scale: 1.05, duration: 1.6, ease: "sine.inOut", ...fx }, w(71));
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
