@@ -1,0 +1,183 @@
+<title>26 אפקטים של Claude</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800;900&family=Assistant:wght@400;600;700&display=swap">
+<style>
+  /* layout: one column of "effect slips" — a phone-shaped preview beside its name, note and copy-ready prompt */
+  :root {
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --ink: #17161d;
+    --muted: #6b6878;
+    --line: #e4e0d6;
+    --accent: #ffd23f;
+    --accent-ink: #17161d;
+    --prompt-bg: #f1eee6;
+    --ok: #1f9d4c;
+    --display: "Rubik", "Assistant", system-ui, sans-serif;
+    --body: "Assistant", "Rubik", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121118; --surface: #1b1a23; --ink: #f3f1ea; --muted: #a29fae; --line: #2c2a36;
+      --accent: #ffd23f; --accent-ink: #17161d; --prompt-bg: #24222e; --ok: #4fd683; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121118; --surface: #1b1a23; --ink: #f3f1ea; --muted: #a29fae; --line: #2c2a36;
+    --accent: #ffd23f; --accent-ink: #17161d; --prompt-bg: #24222e; --ok: #4fd683; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; direction: rtl;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 56px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+
+  header { padding-block: 48px 28px; display: grid; gap: 14px; }
+  .handle { font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; color: var(--muted); direction: ltr; text-align: right; }
+  h1 { font-size: clamp(40px, 8vw, 72px); font-weight: 900; line-height: 0.98; letter-spacing: -0.02em; }
+  h1 mark { background: var(--accent); color: var(--accent-ink); padding: 0 0.12em; border-radius: 6px; }
+  .lede { font-size: 20px; color: var(--muted); max-width: 60ch; margin: 0; }
+
+  .setup { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; display: grid; gap: 14px; margin-block: 8px 40px; }
+  .setup h2 { font-size: 22px; font-weight: 800; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; counter-reset: s; }
+  .steps li { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; counter-increment: s; }
+  .steps li::before { content: counter(s); width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-family: var(--display); font-weight: 800; display: grid; place-items: center; }
+  .steps li > div { min-width: 0; }
+  code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 14px; background: var(--prompt-bg); padding: 2px 8px; border-radius: 6px; direction: ltr; unicode-bidi: isolate; display: inline-block; max-width: 100%; overflow-x: auto; white-space: nowrap; vertical-align: middle; }
+
+  .sec { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-block: 8px 18px; }
+  .sec h2 { font-size: 28px; font-weight: 900; }
+  .sec span { font-family: var(--display); font-weight: 700; color: var(--muted); font-size: 15px; }
+
+  .list { display: grid; gap: 14px; }
+  .fx { display: grid; grid-template-columns: 112px 1fr; gap: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px; }
+  .fx.nopv { grid-template-columns: 1fr; }
+  .pv { width: 112px; aspect-ratio: 9 / 16; max-width: 100%; border-radius: 16px; overflow: hidden; background: #000; box-shadow: 0 0 0 3px var(--ink); }
+  .pv video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .meta { min-width: 0; display: grid; gap: 8px; align-content: start; }
+  .top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .num { font-family: var(--display); font-weight: 800; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; direction: ltr; }
+  .fx h3 { font-size: 22px; font-weight: 800; }
+  .tag { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: 0.04em; background: var(--accent); color: var(--accent-ink); padding: 2px 8px; border-radius: 999px; }
+  .what { margin: 0; color: var(--muted); }
+  .prompt { position: relative; background: var(--prompt-bg); border-radius: 12px; padding: 12px 14px 12px 92px; font-size: 15.5px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .copy { position: absolute; left: 10px; top: 10px; font: 700 14px var(--display); border: 0; border-radius: 9px; padding: 7px 12px; background: var(--ink); color: var(--bg); cursor: pointer; }
+  .copy:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .copy.done { background: var(--ok); color: #fff; }
+
+  .tips { margin-block: 40px 0; display: grid; gap: 10px; }
+  .tips ul { margin: 0; padding-inline-start: 20px; display: grid; gap: 6px; }
+  .tips h2 { font-size: 24px; font-weight: 900; }
+
+  footer { margin-top: 44px; background: var(--ink); color: var(--bg); border-radius: 20px; padding: 26px 22px; display: grid; gap: 8px; }
+  footer h2 { font-size: 26px; font-weight: 900; }
+  footer p { margin: 0; opacity: 0.85; }
+  footer b { color: var(--accent); direction: ltr; unicode-bidi: isolate; }
+
+  @media (max-width: 520px) {
+    .fx { grid-template-columns: 84px 1fr; gap: 12px; }
+    .pv { width: 84px; border-radius: 12px; }
+    .prompt { padding: 46px 12px 12px; }
+    .copy { left: auto; right: 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .pv video { display: none; } .pv { background: var(--line); } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="handle">@refaelleviii · רפאל לוי</div>
+    <h1><mark>26</mark> אפקטים לווידאו שClaude יודע ליצור</h1>
+    <p class="lede">הקובץ שביקשתם בתגובה "עריכה". לכל אפקט יש תצוגה מקדימה ופרומפט מוכן. מעתיקים, מדביקים ב-Claude, ומקבלים סרטון.</p>
+  </header>
+
+  <section class="setup" aria-labelledby="setup-h">
+    <h2 id="setup-h">לפני שמתחילים: הכנה של 5 דקות</h2>
+    <ol class="steps">
+      <li><div><b>פותחים את Claude Code.</b> בדפדפן ב-claude.ai/code, או בטרמינל: <code>npm install -g @anthropic-ai/claude-code</code></div></li>
+      <li><div><b>מוסיפים את HyperFrames</b> (המנוע שהופך HTML לסרטון): <code>npx skills add heygen-com/hyperframes</code></div></li>
+      <li><div><b>מעתיקים פרומפט מהרשימה</b> ומדביקים. בסוף מבקשים: "תרנדר לי את זה ל-MP4 ב-60fps".</div></li>
+    </ol>
+  </section>
+
+  <div class="sec"><h2>20 האפקטים מהסרטון</h2><span>מה שראיתם בטלפון</span></div>
+  <div class="list" id="main"></div>
+
+  <div class="sec" style="margin-top: 40px"><h2>6 אפקטי בונוס</h2><span>לא הופיעו בסרטון</span></div>
+  <div class="list" id="bonus"></div>
+
+  <section class="tips" aria-labelledby="tips-h">
+    <h2 id="tips-h">טיפים שיחסכו לכם זמן</h2>
+    <ul>
+      <li>כתבו בפרומפט את הפורמט: 9:16 לרילס, 16:9 ליוטיוב.</li>
+      <li>רוצים את המותג שלכם? צרפו לוגו וצבעים, וכתבו "תשתמש בצבעים האלה".</li>
+      <li>לא אהבתם משהו? אל תתחילו מחדש. כתבו מה לשנות: "תאט את הזום", "תגדיל את הכותרת".</li>
+      <li>אפשר לשרשר: "תחבר את אפקטים 4, 7 ו-15 לסרטון אחד של 10 שניות עם מעברים חדים".</li>
+    </ul>
+  </section>
+
+  <footer>
+    <h2>רוצים עוד כאלה?</h2>
+    <p>תעקבו אחריי באינסטגרם <b>@refaelleviii</b>. כל שבוע אני מעלה טיפים חדשים של AI לעריכה ולשיווק.</p>
+  </footer>
+</div>
+
+<script>
+  const FX = [
+    ["מסלול", "כדור זוהר במרכז, ואייקונים מסתובבים סביבו במסלול תלת-ממדי.", "תבנה לי ב-HyperFrames סרטון 9:16 של 3 שניות ב-60fps: כדור גרדיאנט סגול זוהר במרכז על רקע חלל כהה עם כוכבים. שישה אייקונים צבעוניים בריבועים מעוגלים (פליי, לב, ברק, כוכב, תו, מצלמה) מסתובבים סביבו במסלול אליפטי. מה שקרוב גדול יותר ונמצא מלפנים, מה שרחוק קטן ומאחורי הכדור. מתחת, המילה ORBIT בריווח רחב שמתכווץ פנימה."],
+    ["השתלטות צ'אט", "בועות צ'אט קופצות, ובועה אחת מתפוצצת וממלאת את כל המסך.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: מסך צ'אט כהה בעברית. שלוש בועות קופצות אחת אחרי השנייה עם קפיץ, אחריהן שלוש נקודות הקלדה. ואז בועה כתומה עם אייקון כוכב קופצת, ומעגל כתום מתפשט ממנה עד שהוא ממלא את כל המסך. בסוף מופיע במרכז אייקון גדול ומסתובב, ומתחתיו כותרת עם טשטוש שנפתח."],
+    ["בריחה מהפריים", "מוצר יוצא מתוך תמונה ממוסגרת ופורץ את גבולות המסגרת.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps על רקע פסטל: מסגרת פולארויד לבנה עם תמונת שמיים, מוטה קצת בתלת-ממד. בתוכה נעל ספורט (PNG שקוף שאני מצרף). אחרי חצי שנייה הנעל קופצת למעלה, יוצאת מהמסגרת וגדלה, עם גל הדף לבן ורסיסים קטנים שעפים. מתחת, הכיתוב out of frame בפונט סריף נטוי."],
+    ["זום חד", "שתי קפיצות זום חדות עם הבזק, קווי מהירות ורעידה.", "תבנה לי סרטון 9:16 של 2 שניות ב-60fps: תמונת רקע של עיר ניאון. שני סנאפ-זומים חדים (פי 1.5 ואז פי 2.6), כל אחד ב-0.09 שניות. בכל קפיצה: הבזק בהיר, טשטוש שמתנקה, קווי מהירות רדיאליים, רעידת מצלמה קצרה, והמילה SNAP בצהוב עם קו מתאר שחור שנוחתת עם overshoot. בפינה תג שמתחלף 2x ואז 4x."],
+    ["רשימה קופצת", "כרטיסים קופצים עם קפיץ, וי ירוק על כל אחד וקונפטי בסוף.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps, רקע בהיר: כותרת 'הרשימה שלך' ומתחתיה 4 כרטיסים לבנים (סקריפט, קריינות, מוזיקה, עריכה), כל אחד עם אייקון בגרדיאנט. הכרטיסים קופצים אחד אחרי השני עם back.out ותזוזה קטנה בסיבוב. אחר כך וי ירוק קופץ על כל כרטיס, ובסוף פיצוץ קונפטי."],
+    ["סערת כותרות", "פסי כותרות צבעוניים עפים מכל הכיוונים ומרעידים את המסך.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps על רקע כהה: שישה פסים צבעוניים ועבים (אדום, צהוב, לבן, תכלת, סגול) עם כותרות ענק (BREAKING, ויראלי!, AI 2026, טרנד חדש, מטורף, עכשיו בפיד). כל פס עף מכיוון אחר, נוחת מוטה, וכל נחיתה מרעידה את המצלמה. בסוף זום-אין איטי על כל הערימה."],
+    ["פורטל זום", "טסים דרך מנהרה של טבעות ניאון.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: מנהרה של 14 טבעות ניאון בצבעים מתחלפים עם זוהר, חלקן מקווקוות ומסתובבות. הטבעות גדלות מהמרכז החוצה בתאוצה, כאילו טסים דרכן. קווי אור נמתחים מהמרכז, ליבה לבנה זוהרת גדלה, ובסוף הבזק לבן של יציאה מהפורטל."],
+    ["עקומת צמיחה", "גרף שנמתח, מונה שעולה ותג אחוזים.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps על רקע כחול-לילה עם גריד עדין: מספר ענק שסופר מ-1.2K עד 120K, ומתחתיו 'עוקבים חדשים'. גרף קו ירוק זוהר נמתח משמאל לימין, עם מילוי גרדיאנט שנחשף יחד איתו. בקצה נקודה קופצת ותג ירוק '‎+840%' עם חץ למעלה."],
+    ["חשיפת אולפן", "פנסי סטודיו נדלקים בהבהוב, אלומות אור ושלט ON AIR.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: אולפן חשוך לגמרי. שלושה סופטבוקסים נדלקים אחד אחרי השני עם הבהוב קצר, וכל אחד מטיל אלומת אור על כדור כרום שעל פדסטל. אבק מרחף בתוך האור, והרצפה מקבלת השתקפות חמה. בסוף שלט ON AIR אדום נדלק. כל הזמן המצלמה מתקרבת לאט."],
+    ["שכבת B-Roll", "ממשק עריכה: קליפ נוחת על הטיימליין והתצוגה מתחלפת.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps שנראה כמו תוכנת עריכה: חלון תצוגה למעלה עם תמונת מדבר, ולמטה טיימליין עם ערוצים V2, V1, A1 (V1 סגול, A1 גל קול ירוק). קליפ תכלת עם הכיתוב B-ROLL נופל לערוץ V2. כשסמן הניגון האדום מגיע אליו, התצוגה מתחלפת בניגוב לתמונת עיר ניאון, ותג B-ROLL קופץ."],
+    ["גזיר נייר", "קולאז' של נייר קרוע בסגנון סטופ-מושן.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps על רקע נייר קרפט: שלוש תמונות בצורת נייר קרוע עם שוליים לבנים וצל נכנסות בקפיצות של סטופ-מושן (ease של steps). קו גזירה מקווקו נמשך לרוחב המסך. האותיות C U T ! נכנסות כל אחת על פיסת נייר בצבע ובפונט אחר, כמו מכתב כופר, וכל הזמן יש רעד קטן של 12 פריימים בשנייה."],
+    ["דולי זום", "המסדרון נמתח מסביב, והאובייקט במרכז נשאר באותו גודל.", "תבנה לי סרטון 9:16 של 2 שניות ב-60fps: מסדרון ניאון שבנוי ממסגרות מלבניות זוהרות וקווי פרספקטיבה. תעשה אפקט ורטיגו: המסגרות הקרובות גדלות והרחוקות מתכווצות, כך שהפרספקטיבה משתנה, אבל כדור כתום זוהר במרכז נשאר באותו גודל בדיוק. למטה, המילה VERTIGO בריווח רחב."],
+    ["שער מגזין", "שער מגזין שנבנה מול העיניים, עם הבזק מצלמה בסוף.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: שער מגזין. ברקע תמונת פסל כרום על רקע פסטל עם זום-אאוט. השם שלי נופל אות אחרי אות כמאסטהד בפונט סריף ענק. כותרות בעברית נכנסות מהצד, תג עגול צהוב 'חדש!' מסתובב פנימה, ברקוד מופיע בפינה. בסוף הבזק מצלמה לבן והטיה קטנה."],
+    ["זכוכית נוזלית", "כרטיס זכוכית מטושטש מעל כתמי צבע זזים, עם ברק שעובר עליו.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: ארבעה כתמי צבע מטושטשים (ורוד, כחול, כתום, סגול) זזים לאט על רקע כהה. מעליהם כרטיס זכוכית עם backdrop-filter blur, מסגרת לבנה דקה והילה פנימית, עם כותרת Liquid Glass וכפתור Play. הכרטיס נכנס בהטיה תלת-ממדית ומתנדנד לאט, ופס ברק לבן עובר עליו באלכסון. מסביב טיפות זכוכית קטנות."],
+    ["חיתוך זום", "צוללים לתוך האות O, ויוצאים לסצנה הבאה.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: המילה ZOOM ענקית, חתוכה מתוך רקע כהה כך שרואים דרך האותיות תמונת שמיים. אחרי חצי שנייה המצלמה צוללת לתוך החור של האות O הראשונה בתאוצה (scale עד פי 70, ease power4.in), והתמונה שמאחור ממלאת את המסך ומתייצבת."],
+    ["מסך ירוק", "מוצר על מסך ירוק, ופס סריקה מחליף את הירוק ברקע חדש.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: נעל ספורט (PNG שקוף) מרחפת מול מסך ירוק עם סימני טראקינג לבנים בצורת +. פס סריקה לבן וזוהר עובר משמאל לימין, ומאחוריו הירוק מתחלף בתמונת עיר ניאון. בסוף הנעל מקבלת הילה תכלת, ובפינה מופיע CHROMA KEY ✓."],
+    ["שבירת פריים", "תמונה נסדקת ומתנפצת לרסיסים, ומאחוריה מילה זוהרת.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: כרטיס תמונה של עיר ניאון נכנס למסך. בנקודת פגיעה מופיעים סדקים לבנים זוהרים, ויש רעידה. אז הכרטיס מתנפץ ל-12 רסיסים משולשים (clip-path) שעפים החוצה עם סיבוב תלת-ממדי, ומאחוריהם נחשפת המילה BREAK בגרדיאנט ורוד-סגול זוהר."],
+    ["זום דיגיטלי", "ממשק של מצלמה עם זום מדורג וריבוע פוקוס.", "תבנה לי סרטון 9:16 של 2 שניות ב-60fps: תמונת עיר ניאון עם ממשק של מצלמה מעליה: פינות לבנות, נקודת REC אדומה מהבהבת, טיים-קוד, וריבוע פוקוס במרכז. שתי קפיצות זום, 1.0x ל-2.0x ל-4.0x, כל אחת עם טשטוש קצר. אחרי כל קפיצה ריבוע הפוקוס מתכווץ ונצבע ירוק, והמספר מתעדכן בתג צהוב."],
+    ["מוקאפ טלפון", "טלפון תלת-ממדי מסתובב עם פיד שגולל בתוכו.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps על רקע גרדיאנט אפרסק-סגול: טלפון בתלת-ממד (מסגרת שחורה ונוץ') מסתובב מ-‎-40 ל-‎22 מעלות ב-rotateY. בתוך המסך פיד של כרטיסי תמונות גולל למעלה, וברק אור עובר על הזכוכית. מסביב קופצות תגיות לבנות '❤ 12.4K' ו-'▶ 1.2M', ומתחת צל רך שמתרחב."],
+    ["צ'קליסט", "20 משבצות מתמלאות בווי, מונה עד 20/20 וקונפטי.", "תבנה לי סרטון 9:16 של 2 שניות ב-60fps על רקע ירוק כהה: גריד של 4 על 5 משבצות ממוספרות מ-1 עד 20. כל 0.03 שניות משבצת הופכת לירוקה עם וי לבן שקופץ, ומונה ענק למעלה סופר מ-00/20 עד 20/20. בסוף כל הגריד פועם פעם אחת ויש פיצוץ קונפטי."]
+  ];
+  const BONUS = [
+    ["טקסט קינטי", "מילים נוחתות בקצב הדיבור, כל מילה בתנועה אחרת.", "תבנה לי סרטון 9:16 של 4 שניות ב-60fps: המשפט 'ככה נראה תוכן שעוצר גלילה' מופיע מילה אחרי מילה. כל מילה נכנסת אחרת: אחת נופלת מלמעלה, אחת נפתחת מטשטוש, אחת מתנפחת עם overshoot. המילה החשובה בצהוב עם תיבת היילייט שנמתחת מאחוריה. רקע כהה עם תנועת מצלמה איטית."],
+    ["גליץ' RGB", "הפרדת צבעים, קווי סריקה וקפיצות דיגיטליות.", "תבנה לי סרטון 9:16 של 2 שניות ב-60fps: לוגו או מילה במרכז עם אפקט גליץ'. שלוש שכבות (אדום, ירוק, כחול) עם mix-blend-mode: screen זזות כל אחת לכיוון אחר בקפיצות קצרות, פסים אופקיים נחתכים ומוזזים עם clip-path, ויש קווי סריקה עדינים. אחרי שנייה הכל מתיישר לתמונה נקייה."],
+    ["מסך מפוצל", "המסך מתפצל לשלושה פאנלים, וכל אחד מראה משהו אחר.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: תמונה אחת על כל המסך, ואז היא נחתכת לשלושה פאנלים אופקיים שמחליקים לצדדים מנוגדים. בכל פאנל נחשפת תמונה אחרת: לפני, תהליך, אחרי. בין הפאנלים קווי הפרדה לבנים דקים, ובסוף הפאנלים מתאחדים שוב לתמונה אחת."],
+    ["מפה מונפשת", "קו נמתח בין שתי ערים על מפה, עם זום לנקודת הסיום.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: מפה מינימליסטית כהה של ישראל. נקודה זוהרת בתל אביב, ממנה קו מקווקו נמתח עד אילת, ומטוס קטן נע לאורכו. בסוף זום לאילת עם תווית שקופצת. בלי שירותי מפות חיצוניים, רק SVG."],
+    ["ספירה לאחור", "3, 2, 1 ענקיים עם טבעת שמתרוקנת והבזק בסוף.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: ספירה לאחור 3, 2, 1. כל ספרה ענקית נכנסת בזום מטושטש ויוצאת בפיצוץ חלקיקים. מסביב טבעת עבה שמתרוקנת בכל שנייה (stroke-dashoffset). אחרי ה-1 הבזק לבן, ומופיעה המילה 'עכשיו!' בצהוב."],
+    ["חתימת לוגו", "הלוגו שלכם נבנה מקווים ונוחת עם הבזק אור.", "תבנה לי סרטון 9:16 של 3 שניות ב-60fps: הלוגו שלי (SVG שאני מצרף) נבנה מקווי מתאר שמצטיירים (draw), אחר כך המילוי נשפך פנימה בגרדיאנט. הלוגו נוחת עם בונס קטן, פס ברק עובר עליו, ולמטה מופיע הסלוגן בטשטוש שנפתח. רקע בצבעי המותג."]
+  ];
+
+  function card(item, i, withPreview, bonus) {
+    const [name, what, prompt] = item;
+    const el = document.createElement("article");
+    el.className = "fx" + (withPreview ? "" : " nopv");
+    const n = String(i + 1).padStart(2, "0");
+    el.innerHTML =
+      (withPreview ? '<div class="pv"><video src="clips/fx' + n + '.mp4" autoplay muted loop playsinline preload="auto" aria-label="תצוגה מקדימה: ' + name + '"></video></div>' : "") +
+      '<div class="meta"><div class="top"><span class="num">' + (bonus ? "B" + (i + 1) : n) + "</span><h3></h3>" + (bonus ? '<span class="tag">בונוס</span>' : "") + "</div>" +
+      '<p class="what"></p><div class="prompt"><button class="copy" type="button">העתקה</button><span class="ptext"></span></div></div>';
+    el.querySelector("h3").textContent = name;
+    el.querySelector(".what").textContent = what;
+    el.querySelector(".ptext").textContent = prompt;
+    const btn = el.querySelector(".copy");
+    btn.addEventListener("click", () => {
+      const done = () => { btn.textContent = "הועתק ✓"; btn.classList.add("done"); setTimeout(() => { btn.textContent = "העתקה"; btn.classList.remove("done"); }, 1600); };
+      const fallback = () => { const r = document.createRange(); r.selectNodeContents(el.querySelector(".ptext")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "סמנו והעתיקו"; };
+      try { navigator.clipboard.writeText(prompt).then(done, fallback); } catch (e) { fallback(); }
+    });
+    return el;
+  }
+  const main = document.getElementById("main");
+  FX.forEach((f, i) => main.appendChild(card(f, i, true, false)));
+  const bonus = document.getElementById("bonus");
+  BONUS.forEach((f, i) => bonus.appendChild(card(f, i, false, true)));
+</script>
