@@ -1,0 +1,285 @@
+<title>מדריך סרטון Yellow</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;800;900&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: one centered reading column; each element is a "station" on a neon line that runs down the right edge, like the trail in the film */
+  :root {
+    --bg: #070604;
+    --panel: #12100b;
+    --line: #2a251a;
+    --ink: #f5f0e1;
+    --muted: #a69d86;
+    --neon: #ffd400;
+    --neon-soft: rgba(255, 212, 0, 0.18);
+    --code: #0d0b07;
+    --f-display: "Rubik", "Assistant", system-ui, sans-serif;
+    --f-body: "Assistant", "Rubik", system-ui, sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    background-image: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(255, 190, 0, 0.16), rgba(0, 0, 0, 0) 70%);
+    background-repeat: no-repeat;
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 18px;
+    line-height: 1.65;
+    direction: rtl;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0 64px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  header { padding-block: 56px 28px; display: grid; gap: 18px; }
+  .eyebrow { font-family: var(--f-display); font-weight: 500; font-size: 14px; letter-spacing: 0.12em; color: var(--neon); }
+  h1 { font-family: var(--f-display); font-weight: 900; font-size: clamp(40px, 8vw, 76px); line-height: 1.02; margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
+  h1 em { font-style: normal; color: var(--neon); text-shadow: 0 0 28px rgba(255, 212, 0, 0.45); }
+  .lead { color: var(--muted); font-size: 20px; max-width: 60ch; margin: 0; }
+  .hero-vid { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 0 0 1px rgba(255, 212, 0, 0.12), 0 30px 80px rgba(0, 0, 0, 0.6); aspect-ratio: 16 / 9; max-width: 100%; background: #000; }
+  .hero-vid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .stack { display: grid; gap: 10px; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-family: var(--f-display); font-weight: 500; font-size: 14px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); background: var(--panel); }
+
+  /* the neon spine */
+  .route { position: relative; display: grid; gap: 56px; padding-right: 34px; margin-top: 40px; }
+  .route::before { content: ""; position: absolute; right: 9px; top: 6px; bottom: 6px; width: 3px; border-radius: 3px; background: var(--neon); box-shadow: 0 0 8px var(--neon), 0 0 22px rgba(255, 190, 0, 0.7); transform-origin: top; animation: draw 1.6s cubic-bezier(.6, 0, .2, 1) both; }
+  @keyframes draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  .st { position: relative; display: grid; gap: 14px; min-width: 0; }
+  .st::before { content: ""; position: absolute; right: -32px; top: 10px; width: 15px; height: 15px; border-radius: 50%; background: var(--bg); border: 3px solid var(--neon); box-shadow: 0 0 12px var(--neon); }
+  .num { font-family: var(--f-mono); font-size: 13px; color: var(--neon); letter-spacing: 0.06em; }
+  h2 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 4.4vw, 34px); line-height: 1.15; margin: 0; text-wrap: balance; }
+  .st p { margin: 0; max-width: 64ch; }
+  .how { color: var(--muted); }
+  .how b { color: var(--ink); font-weight: 700; }
+  .pv { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); aspect-ratio: 16 / 9; max-width: 100%; background: #000; }
+  .pv img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .prompt { border: 1px solid var(--line); border-radius: 14px; background: var(--code); min-width: 0; }
+  .prompt-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  .prompt-top span { font-family: var(--f-display); font-weight: 500; font-size: 14px; color: var(--muted); }
+  .copy { font-family: var(--f-display); font-weight: 800; font-size: 14px; color: #111; background: var(--neon); border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; box-shadow: 0 0 14px rgba(255, 212, 0, 0.45); }
+  .copy:hover { filter: brightness(1.08); }
+  .copy:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .copy.done { background: var(--ink); box-shadow: none; }
+  pre { margin: 0; padding: 14px 16px; white-space: pre-wrap; word-break: break-word; font-family: var(--f-mono); font-size: 14.5px; line-height: 1.7; color: var(--ink); direction: rtl; text-align: right; overflow-x: auto; }
+
+  .master { border: 1px solid rgba(255, 212, 0, 0.45); border-radius: 18px; padding: 22px; background: linear-gradient(180deg, rgba(255, 212, 0, 0.07), rgba(255, 212, 0, 0) 60%), var(--panel); display: grid; gap: 14px; margin-top: 28px; }
+  .master h2 { font-size: 28px; }
+  .note { border-right: 3px solid var(--neon); padding: 4px 14px 4px 0; color: var(--muted); }
+
+  footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); display: grid; gap: 6px; }
+  footer b { font-family: var(--f-display); font-weight: 800; font-size: 22px; }
+  footer span { color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) { .route::before { animation: none; } }
+  @media (max-width: 520px) { body { font-size: 17px; } .route { padding-right: 28px; } .st::before { right: -26px; } .route::before { right: 7px; } pre { font-size: 13.5px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">מדריך מאחורי הקלעים · רפאל לוי</div>
+    <h1>ככה עשינו את סרטון<br /><em>Yellow</em> עם Claude</h1>
+    <p class="lead">פרסומת של 20 שניות בסגנון "ספק אד": רקע שחור, קו ניאון אחד שמחבר בין כל המסכים, צילומי מסך אמיתיים מהאפליקציה, קריין ומוזיקה. בלי תוכנת עריכה. לכל אלמנט יש פה תצוגה מקדימה ופרומפט מוכן להעתקה.</p>
+    <div class="hero-vid"><img src="{{P9}}" alt="קו ניאון מתפצל לחמישה עיגולים סביב מתנה" /></div>
+    <div class="stack">
+      <span class="how">מה צריך:</span>
+      <div class="tools"><span class="chip">Claude Code</span><span class="chip">HyperFrames (HTML + GSAP)</span><span class="chip">ElevenLabs לקריינות</span><span class="chip">צילומי מסך מהאפליקציה</span></div>
+    </div>
+  </header>
+
+  <section class="master">
+    <div class="num">שלב 0</div>
+    <h2>הפרומפט שבונה את כל השלד</h2>
+    <p>מתחילים מזה. הוא מגדיר את הפורמט, את המראה ואת "המצלמה" שזזה ממסך למסך. אחר כך משפרים כל אלמנט עם הפרומפטים שבהמשך.</p>
+    <div class="prompt">
+      <div class="prompt-top"><span>פרומפט-על</span><button class="copy" type="button">העתקה</button></div>
+      <pre>תבנה לי ב-HyperFrames פרסומת "ספק אד" לאפליקציה [שם האפליקציה], 16:9 (1920x1080), 60fps, בערך 20 שניות.
+סגנון: רקע שחור עם הילה צהובה רכה במרכז (radial-gradient), מראה של סטודיו, אבק זוהר עדין שמרחף.
+מבנה: "רצועת עולם" אחת רחבה עם 7 פאנלים של 1920px זה לצד זה. המצלמה זזה בין הפאנלים ב-x עם power3.inOut בחצי שנייה, ובתוך כל פאנל יש דחיפת זום איטית מ-1.0 ל-1.03.
+קו ניאון אחד רציף עובר בין כל הפאנלים מאחורי התוכן, ומחבר את האלמנטים. רק עיקולים, בלי פינות חדות.
+כותרות בעברית, משמאל לימין RTL, פונט Rubik 900, מילה אחת מודגשת בצהוב #ffd400 עם זוהר.
+תשתמש בצילומי המסך שבתיקייה assets/ כמסכים בתוך טלפון וככרטיסים חתוכים.
+קריינות: assets/vo.mp3, ותסנכרן כל כותרת לרגע שהקריין אומר אותה.
+טיימליין GSAP אחד מושהה, seek-safe, בלי אנימציות שתלויות בזמן אמת.</pre>
+    </div>
+  </section>
+
+  <div class="route">
+
+    <section class="st">
+      <div class="num">01 · פתיחה</div>
+      <h2>הלוגו קופץ ונעלם</h2>
+      <div class="pv"><img src="{{P1}}" alt="לוגו yellow קופץ על רקע שחור ונעלם" loading="lazy" /></div>
+      <p class="how">שנייה אחת לפני שהסרט מתחיל. <b>הטריק:</b> שמים את כל הסרט בטיימליין פנימי, ומוסיפים אותו לטיימליין הראשי עם השהיה של שנייה. ככה לא צריך להזיז אף תזמון.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תוסיף לפני כל הסרטון שנייה אחת של פתיחה: הלוגו מ-assets/logo.png במרכז על רקע שחור עם הילה צהובה.
+הלוגו קופץ מ-scale 0 ל-1 עם back.out(2.4) וסיבוב קטן מ-12- ל-0, נושם קצת, ואז מתכווץ ונעלם עם back.in ב-0.76 שניות.
+תעשה את זה בלי להזיז תזמונים קיימים: תעטוף את כל הטיימליין הקיים בטיימליין פנימי ותוסיף אותו ב-master.add(tl, 1.0). את כל קבצי האודיו תזיז שנייה קדימה.
+סאונד: pop קטן בכניסה ו-whoosh ביציאה.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">02 · הוק</div>
+      <h2>כותרת שמתחדדת מטשטוש, וקו ניאון שנוסע</h2>
+      <div class="pv"><img src="{{P2}}" alt="הכותרת עוצרים לתדלק מתחדדת וקו ניאון עובר מתחתיה" loading="lazy" /></div>
+      <p class="how">הקו בנוי <b>משלוש שכבות</b>: הילה רחבה מטושטשת, צינור צהוב עם זוהר, וליבה לבנה דקה. הוא "מצטייר" עם strokeDashoffset, וניצוץ לבן נוסע על הקצה שלו.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תבנה קו ניאון ב-SVG משלוש שכבות של אותו path:
+1. הילה: stroke #ffb300, עובי 28, blur(16px), שקיפות 0.6
+2. צינור: stroke #ffd400, עובי 7, עם drop-shadow צהוב כפול
+3. ליבה: stroke #fffbe8, עובי 2.4
+stroke-linecap: round. הקו מצטייר עם strokeDashoffset מאורך הקו ל-0.
+על הקצה נוסע "ראש" זוהר: עיגול לבן-צהוב עם radial-gradient ופס אור דק, שזז עם keyframes שמחושבים מ-getPointAtLength ומסתובב לפי כיוון הקו.
+כשהקו נעצר בנקודת חיבור, הראש דועך ונעלם (opacity ל-0, scale ל-0.3, ב-0.25 שניות).
+הכותרת "[הוק שלך]": כל מילה נכנסת מ-blur(22px) ו-scale 1.35 ל-חד, עם stagger של 0.18 שניות.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">03 · טלפון</div>
+      <h2>טלפון תלת-ממדי עם לולאת ניאון סגורה</h2>
+      <div class="pv"><img src="{{P3}}" alt="טלפון מסתובב לתוך הפריים וקו ניאון מקיף אותו" loading="lazy" /></div>
+      <p class="how">הטלפון הוא div עם פינות מעוגלות ו-perspective, וצילום המסך יושב בתוכו. הקו נכנס מלמטה <b>בכיוון אנכי</b>, ולכן ממשיך ישר ללולאה בלי שבירה.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תבנה טלפון ב-CSS (330x660, פינות 54px, מסגרת שחורה, Dynamic Island) עם צילום המסך assets/screen.png בפנים.
+כניסה: מ-rotationY 28 ו-z -260 ל-rotationY -10, עם expo.out. אחר כך הוא ממשיך להסתובב לאט, ופס ברק לבן עובר על המסך.
+קו הניאון נכנס מימין למטה ועולה אל הצד הימני של הטלפון. החלק האחרון שלו חייב להיות אנכי, כדי שימשיך בדיוק ללולאה.
+הלולאה: מלבן מעוגל (רדיוס 60) במרחק 14px מהטלפון, שנסגר על עצמו בנקודה שבה התחיל.
+אחרי שהלולאה נסגרת, הניצוץ דועך.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">04 · בחירה</div>
+      <h2>מסגרת ניאון סביב הבחירה</h2>
+      <div class="pv"><img src="{{P4}}" alt="מסגרת ניאון מצטיירת סביב שורת תחנה ברשימה" loading="lazy" /></div>
+      <p class="how">במקום למשוך עוד קו לכל כרטיס, <b>ממסגרים אותו</b>. זה נקי יותר ומרגיש כמו בחירה אמיתית באפליקציה.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תחתוך מצילום המסך את שורת החיפוש ו-3 שורות מהרשימה, ככרטיסים נפרדים עם פינות מעוגלות (תחתוך במסכה מוגדלת פי 4 ותקטין ב-LANCZOS, כדי שהקצוות יהיו חלקים).
+הכרטיסים נכנסים משמאל אחד אחרי השני, עם expo.out ו-stagger של 0.07 שניות.
+על הכרטיס שנבחר: מסגרת ניאון באותו סגנון שלוש שכבות, 10px מסביב לכרטיס, עם אותו רדיוס פינה. היא מצטיירת ב-0.3 שניות ומעליה עיגול "טאפ" שמתרחב ונעלם.
+המסגרת יושבת מעל הכרטיס (z-index גבוה), ונעלמת יחד איתו.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">05 · תשלום</div>
+      <h2>כפתור Apple Pay ו"שולם"</h2>
+      <div class="pv"><img src="{{P5}}" alt="כפתור Apple Pay ממוסגר בניאון ותגית שולם ירוקה קופצת" loading="lazy" /></div>
+      <p class="how">אותה מסגרת, הפעם בצורת גלולה. לחיצה קטנה (scale 0.94) ואחריה תגית ירוקה עם וי.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תחתוך את כפתור Apple Pay מצילום המסך כגלולה (פינות ברדיוס חצי מהגובה).
+כניסה: מ-scale 0.5 ו-x -380 עם back.out(1.4). לחיצה: scale 0.94 הלוך וחזור ב-0.07 שניות.
+מסגרת ניאון בצורת גלולה מצטיירת סביבו רגע לפני הלחיצה.
+אחרי הלחיצה קופצת תגית "שולם": רקע כהה, מסגרת ירוקה #2fd06e, עיגול ירוק עם וי לבן ב-SVG, ונכנסת עם back.out(2.2).
+בלי צליל קליק חזק: עדיף pop עדין רק על "שולם".</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">06 · מעבר</div>
+      <h2>הקו יוצא מתחתית הטלפון למסך הבא</h2>
+      <div class="pv"><img src="{{P6}}" alt="קו ניאון יוצא מתחתית הטלפון והמצלמה זזה למסך הבא" loading="lazy" /></div>
+      <p class="how">הקו "מתקלף" מהחלק התחתון של הלולאה <b>באותו כיוון שלה</b>, ואז מתעקל למטה. המצלמה זזה בדיוק כשהקו מגיע לקצה הפאנל, אז נראה שהקו מושך אותנו הלאה.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תוציא את קו הניאון מאמצע התחתית של הלולאה סביב הטלפון. הוא מתחיל בכיוון אופקי, כמו המשך של הלולאה, מתעקל בעקומת בזייה רכה למטה, ויוצא בקו ישר לקצה השמאלי של הפאנל.
+תתזמן את זה ככה שהקו מגיע לקצה בדיוק כשהמצלמה עוברת לפאנל הבא (חצי שנייה, power3.inOut), ובפאנל הבא הוא ממשיך מאותו גובה.
+whoosh על כל מעבר מצלמה.
+כלל לכל הקווים: אין פינות ישרות. כל פנייה היא Q או C עם רדיוס, וכל חלק חדש מתחיל בכיוון שבו הקודם נגמר.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">07 · בקופה</div>
+      <h2>כרטיס קוד שקופץ מהארנק</h2>
+      <div class="pv"><img src="{{P7}}" alt="כרטיס קוד אישי עולה מתוך ארנק צהוב" loading="lazy" /></div>
+      <p class="how">הארנק נחתך <b>לשתי שכבות</b>: הגב, והכיס הקדמי עם שקיפות מעל קו הגל. הכרטיס יושב ביניהן, אז נראה שהוא באמת יוצא מהכיס.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תחתוך את איור הארנק לשתי תמונות: wallet_back (כל הארנק) ו-wallet_front (רק הכיס הקדמי, עם שקיפות מעל קו הגל).
+בין שתי השכבות שים כרטיס לבן עם "קוד אישי לתשלום בקופה", ברקוד גנרי שמצויר ב-SVG, ומספר דמה 12 34 56.
+הכרטיס עולה 250px למעלה עם back.out(1.3), ואז מקבל זוהר צהוב.
+הארנק נכנס עם הטיה (rotationX 16 ל-6) ונושם לאט.
+פרטיות: כל קוד, ברקוד או לוחית רישוי אמיתיים מוחקים עם לבן ומחליפים בנתוני דמה. לא מטשטשים.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">08 · מבצעים</div>
+      <h2>הניאון מתפצל סביב הכרטיס ומתאחד</h2>
+      <div class="pv"><img src="{{P8}}" alt="קו ניאון נכנס לאמצע כרטיסיה, מתפצל מעליה ומתחתיה ומתאחד בצד השני" loading="lazy" /></div>
+      <p class="how">שני path-ים שמתחילים באותה נקודה, <b>סימטריים</b>, עם אותו אורך ואותו easing. לכן הם נפגשים בצד השני באותו פריים, לכל אחד יש ניצוץ משלו, וממשיכים כקו אחד.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>הקו נכנס אופקית לאמצע הצד הימני של הכרטיס, מתחת לכותרת ולא עליה.
+בנקודה הזאת הוא מתפצל לשני path-ים סימטריים: אחד מקיף את הכרטיס מלמעלה, השני מלמטה. הפינות ברדיוס 60, והפנייה הראשונה היא Q רכה מאופקי לאנכי.
+שניהם מצטיירים באותו זמן, עם אותו משך ואותו ease, וכל אחד עם ניצוץ משלו. הם נפגשים באמצע הצד השמאלי וממשיכים כקו אחד שמתעקל למטה ויוצא מהפאנל.
+על הכרטיסייה: חותמות צהובות עם וי קופצות אחת אחרי השנייה בדיוק על העיגולים המקווקווים (scale 0 ל-1, back.out(3)). כרטיסי המוצרים נכנסים מלמטה עם back.out(1.5).</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">09 · 5 מקומות</div>
+      <h2>כוכב של חמישה עיגולים ומונה ₪</h2>
+      <div class="pv"><img src="{{P9}}" alt="חמישה עיגולים במחומש סביב מתנה, קרניים ישרות ומונה שקלים עולה ל-50" loading="lazy" /></div>
+      <p class="how">העיגולים יושבים על <b>מחומש משוכלל</b> סביב המתנה, ורווח אחד פתוח לכיוון שממנו הקו נכנס. הקרניים ישרות ושוות באורכן, ולכן הכול נראה מאוזן.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תחתוך מצילום המסך 5 אייקונים עגולים ואייקון מתנה (מסכת עיגול, דגימת-על פי 4).
+מתנה במרכז (560,540). חמשת העיגולים על מחומש ברדיוס 280 בזוויות 36, 108, 180, 252 ו-324 מעלות, כך שהרווח פתוח לכיוון 0 מעלות, שממנו הקו נכנס.
+הקו נכנס אופקית עד שפת המתנה. ממנה 5 קרניים ישרות, מרדיוס 100 עד 194, ואחרי כל קרן קופץ העיגול שלה (back.out(2.6), כל 0.2 שניות, עם pop).
+על המילה "חמישים" בקריינות: הבזק אור מהמתנה, מכה קולית, ומונה שמתחלף ₪0 ל-₪10 עד ₪50 כל 0.07 שניות. בסוף כרטיס המתנה עולה מלמטה.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">10 · טיסה</div>
+      <h2>המטוס ממריא מהמסך ונכנס למצלמה</h2>
+      <div class="pv"><img src="{{P10}}" alt="מטוס אל על יוצא מהטלפון, מטפס, וטס לתוך המצלמה עד שממלא את המסך" loading="lazy" /></div>
+      <p class="how">PNG של מטוס על רקע שקוף. הוא <b>מטפס לאט ואז מאיץ</b> עם power3.in ישר למרכז, עם scale עד פי 5 וטשטוש תנועה. בדיוק כשהוא ממלא את המסך מתחיל המעבר לצהוב.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תשתמש ב-assets/plane.png (רקע שקוף). שים אותו בשכבה מעל כל הסצנה, לא בתוך הפאנל, כדי שתנועת המצלמה לא תשפיע עליו.
+1. יוצא מתוך מסך הטלפון: scale מ-0.08 ל-0.15 ב-0.3 שניות.
+2. מטפס מעל הטלפון ולא מעל הכותרת: x 800, y 215, rotation -7, scale 0.38, ב-0.75 שניות עם sine.inOut.
+3. טס לתוך המצלמה: למרכז המסך, scale 5, rotation 0, filter blur מ-0 ל-6px, ב-0.65 שניות עם power3.in.
+whoosh חזק ברגע ההאצה. הטלפון והכותרת דועכים בזמן שהמטוס גדל.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">11 · סיום</div>
+      <h2>פריחה צהובה, לוגו וקרדיט</h2>
+      <div class="pv"><img src="{{P11}}" alt="עיגול צהוב מתפשט על כל המסך, הלוגו מופיע ואחריו קרדיט" loading="lazy" /></div>
+      <p class="how">clip-path של עיגול שמתרחב מהמרכז ל-1200px בפחות מ-0.2 שניות, בצבע המותג. עליו נכנס הלוגו ואחריו מסך קרדיט שחור.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>מעבר סיום: שכבה בצבע המותג (#fcbf0b) עם clip-path: circle, שמתרחבת מ-0 ל-1200px מהמרכז ב-0.16 שניות עם power1.in, עם מכה קולית.
+עליה הלוגו נכנס מ-scale 1.2 עם expo.out.
+אחר כך מסך שחור: "CREATED BY" קטן עם ריווח אותיות רחב, השם שלך נכנס מטשטוש, וקו צהוב זוהר נמתח מתחתיו (scaleX מ-0 ל-1).</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">12 · סאונד</div>
+      <h2>קריין רשמי ומוזיקה שלא נעלמת</h2>
+      <p class="how">הקריינות נוצרה ב-ElevenLabs עם קול גברי, עבה ורשמי. מילה שהקריין מבטא לא נכון כותבים <b>עם ניקוד</b> (מִבְצָעִים) ומקליטים מחדש רק את המשפט הזה. את המוזיקה מנמיכים מתחת לקול רק בכמה dB, כדי שתישאר לאורך כל הסרטון.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תכתוב תסריט קריינות של 15 עד 16 שניות לפרסומת, משפט קצר לכל מסך, ותיצור אותו ב-ElevenLabs בקול גברי רשמי ועבה בעברית.
+מילים שעלולות להיקרא לא נכון כתוב עם ניקוד.
+עיבוד: נורמליזציה ל-16- LUFS, והעמקה קלה של הקול: asetrate=44100*0.95,aresample=44100,atempo=1.0526,bass=g=3:f=140.
+תתמלל את הקריינות, ותסנכרן לפי זמני המילים את הכותרות, את המעברים ואת אפקטי הסאונד.
+מוזיקת רקע לאורך כל הסרטון בעוצמה 0.34, עם carve עדין מתחת לקול (strength 0.3), כדי שהמוזיקה לא תיעלם כשהקריין מדבר.</pre></div>
+    </section>
+
+  </div>
+
+  <footer>
+    <b>רפאל לוי</b>
+    <span>מומחה AI ושיווק דיגיטלי · ‎@refaelleviii</span>
+    <span>יצרת משהו עם המדריך? תייג אותי, אני משתף.</span>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll(".copy").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const pre = btn.closest(".prompt").querySelector("pre");
+      const ok = () => { btn.textContent = "הועתק"; btn.classList.add("done"); setTimeout(() => { btn.textContent = "העתקה"; btn.classList.remove("done"); }, 1600); };
+      const fallback = () => { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "מסומן, העתק ידנית"; };
+      try { navigator.clipboard.writeText(pre.innerText).then(ok, fallback); } catch (e) { fallback(); }
+    });
+  });
+</script>
