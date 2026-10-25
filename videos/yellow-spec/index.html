@@ -77,7 +77,7 @@
 
       #bloom { position: absolute; inset: 0; background: #fcbf0b; clip-path: circle(0px at 960px 540px); z-index: 21; }
       #logoBand { position: absolute; left: 410px; top: 287px; width: 1100px; height: 506px; z-index: 22; -webkit-mask: radial-gradient(ellipse at 50% 50%, #000 55%, transparent 72%); mask: radial-gradient(ellipse at 50% 50%, #000 55%, transparent 72%); }
-      #plane { position: absolute; left: 0; top: 0; width: 84px; height: 84px; margin: -42px 0 0 -42px; z-index: 19; filter: drop-shadow(0 0 10px rgba(255, 212, 0, 0.8)); }
+      #plane { position: absolute; left: 0; top: 0; width: 1421px; height: 547px; margin: -273px 0 0 -710px; z-index: 19; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.6)); }
 
       #sE { background: #000; }
       #cred { position: absolute; left: 0; right: 0; top: 410px; text-align: center; direction: ltr; font-family: "Assistant", sans-serif; }
@@ -156,7 +156,7 @@
       </div>
 
       <div id="dustL" style="position:absolute;inset:0;z-index:15;pointer-events:none"></div>
-      <svg id="plane" viewBox="0 0 24 24"><path d="M21 15.5v-2l-8-5V3.5a1.5 1.5 0 00-3 0V8.5l-8 5v2l8-2.5V18l-2 1.5V21l3.5-1 3.5 1v-1.5L13 18v-5z" fill="#fcbf0b" /></svg>
+      <img id="plane" class="aa" src="assets/crops2/elal_plane.png" />
       <div id="vig"></div>
       <div id="bloom"></div>
       <video id="logoBand" class="clip" src="assets/video/logo_band.mp4" data-start="16.4" data-duration="1.4" data-track-index="3" muted playsinline></video>
@@ -371,16 +371,17 @@
       tl.to("#ph5", { rotationY: -2, duration: 2.0, ease: "sine.inOut" }, 13.35);
       ft("#ph5 .shine i", { x: 0 }, { x: 700, duration: 1.2, ease: "power2.inOut" }, 12.9);
       headline("#h7", 12.5, null);
-      tl.set("#plane", { x: 635, y: 600, scale: 0.4, rotation: 0, opacity: 0 }, 0);
-      tl.to("#plane", { opacity: 1, scale: 1, y: 560, duration: 0.25, ease: "back.out(2)" }, 13.5);
-      tl.to("#plane", { x: 900, y: 330, rotation: 38, scale: 1.8, duration: 0.7, ease: "sine.inOut" }, 13.75);
-      tl.set("#plane", { filter: "none" }, 14.45);
-      tl.to("#plane", { x: 960, y: 540, rotation: 30, scale: 150, duration: 0.75, ease: "power3.in" }, 14.45);
+      // the El Al plane lifts out of the phone screen, climbs, then rushes into the camera
+      tl.set("#plane", { x: 640, y: 600, scale: 0.08, rotation: 0, opacity: 0 }, 0);
+      tl.to("#plane", { opacity: 1, scale: 0.15, y: 570, duration: 0.3, ease: "power2.out" }, 13.5);
+      tl.to("#plane", { x: 800, y: 215, rotation: -7, scale: 0.38, duration: 0.75, ease: "sine.inOut" }, 13.8);
+      tl.set("#plane", { filter: "blur(0px)" }, 14.55);
+      tl.to("#plane", { x: 960, y: 560, rotation: 0, scale: 5, filter: "blur(6px)", duration: 0.65, ease: "power3.in" }, 14.55);
       tl.set("#plane", { opacity: 0 }, 15.45);
       tl.to(["#ph5", "#h7"], { opacity: 0, duration: 0.3 }, 14.7);
 
       // P6 yellow bloom + the real logo
-      ft("#bloom", { clipPath: "circle(0px at 960px 540px)" }, { clipPath: "circle(1200px at 960px 540px)", duration: 0.3, ease: "power3.in" }, 15.0);
+      ft("#bloom", { clipPath: "circle(0px at 960px 540px)" }, { clipPath: "circle(1200px at 960px 540px)", duration: 0.16, ease: "power1.in" }, 15.08);
       ft("#logoBand", { opacity: 0, scale: 1.2 }, { opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" }, 15.45);
 
       // credits
