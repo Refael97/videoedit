@@ -150,3 +150,22 @@ already assembled; read them as examples of the grammar, not as the only options
 - [ ] In world space, on the free side, not over face or captions (§5)
 - [ ] Every movement is a verb from §6, timed to a word, with its sound
 - [ ] No logo, no brand icon, no new font
+
+## 10. Mandatory rules (in glass terms)
+
+a. **Activation.** Nothing in the glass just appears. Agents: the **cursor** (clicks a dock icon to open a
+   window, clicks a button, drags a file), **typing** (terminal commands, chat prompts, search fields letter by
+   letter), the **system** (a notification slides in because something happened, e.g. after "send"). A dark-glass
+   fact is activated by the event that caused it (a click, a finished command).
+b. **Real content.** Windows show real, readable things from the script: a real page headline and buttons, the
+   real command, the real message text. Never grey bars or skeletons (the first glass test broke this with a
+   website skeleton: wrong).
+c. **The thing itself first.** "A website" → a real-looking page in a browser window. "Comments" → a comment
+   list with names and text. A chart only with real numbers on it; a before/after only with what changed
+   written on both sides (the glass test's unlabeled bars: wrong).
+d. **Action density.** Reference: the terminal does 3 installs + 3 checks + a badge in ~3.5 s, the chat does
+   thumbnails → prompt → reply → chips in ~3 s, the checklist ticks 4 rows in ~2 s → **≈1.5–2 actions per second
+   inside the element on screen**. Hold an element still for at most ~1 s.
+e. **The opening has a visual.** Reference: the hook sits over a glass timeline strip of video thumbnails with the
+   AI logo moving across it, not over the bare room. The hook always carries the strongest image of the video in
+   glass (the result, the tool) behind/under the two-tier title.

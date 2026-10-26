@@ -68,3 +68,12 @@ The set in `sfx/` is synthesized (free to redistribute).
 ## Footage needs
 A medium shot with free space on one side of the speaker (desk, room, shelves) so the glass has somewhere to live.
 A tight selfie close-up works, but then the glass has to overlap the shoulder and the effect is weaker.
+
+## How to shoot for this theme
+- **Shot:** medium-wide, waist up, the speaker on one side (≈60% of the width), the other ~40% free: that is where
+  the glass lives. A desk or table in the lower third helps (the glass "stands" on it).
+- **Background:** a real, deep room with mid-tone, warm or wooden surfaces and some depth (shelves, lamps). The
+  glass needs texture behind it to blur. A plain white wall makes the glass vanish (use `.bg-bright` if you must).
+- **Light:** soft, warm, even on the face; no hard backlight behind the free side.
+- **Camera:** static on a tripod, 4K if possible (the edit punches in to 110–115%).
+- **Avoid:** selfie close-ups (no room for the glass), busy moving backgrounds, standing in the middle.

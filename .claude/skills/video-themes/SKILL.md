@@ -60,10 +60,46 @@ A theme that can only redraw what the reference showed is useless on the next sc
    date, place, progress, file, choice…), map to material + blocks, then anatomy, size, verbs.
 8. **Building blocks** — generic CSS blocks in `theme.css` and the builders in `motion.js`.
 9. **Self-check** — the checklist a new element must pass.
+10. **Mandatory rules** — the five rules below, written out in the theme's own terms (with its measured numbers).
 
-When extracting a theme from references, derive each section from what is consistent across the reference's
+When extracting a theme from references, derive each section from what is consistent across the **anchor's**
 elements (what surfaces repeat, what sizes repeat, what color is used for what), then extend it to the noun
-types the reference did not cover, marked *(assumption)*.
+types the anchor did not cover: first by translating a contributor's element (see below), otherwise by design,
+marked *(assumption)*.
+
+### The five mandatory rules (every `language.md`, learned from the glass test)
+
+a. **Activation.** Every element has an *agent* that makes it happen: a cursor clicks it, text is typed into it,
+   something is dragged into it, a marker circles/ticks it. Never just "appears". Write which agent each block
+   uses.
+b. **Real, readable content from the script.** No grey bars, skeletons, lorem ipsum or placeholders. If the voice
+   says "a website with motion", show a website with a real headline and real buttons that move. Every text inside
+   an element is readable at reel size and comes from (or follows from) the script.
+c. **The thing itself first; a template only if there is no choice.** Show the actual tool, file, page or result.
+   A generic block (chart, toast, meter) is a last resort, and never without real data — no chart without numbers,
+   no "before/after" without what changed.
+d. **Action density.** An element lives through several steps while it is on screen (typed → sent → answered →
+   ticked), not one entrance and a hold. Measure in the anchor how many actions per second happen inside one
+   element and write the number; the build must match it (±30%).
+e. **The opening has a visual.** The hook is never text alone: it carries the strongest image of the video (the
+   result, the tool, the object), measured from how the anchor opens.
+
+### Anchor creator, contributors
+
+- **Every theme is built around ONE anchor creator** (one taste). Pick the anchor video that is most consistent
+  and most recognizable; all rules, numbers and the README come from the anchor (and the anchor's other videos).
+- **"Repeats in ≥3" applies only to videos of the anchor creator.** With fewer anchor videos, write *(n/n)*.
+- **Other creators in the same family are contributors.** You may take an element the anchor never showed, only
+  after translating it into the anchor's language: the anchor's materials, colors, type, radii, motion verbs and
+  sound. Note in `theme.md` → Contributions which video it came from and what was changed.
+- Never average creators: the shared denominator of several creators is only the layout, and a theme made of it
+  is generic.
+
+### Shooting guide (every theme)
+
+Each theme's README ends with **"How to shoot for this theme"**: the shot (wide / medium / close), where the
+speaker sits in the frame (and what part of the frame the graphics need free), the background (color,
+brightness, clutter), light, and what to avoid. Measured from the anchor.
 
 ## Workflow: building a video in a theme
 
@@ -80,8 +116,9 @@ types the reference did not cover, marked *(assumption)*.
 
 Proven on `glass` (one reference). Follow every step; the user checks the preview, not the spec.
 
-1. **Get the file.** References live in `references/inbox/` (repo must stay private; nothing from
-   `references/` ships inside a theme). `ffprobe` it: size, fps, duration.
+1. **Get the files.** References live in `references/<style>/` (repo must stay private; nothing from
+   `references/` ships inside a theme). Read `references/_analysis/styles.md`: which video is the **anchor**,
+   which are contributors. `ffprobe` them: size, fps, duration.
 2. **See it.** Contact sheets at 2 fps (`fps=2,scale=240:-1,drawtext=pts,tile=10x2`), then full-res key frames
    for every distinct state (hook, each overlay type, stat moments, CTA) stacked 4 at a time.
 3. **Measure, don't guess.**
@@ -92,10 +129,15 @@ Proven on `glass` (one reference). Follow every step; the user checks the previe
    - Accent colors: median of the saturated pixels inside the element.
    - Sound: spectrogram + waveform (`showspectrumpic`, `showwavespic`): music bed = continuous harmonic band;
      UI sounds = short high blips; note when they happen.
+   - Action density: for 3–4 elements of the anchor, list every change inside the element frame by frame
+     (typed, clicked, ticked, moved…) and divide by its time on screen → actions per second (rule d).
+   - The opening: what image carries the hook in the first 2 s (rule e).
+   - The shot: framing, subject position, background, light (shooting guide).
 4. **Pick fonts by rendering, not by name.** Render the reference crop next to 5–6 free Hebrew candidates
    (Playwright screenshot) and choose by eye. Only OFL fonts ship.
-5. **Write the theme:** `README.md` (the editing prompt — character first, rules second), `language.md` (the
-   9-section grammar above — the part that makes it work on new scripts), `theme.md` (numbers + contract
+5. **Write the theme:** `README.md` (the editing prompt — character first, rules second, shooting guide last),
+   `language.md` (the 10-section grammar above, incl. the five mandatory rules — the part that makes it work on
+   new scripts), `theme.md` (numbers + contract
    mapping, mark anything not seen in the reference as *(assumption)*), `tokens.css`, `theme.css` (generic
    blocks first), `motion.js` (generic verbs first), `sfx/` (synthesize; never ship other people's sounds or
    logos — draw generic icons).
@@ -103,7 +145,8 @@ Proven on `glass` (one reference). Follow every step; the user checks the previe
    shows every component once, SFX on every event. `lint` → `snapshot` contact sheet → fix framing → render
    60 fps in the background. Show the user the preview next to reference frames.
 7. Iterate with the user on the preview. Only then extract more themes the same way.
-8. With 3+ references of the same style: only what repeats in at least 3 becomes a rule.
+8. Only what repeats in ≥3 videos **of the anchor creator** becomes a rule; contributors add elements only
+   through translation.
 
 ## Hard-won rules (apply to every theme)
 
