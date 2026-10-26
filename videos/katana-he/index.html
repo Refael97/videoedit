@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/kit/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/kit/kit.css" />
+    <style>
+      :root { --r: #ff2a3a; --rd: #c8101f; --w: #f5f3f0; --k: #070707; --mut: #8d8a86; }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: "Rubik", "Assistant", sans-serif; color: var(--w); direction: rtl; }
+      .aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+      /* ---------- the desk: a real-looking laptop, the screen carries the film ---------- */
+      #push { position: absolute; inset: 0; transform-origin: 538px 885px; }
+      #cam { position: absolute; inset: 0; transform-origin: 538px 885px; }
+      #plate { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      #scr { position: absolute; left: 146px; top: 588px; width: 784px; height: 590px; overflow: hidden; border-radius: 9px 9px 2px 2px; background: #000; }
+      #sv { position: absolute; left: 0; top: 0; width: 1330px; height: 1000px; transform-origin: 0 0; transform: scale(0.5895); overflow: hidden; background: #000; }
+      #glass { position: absolute; inset: 0; background: linear-gradient(118deg, rgba(255, 255, 255, 0.07) 0, rgba(255, 255, 255, 0.015) 34%, rgba(255, 255, 255, 0) 52%); pointer-events: none; z-index: 30; }
+      #mbar { position: absolute; left: 0; top: 0; width: 1330px; height: 22px; background: rgba(0, 0, 0, 0.55); z-index: 29; }
+      #mbar i { position: absolute; top: 8px; width: 7px; height: 7px; border-radius: 50%; background: rgba(255, 255, 255, 0.7); }
+      .spill { position: absolute; left: 40px; top: 1080px; width: 1000px; height: 560px; border-radius: 50%; mix-blend-mode: screen; opacity: 0; pointer-events: none; filter: blur(30px); }
+      #spR { background: radial-gradient(ellipse 50% 50% at 50% 30%, rgba(255, 40, 55, 0.75) 0, rgba(255, 40, 55, 0.2) 50%, rgba(255, 40, 55, 0) 75%); }
+      #spW { background: radial-gradient(ellipse 50% 50% at 50% 30%, rgba(255, 245, 235, 0.6) 0, rgba(255, 245, 235, 0.15) 50%, rgba(255, 245, 235, 0) 75%); }
+      .halo { position: absolute; left: 60px; top: 470px; width: 960px; height: 820px; border-radius: 50%; mix-blend-mode: screen; opacity: 0; pointer-events: none; filter: blur(40px); }
+      #haR { background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255, 40, 55, 0.35) 0, rgba(255, 40, 55, 0) 70%); }
+      #haW { background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255, 250, 240, 0.22) 0, rgba(255, 250, 240, 0) 70%); }
+      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 60% at 50% 48%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%); pointer-events: none; }
+      #grain { position: absolute; inset: -40px; opacity: 0.07; pointer-events: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+      #topcap { position: absolute; left: 0; right: 0; top: 232px; text-align: center; font-size: 54px; font-weight: 700; color: #fff; text-shadow: 0 3px 14px rgba(0, 0, 0, 0.55); z-index: 5; }
+
+      /* ---------- screen scenes (1330 x 1000 logical) ---------- */
+      .sc { position: absolute; inset: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .bR { background: var(--r); color: var(--k); }
+      .bK { background: var(--k); color: var(--w); }
+      .bW { background: var(--w); color: var(--k); }
+      .t { font-weight: 900; line-height: 0.92; letter-spacing: -4px; text-align: center; white-space: pre; }
+      .lt { font-family: "Rubik", sans-serif; direction: ltr; }
+      .w { display: inline-block; }
+      .red { color: var(--r); }
+      .out { color: rgba(255, 255, 255, 0.12); -webkit-text-stroke: 4px #fff; }
+      .ab { position: absolute; }
+      .rg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(255, 42, 58, 0.55) 0, rgba(140, 0, 15, 0.25) 45%, rgba(0, 0, 0, 0) 75%); }
+      .gridbg { position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 66px 66px; }
+      .dotbg { position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1.5px, transparent 1.6px); background-size: 34px 34px; }
+
+      #s1 .gh { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      #s3 .ae { position: absolute; left: 165px; top: 560px; width: 1000px; height: 330px; border-radius: 22px; background: #16161a; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45); direction: ltr; overflow: hidden; }
+      #s3 .ae b { position: absolute; left: 34px; top: 22px; font-size: 34px; font-weight: 800; color: #b8b4ff; letter-spacing: 1px; }
+      #s3 .ae i { position: absolute; height: 26px; border-radius: 7px; }
+      #s3 .ph { position: absolute; top: 70px; width: 4px; height: 250px; background: var(--r); box-shadow: 0 0 12px var(--r); }
+      #cur { position: absolute; width: 46px; height: 46px; }
+      .qm { position: absolute; font-size: 380px; font-weight: 900; color: var(--r); line-height: 1; }
+      .pill { display: inline-flex; align-items: center; gap: 22px; padding: 18px 54px 24px; border-radius: 120px; background: var(--r); color: #fff; }
+      .strike { position: absolute; height: 22px; background: var(--w); border-radius: 11px; transform-origin: 0 50%; }
+      #s6 .kt { font-size: 250px; letter-spacing: 6px; color: #fff; text-shadow: 0 0 30px rgba(255, 42, 58, 0.9), 0 0 80px rgba(255, 42, 58, 0.6); -webkit-text-stroke: 3px var(--r); font-style: italic; }
+      #s6 .blade { position: absolute; left: 140px; top: 560px; width: 1050px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff 40%, #ffd0d4 60%, rgba(255, 255, 255, 0)); box-shadow: 0 0 20px #fff, 0 0 50px var(--r); transform-origin: 0 50%; }
+      .ast { width: 120px; height: 120px; }
+      .film { position: relative; padding: 36px 70px 46px; background: #111; color: #fff; border-radius: 10px; }
+      .film::before, .film::after { content: ""; position: absolute; left: 14px; right: 14px; height: 14px; background-image: linear-gradient(90deg, #fff 0 22px, transparent 22px 44px); background-size: 44px 14px; opacity: 0.85; }
+      .film::before { top: 10px; } .film::after { bottom: 10px; }
+      .caret { display: inline-block; width: 14px; height: 0.9em; background: var(--r); vertical-align: -0.08em; margin-right: 10px; }
+      #pbox { position: absolute; left: 115px; top: 300px; width: 1100px; height: 440px; border-radius: 36px; background: rgba(255, 255, 255, 0.09); border: 2px solid rgba(255, 255, 255, 0.22); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.25); }
+      #ptxt { position: absolute; right: 60px; left: 160px; top: 50px; font-size: 58px; font-weight: 700; line-height: 1.3; color: #fff; text-align: right; white-space: normal; }
+      #ptxt .hl { background: var(--r); border-radius: 10px; padding: 0 10px; }
+      #pbtn { position: absolute; left: 40px; bottom: 34px; width: 92px; height: 92px; border-radius: 50%; background: var(--r); display: flex; align-items: center; justify-content: center; }
+      .bok { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255, 42, 58, 0.85), rgba(255, 42, 58, 0) 70%); }
+      .blob { position: absolute; left: 165px; top: 300px; width: 420px; height: 420px; background: var(--r); border-radius: 50%; }
+      .cube { position: absolute; left: 120px; top: 360px; width: 300px; height: 300px; transform-style: preserve-3d; }
+      .cube i { position: absolute; inset: 0; background: var(--r); border: 3px solid #ff8a93; box-sizing: border-box; }
+      .scene3d { position: absolute; inset: 0; perspective: 1400px; }
+      .brk { position: absolute; width: 90px; height: 90px; border: 0 solid #fff; }
+      .rec { position: absolute; left: 70px; top: 70px; font-size: 40px; font-weight: 800; color: #fff; direction: ltr; display: flex; align-items: center; gap: 14px; }
+      .rec i { width: 26px; height: 26px; border-radius: 50%; background: var(--r); }
+      .ring { position: absolute; border-radius: 50%; border: 6px solid var(--r); }
+      #wipe { position: absolute; left: 665px; top: 500px; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: var(--r); }
+      .burst { position: absolute; left: 315px; top: 150px; width: 700px; height: 700px; }
+      .card3 { position: absolute; left: 365px; width: 600px; height: 120px; border-radius: 16px; border: 3px solid rgba(255, 255, 255, 0.5); }
+      .kf { position: absolute; width: 46px; height: 46px; background: var(--r); transform: rotate(45deg); box-shadow: 0 0 18px rgba(255, 42, 58, 0.7); }
+      .track { position: absolute; left: 140px; width: 1050px; height: 4px; background: rgba(255, 255, 255, 0.18); }
+      #rbar { position: absolute; left: 215px; top: 560px; width: 900px; height: 40px; border-radius: 20px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+      #rfill { position: absolute; inset: 0; background: var(--r); transform-origin: 0 50%; }
+      .play { width: 0; height: 0; border-top: 70px solid transparent; border-bottom: 70px solid transparent; border-left: 120px solid var(--r); }
+      .frame { position: absolute; left: 215px; top: 150px; width: 900px; height: 520px; border-radius: 26px; border: 4px solid rgba(255, 255, 255, 0.85); background: #111; display: flex; align-items: center; justify-content: center; }
+
+      /* ---------- part 2: the setup, on a phone ---------- */
+      #p2 { position: absolute; inset: 0; z-index: 50; background: #0b0b0d; }
+      #p2 .glow { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 40% at 50% 8%, rgba(255, 42, 58, 0.22) 0, rgba(255, 42, 58, 0) 70%); }
+      #phone { position: absolute; left: 170px; top: 140px; width: 740px; height: 1500px; border-radius: 92px; background: #000; box-shadow: 0 0 0 3px #2c2c30, 0 0 0 10px #111114, 0 50px 120px rgba(0, 0, 0, 0.8); }
+      #ps { position: absolute; left: 16px; top: 16px; width: 708px; height: 1468px; border-radius: 78px; overflow: hidden; background: #1f1e1d; direction: ltr; font-family: "Assistant", "Rubik", sans-serif; color: #ecebe8; }
+      #isl { position: absolute; left: 289px; top: 26px; width: 130px; height: 38px; border-radius: 19px; background: #000; z-index: 9; }
+      .ui { position: absolute; inset: 0; visibility: hidden; }
+      .ui h3 { position: absolute; left: 48px; top: 120px; margin: 0; font-size: 54px; font-weight: 800; }
+      .row { position: absolute; left: 40px; width: 628px; height: 104px; border-radius: 22px; background: #2a2927; display: flex; align-items: center; gap: 22px; padding: 0 28px; box-sizing: border-box; font-size: 34px; font-weight: 700; }
+      .row i { width: 56px; height: 56px; border-radius: 14px; }
+      .addc { background: #3a2a2b; border: 2px solid var(--r); color: #fff; }
+      .sheet { position: absolute; left: 0; right: 0; bottom: 0; height: 1010px; border-radius: 48px 48px 0 0; background: #2b2a28; box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.6); }
+      .lbl2 { position: absolute; left: 48px; font-size: 28px; color: #a8a6a0; font-weight: 700; }
+      .fld { position: absolute; left: 40px; width: 628px; height: 92px; border-radius: 18px; background: #1d1c1b; border: 2px solid #4a4845; font-size: 32px; font-weight: 600; display: flex; align-items: center; padding: 0 24px; box-sizing: border-box; white-space: pre; overflow: hidden; }
+      .btn { position: absolute; left: 40px; width: 628px; height: 100px; border-radius: 50px; display: flex; align-items: center; justify-content: center; font-size: 38px; font-weight: 800; }
+      .tap { position: absolute; width: 110px; height: 110px; margin: -55px 0 0 -55px; border-radius: 50%; border: 6px solid #fff; background: rgba(255, 255, 255, 0.25); z-index: 20; }
+      .bub { position: absolute; right: 36px; max-width: 560px; padding: 22px 30px; border-radius: 34px; background: #3a3936; font-size: 36px; font-weight: 700; }
+      .inp { position: absolute; left: 30px; right: 30px; bottom: 60px; height: 110px; border-radius: 55px; background: #2d2c2a; border: 2px solid #4a4845; display: flex; align-items: center; padding: 0 36px; box-sizing: border-box; font-size: 36px; font-weight: 600; white-space: pre; }
+      .send { position: absolute; right: 16px; top: 15px; width: 76px; height: 76px; border-radius: 50%; background: #d97757; }
+      .pc { position: absolute; width: 300px; height: 380px; border-radius: 28px; overflow: hidden; display: flex; align-items: flex-end; padding: 22px; box-sizing: border-box; font-size: 30px; font-weight: 800; color: #fff; }
+      #cap2 { position: absolute; left: 40px; right: 40px; top: 1690px; text-align: center; font-size: 66px; font-weight: 800; color: #fff; text-shadow: 0 4px 18px rgba(0, 0, 0, 0.8); z-index: 60; white-space: pre; }
+      #cap2 .g { position: absolute; left: 0; right: 0; top: 0; visibility: hidden; }
+      #gc { position: absolute; inset: 0; z-index: 70; visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(8, 8, 10, 0.72); }
+      #gc .t { font-size: 190px; color: #fff; }
+      #cta { position: absolute; inset: 0; z-index: 80; visibility: hidden; background: radial-gradient(ellipse 70% 45% at 50% 40%, rgba(255, 42, 58, 0.28) 0, rgba(11, 11, 13, 0) 70%), #0b0b0d; }
+      #av { position: absolute; left: 380px; top: 420px; width: 320px; height: 320px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 8px var(--r), 0 0 60px rgba(255, 42, 58, 0.6); }
+      #av img { width: 100%; height: 100%; object-fit: cover; }
+      #nm { position: absolute; left: 0; right: 0; top: 790px; text-align: center; font-size: 78px; font-weight: 900; }
+      #hd { position: absolute; left: 0; right: 0; top: 895px; text-align: center; font-size: 44px; font-weight: 600; color: #b9b6b1; direction: ltr; }
+      #cbox { position: absolute; left: 110px; top: 1090px; width: 860px; height: 150px; border-radius: 75px; background: #fff; color: #111; display: flex; align-items: center; padding: 0 54px; box-sizing: border-box; font-size: 62px; font-weight: 800; white-space: pre; }
+      #cbox .sn { position: absolute; left: 22px; top: 22px; width: 106px; height: 106px; border-radius: 50%; background: var(--r); }
+      #ctaL { position: absolute; left: 0; right: 0; top: 990px; text-align: center; font-size: 56px; font-weight: 800; color: #fff; }
+      #ctaT { position: absolute; left: 0; right: 0; top: 1300px; text-align: center; font-size: 60px; font-weight: 800; }
+      #flash { position: absolute; inset: 0; background: #fff; z-index: 90; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="74.6" data-width="1080" data-height="1920">
+      <div id="push">
+        <div id="cam">
+          <img id="plate" src="assets/plate.jpg" />
+          <div class="halo" id="haR"></div>
+          <div class="halo" id="haW"></div>
+          <div id="scr">
+            <div id="sv">
+              <!-- S1 0.0 מה?! לא יכול להיות -->
+              <div class="sc bR" id="s1">
+                <div class="gh"><div class="t" id="s1a" style="font-size: 330px; color: #fff">מה?!</div></div>
+                <div class="gh"><div class="t" id="s1b" style="font-size: 250px">לא יכול</div><div class="t" id="s1c" style="font-size: 250px">להיות!</div></div>
+              </div>
+              <!-- S2 2.5 אוקיי -->
+              <div class="sc bK" id="s2"><div class="t" id="s2a" style="font-size: 300px">אוקיי<span class="red">.</span></div></div>
+              <!-- S3 4.15 אתם מאמינים שלא נגעתי ב-After Effects -->
+              <div class="sc bW" id="s3">
+                <div id="s3st" class="ab" style="left: 0; right: 0; top: 140px; display: flex; flex-direction: column; align-items: center">
+                  <div class="t" id="s3a" style="font-size: 150px">אתם</div>
+                  <div class="t" id="s3b" style="font-size: 190px">מאמינים</div>
+                  <div class="t red" id="s3c" style="font-size: 150px">שלא נגעתי</div>
+                </div>
+                <div class="ae" id="s3ae"><b>AFTER EFFECTS</b>
+                  <i style="left: 200px; top: 90px; width: 420px; background: #6f6bd8"></i>
+                  <i style="left: 320px; top: 140px; width: 520px; background: #d86b9a"></i>
+                  <i style="left: 110px; top: 190px; width: 300px; background: #5fb8a8"></i>
+                  <i style="left: 460px; top: 240px; width: 470px; background: #d8b25f"></i>
+                  <div class="ph" id="s3ph" style="left: 260px"></div>
+                </div>
+                <svg id="cur" viewBox="0 0 24 24" style="left: 900px; top: 760px"><path d="M3 2l7 19 2.6-7.6L20 11z" fill="#111" stroke="#fff" stroke-width="1.6" /></svg>
+                <div class="t red ab" id="s3d" style="left: 0; right: 0; top: 70px; font-size: 96px">בשביל הסרטון הזה?</div>
+              </div>
+              <!-- S4 7.6 ולפני שאתם שואלים -->
+              <div class="sc" id="s4" style="background: linear-gradient(90deg, #ffd9dc 0 55%, var(--r) 55% 100%); color: var(--k)">
+                <div class="ab" style="right: 110px; top: 220px; text-align: right">
+                  <div class="t" id="s4a" style="font-size: 120px; text-align: right">ולפני</div>
+                  <div class="t" id="s4b" style="font-size: 190px; text-align: right">שאתם</div>
+                  <div class="t" id="s4c" style="font-size: 190px; text-align: right">שואלים</div>
+                </div>
+                <div class="qm" id="q1" style="left: 80px; top: 120px">?</div>
+                <div class="qm" id="q2" style="left: 300px; top: 420px; color: #fff; font-size: 300px">?</div>
+              </div>
+              <div class="sc bR" id="s4n"><div class="t" id="s4na" style="font-size: 420px; color: #fff">לא.</div></div>
+              <!-- S5 9.95 זה לא MCP -->
+              <div class="sc bK" id="s5">
+                <div class="gridbg"></div>
+                <div class="t" id="s5a" style="font-size: 150px">זה לא</div>
+                <div style="height: 40px"></div>
+                <div class="pill lt t" id="s5b" style="font-size: 170px; letter-spacing: 0">MCP</div>
+                <div class="t" id="s5c" style="font-size: 70px; margin-top: 46px; color: var(--mut); letter-spacing: 0">ששולט ב-After Effects</div>
+                <div class="strike" id="s5s" style="left: 380px; top: 448px; width: 580px"></div>
+              </div>
+              <!-- S6 12.4 Higgsfield KATANA -->
+              <div class="sc bK" id="s6">
+                <div class="rg" id="s6g"></div>
+                <div class="t lt" id="s6a" style="font-size: 70px; letter-spacing: 2px; color: #fff; font-weight: 700">Higgsfield</div>
+                <div class="t lt kt" id="s6b">KATANA</div>
+                <div class="blade" id="s6bl"></div>
+              </div>
+              <!-- S7 13.95 אתם אומרים לקלוד ... קטאנה הופכת לאנימציה -->
+              <div class="sc bW" id="s7">
+                <div id="s7p1" class="ab" style="inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center">
+                  <div class="t" id="s7a" style="font-size: 150px">אתם אומרים</div>
+                  <div style="display: flex; align-items: center; gap: 30px; margin-top: 20px">
+                    <div class="t" id="s7b" style="font-size: 210px">לקלוד</div>
+                    <svg class="ast" id="s7ast" viewBox="-50 -50 100 100"><g fill="#d97757"><rect x="-6" y="-46" width="12" height="40" rx="6" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(45)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(90)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(135)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(180)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(225)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(270)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(315)" /></g></svg>
+                  </div>
+                  <div class="t" id="s7c" style="font-size: 76px; margin-top: 40px; color: #555; letter-spacing: 0">מה אתם רוצים לראות</div>
+                </div>
+                <div id="s7p2" class="ab" style="inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--k)">
+                  <div class="pill lt t" id="s7d" style="font-size: 160px; letter-spacing: 4px; font-style: italic">KATANA</div>
+                  <div class="t" id="s7e" style="font-size: 70px; color: #fff; margin: 40px 0 34px; letter-spacing: 0">הופכת את זה</div>
+                  <div class="film t" id="s7f" style="font-size: 130px">לאנימציה</div>
+                </div>
+              </div>
+              <!-- S8 18.4 זהו -->
+              <div class="sc bK" id="s8"><div class="t" id="s8a" style="font-size: 360px">זהו<span class="red">.</span></div></div>
+              <!-- S9 18.95 כל מה שצריך זה לכתוב -->
+              <div class="sc" id="s9" style="background: #121214; color: #fff">
+                <div class="dotbg"></div>
+                <div class="t" id="s9a" style="font-size: 150px">כל מה שצריך</div>
+                <div class="t red" id="s9b" style="font-size: 200px; margin-top: 20px">זה לכתוב<span class="caret" id="s9c"></span></div>
+              </div>
+              <!-- S10 20.5 prompt box -->
+              <div class="sc" id="s10" style="background: #0c0c0f">
+                <div class="bok" data-layout-allow-overflow style="left: -120px; top: -80px; width: 600px; height: 600px; opacity: 0.6"></div>
+                <div class="bok" data-layout-allow-overflow style="left: 900px; top: 560px; width: 520px; height: 520px; opacity: 0.5"></div>
+                <div class="t lt" style="position: absolute; left: 115px; top: 200px; font-size: 40px; font-weight: 700; color: #9a9a9f; letter-spacing: 1px">✳ Claude · Katana</div>
+                <div id="pbox"><div id="ptxt"></div><div id="pbtn"><svg width="44" height="44" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>
+              </div>
+              <!-- S11a typography -->
+              <div class="sc bR" id="s11a"><div class="t" id="s11aw" style="font-size: 190px; color: #fff"></div><div class="t" id="s11ab" style="font-size: 150px; margin-top: 10px">זזה</div></div>
+              <!-- S11b shapes -->
+              <div class="sc bW" id="s11b"><div class="blob" id="blob"></div><div class="ab" style="right: 90px; top: 330px; text-align: right"><div class="t" id="s11b1" style="font-size: 170px; text-align: right">צורות</div><div class="t red" id="s11b2" style="font-size: 130px; text-align: right">שמשתנות</div></div></div>
+              <!-- S11c 3D -->
+              <div class="sc bW" id="s11c">
+                <div class="scene3d"><div class="cube" id="cube"><i style="transform: translateZ(150px)"></i><i style="transform: rotateY(180deg) translateZ(150px)"></i><i style="transform: rotateY(90deg) translateZ(150px)"></i><i style="transform: rotateY(-90deg) translateZ(150px)"></i><i style="transform: rotateX(90deg) translateZ(150px)"></i><i style="transform: rotateX(-90deg) translateZ(150px)"></i></div></div>
+                <div class="ab" style="right: 110px; top: 300px; text-align: right"><div class="t lt" id="s11c1" style="font-size: 300px">3D</div><div class="t" id="s11c2" style="font-size: 66px; text-align: right; letter-spacing: 0">אלמנטים בתלת ממד</div></div>
+              </div>
+              <!-- S11d camera moves -->
+              <div class="sc bK" id="s11d">
+                <div class="gridbg" id="s11dg"></div>
+                <div class="t" id="s11d1" style="font-size: 170px">תנועות</div><div class="t red" id="s11d2" style="font-size: 170px">מצלמה</div><div class="t out" id="s11d3" style="font-size: 120px; margin-top: 10px">חלקות</div>
+              </div>
+              <!-- S12 now watch the letters stretch -->
+              <div class="sc" id="s12a" style="background: #e9e7e4; color: var(--k)"><div class="t" id="s12a1" style="font-size: 250px">עכשיו</div><div class="t" id="s12a2" style="font-size: 90px; margin-top: 30px; color: #555; letter-spacing: 0">תסתכלו על האותיות</div></div>
+              <div class="sc bR" id="s12b"><div class="t" id="s12b1" style="font-size: 200px; color: #fff">נמתחות</div></div>
+              <!-- S13 follow the camera -->
+              <div class="sc bK" id="s13">
+                <div class="rec"><i></i>REC</div>
+                <div class="t" id="s13a" style="font-size: 110px; color: #aaa; letter-spacing: 0">תעקבו אחרי</div>
+                <div class="t" id="s13b" style="font-size: 230px">המצלמה</div>
+                <div class="brk" id="br1" style="left: 160px; top: 260px; border-top-width: 10px; border-right-width: 10px"></div>
+                <div class="brk" id="br2" style="left: 1080px; top: 260px; border-top-width: 10px; border-left-width: 10px; left: 1080px"></div>
+                <div class="brk" id="br3" style="left: 160px; top: 650px; border-bottom-width: 10px; border-right-width: 10px"></div>
+                <div class="brk" id="br4" style="left: 1080px; top: 650px; border-bottom-width: 10px; border-left-width: 10px"></div>
+              </div>
+              <!-- S14 wait for the transition -->
+              <div class="sc bK" id="s14">
+                <div class="rg"></div>
+                <div class="ring" id="rg1" style="left: 480px; top: 320px; width: 360px; height: 360px"></div>
+                <div class="ring" id="rg2" style="left: 600px; top: 440px; width: 120px; height: 120px; background: #fff; border-color: #fff"></div>
+                <div class="t ab" id="s14a" style="left: 0; right: 0; top: 760px; font-size: 100px; letter-spacing: 0">ותחכו למעבר...</div>
+                <div id="wipe"></div>
+              </div>
+              <!-- S15 are you kidding me -->
+              <div class="sc bW" id="s15">
+                <svg class="burst" id="burst" viewBox="-100 -100 200 200"><polygon fill="#ff2a3a" points="0,-98 14,-40 58,-80 36,-24 96,-30 44,4 92,40 32,30 50,90 8,40 -18,96 -22,38 -70,72 -40,18 -98,10 -44,-12 -86,-62 -28,-34 -30,-94 -6,-40" /></svg>
+                <div class="ab" style="left: 0; right: 0; top: 170px; display: flex; flex-direction: column; align-items: center">
+                  <div class="t" id="s15a" style="font-size: 150px">אתם</div>
+                  <div class="t" id="s15b" style="font-size: 230px; margin-top: 18px">צוחקים</div>
+                  <div class="t" id="s15c" style="font-size: 190px; margin-top: 24px; color: #fff; -webkit-text-stroke: 6px var(--k); paint-order: stroke fill">עליי?!</div>
+                </div>
+              </div>
+              <!-- S16 the usual way -->
+              <div class="sc" id="s16" style="background: #15171b; color: #fff">
+                <div class="gridbg"></div>
+                <div class="t" id="s16a" style="font-size: 120px; letter-spacing: 0">תחשבו לעשות את זה</div>
+                <div class="t out" id="s16b" style="font-size: 150px; margin-top: 24px">בדרך הרגילה</div>
+              </div>
+              <!-- S17 layers -->
+              <div class="sc" id="s17" style="background: #15171b; color: #fff">
+                <div class="scene3d"><div id="lyr" class="ab" style="inset: 0; transform-style: preserve-3d">
+                  <div class="card3" style="top: 560px; background: rgba(111, 107, 216, 0.55)"></div>
+                  <div class="card3" style="top: 470px; background: rgba(216, 107, 154, 0.55)"></div>
+                  <div class="card3" style="top: 380px; background: rgba(95, 184, 168, 0.55)"></div>
+                  <div class="card3" style="top: 290px; background: rgba(255, 42, 58, 0.7)"></div>
+                </div></div>
+                <div class="t ab" id="s17a" style="left: 0; right: 0; top: 760px; font-size: 170px">שכבות.</div>
+              </div>
+              <!-- S18 keyframes -->
+              <div class="sc" id="s18" style="background: #15171b; color: #fff">
+                <div class="track" style="top: 420px"></div><div class="track" style="top: 540px"></div>
+                <div class="kf" style="left: 260px; top: 397px"></div><div class="kf" style="left: 520px; top: 397px"></div><div class="kf" style="left: 900px; top: 397px"></div>
+                <div class="kf" style="left: 380px; top: 517px"></div><div class="kf" style="left: 760px; top: 517px"></div><div class="kf" style="left: 1080px; top: 517px"></div>
+                <div class="t lt ab" id="s18a" style="left: 0; right: 0; top: 650px; font-size: 170px">KEYFRAMES.</div>
+              </div>
+              <!-- S19 graph editor -->
+              <div class="sc" id="s19" style="background: #15171b; color: #fff">
+                <div class="gridbg"></div>
+                <svg class="ab" style="left: 140px; top: 120px" width="1050" height="520" viewBox="0 0 1050 520"><path id="gcur" d="M10 500 C 380 500, 420 20, 1040 20" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-dasharray="1300" stroke-dashoffset="1300" /><circle cx="10" cy="500" r="14" fill="#ff2a3a" /><circle cx="1040" cy="20" r="14" fill="#ff2a3a" /></svg>
+                <div class="t lt ab" id="s19a" style="left: 0; right: 0; top: 690px; font-size: 150px">GRAPH EDITOR.</div>
+              </div>
+              <!-- S20 and then... the render -->
+              <div class="sc" id="s20" style="background: #0f1013; color: #fff">
+                <div class="t" id="s20a" style="font-size: 140px; position: absolute; top: 240px; left: 0; right: 0">ואז... הרנדר</div>
+                <div id="rbar"><div id="rfill"></div></div>
+                <div class="t lt ab" id="s20b" style="left: 0; right: 0; top: 640px; font-size: 52px; color: #9a9a9f; letter-spacing: 0; font-weight: 700">Rendering 3% · 04:12:37 left</div>
+              </div>
+              <!-- S21 here? -->
+              <div class="sc bK" id="s21">
+                <div class="ab" id="s21bg" style="left: -200px; top: 330px; width: 1730px; height: 340px; background: var(--r); transform: rotate(-8deg)"></div>
+                <div class="t" id="s21a" style="font-size: 260px; color: #fff; transform: rotate(-8deg)">כאן?</div>
+              </div>
+              <!-- S22 KATANA / PROMPT / GENERATE / RENDER -->
+              <div class="sc bR" id="s22a"><div class="t lt" id="s22a1" style="font-size: 230px; font-style: italic; color: #fff">KATANA</div></div>
+              <div class="sc bK" id="s22b"><div class="t lt" id="s22b1" style="font-size: 230px"><span class="red">&gt;</span> PROMPT</div></div>
+              <div class="sc bW" id="s22c"><div class="t lt" id="s22c1" style="font-size: 200px">GENERATE</div></div>
+              <div class="sc bR" id="s22d"><div class="t lt" id="s22d1" style="font-size: 240px; color: var(--k)">RENDER<span style="color: #fff">.</span></div></div>
+              <!-- S23 and this video? -->
+              <div class="sc bK" id="s23">
+                <div class="frame" id="s23f"><div class="play" id="s23p"></div></div>
+                <div class="t ab" id="s23a" style="left: 0; right: 0; top: 740px; font-size: 140px">והסרטון הזה?</div>
+              </div>
+              <!-- S24 yes. from first idea to last frame. built with Claude -->
+              <div class="sc bW" id="s24a"><div class="t" id="s24a1" style="font-size: 420px">כן<span class="red">.</span></div></div>
+              <div class="sc bK" id="s24b"><div class="t" id="s24b1" style="font-size: 130px">מהרעיון הראשון</div><div class="t out" id="s24b2" style="font-size: 130px; margin-top: 20px">ועד הפריים האחרון</div></div>
+              <div class="sc bR" id="s24c">
+                <div class="t" id="s24c1" style="font-size: 120px; color: #fff">בנוי עם</div>
+                <div style="display: flex; align-items: center; gap: 30px; direction: ltr; margin-top: 10px" id="s24c2"><svg class="ast" style="width: 170px; height: 170px" viewBox="-50 -50 100 100"><g fill="#fff"><rect x="-6" y="-46" width="12" height="40" rx="6" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(45)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(90)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(135)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(180)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(225)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(270)" /><rect x="-6" y="-46" width="12" height="40" rx="6" transform="rotate(315)" /></g></svg><div class="t lt" style="font-size: 250px; color: var(--k)">Claude</div></div>
+              </div>
+              <!-- S25 logo end of part 1 -->
+              <div class="sc bK" id="s25">
+                <div class="rg"></div>
+                <div class="t lt" style="font-size: 70px; letter-spacing: 2px; color: #fff; font-weight: 700">Higgsfield</div>
+                <div class="t lt" id="s25b" style="font-size: 250px; letter-spacing: 6px; color: #fff; text-shadow: 0 0 30px rgba(255, 42, 58, 0.9), 0 0 80px rgba(255, 42, 58, 0.6); -webkit-text-stroke: 3px var(--r); font-style: italic">KATANA</div>
+                <div class="t lt" style="font-size: 54px; letter-spacing: 1px; color: #ffb3b9; font-weight: 700; margin-top: 10px">✳ Claude Motion</div>
+              </div>
+              <div id="mbar"><i style="left: 26px"></i><i style="left: 44px"></i><i style="left: 62px"></i><i style="left: 1250px"></i><i style="left: 1270px"></i><i style="left: 1290px"></i></div>
+              <div id="glass"></div>
+            </div>
+          </div>
+          <div class="spill" id="spR"></div>
+          <div class="spill" id="spW"></div>
+        </div>
+      </div>
+      <div id="vig"></div>
+      <div id="grain"></div>
+      <div id="topcap">הכלי החדש: Katana 🤯</div>
+
+      <!-- part 2: setting it up -->
+      <div id="p2" class="clip" data-start="52.95" data-duration="21.65" data-track-index="2">
+        <div class="glow"></div>
+        <div id="phone">
+          <div id="ps">
+            <div id="isl"></div>
+            <!-- connectors list -->
+            <div class="ui" id="u1">
+              <h3>Connectors</h3>
+              <div class="row" style="top: 240px"><i style="background: #ea4335"></i>Gmail</div>
+              <div class="row" style="top: 364px"><i style="background: #1fa463"></i>Google Drive</div>
+              <div class="row" style="top: 488px"><i style="background: #6e6e73"></i>GitHub</div>
+              <div class="row addc" id="u1b" style="top: 640px"><i style="background: var(--r); display: flex; align-items: center; justify-content: center; font-size: 46px">+</i>Add custom connector</div>
+              <div class="tap" id="tp1" style="left: 354px; top: 692px"></div>
+            </div>
+            <!-- add custom connector -->
+            <div class="ui" id="u2">
+              <h3 style="opacity: 0.35">Connectors</h3>
+              <div class="sheet" id="u2s">
+                <div style="position: absolute; left: 48px; top: 50px; font-size: 44px; font-weight: 800">Add custom connector</div>
+                <div class="lbl2" style="top: 160px">Name</div>
+                <div class="fld" style="top: 205px" id="f1"></div>
+                <div class="lbl2" style="top: 335px">Remote MCP server URL</div>
+                <div class="fld" style="top: 380px; border-color: var(--r)" id="f2"></div>
+                <div class="btn" id="u2b" style="top: 560px; background: #ecebe8; color: #111">Add</div>
+                <div class="tap" id="tp2" style="left: 354px; top: 610px"></div>
+              </div>
+            </div>
+            <!-- allow -->
+            <div class="ui" id="u3" style="background: #121212">
+              <div style="position: absolute; left: 0; right: 0; top: 150px; text-align: center; font-size: 30px; color: #9a9a9f">higgsfield.ai</div>
+              <div style="position: absolute; left: 294px; top: 250px; width: 120px; height: 120px; border-radius: 28px; background: #d7ff3a"></div>
+              <div style="position: absolute; left: 60px; right: 60px; top: 420px; text-align: center; font-size: 44px; font-weight: 800">Claude wants to access your Higgsfield account</div>
+              <div style="position: absolute; left: 70px; right: 70px; top: 600px; font-size: 30px; color: #b9b6b1; line-height: 1.7">• Verify your identity<br />• Generate images and videos<br />• Use your Katana presets</div>
+              <div class="btn" style="top: 1130px; left: 40px; width: 300px; background: #2b2a28; color: #fff">Deny</div>
+              <div class="btn" id="u3b" style="top: 1130px; left: 368px; width: 300px; background: #7a3cff; color: #fff">Allow</div>
+              <div class="tap" id="tp3" style="left: 518px; top: 1180px"></div>
+            </div>
+            <!-- chat: /katana -->
+            <div class="ui" id="u4">
+              <div style="position: absolute; left: 0; right: 0; top: 520px; text-align: center; font-size: 46px; font-weight: 700; color: #cfcdc8; font-family: Georgia, serif">✳ How can I help?</div>
+              <div class="bub" id="u4m" style="top: 180px"></div>
+              <div class="inp" id="u4i"><span id="u4t"></span><i class="send"></i></div>
+              <div class="tap" id="tp4" style="left: 638px; top: 1342px"></div>
+            </div>
+            <!-- presets -->
+            <div class="ui" id="u5">
+              <div class="bub" style="top: 120px">Higgsfield MCP /katana</div>
+              <div style="position: absolute; left: 40px; top: 280px; font-size: 32px; color: #cfcdc8; font-weight: 700">Katana presets · community</div>
+              <div class="pc" id="pc1" style="left: 40px; top: 350px; background: linear-gradient(160deg, #ff2a3a, #2a0005)">Kinetic Type</div>
+              <div class="pc" id="pc2" style="left: 368px; top: 350px; background: linear-gradient(160deg, #9aa3ad, #15171b)">Chrome Noir</div>
+              <div class="pc" id="pc3" style="left: 40px; top: 760px; background: linear-gradient(160deg, #ff9a3c, #3a1200)">Aura Fast</div>
+              <div class="pc" id="pc4" style="left: 368px; top: 760px; background: linear-gradient(160deg, #6f6bd8, #10102a)">Monolith</div>
+              <div class="btn" id="u5b" style="top: 1210px; background: var(--r); color: #fff">Recreate</div>
+              <div class="tap" id="tp5" style="left: 190px; top: 540px"></div>
+              <div class="tap" id="tp6" style="left: 354px; top: 1260px"></div>
+            </div>
+          </div>
+        </div>
+        <div id="cap2"></div>
+        <div id="gc"><div class="t lt" id="gc1">GAME</div><div class="t lt red" id="gc2">CHANGER</div><div class="t" id="gc3" style="font-size: 80px; margin-top: 30px; letter-spacing: 0">לעריכת וידאו</div></div>
+        <div id="cta">
+          <div id="av"><img src="assets/img/avatar.jpg" /></div>
+          <div id="nm">רפאל לוי</div>
+          <div id="hd">@refaelleviii</div>
+          <div id="ctaL">תגיבו בתגובות 👇</div>
+          <div id="cbox"><span id="cbt"></span><i class="sn"></i></div>
+          <div id="ctaT">ואשלח לכם את הלינק 🔗</div>
+        </div>
+      </div>
+      <div id="flash"></div>
+
+      <audio id="vo" src="assets/vo.mp3" data-start="0" data-duration="72.2" data-track-index="10"></audio>
+      <audio id="music" src="assets/music.mp3" data-start="0" data-duration="74.6" data-track-index="11" data-volume="0.34"></audio>
+      <audio id="x1" src="assets/impact.wav" data-start="0.2" data-duration="0.9" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="x2" src="assets/whoosh.wav" data-start="4.1" data-duration="0.7" data-track-index="13" data-volume="0.4"></audio>
+      <audio id="x3" src="assets/impact.wav" data-start="9.42" data-duration="0.9" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="x4" src="assets/whoosh.wav" data-start="12.36" data-duration="0.7" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x5" src="assets/impact.wav" data-start="13.18" data-duration="0.9" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="x6" src="assets/whoosh.wav" data-start="16.1" data-duration="0.7" data-track-index="13" data-volume="0.4"></audio>
+      <audio id="x7" src="assets/whoosh.wav" data-start="20.45" data-duration="0.7" data-track-index="13" data-volume="0.4"></audio>
+      <audio id="x8" src="assets/whoosh.wav" data-start="28.66" data-duration="0.7" data-track-index="13" data-volume="0.4"></audio>
+      <audio id="x9" src="assets/riser.wav" data-start="32.75" data-duration="1.6" data-track-index="14" data-volume="0.4"></audio>
+      <audio id="x10" src="assets/impact.wav" data-start="34.7" data-duration="0.9" data-track-index="12" data-volume="0.55"></audio>
+      <audio id="x11" src="assets/impact.wav" data-start="42.55" data-duration="0.9" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="x12" src="assets/whoosh.wav" data-start="52.4" data-duration="0.7" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="x13" src="assets/pop.wav" data-start="55.9" data-duration="0.12" data-track-index="15" data-volume="0.5"></audio>
+      <audio id="x14" src="assets/pop.wav" data-start="59.35" data-duration="0.12" data-track-index="15" data-volume="0.5"></audio>
+      <audio id="x15" src="assets/pop.wav" data-start="60.62" data-duration="0.12" data-track-index="15" data-volume="0.5"></audio>
+      <audio id="x16" src="assets/pop.wav" data-start="64.2" data-duration="0.12" data-track-index="15" data-volume="0.5"></audio>
+      <audio id="x17" src="assets/pop.wav" data-start="64.92" data-duration="0.12" data-track-index="15" data-volume="0.5"></audio>
+      <audio id="x18" src="assets/pop.wav" data-start="65.82" data-duration="0.12" data-track-index="15" data-volume="0.5"></audio>
+      <audio id="x19" src="assets/impact.wav" data-start="66.62" data-duration="0.9" data-track-index="12" data-volume="0.45"></audio>
+    </div>
+
+    <script>
+      // one clock: tl 0 = VO 0. Part 1 plays on the laptop screen, part 2 (from 52.95) is the phone setup + CTA.
+      const tl = gsap.timeline({ paused: true });
+      const IR = { immediateRender: false };
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const ft = (sel, from, to, at) => { tl.set(sel, from, 0); tl.fromTo(sel, from, { ...to, ...IR }, at); };
+      let seed = 11;
+      const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      // ---------- screen scene windows (hard cuts, like the reference) ----------
+      // [id, in, out, light: r red / w white / k dark]
+      const SC = [
+        ["#s1", 0, 2.5, "r"], ["#s2", 2.5, 4.15, "k"], ["#s3", 4.15, 7.6, "w"], ["#s4", 7.6, 9.4, "w"], ["#s4n", 9.4, 9.95, "r"],
+        ["#s5", 9.95, 12.4, "k"], ["#s6", 12.4, 13.95, "r"], ["#s7", 13.95, 18.4, "w"], ["#s8", 18.4, 18.95, "k"], ["#s9", 18.95, 20.5, "k"],
+        ["#s10", 20.5, 23.15, "k"], ["#s11a", 23.15, 24.42, "r"], ["#s11b", 24.42, 25.6, "w"], ["#s11c", 25.6, 27.05, "w"], ["#s11d", 27.05, 28.7, "k"],
+        ["#s12a", 28.7, 30.66, "w"], ["#s12b", 30.66, 31.7, "r"], ["#s13", 31.7, 33.35, "k"], ["#s14", 33.35, 34.75, "r"], ["#s15", 34.75, 36.35, "w"],
+        ["#s16", 36.35, 38.45, "k"], ["#s17", 38.45, 39.2, "k"], ["#s18", 39.2, 40.0, "k"], ["#s19", 40.0, 40.95, "k"], ["#s20", 40.95, 42.55, "k"],
+        ["#s21", 42.55, 43.15, "r"], ["#s22a", 43.15, 43.9, "r"], ["#s22b", 43.9, 44.62, "k"], ["#s22c", 44.62, 45.42, "w"], ["#s22d", 45.42, 46.1, "r"],
+        ["#s23", 46.1, 47.28, "k"], ["#s24a", 47.28, 47.82, "w"], ["#s24b", 47.82, 50.3, "k"], ["#s24c", 50.3, 51.3, "r"], ["#s25", 51.3, 52.95, "r"],
+      ];
+      const LIGHT = { r: [0.9, 0, 0.8, 0], w: [0, 0.75, 0, 0.7], k: [0.12, 0.08, 0.1, 0.05] };
+      $$(".sc").forEach((el) => { if (el.id !== "s1") tl.set(el, { visibility: "hidden" }, 0); });
+      SC.forEach(([id, a, b, l]) => {
+        tl.set(id, { visibility: "visible" }, a);
+        tl.set(id, { visibility: "hidden" }, b);
+        const [r, w, hr, hw] = LIGHT[l];
+        tl.to("#spR", { opacity: r, duration: 0.12, ease: "none" }, a);
+        tl.to("#spW", { opacity: w, duration: 0.12, ease: "none" }, a);
+        tl.to("#haR", { opacity: hr, duration: 0.12, ease: "none" }, a);
+        tl.to("#haW", { opacity: hw, duration: 0.12, ease: "none" }, a);
+      });
+      tl.set(["#spR", "#spW", "#haR", "#haW"], { opacity: 0 }, 0);
+
+      // ---------- motion vocabulary ----------
+      const slam = (sel, t, s = 1.9, d = 0.24) => ft(sel, { scale: s, autoAlpha: 0, filter: "blur(16px)" }, { scale: 1, autoAlpha: 1, filter: "blur(0px)", duration: d, ease: "power4.out" }, t);
+      const rise = (sel, t, y = 120, d = 0.3) => ft(sel, { y, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: d, ease: "power3.out" }, t);
+      const smear = (sel, t, x = 500, d = 0.26) => ft(sel, { x, scaleX: 2.4, autoAlpha: 0, filter: "blur(22px)" }, { x: 0, scaleX: 1, autoAlpha: 1, filter: "blur(0px)", duration: d, ease: "expo.out" }, t);
+      const pop = (sel, t, d = 0.34) => ft(sel, { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: d, ease: "back.out(2.2)" }, t);
+      const show = (sel, t) => { tl.set(sel, { autoAlpha: 0 }, 0); tl.set(sel, { autoAlpha: 1 }, t); };
+      const punch = (sel, t, s = 1.12) => { tl.to(sel, { scale: s, duration: 0.06, ease: "power2.out" }, t); tl.to(sel, { scale: 1, duration: 0.22, ease: "power2.out" }, t + 0.06); };
+      const shake = (sel, t, a = 14, n = 6) => { for (let i = 0; i < n; i++) tl.to(sel, { x: (rnd() - 0.5) * 2 * a, y: (rnd() - 0.5) * 2 * a, duration: 0.035, ease: "none" }, t + i * 0.035); tl.to(sel, { x: 0, y: 0, duration: 0.05 }, t + n * 0.035); };
+      const drift = (sel, a, b, from, to) => ft(sel, from, { ...to, duration: b - a, ease: "none" }, a);
+
+      // S1 — מה?! / לא יכול להיות!
+      slam("#s1a", 0.18, 2.2, 0.2); shake("#s1a", 0.38, 18, 7);
+      tl.set("#s1a", { autoAlpha: 0 }, 0.92);
+      smear("#s1b", 0.94, 600); smear("#s1c", 1.32, -600); shake("#s1b", 1.5, 10, 5);
+      drift("#s1 .gh", 0.9, 2.5, { scale: 1 }, { scale: 1.08 });
+      // S2 — אוקיי, אוקיי
+      slam("#s2a", 2.6, 1.6, 0.18); punch("#s2a", 3.24, 1.16);
+      // S3 — אתם מאמינים שלא נגעתי ב-After Effects בשביל הסרטון הזה
+      rise("#s3a", 4.2); rise("#s3b", 4.42); slam("#s3c", 4.86, 1.5, 0.2);
+      tl.to("#s3st", { y: -90, scale: 0.72, duration: 0.4, ease: "power3.inOut" }, 5.5);
+      ft("#s3ae", { y: 500, rotation: 6, autoAlpha: 0 }, { y: 0, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "power3.out" }, 5.56);
+      ft("#s3ph", { x: 0 }, { x: 560, duration: 1.6, ease: "power1.inOut" }, 5.9);
+      ft("#cur", { x: 200, y: 160, autoAlpha: 0 }, { x: -180, y: -170, autoAlpha: 1, duration: 0.7, ease: "power2.out" }, 5.8);
+      tl.to("#s3st", { autoAlpha: 0, duration: 0.15 }, 6.55);
+      slam("#s3d", 6.6, 1.4, 0.2);
+      // S4 — ולפני שאתם שואלים / לא.
+      smear("#s4a", 7.72, 400); smear("#s4b", 8.1, 400); smear("#s4c", 8.4, 400);
+      ft("#q1", { rotation: -60, scale: 0, autoAlpha: 0 }, { rotation: 12, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2)" }, 7.9);
+      ft("#q2", { rotation: 70, scale: 0, autoAlpha: 0 }, { rotation: -14, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2)" }, 8.45);
+      drift("#q1", 8.35, 9.4, { y: 0 }, { y: -40 });
+      slam("#s4na", 9.42, 2.4, 0.18); shake("#s4na", 9.6, 12, 5);
+      // S5 — זה לא MCP ששולט ב-After Effects
+      slam("#s5a", 10.02, 1.5, 0.2); pop("#s5b", 10.5); rise("#s5c", 10.94, 60);
+      ft("#s5s", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "power3.out" }, 11.5);
+      tl.set("#s5s", { rotation: -6 }, 0);
+      // S6 — Higgsfield / KATANA
+      rise("#s6a", 12.55, 60, 0.3);
+      ft("#s6b", { scale: 0.6, autoAlpha: 0, filter: "blur(30px)" }, { scale: 1, autoAlpha: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, 13.14);
+      ft("#s6bl", { scaleX: 0, autoAlpha: 1 }, { scaleX: 1, duration: 0.25, ease: "power4.out" }, 13.14);
+      tl.to("#s6bl", { autoAlpha: 0, duration: 0.3 }, 13.45);
+      ft("#s6g", { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "power2.out" }, 13.1);
+      drift("#s6b", 13.5, 13.95, { scale: 1 }, { scale: 1.06 });
+      // S7 — אתם אומרים לקלוד מה אתם רוצים לראות / קטאנה הופכת את זה לאנימציה
+      rise("#s7a", 14.0); slam("#s7b", 14.48, 1.5, 0.2);
+      ft("#s7ast", { rotation: -180, scale: 0, autoAlpha: 0 }, { rotation: 0, scale: 1, autoAlpha: 1, duration: 0.5, ease: "back.out(1.8)" }, 14.6);
+      drift("#s7ast", 15.1, 16.1, { rotation: 0 }, { rotation: 120 });
+      rise("#s7c", 14.94, 50);
+      tl.set("#s7p2", { autoAlpha: 0 }, 0); tl.set("#s7p2", { autoAlpha: 1 }, 16.12); tl.set("#s7p1", { autoAlpha: 1 }, 0); tl.set("#s7p1", { autoAlpha: 0 }, 16.12);
+      slam("#s7d", 16.14, 2.1, 0.22); rise("#s7e", 16.72, 50, 0.25);
+      ft("#s7f", { x: -900, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "expo.out" }, 17.4);
+      // S8 — זהו.
+      slam("#s8a", 18.48, 2.4, 0.16);
+      // S9 — כל מה שצריך זה לכתוב
+      rise("#s9a", 19.02); smear("#s9b", 19.76, -400);
+      [19.9, 20.15, 20.4].forEach((t, i) => tl.set("#s9c", { autoAlpha: i % 2 ? 1 : 0 }, t));
+      // S10 — the prompt, typed
+      ft("#pbox", { y: 80, scale: 0.92, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "power3.out" }, 20.5);
+      {
+        const parts = [["תיצור אנימציה קולנועית של ", false], ["15 שניות", true], [". טיפוגרפיה זזה, צורות שמשתנות, תלת ממד.", false]];
+        const box = $("#ptxt"); const chars = [];
+        parts.forEach(([txt, hl]) => {
+          const wrap = document.createElement("span"); if (hl) wrap.className = "hl";
+          for (const ch of txt) { const s = document.createElement("span"); s.textContent = ch; wrap.appendChild(s); chars.push(s); }
+          box.appendChild(wrap);
+        });
+        const t0 = 20.56, t1 = 22.85;
+        chars.forEach((s, i) => { tl.set(s, { opacity: 0 }, 0); tl.set(s, { opacity: 1 }, t0 + ((t1 - t0) * i) / chars.length); });
+        tl.set(".hl", { backgroundColor: "rgba(255,42,58,0)" }, 0);
+        tl.to(".hl", { backgroundColor: "rgba(255,42,58,1)", duration: 0.2 }, 22.2);
+        punch("#pbtn", 22.95, 1.25);
+      }
+      // S11a — טיפוגרפיה (letters bounce) זזה
+      {
+        const host = $("#s11aw"); const ls = [];
+        for (const ch of "טיפוגרפיה") { const s = document.createElement("span"); s.className = "w"; s.textContent = ch; host.appendChild(s); ls.push(s); }
+        ls.forEach((s, i) => { ft(s, { y: -260, autoAlpha: 0, rotation: (i % 2 ? 1 : -1) * 25 }, { y: 0, autoAlpha: 1, rotation: 0, duration: 0.42, ease: "back.out(2.6)" }, 23.18 + i * 0.045); });
+        ls.forEach((s, i) => { tl.to(s, { y: -40, duration: 0.18, ease: "sine.out" }, 23.85 + i * 0.03); tl.to(s, { y: 0, duration: 0.2, ease: "sine.in" }, 24.03 + i * 0.03); });
+        slam("#s11ab", 23.84, 1.6, 0.2);
+      }
+      // S11b — צורות שמשתנות (morphing blob)
+      pop("#blob", 24.44, 0.3);
+      tl.to("#blob", { borderRadius: "18%", rotation: 45, duration: 0.35, ease: "power3.inOut" }, 24.75);
+      tl.to("#blob", { borderRadius: "50% 0 50% 0", rotation: 90, scaleX: 1.2, duration: 0.35, ease: "power3.inOut" }, 25.1);
+      rise("#s11b1", 24.48, 80, 0.25); smear("#s11b2", 24.78, 300);
+      // S11c — 3D cube
+      ft("#cube", { rotationX: -30, rotationY: -60, scale: 0, autoAlpha: 0 }, { rotationX: -22, rotationY: 30, scale: 1, autoAlpha: 1, duration: 0.5, ease: "back.out(1.6)" }, 25.62);
+      tl.to("#cube", { rotationY: 200, rotationX: 15, duration: 0.95, ease: "power2.inOut" }, 26.1);
+      slam("#s11c1", 25.66, 1.8, 0.22); rise("#s11c2", 26.1, 50, 0.25);
+      // S11d — camera moves (fly through)
+      drift("#s11dg", 27.05, 28.7, { scale: 1 }, { scale: 2.2 });
+      ft("#s11d1", { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "power3.out" }, 27.1);
+      ft("#s11d2", { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "power3.out" }, 27.42);
+      ft("#s11d3", { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "power3.out" }, 27.86);
+      tl.to(["#s11d1", "#s11d2", "#s11d3"], { scale: 3.2, autoAlpha: 0, duration: 0.4, ease: "power3.in", stagger: 0.04 }, 28.28);
+      // S12 — עכשיו תסתכלו על האותיות / נמתחות
+      slam("#s12a1", 28.76, 1.6, 0.2); rise("#s12a2", 29.22, 60, 0.3);
+      ft("#s12b1", { scaleX: 0.25, scaleY: 1.4, autoAlpha: 0 }, { scaleX: 1, scaleY: 1, autoAlpha: 1, duration: 0.25, ease: "power3.out" }, 30.7);
+      tl.to("#s12b1", { scaleX: 1.55, scaleY: 0.82, duration: 0.42, ease: "power2.inOut" }, 30.98);
+      tl.to("#s12b1", { scaleX: 1.25, scaleY: 0.92, duration: 0.3, ease: "elastic.out(1,0.4)" }, 31.42);
+      // S13 — תעקבו אחרי המצלמה (pan, brackets track)
+      rise("#s13a", 31.78, 50, 0.25);
+      ft("#s13b", { x: 700 }, { x: -60, duration: 1.4, ease: "power2.out" }, 32.0);
+      tl.set("#s13b", { autoAlpha: 0 }, 0); tl.set("#s13b", { autoAlpha: 1 }, 32.0);
+      ["#br1", "#br2", "#br3", "#br4"].forEach((b, i) => ft(b, { scale: 1.8, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "power3.out" }, 32.25 + i * 0.03));
+      drift("#s13", 32.0, 33.35, { scale: 1 }, { scale: 1.08 });
+      // S14 — ותחכו למעבר... (target, then the red wipe)
+      pop("#rg1", 33.4, 0.4); pop("#rg2", 33.5, 0.35); rise("#s14a", 33.86, 40, 0.25);
+      tl.to("#rg1", { scale: 1.15, duration: 0.2, yoyo: true, repeat: 1, ease: "sine.inOut" }, 34.0);
+      ft("#wipe", { scale: 0 }, { scale: 90, duration: 0.38, ease: "power3.in" }, 34.35);
+      // S15 — אתם צוחקים עליי?!
+      ft("#burst", { scale: 0, rotation: -40 }, { scale: 1.15, rotation: 0, duration: 0.35, ease: "back.out(1.8)" }, 34.78);
+      drift("#burst", 35.13, 36.35, { rotation: 0 }, { rotation: 25 });
+      slam("#s15a", 34.82, 1.5, 0.16); slam("#s15b", 35.12, 1.5, 0.16); slam("#s15c", 35.68, 1.6, 0.18);
+      shake("#s15", 35.7, 16, 8);
+      // S16 — תחשבו לעשות את זה בדרך הרגילה
+      rise("#s16a", 36.42, 60, 0.3); smear("#s16b", 37.26, 400);
+      drift("#s16", 36.35, 38.45, { scale: 1 }, { scale: 1.06 });
+      // S17 — שכבות (layer stack fans up in 3D)
+      ft("#lyr", { rotationX: 0, y: 140, autoAlpha: 0 }, { rotationX: 58, y: 0, autoAlpha: 1, duration: 0.5, ease: "power3.out" }, 38.47);
+      $$("#lyr .card3").forEach((c, i) => ft(c, { y: 120, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(1.8)" }, 38.5 + i * 0.06));
+      slam("#s17a", 38.56, 1.5, 0.18);
+      // S18 — keyframes pop
+      $$("#s18 .kf").forEach((k, i) => pop(k, 39.22 + i * 0.07, 0.24));
+      smear("#s18a", 39.26, -400);
+      // S19 — graph editor curve draws
+      ft("#gcur", { strokeDashoffset: 1300 }, { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 40.02);
+      rise("#s19a", 40.1, 60, 0.25);
+      // S20 — ואז... הרנדר (the endless progress bar)
+      rise("#s20a", 40.98, 60, 0.3);
+      ft("#rfill", { scaleX: 0 }, { scaleX: 0.03, duration: 1.5, ease: "none" }, 41.0);
+      tl.set("#rfill", { transformOrigin: "100% 50%" }, 0);
+      tl.set("#s20b", { autoAlpha: 0 }, 0); tl.set("#s20b", { autoAlpha: 1 }, 41.5);
+      // S21 — כאן?
+      ft("#s21bg", { x: 1700 }, { x: 0, duration: 0.2, ease: "expo.out" }, 42.55);
+      slam("#s21a", 42.58, 2, 0.18);
+      // S22 — KATANA / PROMPT / GENERATE / RENDER
+      slam("#s22a1", 43.18, 2.2, 0.18); smear("#s22b1", 43.92, -500); punch("#s22c1", 44.64, 1.25);
+      ft("#s22c1", { scaleY: 0, autoAlpha: 0 }, { scaleY: 1, autoAlpha: 1, duration: 0.2, ease: "power4.out" }, 44.62);
+      slam("#s22d1", 45.44, 0.4, 0.2);
+      // S23 — והסרטון הזה?
+      ft("#s23f", { scale: 0.6, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "power3.out" }, 46.12);
+      pop("#s23p", 46.3, 0.3); rise("#s23a", 46.18, 50, 0.25);
+      // S24 — כן. / מהרעיון הראשון ועד הפריים האחרון / בנוי עם Claude
+      slam("#s24a1", 47.3, 2.2, 0.16);
+      rise("#s24b1", 47.86, 80, 0.3); rise("#s24b2", 48.9, 80, 0.3);
+      drift("#s24b", 47.82, 50.3, { scale: 1 }, { scale: 1.08 });
+      rise("#s24c1", 50.32, 60, 0.22); slam("#s24c2", 50.8, 1.6, 0.2);
+      // S25 — KATANA lockup, then the camera dives into the screen
+      ft("#s25b", { scale: 0.7, autoAlpha: 0, filter: "blur(24px)" }, { scale: 1, autoAlpha: 1, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, 51.32);
+
+      // ---------- the laptop camera ----------
+      // handheld drift: slow wander + slow push for all of part 1
+      tl.set("#cam", { x: 0, y: 0, rotation: 0, scale: 1.035 }, 0);
+      for (let t = 0; t < 52.3; t += 1.6) tl.to("#cam", { x: (rnd() - 0.5) * 12, y: (rnd() - 0.5) * 10, rotation: (rnd() - 0.5) * 0.5, duration: 1.6, ease: "sine.inOut" }, t);
+      ft("#push", { scale: 1 }, { scale: 1.07, duration: 52.3, ease: "none" }, 0);
+      [0.2, 9.42, 13.18, 18.48, 34.7, 42.55, 47.3].forEach((t) => shake("#push", t, 7, 5));
+      // dive into the screen on "וואו", flash into part 2
+      tl.to("#push", { scale: 3.4, duration: 0.6, ease: "power3.in" }, 52.35);
+      tl.to("#topcap", { autoAlpha: 0, duration: 0.25 }, 52.35);
+      tl.set("#flash", { opacity: 0 }, 0);
+      tl.to("#flash", { opacity: 0.9, duration: 0.12, ease: "none" }, 52.85);
+      tl.to("#flash", { opacity: 0, duration: 0.35, ease: "power2.out" }, 52.97);
+      ft("#topcap", { y: -40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power3.out" }, 0.3);
+
+      // ---------- part 2: the phone walkthrough ----------
+      ft("#phone", { y: 260, scale: 0.9 }, { y: 0, scale: 1, duration: 0.6, ease: "power3.out" }, 52.95);
+      const UI = [["#u1", 52.95, 56.6], ["#u2", 56.6, 59.6], ["#u3", 59.6, 61.1], ["#u4", 61.1, 64.45], ["#u5", 64.45, 66.62]];
+      UI.forEach(([id, a, b]) => { tl.set(id, { visibility: "hidden" }, 0); tl.set(id, { visibility: "visible" }, a); tl.set(id, { visibility: "hidden" }, b); });
+      const tap = (sel, t) => { ft(sel, { scale: 0.3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.18, ease: "power2.out" }, t); tl.to(sel, { scale: 1.4, autoAlpha: 0, duration: 0.3 }, t + 0.22); };
+      $$(".ui .row").forEach((r, i) => rise(r, 53.1 + i * 0.08, 40, 0.3));
+      tl.to("#u1b", { scale: 1.04, duration: 0.25, yoyo: true, repeat: 3, ease: "sine.inOut" }, 54.6);
+      tap("#tp1", 55.82);
+      ft("#u2s", { y: 1010 }, { y: 0, duration: 0.4, ease: "power3.out" }, 56.6);
+      const typeInto = (sel, text, t0, t1) => {
+        const el = $(sel); const ch = [];
+        for (const c of text) { const s = document.createElement("span"); s.textContent = c; el.appendChild(s); ch.push(s); }
+        ch.forEach((s, i) => { tl.set(s, { opacity: 0 }, 0); tl.set(s, { opacity: 1 }, t0 + ((t1 - t0) * i) / ch.length); });
+      };
+      typeInto("#f1", "Higgsfield", 56.95, 57.4);
+      typeInto("#f2", "https://mcp.higgsfield.ai/mcp", 57.5, 58.6);
+      tap("#tp2", 59.28); punch("#u2b", 59.3, 0.94);
+      ft("#u3", { x: 708 }, { x: 0, duration: 0.35, ease: "power3.out" }, 59.6);
+      tap("#tp3", 60.55); punch("#u3b", 60.58, 0.94);
+      typeInto("#u4t", "Higgsfield MCP /katana", 61.5, 63.8);
+      tap("#tp4", 64.12);
+      tl.set("#u4m", { autoAlpha: 0 }, 0);
+      $("#u4m").textContent = "Higgsfield MCP /katana";
+      ft("#u4m", { y: 60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.25, ease: "power3.out" }, 64.2);
+      ["#pc1", "#pc2", "#pc3", "#pc4"].forEach((p, i) => pop(p, 64.5 + i * 0.07, 0.32));
+      tap("#tp5", 64.86);
+      tl.to("#pc1", { scale: 1.06, boxShadow: "0 0 0 6px #fff", duration: 0.2 }, 64.9);
+      tl.to(["#pc2", "#pc3", "#pc4"], { opacity: 0.4, duration: 0.2 }, 64.9);
+      rise("#u5b", 65.2, 60, 0.3);
+      tap("#tp6", 65.74); punch("#u5b", 65.78, 0.94);
+      // GAME CHANGER
+      tl.set("#gc", { visibility: "hidden" }, 0); tl.set("#gc", { visibility: "visible" }, 66.62); tl.set("#gc", { visibility: "hidden" }, 68.75);
+      slam("#gc1", 66.64, 2.2, 0.18); slam("#gc2", 66.94, 2.2, 0.18); rise("#gc3", 67.62, 50, 0.3);
+      shake("#gc", 66.94, 12, 6);
+      // CTA
+      tl.set("#cta", { visibility: "hidden" }, 0); tl.set("#cta", { visibility: "visible" }, 68.75);
+      pop("#av", 68.8, 0.5); rise("#nm", 69.0, 60, 0.35); rise("#hd", 69.15, 40, 0.35);
+      rise("#ctaL", 69.5, 40, 0.3);
+      ft("#cbox", { y: 120, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "power3.out" }, 69.6);
+      typeInto("#cbt", "קטאנה", 70.3, 70.85);
+      punch("#cbox", 70.9, 1.06);
+      rise("#ctaT", 71.0, 50, 0.35);
+      tl.to("#av", { scale: 1.04, duration: 0.9, yoyo: true, repeat: 3, ease: "sine.inOut" }, 71.4);
+
+      // part 2 captions (Hebrew, 1-3 words, from the transcript)
+      const WORDS = [{"text": "כדי", "start": 53.18, "end": 53.34, "type": "word"}, {"text": "ליצור", "start": 53.38, "end": 53.66, "type": "word"}, {"text": "את", "start": 53.7, "end": 53.78, "type": "word"}, {"text": "זה", "start": 53.82, "end": 54.12, "type": "word"}, {"text": "פיתחו", "start": 54.16, "end": 54.42, "type": "word"}, {"text": "את", "start": 54.46, "end": 54.56, "type": "word"}, {"text": "קלוד", "start": 54.6, "end": 54.88, "type": "word"}, {"text": "ולחצו", "start": 54.92, "end": 55.32, "type": "word"}, {"text": "על", "start": 55.36, "end": 55.48, "type": "word"}, {"text": "Custom", "start": 55.54, "end": 55.9, "type": "word"}, {"text": "Connector.", "start": 55.98, "end": 56.52, "type": "word"}, {"text": "הדביקו", "start": 56.7, "end": 57.06, "type": "word"}, {"text": "את", "start": 57.1, "end": 57.18, "type": "word"}, {"text": "הלינק", "start": 57.24, "end": 57.48, "type": "word"}, {"text": "של", "start": 57.54, "end": 57.66, "type": "word"}, {"text": "Higgsfield", "start": 57.7, "end": 58.14, "type": "word"}, {"text": "MCP.", "start": 58.28, "end": 58.68, "type": "word"}, {"text": "לחצו", "start": 58.96, "end": 59.26, "type": "word"}, {"text": "Continue", "start": 59.3, "end": 60.02, "type": "word"}, {"text": "ואז", "start": 60.08, "end": 60.48, "type": "word"}, {"text": "Allow.", "start": 60.56, "end": 60.92, "type": "word"}, {"text": "עכשיו", "start": 61.14, "end": 61.42, "type": "word"}, {"text": "כתבו", "start": 61.48, "end": 62.06, "type": "word"}, {"text": "Higgsfield", "start": 62.12, "end": 62.58, "type": "word"}, {"text": "MCP", "start": 62.72, "end": 63.3, "type": "word"}, {"text": "סלאש", "start": 63.38, "end": 63.74, "type": "word"}, {"text": "Katana.", "start": 63.78, "end": 64.22, "type": "word"}, {"text": "בחרו", "start": 64.48, "end": 64.819, "type": "word"}, {"text": "Priest", "start": 64.879, "end": 65.34, "type": "word"}, {"text": "ותנו", "start": 65.4, "end": 65.62, "type": "word"}, {"text": "לו", "start": 65.66, "end": 65.72, "type": "word"}, {"text": "לשחזר.", "start": 65.78, "end": 66.28, "type": "word"}, {"text": "זה", "start": 66.64, "end": 66.76, "type": "word"}, {"text": "game", "start": 66.94, "end": 67.2, "type": "word"}, {"text": "changer", "start": 67.26, "end": 67.62, "type": "word"}, {"text": "לעריכת", "start": 67.66, "end": 68.1, "type": "word"}, {"text": "וידאו.", "start": 68.16, "end": 68.48, "type": "word"}, {"text": "רוצים", "start": 68.8, "end": 69.04, "type": "word"}, {"text": "להגדיר", "start": 69.08, "end": 69.4, "type": "word"}, {"text": "את", "start": 69.44, "end": 69.5, "type": "word"}, {"text": "זה?", "start": 69.54, "end": 69.64, "type": "word"}, {"text": "תגיבו", "start": 69.92, "end": 70.26, "type": "word"}, {"text": "Katana", "start": 70.32, "end": 70.84, "type": "word"}, {"text": "ואשלח", "start": 70.9, "end": 71.24, "type": "word"}, {"text": "לכם", "start": 71.28, "end": 71.46, "type": "word"}, {"text": "את", "start": 71.5, "end": 71.58, "type": "word"}, {"text": "הלינק.", "start": 71.62, "end": 71.98, "type": "word"}];
+      {
+        const ws = WORDS.filter((w) => w.start >= 53.0 && w.start < 66.6 && w.type === "word");
+        const groups = []; let cur = [];
+        ws.forEach((w, i) => {
+          cur.push(w);
+          const nx = ws[i + 1];
+          const brk = /[.,?!]$/.test(w.text) || cur.length >= 5 || !nx || nx.start - w.end > 0.35;
+          if (brk) { groups.push(cur); cur = []; }
+        });
+        const host = $("#cap2");
+        const fix = (s) => s.replace(/^ב(?=[A-Za-z])/, "ב-").replace(/^ו(?=[A-Za-z])/, "ו-").replace(/^ה(?=[A-Za-z])/, "ה-").replace(/Priest/i, "פריסט").replace(/^פיתחו/, "פתחו").replace(/[".]/g, "");
+        groups.forEach((g, i) => {
+          const d = document.createElement("div"); d.className = "g"; d.textContent = g.map((w) => fix(w.text)).join(" "); host.appendChild(d);
+          const a = g[0].start - 0.04, b = i + 1 < groups.length ? groups[i + 1][0].start - 0.04 : 66.6;
+          tl.set(d, { visibility: "hidden" }, 0); tl.set(d, { visibility: "visible" }, a); tl.set(d, { visibility: "hidden" }, b);
+          ft(d, { y: 24, scale: 0.92 }, { y: 0, scale: 1, duration: 0.16, ease: "power3.out" }, a);
+        });
+      }
+      tl.set("#tp1, #tp2, #tp3, #tp4, #tp5, #tp6", { autoAlpha: 0 }, 0);
+
+      tl.seek(0.001, false);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
