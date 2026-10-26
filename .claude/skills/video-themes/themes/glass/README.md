@@ -1,8 +1,12 @@
 # Glass: spatial-UI talking-head reel
 
-> Read this first. It is the editing prompt for the theme: who this look is for, what it feels like, and how an
-> editor who owns this style thinks. `theme.md` holds the measured numbers; `tokens.css` / `theme.css` /
-> `motion.js` are the ready parts.
+> Read order: **this file** (the editing prompt: who the look is for, what it feels like, how an editor who
+> owns this style thinks) → **`language.md`** (the design grammar: how to build *any* new element in this style —
+> materials, anatomy, scales, color meaning, motion verbs, sentence→element recipe) → `theme.md` (the numbers
+> measured on the reference). `tokens.css` / `theme.css` / `motion.js` are the ready parts.
+>
+> The elements listed below are the ones the reference happened to show. They are examples, not the limit:
+> anything the script needs is designed from `language.md`.
 
 ## The idea in one sentence
 A person talks to camera in a real room, and their computer floats in the air next to them: a frosted-glass
@@ -35,7 +39,7 @@ Tutorials and "how I did it" reels about tech, AI, apps and productivity. One pr
   They swap hard on the word timing with no animation; the words are the rhythm. Never more than one line.
 - **Brand words stay in their language** ("GPT", "Claude") inside Hebrew lines.
 
-## Elements in the glass (pick per beat)
+## Elements seen in the reference (examples — new ones come from `language.md` §7)
 | Beat in the script | Element |
 |---|---|
 | "install / set up / download" | Terminal window, lines appear one by one, green check per line, a "חינם" badge |

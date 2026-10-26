@@ -32,23 +32,46 @@ Default when the user names none: ask once, then remember the answer in the proj
 
 ```
 themes/<name>/
-  README.md     the editing prompt: idea, who it is for, editing character, text, elements per beat, sound, never
+  README.md     the editing prompt: idea, who it is for, editing character, text, sound, never
+  language.md   the design grammar that makes NEW elements in the style (see "Every theme is a language")
   theme.md      measured spec: type, color, layout, motion timings, captions, sound levels, contract mapping
   tokens.css    @font-face + CSS custom properties (colors, sizes, radii, shadows, positions)
-  theme.css     every component as CSS classes (uses the tokens)
-  motion.js     window.<THEME> — DOM builders + seek-safe GSAP helpers (enter, exit, zoom, captions, cta…)
+  theme.css     generic building blocks + materials (and the reference's ready-made elements as examples)
+  motion.js     window.<THEME> — generic verbs (appear, fill, update, confirm, emphasize, replace, exit, punch…) + builders
   fonts/        OFL fonts only
   sfx/          UI sound set (synthesized with scripts/synth_sfx.py, free to redistribute)
   vendor/       gsap.min.js
 ```
 `scripts/use_theme.sh <theme> <project>` copies the runtime parts into `<project>/assets/theme/`.
 
+## Every theme is a language, not a catalog
+
+A theme that can only redraw what the reference showed is useless on the next script. Each theme ships a
+`language.md` with exactly these sections, written so Claude can design an element the reference never had:
+
+1. **Materials** — the 2–4 surfaces everything is made of, what each *means*, how they may nest. No others.
+2. **Anatomy** — the parts every element has (e.g. header · body · state) and the item limits.
+3. **Scales** — type steps, spacing steps, radii, element size as % of frame. Only these values.
+4. **Color meaning** — each accent = one meaning, where it is allowed, max accents per element.
+5. **Space and depth** — world vs screen space, placement rules, how many elements at once.
+6. **Motion verbs** — appear, fill, update, confirm, strike, emphasize, point, replace, exit, punch… each with
+   when (story event), how (timing/easing) and its sound; plus what is forbidden.
+7. **Sentence → element recipe** — find the noun, classify it (number, comparison, tool, process, person,
+   date, place, progress, file, choice…), map to material + blocks, then anatomy, size, verbs.
+8. **Building blocks** — generic CSS blocks in `theme.css` and the builders in `motion.js`.
+9. **Self-check** — the checklist a new element must pass.
+
+When extracting a theme from references, derive each section from what is consistent across the reference's
+elements (what surfaces repeat, what sizes repeat, what color is used for what), then extend it to the noun
+types the reference did not cover, marked *(assumption)*.
+
 ## Workflow: building a video in a theme
 
-1. Read `themes/<name>/README.md` (character) and `theme.md` (numbers + contract mapping).
+1. Read `themes/<name>/README.md` (character), `language.md` (grammar) and `theme.md` (numbers).
 2. Write the storyboard as a scene list. No colors, fonts or pixel values in it — only components and text.
-3. `use_theme.sh`, then build `index.html` from `theme.css` classes + `motion.js` helpers (copy the preview project's structure). Never invent a component
-   the theme does not define; if one is missing, add it to the theme first (so the next video gets it).
+3. For every beat, run the sentence → element recipe (`language.md` §7). `use_theme.sh`, then build
+   `index.html` from the blocks + verbs (copy the preview project's structure). A new element that will recur
+   gets added to the theme's blocks (so the next video gets it); it must pass the self-check (§9).
 4. Check the theme's rules (`theme.md` → Rules) against the storyboard: caption words, max time on one
    layout, forbidden moves.
 5. `npx --yes hyperframes@0.8.150 check`, snapshots of every scene, then render at 60 fps in the background.
@@ -71,9 +94,11 @@ Proven on `glass` (one reference). Follow every step; the user checks the previe
      UI sounds = short high blips; note when they happen.
 4. **Pick fonts by rendering, not by name.** Render the reference crop next to 5–6 free Hebrew candidates
    (Playwright screenshot) and choose by eye. Only OFL fonts ship.
-5. **Write the theme:** `README.md` (the editing prompt — character first, rules second), `theme.md` (numbers +
-   contract mapping, mark anything not seen in the reference as *(assumption)*), `tokens.css`, `theme.css`,
-   `motion.js`, `sfx/` (synthesize; never ship other people's sounds or logos — draw generic icons).
+5. **Write the theme:** `README.md` (the editing prompt — character first, rules second), `language.md` (the
+   9-section grammar above — the part that makes it work on new scripts), `theme.md` (numbers + contract
+   mapping, mark anything not seen in the reference as *(assumption)*), `tokens.css`, `theme.css` (generic
+   blocks first), `motion.js` (generic verbs first), `sfx/` (synthesize; never ship other people's sounds or
+   logos — draw generic icons).
 6. **Preview project** `videos/theme-<name>-preview/`: the user's own footage + VO + word timings, a storyboard that
    shows every component once, SFX on every event. `lint` → `snapshot` contact sheet → fix framing → render
    60 fps in the background. Show the user the preview next to reference frames.

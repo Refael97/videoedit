@@ -127,6 +127,89 @@
       ft(tl, arr, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, t + 0.3);
       tl.fromTo(arr, { y: 0 }, { y: 14, duration: 0.45, yoyo: true, repeat: 5, ease: "sine.inOut", ...IR }, t + 0.65);
     },
+
+    /* ================================================================================================
+       GENERIC VERBS (language.md §6). Use these for any element, including ones the reference never had.
+       ================================================================================================ */
+
+    /* appear by material: "light" | "win" | "dark" (default: read .m-* class from the element) */
+    appear(tl, sel, t, material) {
+      const el = $(sel);
+      const m = material || (el.classList.contains("m-light") || el.classList.contains("g-space") ? "light" : el.classList.contains("m-dark") || el.classList.contains("g-stat") ? "dark" : "win");
+      if (m === "light") return G.spaceIn(tl, sel, t);
+      ft(tl, sel, { opacity: 0, scale: 0.55, filter: "blur(12px)", y: m === "dark" ? 40 : 20 }, { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, duration: 0.4, ease: "expo.out" }, t);
+    },
+
+    /* exit: shrink + blur + fade */
+    exit(tl, sel, t) { tl.to(sel, { opacity: 0, scale: 0.85, filter: "blur(8px)", duration: 0.22, ease: "power2.in" }, t); },
+
+    /* replace: old exits, new appears .05 s later */
+    replace(tl, outSel, inSel, t, material) { G.exit(tl, outSel, t); G.appear(tl, inSel, t + 0.05, material); },
+
+    /* fill: items rise in one by one; times = array of absolute times (match the words) or a start + step */
+    fill(tl, sels, t, step = 0.35) {
+      $$(sels).forEach((r, i) => ft(tl, r, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, Array.isArray(t) ? t[i] : t + i * step));
+    },
+
+    /* update: number count (alias), bars grow, meter fill, hard text swap */
+    update: {
+      count: (tl, sel, from, to, t, dur = 1.4, o) => G.count(tl, sel, from, to, t, dur, o),
+      bars(tl, sel, t, stagger = 0.12) { $$(sel + " .bar i").forEach((b, i) => ft(tl, b, { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "power2.out" }, t + i * stagger)); },
+      meter(tl, sel, value, t, dur = 1.0) { ft(tl, sel + " > i", { scaleX: 0 }, { scaleX: value, duration: dur, ease: "power2.out" }, t); },
+      text(tl, sel, texts, times) {
+        const el = $(sel);
+        const p = { i: 0 };
+        el.textContent = texts[0];
+        times.forEach((tt, i) => tl.fromTo(p, { i: i }, { i: i + 1, duration: 0.001, onUpdate: () => (el.textContent = texts[Math.min(texts.length - 1, Math.round(p.i))]), ...IR }, tt));
+      },
+    },
+
+    /* confirm: a state mark pops in (check, filled circle, badge) */
+    confirm(tl, sels, t, step = 0.3) { $$(sels).forEach((m, i) => ft(tl, m, { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.4)" }, Array.isArray(t) ? t[i] : t + i * step)); },
+
+    /* emphasize: quick scale pulse, or ring:true to flash a white ring (element needs a .g-ring child) */
+    emphasize(tl, sel, t, o = {}) {
+      if (o.ring) { const r = $(sel).querySelector(".g-ring"); ft(tl, r, { opacity: 0, scale: 0.96 }, { keyframes: [{ opacity: 1, scale: 1, duration: 0.12 }, { opacity: 0, scale: 1.04, duration: 0.4 }] }, t); return; }
+      tl.fromTo(sel, { scale: 1 }, { scale: 1.12, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", ...IR }, t);
+    },
+
+    /* point = cursor (alias) ; punch = camera zoom (alias) */
+    point(tl, sel, pts, clicks, o) { G.cursor(tl, sel, pts, clicks, o); },
+    punch(tl, sel, t, scale, x, y) { G.zoom(tl, sel, t, scale, x, y, 0.15); },
+
+    /* ---------- builders for blocks that need generated DOM ---------- */
+
+    /* month grid: G.calendar("#cal .grid", {days:30, startDay:2, today:12, marks:[18]}) ; startDay 0=Sunday */
+    calendar(sel, o) {
+      const names = ["א", "ב", "ג", "ד", "ה", "ו", "ש"];
+      let h = names.map((n) => "<b>" + n + "</b>").join("");
+      for (let i = 0; i < (o.startDay || 0); i++) h += '<span class="d off"></span>';
+      for (let d = 1; d <= (o.days || 30); d++) h += '<span class="d' + (d === o.today ? " today" : "") + ((o.marks || []).includes(d) ? " mark" : "") + '" data-d="' + d + '">' + d + "</span>";
+      $(sel).innerHTML = h;
+    },
+
+    /* abstract streets: deterministic curved lines; returns the svg. route = [[x,y],...] in % of the box */
+    map(sel, o = {}) {
+      const box = $(sel), W = 100, H = 100;
+      let s = o.seed || 3;
+      const r = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+      let d = "";
+      for (let i = 0; i < (o.streets || 7); i++) {
+        const horiz = i % 2 === 0, a = 8 + r() * 84, b = 8 + r() * 84;
+        d += horiz ? '<path d="M-5,' + a.toFixed(1) + " C35," + (a + 10 * (r() - 0.5)).toFixed(1) + " 65," + (b + 10 * (r() - 0.5)).toFixed(1) + " 105," + b.toFixed(1) + '"/>'
+                   : '<path d="M' + a.toFixed(1) + ",-5 C" + (a + 10 * (r() - 0.5)).toFixed(1) + ",35 " + (b + 10 * (r() - 0.5)).toFixed(1) + ",65 " + b.toFixed(1) + ',105"/>';
+      }
+      if (o.route) d += '<path class="route" d="M' + o.route.map((p) => p[0] + "," + p[1]).join(" L") + '"/>';
+      box.insertAdjacentHTML("afterbegin", '<svg class="streets" viewBox="0 0 ' + W + " " + H + '" preserveAspectRatio="none">' + d + "</svg>");
+      return box.querySelector("svg.streets");
+    },
+
+    /* draw the map route (after G.map with a route) */
+    route(tl, sel, t, dur = 1.0) {
+      const p = $(sel + " path.route");
+      const L = p.getTotalLength();
+      ft(tl, p, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, t);
+    },
   };
   window.GLASS = G;
 })();

@@ -76,11 +76,12 @@ The reference font is a heavy rounded Hebrew sans (likely commercial). Closest f
 | `prompt-card` | `.g-chat` window |
 | `app-window` | `.g-win` (+ `.g-term`, `.g-list`, `.g-chat`) + `GLASS.winIn/winOut()` |
 | `icon-tile` | `GLASS.ICONS` in `.g-dock` |
-| `tree` | not in the reference **(to design)** |
+| `tree` | build from `language.md`: light glass + `.g-tile`s joined by thin white 30% curves **(assumption)** |
 | `recap-diagram` | `.g-list` checklist |
 | `cta` | `.g-cta` + `GLASS.cta()` |
 | `transition.*` | `GLASS.zoom()` punches; windows `winIn/winOut`; `spaceIn/spaceOut` |
 | `sfx.*` | `sfx/*.wav` |
+| anything else | design it with `language.md` (materials §1, recipe §7, blocks §8, verbs §6) |
 
 ## Using it in a project
 ```bash
