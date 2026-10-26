@@ -77,6 +77,8 @@
   footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); display: grid; gap: 6px; }
   footer b { font-family: var(--f-display); font-weight: 800; font-size: 22px; }
   footer span { color: var(--muted); }
+  footer a { color: var(--neon); font-weight: 700; text-decoration: none; border-bottom: 1px solid currentColor; }
+  footer a:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
 
   @media (prefers-reduced-motion: reduce) { .route::before { animation: none; } }
   @media (max-width: 520px) { body { font-size: 17px; } .route { padding-right: 28px; } .st::before { right: -26px; } .route::before { right: 7px; } pre { font-size: 13.5px; } }
@@ -269,6 +271,7 @@ whoosh חזק ברגע ההאצה. הטלפון והכותרת דועכים בז
   <footer>
     <b>רפאל לוי</b>
     <span>מומחה AI ושיווק דיגיטלי · ‎@refaelleviii</span>
+    <span>השירותים שלי באתר: <a href="https://refael-ai.com/" target="_blank" rel="noopener">refael-ai.com</a></span>
     <span>יצרת משהו עם המדריך? תייג אותי, אני משתף.</span>
   </footer>
 </div>
