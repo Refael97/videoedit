@@ -71,6 +71,7 @@ One accent per element besides ink; orange is the default.
 | `pop` | a thing is introduced | scale .6→1 + fade, back.out(1.7) .35 s; stagger .12 | `pop` |
 | `rise` | a screen/card is shown | from 70px below, .4 s power3.out | `pop` |
 | `park` | make room for the next thing | shrink + move, .45 s power3.inOut | — |
+| `fill` | output / a list builds up | lines rise 16px + fade, .2 s each, one after another (≈.18 s apart) | `tick` |
 | `branch` | one thing splits into parts | tree lines draw .25 s, children slide out of the parent .34 s, stagger .13 | `tick` per child |
 | `drop` | something goes into something | item falls in (.42 s power2.in), front flap dips, folder bumps | `pop` |
 | `label` | naming the thing | label rises, orange while active, ink after | — |

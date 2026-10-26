@@ -81,6 +81,8 @@
     /* ---------------- verbs (language.md §6) ---------------- */
     // pop: an object/card arrives with a small overshoot
     pop(tl, sels, t, step = 0.12, o = {}) { $$(sels).forEach((e, i) => ft(tl, e, { opacity: 0, scale: o.from || 0.6, y: o.y || 0 }, { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: "back.out(1.7)" }, (Array.isArray(t) ? t[i] : t + i * step))); },
+    // fill: lines/items appear one after another (output lines, list rows); t may be an array of times
+    fill(tl, sels, t, step = 0.2) { $$(sels).forEach((e, i) => ft(tl, e, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, Array.isArray(t) ? t[i] : t + i * step)); },
     // rise: a card lifts in from below (cards over the face, cards on paper)
     rise(tl, sel, t) { ft(tl, sel, { opacity: 0, y: 70, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, t); },
     // out: anything leaves (fast)
