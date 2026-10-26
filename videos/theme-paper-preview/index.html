@@ -10,107 +10,112 @@
     <style>
       html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
 
-      /* hook thumbnails: three real mini sites in phone frames */
-      .hk { top: 540px; }
-      .hk .p-site { position: absolute; inset: 0; }
-      .hk h3 { font-size: 36px !important; } .hk p { font-size: 18px !important; } .hk nav { font-size: 17px !important; padding: 12px 14px !important; }
-      .hk .btn { height: 34px !important; font-size: 15px !important; margin: 10px 12px !important; }
+      /* a website shown on an illustrated screen: only big, readable parts (>=26px as shown) */
+      .scr { position: absolute; overflow: hidden; background: #fff; direction: rtl; }
+      .scr h3 { margin: 0; position: absolute; right: 16px; top: 14px; font-size: 40px; line-height: 1.02; font-weight: 800; white-space: pre; }
+      .scr .btn { position: absolute; right: 18px; bottom: 16px; height: 50px; padding: 0 22px; border-radius: 25px; background: var(--p-ink); color: #fff; font-size: 26px; font-weight: 800; display: flex; align-items: center; }
+      .scr .img { position: absolute; left: 16px; bottom: 16px; width: 120px; height: 120px; border-radius: 18px; background: linear-gradient(135deg, #c65a3c, #e8a06a); overflow: hidden; }
+      .scr .img i { position: absolute; left: 12px; top: 12px; width: 40px; height: 40px; border-radius: 50%; background: #fff; display: block; }
 
-      /* S1: website with motion, transitions, structure */
-      #site1 { left: 150px; top: 390px; width: 780px; height: 430px; }
-      #site1 .p-site { position: absolute; left: 0; right: 0; top: 44px; bottom: 0; }
-      #hero1 { background: linear-gradient(135deg, #c65a3c, #e8a06a); }
-      #hero1 i { position: absolute; width: 70px; height: 70px; border-radius: 50%; background: #fff; left: 20px; top: 20px; display: block; }
-      #h3b { position: absolute; top: 58px; right: 0; left: 0; }
-      .cards1 { position: absolute; right: 20px; bottom: 18px; display: flex; gap: 10px; }
-      .cards1 b { width: 150px; height: 84px; border-radius: 12px; background: #f1ebe0; display: flex; align-items: flex-end; padding: 8px 10px; font-size: 16px; box-sizing: border-box; }
+      /* hook: a laptop whose screen cycles three real sites */
+      #lapH { left: 290px; top: 560px; width: 500px; height: 375px; z-index: 3; }
+      #scrH { left: 365px; top: 601px; width: 350px; height: 219px; z-index: 4; }
+      .hs { position: absolute; inset: 0; }
 
-      /* S2: install the skill */
-      #tile2 { left: 150px; top: 640px; }
-      #ring2 { left: 110px; top: 600px; width: 230px; height: 230px; }
-      #fold2 { left: 640px; top: 600px; width: 300px; height: 250px; }
-      #doc2 { left: 715px; top: 540px; width: 150px; height: 190px; }
-      #doc2 span { position: absolute; left: 0; right: 0; top: 92px; text-align: center; font-size: 22px; font-weight: 800; direction: ltr; }
-      #cmd2 { left: 120px; top: 1300px; width: 840px; }
+      /* S1: laptop hero with tags */
+      #lap1 { left: 250px; top: 390px; width: 580px; height: 435px; }
+      #scr1 { left: 337px; top: 437px; width: 406px; height: 254px; }
+      #h1b { opacity: 0; }
+      .blk { position: absolute; bottom: 16px; width: 120px; height: 56px; border-radius: 12px; background: #f1ebe0; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; }
 
-      /* S3: before / after */
-      .ba { top: 400px; width: 450px; height: 400px; }
-      #before { right: 50px; } #after { left: 50px; }
-      .ba .p-site { position: absolute; left: 0; right: 0; top: 44px; bottom: 0; }
-      .ba h3 { font-size: 34px !important; }
-      #heroA { background: linear-gradient(135deg, #c65a3c, #e8a06a); width: 130px !important; height: 130px !important; }
+      /* S2: UI zoom terminal (bleeds off the right edge) + hero folder */
+      #term2 { left: 110px; top: 420px; width: 1010px; }
+      #fold2 { left: 260px; top: 690px; width: 560px; height: 467px; }
+      #doc2 { left: 440px; top: 610px; width: 200px; height: 255px; z-index: 0; }
+      #doc2 span { position: absolute; left: 0; right: 0; top: 120px; text-align: center; font-size: 30px; font-weight: 800; direction: ltr; }
+      #lab2 { right: 540px; top: 1180px; }
 
-      /* S4: CTA + reply */
-      #reply { right: 110px; top: 360px; z-index: 33; }
+      /* S3: before / after phones + a swatch fan */
+      #ph1 { left: 650px; top: 385px; width: 210px; height: 390px; }
+      #ph2 { left: 290px; top: 385px; width: 210px; height: 390px; }
+      #sc1 { left: 674px; top: 415px; width: 162px; height: 330px; }
+      #sc2 { left: 314px; top: 415px; width: 162px; height: 330px; }
+      #sc1 h3 { font-family: "Times New Roman", serif; font-weight: 400; letter-spacing: 0; }
+      #sc1 .btn { background: #ddd; color: #333; border-radius: 0; }
+      #fan3 { left: 40px; top: 410px; width: 300px; height: 282px; }
+
+      #reply { right: 110px; top: 340px; display: flex; align-items: center; gap: 16px; }
+      #reply .d { width: 46px; height: 58px; flex: none; }
     </style>
   </head>
   <body>
     <div id="root" class="p-root" data-composition-id="main" data-start="0" data-duration="17.2" data-width="1080" data-height="1920">
       <div id="face" class="p-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video></div>
 
-      <!-- hook visual: three real sites cycling (rule e) -->
-      <div id="hooks" style="position: absolute; inset: 0; z-index: 3">
-        <div class="p-thumb hk aa" id="hk1" style="right: 90px"><div class="p-site"><nav>נוֹף<span>פרויקטים</span></nav><h3>עיצוב פנים שמרגיש בית</h3><p>סטודיו בתל אביב</p><span class="btn">לתיאום</span></div></div>
-        <div class="p-thumb hk aa" id="hk2" style="right: 420px"><div class="p-site" style="background: #1d1d1f; color: #fff"><nav style="color: #fff">עַלְמָה<span>תפריט</span></nav><h3>קפה של בוקר, כל היום</h3><p style="color: #bbb">רחוב הנביאים 12</p><span class="btn" style="background: #c65a3c">להזמין</span></div></div>
-        <div class="p-thumb hk aa" id="hk3" style="right: 750px"><div class="p-site" style="background: #eef3ee"><nav>עֵץ<span>קולקציה</span></nav><h3>רהיטים מעץ מלא</h3><p>בעבודת יד</p><span class="btn" style="background: #2fa860">לחנות</span></div></div>
+      <!-- hook visual (rule e): a laptop cycling three real sites -->
+      <div id="lapH" class="p-obj aa"></div>
+      <div id="scrH" class="scr aa">
+        <div class="hs" id="hs1"><h3>עיצוב פנים
+שמרגיש בית</h3><span class="btn">לתיאום</span></div>
+        <div class="hs" id="hs2" style="background: #1d1d1f; color: #fff"><h3>קפה של
+בוקר</h3><span class="btn" style="background: #c65a3c">להזמין</span></div>
+        <div class="hs" id="hs3" style="background: #eef3ee"><h3>רהיטים
+מעץ מלא</h3><span class="btn" style="background: #2fa860">לחנות</span></div>
       </div>
 
       <div id="stage" class="p-stage">
-        <!-- S1 (split): a real site; tags name the parts as they are said -->
+        <!-- S1 (split): the site on a laptop; each said word acts on it -->
         <div id="s1" class="p-scene">
           <div class="p-step"><b>שלב 1.</b> מה עושה אתר טוב</div>
-          <div id="site1" class="p-card aa">
-            <div class="bar"><i></i><i></i><i></i><span>nof-studio.co.il</span></div>
-            <div class="p-site">
-              <nav>נוֹף<span>פרויקטים</span><span>אודות</span><span>צור קשר</span></nav>
-              <div id="h3a"><h3>עיצוב פנים<br />שמרגיש בית</h3><p>סטודיו בתל אביב · מאז 2014</p><span class="btn">לתיאום פגישה</span></div>
-              <div id="h3b"><h3>40 פרויקטים<br />בשנה האחרונה</h3><p>דירות, משרדים ומסעדות</p></div>
-              <div id="hero1" class="hero"><i id="ball"></i></div>
-              <div class="cards1"><b class="c1">סלון · רמת אביב</b><b class="c1">משרד · הרצליה</b></div>
-            </div>
+          <div id="lap1" class="p-obj aa"></div>
+          <div id="scr1" class="scr">
+            <h3 id="h1a">עיצוב פנים
+שמרגיש בית</h3>
+            <h3 id="h1b">40 פרויקטים
+בשנה</h3>
+            <div class="img"><i id="ball1"></i></div>
+            <span class="blk b1" style="right: 18px">סלון</span><span class="blk b1" style="right: 150px">משרד</span>
           </div>
-          <div class="p-tag" id="tagM" style="left: 300px; top: 560px">Motion</div>
-          <div class="p-tag" id="tagT" style="left: 640px; top: 470px">מעברים</div>
           <svg id="ink1" class="p-ink" viewBox="0 0 1080 1920"></svg>
-          <div class="p-tag" id="tagS" style="left: 760px; top: 690px">מבנה</div>
+          <div class="p-tag" id="tagM" style="left: 170px; top: 700px">Motion</div>
+          <div class="p-tag" id="tagT" style="left: 860px; top: 400px">מעברים</div>
+          <div class="p-tag" id="tagS" style="left: 900px; top: 760px">מבנה</div>
         </div>
 
-        <!-- S2 (full page): app -> folder, the skill drops in, the command is typed -->
+        <!-- S2 (full page): UI zoom on the command + the skill drops into the folder -->
         <div id="s2" class="p-scene">
           <div class="p-step"><b>שלב 2.</b> מתקינים את הסקיל</div>
-          <div id="ring2" class="p-ring"></div>
-          <div id="tile2" class="p-tile aa"></div>
-          <div class="p-label" id="lab2a" style="right: 905px; top: 860px">Claude Code</div>
-          <div id="fold2" class="p-obj aa"></div>
-          <div id="doc2" class="p-obj aa"><span>kowalski</span></div>
-          <div class="p-label" id="lab2b" style="right: 290px; top: 870px">skills</div>
-          <div id="cmd2" class="p-card aa"><div class="bar"><i></i><i></i><i></i><span>Terminal</span></div>
+          <div id="term2" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i></div>
             <div class="body"><div class="mono">› <span id="cmdT"></span><span id="ok2" style="color: #2fa860"> ✓</span></div></div></div>
-          <svg id="ink2" class="p-ink" viewBox="0 0 1080 1920"></svg>
+          <div id="doc2" class="p-obj aa"></div>
+          <div id="fold2" class="p-obj aa"></div>
+          <div class="p-label" id="lab2">skills</div>
         </div>
 
-        <!-- S3 (split): before / after with real content + verdict stamps -->
+        <!-- S3 (split): before / after on phones, the fan opens on "הופך" -->
         <div id="s3" class="p-scene">
           <div class="p-step">האתר <b>שלכם</b></div>
-          <div id="before" class="p-card ba aa"><div class="bar"><i></i><i></i><i></i><span>לפני</span></div>
-            <div class="p-site plain"><nav>נוף<span>פרויקטים</span></nav><h3>עיצוב פנים</h3><p>סטודיו בתל אביב</p><span class="btn">צור קשר</span></div></div>
-          <div id="after" class="p-card ba aa"><div class="bar"><i></i><i></i><i></i><span>אחרי</span></div>
-            <div class="p-site"><nav>נוֹף<span>פרויקטים</span></nav><h3>עיצוב פנים<br />שמרגיש בית</h3><span class="btn">לתיאום</span><div id="heroA" class="hero"><i id="ballA" style="position: absolute; width: 46px; height: 46px; border-radius: 50%; background: #fff; left: 14px; top: 14px; display: block"></i></div></div></div>
-          <div class="p-stamp" id="stBad" style="right: 270px; top: 770px">✕ משעמם</div>
-          <div class="p-stamp ok" id="stGood" style="right: 810px; top: 770px">✓ מטורף</div>
+          <div id="fan3" class="p-obj aa"></div>
+          <div id="ph1" class="p-obj aa"></div><div id="sc1" class="scr aa"><h3>עיצוב
+פנים</h3><span class="btn">צור קשר</span></div>
+          <div id="ph2" class="p-obj aa"></div><div id="sc2" class="scr aa"><h3>עיצוב
+שמרגיש
+בית</h3><div class="img" style="width: 90px; height: 90px; bottom: 84px"><i id="ball3"></i></div><span class="btn">לתיאום</span></div>
+          <div class="p-stamp" id="stBad" style="right: 325px; top: 810px">✕ משעמם</div>
+          <div class="p-stamp ok" id="stGood" style="right: 685px; top: 810px">✓ מטורף</div>
         </div>
-
       </div>
 
+      <div id="seam" class="p-seam"></div>
       <div id="flash" class="p-flash"></div>
-      <div id="hook" class="p-hook">איך בונים אתר
+      <div id="hook" class="p-hook stroke">איך בונים אתר
 שנראה מטורף?</div>
       <div id="caps" class="p-caps"></div>
       <div id="cta" class="p-cta"><div class="sp" id="ctaSp"></div><span class="ph">הוסיפו תגובה…</span><span class="word" id="ctaW"></span><div class="go" id="ctaGo"></div></div>
-      <div id="reply" class="p-bubble ai aa"><div class="sp" id="repSp"></div>שלחתי לך את הסקיל ✓</div>
+      <div id="reply" class="p-bubble ai aa"><div class="d" id="repDoc"></div>שלחתי לך את הסקיל ✓</div>
 
       <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="17.2" data-track-index="10" data-volume="1"></audio>
-      <audio id="aP0" src="assets/theme/sfx/pop.wav" data-start="0.35" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="aP0" src="assets/theme/sfx/pop.wav" data-start="0.3" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
       <audio id="aS1" src="assets/theme/sfx/swish.wav" data-start="2.92" data-duration="0.25" data-track-index="12" data-volume="0.3"></audio>
       <audio id="aP1" src="assets/theme/sfx/pop.wav" data-start="3.0" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
       <audio id="aP2" src="assets/theme/sfx/pop.wav" data-start="3.34" data-duration="0.12" data-track-index="13" data-volume="0.3"></audio>
@@ -118,93 +123,96 @@
       <audio id="aP4" src="assets/theme/sfx/pop.wav" data-start="5.6" data-duration="0.12" data-track-index="13" data-volume="0.3"></audio>
       <audio id="aS2" src="assets/theme/sfx/swish.wav" data-start="6.62" data-duration="0.25" data-track-index="12" data-volume="0.3"></audio>
       <audio id="aP5" src="assets/theme/sfx/pop.wav" data-start="6.74" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
-      <audio id="aP6" src="assets/theme/sfx/pop.wav" data-start="6.95" data-duration="0.12" data-track-index="13" data-volume="0.3"></audio>
-      <audio id="aK1" src="assets/theme/sfx/key.wav" data-start="7.9" data-duration="0.04" data-track-index="14" data-volume="0.3"></audio>
-      <audio id="aK2" src="assets/theme/sfx/key.wav" data-start="8.1" data-duration="0.04" data-track-index="15" data-volume="0.3"></audio>
-      <audio id="aK3" src="assets/theme/sfx/key.wav" data-start="8.3" data-duration="0.04" data-track-index="14" data-volume="0.3"></audio>
-      <audio id="aK4" src="assets/theme/sfx/key.wav" data-start="8.5" data-duration="0.04" data-track-index="15" data-volume="0.3"></audio>
-      <audio id="aP7" src="assets/theme/sfx/pop.wav" data-start="8.76" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
-      <audio id="aD1" src="assets/theme/sfx/ding.wav" data-start="9.1" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
+      <audio id="aK1" src="assets/theme/sfx/key.wav" data-start="7.0" data-duration="0.04" data-track-index="14" data-volume="0.3"></audio>
+      <audio id="aK2" src="assets/theme/sfx/key.wav" data-start="7.25" data-duration="0.04" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="aK3" src="assets/theme/sfx/key.wav" data-start="7.5" data-duration="0.04" data-track-index="14" data-volume="0.3"></audio>
+      <audio id="aK4" src="assets/theme/sfx/key.wav" data-start="7.75" data-duration="0.04" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="aP6" src="assets/theme/sfx/pop.wav" data-start="7.95" data-duration="0.12" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="aP7" src="assets/theme/sfx/pop.wav" data-start="8.85" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="aD1" src="assets/theme/sfx/ding.wav" data-start="8.95" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
       <audio id="aS3" src="assets/theme/sfx/swish.wav" data-start="9.92" data-duration="0.25" data-track-index="12" data-volume="0.3"></audio>
-      <audio id="aP8" src="assets/theme/sfx/pop.wav" data-start="10.05" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
-      <audio id="aT1" src="assets/theme/sfx/tick.wav" data-start="11.12" data-duration="0.03" data-track-index="17" data-volume="0.3"></audio>
-      <audio id="aP9" src="assets/theme/sfx/pop.wav" data-start="11.5" data-duration="0.12" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="aP8" src="assets/theme/sfx/pop.wav" data-start="10.0" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="aT1" src="assets/theme/sfx/tick.wav" data-start="10.5" data-duration="0.03" data-track-index="17" data-volume="0.3"></audio>
+      <audio id="aW1" src="assets/theme/sfx/whoosh.wav" data-start="11.1" data-duration="0.55" data-track-index="18" data-volume="0.25"></audio>
+      <audio id="aP9" src="assets/theme/sfx/pop.wav" data-start="11.4" data-duration="0.12" data-track-index="13" data-volume="0.3"></audio>
       <audio id="aD2" src="assets/theme/sfx/ding.wav" data-start="12.1" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
       <audio id="aP10" src="assets/theme/sfx/pop.wav" data-start="13.34" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
       <audio id="aK5" src="assets/theme/sfx/key.wav" data-start="14.0" data-duration="0.04" data-track-index="14" data-volume="0.3"></audio>
       <audio id="aK6" src="assets/theme/sfx/key.wav" data-start="14.25" data-duration="0.04" data-track-index="15" data-volume="0.3"></audio>
       <audio id="aK7" src="assets/theme/sfx/key.wav" data-start="14.5" data-duration="0.04" data-track-index="14" data-volume="0.3"></audio>
-      <audio id="aC1" src="assets/theme/sfx/click.wav" data-start="14.75" data-duration="0.05" data-track-index="18" data-volume="0.45"></audio>
+      <audio id="aC1" src="assets/theme/sfx/click.wav" data-start="14.75" data-duration="0.05" data-track-index="19" data-volume="0.45"></audio>
       <audio id="aP11" src="assets/theme/sfx/pop.wav" data-start="15.4" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
     </div>
     <script>
       const WORDS = [{"text": "אם", "start": 0.24, "end": 0.34}, {"text": "אתם", "start": 0.36, "end": 0.56}, {"text": "רוצים", "start": 0.58, "end": 0.8}, {"text": "לבנות", "start": 0.82, "end": 1.14}, {"text": "אתרים", "start": 1.18, "end": 1.6}, {"text": "שנראים", "start": 1.66, "end": 2.08}, {"text": "טוב", "start": 2.22, "end": 2.9}, {"text": "עם", "start": 2.94, "end": 3.08}, {"text": "motion,", "start": 3.16, "end": 3.76}, {"text": "מעברים", "start": 4.46, "end": 5.34}, {"text": "ומבנה", "start": 5.42, "end": 5.96}, {"text": "כמו", "start": 6.0, "end": 6.16}, {"text": "שצריך,", "start": 6.2, "end": 6.62}, {"text": "אתם", "start": 6.68, "end": 6.839}, {"text": "צריכים", "start": 6.919, "end": 7.1}, {"text": "להתקין", "start": 7.14, "end": 7.6}, {"text": "skill", "start": 7.86, "end": 8.24}, {"text": "שנקרא", "start": 8.3, "end": 8.7}, {"text": "Kowalski.", "start": 8.76, "end": 9.46}, {"text": "הסקיל", "start": 9.96, "end": 10.34}, {"text": "הזה", "start": 10.36, "end": 10.68}, {"text": "בעצם", "start": 10.74, "end": 11.1}, {"text": "הופך", "start": 11.12, "end": 11.38}, {"text": "את", "start": 11.38, "end": 11.44}, {"text": "האתר", "start": 11.48, "end": 11.7}, {"text": "שלכם", "start": 11.8, "end": 12.08}, {"text": "למטורף.", "start": 12.1, "end": 12.76}, {"text": "כל", "start": 13.34, "end": 13.44}, {"text": "מה", "start": 13.48, "end": 13.54}, {"text": "שאתם", "start": 13.58, "end": 13.74}, {"text": "צריכים", "start": 13.78, "end": 13.94}, {"text": "לעשות", "start": 13.98, "end": 14.4}, {"text": "זה", "start": 14.42, "end": 14.5}, {"text": "להגיב", "start": 14.56, "end": 14.84}, {"text": "לי", "start": 14.879, "end": 14.98}, {"text": "פה", "start": 15.039, "end": 15.14}, {"text": "ואני", "start": 15.2, "end": 15.36}, {"text": "שולח", "start": 15.4, "end": 15.7}, {"text": "לכם", "start": 15.76, "end": 16.0}, {"text": "את", "start": 16.02, "end": 16.14}, {"text": "זה.", "start": 16.18, "end": 16.34}];
       const P = window.PAPER;
-      const tl = gsap.timeline({ paused: true });
-      const ink = "#ink";
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
 
-      // ---- art ----
-      P.art("#tile2", "spark"); P.art("#fold2", "folder"); P.art("#doc2", "doc");
-      document.querySelector("#doc2").insertAdjacentHTML("beforeend", '<span>kowalski</span>');
-      P.art("#ctaSp", "sparkOrange"); P.art("#ctaGo", "send"); P.art("#repSp", "sparkOrange");
+        // ---- art ----
+        P.art(["#lapH", "#lap1"], "laptop"); P.art(["#ph1", "#ph2"], "phone"); P.art("#fan3", "fan");
+        P.art("#fold2", "folder"); P.art("#doc2", "doc"); P.art("#repDoc", "doc");
+        document.querySelector("#doc2").insertAdjacentHTML("beforeend", "<span>kowalski</span>");
+        P.art("#ctaSp", "sparkOrange"); P.art("#ctaGo", "send");
+        P.fit("#hook", 0.8); // longest hook line = 80% of the width
 
-      // ---- layouts: face (hook) -> split -> page -> split -> face (CTA) ----
-      P.layout(tl, "face", 0);
-      P.layout(tl, "split", 2.92);
-      P.layout(tl, "paper", 6.62, { flash: true });
-      P.layout(tl, "split", 9.92);
-      P.layout(tl, "face", 13.3);
-      P.scene(tl, "#s1", 2.92, 6.62); P.scene(tl, "#s2", 6.62, 9.92); P.scene(tl, "#s3", 9.92, 13.3);
-      tl.set(".hk", { autoAlpha: 0 }, 2.92);
+        // ---- layouts ----
+        P.layout(tl, "face", 0);
+        P.layout(tl, "split", 2.92);
+        P.layout(tl, "paper", 6.62, { flash: true });
+        P.layout(tl, "split", 9.92);
+        P.layout(tl, "face", 13.3);
+        P.scene(tl, "#s1", 2.92, 6.62); P.scene(tl, "#s2", 6.62, 9.92); P.scene(tl, "#s3", 9.92, 13.3);
 
-      // ---- hook: title + 3 real sites (rule e) ----
-      P.hook(tl, "#hook", 0.05, 2.92);
-      P.pop(tl, ".hk", 0.25, 0.22, { y: 40 });
-      [".hk"].forEach(() => tl.fromTo("#hk2", { y: 0 }, { y: -30, duration: 0.5, yoyo: true, repeat: 2, ease: "sine.inOut", immediateRender: false }, 1.2));
+        // ---- hook: title + laptop cycling real sites ----
+        P.hook(tl, "#hook", 0.05, 2.92);
+        P.pop(tl, ["#lapH", "#scrH"], 0.3, 0.05, { y: 40 });
+        P.cycle(tl, ".hs", [0, 1.0, 1.9]);
+        tl.set(["#lapH", "#scrH"], { autoAlpha: 0 }, 2.92);
 
-      // ---- captions (none under the hook) ----
-      P.captions(tl, "#caps", WORDS.filter((w) => w.start >= 2.9), { maxWords: 3, yFace: 1470 });
+        // ---- captions (none under the hook) ----
+        P.captions(tl, "#caps", WORDS.filter((w) => w.start >= 2.9), { maxWords: 3, yFace: 1470, yPaper: 1420 });
 
-      // ---- S1: motion / transitions / structure, each said word acts on the real site ----
-      ["#site1", "#tagM", "#tagT", "#tagS", "#h3b", ".c1"].forEach((s) => P.hide(tl, s));
-      P.rise(tl, "#site1", 3.0);
-      P.tag(tl, "#tagM", "#ink1", "M300,585 C300,620 280,650 270,680", "m", 3.16);
-      tl.fromTo("#ball", { x: 0, y: 0 }, { x: 80, y: 80, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, 3.3); // motion
-      P.tag(tl, "#tagT", "#ink1", "M700,470 C740,470 770,490 790,510", "t", 4.46);
-      tl.to("#h3a", { y: -40, opacity: 0, duration: 0.3, ease: "power2.in" }, 4.62);                              // a transition, for real
-      tl.fromTo("#h3b", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, 4.85);
-      P.pop(tl, ".c1", 5.42, 0.12, { y: 20 });                                                                     // structure
-      P.tag(tl, "#tagS", "#ink1", "M760,715 C760,730 770,740 780,750", "s", 5.5);
+        // ---- S1: Motion / מעברים / מבנה act on the site ----
+        ["#lap1", "#scr1", "#tagM", "#tagT", "#tagS", ".b1"].forEach((s) => P.hide(tl, s));
+        P.pop(tl, ["#lap1", "#scr1"], 3.0, 0.03, { y: 40 });
+        P.tag(tl, "#tagM", "#ink1", "M240,700 C290,700 330,690 360,670", "m", 3.16);
+        tl.fromTo("#ball1", { x: 0, y: 0 }, { x: 60, y: 60, duration: 0.45, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, 3.3);
+        P.tag(tl, "#tagT", "#ink1", "M860,425 C840,450 800,470 770,480", "t", 4.46);
+        tl.to("#h1a", { y: -30, opacity: 0, duration: 0.25, ease: "power2.in" }, 4.6);
+        tl.fromTo("#h1b", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, 4.85);
+        P.pop(tl, ".b1", 5.42, 0.12, { y: 20 });
+        P.tag(tl, "#tagS", "#ink1", "M890,735 C860,700 790,680 740,670", "s", 5.5);
 
-      // ---- S2: Claude Code -> skills folder, the command is typed, kowalski drops in ----
-      ["#tile2", "#ring2", "#fold2", "#lab2a", "#lab2b", "#cmd2", "#ok2"].forEach((s) => P.hide(tl, s));
-      P.pop(tl, ["#ring2", "#tile2"], 6.74, 0.06);
-      P.label(tl, "#lab2a", 6.85, 7.3);
-      P.pop(tl, "#fold2", 6.95);
-      P.label(tl, "#lab2b", 7.1, 9.6);
-      P.connect(tl, "#ink2", "M350,715 C450,690 540,690 630,715", "c2", 7.3);
-      P.rise(tl, "#cmd2", 7.6);
-      P.type(tl, "#cmdT", "/plugin install kowalski", 7.86, 30);
-      P.drop(tl, "#doc2", "#fold2", 8.5, [-330, -60]);
-      P.pop(tl, "#ok2", 8.76);
-      P.pulse(tl, "#fold2", 9.1);
+        // ---- S2: the command is typed big (UI zoom), the skill drops into the folder ----
+        ["#term2", "#ok2", "#fold2", "#lab2"].forEach((s) => P.hide(tl, s));
+        P.rise(tl, "#term2", 6.74);
+        P.type(tl, "#cmdT", "/plugin install kowalski", 6.95, 26);
+        P.pop(tl, "#fold2", 7.95);
+        P.label(tl, "#lab2", 8.1, 9.5);
+        P.drop(tl, "#doc2", "#fold2", 8.4, [0, -300]);
+        P.pop(tl, "#ok2", 8.85);
+        P.pulse(tl, "#fold2", 9.15);
 
-      // ---- S3: before / after with verdicts on the words ----
-      ["#before", "#after", "#stBad", "#stGood"].forEach((s) => P.hide(tl, s));
-      P.rise(tl, "#before", 10.0);
-      P.pop(tl, "#stBad", 11.12);
-      P.rise(tl, "#after", 11.5);
-      tl.fromTo("#ballA", { x: 0, y: 0 }, { x: 60, y: 60, duration: 0.4, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, 11.7);
-      P.pop(tl, "#stGood", 12.1);
-      P.pulse(tl, "#after", 12.1);
+        // ---- S3: before / after, the fan opens as the site "turns" ----
+        ["#ph1", "#sc1", "#ph2", "#sc2", "#fan3", "#stBad", "#stGood"].forEach((s) => P.hide(tl, s));
+        P.pop(tl, ["#ph1", "#sc1"], 10.0, 0.03, { y: 40 });
+        P.pop(tl, "#stBad", 10.5);
+        P.pop(tl, "#fan3", 11.05);
+        P.fanOpen(tl, "#fan3", 11.12, 90);
+        P.pop(tl, ["#ph2", "#sc2"], 11.4, 0.03, { y: 40 });
+        tl.fromTo("#ball3", { x: 0, y: 0 }, { x: 40, y: 40, duration: 0.4, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, 11.6);
+        P.pop(tl, "#stGood", 12.1);
+        P.pulse(tl, ["#ph2", "#sc2"], 12.1);
 
-      // ---- S4: comment pill types the word, the reply arrives ----
-      P.hide(tl, "#cta"); P.hide(tl, "#reply");
-      P.cta(tl, "#cta", "KOWALSKI", 13.34);
-      tl.fromTo("#ctaGo", { scale: 1 }, { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1, immediateRender: false }, 14.75);
-      P.pop(tl, "#reply", 15.4, 0, { y: 30 });
+        // ---- S4: comment pill, the reply with the file ----
+        P.hide(tl, "#cta"); P.hide(tl, "#reply");
+        P.cta(tl, "#cta", "KOWALSKI", 13.34);
+        tl.fromTo("#ctaGo", { scale: 1 }, { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1, immediateRender: false }, 14.75);
+        P.pop(tl, "#reply", 15.4, 0, { y: 30 });
 
-      window.__timelines["main"] = tl;
+        window.__timelines["main"] = tl;
+      });
     </script>
   </body>
 </html>

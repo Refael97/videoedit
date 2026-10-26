@@ -23,6 +23,10 @@
     phone: '<svg viewBox="0 0 140 260"><rect x="6" y="6" width="128" height="248" rx="22" fill="#f4efe6" stroke="#2a241b" stroke-width="5"/><rect x="16" y="20" width="108" height="220" rx="12" fill="#fff" stroke="#2a241b" stroke-width="2"/><rect x="52" y="12" width="36" height="7" rx="3.5" fill="#2a241b"/></svg>',
     // line-art document
     doc: '<svg viewBox="0 0 180 230"><path d="M10 14 Q10 6 18 6 H120 L170 56 V214 Q170 222 162 222 H18 Q10 222 10 214 Z" fill="#fff" stroke="#2a241b" stroke-width="5" stroke-linejoin="round"/><path d="M120 6 V48 Q120 56 128 56 H170" fill="#f4efe6" stroke="#2a241b" stroke-width="5" stroke-linejoin="round"/></svg>',
+    // swatch fan: 7 cards on one pivot (class "sw" each, rotated by PAPER.fanOpen)
+    fan: '<svg viewBox="0 0 320 300">' + ["#c65a3c", "#e39a4f", "#f2c95b", "#9cc56a", "#5fb2c9", "#6f7fd1", "#a36cc2"].map((c, i) =>
+      '<g class="sw" style="transform-origin:70px 250px"><rect x="52" y="40" width="44" height="220" rx="10" fill="' + c + '" stroke="#2a241b" stroke-width="4"/><rect x="58" y="214" width="32" height="32" rx="6" fill="#fff" opacity=".85"/></g>').join("") +
+      '<circle cx="74" cy="240" r="9" fill="#fff" stroke="#2a241b" stroke-width="4"/></svg>',
     cursor: '<svg viewBox="0 0 36 50"><path d="M3 2v38l9.5-9 7 15 6.5-3-6.8-14.6H33z" fill="#fff" stroke="#000" stroke-width="2.6" stroke-linejoin="round"/></svg>',
     send: '<svg viewBox="0 0 24 24"><path d="M5 12h13M12 5l7 7-7 7" fill="none" stroke="#c65a3c" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     up: '<svg viewBox="0 0 24 24"><path d="M12 19V6M6 11l6-6 6 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -45,6 +49,7 @@
       const vv = { face: { y: 0, scale: 1 }, split: { y: shift, scale: o.splitScale || 1 }, paper: { y: shift, scale: 1 } }[mode];
       if (!P._layouts.length) { tl.set(stage, st, 0); tl.set(vid, vv, 0); }
       else { tl.set(stage, st, t); tl.set(vid, vv, t); }
+      if (o.seam !== false && $(o.seamEl || "#seam")) { const sm = $(o.seamEl || "#seam"); if (!P._layouts.length) tl.set(sm, { opacity: mode === "split" ? 1 : 0 }, 0); else tl.set(sm, { opacity: mode === "split" ? 1 : 0 }, t); }
       P._layouts.push([t, mode]);
       if (o.flash) ft(tl, o.flashEl || "#flash", { opacity: 0 }, { keyframes: [{ opacity: 0.9, duration: 0.05 }, { opacity: 0, duration: 0.12 }] }, t - 0.05);
     },
@@ -126,6 +131,18 @@
       for (let i = 1; i < pts.length; i++) tl.to(sel, { x: pts[i][0], y: pts[i][1], duration: Math.max(0.05, pts[i][2] - pts[i - 1][2] - 0.05), ease: "power2.inOut" }, pts[i - 1][2]);
       clicks.forEach((c) => tl.fromTo(sel, { scale: 1 }, { scale: 0.82, duration: 0.07, yoyo: true, repeat: 1, ease: "power1.inOut", ...IR }, c));
       if (o.end != null) tl.set(sel, { opacity: 0 }, o.end);
+    },
+    // fan: the swatch fan opens (each card rotates out from the pivot)
+    fanOpen(tl, sel, t, spread = 80) { const sw = $$(sel + " .sw"), n = sw.length; sw.forEach((g, i) => ft(tl, g, { rotation: 0 }, { rotation: -spread / 2 + (spread * i) / (n - 1) + 30, duration: 0.5, ease: "back.out(1.4)" }, t + i * 0.04)); },
+    // fit: set a text block's font size so its longest line spans `share` of `width` (deterministic, run at build)
+    fit(sel, share = 0.8, width = 1080, min = 48, max = 140) {
+      const el = $(sel); let fs = max; el.style.fontSize = fs + "px";
+      const longest = () => { let w = 0; const lines = el.textContent.split("\n");
+        const probe = document.createElement("span"); probe.style.cssText = "position:absolute;visibility:hidden;white-space:pre;font:inherit;letter-spacing:inherit"; el.appendChild(probe);
+        lines.forEach((l) => { probe.textContent = l; w = Math.max(w, probe.getBoundingClientRect().width); }); probe.remove(); return w; };
+      while (fs > min && longest() > share * width) { fs -= 2; el.style.fontSize = fs + "px"; }
+      while (fs < max && longest() < share * width - 20) { fs += 2; el.style.fontSize = fs + "px"; }
+      return fs;
     },
     // emphasize: a quick pulse on the thing the voice stresses
     pulse(tl, sel, t) { tl.fromTo(sel, { scale: 1 }, { scale: 1.08, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", ...IR }, t); },

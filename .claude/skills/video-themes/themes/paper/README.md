@@ -28,7 +28,7 @@ one take, 9:16, 45–90 s. It sells **clarity**: you could pause any frame and c
   connectors draw in dotted orange. About 1.5 actions per second inside the page.
 
 ## Text
-- **Hook:** two white lines at the top over the face ("Everything you need to / edit your video with AI"),
+- **Hook:** two white lines (Heebo 800, fitted to ~80% width) at the top over the face ("Everything you need to / edit your video with AI"),
   with a collage of 3 real video thumbnails cycling under it — never text alone.
 - **Captions:** 1–3 words, white, heaviest weight, thick black outline, on the seam in split (47%),
   at 62% on the full face or full page. They swap hard on the words.
@@ -50,7 +50,8 @@ click (cursor), key (typing), tick (list items), swish (layout change), ding (a 
 - **Shot:** a medium close-up, chest up, the speaker **centered**, eyes at ~40% of the frame height. The edit
   uses only the bottom half in split, so keep head and hands within the middle band of the frame.
 - **Background:** a calm, slightly dark home/office background (kitchen, shelves), out of focus. It contrasts with
-  the bright cream page above.
+  the bright cream page above. **A white wall or daylight-bright room (mean luma > ~170) merges with the page at
+  the seam**: if you can't avoid it, the edit darkens the face half ~15% or adds a soft seam shadow.
 - **Light:** soft front light on the face; the face should read clearly at half-frame size.
 - **Audio:** a clip-on mic is fine to show (the anchor holds it). Talk fast and continuously, no long pauses.
 - **Avoid:** wide shots (the face gets too small in split), standing up, busy bright backgrounds that compete with

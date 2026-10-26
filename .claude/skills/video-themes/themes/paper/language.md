@@ -31,11 +31,12 @@ Every page composition = **step label (top) · one hero (center) · labels / ink
 | Step label | 70px Heebo 700, orange "שלב N." + ink title, centered at y 300 (16%) |
 | Section title (no step) | 58px Heebo 700, one orange word |
 | Object labels | 40px Heebo 700 |
-| Card text | 27px Heebo 500/700; card titles 32px 700; code/links JetBrains Mono 23px |
+| Card text | **minimum 26px** at the size it is shown; body 28–34px, titles 36–44px 700, code/links JetBrains Mono ≥28px. Anything that would render under 26px (nav items, URLs in a bar, secondary lines) is **deleted**: it is decoration, not content |
 | Tags | 30px Heebo 700 white on orange pill, height 54 |
 | Captions | 76px Heebo 800, white, 10px black outline |
-| Hero object | 300–560px wide (folder 560 when alone, 180–240 when parked or as a child) |
-| Card on page | 600–760px wide; card over face 760–880px wide |
+| Hook | **Heebo 800+**, white; size is fitted so the longest line spans ≈80% of the width (`PAPER.fit`), not a fixed size. On bright footage add the caption outline (`.p-hook.stroke`) or darken the top half (`.p-shade`) |
+| Hero object | split: 300–560px wide. **Full page: the hero is 35–45% of the page height (670–860px) and centered**; children/parked objects 180–240px. A full page must never look mostly empty |
+| Card on page | **UI zoom (the anchor's main technique): 80–90% of the frame width (860–970px), shown enlarged, allowed to bleed off one side of the frame; show only the relevant part** (the dropdown, the prompt, the command). Smaller cards (600–760) only for a whole small window |
 | Spacing | 24 / 36 / 60px; grid step 48px — align objects to the grid when you can |
 
 ## 4. Color meaning
@@ -57,7 +58,8 @@ One accent per element besides ink; orange is the default.
 - **Full page:** when a drawing needs the whole height (trees, recaps, illustrations); captions at 62% (1190).
 - Layout changes every ~4–6 s *(1/1: 15 switches in 77 s)*. A step usually spans several layouts.
 - One hero at a time. When the next object arrives, the previous one **parks** (shrinks, moves up/aside) or leaves.
-- Nothing closer than 60px to the frame sides; nothing under the seam in split.
+- Nothing closer than 60px to the frame sides **except UI-zoom cards, which may bleed off one side**; nothing under the seam in split.
+- **The seam on bright footage:** if the footage's mean luma is above ~170 (white wall, daylight), darken the face half by ~15% (`.p-face.dim`) or add the soft seam shadow (`.p-seam`) so the page and the face don't merge into one bright block.
 - **Captions never cover the mouth.** 62% is the anchor's value for its framing; if the speaker's chin is lower,
   move full-face captions just under the chin (`captions(..., { yFace })`). Check one full-face frame.
 
@@ -91,13 +93,15 @@ anything moving without a story event.
 2. Classify and build:
    | The sentence is about… | Build it as |
    |---|---|
-   | a tool / app you open or install | its **real window** as a card (title bar + the real content), the cursor using it |
+   | a tool / app you open or install | **UI zoom**: its real window shown big (80–90% wide, bleeding off one side), cropped to the part being used; the cursor or typing acts on it |
    | an app as a thing (download, choose) | an orange **tile** (sparkle or the app's first letter) in a ring + label; alternatives as small tiles, the wrong one struck |
    | files, a project, organization | **folders** (+ `branch` into sub-folders, `drop` files into them) |
    | a prompt / an instruction | a **prompt card**: the real prompt text, blanks highlighted yellow |
    | links / resources / tools list | a **table card**: name + one-line role + the real link |
    | examples, inspiration, results | 3 **phone thumbnails** of real videos/screens, `cycle` or `pop` in a row |
-   | how something works / its parts | a **line-drawn prop** (laptop, phone, doc, camera…) + orange **tags** on its parts |
+   | how something works / its parts | a **line-drawn prop** (laptop, phone, doc, fan, camera…) + orange **tags** on its parts |
+   | a website (only when the word is literally "site / אתר") | a real mini page (`.p-site`) inside a laptop/phone illustration or a UI zoom; otherwise prefer the props |
+   | style, design, colors, a look | the **swatch fan** opening (`PAPER.art(.., "fan")` + `fanOpen`) |
    | A connects to / reads B | two objects + orange **dotted connector** |
    | a choice between options | the options as tiles/cards, the right one `pulse`, the others `strike` |
    | a before / after, a comparison | two cards side by side with **real content**, an orange stamp on the loser ("✕ …") and a green one on the winner |
@@ -133,7 +137,7 @@ a. **Activation.** Every element has an agent: the **cursor** clicks the real UI
    searches and the comment pill; a **drop** puts files into folders; the **teacher's hand** (orange arrows,
    strikes, tags, dotted connectors) points, corrects and names. An object that only pops in must be acted on
    within ~1 s.
-b. **Real, readable content.** Cards show the real prompt, the real link, the real menu items, real file names;
+b. **Real, readable content** (≥26px as shown, §3). Cards show the real prompt, the real link, the real menu items, real file names;
    thumbnails are real frames; a website is a real mini page with a headline and a button (`.p-site`). Never bars,
    skeletons or lorem.
 c. **The thing itself first.** "Download the app" → the app tile and the arrow to it; "select the folder" → the
