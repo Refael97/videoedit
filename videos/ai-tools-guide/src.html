@@ -1,0 +1,264 @@
+<title>9 כלי ה-AI של 2026</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800&family=Assistant:wght@400;600;700&display=swap">
+<style>
+  /* Layout: one reading column in the carousel's own look (soft porcelain, indigo highlight); every tool is a row: carousel slide beside its explanation and links */
+  :root {
+    --bg: #f8f6f7;
+    --paper: #ffffff;
+    --ink: #121225;
+    --muted: #5b5a6e;
+    --line: #e7e3ea;
+    --accent: #4a40fc;
+    --accent-soft: #ecebff;
+    --tip: #fff6e0;
+    --tip-line: #f2cf73;
+    --f-display: "Rubik", "Assistant", system-ui, sans-serif;
+    --f-body: "Assistant", "Rubik", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 18px;
+    line-height: 1.7;
+    direction: rtl;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0 72px;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  a { color: var(--accent); }
+
+  /* hero */
+  .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; padding-block: 48px 36px; }
+  .hero-text { display: grid; gap: 16px; min-width: 0; }
+  .kicker { font-family: var(--f-display); font-weight: 500; font-size: 15px; color: var(--accent); }
+  h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(40px, 7vw, 68px); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+  .hl { background: linear-gradient(transparent 62%, var(--accent-soft) 62%); padding: 0 4px; color: var(--accent); }
+  .lead { color: var(--muted); font-size: 20px; margin: 0; max-width: 46ch; }
+  .hero img { width: 100%; border-radius: 22px; box-shadow: 0 30px 60px -28px rgba(30, 24, 90, 0.35); display: block; }
+
+  /* index */
+  .index { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 8px 8px; }
+  .index a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px 7px 12px; font-family: var(--f-display); font-weight: 500; font-size: 15px; }
+  .index a b { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .index a:hover { border-color: var(--accent); }
+  .index a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* tools */
+  .tools { display: grid; gap: 28px; margin-top: 36px; }
+  .tool { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 32px; align-items: start; background: var(--paper); border: 1px solid var(--line); border-radius: 24px; padding: 28px; scroll-margin-top: 16px; }
+  .tool img { width: 100%; border-radius: 16px; display: block; }
+  .body { display: grid; gap: 12px; min-width: 0; }
+  .num { font-family: var(--f-display); font-weight: 700; font-size: 14px; color: var(--accent); font-variant-numeric: tabular-nums; }
+  h2 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 4vw, 34px); line-height: 1.15; margin: 0; text-wrap: balance; }
+  .tag { font-family: var(--f-display); font-weight: 500; font-size: 18px; color: var(--muted); margin: -4px 0 0; }
+  .body p { margin: 0; max-width: 62ch; }
+  .tip { background: var(--tip); border: 1px solid var(--tip-line); border-radius: 14px; padding: 12px 16px; }
+  .tip b { font-family: var(--f-display); }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-family: var(--f-display); font-weight: 700; font-size: 16px; color: #fff; background: var(--accent); border-radius: 999px; padding: 10px 18px; box-shadow: 0 10px 22px -12px rgba(74, 64, 252, 0.8); }
+  .btn.ghost { color: var(--accent); background: var(--accent-soft); box-shadow: none; }
+  .btn:hover { filter: brightness(1.07); }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .url { font-size: 14px; color: var(--muted); direction: ltr; text-align: right; word-break: break-all; }
+
+  /* bonus + cta */
+  .bonus { margin-top: 28px; background: var(--ink); color: #f5f4fb; border-radius: 24px; padding: 32px; display: grid; gap: 12px; }
+  .bonus .num { color: #b8b3ff; }
+  .bonus h2 { color: #fff; }
+  .bonus p { margin: 0; max-width: 60ch; color: #d9d7ea; }
+  .cta { margin-top: 28px; display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 28px; align-items: center; background: var(--accent-soft); border-radius: 24px; padding: 28px; }
+  .cta h2 { font-size: clamp(24px, 3.6vw, 30px); }
+  .cta p { margin: 0; }
+  .cta img { width: 100%; border-radius: 16px; display: block; }
+  .save { margin-top: 24px; text-align: center; font-family: var(--f-display); font-weight: 700; font-size: 18px; }
+  footer { margin-top: 40px; text-align: center; color: var(--muted); font-size: 15px; }
+
+  @media (max-width: 760px) {
+    .hero, .tool, .cta { grid-template-columns: 1fr; }
+    .hero { padding-block: 28px 20px; gap: 24px; }
+    .hero img { max-width: 420px; }
+    .tool { padding: 20px; gap: 18px; }
+    .tool img { max-width: 360px; }
+    .cta img { max-width: 300px; }
+    body { font-size: 17px; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-text">
+      <span class="kicker">המדריך המלא מהקרוסלה · רפאל לוי</span>
+      <h1>9 כלי ה-AI שכדאי לכם <span class="hl">להכיר ב-2026</span></h1>
+      <p class="lead">כמו שהבטחתי, הנה הרשימה המלאה מהקרוסלה, כולל הסברים וקישורים לכל הכלים.</p>
+    </div>
+    <img src="{{S1}}" alt="שקף הפתיחה: כלי ה-AI הכי טובים לפי השימוש שלהם" />
+  </header>
+
+  <nav class="index" aria-label="קפיצה לכלי">
+    <a href="#claude"><b>1</b>Claude + Claude Code</a>
+    <a href="#images"><b>2</b>ChatGPT + Nano Banana</a>
+    <a href="#higgsfield"><b>3</b>Higgsfield</a>
+    <a href="#heygen"><b>4</b>HeyGen</a>
+    <a href="#hyperframes"><b>5</b>HyperFrames</a>
+    <a href="#elevenlabs"><b>6</b>ElevenLabs</a>
+    <a href="#codex"><b>7</b>Codex</a>
+    <a href="#composio"><b>8</b>Composio</a>
+    <a href="#bonus"><b>9</b>הבונוס</a>
+  </nav>
+
+  <main class="tools">
+    <section class="tool" id="claude">
+      <img src="{{S2}}" alt="שקף Claude ו-Claude Code" loading="lazy" />
+      <div class="body">
+        <span class="num">כלי 1 מתוך 9</span>
+        <h2>Claude + Claude Code</h2>
+        <p class="tag">העוזר האישי והמתכנת שלכם 🧠</p>
+        <p>אחד השילובים הכי משתלמים לדעתי בעולם ה-AI.</p>
+        <p>Claude מעולה למחקר, כתיבה, ניתוח מסמכים, פתרון בעיות ותכנון פרויקטים. Claude Code יכול לעבוד ישירות על פרויקטי תוכנה, לכתוב קוד, לתקן תקלות ולהריץ בדיקות.</p>
+        <div class="links">
+          <a class="btn" href="https://claude.ai" target="_blank" rel="noopener">Claude{{ARROW}}</a>
+          <a class="btn ghost" href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener">Claude Code: התחלה מהירה{{ARROW}}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool" id="images">
+      <img src="{{S3}}" alt="שקף ChatGPT ו-Nano Banana" loading="lazy" />
+      <div class="body">
+        <span class="num">כלי 2 מתוך 9</span>
+        <h2>ChatGPT + Nano Banana</h2>
+        <p class="tag">יצירת תמונות ועיצובים 🎨</p>
+        <p>שני כלים חזקים שמשלימים אחד את השני.</p>
+        <p>ChatGPT מצוין ליצירת תמונות מאפס, מודעות, גרפיקות ועיצובים עם טקסט.</p>
+        <p>Nano Banana של Google Gemini מצטיין בעריכת תמונות קיימות, שינוי רקעים, החלפת פריטים ושמירה על זהות של אנשים ומוצרים.</p>
+        <p class="tip"><b>💡 הטיפ שלי:</b> צרו את התמונה הראשונית בכלי אחד, ואז שפרו וערכו אותה בכלי השני.</p>
+        <div class="links">
+          <a class="btn" href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT{{ARROW}}</a>
+          <a class="btn ghost" href="https://gemini.google.com" target="_blank" rel="noopener">Gemini / Nano Banana{{ARROW}}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool" id="higgsfield">
+      <img src="{{S4}}" alt="שקף Higgsfield: סרטון קולנועי בלי מצלמה" loading="lazy" />
+      <div class="body">
+        <span class="num">כלי 3 מתוך 9</span>
+        <h2>Higgsfield</h2>
+        <p class="tag">יצירת סרטונים קולנועיים 🎬</p>
+        <p>פלטפורמה ליצירת תמונות וסרטוני AI שמרכזת מודלים מתקדמים במקום אחד.</p>
+        <p>אפשר להפוך תמונה לסרטון, ליצור תנועות מצלמה קולנועיות, להפיק פרסומות וליצור תוכן לרשתות החברתיות, גם בלי מצלמה או צוות צילום.</p>
+        <div class="links">
+          <a class="btn" href="https://higgsfield.ai" target="_blank" rel="noopener">Higgsfield{{ARROW}}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool" id="heygen">
+      <img src="{{S5}}" alt="שקף HeyGen: כפיל דיגיטלי" loading="lazy" />
+      <div class="body">
+        <span class="num">כלי 4 מתוך 9</span>
+        <h2>HeyGen</h2>
+        <p class="tag">יצירת כפיל דיגיטלי 👤</p>
+        <p>רוצים לצלם סרטונים בלי לעמוד מול המצלמה בכל פעם?</p>
+        <p>HeyGen מאפשר ליצור כפיל דיגיטלי שנראה ומדבר כמוכם. מכניסים טקסט, בוחרים קול, ומייצרים סרטון חדש עם הדמות שלכם.</p>
+        <p>מתאים במיוחד ליוצרי תוכן, בעלי עסקים, מדריכים ומשווקים.</p>
+        <div class="links">
+          <a class="btn" href="https://www.heygen.com" target="_blank" rel="noopener">HeyGen{{ARROW}}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool" id="hyperframes">
+      <img src="{{S6}}" alt="שקף HyperFrames: עורך וידאו AI" loading="lazy" />
+      <div class="body">
+        <span class="num">כלי 5 מתוך 9</span>
+        <h2>HyperFrames</h2>
+        <p class="tag">יצירת וידאו באמצעות AI 🎞️</p>
+        <p>כלי ליצירת סרטונים ואנימציות באמצעות קוד וסוכני AI.</p>
+        <p>מתארים מה רוצים ליצור, וסוכן AI תומך יכול לבנות קומפוזיציות וידאו עם מושן, כתוביות, מעברים ואנימציות.</p>
+        <p>מתאים במיוחד למי שרוצה להפיק סרטונים בלי לערוך כל פריים ידנית. ייתכן שתידרש התקנה או עבודה עם סוכן AI.</p>
+        <div class="links">
+          <a class="btn" href="https://www.hyperframes.dev/create" target="_blank" rel="noopener">התחלת עבודה{{ARROW}}</a>
+          <a class="btn ghost" href="https://www.hyperframes.dev/studio" target="_blank" rel="noopener">גרסת Studio{{ARROW}}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool" id="elevenlabs">
+      <img src="{{S7}}" alt="שקף ElevenLabs: קול אנושי לסוכן" loading="lazy" />
+      <div class="body">
+        <span class="num">כלי 6 מתוך 9</span>
+        <h2>ElevenLabs</h2>
+        <p class="tag">שכפול קול וקריינות אנושית 🎙️</p>
+        <p>אחד הכלים המרשימים ליצירת קול באמצעות AI.</p>
+        <p>מאפשר לשכפל את הקול שלכם בהסכמה ובאימות, ליצור קריינות, לתת קול לדמויות ולבנות סוכנים קוליים.</p>
+        <p>מודל Eleven v4 תומך במגוון רחב של שפות, כולל עברית, ומאפשר יצירת דיבור עם אינטונציה והבעה טבעיות.</p>
+        <div class="links">
+          <a class="btn" href="https://elevenlabs.io" target="_blank" rel="noopener">ElevenLabs{{ARROW}}</a>
+          <a class="btn ghost" href="https://elevenlabs.io/v4" target="_blank" rel="noopener">מודל Eleven v4{{ARROW}}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool" id="codex">
+      <img src="{{S8}}" alt="שקף Codex: מתכנת שחוקר ובונה" loading="lazy" />
+      <div class="body">
+        <span class="num">כלי 7 מתוך 9</span>
+        <h2>Codex</h2>
+        <p class="tag">סוכן התכנות של OpenAI 💻</p>
+        <p>לא רק כותב קוד, אלא גם עוזר לתכנן, לפתח, לחקור, לבדוק ולתקן.</p>
+        <p>Codex יכול לעבוד על פרויקטים שלמים, להבין בסיסי קוד, להוסיף פיצ'רים, להריץ בדיקות ולהיעזר במחקר ובתיעוד לצורך פתרון בעיות.</p>
+        <p>מתאים למפתחים וגם למי שרוצה לבנות מוצרים דיגיטליים בעזרת AI.</p>
+        <div class="links">
+          <a class="btn" href="https://openai.com/codex" target="_blank" rel="noopener">Codex{{ARROW}}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool" id="composio">
+      <img src="{{S9}}" alt="שקף Composio: מחבר את Claude לאפליקציות" loading="lazy" />
+      <div class="body">
+        <span class="num">כלי 8 מתוך 9</span>
+        <h2>Composio</h2>
+        <p class="tag">מחברים AI לאפליקציות שלכם 🔌</p>
+        <p>זה הכלי שהכי כדאי להכיר אם אתם רוצים ש-AI לא רק יענה לכם, אלא גם יבצע פעולות.</p>
+        <p>Composio מספק גישה ליותר מ-1,500 אפליקציות ושירותים, כמו Gmail, Google Calendar, Notion, Slack ועוד.</p>
+        <p>אפשר לחבר אותו ל-Claude, ל-Claude Code ול-Codex, ולהפעיל תהליכי עבודה בין מערכות שונות, גם כאשר אין חיבור מובנה באפליקציית ה-AI שלכם.</p>
+        <p class="tip"><b>לדוגמה:</b> לבקש מהסוכן למצוא הודעות חשובות במייל, לתעד משימות ולעדכן את הצוות.</p>
+        <div class="links">
+          <a class="btn" href="https://composio.dev" target="_blank" rel="noopener">הרשמה{{ARROW}}</a>
+          <a class="btn ghost" href="https://composio.dev/works-with" target="_blank" rel="noopener">חיבור לסוכני AI{{ARROW}}</a>
+          <a class="btn ghost" href="https://docs.composio.dev/docs/agent-plugins" target="_blank" rel="noopener">מדריך התקנה{{ARROW}}</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="bonus" id="bonus">
+    <span class="num">9 · הבונוס הכי חשוב 💡</span>
+    <h2>לא צריך לשלם על כל הכלים בבת אחת</h2>
+    <p>תתחילו מכלי אחד שפותר לכם בעיה אמיתית, תלמדו להשתמש בו כמו שצריך, ורק אז תוסיפו את הכלי הבא.</p>
+  </section>
+
+  <section class="cta">
+    <div class="body">
+      <h2>רוצים ללמוד להשתמש ב-AI בצורה פשוטה, פרקטית ובלי קורסים מסובכים?</h2>
+      <p>תעקבו אחרי העמוד שלי. אני משתף מדריכים, כלים חדשים וטריקים שיעזרו לכם לעבוד חכם יותר.</p>
+      <div class="links">
+        <a class="btn" href="https://www.instagram.com/refaelleviii/" target="_blank" rel="noopener">לעמוד שלי באינסטגרם{{ARROW}}</a>
+      </div>
+      <span class="url">@refaelleviii</span>
+    </div>
+    <img src="{{S10}}" alt="שקף הסיום: רוצים את כל הכלים עם הקישורים" loading="lazy" />
+  </section>
+
+  <p class="save">📌 שמרו את הרשימה, היא תחסוך לכם המון זמן!</p>
+  <footer>רפאל לוי · מומחה AI ושיווק דיגיטלי</footer>
+</div>
