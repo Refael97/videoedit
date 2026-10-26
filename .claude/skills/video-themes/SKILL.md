@@ -12,7 +12,7 @@ description: >
 
 Separate **content** from **look**:
 
-1. Claude writes a theme-agnostic storyboard (scene list) in the format in `contract.md`.
+1. Claude writes a theme-agnostic storyboard (scene list): components from the contract + the words.
 2. The theme decides how every component looks and moves (`themes/<name>/`).
 3. Proof it works: the same storyboard rendered in 3 themes.
 
@@ -21,11 +21,9 @@ Built on HyperFrames: one paused GSAP timeline at `window.__timelines["main"]`, 
 
 ## Themes
 
-| Theme | Status | Source | Format |
+| Theme | Status | Look | Format |
 |---|---|---|---|
-| `notebook` | draft (`theme.md`) — needs reference measurements | creator tutorial reel (4 steps, Claude Code) | 9:16 |
-| `apple` | stub — waiting for the reference creator's videos | Liquid Glass / Apple design language | 9:16 |
-| `neon` | `theme.md` + `tokens.css` extracted | `videos/yellow-spec/index.html` | 16:9 / 9:16 |
+| `glass` | v1 — README, spec, tokens, components, motion, sfx, preview (`videos/theme-glass-preview`) | talking head + a floating frosted-glass desktop with app windows, punch zooms | 9:16 |
 
 Default when the user names none: ask once, then remember the answer in the project's `meta.json`
 (`"theme": "<name>"`).
@@ -34,37 +32,53 @@ Default when the user names none: ask once, then remember the answer in the proj
 
 ```
 themes/<name>/
-  theme.md         rules in words: palette, type, layouts, caption rules, pacing, do / don't
-  tokens.css       CSS custom properties only (colors, fonts, radii, shadows, sizes)
-  components.html  every contract component, ready to copy            (milestone 2)
-  motion.js        window.THEME = { enter, exit, transition, ... } — fixed seek-safe GSAP functions (milestone 2)
-  sfx/             click, whoosh, pop, music bed                       (milestone 2)
-  preview.mp4      short demo of every component                       (milestone 2, kept out of git if > 20 MB)
+  README.md     the editing prompt: idea, who it is for, editing character, text, elements per beat, sound, never
+  theme.md      measured spec: type, color, layout, motion timings, captions, sound levels, contract mapping
+  tokens.css    @font-face + CSS custom properties (colors, sizes, radii, shadows, positions)
+  theme.css     every component as CSS classes (uses the tokens)
+  motion.js     window.<THEME> — DOM builders + seek-safe GSAP helpers (enter, exit, zoom, captions, cta…)
+  fonts/        OFL fonts only
+  sfx/          UI sound set (synthesized with scripts/synth_sfx.py, free to redistribute)
+  vendor/       gsap.min.js
 ```
+`scripts/use_theme.sh <theme> <project>` copies the runtime parts into `<project>/assets/theme/`.
 
 ## Workflow: building a video in a theme
 
-1. Read `contract.md` (components + scene format) and `themes/<name>/theme.md`.
+1. Read `themes/<name>/README.md` (character) and `theme.md` (numbers + contract mapping).
 2. Write the storyboard as a scene list. No colors, fonts or pixel values in it — only components and text.
-3. Build `index.html` from `components.html` + `tokens.css` + `motion.js`. Never invent a component
+3. `use_theme.sh`, then build `index.html` from `theme.css` classes + `motion.js` helpers (copy the preview project's structure). Never invent a component
    the theme does not define; if one is missing, add it to the theme first (so the next video gets it).
 4. Check the theme's rules (`theme.md` → Rules) against the storyboard: caption words, max time on one
    layout, forbidden moves.
 5. `npx --yes hyperframes@0.8.150 check`, snapshots of every scene, then render at 60 fps in the background.
 
-## Workflow: building a theme from reference videos
+## Workflow: building a theme from a reference video
 
-1. Put the videos in `references/<creator>/`. Copyrighted content: the repo must stay private and nothing from `references/` ships inside a theme.
-2. Run `python3 .claude/skills/video-themes/scripts/analyze_refs.py references/<creator>` — per video it
-   writes a 1 fps contact sheet (10×2 tiles per image), scene-cut times, cut frequency, a pixel-sampled
-   palette and basic metadata into `references/<creator>/_analysis/`, plus a `summary.json` across videos.
-3. Transcribe with word timings (ElevenLabs scribe via a public URL: Higgsfield `media_upload` → PUT →
-   `media_confirm` → ElevenLabs `creative_attach_reference_file` → `creative_transcribe_audio`) to get
-   words per caption and caption timing.
-4. Measure, don't guess: font size as % of frame height, caption position, entrance / transition
-   durations frame by frame (`ffmpeg -vf "select=between(t\,A\,B)" -vsync 0 f_%03d.png`).
-5. Fill the summary table in `theme.md`. **Only what repeats in at least 3 videos becomes a rule.**
-6. User approval of `theme.md` before writing `components.html` / `motion.js`.
+Proven on `glass` (one reference). Follow every step; the user checks the preview, not the spec.
+
+1. **Get the file.** References live in `references/inbox/` (repo must stay private; nothing from
+   `references/` ships inside a theme). `ffprobe` it: size, fps, duration.
+2. **See it.** Contact sheets at 2 fps (`fps=2,scale=240:-1,drawtext=pts,tile=10x2`), then full-res key frames
+   for every distinct state (hook, each overlay type, stat moments, CTA) stacked 4 at a time.
+3. **Measure, don't guess.**
+   - Cuts and zooms: `scdet=threshold=2` prints change scores; clusters of 3–5 frames = an animated punch zoom.
+     Look at 8 consecutive frames around each to get the duration.
+   - Text: crop the caption / hook at native size; bbox of near-white pixels → glyph height and width share;
+     median color of the text pixels (hook text is often off-white, not #fff).
+   - Accent colors: median of the saturated pixels inside the element.
+   - Sound: spectrogram + waveform (`showspectrumpic`, `showwavespic`): music bed = continuous harmonic band;
+     UI sounds = short high blips; note when they happen.
+4. **Pick fonts by rendering, not by name.** Render the reference crop next to 5–6 free Hebrew candidates
+   (Playwright screenshot) and choose by eye. Only OFL fonts ship.
+5. **Write the theme:** `README.md` (the editing prompt — character first, rules second), `theme.md` (numbers +
+   contract mapping, mark anything not seen in the reference as *(assumption)*), `tokens.css`, `theme.css`,
+   `motion.js`, `sfx/` (synthesize; never ship other people's sounds or logos — draw generic icons).
+6. **Preview project** `videos/theme-<name>-preview/`: the user's own footage + VO + word timings, a storyboard that
+   shows every component once, SFX on every event. `lint` → `snapshot` contact sheet → fix framing → render
+   60 fps in the background. Show the user the preview next to reference frames.
+7. Iterate with the user on the preview. Only then extract more themes the same way.
+8. With 3+ references of the same style: only what repeats in at least 3 becomes a rule.
 
 ## Hard-won rules (apply to every theme)
 

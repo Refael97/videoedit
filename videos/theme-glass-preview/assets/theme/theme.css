@@ -1,0 +1,83 @@
+/* glass theme: components. Needs tokens.css. Every component is position:absolute inside #cam (world space,
+   moves with the punch-in zooms) unless it is screen space text (.g-hook, .g-cap, .g-cta). */
+
+.g-root { font-family: var(--g-font); direction: rtl; color: #fff; }
+.aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+/* ---------- camera + footage ---------- */
+.g-cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+.g-footage { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- text: hook (top, two tiers) ---------- */
+.g-hook { position: absolute; left: 40px; right: 40px; top: var(--g-hook-top); text-align: center; color: var(--g-hook-ink); font-weight: 900; line-height: 1.02; text-shadow: var(--g-text-shadow); z-index: 30; }
+.g-hook .l1 { display: block; font-size: var(--g-hook-1); }
+.g-hook .l2 { display: block; font-size: var(--g-hook-2); letter-spacing: -1px; }
+
+/* ---------- text: captions (1-3 words, hard swap) ---------- */
+.g-caps { position: absolute; left: 0; right: 0; top: calc(var(--g-cap-center) - 60px); height: 120px; z-index: 30; }
+.g-cap { position: absolute; left: 60px; right: 60px; top: 0; height: 120px; display: flex; align-items: center; justify-content: center; font-size: var(--g-cap); font-weight: 900; color: var(--g-cap-ink); text-shadow: var(--g-text-shadow); white-space: pre; opacity: 0; }
+
+/* ---------- glass space: the floating "desktop" placed in the room ---------- */
+.g-space { position: absolute; border-radius: var(--g-r-space); background: var(--g-glass); -webkit-backdrop-filter: var(--g-glass-blur); backdrop-filter: var(--g-glass-blur); border: 1.5px solid var(--g-glass-edge); box-shadow: var(--g-glass-shadow); }
+.g-space .menubar { position: absolute; left: 22px; right: 22px; top: 12px; height: 26px; display: flex; direction: ltr; gap: 18px; font-size: 17px; font-weight: 500; color: rgba(255, 255, 255, 0.75); }
+.g-space .menubar b { font-weight: 700; color: #fff; }
+.g-step { position: absolute; top: 46px; right: 22px; height: 46px; padding: 0 20px; border-radius: var(--g-r-pill); background: var(--g-glass-dark); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 8px; font-size: 26px; font-weight: 700; color: #fff; }
+.g-dock { position: absolute; left: 50%; bottom: 16px; height: 64px; padding: 0 10px; border-radius: 20px; background: var(--g-glass-strong); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.35); display: flex; align-items: center; gap: 8px; direction: ltr; }
+.g-dock .ic { width: 44px; height: 44px; flex: none; }
+.g-dock .ic svg { width: 44px; height: 44px; display: block; }
+
+/* ---------- app windows (dark) ---------- */
+.g-win { position: absolute; border-radius: var(--g-r-win); background: var(--g-win); border: 1px solid var(--g-win-edge); box-shadow: 0 22px 50px rgba(0, 0, 0, 0.4); overflow: hidden; color: var(--g-win-ink); }
+.g-win .bar { position: relative; height: 42px; display: flex; align-items: center; padding: 0 16px; gap: 9px; direction: ltr; }
+.g-win .bar i { width: 13px; height: 13px; border-radius: 50%; display: block; }
+.g-win .bar i:nth-child(1) { background: var(--g-light-red); }
+.g-win .bar i:nth-child(2) { background: var(--g-light-yellow); }
+.g-win .bar i:nth-child(3) { background: var(--g-light-green); }
+.g-win .bar span { position: absolute; left: 0; right: 0; text-align: center; font-size: 17px; font-weight: 500; color: var(--g-win-title); }
+.g-win .body { padding: 10px 22px 20px; }
+
+/* terminal rows */
+.g-term .row { display: flex; align-items: center; height: 54px; direction: ltr; font-family: var(--g-mono); font-size: 25px; white-space: pre; }
+.g-term .row .p { color: #7db5ff; margin-right: 12px; }
+.g-term .row .ok { margin-left: auto; width: 32px; height: 32px; }
+.g-badge { display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 10px; border: 2px solid var(--g-green); color: var(--g-green); font-size: 26px; font-weight: 700; background: rgba(47, 205, 88, 0.12); }
+
+/* chat window: thumbnails + prompt */
+.g-chat .thumbs { display: flex; gap: 8px; justify-content: flex-end; }
+.g-chat .thumbs b { width: 62px; height: 96px; border-radius: 10px; display: block; background-size: cover; background-position: center; border: 1px solid rgba(255, 255, 255, 0.15); }
+.g-chat .msg { margin-top: 10px; text-align: right; font-size: 24px; font-weight: 700; white-space: pre; }
+.g-chat .reply { margin-top: 18px; display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; color: #cfcfd4; white-space: pre; }
+.g-chat .chips { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
+.g-chat .chips span { padding: 6px 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 20px; font-weight: 700; }
+.g-chat .chips span.on { background: rgba(47, 205, 88, 0.18); color: var(--g-green); }
+.g-chat .input { position: absolute; left: 16px; right: 16px; bottom: 16px; height: 50px; border-radius: 25px; background: rgba(255, 255, 255, 0.08); display: flex; align-items: center; padding: 0 18px; font-size: 20px; color: #8e8e93; white-space: pre; }
+
+/* checklist (reminders) */
+.g-list .head { font-size: 30px; font-weight: 900; color: var(--g-orange); margin-bottom: 4px; }
+.g-list .row { display: flex; align-items: center; gap: 14px; height: 50px; font-size: 25px; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.g-list .box { position: relative; width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid #8e8e93; flex: none; }
+.g-list .box b { position: absolute; inset: -2.5px; border-radius: 50%; background: var(--g-blue); display: block; opacity: 0; }
+.g-list .box b svg { width: 100%; height: 100%; display: block; }
+
+/* ---------- stat card (dark glass, big green number) ---------- */
+.g-stat { position: absolute; border-radius: 30px; background: var(--g-glass-dark); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); border: 1.5px solid rgba(255, 255, 255, 0.32); box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.3), 0 30px 70px rgba(0, 0, 0, 0.3); padding: 26px 34px; }
+.g-stat .label { text-align: center; font-size: 30px; font-weight: 700; color: rgba(255, 255, 255, 0.85); }
+.g-stat .num { text-align: center; font-size: 132px; font-weight: 900; line-height: 1; color: var(--g-green); direction: ltr; text-shadow: 0 0 30px rgba(47, 205, 88, 0.35); }
+.g-stat .sub { display: flex; justify-content: space-between; margin-top: 18px; font-size: 24px; font-weight: 900; }
+.g-stat .sub span:last-child { color: rgba(255, 255, 255, 0.55); font-weight: 700; }
+.g-stat .item { position: relative; display: flex; align-items: center; gap: 14px; height: 76px; }
+.g-stat .item .ico { width: 46px; height: 46px; border-radius: 12px; background: rgba(255, 255, 255, 0.12); flex: none; }
+.g-stat .item .t { font-size: 28px; font-weight: 900; }
+.g-stat .item .t small { display: block; font-size: 19px; font-weight: 700; color: rgba(255, 255, 255, 0.55); }
+.g-stat .item .price { margin-right: auto; font-size: 26px; font-weight: 700; color: var(--g-red); direction: ltr; }
+.g-stat .item .strike { position: absolute; left: -8px; right: -8px; top: 37px; height: 4px; border-radius: 2px; background: var(--g-red); transform-origin: 100% 50%; }
+
+/* ---------- CTA pill with a line arrow down ---------- */
+.g-cta { position: absolute; left: 0; right: 0; top: calc(var(--g-cta-center) - 50px); height: 100px; display: flex; justify-content: center; z-index: 31; }
+.g-cta .pill { height: 100px; padding: 0 46px; border-radius: var(--g-r-pill); background: rgba(255, 255, 255, 0.74); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1.5px solid rgba(255, 255, 255, 0.85); display: flex; align-items: center; font-size: 56px; font-weight: 900; color: #1c1c1e; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25); }
+.g-cta .arrow { position: absolute; left: 50%; top: 104px; width: 0; height: 0; }
+.g-cta .arrow svg { position: absolute; left: -20px; top: 0; width: 40px; height: 110px; }
+
+/* ---------- cursor ---------- */
+.g-cursor { position: absolute; left: 0; top: 0; width: 34px; height: 46px; z-index: 5; }
+.g-cursor svg { width: 34px; height: 46px; display: block; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4)); }
