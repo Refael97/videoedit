@@ -27,6 +27,13 @@
     fan: '<svg viewBox="0 0 320 300">' + ["#c65a3c", "#e39a4f", "#f2c95b", "#9cc56a", "#5fb2c9", "#6f7fd1", "#a36cc2"].map((c, i) =>
       '<g class="sw" style="transform-origin:70px 250px"><rect x="52" y="40" width="44" height="220" rx="10" fill="' + c + '" stroke="#2a241b" stroke-width="4"/><rect x="58" y="214" width="32" height="32" rx="6" fill="#fff" opacity=".85"/></g>').join("") +
       '<circle cx="74" cy="240" r="9" fill="#fff" stroke="#2a241b" stroke-width="4"/></svg>',
+    // line-art person (head + shoulders); add class "on" color via CSS fill override if needed
+    person: '<svg viewBox="0 0 100 120"><circle cx="50" cy="34" r="22" fill="#f4efe6" stroke="#2a241b" stroke-width="5"/><path d="M12 114 Q12 70 50 70 Q88 70 88 114 Z" fill="#f4efe6" stroke="#2a241b" stroke-width="5" stroke-linejoin="round"/></svg>',
+    personOrange: '<svg viewBox="0 0 100 120"><circle cx="50" cy="34" r="22" fill="#f6d8cc" stroke="#c65a3c" stroke-width="5"/><path d="M12 114 Q12 70 50 70 Q88 70 88 114 Z" fill="#f6d8cc" stroke="#c65a3c" stroke-width="5" stroke-linejoin="round"/></svg>',
+    // padlock (closed), orange body
+    lock: '<svg viewBox="0 0 80 100"><path d="M20 44 V30 Q20 10 40 10 Q60 10 60 30 V44" fill="none" stroke="#2a241b" stroke-width="7" stroke-linecap="round"/><rect x="8" y="42" width="64" height="50" rx="10" fill="#c65a3c" stroke="#2a241b" stroke-width="5"/><circle cx="40" cy="63" r="6" fill="#fff"/><rect x="37" y="64" width="6" height="14" rx="3" fill="#fff"/></svg>',
+    // calendar page (line art); put the real month/day text on top with HTML
+    calendar: '<svg viewBox="0 0 200 200"><rect x="10" y="22" width="180" height="168" rx="16" fill="#fff" stroke="#2a241b" stroke-width="5"/><path d="M10 64 H190" stroke="#2a241b" stroke-width="5"/><rect x="10" y="22" width="180" height="42" rx="16" fill="#c65a3c"/><rect x="10" y="44" width="180" height="20" fill="#c65a3c"/><path d="M10 64 H190" stroke="#2a241b" stroke-width="5"/><rect x="10" y="22" width="180" height="168" rx="16" fill="none" stroke="#2a241b" stroke-width="5"/><path d="M58 8 V36 M142 8 V36" stroke="#2a241b" stroke-width="7" stroke-linecap="round"/></svg>',
     cursor: '<svg viewBox="0 0 36 50"><path d="M3 2v38l9.5-9 7 15 6.5-3-6.8-14.6H33z" fill="#fff" stroke="#000" stroke-width="2.6" stroke-linejoin="round"/></svg>',
     send: '<svg viewBox="0 0 24 24"><path d="M5 12h13M12 5l7 7-7 7" fill="none" stroke="#c65a3c" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     up: '<svg viewBox="0 0 24 24"><path d="M12 19V6M6 11l6-6 6 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -83,6 +90,12 @@
     pop(tl, sels, t, step = 0.12, o = {}) { $$(sels).forEach((e, i) => ft(tl, e, { opacity: 0, scale: o.from || 0.6, y: o.y || 0 }, { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: "back.out(1.7)" }, (Array.isArray(t) ? t[i] : t + i * step))); },
     // fill: lines/items appear one after another (output lines, list rows); t may be an array of times
     fill(tl, sels, t, step = 0.2) { $$(sels).forEach((e, i) => ft(tl, e, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, Array.isArray(t) ? t[i] : t + i * step)); },
+    // count: a number changes in place (formatted with thousands separators)
+    count(tl, sel, from, to, t, dur = 0.6, o = {}) {
+      const el = $(sel), p = { v: from }, fmt = (v) => (o.prefix || "") + Math.round(v).toLocaleString("en-US") + (o.suffix || "");
+      el.textContent = fmt(from);
+      tl.fromTo(p, { v: from }, { v: to, duration: dur, ease: o.ease || "power2.out", onUpdate: () => (el.textContent = fmt(p.v)), ...IR }, t);
+    },
     // rise: a card lifts in from below (cards over the face, cards on paper)
     rise(tl, sel, t) { ft(tl, sel, { opacity: 0, y: 70, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, t); },
     // out: anything leaves (fast)

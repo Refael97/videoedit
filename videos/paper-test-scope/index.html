@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      #root { direction: ltr; }
+      .p-card .row { font-size: 38px; min-height: 76px; justify-content: space-between; }
+      .p-card .row .v { font-weight: 700; }
+      .ok { color: #2fa860; font-weight: 800; }
+
+      /* hook prop: the contract */
+      #docH { left: 40px; top: 600px; width: 250px; height: 320px; z-index: 3; }
+      #docHt { position: absolute; left: 62px; top: 690px; width: 190px; z-index: 4; font-size: 28px; font-weight: 800; line-height: 1.2; color: var(--p-ink); }
+      #docHt span { display: block; margin-top: 10px; font-size: 26px; color: var(--p-orange); }
+
+      /* S1 services (UI zoom, bleeds right) */
+      #svc { left: 90px; top: 400px; width: 1010px; height: 470px; }
+      #avRow { position: relative; }
+      #avStrike { position: absolute; left: 0; width: 520px; top: 37px; height: 6px; border-radius: 3px; background: var(--p-orange); transform-origin: 0 50%; }
+      #stNo { left: 760px; top: 793px; }
+      #stLock { left: 860px; top: 448px; }
+
+      /* S2 headcount (full page hero, 40% tall) */
+      #hc { left: 140px; top: 540px; width: 800px; height: 640px; text-align: center; }
+      #ppl { display: flex; justify-content: center; gap: 6px; margin-top: 40px; }
+      #ppl b { width: 92px; height: 110px; display: block; }
+      #hcN { font-size: 230px; font-weight: 800; line-height: 1; margin-top: 70px; letter-spacing: -6px; }
+      #hcL { font-size: 44px; font-weight: 700; color: var(--p-ink-soft); margin-top: 10px; }
+      #tagF { left: 600px; top: 505px; }
+
+      /* S3 date + venue */
+      #cal { left: 90px; top: 410px; width: 380px; height: 380px; }
+      #calM { position: absolute; left: 90px; top: 438px; width: 380px; text-align: center; font-size: 46px; font-weight: 800; color: #fff; letter-spacing: 2px; }
+      #calD { position: absolute; left: 90px; top: 540px; width: 380px; text-align: center; font-size: 170px; font-weight: 800; line-height: 1; }
+      #venue { left: 540px; top: 450px; width: 470px; height: 320px; }
+      #venue .t { font-size: 30px; color: var(--p-ink-soft); font-weight: 700; }
+      #venue .n { font-size: 52px; font-weight: 800; margin-top: 6px; }
+      #venue .s { font-size: 32px; margin-top: 10px; }
+      .lk { width: 96px; height: 120px; }
+      #lk1 { left: 400px; top: 380px; } #lk2 { left: 950px; top: 410px; }
+
+      /* S4 the scope */
+      .term { width: 420px; height: 200px; padding: 26px 30px; box-sizing: border-box; }
+      .term .t { font-size: 30px; color: var(--p-ink-soft); font-weight: 700; }
+      .term .v { font-size: 52px; font-weight: 800; margin-top: 8px; }
+      #tS { left: 100px; top: 590px; } #tH { left: 560px; top: 590px; } #tD { left: 100px; top: 830px; } #tV { left: 560px; top: 830px; }
+      #tagScope { left: 130px; top: 545px; }
+      #bub { left: 560px; top: 1150px; }
+
+      /* S5 message over the face */
+      #msg { left: 70px; top: 200px; width: 940px; }
+      #msg .body { font-size: 46px; font-weight: 700; line-height: 1.25; padding: 26px 34px; min-height: 120px; white-space: pre-wrap; }
+      #msg em { font-style: normal; color: var(--p-orange); }
+
+      /* S6 the quote (UI zoom) */
+      #quote { left: 90px; top: 400px; width: 1010px; height: 470px; }
+      #stWorth { left: 800px; top: 845px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="p-root" data-composition-id="main" data-start="0" data-duration="30.1" data-width="1080" data-height="1920">
+      <div id="face" class="p-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="30.1" data-track-index="0" muted playsinline></video></div>
+
+      <!-- hook visual: the contract -->
+      <div id="docH" class="p-obj aa"></div>
+      <div id="docHt" class="aa">Event agreement<span id="docHl">changes ≤ 20%</span></div>
+
+      <div id="stage" class="p-stage">
+        <!-- S1: the services that are included -->
+        <div id="s1" class="p-scene">
+          <div class="p-step"><b>Step 1.</b> Lock the services</div>
+          <div id="svc" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i></div>
+            <div class="body">
+              <div class="head">Included services</div>
+              <div class="row r1"><span>Venue setup</span><span class="ok">✓</span></div>
+              <div class="row r1"><span>Catering</span><span class="ok">✓</span></div>
+              <div class="row r1"><span>Photography</span><span class="ok">✓</span></div>
+              <div class="row" id="avRow"><span>AV equipment</span><span id="avStrike"></span></div>
+            </div></div>
+          <div class="p-stamp" id="stNo">✕ not included</div>
+          <div class="p-stamp ok" id="stLock">Locked ✓</div>
+        </div>
+
+        <!-- S2: headcount with a buffer -->
+        <div id="s2" class="p-scene">
+          <div class="p-step"><b>Step 2.</b> Leave a buffer</div>
+          <div id="hc" class="p-card aa">
+            <div id="ppl"><b class="pp"></b><b class="pp"></b><b class="pp"></b><b class="pp"></b><b class="pp"></b><b class="po"></b><b class="po"></b></div>
+            <div id="hcN">100</div><div id="hcL">guests max</div>
+          </div>
+          <div class="p-tag" id="tagF">+20 fudge factor</div>
+        </div>
+
+        <!-- S3: date and venue are locked -->
+        <div id="s3" class="p-scene">
+          <div class="p-step"><b>Step 3.</b> Lock date &amp; venue</div>
+          <div id="cal" class="p-obj aa"></div><div id="calM">JUNE</div><div id="calD">14</div>
+          <div id="venue" class="p-card aa"><div class="body"><div class="t">Venue</div><div class="n">The Grand Hall</div><div class="s">120 guests</div></div></div>
+          <div id="lk1" class="p-obj lk aa"></div><div id="lk2" class="p-obj lk aa"></div>
+        </div>
+
+        <!-- S4: the scope boundary, and breaking it -->
+        <div id="s4" class="p-scene">
+          <div class="p-title" style="top: 300px">What's <em>locked</em></div>
+          <div id="tS" class="p-card term aa"><div class="t">Services</div><div class="v">3 included</div></div>
+          <div id="tH" class="p-card term aa"><div class="t">Headcount</div><div class="v">≤ 120</div></div>
+          <div id="tD" class="p-card term aa"><div class="t">Date</div><div class="v">June 14</div></div>
+          <div id="tV" class="p-card term aa"><div class="t">Venue</div><div class="v">Grand Hall</div></div>
+          <svg id="ink4" class="p-ink" viewBox="0 0 1080 1920"></svg>
+          <div class="p-tag" id="tagScope">Scope</div>
+          <div id="bub" class="p-bubble me aa">New date? New quote.</div>
+        </div>
+
+        <!-- S6: the quote -->
+        <div id="s6" class="p-scene">
+          <div class="p-step"><b>Step 4.</b> Price the change</div>
+          <div id="quote" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i></div>
+            <div class="body">
+              <div class="head">Quote</div>
+              <div class="row"><span>Base package</span><span class="v">$10,000</span></div>
+              <div class="row" id="qChg"><span>Date change (+30%)</span><span class="v" style="color: var(--p-orange)">+$3,000</span></div>
+              <div class="row" style="font-weight: 800"><span>Total</span><span class="v" id="tot">$10,000</span></div>
+            </div></div>
+          <div class="p-stamp ok" id="stWorth">Worth it ✓</div>
+        </div>
+      </div>
+
+      <div id="seam" class="p-seam"></div>
+      <div id="flash" class="p-flash"></div>
+      <div id="hook" class="p-hook stroke">Stop clients from
+changing everything</div>
+      <div id="msg" class="p-card aa"><div class="bar"><i></i><i></i><i></i></div><div class="body"><span id="msgT"></span><span id="msgR">Listen, it's gonna cost me <em>30% more</em> to do this.</span></div></div>
+      <div id="caps" class="p-caps"></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="30.1" data-track-index="10" data-volume="1"></audio>
+      <audio id="x1" src="assets/theme/sfx/pop.wav" data-start="0.3" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x2" src="assets/theme/sfx/tick.wav" data-start="0.9" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x3" src="assets/theme/sfx/swish.wav" data-start="2.5" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="x4" src="assets/theme/sfx/pop.wav" data-start="2.6" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x5" src="assets/theme/sfx/tick.wav" data-start="2.9" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x6" src="assets/theme/sfx/tick.wav" data-start="3.2" data-duration="0.03" data-track-index="14" data-volume="0.3"></audio>
+      <audio id="x7" src="assets/theme/sfx/tick.wav" data-start="3.5" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x8" src="assets/theme/sfx/pop.wav" data-start="4.0" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x9" src="assets/theme/sfx/tick.wav" data-start="4.38" data-duration="0.03" data-track-index="14" data-volume="0.3"></audio>
+      <audio id="x10" src="assets/theme/sfx/pop.wav" data-start="4.55" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x11" src="assets/theme/sfx/ding.wav" data-start="5.88" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
+      <audio id="x12" src="assets/theme/sfx/swish.wav" data-start="6.6" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="x13" src="assets/theme/sfx/pop.wav" data-start="6.7" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x14" src="assets/theme/sfx/pop.wav" data-start="7.32" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x15" src="assets/theme/sfx/tick.wav" data-start="8.36" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x16" src="assets/theme/sfx/pop.wav" data-start="8.68" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x17" src="assets/theme/sfx/swish.wav" data-start="9.0" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="x18" src="assets/theme/sfx/pop.wav" data-start="9.1" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x19" src="assets/theme/sfx/click.wav" data-start="11.3" data-duration="0.05" data-track-index="17" data-volume="0.45"></audio>
+      <audio id="x20" src="assets/theme/sfx/click.wav" data-start="12.76" data-duration="0.05" data-track-index="17" data-volume="0.45"></audio>
+      <audio id="x21" src="assets/theme/sfx/swish.wav" data-start="13.0" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="x22" src="assets/theme/sfx/pop.wav" data-start="13.1" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x23" src="assets/theme/sfx/whoosh.wav" data-start="15.12" data-duration="0.55" data-track-index="18" data-volume="0.22"></audio>
+      <audio id="x24" src="assets/theme/sfx/pop.wav" data-start="15.7" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x25" src="assets/theme/sfx/whoosh.wav" data-start="16.42" data-duration="0.55" data-track-index="19" data-volume="0.22"></audio>
+      <audio id="x26" src="assets/theme/sfx/pop.wav" data-start="18.38" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x27" src="assets/theme/sfx/pop.wav" data-start="20.6" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x28" src="assets/theme/sfx/key.wav" data-start="20.9" data-duration="0.04" data-track-index="20" data-volume="0.3"></audio>
+      <audio id="x29" src="assets/theme/sfx/key.wav" data-start="21.3" data-duration="0.04" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="x30" src="assets/theme/sfx/key.wav" data-start="21.7" data-duration="0.04" data-track-index="20" data-volume="0.3"></audio>
+      <audio id="x31" src="assets/theme/sfx/key.wav" data-start="22.1" data-duration="0.04" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="x32" src="assets/theme/sfx/swish.wav" data-start="22.9" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="x33" src="assets/theme/sfx/pop.wav" data-start="23.0" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x34" src="assets/theme/sfx/tick.wav" data-start="24.5" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x35" src="assets/theme/sfx/pop.wav" data-start="25.46" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x36" src="assets/theme/sfx/tick.wav" data-start="27.62" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x37" src="assets/theme/sfx/ding.wav" data-start="28.0" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
+    </div>
+    <script>
+      const WORDS = [{"text": "More", "start": 0.12, "end": 0.22}, {"text": "than", "start": 0.24, "end": 0.32}, {"text": "20%.", "start": 0.42, "end": 0.82}, {"text": "We", "start": 0.94, "end": 0.98}, {"text": "agreed", "start": 1.02, "end": 1.2}, {"text": "on", "start": 1.22, "end": 1.28}, {"text": "that?", "start": 1.32, "end": 1.46}, {"text": "Okay.", "start": 1.9, "end": 2.08}, {"text": "And", "start": 2.56, "end": 2.64}, {"text": "like,", "start": 2.66, "end": 2.76}, {"text": "you're", "start": 2.8, "end": 2.86}, {"text": "not", "start": 2.88, "end": 3.0}, {"text": "gonna", "start": 3.02, "end": 3.2}, {"text": "all", "start": 3.22, "end": 3.32}, {"text": "of", "start": 3.32, "end": 3.34}, {"text": "a", "start": 3.36, "end": 3.4}, {"text": "sudden", "start": 3.44, "end": 3.58}, {"text": "say", "start": 3.62, "end": 3.74}, {"text": "like,", "start": 3.76, "end": 3.86}, {"text": "I", "start": 3.9, "end": 4.0}, {"text": "want", "start": 4.019, "end": 4.16}, {"text": "AV.", "start": 4.2, "end": 4.38}, {"text": "Like,", "start": 4.46, "end": 4.56}, {"text": "these", "start": 4.7, "end": 4.84}, {"text": "are", "start": 4.88, "end": 4.94}, {"text": "the", "start": 4.96, "end": 5.04}, {"text": "services", "start": 5.08, "end": 5.46}, {"text": "that", "start": 5.48, "end": 5.58}, {"text": "you're", "start": 5.62, "end": 5.7}, {"text": "gonna", "start": 5.72, "end": 5.84}, {"text": "get.", "start": 5.88, "end": 6.06}, {"text": "I'll", "start": 6.66, "end": 6.78}, {"text": "f-", "start": 6.82, "end": 6.88}, {"text": "I'll", "start": 7.0, "end": 7.06}, {"text": "give", "start": 7.1, "end": 7.18}, {"text": "you", "start": 7.22, "end": 7.28}, {"text": "fudge", "start": 7.32, "end": 7.46}, {"text": "factor", "start": 7.52, "end": 7.74}, {"text": "on", "start": 7.78, "end": 7.84}, {"text": "head", "start": 7.86, "end": 7.98}, {"text": "count", "start": 8.02, "end": 8.2}, {"text": "up", "start": 8.36, "end": 8.42}, {"text": "to", "start": 8.46, "end": 8.52}, {"text": "20,", "start": 8.68, "end": 8.8}, {"text": "and", "start": 9.1, "end": 9.18}, {"text": "then", "start": 9.2, "end": 9.26}, {"text": "you", "start": 9.28, "end": 9.34}, {"text": "can't", "start": 9.38, "end": 9.54}, {"text": "change", "start": 9.58, "end": 9.8}, {"text": "the,", "start": 9.84, "end": 10.02}, {"text": "uh,", "start": 10.12, "end": 10.24}, {"text": "and", "start": 10.36, "end": 10.42}, {"text": "you", "start": 10.44, "end": 10.48}, {"text": "can't", "start": 10.52, "end": 10.62}, {"text": "change", "start": 10.66, "end": 10.8}, {"text": "the", "start": 10.88, "end": 10.94}, {"text": "date,", "start": 10.98, "end": 11.12}, {"text": "right?", "start": 11.16, "end": 11.26}, {"text": "So", "start": 11.3, "end": 11.34}, {"text": "like,", "start": 11.36, "end": 11.42}, {"text": "can't", "start": 11.48, "end": 11.58}, {"text": "change", "start": 11.6, "end": 11.72}, {"text": "the", "start": 11.74, "end": 11.8}, {"text": "date,", "start": 11.84, "end": 11.98}, {"text": "can't", "start": 12.06, "end": 12.18}, {"text": "change", "start": 12.2, "end": 12.34}, {"text": "the", "start": 12.38, "end": 12.44}, {"text": "venue,", "start": 12.46, "end": 12.64}, {"text": "and", "start": 13.02, "end": 13.08}, {"text": "then", "start": 13.1, "end": 13.2}, {"text": "that", "start": 13.24, "end": 13.36}, {"text": "way", "start": 13.4, "end": 13.64}, {"text": "it,", "start": 14.04, "end": 14.12}, {"text": "you", "start": 14.54, "end": 14.58}, {"text": "don't,", "start": 14.62, "end": 14.78}, {"text": "it,", "start": 14.82, "end": 14.94}, {"text": "it", "start": 14.98, "end": 15.1}, {"text": "confines", "start": 15.12, "end": 15.44}, {"text": "the", "start": 15.46, "end": 15.54}, {"text": "scope.", "start": 15.6, "end": 15.82}, {"text": "If", "start": 16.12, "end": 16.18}, {"text": "they", "start": 16.2, "end": 16.36}, {"text": "break", "start": 16.42, "end": 16.64}, {"text": "that,", "start": 16.7, "end": 16.84}, {"text": "which", "start": 16.94, "end": 17.06}, {"text": "they", "start": 17.1, "end": 17.22}, {"text": "might,", "start": 17.26, "end": 17.48}, {"text": "then", "start": 18.08, "end": 18.16}, {"text": "you", "start": 18.2, "end": 18.22}, {"text": "have", "start": 18.24, "end": 18.32}, {"text": "a", "start": 18.34, "end": 18.36}, {"text": "different", "start": 18.38, "end": 18.52}, {"text": "conversation.", "start": 18.56, "end": 19.1}, {"text": "And", "start": 19.34, "end": 19.4}, {"text": "I", "start": 19.46, "end": 19.48}, {"text": "don't", "start": 19.5, "end": 19.58}, {"text": "think", "start": 19.6, "end": 19.7}, {"text": "I", "start": 19.74, "end": 19.76}, {"text": "would", "start": 19.8, "end": 19.86}, {"text": "try", "start": 19.88, "end": 19.98}, {"text": "and", "start": 20.0, "end": 20.06}, {"text": "jab", "start": 20.1, "end": 20.28}, {"text": "people.", "start": 20.32, "end": 20.48}, {"text": "I'd", "start": 20.52, "end": 20.56}, {"text": "just", "start": 20.58, "end": 20.64}, {"text": "be", "start": 20.66, "end": 20.72}, {"text": "like,", "start": 20.74, "end": 20.82}, {"text": "Listen,", "start": 20.84, "end": 21.02}, {"text": "it's", "start": 21.04, "end": 21.1}, {"text": "gonna", "start": 21.12, "end": 21.24}, {"text": "cost", "start": 21.26, "end": 21.4}, {"text": "me", "start": 21.44, "end": 21.5}, {"text": "30%", "start": 21.62, "end": 21.9}, {"text": "more", "start": 21.92, "end": 22.02}, {"text": "to", "start": 22.04, "end": 22.1}, {"text": "do", "start": 22.14, "end": 22.24}, {"text": "this.", "start": 22.28, "end": 22.48}, {"text": "But", "start": 22.92, "end": 23.0}, {"text": "if", "start": 23.04, "end": 23.08}, {"text": "they're", "start": 23.12, "end": 23.22}, {"text": "already", "start": 23.22, "end": 23.34}, {"text": "making", "start": 23.44, "end": 23.64}, {"text": "the", "start": 23.66, "end": 23.7}, {"text": "decision", "start": 23.72, "end": 24.02}, {"text": "that", "start": 24.06, "end": 24.12}, {"text": "they", "start": 24.16, "end": 24.24}, {"text": "need", "start": 24.28, "end": 24.34}, {"text": "to", "start": 24.34, "end": 24.34}, {"text": "do", "start": 24.38, "end": 24.46}, {"text": "that,", "start": 24.5, "end": 24.6}, {"text": "then", "start": 24.66, "end": 24.74}, {"text": "they've", "start": 24.76, "end": 24.88}, {"text": "decided", "start": 24.9, "end": 25.18}, {"text": "that", "start": 25.22, "end": 25.28}, {"text": "it's", "start": 25.32, "end": 25.42}, {"text": "worth", "start": 25.46, "end": 25.64}, {"text": "it.", "start": 25.68, "end": 25.86}, {"text": "So", "start": 26.46, "end": 26.54}, {"text": "then", "start": 26.58, "end": 26.66}, {"text": "if", "start": 26.72, "end": 26.78}, {"text": "it's", "start": 26.82, "end": 26.9}, {"text": "worth", "start": 26.94, "end": 27.08}, {"text": "it,", "start": 27.12, "end": 27.2}, {"text": "then", "start": 27.24, "end": 27.32}, {"text": "it's", "start": 27.36, "end": 27.44}, {"text": "worth", "start": 27.46, "end": 27.58}, {"text": "paying.", "start": 27.62, "end": 28.02}, {"text": "Yeah.", "start": 28.1, "end": 28.2}, {"text": "Does", "start": 28.7, "end": 28.74}, {"text": "that", "start": 28.76, "end": 28.82}, {"text": "all", "start": 28.84, "end": 28.88}, {"text": "make", "start": 28.9, "end": 28.98}, {"text": "sense?", "start": 29.02, "end": 29.2}, {"text": "It", "start": 29.4, "end": 29.44}, {"text": "does.", "start": 29.48, "end": 29.7}];
+      const P = window.PAPER;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+
+        // ---- art ----
+        P.art("#docH", "doc"); P.art("#cal", "calendar"); P.art(["#lk1", "#lk2"], "lock");
+        P.art("#ppl .pp", "person"); P.art("#ppl .po", "personOrange");
+        P.fit("#hook", 0.8);
+
+        // ---- layouts ----
+        const L = [["face", 0], ["split", 2.5], ["paper", 6.6, true], ["split", 9.0], ["paper", 13.0, true], ["face", 19.2], ["split", 22.9], ["face", 28.1]];
+        L.forEach(([m, t, f]) => P.layout(tl, m, t, { flash: !!f, shift: 600 }));
+        P.scene(tl, "#s1", 2.5, 6.6); P.scene(tl, "#s2", 6.6, 9.0); P.scene(tl, "#s3", 9.0, 13.0); P.scene(tl, "#s4", 13.0, 19.2); P.scene(tl, "#s6", 22.9, 28.1);
+
+        // ---- hook: title + the contract with its rule highlighted (rule e) ----
+        P.hook(tl, "#hook", 0.05, 2.5);
+        P.pop(tl, ["#docH", "#docHt"], 0.3, 0.05, { y: 30 });
+        tl.set("#docHl", { backgroundColor: "rgba(251,227,138,0)" }, 0); tl.to("#docHl", { backgroundColor: "rgba(251,227,138,1)", duration: 0.2 }, 0.9);
+        tl.set(["#docH", "#docHt"], { autoAlpha: 0 }, 2.5);
+
+        // ---- captions (from 0, as in the anchor) ----
+        P.captions(tl, "#caps", WORDS, { maxWords: 3, yFace: 1250, yPaper: 1440 });
+
+        // ---- S1: the services ----
+        ["#svc", ".r1", "#avRow", "#stNo", "#stLock"].forEach((s) => P.hide(tl, s));
+        P.rise(tl, "#svc", 2.6);
+        P.fill(tl, ".r1", 2.9, 0.3);
+        P.fill(tl, "#avRow", 4.0);                                   // "I want AV"
+        tl.fromTo("#avStrike", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "power2.inOut", immediateRender: false }, 4.38);
+        tl.set("#avStrike", { scaleX: 0 }, 0);
+        P.pop(tl, "#stNo", 4.55);
+        P.pop(tl, "#stLock", 5.88);                                   // "you're gonna get."
+
+        // ---- S2: headcount with a buffer ----
+        ["#hc", "#ppl .pp", "#ppl .po", "#tagF"].forEach((s) => P.hide(tl, s));
+        P.rise(tl, "#hc", 6.68);
+        P.pop(tl, "#ppl .pp", 6.8, 0.08);
+        P.pop(tl, "#tagF", 7.32);                                     // "fudge factor"
+        P.count(tl, "#hcN", 100, 120, 8.36, 0.5);                     // "up to 20"
+        P.pop(tl, "#ppl .po", 8.68, 0.1);
+
+        // ---- S3: date and venue, each gets a lock ----
+        ["#cal", "#calM", "#calD", "#venue", "#lk1", "#lk2"].forEach((s) => P.hide(tl, s));
+        P.pop(tl, ["#cal", "#calM", "#calD"], 9.1, 0.04);
+        P.pop(tl, "#venue", 9.6);
+        P.drop(tl, "#lk1", "#cal", 10.9, [0, -260]);                  // "date"
+        P.pulse(tl, ["#cal", "#calD"], 11.84);                        // "date" again
+        P.drop(tl, "#lk2", "#venue", 12.34, [0, -260]);               // "venue"
+
+        // ---- S4: the scope boundary, then it breaks ----
+        ["#tS", "#tH", "#tD", "#tV", "#tagScope", "#bub"].forEach((s) => P.hide(tl, s));
+        P.pop(tl, ["#tS", "#tH", "#tD", "#tV"], 13.1, 0.12);
+        P.connect(tl, "#ink4", "M110,560 H970 Q1010,560 1010,600 V1040 Q1010,1080 970,1080 H110 Q70,1080 70,1040 V600 Q70,560 110,560", "scope", 15.12, 0.6);
+        P.pop(tl, "#tagScope", 15.7);
+        tl.to("#tD", { x: 40, y: 330, rotation: -5, duration: 0.45, ease: "back.out(1.6)" }, 16.42);   // "break that"
+        tl.set("#tD", { borderColor: "rgba(34,28,18,0.08)" }, 0); tl.set("#tD", { borderColor: "#c65a3c" }, 16.5);
+        P.pop(tl, "#bub", 18.38, 0, { y: 20 });                       // "a different conversation"
+
+        // ---- S5: the message, typed ----
+        P.hide(tl, "#msg"); tl.set("#msgR", { display: "none" }, 0);
+        P.rise(tl, "#msg", 20.6);
+        P.type(tl, "#msgT", "Listen, it's gonna cost me 30% more to do this.", 20.84, 30);
+        tl.set("#msgT", { display: "none" }, 22.45); tl.set("#msgR", { display: "inline" }, 22.45);
+        P.out(tl, "#msg", 22.85);
+
+        // ---- S6: the quote ----
+        ["#quote", "#qChg", "#stWorth"].forEach((s) => P.hide(tl, s));
+        P.rise(tl, "#quote", 23.0);
+        P.fill(tl, "#qChg", 24.5);                                    // "need to do that"
+        P.pop(tl, "#stWorth", 25.46);                                 // "worth it"
+        P.count(tl, "#tot", 10000, 13000, 27.62, 0.5, { prefix: "$" });  // "worth paying"
+        P.pulse(tl, "#quote", 28.0);
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      #root { direction: ltr; }
+      .p-card .row { font-size: 38px; min-height: 76px; justify-content: space-between; }
+      .p-card .row .v { font-weight: 700; }
+      .ok { color: #2fa860; font-weight: 800; }
+
+      /* hook prop: the contract */
+      #docH { left: 40px; top: 600px; width: 250px; height: 320px; z-index: 3; }
+      #docHt { position: absolute; left: 62px; top: 690px; width: 190px; z-index: 4; font-size: 28px; font-weight: 800; line-height: 1.2; color: var(--p-ink); }
+      #docHt span { display: block; margin-top: 10px; font-size: 26px; color: var(--p-orange); }
+
+      /* S1 services (UI zoom, bleeds right) */
+      #svc { left: 90px; top: 400px; width: 1010px; height: 470px; }
+      #avRow { position: relative; }
+      #avStrike { position: absolute; left: 0; width: 520px; top: 37px; height: 6px; border-radius: 3px; background: var(--p-orange); transform-origin: 0 50%; }
+      #stNo { left: 760px; top: 793px; }
+      #stLock { left: 860px; top: 448px; }
+
+      /* S2 headcount (full page hero, 40% tall) */
+      #hc { left: 140px; top: 540px; width: 800px; height: 640px; text-align: center; }
+      #ppl { display: flex; justify-content: center; gap: 6px; margin-top: 40px; }
+      #ppl b { width: 92px; height: 110px; display: block; }
+      #hcN { font-size: 230px; font-weight: 800; line-height: 1; margin-top: 70px; letter-spacing: -6px; }
+      #hcL { font-size: 44px; font-weight: 700; color: var(--p-ink-soft); margin-top: 10px; }
+      #tagF { left: 600px; top: 505px; }
+
+      /* S3 date + venue */
+      #cal { left: 90px; top: 410px; width: 380px; height: 380px; }
+      #calM { position: absolute; left: 90px; top: 438px; width: 380px; text-align: center; font-size: 46px; font-weight: 800; color: #fff; letter-spacing: 2px; }
+      #calD { position: absolute; left: 90px; top: 540px; width: 380px; text-align: center; font-size: 170px; font-weight: 800; line-height: 1; }
+      #venue { left: 540px; top: 450px; width: 470px; height: 320px; }
+      #venue .t { font-size: 30px; color: var(--p-ink-soft); font-weight: 700; }
+      #venue .n { font-size: 52px; font-weight: 800; margin-top: 6px; }
+      #venue .s { font-size: 32px; margin-top: 10px; }
+      .lk { width: 96px; height: 120px; }
+      #lk1 { left: 400px; top: 380px; } #lk2 { left: 950px; top: 410px; }
+
+      /* S4 the scope */
+      .term { width: 420px; height: 200px; padding: 26px 30px; box-sizing: border-box; }
+      .term .t { font-size: 30px; color: var(--p-ink-soft); font-weight: 700; }
+      .term .v { font-size: 52px; font-weight: 800; margin-top: 8px; }
+      #tS { left: 100px; top: 590px; } #tH { left: 560px; top: 590px; } #tD { left: 100px; top: 830px; } #tV { left: 560px; top: 830px; }
+      #tagScope { left: 130px; top: 545px; }
+      #bub { left: 560px; top: 1150px; }
+
+      /* S5 message over the face */
+      #msg { left: 70px; top: 200px; width: 940px; }
+      #msg .body { font-size: 46px; font-weight: 700; line-height: 1.25; padding: 26px 34px; min-height: 120px; white-space: pre-wrap; }
+      #msg em { font-style: normal; color: var(--p-orange); }
+
+      /* S6 the quote (UI zoom) */
+      #quote { left: 90px; top: 400px; width: 1010px; height: 470px; }
+      #stWorth { left: 800px; top: 845px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="p-root" data-composition-id="main" data-start="0" data-duration="30.1" data-width="1080" data-height="1920">
+      <div id="face" class="p-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="30.1" data-track-index="0" muted playsinline></video></div>
+
+      <!-- hook visual: the contract -->
+      <div id="docH" class="p-obj aa"></div>
+      <div id="docHt" class="aa">Event agreement<span id="docHl">changes ≤ 20%</span></div>
+
+      <div id="stage" class="p-stage">
+        <!-- S1: the services that are included -->
+        <div id="s1" class="p-scene">
+          <div class="p-step"><b>Step 1.</b> Lock the services</div>
+          <div id="svc" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i></div>
+            <div class="body">
+              <div class="head">Included services</div>
+              <div class="row r1"><span>Venue setup</span><span class="ok">✓</span></div>
+              <div class="row r1"><span>Catering</span><span class="ok">✓</span></div>
+              <div class="row r1"><span>Photography</span><span class="ok">✓</span></div>
+              <div class="row" id="avRow"><span>AV equipment</span><span id="avStrike"></span></div>
+            </div></div>
+          <div class="p-stamp" id="stNo">✕ not included</div>
+          <div class="p-stamp ok" id="stLock">Locked ✓</div>
+        </div>
+
+        <!-- S2: headcount with a buffer -->
+        <div id="s2" class="p-scene">
+          <div class="p-step"><b>Step 2.</b> Leave a buffer</div>
+          <div id="hc" class="p-card aa">
+            <div id="ppl"><b class="pp"></b><b class="pp"></b><b class="pp"></b><b class="pp"></b><b class="pp"></b><b class="po"></b><b class="po"></b></div>
+            <div id="hcN">100</div><div id="hcL">guests max</div>
+          </div>
+          <div class="p-tag" id="tagF">+20 fudge factor</div>
+        </div>
+
+        <!-- S3: date and venue are locked -->
+        <div id="s3" class="p-scene">
+          <div class="p-step"><b>Step 3.</b> Lock date &amp; venue</div>
+          <div id="cal" class="p-obj aa"></div><div id="calM">JUNE</div><div id="calD">14</div>
+          <div id="venue" class="p-card aa"><div class="body"><div class="t">Venue</div><div class="n">The Grand Hall</div><div class="s">120 guests</div></div></div>
+          <div id="lk1" class="p-obj lk aa"></div><div id="lk2" class="p-obj lk aa"></div>
+        </div>
+
+        <!-- S4: the scope boundary, and breaking it -->
+        <div id="s4" class="p-scene">
+          <div class="p-title" style="top: 300px">What's <em>locked</em></div>
+          <div id="tS" class="p-card term aa"><div class="t">Services</div><div class="v">3 included</div></div>
+          <div id="tH" class="p-card term aa"><div class="t">Headcount</div><div class="v">≤ 120</div></div>
+          <div id="tD" class="p-card term aa"><div class="t">Date</div><div class="v">June 14</div></div>
+          <div id="tV" class="p-card term aa"><div class="t">Venue</div><div class="v">Grand Hall</div></div>
+          <svg id="ink4" class="p-ink" viewBox="0 0 1080 1920"></svg>
+          <div class="p-tag" id="tagScope">Scope</div>
+          <div id="bub" class="p-bubble me aa">New date? New quote.</div>
+        </div>
+
+        <!-- S6: the quote -->
+        <div id="s6" class="p-scene">
+          <div class="p-step"><b>Step 4.</b> Price the change</div>
+          <div id="quote" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i></div>
+            <div class="body">
+              <div class="head">Quote</div>
+              <div class="row"><span>Base package</span><span class="v">$10,000</span></div>
+              <div class="row" id="qChg"><span>Date change (+30%)</span><span class="v" style="color: var(--p-orange)">+$3,000</span></div>
+              <div class="row" style="font-weight: 800"><span>Total</span><span class="v" id="tot">$10,000</span></div>
+            </div></div>
+          <div class="p-stamp ok" id="stWorth">Worth it ✓</div>
+        </div>
+      </div>
+
+      <div id="seam" class="p-seam"></div>
+      <div id="flash" class="p-flash"></div>
+      <div id="hook" class="p-hook stroke">Stop clients from
+changing everything</div>
+      <div id="msg" class="p-card aa"><div class="bar"><i></i><i></i><i></i></div><div class="body"><span id="msgT"></span><span id="msgR">Listen, it's gonna cost me <em>30% more</em> to do this.</span></div></div>
+      <div id="caps" class="p-caps"></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="30.1" data-track-index="10" data-volume="1"></audio>
+      <audio id="x1" src="assets/theme/sfx/pop.wav" data-start="0.3" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x2" src="assets/theme/sfx/tick.wav" data-start="0.9" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x3" src="assets/theme/sfx/swish.wav" data-start="2.5" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="x4" src="assets/theme/sfx/pop.wav" data-start="2.6" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x5" src="assets/theme/sfx/tick.wav" data-start="2.9" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x6" src="assets/theme/sfx/tick.wav" data-start="3.2" data-duration="0.03" data-track-index="14" data-volume="0.3"></audio>
+      <audio id="x7" src="assets/theme/sfx/tick.wav" data-start="3.5" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x8" src="assets/theme/sfx/pop.wav" data-start="4.0" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x9" src="assets/theme/sfx/tick.wav" data-start="4.38" data-duration="0.03" data-track-index="14" data-volume="0.3"></audio>
+      <audio id="x10" src="assets/theme/sfx/pop.wav" data-start="4.55" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x11" src="assets/theme/sfx/ding.wav" data-start="5.88" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
+      <audio id="x12" src="assets/theme/sfx/swish.wav" data-start="6.6" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="x13" src="assets/theme/sfx/pop.wav" data-start="6.7" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x14" src="assets/theme/sfx/pop.wav" data-start="7.32" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x15" src="assets/theme/sfx/tick.wav" data-start="8.36" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x16" src="assets/theme/sfx/pop.wav" data-start="8.68" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x17" src="assets/theme/sfx/swish.wav" data-start="9.0" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="x18" src="assets/theme/sfx/pop.wav" data-start="9.1" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x19" src="assets/theme/sfx/click.wav" data-start="11.3" data-duration="0.05" data-track-index="17" data-volume="0.45"></audio>
+      <audio id="x20" src="assets/theme/sfx/click.wav" data-start="12.76" data-duration="0.05" data-track-index="17" data-volume="0.45"></audio>
+      <audio id="x21" src="assets/theme/sfx/swish.wav" data-start="13.0" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="x22" src="assets/theme/sfx/pop.wav" data-start="13.1" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x23" src="assets/theme/sfx/whoosh.wav" data-start="15.12" data-duration="0.55" data-track-index="18" data-volume="0.22"></audio>
+      <audio id="x24" src="assets/theme/sfx/pop.wav" data-start="15.7" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x25" src="assets/theme/sfx/whoosh.wav" data-start="16.42" data-duration="0.55" data-track-index="19" data-volume="0.22"></audio>
+      <audio id="x26" src="assets/theme/sfx/pop.wav" data-start="18.38" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x27" src="assets/theme/sfx/pop.wav" data-start="20.6" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x28" src="assets/theme/sfx/key.wav" data-start="20.9" data-duration="0.04" data-track-index="20" data-volume="0.3"></audio>
+      <audio id="x29" src="assets/theme/sfx/key.wav" data-start="21.3" data-duration="0.04" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="x30" src="assets/theme/sfx/key.wav" data-start="21.7" data-duration="0.04" data-track-index="20" data-volume="0.3"></audio>
+      <audio id="x31" src="assets/theme/sfx/key.wav" data-start="22.1" data-duration="0.04" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="x32" src="assets/theme/sfx/swish.wav" data-start="22.9" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="x33" src="assets/theme/sfx/pop.wav" data-start="23.0" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="x34" src="assets/theme/sfx/tick.wav" data-start="24.5" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x35" src="assets/theme/sfx/pop.wav" data-start="25.46" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x36" src="assets/theme/sfx/tick.wav" data-start="27.62" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x37" src="assets/theme/sfx/ding.wav" data-start="28.0" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
+    </div>
+    <script>
+      const WORDS = __WORDS__;
+      const P = window.PAPER;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+
+        // ---- art ----
+        P.art("#docH", "doc"); P.art("#cal", "calendar"); P.art(["#lk1", "#lk2"], "lock");
+        P.art("#ppl .pp", "person"); P.art("#ppl .po", "personOrange");
+        P.fit("#hook", 0.8);
+
+        // ---- layouts ----
+        const L = [["face", 0], ["split", 2.5], ["paper", 6.6, true], ["split", 9.0], ["paper", 13.0, true], ["face", 19.2], ["split", 22.9], ["face", 28.1]];
+        L.forEach(([m, t, f]) => P.layout(tl, m, t, { flash: !!f, shift: 600 }));
+        P.scene(tl, "#s1", 2.5, 6.6); P.scene(tl, "#s2", 6.6, 9.0); P.scene(tl, "#s3", 9.0, 13.0); P.scene(tl, "#s4", 13.0, 19.2); P.scene(tl, "#s6", 22.9, 28.1);
+
+        // ---- hook: title + the contract with its rule highlighted (rule e) ----
+        P.hook(tl, "#hook", 0.05, 2.5);
+        P.pop(tl, ["#docH", "#docHt"], 0.3, 0.05, { y: 30 });
+        tl.set("#docHl", { backgroundColor: "rgba(251,227,138,0)" }, 0); tl.to("#docHl", { backgroundColor: "rgba(251,227,138,1)", duration: 0.2 }, 0.9);
+        tl.set(["#docH", "#docHt"], { autoAlpha: 0 }, 2.5);
+
+        // ---- captions (from 0, as in the anchor) ----
+        P.captions(tl, "#caps", WORDS, { maxWords: 3, yFace: 1250, yPaper: 1440 });
+
+        // ---- S1: the services ----
+        ["#svc", ".r1", "#avRow", "#stNo", "#stLock"].forEach((s) => P.hide(tl, s));
+        P.rise(tl, "#svc", 2.6);
+        P.fill(tl, ".r1", 2.9, 0.3);
+        P.fill(tl, "#avRow", 4.0);                                   // "I want AV"
+        tl.fromTo("#avStrike", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "power2.inOut", immediateRender: false }, 4.38);
+        tl.set("#avStrike", { scaleX: 0 }, 0);
+        P.pop(tl, "#stNo", 4.55);
+        P.pop(tl, "#stLock", 5.88);                                   // "you're gonna get."
+
+        // ---- S2: headcount with a buffer ----
+        ["#hc", "#ppl .pp", "#ppl .po", "#tagF"].forEach((s) => P.hide(tl, s));
+        P.rise(tl, "#hc", 6.68);
+        P.pop(tl, "#ppl .pp", 6.8, 0.08);
+        P.pop(tl, "#tagF", 7.32);                                     // "fudge factor"
+        P.count(tl, "#hcN", 100, 120, 8.36, 0.5);                     // "up to 20"
+        P.pop(tl, "#ppl .po", 8.68, 0.1);
+
+        // ---- S3: date and venue, each gets a lock ----
+        ["#cal", "#calM", "#calD", "#venue", "#lk1", "#lk2"].forEach((s) => P.hide(tl, s));
+        P.pop(tl, ["#cal", "#calM", "#calD"], 9.1, 0.04);
+        P.pop(tl, "#venue", 9.6);
+        P.drop(tl, "#lk1", "#cal", 10.9, [0, -260]);                  // "date"
+        P.pulse(tl, ["#cal", "#calD"], 11.84);                        // "date" again
+        P.drop(tl, "#lk2", "#venue", 12.34, [0, -260]);               // "venue"
+
+        // ---- S4: the scope boundary, then it breaks ----
+        ["#tS", "#tH", "#tD", "#tV", "#tagScope", "#bub"].forEach((s) => P.hide(tl, s));
+        P.pop(tl, ["#tS", "#tH", "#tD", "#tV"], 13.1, 0.12);
+        P.connect(tl, "#ink4", "M110,560 H970 Q1010,560 1010,600 V1040 Q1010,1080 970,1080 H110 Q70,1080 70,1040 V600 Q70,560 110,560", "scope", 15.12, 0.6);
+        P.pop(tl, "#tagScope", 15.7);
+        tl.to("#tD", { x: 40, y: 330, rotation: -5, duration: 0.45, ease: "back.out(1.6)" }, 16.42);   // "break that"
+        tl.set("#tD", { borderColor: "rgba(34,28,18,0.08)" }, 0); tl.set("#tD", { borderColor: "#c65a3c" }, 16.5);
+        P.pop(tl, "#bub", 18.38, 0, { y: 20 });                       // "a different conversation"
+
+        // ---- S5: the message, typed ----
+        P.hide(tl, "#msg"); tl.set("#msgR", { display: "none" }, 0);
+        P.rise(tl, "#msg", 20.6);
+        P.type(tl, "#msgT", "Listen, it's gonna cost me 30% more to do this.", 20.84, 30);
+        tl.set("#msgT", { display: "none" }, 22.45); tl.set("#msgR", { display: "inline" }, 22.45);
+        P.out(tl, "#msg", 22.85);
+
+        // ---- S6: the quote ----
+        ["#quote", "#qChg", "#stWorth"].forEach((s) => P.hide(tl, s));
+        P.rise(tl, "#quote", 23.0);
+        P.fill(tl, "#qChg", 24.5);                                    // "need to do that"
+        P.pop(tl, "#stWorth", 25.46);                                 // "worth it"
+        P.count(tl, "#tot", 10000, 13000, 27.62, 0.5, { prefix: "$" });  // "worth paying"
+        P.pulse(tl, "#quote", 28.0);
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

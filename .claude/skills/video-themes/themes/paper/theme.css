@@ -43,6 +43,9 @@
 .p-face.dim video { filter: brightness(0.85); }
 .p-seam { position: absolute; left: 0; right: 0; top: 960px; height: 60px; background: linear-gradient(rgba(40, 28, 12, 0.32), rgba(40, 28, 12, 0)); z-index: 3; pointer-events: none; opacity: 0; }
 
+/* anything placed directly on the root (cards/bubbles over the face) must sit above the footage and the page */
+.p-root > .p-card, .p-root > .p-bubble, .p-root > .p-obj, .p-root > .p-tag { z-index: 33; }
+
 /* ===================== MATERIALS ===================== */
 /* 1. card: a white app window or document (on paper or floating over the face) */
 .p-card { position: absolute; background: var(--p-card); border-radius: var(--p-r-card); border: 1px solid var(--p-card-edge); box-shadow: var(--p-card-shadow); overflow: hidden; color: var(--p-ink); font-size: 30px; font-weight: 500; letter-spacing: -0.3px; }

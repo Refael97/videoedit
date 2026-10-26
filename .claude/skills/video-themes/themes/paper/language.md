@@ -82,6 +82,7 @@ One accent per element besides ink; orange is the default.
 | `click` / `cursor` | choosing in a real UI | cursor eases, squash .82 on click | `click` |
 | `type` | writing / commenting / prompting | letters at 12–14 per second | `key` per ~3 letters |
 | `highlight` | "fill this part in" | yellow box behind the blank, .2 s, staggered | `tick` |
+| `count` | a number changes (price, headcount, total) | the digits roll to the new value in .5–.6 s, power2.out | `tick` |
 | `lift` | zoom into a detail | a card comes out of a screen, .5 s power3.out | `whoosh` |
 | `cycle` | many examples | thumbnails swap every ~0.5 s | — |
 | `pulse` | the voice stresses it | scale 1→1.08→1 in .24 s | — |
