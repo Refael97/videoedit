@@ -50,7 +50,7 @@
 .p-card .row { display: flex; align-items: center; gap: 14px; min-height: 58px; border-top: 1px solid var(--p-card-edge); }
 .p-card .row b { font-weight: 700; } .p-card .row small { display: block; font-size: 19px; color: var(--p-ink-soft); }
 .p-card .link { margin-right: auto; color: var(--p-link); text-decoration: underline; font-size: 21px; direction: ltr; }
-.p-card .mono { font-family: var(--p-mono); direction: ltr; font-size: 23px; white-space: pre; }
+.p-card .mono { font-family: var(--p-mono); direction: ltr; font-size: 28px; white-space: pre; }
 .p-card .hl { background: var(--p-yellow); border-radius: 4px; padding: 0 4px; }      /* the fill-in parts of a prompt */
 .p-card .send { width: 46px; height: 46px; border-radius: 12px; background: var(--p-orange); display: flex; align-items: center; justify-content: center; }
 .p-card .input { margin: 14px 0 0; min-height: 56px; border-radius: 14px; border: 1px solid var(--p-card-edge); background: var(--p-card-warm); display: flex; align-items: center; gap: 12px; padding: 0 12px 0 18px; white-space: pre; }
@@ -66,7 +66,7 @@
 .p-tile { position: absolute; width: 150px; height: 150px; border-radius: var(--p-r-tile); background: var(--p-orange); box-shadow: 0 12px 26px rgba(198, 90, 60, 0.35); display: flex; align-items: center; justify-content: center; }
 .p-tile svg { width: 84px; height: 84px; }
 .p-ring { position: absolute; border-radius: 50%; border: 2px solid rgba(34, 28, 18, 0.12); background: rgba(255, 255, 255, 0.12); }
-.p-thumb { position: absolute; width: 190px; height: 338px; border-radius: 14px; border: 6px solid #fff; box-shadow: var(--p-card-shadow); background: #222 center / cover; overflow: hidden; }
+.p-thumb { position: absolute; width: 240px; height: 426px; border-radius: 14px; border: 6px solid #fff; box-shadow: var(--p-card-shadow); background: #222 center / cover; overflow: hidden; }
 
 /* 3. ink: tags, dotted connectors, arrows, tree lines, strike */
 .p-tag { position: absolute; height: 54px; padding: 0 20px; border-radius: 27px; background: var(--p-orange); color: #fff; font-size: 30px; font-weight: 700; display: flex; align-items: center; white-space: pre; transform: translate(50%, -50%); box-shadow: 0 6px 14px rgba(198, 90, 60, 0.3); }
@@ -77,7 +77,7 @@
 .p-ink .arrow { fill: none; stroke: var(--p-orange); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
 
 /* chat bubbles (feedback loop) */
-.p-bubble { position: absolute; max-width: 760px; padding: 18px 26px; border-radius: 26px; background: #fff; box-shadow: var(--p-card-shadow); font-size: 32px; font-weight: 700; white-space: pre-wrap; }
+.p-bubble { position: absolute; z-index: 33; max-width: 760px; padding: 20px 28px; border-radius: 28px; background: #fff; box-shadow: var(--p-card-shadow); font-size: 36px; font-weight: 700; white-space: pre-wrap; }
 .p-bubble.me { border-bottom-left-radius: 8px; }
 .p-bubble.ai { border-bottom-right-radius: 8px; display: flex; gap: 14px; align-items: flex-start; font-weight: 500; }
 .p-bubble.ai .sp { width: 36px; height: 36px; flex: none; }

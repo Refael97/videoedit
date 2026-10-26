@@ -58,6 +58,8 @@ One accent per element besides ink; orange is the default.
 - Layout changes every ~4–6 s *(1/1: 15 switches in 77 s)*. A step usually spans several layouts.
 - One hero at a time. When the next object arrives, the previous one **parks** (shrinks, moves up/aside) or leaves.
 - Nothing closer than 60px to the frame sides; nothing under the seam in split.
+- **Captions never cover the mouth.** 62% is the anchor's value for its framing; if the speaker's chin is lower,
+  move full-face captions just under the chin (`captions(..., { yFace })`). Check one full-face frame.
 
 ## 6. Motion verbs (`motion.js` → `PAPER.<verb>`)
 

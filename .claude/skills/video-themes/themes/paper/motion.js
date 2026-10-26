@@ -51,7 +51,8 @@
     modeAt(t) { let m = "face"; P._layouts.forEach(([tt, mm]) => { if (tt <= t + 1e-6) m = mm; }); return m; },
 
     /* scenes: only one paper composition visible; show(sel, from, to) */
-    scene(tl, sel, a, b) { tl.set(sel, { autoAlpha: 0 }, 0); tl.set(sel, { autoAlpha: 1 }, a); if (b != null) tl.set(sel, { autoAlpha: 0 }, b); },
+    // (a scene that starts at 0 is simply visible; never hide and show at the same instant - the renderer drops it)
+    scene(tl, sel, a, b) { if (a > 0) { tl.set(sel, { autoAlpha: 0 }, 0); tl.set(sel, { autoAlpha: 1 }, a); } if (b != null) tl.set(sel, { autoAlpha: 0 }, b); },
     hide(tl, sel) { tl.set(sel, { opacity: 0 }, 0); },
 
     /* captions: 1-3 words, hard swap; vertical position follows the layout at that moment */
