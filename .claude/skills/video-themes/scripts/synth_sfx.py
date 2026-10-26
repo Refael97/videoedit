@@ -1,7 +1,7 @@
 """Synthesize a theme's UI sound set from scratch (no samples, so it is free to redistribute).
 
-usage: python3 synth_sfx.py <out_dir>
-writes click.wav, pop.wav, tick.wav, ding.wav, whoosh.wav, zoom.wav (48 kHz mono, peak -3 dBFS)
+usage: python3 synth_sfx.py <out_dir> [set]   (set: default | paper; see SETS)
+writes 48 kHz mono wavs, peak -3 dBFS
 """
 import sys, wave
 import numpy as np
@@ -106,8 +106,31 @@ def zoom():
     return x * shape + thump
 
 
+def key():
+    # keyboard key: short plasticky click, slightly lower than the trackpad click
+    n = int(0.04 * SR)
+    noise = lowpass(highpass(rng.standard_normal(n), 900), 5000) * env(n, 0.0003, 0.006)
+    body = np.sin(2 * np.pi * 420 * t(0.04)) * env(n, 0.0005, 0.01) * 0.5
+    return noise + body
+
+
+def swish():
+    # paper swish for a layout change: very short, bright, soft
+    d = 0.25
+    n = int(d * SR)
+    x = highpass(rng.standard_normal(n), 2500)
+    shape = np.sin(np.pi * np.linspace(0, 1, n) ** 0.5) ** 3
+    return x * shape
+
+
+SETS = {
+    "default": ["click", "pop", "tick", "ding", "whoosh", "zoom"],
+    "paper": ["click", "pop", "tick", "ding", "whoosh", "key", "swish"],
+}
+
+
 if __name__ == "__main__":
     out = sys.argv[1]
-    for name, fn in [("click", click), ("pop", pop), ("tick", tick), ("ding", ding), ("whoosh", whoosh), ("zoom", zoom)]:
-        save(f"{out}/{name}.wav", fn())
+    for name in SETS[sys.argv[2] if len(sys.argv) > 2 else "default"]:
+        save(f"{out}/{name}.wav", globals()[name]())
         print("wrote", name)
