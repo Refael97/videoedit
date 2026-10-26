@@ -54,7 +54,7 @@ themes/<name>/
 
 ## Workflow: building a theme from reference videos
 
-1. Put the videos in `references/<creator>/` (git-ignored — copyrighted content never goes into git).
+1. Put the videos in `references/<creator>/`. Copyrighted content: the repo must stay private and nothing from `references/` ships inside a theme.
 2. Run `python3 .claude/skills/video-themes/scripts/analyze_refs.py references/<creator>` — per video it
    writes a 1 fps contact sheet (10×2 tiles per image), scene-cut times, cut frequency, a pixel-sampled
    palette and basic metadata into `references/<creator>/_analysis/`, plus a `summary.json` across videos.
