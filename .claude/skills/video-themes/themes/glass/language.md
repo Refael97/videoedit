@@ -21,6 +21,10 @@ Rules:
 - Never invent a fourth material (no colored cards, no gradients-as-background, no paper, no neon).
 - Light text on all three. The only dark text in the theme is on the CTA pill.
 - Inside a window, sub-surfaces are white at 6–12% (inputs, chips, rows), never another color.
+- **Adapt to the footage brightness.** The materials above are tuned for a mid/dark room. On bright footage
+  (white wall, daylight; mean luma of the free area > ~170) add `.bg-bright` on `.g-root`: dark glass goes
+  to 80% so it stays black instead of muddy grey, light glass gets a 30% fill, an 85% edge and a soft drop
+  shadow so it still reads as glass on white. Check one frame of each material against the real background.
 
 ## 2. Anatomy: every element = header · body · (state)
 
@@ -51,6 +55,11 @@ Screen text (hook 72/124, captions 76) is separate and always bigger than anythi
 **Radii**: light glass 30 · dark glass 30 · window 18 · inner surfaces 10–14 · chips/pills full.
 **Size**: an element takes 35–45% of frame width when it lives in the glass desktop, 65–75% when it is a
 free dark-glass fact. Never full width, never smaller than 30%.
+- **Windows hug their content**: height = content + padding; no empty dark area below the last row.
+- **Dark-glass facts are read in one glance**: their smallest text is T4 at 30px; titles T3 at 34px; never T5
+  except a timestamp.
+- **Charts are slim**: bars 120px wide with 60px gaps, centered, labels T4 white 85% under each bar; the card
+  keeps empty space around the bars instead of stretching them.
 
 ## 4. Color: meaning, not decoration
 
@@ -71,6 +80,12 @@ Max **one** accent color per element (plus white). The footage supplies all othe
   beside it. Never over the mouth/eyes, never under the caption line (74.7%), never touching the frame edge (≥18px).
 - Only **one** primary element on screen. Showing a new one = replace (§6), not stack.
 - The cursor belongs to the light glass it is in; it only appears when something is being *done*.
+- **Captions stop when the CTA appears** (the CTA *is* the last line); never show both. The CTA takes the
+  caption slot (≈75%), below the face, arrow pointing down to the comments; never over the face.
+- **Light glass is never empty**: a window inside it fills at least ~60% of it. If the content is short, give the
+  window more true content (the steps the command runs, the files it made) instead of leaving dead glass.
+- When the only free space is above the head, everything lives in the top third (y 90–680) and the camera
+  punches add y offset (+60–70px when tight) so nothing gets closer than 18px to the top edge.
 
 ## 6. Motion: verbs, not effects
 

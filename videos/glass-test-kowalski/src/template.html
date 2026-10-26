@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #face { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      /* light-glass desktop above the head (the free space in this shot) */
+      #desk { left: 290px; top: 110px; width: 500px; height: 570px; padding: 0; }
+      #browser, #term { left: 22px; top: 22px; width: 456px; }
+
+      /* browser: a website skeleton built from white 8-14% surfaces */
+      #url { height: 40px; margin: 2px 0 14px; font-size: 18px; direction: ltr; justify-content: flex-start; color: #9a9a9f; }
+      .nav { display: flex; gap: 8px; margin-bottom: 12px; }
+      .nav i { width: 64px; height: 14px; border-radius: 7px; background: rgba(255, 255, 255, 0.14); display: block; }
+      .nav i:first-child { width: 90px; background: rgba(255, 255, 255, 0.3); }
+      .hero { position: relative; height: 120px; border-radius: 14px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+      .hero b { position: absolute; top: 22px; right: 22px; width: 200px; height: 22px; border-radius: 11px; background: rgba(255, 255, 255, 0.55); display: block; }
+      .hero s { position: absolute; top: 58px; right: 22px; width: 140px; height: 14px; border-radius: 7px; background: rgba(255, 255, 255, 0.22); display: block; }
+      .hero u { position: absolute; top: 30px; left: 26px; width: 60px; height: 60px; border-radius: 16px; background: var(--g-blue); display: block; }
+      .hero em { position: absolute; top: 30px; left: 26px; width: 60px; height: 60px; border-radius: 50%; background: var(--g-green); display: block; }
+      .cards { display: flex; gap: 10px; margin-top: 10px; }
+      .cards i { flex: 1; height: 72px; border-radius: 12px; background: rgba(255, 255, 255, 0.1); display: block; }
+      #chips { margin-top: 14px; display: flex; gap: 8px; }
+
+      #cmd { font-size: 22px; min-height: 60px; }
+      #cmdTxt { color: var(--g-win-ink); }
+      #cmdOk { width: 30px; height: 30px; margin-right: 0; margin-left: auto; }
+      #installed { margin-top: 4px; }
+      .g-term .row.out { color: #b9b9be; font-size: 21px; height: 46px; }
+      .g-term .row.out .p { color: var(--g-green); }
+
+      /* dark-glass comparison above the head */
+      #cmp { left: 160px; top: 110px; width: 760px; }
+      #cmp .g-bars { margin-top: 24px; }
+
+      /* toasts */
+      .toast { left: 130px; top: 230px; width: 820px; }
+      #tRafael .g-avatar { background-image: url(assets/img/avatar.jpg); }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="g-root bg-bright" data-composition-id="main" data-start="0" data-duration="17.2" data-width="1080" data-height="1920">
+      <div id="cam" class="g-cam">
+        <video id="face" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video>
+
+        <!-- a website (tool) inside the light-glass desktop (place) -->
+        <div id="desk" class="g-card m-light aa">
+          <div id="browser" class="g-win aa">
+            <div class="bar"><i></i><i></i><i></i><span>Preview</span></div>
+            <div class="body">
+              <div id="url" class="g-input">my-site.com</div>
+              <div class="nav"><i></i><i></i><i></i><i></i></div>
+              <div class="hero"><b></b><s></s><u id="mBlock"></u><em id="mBlock2"></em></div>
+              <div class="cards"><i class="card"></i><i class="card"></i><i class="card"></i></div>
+              <div id="chips"><span class="g-chip on c1">Motion ✓</span><span class="g-chip on c2">מעברים ✓</span><span class="g-chip on c3">מבנה ✓</span></div>
+            </div>
+          </div>
+
+          <!-- install = process: a terminal (window) -->
+          <div id="term" class="g-win g-term aa">
+            <div class="bar"><i></i><i></i><i></i><span>Terminal</span></div>
+            <div class="body">
+              <div id="cmd" class="row"><span class="p">›</span><span id="cmdTxt"></span><span id="cmdOk" class="ok"></span></div>
+              <div class="row out"><span class="p">✓</span>motion presets</div>
+              <div class="row out"><span class="p">✓</span>page transitions</div>
+              <div class="row out"><span class="p">✓</span>layout system</div>
+              <div style="display: flex; justify-content: flex-end; margin-top: 10px"><span id="installed" class="g-badge">מותקן</span></div>
+            </div>
+          </div>
+
+          <div id="dock" class="g-dock" style="transform: translateX(-50%)"></div>
+        </div>
+
+        <!-- before / after = comparison: dark glass with two bars -->
+        <div id="cmp" class="g-card m-dark aa">
+          <div class="g-label">האתר שלכם</div>
+          <div class="g-bars">
+            <div class="bar win" style="--h: 1"><i></i><span>עם Kowalski</span></div>
+            <div class="bar lose" style="--h: 0.32"><i></i><span>לפני</span></div>
+          </div>
+          <div class="g-ring" style="border-radius: 30px"></div>
+        </div>
+
+        <!-- a comment / a reply = person-message: dark-glass toasts -->
+        <div id="tDaniel" class="g-card m-dark g-toast toast aa">
+          <div class="g-avatar">ד</div>
+          <div><b>דניאל הגיב</b><p>Kowalski</p></div>
+          <time>עכשיו</time>
+        </div>
+        <div id="tRafael" class="g-card m-dark g-toast toast aa">
+          <div class="g-avatar"></div>
+          <div><b>רפאל לוי</b><p>שלחתי לך את הסקיל <span class="c-green">✓</span></p></div>
+          <time>עכשיו</time>
+        </div>
+      </div>
+
+      <div id="hook" class="g-hook"><span class="l1">איך בונים אתר</span><span class="l2">שנראה מטורף?</span></div>
+      <div id="caps" class="g-caps"></div>
+      <div id="cta" class="g-cta"><div class="pill">תגיבו Kowalski</div><div class="arrow"></div></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="17.2" data-track-index="10" data-volume="1"></audio>
+      <audio id="sZ1" src="assets/theme/sfx/zoom.wav" data-start="2.9" data-duration="0.22" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sP1" src="assets/theme/sfx/pop.wav" data-start="3.0" data-duration="0.12" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sK1" src="assets/theme/sfx/click.wav" data-start="3.16" data-duration="0.05" data-track-index="13" data-volume="0.4"></audio>
+      <audio id="sK2" src="assets/theme/sfx/click.wav" data-start="4.46" data-duration="0.05" data-track-index="13" data-volume="0.4"></audio>
+      <audio id="sT1" src="assets/theme/sfx/tick.wav" data-start="5.42" data-duration="0.03" data-track-index="14" data-volume="0.35"></audio>
+      <audio id="sD1" src="assets/theme/sfx/ding.wav" data-start="5.45" data-duration="0.7" data-track-index="15" data-volume="0.22"></audio>
+      <audio id="sZ2" src="assets/theme/sfx/zoom.wav" data-start="6.64" data-duration="0.22" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sP2" src="assets/theme/sfx/pop.wav" data-start="6.74" data-duration="0.12" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sT2" src="assets/theme/sfx/tick.wav" data-start="7.86" data-duration="0.03" data-track-index="14" data-volume="0.35"></audio>
+      <audio id="sD2" src="assets/theme/sfx/ding.wav" data-start="8.76" data-duration="0.7" data-track-index="15" data-volume="0.22"></audio>
+      <audio id="sZ3" src="assets/theme/sfx/zoom.wav" data-start="9.92" data-duration="0.22" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sW1" src="assets/theme/sfx/whoosh.wav" data-start="9.95" data-duration="0.55" data-track-index="16" data-volume="0.28"></audio>
+      <audio id="sT3" src="assets/theme/sfx/tick.wav" data-start="11.12" data-duration="0.03" data-track-index="14" data-volume="0.35"></audio>
+      <audio id="sD3" src="assets/theme/sfx/ding.wav" data-start="12.1" data-duration="0.7" data-track-index="15" data-volume="0.22"></audio>
+      <audio id="sZ4" src="assets/theme/sfx/zoom.wav" data-start="13.3" data-duration="0.22" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sP3" src="assets/theme/sfx/pop.wav" data-start="14.56" data-duration="0.12" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sP4" src="assets/theme/sfx/pop.wav" data-start="15.4" data-duration="0.12" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sP5" src="assets/theme/sfx/pop.wav" data-start="15.85" data-duration="0.12" data-track-index="17" data-volume="0.35"></audio>
+    </div>
+    <script>
+      const WORDS = __WORDS__;
+      const G = window.GLASS;
+      const tl = gsap.timeline({ paused: true });
+
+      // ---- DOM ----
+      G.dock("#dock", ["folder", "globe", "photos", "notes", "spark", "clip", "trash"]);
+      document.querySelector("#cmdOk").innerHTML = G.CHECK;
+      document.querySelector("#cta .arrow").innerHTML = G.ARROW;
+
+      // ---- park everything until its cue ----
+      ["#desk", "#browser", "#term", "#cmp", "#tDaniel", "#tRafael", "#cta .pill", "#cta .arrow svg", "#mBlock2", "#chips .g-chip", ".cards .card", "#cmdOk", "#installed", ".g-term .row.out"].forEach((s) => G.hide(tl, s));
+
+      // ---- camera: punch on each new idea, drift between ----
+      G.zoomInit(tl, "#cam", 1.1, 0, 60);
+      G.drift(tl, "#cam", 0, 2.9);
+      G.punch(tl, "#cam", 2.9, 1.0, 0, 0);
+      G.drift(tl, "#cam", 3.05, 3.55);
+      G.punch(tl, "#cam", 6.64, 1.1, 0, 70);
+      G.drift(tl, "#cam", 6.8, 3.1);
+      G.punch(tl, "#cam", 9.92, 1.0, 0, 0);
+      G.drift(tl, "#cam", 10.07, 3.2);
+      G.punch(tl, "#cam", 13.3, 1.1, 0, 70);
+      G.drift(tl, "#cam", 13.45, 3.75);
+
+      // ---- hook, then captions ----
+      G.hook(tl, "#hook", 0.05, 2.9);
+      G.captions(tl, "#caps", WORDS.filter((w) => w.start >= 2.9), { maxWords: 3, until: 15.85 });
+
+      // ---- beat 1: a website with motion, transitions, structure ----
+      G.appear(tl, "#desk", 2.92, "light");
+      G.appear(tl, "#browser", 3.0, "win");
+      tl.fromTo("#mBlock", { x: 0 }, { x: 250, duration: 0.6, ease: "power3.inOut", yoyo: true, repeat: 1, immediateRender: false }, 3.16); // motion
+      G.confirm(tl, "#chips .c1", 3.16);
+      G.replace(tl, "#mBlock", "#mBlock2", 4.46, "win"); // a transition, in miniature
+      G.confirm(tl, "#chips .c2", 4.46);
+      G.fill(tl, ".cards .card", 5.42, 0.1); // structure
+      G.confirm(tl, "#chips .c3", 5.42);
+
+      // ---- beat 2: install the skill ----
+      G.replace(tl, "#browser", "#term", 6.7, "win");
+      const cmd = "/plugin install kowalski";
+      const steps = 12, texts = [""], times = [];
+      for (let i = 1; i <= steps; i++) { texts.push(cmd.slice(0, Math.round((cmd.length * i) / steps))); times.push(7.86 + (i - 1) * 0.06); }
+      G.update.text(tl, "#cmdTxt", texts, times);
+      G.fill(tl, ".g-term .row.out", 8.62, 0.12);
+      G.confirm(tl, "#cmdOk", 8.76);
+      G.confirm(tl, "#installed", 9.0);
+
+      // ---- beat 3: before / after ----
+      G.exit(tl, "#desk", 9.92);
+      G.appear(tl, "#cmp", 9.97, "dark");
+      G.update.bars(tl, "#cmp", 11.12, 0.14);
+      G.emphasize(tl, "#cmp", 12.1, { ring: true });
+      G.emphasize(tl, "#cmp .bar.win i", 12.1);
+
+      // ---- beat 4: comment -> reply ----
+      G.exit(tl, "#cmp", 13.3);
+      G.appear(tl, "#tDaniel", 14.56, "dark");
+      G.replace(tl, "#tDaniel", "#tRafael", 15.4, "dark");
+
+      // ---- CTA ----
+      G.cta(tl, "#cta", 15.85);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
