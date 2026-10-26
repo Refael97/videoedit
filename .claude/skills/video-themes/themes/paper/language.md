@@ -60,6 +60,9 @@ One accent per element besides ink; orange is the default.
 - One hero at a time. When the next object arrives, the previous one **parks** (shrinks, moves up/aside) or leaves.
 - Nothing closer than 60px to the frame sides **except UI-zoom cards, which may bleed off one side**; nothing under the seam in split.
 - **The seam on bright footage:** if the footage's mean luma is above ~170 (white wall, daylight), darken the face half by ~15% (`.p-face.dim`) or add the soft seam shadow (`.p-seam`) so the page and the face don't merge into one bright block.
+- **Layout respects the shot.** Split only over a frontal, usable shot. Profile, tight crop, blur or a hand over the
+  face → full page or a card over the face for that beat (found in the scope test, 9–12.6 s).
+- **Captions never sit on a card.** In split the card ends ≥60px above the seam caption (card bottom ≤ 840).
 - **Captions never cover the mouth.** 62% is the anchor's value for its framing; if the speaker's chin is lower,
   move full-face captions just under the chin (`captions(..., { yFace })`). Check one full-face frame.
 
@@ -82,7 +85,7 @@ One accent per element besides ink; orange is the default.
 | `click` / `cursor` | choosing in a real UI | cursor eases, squash .82 on click | `click` |
 | `type` | writing / commenting / prompting | letters at 12–14 per second | `key` per ~3 letters |
 | `highlight` | "fill this part in" | yellow box behind the blank, .2 s, staggered | `tick` |
-| `count` | a number changes (price, headcount, total) | the digits roll to the new value in .5–.6 s, power2.out | `tick` |
+| `count` | a number changes (price, headcount, total) | the digits roll to the new value, **ending on the payoff word** (start on the word that sets it up), power2.out; the final value holds ≥0.8 s before any cut; any stamp/check comes **after** it lands; the payoff number is the biggest text in the card (≥56px, usually 72+) | `tick` at start, `ding` on landing |
 | `lift` | zoom into a detail | a card comes out of a screen, .5 s power3.out | `whoosh` |
 | `cycle` | many examples | thumbnails swap every ~0.5 s | — |
 | `pulse` | the voice stresses it | scale 1→1.08→1 in .24 s | — |

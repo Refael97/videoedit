@@ -10,21 +10,21 @@
     <style>
       html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
       #root { direction: ltr; }
-      .p-card .row { font-size: 38px; min-height: 76px; justify-content: space-between; }
+      .p-card .row { font-size: 38px; min-height: 72px; justify-content: space-between; }
       .p-card .row .v { font-weight: 700; }
       .ok { color: #2fa860; font-weight: 800; }
 
       /* hook prop: the contract */
-      #docH { left: 40px; top: 600px; width: 250px; height: 320px; z-index: 3; }
-      #docHt { position: absolute; left: 62px; top: 690px; width: 190px; z-index: 4; font-size: 28px; font-weight: 800; line-height: 1.2; color: var(--p-ink); }
-      #docHt span { display: block; margin-top: 10px; font-size: 26px; color: var(--p-orange); }
+      #docH { left: 40px; top: 1340px; width: 360px; height: 460px; z-index: 3; }
+      #docHt { position: absolute; left: 72px; top: 1470px; width: 270px; z-index: 4; font-size: 40px; font-weight: 800; line-height: 1.15; color: var(--p-ink); }
+      #docHt span { display: block; margin-top: 18px; font-size: 40px; color: var(--p-orange); padding: 2px 6px; border-radius: 6px; }
 
       /* S1 services (UI zoom, bleeds right) */
-      #svc { left: 90px; top: 400px; width: 1010px; height: 470px; }
+      #svc { left: 90px; top: 385px; width: 1010px; height: 450px; }
       #avRow { position: relative; }
       #avStrike { position: absolute; left: 0; width: 520px; top: 37px; height: 6px; border-radius: 3px; background: var(--p-orange); transform-origin: 0 50%; }
-      #stNo { left: 760px; top: 793px; }
-      #stLock { left: 860px; top: 448px; }
+      #stNo { left: 760px; top: 770px; }
+      #stLock { left: 860px; top: 432px; }
 
       /* S2 headcount (full page hero, 40% tall) */
       #hc { left: 140px; top: 540px; width: 800px; height: 640px; text-align: center; }
@@ -35,15 +35,15 @@
       #tagF { left: 600px; top: 505px; }
 
       /* S3 date + venue */
-      #cal { left: 90px; top: 410px; width: 380px; height: 380px; }
-      #calM { position: absolute; left: 90px; top: 438px; width: 380px; text-align: center; font-size: 46px; font-weight: 800; color: #fff; letter-spacing: 2px; }
-      #calD { position: absolute; left: 90px; top: 540px; width: 380px; text-align: center; font-size: 170px; font-weight: 800; line-height: 1; }
-      #venue { left: 540px; top: 450px; width: 470px; height: 320px; }
+      #cal { left: 50px; top: 540px; width: 580px; height: 580px; }
+      #calM { font-size: 58px !important; position: absolute; left: 50px; top: 582px; width: 580px; text-align: center; font-size: 46px; font-weight: 800; color: #fff; letter-spacing: 2px; }
+      #calD { position: absolute; left: 50px; top: 745px; width: 580px; text-align: center; font-size: 270px; font-weight: 800; line-height: 1; }
+      #venue { left: 650px; top: 640px; width: 400px; height: 420px; }
       #venue .t { font-size: 30px; color: var(--p-ink-soft); font-weight: 700; }
-      #venue .n { font-size: 52px; font-weight: 800; margin-top: 6px; }
+      #venue .n { font-size: 58px; font-weight: 800; margin-top: 10px; line-height: 1.05; }
       #venue .s { font-size: 32px; margin-top: 10px; }
       .lk { width: 96px; height: 120px; }
-      #lk1 { left: 400px; top: 380px; } #lk2 { left: 950px; top: 410px; }
+      #lk1 { left: 540px; top: 500px; } #lk2 { left: 975px; top: 590px; }
 
       /* S4 the scope */
       .term { width: 420px; height: 200px; padding: 26px 30px; box-sizing: border-box; }
@@ -59,8 +59,8 @@
       #msg em { font-style: normal; color: var(--p-orange); }
 
       /* S6 the quote (UI zoom) */
-      #quote { left: 90px; top: 400px; width: 1010px; height: 470px; }
-      #stWorth { left: 800px; top: 845px; }
+      #quote { left: 90px; top: 385px; width: 1010px; height: 450px; }
+      #stWorth { left: 330px; top: 772px; }
     </style>
   </head>
   <body>
@@ -125,7 +125,7 @@
               <div class="head">Quote</div>
               <div class="row"><span>Base package</span><span class="v">$10,000</span></div>
               <div class="row" id="qChg"><span>Date change (+30%)</span><span class="v" style="color: var(--p-orange)">+$3,000</span></div>
-              <div class="row" style="font-weight: 800"><span>Total</span><span class="v" id="tot">$10,000</span></div>
+              <div class="row" style="font-weight: 800; min-height: 120px"><span style="font-size: 44px">Total</span><span class="v" id="tot" style="font-size: 84px; letter-spacing: -2px">$10,000</span></div>
             </div></div>
           <div class="p-stamp ok" id="stWorth">Worth it ✓</div>
         </div>
@@ -173,9 +173,9 @@ changing everything</div>
       <audio id="x32" src="assets/theme/sfx/swish.wav" data-start="22.9" data-duration="0.25" data-track-index="13" data-volume="0.3"></audio>
       <audio id="x33" src="assets/theme/sfx/pop.wav" data-start="23.0" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
       <audio id="x34" src="assets/theme/sfx/tick.wav" data-start="24.5" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
-      <audio id="x35" src="assets/theme/sfx/pop.wav" data-start="25.46" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
-      <audio id="x36" src="assets/theme/sfx/tick.wav" data-start="27.62" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
-      <audio id="x37" src="assets/theme/sfx/ding.wav" data-start="28.0" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
+      <audio id="x35" src="assets/theme/sfx/tick.wav" data-start="25.46" data-duration="0.12" data-track-index="15" data-volume="0.3"></audio>
+      <audio id="x36" src="assets/theme/sfx/pop.wav" data-start="27.72" data-duration="0.03" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="x37" src="assets/theme/sfx/ding.wav" data-start="27.62" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
     </div>
     <script>
       const WORDS = __WORDS__;
@@ -189,9 +189,9 @@ changing everything</div>
         P.fit("#hook", 0.8);
 
         // ---- layouts ----
-        const L = [["face", 0], ["split", 2.5], ["paper", 6.6, true], ["split", 9.0], ["paper", 13.0, true], ["face", 19.2], ["split", 22.9], ["face", 28.1]];
+        const L = [["face", 0], ["split", 2.5], ["paper", 6.6, true], ["face", 19.2], ["split", 22.9], ["face", 28.7]];
         L.forEach(([m, t, f]) => P.layout(tl, m, t, { flash: !!f, shift: 600 }));
-        P.scene(tl, "#s1", 2.5, 6.6); P.scene(tl, "#s2", 6.6, 9.0); P.scene(tl, "#s3", 9.0, 13.0); P.scene(tl, "#s4", 13.0, 19.2); P.scene(tl, "#s6", 22.9, 28.1);
+        P.scene(tl, "#s1", 2.5, 6.6); P.scene(tl, "#s2", 6.6, 9.0); P.scene(tl, "#s3", 9.0, 13.0); P.scene(tl, "#s4", 13.0, 19.2); P.scene(tl, "#s6", 22.9, 28.7);
 
         // ---- hook: title + the contract with its rule highlighted (rule e) ----
         P.hook(tl, "#hook", 0.05, 2.5);
@@ -200,7 +200,7 @@ changing everything</div>
         tl.set(["#docH", "#docHt"], { autoAlpha: 0 }, 2.5);
 
         // ---- captions (from 0, as in the anchor) ----
-        P.captions(tl, "#caps", WORDS, { maxWords: 3, yFace: 1250, yPaper: 1440 });
+        P.captions(tl, "#caps", WORDS, { maxWords: 3, yFace: 1250, yPaper: 1440, yAt: (t) => (t < 2.5 ? 1200 : null) || ({ split: 908, face: 1250, paper: 1440 })[P.modeAt(t)] });
 
         // ---- S1: the services ----
         ["#svc", ".r1", "#avRow", "#stNo", "#stLock"].forEach((s) => P.hide(tl, s));
@@ -248,9 +248,9 @@ changing everything</div>
         ["#quote", "#qChg", "#stWorth"].forEach((s) => P.hide(tl, s));
         P.rise(tl, "#quote", 23.0);
         P.fill(tl, "#qChg", 24.5);                                    // "need to do that"
-        P.pop(tl, "#stWorth", 25.46);                                 // "worth it"
-        P.count(tl, "#tot", 10000, 13000, 27.62, 0.5, { prefix: "$" });  // "worth paying"
-        P.pulse(tl, "#quote", 28.0);
+        P.count(tl, "#tot", 10000, 13000, 25.46, 2.16, { prefix: "$", ease: "power1.inOut" });  // from "worth it" ... lands on "paying" (27.62)
+        P.pulse(tl, "#tot", 27.62);
+        P.pop(tl, "#stWorth", 27.72);                                 // confirm only after the number landed
 
         window.__timelines["main"] = tl;
       });

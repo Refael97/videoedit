@@ -150,6 +150,13 @@ Proven on `glass` (one reference). Follow every step; the user checks the previe
 
 ## Hard-won rules (apply to every theme)
 
+- **Layout respects the shot.** Before choosing a layout for a beat, look at the footage under it. If the shot is
+  not frontal or not usable (profile, tight crop, blur, a hand over the face, another person), don't put the face
+  in a split: use the full page / full graphic, or a card over the face. Check every split moment in a contact sheet.
+- **The payoff lands.** A count / change / reveal ends **on the word that carries the payoff**, and the final value
+  stays on screen **≥0.8 s before any cut**. Order is update → confirm: the stamp / check / ding comes after the
+  number has landed, never before. The payoff is the biggest thing in its card.
+
 - Hebrew/RTL: check every font in Hebrew before choosing it (Geist, Manrope, Poppins, SF have no Hebrew).
   Gradient and arrow directions flip in RTL. Typed text uses `white-space: pre`.
 - Fonts that ship with a distributed theme must be free to redistribute (OFL). No SF Pro, no Ploni.
