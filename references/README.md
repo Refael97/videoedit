@@ -1,14 +1,13 @@
 # Reference videos (private, research only)
 
-One folder per creator. Each creator is a candidate theme. Aim for 3–5 videos each, because a rule enters a theme only if it repeats in at least 3 videos.
+Drop every video into `inbox/`, unsorted. Claude groups them by visual style itself (contact sheets, palette, layout and caption measurements) and moves each group into its own folder:
 
 ```
 references/
-  notebook/     the 4-step Claude Code tutorial creator
-  apple/        the Liquid Glass / Apple design creator
-  <creator>/    any other creator, one folder each
+  inbox/        everything, unsorted
+  <style>/      created by Claude after analysis, one per detected style
 ```
 
-Optional: a `notes.txt` per folder saying what you liked ("the transitions", "the captions").
+A rule enters a theme only if it repeats in at least 3 videos of the same style.
 
 These are other creators' copyrighted videos. The repo must stay **private**, and nothing from this folder ships inside a theme.
