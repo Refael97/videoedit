@@ -116,3 +116,24 @@ Claude בנה את הכול מפרומפטים.
 *פרסומת ספק (spec ad) שיצרתי באופן עצמאי. אין לי קשר רשמי לביט. השמות והפרטים במסכים הוחלפו בנתוני דמה.
 
 #AI #Claude #ClaudeCode #בינהמלאכותית #שיווקדיגיטלי #פרסומת #מושןגרפיקס #עריכתוידאו #specad #motiongraphics #ביט #reels
+
+---
+
+## סרטון 5 — Katana של Higgsfield (katana-he)
+
+לא פתחתי After Effects. לא שכבות, לא קיפריימים, לא גרף אדיטור 🤯
+
+כל הטיפוגרפיה שזזה על המסך נבנתה מפרומפטים לClaude, והכלי החדש של Higgsfield, Katana, עושה בדיוק את זה ישר מתוך הצ'אט.
+
+ההתקנה לוקחת דקה:
+1️⃣ Claude ← Connectors ← Add custom connector
+2️⃣ מדביקים את הלינק של Higgsfield MCP
+3️⃣ Continue ← Allow
+4️⃣ כותבים Higgsfield MCP /katana ובוחרים פריסט
+
+💬 תגיבו "קטאנה" ואשלח לכם בפרטי את הלינק + הוראות התקנה צעד אחר צעד.
+👈 ותעקבו אחריי @refaelleviii כדי שההודעה תגיע.
+
+איזה סרטון הייתם בונים עם זה? 👇
+
+#AI #Claude #Higgsfield #Katana #בינהמלאכותית #מושןגרפיקס #עריכתוידאו #motiongraphics #kinetictypography #aitools #reels
