@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="he" dir="rtl" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>עומר כהן | מאמן כושר אישי בתל אביב · אימון ניסיון חינם</title>
+<meta name="description" content="אימוני כוח אישיים וליווי תזונה בפלורנטין, תל אביב. תוכנית שמתקדמת כל שבוע ותפריט שנבנה סביב השגרה שלכם. קבעו אימון ניסיון חינם של 60 דקות.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="עומר כהן | אימוני כוח אישיים וליווי תזונה בתל אביב">
+<meta property="og:description" content="חזקים יותר תוך 12 שבועות, גם כשהיומן מלא. אימון ניסיון ראשון חינם, בלי התחייבות.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="עומר כהן | אימוני כוח אישיים בתל אביב">
+<meta name="twitter:description" content="אימוני כוח אחד על אחד וליווי תזונה. אימון ניסיון ראשון חינם.">
+<meta name="theme-color" content="#131209">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23C8F23C'/%3E%3Cg stroke='%23131209' stroke-width='5' stroke-linecap='round' fill='none'%3E%3Cpath d='M20 22v20M44 22v20M14 27v10M50 27v10M20 32h24'/%3E%3C/g%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#131209',
+          s1: '#181818',
+          s2: '#1F1F1F',
+          s3: '#272727',
+          s4: '#313131',
+          lime: '#C8F23C',
+          limehover: '#D6F76A',
+          muted: '#9B9B9B'
+        },
+        fontFamily: { sans: ['Heebo', 'system-ui', 'sans-serif'] },
+        transitionTimingFunction: {
+          DEFAULT: 'cubic-bezier(0.22,1,0.36,1)',
+          out: 'cubic-bezier(0.22,1,0.36,1)'
+        },
+        transitionDuration: { DEFAULT: '300ms' }
+      }
+    }
+  };
+</script>
+
+<style>
+  :root { --ease: cubic-bezier(0.22,1,0.36,1); }
+  html { scroll-behavior: smooth; }
+  body { background: #131209; color: #FFFFFF; font-family: 'Heebo', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, .balance { text-wrap: balance; }
+  p, li, dd, .pretty { text-wrap: pretty; }
+  ::selection { background: #C8F23C; color: #131209; }
+  :focus-visible { outline: 2px solid #C8F23C; outline-offset: 2px; }
+
+  /* Scroll reveal: rise 32px and fade, once */
+  .js .reveal { opacity: 0; transform: translateY(32px); transition: opacity 700ms var(--ease), transform 700ms var(--ease); }
+  .js .reveal.is-in { opacity: 1; transform: none; }
+
+  /* Tagline words */
+  .tw { opacity: .3; transition: opacity 500ms var(--ease); }
+  .tw.on { opacity: 1; }
+
+  /* Mobile menu */
+  #menu { opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity 500ms var(--ease), transform 500ms var(--ease); }
+  #menu.open { opacity: 1; transform: none; pointer-events: auto; }
+  #menu .ml { opacity: 0; transform: translateY(24px); transition: opacity 500ms var(--ease), transform 500ms var(--ease); }
+  #menu.open .ml { opacity: 1; transform: none; }
+  .bar { transition: transform 500ms var(--ease), opacity 300ms var(--ease); transform-origin: center; }
+  [aria-expanded="true"] .bar1 { transform: translateY(4px) rotate(45deg); }
+  [aria-expanded="true"] .bar2 { transform: translateY(-4px) rotate(-45deg); }
+
+  /* FAQ */
+  details summary::-webkit-details-marker { display: none; }
+  details summary { list-style: none; }
+  details .faq-icon { transition: transform 500ms var(--ease); }
+  details[open] .faq-icon { transform: rotate(45deg); }
+  details .faq-body { opacity: 0; transform: translateY(-8px); transition: opacity 500ms var(--ease), transform 500ms var(--ease); }
+  details[open] .faq-body { opacity: 1; transform: none; }
+
+  /* Skeleton: opacity pulse, no spinner */
+  @keyframes pulse-o { 0%,100% { opacity: .45 } 50% { opacity: .9 } }
+  .skeleton { background: #313131; animation: pulse-o 1200ms var(--ease) infinite; }
+
+  /* Progress bars scale from the start edge in RTL */
+  .meter > span { display: block; height: 100%; transform-origin: right center; background: #C8F23C; border-radius: 9999px; }
+
+  .view[hidden] { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .js .reveal, .js .reveal.is-in,
+    #menu, #menu.open, #menu .ml, #menu.open .ml,
+    details .faq-body, details[open] .faq-body { transform: none !important; }
+    .bar, details .faq-icon { transition: opacity 300ms var(--ease); }
+    [aria-expanded="true"] .bar1, [aria-expanded="true"] .bar2 { transform: none; }
+    [aria-expanded="true"] .bar2 { opacity: 0; }
+    .skeleton { animation: none; opacity: .6; }
+  }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HealthClub",
+  "name": "עומר כהן אימוני כוח",
+  "description": "אימוני כוח אישיים וליווי תזונה בתל אביב",
+  "address": { "@type": "PostalAddress", "streetAddress": "אברבנאל 37", "addressLocality": "תל אביב", "addressCountry": "IL" },
+  "telephone": "+972547183926",
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "137" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "אני מתחיל מאפס. זה מתאים לי?", "acceptedAnswer": { "@type": "Answer", "text": "כן. בערך שליש מהמתאמנים של עומר מגיעים בלי ניסיון בחדר כושר. התוכנית מתחילה ממשקלים שאתם שולטים בהם ועולה רק כשהטכניקה יציבה." } },
+    { "@type": "Question", "name": "מה קורה באימון הניסיון?", "acceptedAnswer": { "@type": "Answer", "text": "60 דקות בסטודיו: שיחה קצרה על המטרות והשגרה, בדיקת תנועה בסקוואט, דדליפט ולחיצה, אימון קצר ראשון ותוכנית התחלה שלוקחים הביתה." } },
+    { "@type": "Question", "name": "אימון הניסיון באמת חינם?", "acceptedAnswer": { "@type": "Answer", "text": "כן. לא מבקשים כרטיס אשראי ואין התחייבות. אם לא מתאים לכם, פשוט לא ממשיכים." } },
+    { "@type": "Question", "name": "כמה זה עולה אחרי אימון הניסיון?", "acceptedAnswer": { "@type": "Answer", "text": "חבילת 8 אימונים בחודש עולה 1,840 ₪ וחבילת 12 אימונים עולה 2,580 ₪. שתיהן כוללות ליווי תזונה ומענה בוואטסאפ בין האימונים." } },
+    { "@type": "Question", "name": "צריך לספור קלוריות?", "acceptedAnswer": { "@type": "Answer", "text": "לא. עובדים לפי מנות כף יד ויעד חלבון יומי. מי שרוצה לשקול ולספור יכול, אבל זה לא תנאי." } },
+    { "@type": "Question", "name": "כמה פעמים בשבוע צריך להגיע?", "acceptedAnswer": { "@type": "Answer", "text": "פעמיים בשבוע מספיקות כדי להתקדם. מי שמגיע שלוש פעמים מתקדם מהר יותר, אבל התוכנית בנויה כך שגם שבוע עמוס לא שובר את הרצף." } },
+    { "@type": "Question", "name": "איפה הסטודיו ויש חניה?", "acceptedAnswer": { "@type": "Answer", "text": "רחוב אברבנאל 37 בפלורנטין, קומת קרקע. חניון אחוזת חוף וולפסון נמצא במרחק 4 דקות הליכה, ויש מקום לאופניים בכניסה." } },
+    { "@type": "Question", "name": "מה אם אני צריך לבטל אימון?", "acceptedAnswer": { "@type": "Answer", "text": "ביטול עד 12 שעות לפני האימון לא נספר מהחבילה. אימון שבוטל מאוחר יותר נספר כאימון שהתקיים." } },
+    { "@type": "Question", "name": "יש לי כאבי גב או פציעה ישנה. אפשר להתאמן?", "acceptedAnswer": { "@type": "Answer", "text": "ברוב המקרים כן. עומר מתאים תרגילים ועומסים, ובמקרה של פציעה פעילה יבקש אישור מפיזיותרפיסט לפני שמתחילים." } }
+  ]
+}
+</script>
+<script>document.documentElement.classList.replace('no-js','js');</script>
+</head>
+
+<body class="min-h-screen bg-ink text-white antialiased">
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:right-4 focus:z-[60] focus:rounded-xl focus:bg-lime focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-ink">דלגו לתוכן</a>
+
+<!-- SVG icon sprite, drawn on a 256 grid in the Phosphor regular style -->
+<svg width="0" height="0" class="absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-barbell" viewBox="0 0 256 256"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><rect x="56" y="56" width="40" height="144" rx="8"/><rect x="160" y="56" width="40" height="144" rx="8"/><path d="M96 128h64M56 88H40a8 8 0 0 0-8 8v64a8 8 0 0 0 8 8h16M200 88h16a8 8 0 0 1 8 8v64a8 8 0 0 1-8 8h-16M32 128H16M240 128h-16"/></g></symbol>
+    <symbol id="i-chart" viewBox="0 0 256 256"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M224 208H32V48"/><path d="M224 96l-64 56-48-40-64 48"/><path d="M224 136V96h-40"/></g></symbol>
+    <symbol id="i-fork" viewBox="0 0 256 256"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M88 32v192M56 32l-8 56a40 40 0 0 0 80 0l-8-56"/><path d="M208 160h-56s8-128 56-128v192"/></g></symbol>
+    <symbol id="i-shield" viewBox="0 0 256 256"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M40 114.8V56a8 8 0 0 1 8-8h160a8 8 0 0 1 8 8v58.8c0 84.2-71.3 112.1-85.5 116.8a7.5 7.5 0 0 1-4.9 0C111.3 226.9 40 199 40 114.8Z"/><path d="M88 136l24 24 56-56"/></g></symbol>
+    <symbol id="i-chat" viewBox="0 0 256 256"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M79.9 211.1a96 96 0 1 0-35-35l-11.4 34.2a8 8 0 0 0 10.1 10.1Z"/><path d="M96 116h64M96 148h40"/></g></symbol>
+    <symbol id="i-calendar" viewBox="0 0 256 256"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="40" width="176" height="176" rx="8"/><path d="M176 24v32M80 24v32M40 88h176"/><path d="M92 128h12M122 128h12M152 128h12M92 164h12M122 164h12"/></g></symbol>
+    <symbol id="i-check" viewBox="0 0 256 256"><path d="M40 144l56 56L224 72" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 256 256"><path d="M40 128h176M128 40v176" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 256 256"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M216 128H40M112 56l-72 72 72 72"/></g></symbol>
+    <symbol id="i-pin" viewBox="0 0 256 256"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><circle cx="128" cy="104" r="32"/><path d="M208 104c0 72-80 128-80 128s-80-56-80-128a80 80 0 0 1 160 0Z"/></g></symbol>
+    <symbol id="i-clock" viewBox="0 0 256 256"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><circle cx="128" cy="128" r="96"/><path d="M128 72v56h56"/></g></symbol>
+    <symbol id="i-phone" viewBox="0 0 256 256"><path d="M92.5 124.8a83.6 83.6 0 0 0 39 38.9 8 8 0 0 0 7.9-.6l25-16.7a8 8 0 0 1 7.6-.7l46.8 20.1a8 8 0 0 1 4.8 8.3A48 48 0 0 1 176 216 136 136 0 0 1 40 80a48 48 0 0 1 41.9-47.6 8 8 0 0 1 8.3 4.8l20.1 46.9a8 8 0 0 1-.6 7.5L93 117a8 8 0 0 0-.5 7.8Z" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 256 256"><path fill="currentColor" d="M234.3 103.5a14 14 0 0 0-12.2-9.7l-59.2-4.8-22.8-55.2a14 14 0 0 0-26 0L91.3 89l-59.4 4.8a14 14 0 0 0-8 24.6l45.2 39-13.8 58.3a14 14 0 0 0 20.9 15.2L128 199.6l51.8 31.3a14 14 0 0 0 20.9-15.2l-13.8-58.3 45.2-39a14 14 0 0 0 2.2-14.9Z"/></symbol>
+  </defs>
+</svg>
+
+<!-- Floating navigation -->
+<header class="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+  <nav aria-label="ניווט ראשי" class="flex items-center gap-2 rounded-2xl border border-white/10 bg-[#181818]/70 p-2 backdrop-blur-xl">
+    <a href="#top" class="flex items-center gap-2 rounded-lg px-2 py-1 transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime" aria-label="עומר כהן, חזרה לראש העמוד">
+      <span class="grid h-8 w-8 place-items-center rounded-lg bg-lime text-ink" aria-hidden="true"><svg class="h-4 w-4"><use href="#i-barbell"/></svg></span>
+      <span class="text-sm font-semibold">עומר כהן</span>
+    </a>
+    <ul class="hidden items-center gap-1 md:flex">
+      <li><a data-nav href="#method" class="block rounded-lg px-3 py-2 text-sm text-muted transition hover:bg-white/5 hover:text-white aria-[current=location]:bg-white/10 aria-[current=location]:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">השיטה</a></li>
+      <li><a data-nav href="#results" class="block rounded-lg px-3 py-2 text-sm text-muted transition hover:bg-white/5 hover:text-white aria-[current=location]:bg-white/10 aria-[current=location]:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">תוצאות</a></li>
+      <li><a data-nav href="#faq" class="block rounded-lg px-3 py-2 text-sm text-muted transition hover:bg-white/5 hover:text-white aria-[current=location]:bg-white/10 aria-[current=location]:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">שאלות</a></li>
+    </ul>
+    <a href="#trial" class="hidden rounded-lg bg-lime px-3 py-2 text-sm font-semibold text-ink transition hover:-translate-y-0.5 hover:bg-limehover active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime focus-visible:ring-offset-2 focus-visible:ring-offset-ink md:block">לאימון ניסיון</a>
+    <button id="menuBtn" type="button" class="grid h-10 w-10 place-items-center rounded-lg transition hover:bg-white/5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime md:hidden" aria-expanded="false" aria-controls="menu" aria-label="פתיחת תפריט">
+      <span class="relative block h-4 w-6" aria-hidden="true">
+        <span class="bar bar1 absolute inset-x-0 top-1 h-0.5 rounded-full bg-white"></span>
+        <span class="bar bar2 absolute inset-x-0 bottom-1 h-0.5 rounded-full bg-white"></span>
+      </span>
+    </button>
+  </nav>
+</header>
+
+<!-- Mobile menu: full height panel -->
+<div id="menu" class="fixed inset-0 z-40 flex flex-col bg-[#131209]/95 px-6 pb-12 pt-24 backdrop-blur-2xl md:hidden" aria-hidden="true">
+  <ul class="flex flex-col gap-2">
+    <li class="ml"><a data-nav data-close href="#method" class="block rounded-xl px-3 py-3 text-3xl font-semibold transition hover:bg-white/5 aria-[current=location]:text-lime focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">השיטה</a></li>
+    <li class="ml"><a data-nav data-close href="#results" class="block rounded-xl px-3 py-3 text-3xl font-semibold transition hover:bg-white/5 aria-[current=location]:text-lime focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">תוצאות</a></li>
+    <li class="ml"><a data-nav data-close href="#faq" class="block rounded-xl px-3 py-3 text-3xl font-semibold transition hover:bg-white/5 aria-[current=location]:text-lime focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">שאלות</a></li>
+  </ul>
+  <div class="ml mt-auto">
+    <a data-close href="#trial" class="flex items-center justify-center gap-2 rounded-xl bg-lime px-3 py-2 text-base font-semibold text-ink transition hover:bg-limehover active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime focus-visible:ring-offset-2 focus-visible:ring-offset-ink">קבעו אימון ניסיון חינם</a>
+    <p class="mt-3 text-center text-sm text-muted">60 דקות · בלי התחייבות · בלי כרטיס אשראי</p>
+  </div>
+</div>
+
+<main id="main" tabindex="-1" class="outline-none">
+
+<!-- ================= MAIN VIEW ================= -->
+<div class="view" data-view="home">
+
+  <!-- 1. HERO -->
+  <section id="top" class="px-4 pb-16 pt-24 md:px-8 md:pb-24" aria-labelledby="hero-title">
+    <div class="mx-auto mt-8 grid max-w-6xl items-center gap-12 md:mt-16 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <p class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-s2 px-3 py-1 text-sm text-muted">
+          <svg class="h-4 w-4 text-lime" aria-hidden="true"><use href="#i-pin"/></svg>
+          סטודיו פרטי בפלורנטין, תל אביב
+        </p>
+        <h1 id="hero-title" class="max-w-[680px] bg-gradient-to-l from-white to-[#9B9B9B] bg-clip-text pb-2 text-4xl font-bold text-transparent sm:text-5xl md:text-6xl">
+          חזקים יותר<br>
+          תוך 12 שבועות,<br>
+          גם כשהיומן מלא.
+        </h1>
+        <p class="mt-6 max-w-[680px] text-lg text-muted md:text-xl">
+          אימוני כוח אישיים של 60 דקות עם עומר כהן, ותפריט שנבנה סביב השגרה שלכם ולא להפך. האימון הראשון עלינו.
+        </p>
+        <div class="mt-8 flex flex-col items-start gap-3">
+          <a href="#trial" class="group inline-flex items-center gap-2 rounded-xl bg-lime px-3 py-2 text-base font-semibold text-ink transition duration-300 hover:-translate-y-0.5 hover:bg-limehover active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime focus-visible:ring-offset-2 focus-visible:ring-offset-ink">
+            קבעו אימון ניסיון חינם
+            <svg class="h-4 w-4 transition duration-500 group-hover:-translate-x-1" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+          <p class="text-sm text-muted">60 דקות · בלי התחייבות · בלי כרטיס אשראי</p>
+        </div>
+        <div class="mt-10 flex items-center gap-3">
+          <div class="flex" aria-hidden="true">
+            <span class="grid h-8 w-8 place-items-center rounded-full border-2 border-ink bg-[#3B4A2A] text-xs font-semibold">מב</span>
+            <span class="-ms-2 grid h-8 w-8 place-items-center rounded-full border-2 border-ink bg-[#4A3A2A] text-xs font-semibold">יש</span>
+            <span class="-ms-2 grid h-8 w-8 place-items-center rounded-full border-2 border-ink bg-[#2A3A4A] text-xs font-semibold">רא</span>
+          </div>
+          <p class="text-sm">
+            <span class="inline-flex items-center gap-1 font-semibold"><svg class="h-4 w-4 text-lime" aria-hidden="true"><use href="#i-star"/></svg>4.9 מתוך 5</span>
+            <span class="text-muted">· 137 ביקורות בגוגל</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Hero visual: client progress card (CSS + SVG) -->
+      <figure class="reveal" role="img" aria-label="כרטיס התקדמות של מתאמנת: סקוואט עלה מ 62.5 ל 97.5 קילו בשבעה שבועות, יעד חלבון יומי ומסר מעומר">
+        <div class="rounded-3xl border border-white/10 bg-s1 p-2">
+          <div class="rounded-2xl bg-s2 p-4 md:p-6">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="text-sm text-muted">התוכנית של מיכל</p>
+                <p class="text-lg font-semibold">שבוע 7 מתוך 12</p>
+              </div>
+              <span class="rounded-full bg-lime/10 px-3 py-1 text-xs font-semibold text-lime">בדרך ליעד</span>
+            </div>
+            <div class="mt-6">
+              <div class="flex items-end justify-between">
+                <p class="text-sm text-muted">סקוואט, ק״ג</p>
+                <p class="text-3xl font-bold">97.5</p>
+              </div>
+              <svg viewBox="0 0 320 120" class="mt-2 h-32 w-full" aria-hidden="true">
+                <g stroke="#313131" stroke-width="1">
+                  <line x1="0" y1="20" x2="320" y2="20"/><line x1="0" y1="60" x2="320" y2="60"/><line x1="0" y1="100" x2="320" y2="100"/>
+                </g>
+                <!-- RTL: time flows from right (week 1) to left (week 7) -->
+                <polyline fill="none" stroke="#C8F23C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                  points="310,100 260,92 210,80 160,70 110,52 60,40 10,22"/>
+                <g fill="#131209" stroke="#C8F23C" stroke-width="3">
+                  <circle cx="310" cy="100" r="4"/><circle cx="160" cy="70" r="4"/><circle cx="10" cy="22" r="5" fill="#C8F23C"/>
+                </g>
+              </svg>
+              <div class="flex justify-between text-xs text-muted"><span>שבוע 1 · 62.5</span><span>שבוע 7</span></div>
+            </div>
+            <div class="mt-6 grid grid-cols-3 gap-2">
+              <div class="bg-s3 p-3">
+                <p class="text-xs text-muted">חלבון היום</p>
+                <p class="mt-1 text-sm font-semibold sm:text-base">118 / 130 ג׳</p>
+                <div class="meter mt-2 h-1 rounded-full bg-s4"><span style="transform:scaleX(.91)"></span></div>
+              </div>
+              <div class="bg-s3 p-3">
+                <p class="text-xs text-muted">אימונים החודש</p>
+                <p class="mt-1 text-sm font-semibold sm:text-base">11</p>
+                <div class="meter mt-2 h-1 rounded-full bg-s4"><span style="transform:scaleX(.92)"></span></div>
+              </div>
+              <div class="bg-s3 p-3">
+                <p class="text-xs text-muted">שינה ממוצעת</p>
+                <p class="mt-1 text-sm font-semibold sm:text-base">7.2 ש׳</p>
+                <div class="meter mt-2 h-1 rounded-full bg-s4"><span style="transform:scaleX(.8)"></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 flex items-start gap-3 rounded-2xl bg-s2 p-4">
+            <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-lime text-xs font-bold text-ink" aria-hidden="true">עכ</span>
+            <div>
+              <p class="text-xs text-muted">עומר · היום 07:42</p>
+              <p class="mt-1 text-sm">עלית 2.5 ק״ג בסקוואט וכל החזרות היו נקיות. ביום חמישי מנסים 100.</p>
+            </div>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 2. PROBLEM TO SOLUTION -->
+  <section class="px-4 py-16 md:px-8 md:py-24" aria-labelledby="problem-title">
+    <div class="reveal mx-auto grid max-w-6xl gap-8 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <p class="text-sm font-semibold text-lime">למה זה לא עבד עד עכשיו</p>
+        <h2 id="problem-title" class="mt-3 text-3xl font-bold md:text-4xl">אתם מתאמנים כבר חודשים, והמשקל על המוט כמעט לא זז.</h2>
+      </div>
+      <div class="grid gap-4">
+        <div class="rounded-2xl border border-white/10 bg-s1 p-6">
+          <p class="text-base text-muted"><span class="font-semibold text-white">בלי תוכנית, כל אימון מתחיל מחדש.</span> מגיעים, עושים מה שזוכרים, והגוף לא מקבל סיבה להתחזק.</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-s1 p-6">
+          <p class="text-base text-muted"><span class="font-semibold text-white">בלי תזונה שמתאימה לשגרה, התוצאות נעצרות.</span> דיאטה נוקשה מחזיקה שבועיים, ואז ארוחת עבודה אחת מפרקת הכל.</p>
+        </div>
+        <div class="rounded-2xl border border-lime/40 bg-s2 p-6">
+          <p class="text-base"><span class="font-semibold text-lime">אצל עומר כל אימון נרשם, וכל שבוע נבנה על הקודם.</span> <span class="text-muted">התפריט נבנה סביב מה שאתם באמת אוכלים, כולל ארוחות שישי.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. BENEFITS -->
+  <section id="method" class="scroll-mt-24 px-4 py-16 md:px-8 md:py-24" aria-labelledby="benefits-title">
+    <div class="mx-auto max-w-6xl">
+      <div class="reveal max-w-[680px]">
+        <p class="text-sm font-semibold text-lime">השיטה</p>
+        <h2 id="benefits-title" class="mt-3 text-3xl font-bold md:text-4xl">מה משתנה כשמתאמנים עם עומר</h2>
+      </div>
+      <ul class="mt-12 grid gap-4 md:grid-cols-2">
+        <li class="reveal rounded-2xl border border-white/10 bg-s1 p-6 transition duration-500 hover:-translate-y-1 hover:bg-s2">
+          <span class="grid h-10 w-10 place-items-center rounded-xl bg-lime/10 text-lime" aria-hidden="true"><svg class="h-6 w-6"><use href="#i-chart"/></svg></span>
+          <h3 class="mt-4 text-xl font-semibold">תוכנית שמתקדמת כל שבוע</h3>
+          <p class="mt-2 text-base text-muted">כל סט נרשם באפליקציה. המשקלים עולים לפי מה שעשיתם בפועל בשבוע שעבר, לא לפי תחושה ביום טוב.</p>
+        </li>
+        <li class="reveal rounded-2xl border border-white/10 bg-s1 p-6 transition duration-500 hover:-translate-y-1 hover:bg-s2">
+          <span class="grid h-10 w-10 place-items-center rounded-xl bg-lime/10 text-lime" aria-hidden="true"><svg class="h-6 w-6"><use href="#i-fork"/></svg></span>
+          <h3 class="mt-4 text-xl font-semibold">תזונה בלי ספירת קלוריות</h3>
+          <p class="mt-2 text-base text-muted">יעד חלבון יומי ומנות לפי כף יד. מקבלים תפריט שמכיל את המסעדות הקבועות שלכם ואת ארוחת השישי עם המשפחה.</p>
+        </li>
+        <li class="reveal rounded-2xl border border-white/10 bg-s1 p-6 transition duration-500 hover:-translate-y-1 hover:bg-s2">
+          <span class="grid h-10 w-10 place-items-center rounded-xl bg-lime/10 text-lime" aria-hidden="true"><svg class="h-6 w-6"><use href="#i-shield"/></svg></span>
+          <h3 class="mt-4 text-xl font-semibold">טכניקה שמגינה על הגב והברכיים</h3>
+          <p class="mt-2 text-base text-muted">עומר עומד לידכם בכל סט ומתקן בזמן אמת. עומסים עולים רק אחרי שהתנועה יציבה, כך שאין צורך להפסיק בגלל כאב.</p>
+        </li>
+        <li class="reveal rounded-2xl border border-white/10 bg-s1 p-6 transition duration-500 hover:-translate-y-1 hover:bg-s2">
+          <span class="grid h-10 w-10 place-items-center rounded-xl bg-lime/10 text-lime" aria-hidden="true"><svg class="h-6 w-6"><use href="#i-chat"/></svg></span>
+          <h3 class="mt-4 text-xl font-semibold">ליווי בוואטסאפ בין האימונים</h3>
+          <p class="mt-2 text-base text-muted">שולחים תמונה של הצלחת או שאלה על התפריט, ומקבלים תשובה בתוך 3 שעות בימים א׳ עד ה׳.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. TAGLINE REVEAL (mandatory) -->
+  <section id="tagline" class="px-4 py-24 md:px-8" aria-label="המסר של עומר">
+    <p class="tagline mx-auto max-w-[680px] text-4xl font-bold md:text-5xl">
+      <span class="block">המטרה היא לא להזיע יותר.</span>
+      <span class="block">המטרה היא להרים</span>
+      <span class="block">קצת יותר בכל שבוע,</span>
+      <span class="block">גם בשבועות העמוסים.</span>
+    </p>
+  </section>
+
+  <!-- 5. HOW IT WORKS -->
+  <section class="px-4 py-16 md:px-8 md:py-24" aria-labelledby="how-title">
+    <div class="mx-auto max-w-6xl">
+      <div class="reveal max-w-[680px]">
+        <p class="text-sm font-semibold text-lime">איך מתחילים</p>
+        <h2 id="how-title" class="mt-3 text-3xl font-bold md:text-4xl">שלושה צעדים מהטופס ועד האימון הרביעי</h2>
+      </div>
+      <ol class="mt-12 grid gap-4 md:grid-cols-3">
+        <li class="reveal rounded-2xl border border-white/10 bg-s1 p-6">
+          <span class="text-sm font-semibold text-lime">שלב 1</span>
+          <h3 class="mt-2 text-xl font-semibold">אימון ניסיון ואבחון</h3>
+          <p class="mt-2 text-base text-muted">60 דקות בסטודיו. בדיקת תנועה בסקוואט, דדליפט ולחיצה, שיחה על המטרות ואימון קצר ראשון.</p>
+        </li>
+        <li class="reveal rounded-2xl border border-white/10 bg-s1 p-6">
+          <span class="text-sm font-semibold text-lime">שלב 2</span>
+          <h3 class="mt-2 text-xl font-semibold">תוכנית ותפריט אישיים</h3>
+          <p class="mt-2 text-base text-muted">תוך 48 שעות מקבלים תוכנית ל 12 שבועות ותפריט גמיש לפי השעות, העבודה וההרגלים שלכם.</p>
+        </li>
+        <li class="reveal rounded-2xl border border-white/10 bg-s1 p-6">
+          <span class="text-sm font-semibold text-lime">שלב 3</span>
+          <h3 class="mt-2 text-xl font-semibold">אימונים ובדיקה שבועית</h3>
+          <p class="mt-2 text-base text-muted">פעמיים או שלוש בשבוע בסטודיו. בכל יום ראשון עומר עובר על המספרים ומעדכן משקלים ותפריט.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 6. SOCIAL PROOF -->
+  <section id="results" class="scroll-mt-24 px-4 py-16 md:px-8 md:py-24" aria-labelledby="results-title">
+    <div class="mx-auto max-w-6xl">
+      <div class="reveal max-w-[680px]">
+        <p class="text-sm font-semibold text-lime">תוצאות</p>
+        <h2 id="results-title" class="mt-3 text-3xl font-bold md:text-4xl">מה קרה למתאמנים אחרי 12 שבועות</h2>
+      </div>
+      <dl class="reveal mt-12 grid gap-4 sm:grid-cols-3">
+        <div class="rounded-2xl border border-white/10 bg-s1 p-6">
+          <dt class="text-sm text-muted">מתאמנים מאז 2019</dt>
+          <dd class="mt-2 text-4xl font-bold">212</dd>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-s1 p-6">
+          <dt class="text-sm text-muted">עלייה ממוצעת בסקוואט אחרי 12 שבועות</dt>
+          <dd class="mt-2 text-4xl font-bold">38.5%</dd>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-s1 p-6">
+          <dt class="text-sm text-muted">ממשיכים אחרי החודש הראשון</dt>
+          <dd class="mt-2 text-4xl font-bold">87%</dd>
+        </div>
+      </dl>
+      <div class="mt-4 grid gap-4 lg:grid-cols-3">
+        <figure class="reveal flex flex-col rounded-2xl border border-white/10 bg-s1 p-6">
+          <p class="text-sm font-semibold text-lime">דדליפט: 60 ק״ג ביום הראשון, 105 ק״ג אחרי 14 שבועות</p>
+          <blockquote class="mt-4 flex-1 text-base">״הגעתי אחרי שנתיים של מנוי שלא השתמשתי בו. עכשיו אני מגיעה פעמיים בשבוע בשבע בבוקר, וזה החלק הכי יציב ביום שלי.״</blockquote>
+          <figcaption class="mt-6 flex items-center gap-3">
+            <span class="grid h-10 w-10 place-items-center rounded-full bg-[#3B4A2A] text-sm font-semibold" aria-hidden="true">מב</span>
+            <span><span class="block text-sm font-semibold">מיכל ברקוביץ</span><span class="block text-xs text-muted">34, מנהלת מוצר ברמת החייל</span></span>
+          </figcaption>
+        </figure>
+        <figure class="reveal flex flex-col rounded-2xl border border-white/10 bg-s1 p-6">
+          <p class="text-sm font-semibold text-lime">6.4 ק״ג פחות, בלי לוותר על ארוחות שישי</p>
+          <blockquote class="mt-4 flex-1 text-base">״ניסיתי שלוש דיאטות ונשברתי בכולן. עומר בנה לי תפריט עם שווארמה פעם בשבוע, ובפעם הראשונה ירדתי במשקל בלי לסבול.״</blockquote>
+          <figcaption class="mt-6 flex items-center gap-3">
+            <span class="grid h-10 w-10 place-items-center rounded-full bg-[#4A3A2A] text-sm font-semibold" aria-hidden="true">יש</span>
+            <span><span class="block text-sm font-semibold">יואב שטרן</span><span class="block text-xs text-muted">41, עורך דין, אב לשניים</span></span>
+          </figcaption>
+        </figure>
+        <figure class="reveal flex flex-col rounded-2xl border border-white/10 bg-s1 p-6">
+          <p class="text-sm font-semibold text-lime">גב תחתון בלי כאבים אחרי 9 שבועות</p>
+          <blockquote class="mt-4 flex-1 text-base">״פחדתי להרים משקל בגלל הגב. עומר התחיל איתי ממשקולת של 12 ק״ג ובנה משם. היום אני סוחב את הנכדים בלי לחשוב פעמיים.״</blockquote>
+          <figcaption class="mt-6 flex items-center gap-3">
+            <span class="grid h-10 w-10 place-items-center rounded-full bg-[#2A3A4A] text-sm font-semibold" aria-hidden="true">רא</span>
+            <span><span class="block text-sm font-semibold">רוני אלמוג</span><span class="block text-xs text-muted">58, אדריכל מיפו</span></span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. FAQ -->
+  <section id="faq" class="scroll-mt-24 px-4 py-16 md:px-8 md:py-24" aria-labelledby="faq-title">
+    <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-3">
+      <div class="reveal">
+        <p class="text-sm font-semibold text-lime">שאלות</p>
+        <h2 id="faq-title" class="mt-3 text-3xl font-bold md:text-4xl">מה שואלים לפני אימון הניסיון</h2>
+        <p class="mt-4 text-base text-muted">לא מצאתם תשובה? אפשר להתקשר לעומר ישירות.</p>
+        <a href="tel:+972547183926" class="mt-4 inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-base font-semibold transition hover:bg-white/5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime" dir="ltr">
+          <svg class="h-4 w-4 text-lime" aria-hidden="true"><use href="#i-phone"/></svg>054 718 3926
+        </a>
+      </div>
+      <div class="reveal grid gap-2 lg:col-span-2" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- 8. RISK REVERSAL + FINAL CTA -->
+  <section id="trial" class="scroll-mt-24 px-4 py-16 md:px-8 md:py-24" aria-labelledby="trial-title">
+    <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-2 lg:gap-16">
+      <div class="reveal min-w-0">
+        <p class="text-sm font-semibold text-lime">אימון ניסיון חינם</p>
+        <h2 id="trial-title" class="mt-3 max-w-[680px] text-4xl font-bold md:text-5xl">מתחילים באימון אחד,<br>בלי לשלם ובלי להתחייב.</h2>
+        <ul class="mt-8 grid gap-3">
+          <li class="flex items-start gap-3 text-base"><svg class="mt-1 h-4 w-4 shrink-0 text-lime" aria-hidden="true"><use href="#i-check"/></svg>60 דקות אחד על אחד עם עומר בסטודיו</li>
+          <li class="flex items-start gap-3 text-base"><svg class="mt-1 h-4 w-4 shrink-0 text-lime" aria-hidden="true"><use href="#i-check"/></svg>בדיקת תנועה ותוכנית התחלה שלוקחים הביתה</li>
+          <li class="flex items-start gap-3 text-base"><svg class="mt-1 h-4 w-4 shrink-0 text-lime" aria-hidden="true"><use href="#i-check"/></svg>בלי כרטיס אשראי ובלי חבילה בסוף האימון</li>
+        </ul>
+        <div class="mt-8 rounded-2xl border border-white/10 bg-s1 p-6">
+          <div class="flex items-start gap-3">
+            <svg class="mt-1 h-6 w-6 shrink-0 text-lime" aria-hidden="true"><use href="#i-shield"/></svg>
+            <div>
+              <h3 class="text-lg font-semibold">ההתחייבות של עומר</h3>
+              <p class="mt-1 text-base text-muted">אם אחרי החודש הראשון לא עליתם במשקל בסקוואט, בדדליפט ובלחיצה, החודש השני על חשבונו. ביטול חבילה בכל רגע, בהודעה אחת.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal min-w-0">
+        <div class="rounded-3xl border border-white/10 bg-s1 p-6 md:p-8" id="formCard">
+          <form id="leadForm" novalidate aria-labelledby="form-title">
+            <h3 id="form-title" class="text-2xl font-semibold">השאירו פרטים ועומר יחזור אליכם</h3>
+            <p class="mt-1 text-sm text-muted">שיחה קצרה לתיאום, בדרך כלל באותו יום.</p>
+
+            <div class="mt-6 grid gap-4">
+              <div>
+                <label for="name" class="text-sm font-semibold">שם מלא</label>
+                <input id="name" name="name" type="text" autocomplete="name" required aria-describedby="name-err"
+                  class="mt-2 h-12 w-full rounded-xl border border-white/10 bg-s2 px-4 text-base text-white placeholder:text-muted transition hover:border-white/20 focus:border-lime focus:outline-none focus:ring-2 focus:ring-lime/40 aria-[invalid=true]:border-[#FF7A6B]"
+                  placeholder="נועה לוין">
+                <p id="name-err" class="mt-2 hidden text-sm text-[#FF9A8E]" role="alert"></p>
+              </div>
+              <div>
+                <label for="phone" class="text-sm font-semibold">טלפון נייד</label>
+                <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required dir="ltr" aria-describedby="phone-err"
+                  class="mt-2 h-12 w-full rounded-xl border border-white/10 bg-s2 px-4 text-right text-base text-white placeholder:text-muted transition hover:border-white/20 focus:border-lime focus:outline-none focus:ring-2 focus:ring-lime/40 aria-[invalid=true]:border-[#FF7A6B]"
+                  placeholder="054 718 3926">
+                <p id="phone-err" class="mt-2 hidden text-sm text-[#FF9A8E]" role="alert"></p>
+              </div>
+              <div>
+                <label for="email" class="text-sm font-semibold">אימייל <span class="font-normal text-muted">(לא חובה, לשליחת התוכנית)</span></label>
+                <input id="email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" aria-describedby="email-err"
+                  class="mt-2 h-12 w-full rounded-xl border border-white/10 bg-s2 px-4 text-right text-base text-white placeholder:text-muted transition hover:border-white/20 focus:border-lime focus:outline-none focus:ring-2 focus:ring-lime/40 aria-[invalid=true]:border-[#FF7A6B]"
+                  placeholder="noa@gmail.com">
+                <p id="email-err" class="mt-2 hidden text-sm text-[#FF9A8E]" role="alert"></p>
+              </div>
+
+              <fieldset class="min-w-0">
+                <legend class="text-sm font-semibold">המטרה העיקרית שלכם</legend>
+                <div class="mt-2 flex flex-wrap gap-2" id="goals">
+                  <label class="cursor-pointer"><input type="radio" name="goal" value="כוח" class="peer sr-only"><span class="block rounded-full border border-white/10 px-3 py-2 text-sm transition hover:bg-white/5 peer-checked:border-lime peer-checked:bg-lime/10 peer-checked:text-lime peer-focus-visible:ring-2 peer-focus-visible:ring-lime">להיות חזקים יותר</span></label>
+                  <label class="cursor-pointer"><input type="radio" name="goal" value="משקל" class="peer sr-only"><span class="block rounded-full border border-white/10 px-3 py-2 text-sm transition hover:bg-white/5 peer-checked:border-lime peer-checked:bg-lime/10 peer-checked:text-lime peer-focus-visible:ring-2 peer-focus-visible:ring-lime">לרדת במשקל</span></label>
+                  <label class="cursor-pointer"><input type="radio" name="goal" value="חזרה" class="peer sr-only"><span class="block rounded-full border border-white/10 px-3 py-2 text-sm transition hover:bg-white/5 peer-checked:border-lime peer-checked:bg-lime/10 peer-checked:text-lime peer-focus-visible:ring-2 peer-focus-visible:ring-lime">לחזור לכושר אחרי הפסקה</span></label>
+                </div>
+              </fieldset>
+
+              <fieldset class="min-w-0">
+                <legend class="text-sm font-semibold">מתי נוח לכם? <span class="font-normal text-muted">(לא חובה)</span></legend>
+                <div class="mt-2 flex gap-2 overflow-x-auto pb-1" id="days" role="radiogroup" aria-label="בחירת יום"></div>
+                <div class="mt-3 rounded-xl border border-white/10 bg-s2 p-4" id="slots" aria-live="polite"></div>
+              </fieldset>
+            </div>
+
+            <button type="submit" id="submitBtn"
+              class="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-lime px-3 py-2 text-base font-semibold text-ink transition duration-300 hover:-translate-y-0.5 hover:bg-limehover active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime focus-visible:ring-offset-2 focus-visible:ring-offset-s1 disabled:cursor-not-allowed disabled:hover:translate-y-0">
+              <span id="submitLabel">קבעו אימון ניסיון חינם</span>
+              <span id="submitSkeleton" class="skeleton hidden h-4 w-40 rounded-full" aria-hidden="true"></span>
+            </button>
+            <p class="mt-3 text-xs text-muted">הפרטים משמשים רק לתיאום האימון. <a href="#/privacy" class="underline underline-offset-2 transition hover:text-white">מדיניות פרטיות</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= LEGAL & 404 VIEWS ================= -->
+<div class="view px-4 pb-24 pt-24 md:px-8" data-view="privacy" hidden>
+  <article class="mx-auto mt-8 max-w-[680px]">
+    <h1 class="text-4xl font-bold">מדיניות פרטיות</h1>
+    <p class="mt-2 text-sm text-muted">עודכן לאחרונה: 14 בספטמבר 2026</p>
+    <div class="mt-8 grid gap-4 text-base text-muted">
+      <p>הפרטים שאתם משאירים בטופס (שם, טלפון ואימייל אם בחרתם) משמשים רק לתיאום אימון הניסיון ולשליחת תוכנית ההתחלה.</p>
+      <p>הפרטים לא נמכרים ולא מועברים לגורם שלישי. האתר לא משתמש בעוגיות מעקב או בכלי פרסום.</p>
+      <p>אפשר לבקש מחיקה של הפרטים בכל זמן בהודעה למספר 054 718 3926 או בכתובת omer@omercohen.fit, והמחיקה מתבצעת תוך 7 ימי עבודה.</p>
+    </div>
+    <a href="#top" class="mt-10 inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-base font-semibold transition hover:bg-white/5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">חזרה לעמוד הראשי</a>
+  </article>
+</div>
+
+<div class="view px-4 pb-24 pt-24 md:px-8" data-view="terms" hidden>
+  <article class="mx-auto mt-8 max-w-[680px]">
+    <h1 class="text-4xl font-bold">תנאי שימוש</h1>
+    <p class="mt-2 text-sm text-muted">עודכן לאחרונה: 14 בספטמבר 2026</p>
+    <div class="mt-8 grid gap-4 text-base text-muted">
+      <p>אימון הניסיון ניתן פעם אחת לכל מתאמן ואינו מחייב רכישה של חבילה.</p>
+      <p>ביטול אימון עד 12 שעות מראש אינו נספר מהחבילה. ביטול מאוחר יותר נספר כאימון שהתקיים.</p>
+      <p>לפני תחילת האימונים יש למלא הצהרת בריאות. במקרה של פציעה פעילה נדרש אישור מגורם מטפל.</p>
+      <p>ההתחייבות לחודש שני ללא תשלום חלה על מי שהגיע לפחות ל 7 מתוך 8 האימונים בחודש הראשון.</p>
+    </div>
+    <a href="#top" class="mt-10 inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-base font-semibold transition hover:bg-white/5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">חזרה לעמוד הראשי</a>
+  </article>
+</div>
+
+<div class="view px-4 pb-24 pt-24 md:px-8" data-view="accessibility" hidden>
+  <article class="mx-auto mt-8 max-w-[680px]">
+    <h1 class="text-4xl font-bold">הצהרת נגישות</h1>
+    <p class="mt-2 text-sm text-muted">עודכן לאחרונה: 14 בספטמבר 2026</p>
+    <div class="mt-8 grid gap-4 text-base text-muted">
+      <p>האתר נבנה כך שניתן לנווט בו במקלדת בלבד, עם קישור דילוג לתוכן, סימון פוקוס ברור וניגודיות צבעים גבוהה.</p>
+      <p>הסטודיו נמצא בקומת קרקע עם כניסה ללא מדרגות. נתקלתם בבעיה? כתבו לנו ל omer@omercohen.fit ונטפל בה תוך 5 ימי עבודה.</p>
+    </div>
+    <a href="#top" class="mt-10 inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-base font-semibold transition hover:bg-white/5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">חזרה לעמוד הראשי</a>
+  </article>
+</div>
+
+<div class="view px-4 pb-24 pt-24 md:px-8" data-view="404" hidden>
+  <div class="mx-auto mt-16 max-w-[680px] text-center">
+    <span class="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-lime/10 text-lime" aria-hidden="true"><svg class="h-8 w-8"><use href="#i-barbell"/></svg></span>
+    <p class="mt-6 text-sm font-semibold text-lime">שגיאה 404</p>
+    <h1 class="mt-2 text-4xl font-bold">העמוד הזה לא נמצא על המוט</h1>
+    <p class="mt-4 text-base text-muted">ייתכן שהקישור ישן או שנפלה טעות בכתובת. אפשר לחזור לעמוד הראשי ולקבוע משם אימון ניסיון.</p>
+    <a href="#top" class="mt-8 inline-flex items-center gap-2 rounded-xl bg-lime px-3 py-2 text-base font-semibold text-ink transition hover:-translate-y-0.5 hover:bg-limehover active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime focus-visible:ring-offset-2 focus-visible:ring-offset-ink">חזרה לעמוד הראשי</a>
+  </div>
+</div>
+
+</main>
+
+<footer class="border border-white/10 bg-s1 px-4 py-12 md:px-8">
+  <div class="mx-auto flex max-w-6xl flex-col gap-8 md:flex-row md:items-start md:justify-between">
+    <div>
+      <p class="text-base font-semibold">עומר כהן אימוני כוח</p>
+      <address class="mt-2 grid gap-1 text-sm not-italic text-muted">
+        <span class="inline-flex items-center gap-2"><svg class="h-4 w-4" aria-hidden="true"><use href="#i-pin"/></svg>אברבנאל 37, פלורנטין, תל אביב</span>
+        <span class="inline-flex items-center gap-2"><svg class="h-4 w-4" aria-hidden="true"><use href="#i-clock"/></svg>א׳ עד ה׳ 06:30 עד 21:30 · ו׳ 07:00 עד 13:00</span>
+        <a href="tel:+972547183926" class="inline-flex items-center gap-2 transition hover:text-white"><svg class="h-4 w-4" aria-hidden="true"><use href="#i-phone"/></svg><span dir="ltr">054 718 3926</span></a>
+      </address>
+    </div>
+    <nav aria-label="קישורים משפטיים">
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
+        <li><a href="#/privacy" data-route class="rounded transition hover:text-white aria-[current=page]:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">מדיניות פרטיות</a></li>
+        <li><a href="#/terms" data-route class="rounded transition hover:text-white aria-[current=page]:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">תנאי שימוש</a></li>
+        <li><a href="#/accessibility" data-route class="rounded transition hover:text-white aria-[current=page]:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">הצהרת נגישות</a></li>
+        <li><a href="#top" class="rounded transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">חזרה למעלה</a></li>
+      </ul>
+      <p class="mt-4 text-xs text-muted">© 2026 עומר כהן. כל הזכויות שמורות.</p>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- FAQ (single source shared with JSON-LD) ---------- */
+  var faq = JSON.parse(document.querySelectorAll('script[type="application/ld+json"]')[1].textContent).mainEntity;
+  var list = document.getElementById('faqList');
+  faq.forEach(function (q) {
+    var d = document.createElement('details');
+    d.className = 'group rounded-2xl border border-white/10 bg-s1 transition hover:bg-s2';
+    d.innerHTML =
+      '<summary class="flex cursor-pointer items-center justify-between gap-4 rounded-2xl p-6 text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime">' +
+      '<span></span><svg class="faq-icon h-4 w-4 shrink-0 text-lime" aria-hidden="true"><use href="#i-plus"/></svg></summary>' +
+      '<div class="faq-body px-6 pb-6 text-base text-muted"></div>';
+    d.querySelector('summary span').textContent = q.name;
+    d.querySelector('.faq-body').textContent = q.acceptedAnswer.text;
+    list.appendChild(d);
+  });
+
+  /* ---------- Scroll reveals: IntersectionObserver, once ---------- */
+  var revealIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); revealIO.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(function (el) { revealIO.observe(el); });
+
+  /* ---------- Tagline: words activate one at a time in reading order ---------- */
+  var tagSec = document.getElementById('tagline');
+  tagSec.querySelectorAll('.tagline > span').forEach(function (line) {
+    var words = line.textContent.trim().split(/\s+/);
+    line.textContent = '';
+    words.forEach(function (w, i) {
+      var s = document.createElement('span');
+      s.className = 'tw'; s.textContent = w;
+      line.appendChild(s);
+      if (i < words.length - 1) line.appendChild(document.createTextNode(' '));
+    });
+  });
+  var tw = Array.prototype.slice.call(tagSec.querySelectorAll('.tw'));
+  var active = 0, target = 0, ticking = false, stepping = null, listening = false;
+  function measure() {
+    ticking = false;
+    var r = tagSec.getBoundingClientRect(), vh = window.innerHeight;
+    // Trigger line sits at 65% of the viewport height
+    var p = (vh * 0.65 - r.top) / (r.height * 0.75);
+    p = Math.max(0, Math.min(1, p));
+    var t = Math.round(p * tw.length);
+    if (t > target) { target = t; step(); }
+  }
+  function step() {
+    if (stepping) return;
+    (function next() {
+      if (active >= target) { stepping = null; return; }
+      tw[active++].classList.add('on');
+      stepping = setTimeout(next, 70);
+    })();
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(measure); } }
+  new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting && !listening) { listening = true; window.addEventListener('scroll', onScroll, { passive: true }); onScroll(); }
+      else if (!e.isIntersecting && listening) { listening = false; window.removeEventListener('scroll', onScroll); }
+    });
+  }).observe(tagSec);
+
+  /* ---------- Mobile menu ---------- */
+  var btn = document.getElementById('menuBtn'), menu = document.getElementById('menu');
+  var items = menu.querySelectorAll('.ml');
+  var stepMs = items.length > 1 ? Math.min(60, 400 / (items.length - 1)) : 0;
+  function setMenu(open) {
+    btn.setAttribute('aria-expanded', open);
+    btn.setAttribute('aria-label', open ? 'סגירת תפריט' : 'פתיחת תפריט');
+    menu.setAttribute('aria-hidden', !open);
+    items.forEach(function (it, i) { it.style.transitionDelay = open ? (i * stepMs) + 'ms' : '0ms'; });
+    menu.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    menu.querySelectorAll('a').forEach(function (a) { a.tabIndex = open ? 0 : -1; });
+  }
+  setMenu(false);
+  btn.addEventListener('click', function () { setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
+  menu.querySelectorAll('[data-close]').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); btn.focus(); } });
+
+  /* ---------- Current section in nav ---------- */
+  var navLinks = document.querySelectorAll('[data-nav]');
+  var navIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        navLinks.forEach(function (a) {
+          if (a.getAttribute('href') === '#' + e.target.id) a.setAttribute('aria-current', 'location');
+          else a.removeAttribute('aria-current');
+        });
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  ['method', 'results', 'faq', 'trial'].forEach(function (id) { navIO.observe(document.getElementById(id)); });
+
+  /* ---------- Hash router: legal pages and branded 404 ---------- */
+  var views = document.querySelectorAll('.view');
+  var known = { privacy: 1, terms: 1, accessibility: 1 };
+  function route() {
+    var h = location.hash;
+    var name = 'home';
+    if (h.indexOf('#/') === 0) { var r = h.slice(2); name = known[r] ? r : '404'; }
+    else if (h && h.length > 1 && h !== '#main' && !document.getElementById(h.slice(1))) { name = '404'; }
+    views.forEach(function (v) { v.hidden = v.getAttribute('data-view') !== name; });
+    document.querySelectorAll('[data-route]').forEach(function (a) {
+      if (a.getAttribute('href') === h) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    if (name !== 'home') { window.scrollTo(0, 0); document.getElementById('main').focus({ preventScroll: true }); }
+    else if (h && h.length > 1 && h.indexOf('#/') !== 0) {
+      var t = document.getElementById(h.slice(1));
+      if (t) requestAnimationFrame(function () { t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); });
+    }
+  }
+  window.addEventListener('hashchange', route);
+  route();
+
+  /* ---------- Day and slot picker with empty and loading states ---------- */
+  var daysEl = document.getElementById('days'), slotsEl = document.getElementById('slots');
+  var fmt = new Intl.DateTimeFormat('he-IL', { weekday: 'long', day: 'numeric', month: 'numeric' });
+  var pool = ['06:30', '07:00', '08:30', '12:00', '13:30', '17:30', '19:00', '20:30'];
+  var chosen = { day: null, slot: null };
+  var dayList = [];
+  for (var d = 1; dayList.length < 5 && d < 10; d++) {
+    var dt = new Date(); dt.setDate(dt.getDate() + d);
+    if (dt.getDay() === 6) continue; // סגור בשבת
+    dayList.push(dt);
+  }
+  function slotsFor(dt) {
+    var seed = dt.getDate() * 7 + dt.getMonth();
+    var base = dt.getDay() === 5 ? pool.slice(0, 4) : pool;
+    return base.filter(function (_, i) { return ((seed + i * 3) % 5) > 1; });
+  }
+  function emptyState() {
+    slotsEl.innerHTML =
+      '<div class="flex items-center gap-3">' +
+      '<span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-lime/10 text-lime" aria-hidden="true"><svg class="h-6 w-6"><use href="#i-calendar"/></svg></span>' +
+      '<div><p class="text-sm font-semibold">בחרו יום כדי לראות שעות פנויות</p>' +
+      '<p class="text-xs text-muted">אפשר גם לדלג, ועומר יתאם איתכם בטלפון.</p></div></div>';
+  }
+  function skeleton() {
+    slotsEl.setAttribute('aria-busy', 'true');
+    slotsEl.innerHTML = '<div class="flex flex-wrap gap-2" aria-label="טוען שעות פנויות">' +
+      '<span class="skeleton block h-10 w-16 rounded-full"></span><span class="skeleton block h-10 w-16 rounded-full"></span>' +
+      '<span class="skeleton block h-10 w-16 rounded-full"></span><span class="skeleton block h-10 w-16 rounded-full"></span></div>';
+  }
+  function renderSlots(dt) {
+    slotsEl.removeAttribute('aria-busy');
+    var s = slotsFor(dt);
+    if (!s.length) {
+      slotsEl.innerHTML = '<p class="text-sm text-muted">ביום הזה כל השעות תפוסות. נסו יום אחר או השאירו פרטים בלי שעה.</p>';
+      return;
+    }
+    slotsEl.innerHTML = '<p class="mb-2 text-xs text-muted">' + s.length + ' שעות פנויות</p><div class="flex flex-wrap gap-2" role="radiogroup" aria-label="בחירת שעה"></div>';
+    var wrap = slotsEl.querySelector('[role=radiogroup]');
+    s.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
+      b.dir = 'ltr';
+      b.className = 'rounded-full border border-white/10 px-3 py-2 text-sm transition hover:bg-white/5 active:scale-[0.98] aria-[checked=true]:border-lime aria-[checked=true]:bg-lime/10 aria-[checked=true]:text-lime focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime';
+      b.textContent = t;
+      b.addEventListener('click', function () {
+        wrap.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', 'false'); });
+        b.setAttribute('aria-checked', 'true'); chosen.slot = t;
+      });
+      wrap.appendChild(b);
+    });
+  }
+  dayList.forEach(function (dt) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
+    b.className = 'shrink-0 rounded-xl border border-white/10 px-3 py-2 text-sm transition hover:bg-white/5 active:scale-[0.98] aria-[checked=true]:border-lime aria-[checked=true]:bg-lime/10 aria-[checked=true]:text-lime focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime';
+    b.textContent = fmt.format(dt).replace(/,/g, '');
+    b.addEventListener('click', function () {
+      daysEl.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', 'false'); });
+      b.setAttribute('aria-checked', 'true');
+      chosen.day = b.textContent; chosen.slot = null;
+      skeleton();
+      setTimeout(function () { renderSlots(dt); }, 550);
+    });
+    daysEl.appendChild(b);
+  });
+  emptyState();
+
+  /* ---------- Form validation and submit ---------- */
+  var form = document.getElementById('leadForm');
+  var fields = {
+    name: { el: document.getElementById('name'), err: document.getElementById('name-err') },
+    phone: { el: document.getElementById('phone'), err: document.getElementById('phone-err') },
+    email: { el: document.getElementById('email'), err: document.getElementById('email-err') }
+  };
+  function digits(v) { return v.replace(/[^\d+]/g, '').replace(/^\+972/, '0'); }
+  function check(key) {
+    var v = fields[key].el.value.trim(), msg = '';
+    if (key === 'name') {
+      if (!v) msg = 'חסר שם. כתבו לפחות שם פרטי כדי שעומר יידע למי הוא מתקשר.';
+      else if (v.length < 2) msg = 'השם קצר מדי. כתבו לפחות שתי אותיות.';
+    }
+    if (key === 'phone') {
+      var p = digits(v);
+      if (!v) msg = 'חסר מספר טלפון. בלעדיו אין לנו איך לתאם את האימון.';
+      else if (!/^05\d{8}$/.test(p)) msg = 'המספר צריך להכיל 10 ספרות ולהתחיל ב 05, למשל 054 718 3926.';
+    }
+    if (key === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
+      msg = 'כתובת האימייל לא תקינה. בדקו שיש בה @ וסיומת, למשל noa@gmail.com.';
+    }
+    var f = fields[key];
+    f.el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    f.err.textContent = msg;
+    f.err.classList.toggle('hidden', !msg);
+    return !msg;
+  }
+  Object.keys(fields).forEach(function (k) {
+    fields[k].el.addEventListener('blur', function () { if (fields[k].el.value.trim() || k !== 'email') check(k); });
+    fields[k].el.addEventListener('input', function () { if (fields[k].el.getAttribute('aria-invalid') === 'true') check(k); });
+  });
+  function prettyPhone(p) { return p.slice(0, 3) + ' ' + p.slice(3, 6) + ' ' + p.slice(6); }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var ok = ['name', 'phone', 'email'].map(check);
+    var firstBad = ['name', 'phone', 'email'].filter(function (k, i) { return !ok[i]; })[0];
+    if (firstBad) { fields[firstBad].el.focus(); return; }
+
+    var btnS = document.getElementById('submitBtn');
+    btnS.disabled = true; btnS.setAttribute('aria-busy', 'true');
+    document.getElementById('submitLabel').classList.add('hidden');
+    document.getElementById('submitSkeleton').classList.remove('hidden');
+
+    var first = fields.name.el.value.trim().split(/\s+/)[0];
+    var phone = prettyPhone(digits(fields.phone.el.value.trim()));
+    var when = chosen.day ? (' כדי לאשר אימון ניסיון ב' + chosen.day + (chosen.slot ? ' בשעה ' + chosen.slot : '')) : ' כדי לקבוע יום ושעה לאימון הניסיון';
+
+    setTimeout(function () {
+      var card = document.getElementById('formCard');
+      card.innerHTML =
+        '<div role="status" tabindex="-1" id="doneMsg" class="focus:outline-none">' +
+        '<span class="grid h-12 w-12 place-items-center rounded-2xl bg-lime/10 text-lime" aria-hidden="true"><svg class="h-6 w-6"><use href="#i-check"/></svg></span>' +
+        '<h3 class="mt-6 text-2xl font-semibold"></h3><p class="mt-2 text-base text-muted"></p>' +
+        '<p class="mt-6 text-sm text-muted">כדאי להגיע עם נעלי ספורט שטוחות ובקבוק מים. מגבת יש בסטודיו.</p></div>';
+      card.querySelector('h3').textContent = 'קיבלנו את הפרטים, ' + first + '.';
+      card.querySelector('p').textContent = 'עומר יתקשר אליכם למספר ' + phone + ' עד מחר בשמונה בערב' + when + '.';
+      document.getElementById('doneMsg').focus();
+    }, 900);
+  });
+})();
+</script>
+</body>
+</html>
