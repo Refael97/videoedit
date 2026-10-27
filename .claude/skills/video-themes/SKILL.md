@@ -24,6 +24,8 @@ Built on HyperFrames: one paused GSAP timeline at `window.__timelines["main"]`, 
 | Theme | Status | Look | Format |
 |---|---|---|---|
 | `glass` | v1 — README, spec, tokens, components, motion, sfx, preview (`videos/theme-glass-preview`) | talking head + a floating frosted-glass desktop with app windows, punch zooms | 9:16 |
+| `paper` | v1 (anchor 15422, 1/1) — tested on new footage (`videos/paper-test-scope`) | step-by-step tutorial: cream graph-paper page above the face, folders, real UI zooms, orange ink | 9:16 |
+| `night` | v1 (anchor 50462, 4/4) — preview (`videos/theme-night-preview`) | a framework lighting up on a black dot-grid stage: neon ladders, glowing curves, rows that unlock; the speaker in a rounded box at the bottom, head popping out | 9:16 |
 
 Default when the user names none: ask once, then remember the answer in the project's `meta.json`
 (`"theme": "<name>"`).

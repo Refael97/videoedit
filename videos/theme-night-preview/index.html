@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+
+      /* opening (proof page): three real sites as thumbnails, visitors pill under each */
+      #th1 { left: 70px; top: 520px; width: 290px; height: 470px; }
+      #th2 { left: 395px; top: 520px; width: 290px; height: 470px; }
+      #th3 { left: 720px; top: 520px; width: 290px; height: 470px; }
+      .n-thumb .t { font-size: 40px; top: 26px; right: 18px; left: 18px; text-align: right; }
+      .n-thumb .b { position: absolute; right: 18px; bottom: 22px; height: 52px; padding: 0 20px; border-radius: 26px; font-size: 26px; font-weight: 800; display: flex; align-items: center; }
+      .n-pill svg { width: 30px; height: 30px; }
+
+      /* S1: three rows */
+      #rows1 { left: 90px; right: 90px; top: 520px; gap: 34px; }
+      #rows1 .n-row { height: 150px; font-size: 52px; } #rows1 .n-row .num { font-size: 54px; min-width: 76px; } #rows1 .n-row .lk { width: 44px; height: 44px; }
+
+      /* S2: the install, in a framed document */
+      #doc2 { left: 80px; right: 80px; top: 430px; height: 640px; }
+      #doc2 .cmd { font-family: var(--n-mono); direction: ltr; font-size: 40px; height: 90px; display: flex; align-items: center; white-space: pre; color: #fff; }
+      #doc2 .n-line { direction: ltr; font-family: var(--n-mono); font-size: 36px; font-weight: 500; min-height: 96px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+      #doc2 .ok { color: var(--n-green); }
+      #kw { color: #fff; }
+
+      /* S3: before / after chart */
+      #chart3 { left: 0; top: 0; }
+      #lb3a { left: 230px; top: 935px; } #lb3b { left: 640px; top: 430px; height: 76px; font-size: 44px; padding: 0 28px; }
+
+      /* S4: the comment + the reply */
+      #rows4 { left: 90px; right: 90px; top: 600px; }
+      #rows4 { top: 640px; gap: 34px; } #rows4 .n-row { height: 150px; font-size: 52px; } #rows4 .n-row .num { font-size: 50px; min-width: 76px; }
+      #typed4 { font-family: var(--n-font); direction: ltr; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="n-root" data-composition-id="main" data-start="0" data-duration="17.2" data-width="1080" data-height="1920">
+      <div id="stage" class="n-stage">
+        <!-- S1 (split): three rows, each slides in on its word, all unlock on "כמו שצריך" -->
+        <div id="s1" class="n-scene">
+          <div id="t1" class="n-title">מה הופך אתר <em>לטוב</em></div>
+          <div id="rows1" class="n-rows">
+            <div class="n-row next" id="r1"><span class="num">01</span>Motion<span class="lk"><span class="c"></span><span class="u"></span></span></div>
+            <div class="n-row next" id="r2"><span class="num">02</span>מעברים<span class="lk"><span class="c"></span><span class="u"></span></span></div>
+            <div class="n-row next" id="r3"><span class="num">03</span>מבנה<span class="lk"><span class="c"></span><span class="u"></span></span></div>
+          </div>
+        </div>
+
+        <!-- S2 (split): the command is typed, real output lines, punch into "kowalski" -->
+        <div id="s2" class="n-scene">
+          <div id="t2" class="n-title">מתקינים <em>סקיל</em> אחד</div>
+          <div id="zoom2" class="n-scene">
+            <div id="doc2" class="n-frame aa">
+              <div class="cmd">› <span id="cmdT"></span></div>
+              <div class="n-line o2"><span class="ok">✓</span><span class="hl y" id="h2a">motion</span> presets</div>
+              <div class="n-line o2"><span class="ok">✓</span><span class="hl p" id="h2b">page transitions</span></div>
+              <div class="n-line o2"><span class="ok">✓</span><span class="hl r" id="h2c">layout</span> system</div>
+              <div class="n-line o2"><span class="ok">✓</span>installed: <b id="kw">kowalski</b></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- S3 (split): flat white line (before) → purple curve climbs (after), punch into the peak -->
+        <div id="s3" class="n-scene">
+          <div id="t3" class="n-title">האתר <em>שלכם</em></div>
+          <div id="zoom3" class="n-scene">
+            <svg id="chart3" class="n-ink" viewBox="0 0 1080 1920">
+              <path class="axis" id="ax3" d="M140 430 V1060 H950" />
+              <path class="curve" id="cv3a" d="M150 990 C260 985 330 1000 420 985 S600 995 680 990 S860 985 940 988" opacity="0.55" />
+              <path class="curve p" id="cv3b" d="M150 990 C230 980 270 900 340 870 S430 900 500 790 S600 620 680 650 S820 470 920 455" />
+              <circle class="dot d3" cx="340" cy="870" r="13" /><circle class="dot d3" cx="500" cy="790" r="13" /><circle class="dot d3" cx="680" cy="650" r="13" /><circle class="dot d3" cx="920" cy="455" r="18" id="peak" />
+              <rect class="bar off b3" x="150" y="1084" width="250" height="16" /><rect class="bar b3" x="420" y="1084" width="250" height="16" /><rect class="bar b3" x="690" y="1084" width="250" height="16" />
+            </svg>
+            <div class="n-tag" id="lb3a">לפני</div>
+            <div class="n-tag p" id="lb3b">מטורף</div>
+          </div>
+        </div>
+
+        <!-- S4 (split): comment the word, the reply arrives and turns green -->
+        <div id="s4" class="n-scene">
+          <div id="t4" class="n-cta">תגיבו <em lang="en" style="font-style: italic; transform: none">Kowalski</em>
+<span class="box">ואשלח לכם את הסקיל</span></div>
+          <div id="rows4" class="n-rows">
+            <div class="n-row" id="r41"><span class="num">💬</span><span id="typed4"></span></div>
+            <div class="n-row next" id="r42"><span class="num">✓</span>הסקיל נשלח אליכם</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- opening proof page (rule e): three real sites, visitors count up and turn green -->
+      <div id="proof" class="n-proof">
+        <div id="t0" class="n-title">אתרים שנראים <em>מטורף</em>
+<span class="box">עם סקיל אחד</span></div>
+        <div class="n-thumb" id="th1" style="background: #f3ece2"><div class="t" style="color: #2a2118; text-shadow: none">סטודיו
+לעיצוב פנים</div><span class="b" style="background: #2a2118; color: #fff">לתיאום</span><div class="n-pill" id="p1"><span class="ey"></span><span id="v1">1.2K</span></div></div>
+        <div class="n-thumb" id="th2" style="background: #1d1d1f"><div class="t">קפה
+של בוקר</div><span class="b" style="background: #c65a3c; color: #fff">להזמנה</span><div class="n-pill" id="p2"><span class="ey"></span><span id="v2">0.9K</span></div></div>
+        <div class="n-thumb" id="th3" style="background: #e3efe6"><div class="t" style="color: #17331f; text-shadow: none">רהיטים
+מעץ מלא</div><span class="b" style="background: #2f8a4a; color: #fff">לחנות</span><div class="n-pill" id="p3"><span class="ey"></span><span id="v3">2.1K</span></div></div>
+      </div>
+
+      <div id="face" class="n-face grade"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video></div>
+      <div id="matte" class="n-matte grade"><video id="matteVid" src="assets/video/matte.webm" data-start="0" data-duration="17.2" data-track-index="1" muted playsinline></video></div>
+
+      <div id="caps" class="n-caps"></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="17.2" data-track-index="10" data-volume="1"></audio>
+      <audio id="sfx0" src="assets/theme/sfx/pop.wav" data-start="0.9" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx1" src="assets/theme/sfx/pop.wav" data-start="1.08" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx2" src="assets/theme/sfx/pop.wav" data-start="1.26" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx3" src="assets/theme/sfx/tick.wav" data-start="1.9" data-duration="0.03" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx4" src="assets/theme/sfx/ding.wav" data-start="2.6" data-duration="0.7" data-track-index="11" data-volume="0.18"></audio>
+      <audio id="sfx5" src="assets/theme/sfx/whoosh.wav" data-start="2.92" data-duration="0.55" data-track-index="12" data-volume="0.25"></audio>
+      <audio id="sfx6" src="assets/theme/sfx/neon.wav" data-start="3.2" data-duration="0.45" data-track-index="13" data-volume="0.35"></audio>
+      <audio id="sfx7" src="assets/theme/sfx/neon.wav" data-start="4.5" data-duration="0.45" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx8" src="assets/theme/sfx/neon.wav" data-start="5.4" data-duration="0.45" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx9" src="assets/theme/sfx/ding.wav" data-start="6.0" data-duration="0.7" data-track-index="11" data-volume="0.22"></audio>
+      <audio id="sfx10" src="assets/theme/sfx/whoosh.wav" data-start="6.62" data-duration="0.55" data-track-index="12" data-volume="0.25"></audio>
+      <audio id="sfx11" src="assets/theme/sfx/key.wav" data-start="7.0" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx12" src="assets/theme/sfx/key.wav" data-start="7.25" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx13" src="assets/theme/sfx/key.wav" data-start="7.5" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx14" src="assets/theme/sfx/key.wav" data-start="7.75" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx15" src="assets/theme/sfx/tick.wav" data-start="7.98" data-duration="0.03" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx16" src="assets/theme/sfx/tick.wav" data-start="8.16" data-duration="0.03" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx17" src="assets/theme/sfx/tick.wav" data-start="8.34" data-duration="0.03" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx18" src="assets/theme/sfx/tick.wav" data-start="8.52" data-duration="0.03" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx19" src="assets/theme/sfx/riser.wav" data-start="8.1" data-duration="0.7" data-track-index="12" data-volume="0.22"></audio>
+      <audio id="sfx20" src="assets/theme/sfx/boom.wav" data-start="8.8" data-duration="0.5" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="sfx21" src="assets/theme/sfx/whoosh.wav" data-start="9.92" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx22" src="assets/theme/sfx/tick.wav" data-start="10.3" data-duration="0.03" data-track-index="12" data-volume="0.25"></audio>
+      <audio id="sfx23" src="assets/theme/sfx/riser.wav" data-start="11.1" data-duration="0.7" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx24" src="assets/theme/sfx/boom.wav" data-start="12.1" data-duration="0.5" data-track-index="11" data-volume="0.4"></audio>
+      <audio id="sfx25" src="assets/theme/sfx/ding.wav" data-start="12.12" data-duration="0.7" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx26" src="assets/theme/sfx/whoosh.wav" data-start="14.5" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx27" src="assets/theme/sfx/key.wav" data-start="14.85" data-duration="0.04" data-track-index="12" data-volume="0.25"></audio>
+      <audio id="sfx28" src="assets/theme/sfx/key.wav" data-start="15.1" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx29" src="assets/theme/sfx/key.wav" data-start="15.35" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx30" src="assets/theme/sfx/pop.wav" data-start="15.4" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx31" src="assets/theme/sfx/ding.wav" data-start="16.05" data-duration="0.7" data-track-index="11" data-volume="0.22"></audio>
+    </div>
+    <script>
+      const WORDS = [{"text": "אם", "start": 0.24, "end": 0.34}, {"text": "אתם", "start": 0.36, "end": 0.56}, {"text": "רוצים", "start": 0.58, "end": 0.8}, {"text": "לבנות", "start": 0.82, "end": 1.14}, {"text": "אתרים", "start": 1.18, "end": 1.6}, {"text": "שנראים", "start": 1.66, "end": 2.08}, {"text": "טוב", "start": 2.22, "end": 2.9}, {"text": "עם", "start": 2.94, "end": 3.08}, {"text": "motion,", "start": 3.16, "end": 3.76}, {"text": "מעברים", "start": 4.46, "end": 5.34}, {"text": "ומבנה", "start": 5.42, "end": 5.96}, {"text": "כמו", "start": 6.0, "end": 6.16}, {"text": "שצריך,", "start": 6.2, "end": 6.62}, {"text": "אתם", "start": 6.68, "end": 6.839}, {"text": "צריכים", "start": 6.919, "end": 7.1}, {"text": "להתקין", "start": 7.14, "end": 7.6}, {"text": "skill", "start": 7.86, "end": 8.24}, {"text": "שנקרא", "start": 8.3, "end": 8.7}, {"text": "Kowalski.", "start": 8.76, "end": 9.46}, {"text": "הסקיל", "start": 9.96, "end": 10.34}, {"text": "הזה", "start": 10.36, "end": 10.68}, {"text": "בעצם", "start": 10.74, "end": 11.1}, {"text": "הופך", "start": 11.12, "end": 11.38}, {"text": "את", "start": 11.38, "end": 11.44}, {"text": "האתר", "start": 11.48, "end": 11.7}, {"text": "שלכם", "start": 11.8, "end": 12.08}, {"text": "למטורף.", "start": 12.1, "end": 12.76}, {"text": "כל", "start": 13.34, "end": 13.44}, {"text": "מה", "start": 13.48, "end": 13.54}, {"text": "שאתם", "start": 13.58, "end": 13.74}, {"text": "צריכים", "start": 13.78, "end": 13.94}, {"text": "לעשות", "start": 13.98, "end": 14.4}, {"text": "זה", "start": 14.42, "end": 14.5}, {"text": "להגיב", "start": 14.56, "end": 14.84}, {"text": "לי", "start": 14.879, "end": 14.98}, {"text": "פה", "start": 15.039, "end": 15.14}, {"text": "ואני", "start": 15.2, "end": 15.36}, {"text": "שולח", "start": 15.4, "end": 15.7}, {"text": "לכם", "start": 15.76, "end": 16.0}, {"text": "את", "start": 16.02, "end": 16.14}, {"text": "זה.", "start": 16.18, "end": 16.34}];
+      const N = window.NIGHT;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        ["#p1", "#p2", "#p3"].forEach((p) => document.querySelector(p + " .ey").innerHTML = N.ART.eye);
+        document.querySelectorAll(".lk .c").forEach((e) => (e.innerHTML = N.ART.lock));
+        document.querySelectorAll(".lk .u").forEach((e) => (e.innerHTML = N.ART.unlock));
+        // key terms in the serif
+        WORDS.forEach((w) => { if (/Kowalski|למטורף/.test(w.text)) w.em = true; });
+
+        // ---- layouts (head top ~50px above the box: scale .95, x 69, y 653) ----
+        const box = { s: 0.95, x: 69, y: 600 };
+        N.layout(tl, "proof", 0, { box });
+        N.layout(tl, "split", 2.92);
+        N.layout(tl, "face", 12.9);
+        N.layout(tl, "split", 14.5);
+        N.scene(tl, "#s1", 2.92, 6.62); N.scene(tl, "#s2", 6.62, 9.92); N.scene(tl, "#s3", 9.92, 12.9); N.scene(tl, "#s4", 14.5);
+
+        N.captions(tl, "#caps", WORDS, { darkOnProof: true });
+
+        // ---- opening (proof): title word by word, sites pop, visitors roll up and turn green ----
+        N.title(tl, "#t0", 0.15);
+        N.pop(tl, ["#th1", "#th2", "#th3"], 0.9, 0.18);
+        N.count(tl, "#v1", 1.2, 48, 1.9, 0.7, { fmt: (v) => v.toFixed(1) + "K" });
+        N.count(tl, "#v2", 0.9, 36, 2.0, 0.7, { fmt: (v) => v.toFixed(1) + "K" });
+        N.count(tl, "#v3", 2.1, 71, 2.1, 0.7, { fmt: (v) => v.toFixed(1) + "K" });
+        N.swapClass(tl, ["#p1"], 2.6, "up"); N.swapClass(tl, ["#p2"], 2.7, "up"); N.swapClass(tl, ["#p3"], 2.8, "up");
+
+        // ---- S1: rows slide in on their word, all unlock on "כמו שצריך" ----
+        N.title(tl, "#t1", 2.95);
+        N.rows(tl, "#r1", 3.2); N.rows(tl, "#r2", 4.5); N.rows(tl, "#r3", 5.4);
+        N.swapClass(tl, "#r1", 3.45, null, "next"); N.swapClass(tl, "#r2", 4.75, null, "next"); N.swapClass(tl, "#r3", 5.65, null, "next");
+        N.done(tl, "#r1", 6.0); N.done(tl, "#r2", 6.12); N.done(tl, "#r3", 6.24);
+
+        // ---- S2: typed command, output lines ignite, the parts get marked, punch into the name ----
+        N.title(tl, "#t2", 6.66);
+        N.ignite(tl, "#doc2", 6.7);
+        N.type(tl, "#cmdT", "npx skills add kowalski", 6.95, 24);
+        N.hide(tl, ".o2");
+        N.ignite(tl, ".o2", 7.98, 0.18);
+        N.mark(tl, ["#h2a", "#h2b", "#h2c"], [8.0, 8.18, 8.36]);
+        N.punch(tl, "#s2", 8.8, 1.6, [200, 900]);
+        N.pulse(tl, "#kw", 9.2, 1.12);
+        N.unpunch(tl, "#s2", 9.62);
+
+        // ---- S3: before (flat) → after (climbs) → punch into the peak on "למטורף" ----
+        N.title(tl, "#t3", 9.96);
+        N.push(tl, "#zoom3", 9.92, 2.95, 1.05);
+        N.draw(tl, "#ax3", 10.0, 0.35);
+        N.draw(tl, "#cv3a", 10.3, 0.6);
+        N.tag(tl, "#lb3a", 10.6);
+        N.draw(tl, "#cv3b", 11.1, 0.95, "power1.in");
+        N.dots(tl, ".d3", [11.35, 11.55, 11.75, 12.05]);
+        N.grow(tl, ".b3", 11.3, 0.12);
+        N.tag(tl, "#lb3b", 12.1);
+        tl.fromTo("#peak", { scale: 1, transformOrigin: "50% 50%" }, { scale: 1.9, duration: 0.25, ease: "back.out(3)", immediateRender: false }, 12.1);
+        N.pulse(tl, "#cv3b", 12.1, 1.0);
+
+        // ---- S4: CTA title, the word is typed in the comment, the reply arrives and goes green ----
+        N.cta(tl, "#t4", 14.55);
+        N.rows(tl, "#r41", 14.6);
+        N.type(tl, "#typed4", "Kowalski", 14.8, 16);
+        N.rows(tl, "#r42", 15.4);
+        N.done(tl, "#r42", 16.05);
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>
