@@ -1,0 +1,460 @@
+{
+ "project": "theme-headline-preview",
+ "theme": "headline",
+ "score": "3/9",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 2.16,
+   "target": ">= 2.8",
+   "pass": false
+  },
+  "flat": {
+   "value": "31.8%",
+   "target": "<= 16.0%",
+   "pass": false
+  },
+  "actions": {
+   "value": "0.29 events/s (GSAP 2.27 tweens/s)",
+   "target": "0.35–0.65",
+   "pass": false
+  },
+  "payoff": {
+   "value": "0 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "1 items < 26px",
+   "target": ">= 26px",
+   "pass": false
+  },
+  "hero": {
+   "value": "n/a",
+   "target": ">= 60%",
+   "pass": true
+  },
+  "collide": {
+   "value": "36 collisions",
+   "target": "0",
+   "pass": false,
+   "faces_detected": 68
+  },
+  "placeholder": {
+   "value": "7 found",
+   "target": "0",
+   "pass": false
+  },
+  "hook": {
+   "value": "visual on screen 3.0s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 17.17,
+  "motion": 2.16,
+  "flat_pct": 31.8,
+  "events_per_s": 0.29
+ },
+ "targets": {
+  "motion_min": 2.8,
+  "flat_max": 16.0,
+  "events_min": 0.35,
+  "events_max": 0.65
+ },
+ "fix_list": [
+  {
+   "t": "0.0–17.2s",
+   "t0": 0,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "motion",
+   "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
+  },
+  {
+   "t": "0.0–2.9s",
+   "t0": 0.0,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "0.0–0.5s",
+   "t0": 0,
+   "words": "אם אתם",
+   "check": "collisions",
+   "fix": "caption div.h-cap on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "0.0–6.8s",
+   "t0": 0,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם",
+   "check": "no placeholders",
+   "fix": "air: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "0.2–16.8s",
+   "t0": 0.25,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "collisions",
+   "fix": "caption span.h-acc on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "0.2–13.0s",
+   "t0": 0.25,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף.",
+   "check": "collisions",
+   "fix": "#ctaK on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "0.2–1.2s",
+   "t0": 0.25,
+   "words": "אם אתם רוצים לבנות אתרים",
+   "check": "collisions",
+   "fix": "span.w on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "0.5–1.0s",
+   "t0": 0.5,
+   "words": "אתם רוצים לבנות",
+   "check": "collisions",
+   "fix": "caption 'אם' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "0.5–1.0s",
+   "t0": 0.5,
+   "words": "אתם רוצים לבנות",
+   "check": "collisions",
+   "fix": "caption 'אתם' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "0.8–1.0s",
+   "t0": 0.75,
+   "words": "רוצים לבנות",
+   "check": "collisions",
+   "fix": "caption 'רוצים' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "1.0–2.2s",
+   "t0": 1,
+   "words": "לבנות אתרים שנראים טוב",
+   "check": "collisions",
+   "fix": "caption 'לבנות' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "1.0–1.8s",
+   "t0": 1,
+   "words": "לבנות אתרים שנראים",
+   "check": "collisions",
+   "fix": "#ctaL on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "1.2–2.2s",
+   "t0": 1.25,
+   "words": "אתרים שנראים טוב",
+   "check": "collisions",
+   "fix": "caption 'אתרים' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "1.2–3.0s",
+   "t0": 1.25,
+   "words": "אתרים שנראים טוב עם",
+   "check": "collisions",
+   "fix": "#s0 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "1.2–3.0s",
+   "t0": 1.25,
+   "words": "אתרים שנראים טוב עם",
+   "check": "no placeholders",
+   "fix": "img: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "1.8–2.2s",
+   "t0": 1.75,
+   "words": "שנראים טוב",
+   "check": "collisions",
+   "fix": "caption 'שנראים' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "2.0–4.5s",
+   "t0": 2,
+   "words": "שנראים טוב עם motion, מעברים",
+   "check": "collisions",
+   "fix": "#ctaL on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "2.5–4.5s",
+   "t0": 2.5,
+   "words": "טוב עם motion, מעברים",
+   "check": "collisions",
+   "fix": "caption 'טוב' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "2.9–6.6s",
+   "t0": 2.9,
+   "words": "עם motion, מעברים ומבנה כמו שצריך,",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "3.0–4.5s",
+   "t0": 3,
+   "words": "עם motion, מעברים",
+   "check": "collisions",
+   "fix": "caption 'עם' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "3.0–4.0s",
+   "t0": 3,
+   "words": "עם motion,",
+   "check": "collisions",
+   "fix": "#s1 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "3.2–4.5s",
+   "t0": 3.25,
+   "words": "motion, מעברים",
+   "check": "collisions",
+   "fix": "caption 'motion' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "4.2–6.0s",
+   "t0": 4.25,
+   "words": "מעברים ומבנה",
+   "check": "collisions",
+   "fix": "#s1 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "4.5–7.2s",
+   "t0": 4.5,
+   "words": "מעברים ומבנה כמו שצריך, אתם צריכים להתקין",
+   "check": "collisions",
+   "fix": "span.w on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "4.8–6.2s",
+   "t0": 4.75,
+   "words": "מעברים ומבנה כמו שצריך,",
+   "check": "collisions",
+   "fix": "caption 'מעברים' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "5.5–6.2s",
+   "t0": 5.5,
+   "words": "ומבנה כמו שצריך,",
+   "check": "collisions",
+   "fix": "caption 'ומבנה' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "6.2–6.8s",
+   "t0": 6.25,
+   "words": "שצריך, אתם",
+   "check": "collisions",
+   "fix": "caption 'שצריך' on air: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "6.6–9.9s",
+   "t0": 6.6,
+   "words": "שצריך, אתם צריכים להתקין skill שנקרא Kowalski.",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "6.6–7.8s",
+   "t0": 6.63,
+   "words": "אתם צריכים להתקין",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "6.8–10.0s",
+   "t0": 6.75,
+   "words": "אתם צריכים להתקין skill שנקרא Kowalski. הסקיל",
+   "check": "min text",
+   "fix": "'claude — my-site' (24px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "6.8–7.5s",
+   "t0": 6.75,
+   "words": "אתם צריכים להתקין",
+   "check": "collisions",
+   "fix": "#page on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "7.0–10.0s",
+   "t0": 7,
+   "words": "צריכים להתקין skill שנקרא Kowalski. הסקיל",
+   "check": "no placeholders",
+   "fix": "w2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "7.2–7.8s",
+   "t0": 7.25,
+   "words": "להתקין",
+   "check": "collisions",
+   "fix": "#ctaL on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "7.8–8.5s",
+   "t0": 7.75,
+   "words": "skill שנקרא",
+   "check": "collisions",
+   "fix": "#page on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "7.9–9.9s",
+   "t0": 7.87,
+   "words": "skill שנקרא Kowalski.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "8.0–8.8s",
+   "t0": 8,
+   "words": "skill שנקרא",
+   "check": "collisions",
+   "fix": "#ctaL on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "8.8–9.8s",
+   "t0": 8.75,
+   "words": "Kowalski.",
+   "check": "collisions",
+   "fix": "span.w on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "8.8–10.2s",
+   "t0": 8.75,
+   "words": "Kowalski. הסקיל",
+   "check": "collisions",
+   "fix": "#page on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "9.9–12.1s",
+   "t0": 9.9,
+   "words": "הסקיל הזה בעצם הופך את האתר שלכם",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "10.0–10.5s",
+   "t0": 9.97,
+   "words": "הסקיל הזה",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "10.0–10.8s",
+   "t0": 10,
+   "words": "הסקיל הזה בעצם",
+   "check": "collisions",
+   "fix": "span.w on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "10.5–11.0s",
+   "t0": 10.5,
+   "words": "הזה בעצם",
+   "check": "collisions",
+   "fix": "caption div.h-cap on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "10.6–11.1s",
+   "t0": 10.63,
+   "words": "הזה בעצם",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "10.8–11.8s",
+   "t0": 10.75,
+   "words": "בעצם הופך את האתר",
+   "check": "collisions",
+   "fix": "#ctaL on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "10.8–11.2s",
+   "t0": 10.75,
+   "words": "בעצם הופך",
+   "check": "no placeholders",
+   "fix": "img: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "10.8–11.2s",
+   "t0": 10.75,
+   "words": "בעצם הופך",
+   "check": "no placeholders",
+   "fix": "w3a: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "10.8–11.2s",
+   "t0": 10.75,
+   "words": "בעצם הופך",
+   "check": "no placeholders",
+   "fix": "site plain: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "11.4–12.1s",
+   "t0": 11.4,
+   "words": "את האתר שלכם",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "11.5–13.0s",
+   "t0": 11.5,
+   "words": "האתר שלכם למטורף.",
+   "check": "collisions",
+   "fix": "span.w on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "11.5–13.0s",
+   "t0": 11.5,
+   "words": "האתר שלכם למטורף.",
+   "check": "no placeholders",
+   "fix": "img: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "11.8–12.5s",
+   "t0": 11.75,
+   "words": "שלכם למטורף.",
+   "check": "collisions",
+   "fix": "#page on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "12.3–12.9s",
+   "t0": 12.33,
+   "words": "למטורף.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "12.8–17.0s",
+   "t0": 12.75,
+   "words": "למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "collisions",
+   "fix": "#page on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "12.9–17.2s",
+   "t0": 12.87,
+   "words": "כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "13.0–17.0s",
+   "t0": 13,
+   "words": "כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "collisions",
+   "fix": "#lab3b on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "13.2–17.0s",
+   "t0": 13.25,
+   "words": "כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "collisions",
+   "fix": "caption div.h-cap on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  }
+ ]
+}

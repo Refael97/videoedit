@@ -1,0 +1,145 @@
+{
+ "project": "theme-glass-preview",
+ "theme": "glass",
+ "score": "5/9",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 1.78,
+   "target": ">= 3.36",
+   "pass": false
+  },
+  "flat": {
+   "value": "34.3%",
+   "target": "<= 2.0%",
+   "pass": false
+  },
+  "actions": {
+   "value": "0.48 events/s (GSAP 3.72 tweens/s)",
+   "target": "0.17–0.32",
+   "pass": false
+  },
+  "payoff": {
+   "value": "0 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "n/a",
+   "target": ">= 60%",
+   "pass": true
+  },
+  "collide": {
+   "value": "0 collisions",
+   "target": "0",
+   "pass": true,
+   "faces_detected": 74
+  },
+  "placeholder": {
+   "value": "0 found",
+   "target": "0",
+   "pass": true
+  },
+  "hook": {
+   "value": "visual on screen 0.0s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": false
+  }
+ },
+ "metrics": {
+  "duration": 18.57,
+  "motion": 1.78,
+  "flat_pct": 34.3,
+  "events_per_s": 0.48
+ },
+ "targets": {
+  "motion_min": 3.36,
+  "flat_max": 2.0,
+  "events_min": 0.17,
+  "events_max": 0.32
+ },
+ "fix_list": [
+  {
+   "t": "0.0–18.6s",
+   "t0": 0,
+   "words": "קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול. השתלטות צ'אט. בריחה מהפריים. זום חד. רשימה קופצת. סערת כותרות. פורטל זום. עקומת צמיחה.",
+   "check": "motion",
+   "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
+  },
+  {
+   "t": "0.0–18.6s",
+   "t0": 0,
+   "words": "קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול. השתלטות צ'אט. בריחה מהפריים. זום חד. רשימה קופצת. סערת כותרות. פורטל זום. עקומת צמיחה.",
+   "check": "actions / s",
+   "fix": "too busy: merge or drop events so each lands on a word"
+  },
+  {
+   "t": "0.0–3.0s",
+   "t0": 0,
+   "words": "קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה:",
+   "check": "hook visual",
+   "fix": "open on a visual (the result, the thing itself, real thumbnails), not text alone"
+  },
+  {
+   "t": "0.9–1.3s",
+   "t0": 0.93,
+   "words": "את הסרטון",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "2.2–2.8s",
+   "t0": 2.23,
+   "words": "את האפקטים",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "3.9–5.0s",
+   "t0": 3.87,
+   "words": "מסלול.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "8.3–8.8s",
+   "t0": 8.33,
+   "words": "",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "9.5–10.8s",
+   "t0": 9.53,
+   "words": "חד.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "11.8–13.0s",
+   "t0": 11.8,
+   "words": "קופצת.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "13.9–15.0s",
+   "t0": 13.93,
+   "words": "כותרות.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "18.0–18.5s",
+   "t0": 18.03,
+   "words": "צמיחה.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  }
+ ]
+}

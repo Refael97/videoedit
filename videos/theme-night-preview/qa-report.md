@@ -11,7 +11,7 @@
 | ✓ | min text | 0 items < 26px | >= 26px |
 | ✗ | hero fill | median 67% | >= 60% |
 | ✗ | collisions | 1 collisions | 0 |
-| ✗ | no placeholders | 10 found | 0 |
+| ✗ | no placeholders | 5 found | 0 |
 | ✓ | hook visual | visual on screen 2.2s of the first 3s | >= 0.5s |
 
 ## FIX LIST
@@ -27,18 +27,13 @@
 | 2.9–3.4s | עם motion, | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 3.0–6.8s | עם motion, מעברים ומבנה כמו שצריך, אתם | hero fill | fill 49%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space |
 | 3.5–4.7s | motion, מעברים | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
-| 3.5–6.8s | motion, מעברים ומבנה כמו שצריך, אתם | no placeholders | r1: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
-| 4.8–6.8s | מעברים ומבנה כמו שצריך, אתם | no placeholders | r2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 | 4.8–5.6s | מעברים ומבנה | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
-| 5.5–6.8s | ומבנה כמו שצריך, אתם | no placeholders | r3: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 | 6.8–8.8s | אתם צריכים להתקין skill שנקרא Kowalski. | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 7.0–10.0s | צריכים להתקין skill שנקרא Kowalski. הסקיל | no placeholders | doc2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 | 9.0–9.8s | Kowalski. | collisions | caption 'Kowalski' on doc2: move the caption off the card (card bottom >= 60px above the caption) or move the card |
 | 9.1–9.6s | Kowalski. | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 10.0–12.9s | הסקיל הזה בעצם הופך את האתר שלכם למטורף. | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 10.0–13.0s | הסקיל הזה בעצם הופך את האתר שלכם למטורף. | no placeholders | chart3: a chart needs real numbers: add axis values / the measured figures, or drop the chart |
-| 14.8–17.2s | להגיב לי פה ואני שולח לכם את זה. | no placeholders | r41: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
-| 15.5–17.2s | שולח לכם את זה. | no placeholders | r42: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 | 16.7–17.2s |  | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 16.8–17.2s |  | hero fill | fill 55%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space |
 

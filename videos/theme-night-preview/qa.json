@@ -41,7 +41,7 @@
    "faces_detected": 68
   },
   "placeholder": {
-   "value": "10 found",
+   "value": "5 found",
    "target": "0",
    "pass": false
   },
@@ -128,32 +128,11 @@
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "3.5–6.8s",
-   "t0": 3.5,
-   "words": "motion, מעברים ומבנה כמו שצריך, אתם",
-   "check": "no placeholders",
-   "fix": "r1: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "4.8–6.8s",
-   "t0": 4.75,
-   "words": "מעברים ומבנה כמו שצריך, אתם",
-   "check": "no placeholders",
-   "fix": "r2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
    "t": "4.8–5.6s",
    "t0": 4.77,
    "words": "מעברים ומבנה",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "5.5–6.8s",
-   "t0": 5.5,
-   "words": "ומבנה כמו שצריך, אתם",
-   "check": "no placeholders",
-   "fix": "r3: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
   },
   {
    "t": "6.8–8.8s",
@@ -196,20 +175,6 @@
    "words": "הסקיל הזה בעצם הופך את האתר שלכם למטורף.",
    "check": "no placeholders",
    "fix": "chart3: a chart needs real numbers: add axis values / the measured figures, or drop the chart"
-  },
-  {
-   "t": "14.8–17.2s",
-   "t0": 14.75,
-   "words": "להגיב לי פה ואני שולח לכם את זה.",
-   "check": "no placeholders",
-   "fix": "r41: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "15.5–17.2s",
-   "t0": 15.5,
-   "words": "שולח לכם את זה.",
-   "check": "no placeholders",
-   "fix": "r42: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
   },
   {
    "t": "16.7–17.2s",
