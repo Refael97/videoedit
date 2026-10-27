@@ -1,0 +1,96 @@
+/* headline theme: layouts, materials and building blocks. Needs tokens.css. Read language.md first. */
+
+.h-root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--h-font); direction: rtl; color: var(--h-ink); letter-spacing: var(--h-track); background: var(--h-air); }
+.aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+/* ===================== LAYOUTS (switched by HEADLINE.layout) ===================== */
+/* footage: one <video> in .h-face, full frame; layouts move/scale it with transforms only */
+.h-face { position: absolute; inset: 0; z-index: 1; overflow: hidden; background: var(--h-air); }
+.h-face video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 0; }
+/* air: the bright wall above the speaker. On footage shot against a light wall it is almost invisible;
+   on a mid-grey wall it lifts the top of the frame to the anchor's airy white. Fades out before the head. */
+.h-air { position: absolute; left: 0; right: 0; top: 0; height: 1180px; z-index: 2; pointer-events: none;
+  background: linear-gradient(180deg, var(--h-air-top) 0%, var(--h-air) 38%, rgba(238, 242, 245, 0.9) 62%, rgba(238, 242, 245, 0) 100%); }
+/* dark: a cut to a screen. Night navy with soft blue light behind the window */
+.h-dark { position: absolute; inset: 0; z-index: 5; opacity: 0; overflow: hidden; color: #fff; background: var(--h-night);
+  background-image: radial-gradient(ellipse 60% 30% at 30% 18%, rgba(40, 90, 200, 0.35), rgba(0, 0, 0, 0) 70%), radial-gradient(ellipse 50% 30% at 80% 85%, rgba(30, 70, 170, 0.28), rgba(0, 0, 0, 0) 70%); }
+/* page: the clean white page for a section header ("Plugin Number Two") */
+.h-page { position: absolute; inset: 0; z-index: 5; opacity: 0; overflow: hidden; background: linear-gradient(#ffffff, #f3f6f9); }
+.h-scene { position: absolute; inset: 0; }
+
+/* ===================== TEXT ===================== */
+/* title: ink sans 700, one line; the blue box line under it carries the serif */
+.h-title { position: absolute; left: 40px; right: 40px; top: var(--h-title-top); text-align: center; font-size: var(--h-title); font-weight: 700; line-height: 1.1; white-space: pre; z-index: 6; }
+.h-title .w { display: inline-block; }
+.h-box { display: inline-block; margin-top: 14px; padding: 4px 30px 12px; background: var(--h-blue); color: #fff; font-family: var(--h-serif); font-weight: 700; font-size: var(--h-box); letter-spacing: 0; line-height: 1.1; transform-origin: 100% 50%; }
+.h-box .w { display: inline-block; transform: skewX(var(--h-serif-slant)); }
+.h-box[dir="ltr"] { transform-origin: 0% 50%; } .h-box[dir="ltr"] .w { transform: none; }
+.h-dark .h-title { color: #fff; }
+/* serif accent inline (captions, titles): blue italic serif */
+.h-acc { font-family: var(--h-serif); font-weight: 700; color: var(--h-blue-text); letter-spacing: 0; display: inline-block; transform: skewX(var(--h-serif-slant)); padding: 0 0.04em; }
+.h-acc[dir="ltr"] { transform: none; }
+
+/* captions: up to 3 words, ink 700 on light; each word blurs in when spoken (karaoke); white on dark / face */
+.h-caps { position: absolute; left: 0; right: 0; top: 0; height: 0; z-index: 30; }
+.h-cap { position: absolute; left: 40px; right: 40px; height: 110px; margin-top: -55px; display: flex; align-items: center; justify-content: center; gap: 0.26em; font-size: var(--h-cap); font-weight: 700; white-space: pre; opacity: 0; }
+.h-cap span { display: inline-block; }
+.h-cap.light { color: #fff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 24px rgba(0, 0, 0, 0.55); }
+.h-cap.light .h-acc { color: #7dbbff; }
+
+/* CTA on the full face: small serif word over a big glowing keyword in quotes */
+.h-cta { position: absolute; left: 0; right: 0; top: 1260px; text-align: center; z-index: 31; color: #fff; white-space: pre; }
+.h-cta .lead { display: block; font-family: var(--h-serif); font-weight: 700; font-size: 96px; letter-spacing: 0; line-height: 1; text-shadow: 0 3px 14px rgba(0, 0, 0, 0.5); }
+.h-cta .lead .w { display: inline-block; transform: skewX(var(--h-serif-slant)); }
+.h-cta .kw { display: inline-block; font-size: 190px; font-weight: 800; line-height: 1; color: var(--h-cta); text-shadow: 0 0 26px rgba(244, 251, 90, 0.75), 0 0 60px rgba(244, 251, 90, 0.35); direction: ltr; letter-spacing: -4px; }
+.h-cta .kw .q { font-family: var(--h-serif); font-weight: 700; letter-spacing: 0; }
+
+/* ===================== MATERIALS ===================== */
+/* 1. window: a real screenshot / real UI in a browser or terminal window, thin dark-blue edge + light halo */
+.h-root > .h-win, .h-root > .h-stat { z-index: 8; }
+.h-win { position: absolute; width: var(--h-win-w); background: #fff; border-radius: var(--h-r-win); border: 2px solid var(--h-win-edge); box-shadow: 0 0 0 5px var(--h-win-halo), var(--h-win-shadow); overflow: hidden; font-size: 32px; font-weight: 500; letter-spacing: -0.3px; color: #1d1d1f; direction: ltr; text-align: left; }
+.h-win .bar { height: 62px; display: flex; align-items: center; gap: 10px; padding: 0 20px; background: #f5f5f7; border-bottom: 1px solid #e3e3e6; }
+.h-win .bar i { width: 16px; height: 16px; border-radius: 50%; display: block; flex: none; }
+.h-win .bar i:nth-child(1) { background: #ff5f57; } .h-win .bar i:nth-child(2) { background: #febc2e; } .h-win .bar i:nth-child(3) { background: #28c840; }
+.h-win .url { flex: 1; margin: 0 24px; height: 40px; border-radius: 10px; background: #fff; border: 1px solid #e3e3e6; display: flex; align-items: center; justify-content: center; font-size: 26px; color: #333; white-space: pre; }
+.h-win .cnt { height: 36px; padding: 0 14px; border-radius: 18px; background: #1d1d1f; color: #fff; font-size: 26px; font-weight: 700; display: flex; align-items: center; }
+.h-win .body { padding: 26px 34px; }
+.h-win .body[dir="rtl"] { direction: rtl; text-align: right; }
+.h-win p { margin: 0 0 22px; line-height: 1.35; }
+.h-win .sel { background: var(--h-sel); border-radius: 3px; background-repeat: no-repeat; background-size: 100% 100%; }
+/* dark variant: a terminal */
+.h-win.term { background: #0f1115; color: #e8e8ea; border-color: #2f6fd6; box-shadow: 0 0 0 1px rgba(80, 140, 255, 0.35), 0 0 34px rgba(50, 120, 255, 0.35); }
+.h-win.term .bar { background: #16181d; border-bottom-color: #23262d; color: #9aa0a8; font-size: 24px; justify-content: center; }
+.h-win.term .bar i { position: relative; } .h-win.term .bar .ttl { flex: 1; text-align: center; margin-right: 60px; }
+.h-win.term .body { font-family: var(--h-mono); font-size: 32px; line-height: 1.5; white-space: pre; }
+.h-win.term .in { border: 1px solid #2c3038; border-radius: 10px; padding: 10px 18px; margin-bottom: 20px; color: #fff; }
+.h-win.term .ok { color: #3fbf6a; } .h-win.term .dim { color: #8a9099; }
+/* the moving light along a window edge (HEADLINE.streak) */
+.h-streak { position: absolute; height: 4px; width: 160px; border-radius: 2px; background: linear-gradient(90deg, rgba(80, 160, 255, 0), #7cc0ff, rgba(80, 160, 255, 0)); box-shadow: 0 0 12px #4fa2ff; z-index: 9; }
+/* a button / element focused inside a window */
+.h-ring { position: absolute; border: 6px solid var(--h-blue); border-radius: 14px; box-shadow: 0 0 0 3px rgba(2, 131, 253, 0.18); z-index: 3; }
+/* dim veil over a window when a stat card sits on it */
+.h-dim { position: absolute; inset: 0; background: rgba(40, 44, 52, 0.45); z-index: 2; opacity: 0; }
+
+/* 2. stat card: dark navy, the number in a white→blue gradient with a blue glow, one label */
+.h-stat { position: absolute; padding: 26px 44px 32px; background: var(--h-card); border-radius: var(--h-r-card); text-align: center; color: #fff; box-shadow: 0 24px 60px rgba(0, 10, 30, 0.45); z-index: 4; }
+.h-stat .n { display: block; font-size: var(--h-stat); font-weight: 800; line-height: 1; letter-spacing: -6px; direction: ltr; white-space: pre;
+  background: linear-gradient(180deg, var(--h-stat-from) 30%, var(--h-stat-to) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 18px rgba(60, 150, 255, 0.55)); }
+.h-stat .l { display: block; margin-top: 6px; font-size: 54px; font-weight: 700; letter-spacing: -1px; white-space: pre; }
+/* 3. photo card: a real image / screenshot without browser chrome */
+.h-photo { position: absolute; border-radius: var(--h-r-win); border: 2px solid var(--h-win-edge); box-shadow: 0 0 0 5px var(--h-win-halo), var(--h-win-shadow); overflow: hidden; background: #ddd center / cover; z-index: 8; }
+
+/* 4. section header (on .h-page): "Title" + caret that becomes the blue box */
+.h-sec { position: absolute; left: 0; right: 0; top: 160px; text-align: center; z-index: 6; }
+.h-sec .h-box { margin-top: 18px; }
+.h-sec .t { display: block; font-size: 84px; font-weight: 700; white-space: pre; }
+.h-sec .t .w { display: inline-block; }
+.h-sec .t + .h-caret { position: absolute; left: 50%; top: 118px; margin-left: -6px; }   /* sits where the box will grow */
+.h-caret { display: inline-block; width: 12px; height: 110px; background: var(--h-blue); border-radius: 3px; }
+
+/* cursor */
+.h-cursor { position: absolute; left: 0; top: 0; width: 36px; height: 50px; z-index: 20; }
+.h-cursor svg { width: 36px; height: 50px; display: block; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35)); }
+
+/* the blue box line under a title (its own element, so the title's words and the box's words animate separately) */
+.h-boxline { position: absolute; left: 0; right: 0; text-align: center; z-index: 6; }
+.h-boxline .h-box { margin-top: 0; }
