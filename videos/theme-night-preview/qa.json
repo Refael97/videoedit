@@ -1,0 +1,229 @@
+{
+ "project": "theme-night-preview",
+ "theme": "night",
+ "score": "4/9",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 1.66,
+   "target": ">= 2.02",
+   "pass": false
+  },
+  "flat": {
+   "value": "58.4%",
+   "target": "<= 12.0%",
+   "pass": false
+  },
+  "actions": {
+   "value": "0.58 events/s (GSAP 3.15 tweens/s)",
+   "target": "0.38–0.7",
+   "pass": true
+  },
+  "payoff": {
+   "value": "0 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "median 67%",
+   "target": ">= 60%",
+   "pass": false
+  },
+  "collide": {
+   "value": "1 collisions",
+   "target": "0",
+   "pass": false,
+   "faces_detected": 68
+  },
+  "placeholder": {
+   "value": "10 found",
+   "target": "0",
+   "pass": false
+  },
+  "hook": {
+   "value": "visual on screen 2.2s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 17.17,
+  "motion": 1.66,
+  "flat_pct": 58.4,
+  "events_per_s": 0.58
+ },
+ "targets": {
+  "motion_min": 2.02,
+  "flat_max": 12.0,
+  "events_min": 0.38,
+  "events_max": 0.7
+ },
+ "fix_list": [
+  {
+   "t": "0.0–17.2s",
+   "t0": 0,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "motion",
+   "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
+  },
+  {
+   "t": "0.2–1.0s",
+   "t0": 0.25,
+   "words": "אם אתם רוצים לבנות",
+   "check": "hero fill",
+   "fix": "fill 54%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+  },
+  {
+   "t": "1.0–3.0s",
+   "t0": 1,
+   "words": "לבנות אתרים שנראים טוב עם",
+   "check": "no placeholders",
+   "fix": "th1: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "1.2–3.0s",
+   "t0": 1.25,
+   "words": "אתרים שנראים טוב עם",
+   "check": "no placeholders",
+   "fix": "th2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "1.4–2.9s",
+   "t0": 1.4,
+   "words": "אתרים שנראים טוב",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "1.5–3.0s",
+   "t0": 1.5,
+   "words": "אתרים שנראים טוב עם",
+   "check": "no placeholders",
+   "fix": "th3: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "2.9–3.4s",
+   "t0": 2.93,
+   "words": "עם motion,",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "3.0–6.8s",
+   "t0": 3,
+   "words": "עם motion, מעברים ומבנה כמו שצריך, אתם",
+   "check": "hero fill",
+   "fix": "fill 49%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+  },
+  {
+   "t": "3.5–4.7s",
+   "t0": 3.47,
+   "words": "motion, מעברים",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "3.5–6.8s",
+   "t0": 3.5,
+   "words": "motion, מעברים ומבנה כמו שצריך, אתם",
+   "check": "no placeholders",
+   "fix": "r1: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "4.8–6.8s",
+   "t0": 4.75,
+   "words": "מעברים ומבנה כמו שצריך, אתם",
+   "check": "no placeholders",
+   "fix": "r2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "4.8–5.6s",
+   "t0": 4.77,
+   "words": "מעברים ומבנה",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "5.5–6.8s",
+   "t0": 5.5,
+   "words": "ומבנה כמו שצריך, אתם",
+   "check": "no placeholders",
+   "fix": "r3: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "6.8–8.8s",
+   "t0": 6.83,
+   "words": "אתם צריכים להתקין skill שנקרא Kowalski.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "7.0–10.0s",
+   "t0": 7,
+   "words": "צריכים להתקין skill שנקרא Kowalski. הסקיל",
+   "check": "no placeholders",
+   "fix": "doc2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "9.0–9.8s",
+   "t0": 9,
+   "words": "Kowalski.",
+   "check": "collisions",
+   "fix": "caption 'Kowalski' on doc2: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "9.1–9.6s",
+   "t0": 9.1,
+   "words": "Kowalski.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "10.0–12.9s",
+   "t0": 9.97,
+   "words": "הסקיל הזה בעצם הופך את האתר שלכם למטורף.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "10.0–13.0s",
+   "t0": 10,
+   "words": "הסקיל הזה בעצם הופך את האתר שלכם למטורף.",
+   "check": "no placeholders",
+   "fix": "chart3: a chart needs real numbers: add axis values / the measured figures, or drop the chart"
+  },
+  {
+   "t": "14.8–17.2s",
+   "t0": 14.75,
+   "words": "להגיב לי פה ואני שולח לכם את זה.",
+   "check": "no placeholders",
+   "fix": "r41: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "15.5–17.2s",
+   "t0": 15.5,
+   "words": "שולח לכם את זה.",
+   "check": "no placeholders",
+   "fix": "r42: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "16.7–17.2s",
+   "t0": 16.67,
+   "words": "",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "16.8–17.2s",
+   "t0": 16.75,
+   "words": "",
+   "check": "hero fill",
+   "fix": "fill 55%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+  }
+ ]
+}
