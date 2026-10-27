@@ -33,7 +33,7 @@
       const first = !H._layouts.length, tt = first ? 0 : t;
       if (v) tl.set(v, { opacity: mode === "void" ? 1 : 0 }, tt);
       if (c) tl.set(c, { opacity: mode === "cut" ? 1 : 0 }, tt);
-      if (vid) tl.set(vid, { scale: o.zoom || 1 }, tt);
+      if (vid) tl.set(vid, { scale: o.zoom || 1, opacity: mode === "face" ? 1 : 0 }, tt);   // the room is not on screen behind void / cut
       H._layouts.push([t, mode]);
     },
     modeAt(t) { let m = "face"; H._layouts.forEach(([tt, mm]) => { if (tt <= t + 1e-6) m = mm; }); return m; },
@@ -107,13 +107,15 @@
     bar(tl, sel, t, share, dur = 0.5) { const f = $(sel); tl.set(f, { scaleX: 0 }, 0); tl.to(f, { scaleX: share, duration: dur, ease: "power2.out" }, t); },
     // count: a number rolls, landing on the payoff word
     count(tl, sel, from, to, t, dur = 0.8, o = {}) {
-      const el = $(sel), p = { v: from }, fmt = o.fmt || ((v) => (o.prefix || "") + Math.round(v).toLocaleString("en-US") + (o.suffix || ""));
-      el.textContent = fmt(from);
-      tl.fromTo(p, { v: from }, { v: to, duration: dur, ease: o.ease || "power2.out", onUpdate: () => (el.textContent = fmt(p.v)), ...IR }, t);
+      // a setter target (not onUpdate): the text follows every seek, even when callbacks are suppressed
+      const el = $(sel), fmt = o.fmt || ((v) => (o.prefix || "") + Math.round(v).toLocaleString("en-US") + (o.suffix || ""));
+      let cur = from; const p = { get v() { return cur; }, set v(x) { cur = x; el.textContent = fmt(x); } };
+      if (!o.keep) el.textContent = fmt(from);
+      tl.fromTo(p, { v: from }, { v: to, duration: dur, ease: o.ease || "power2.out", ...IR }, t);
     },
     type(tl, sel, text, t, cps = 16) {
-      const el = $(sel), p = { n: 0 }; el.textContent = "";
-      tl.fromTo(p, { n: 0 }, { n: text.length, duration: text.length / cps, ease: "none", onUpdate: () => (el.textContent = text.slice(0, Math.round(p.n))), ...IR }, t);
+      const el = $(sel); let n = 0; const p = { get n() { return n; }, set n(x) { n = x; el.textContent = text.slice(0, Math.round(x)); } }; el.textContent = "";
+      tl.fromTo(p, { n: 0 }, { n: text.length, duration: text.length / cps, ease: "none", ...IR }, t);
       return t + text.length / cps;
     },
     cursor(tl, sel, pts, clicks = [], o = {}) {
@@ -123,6 +125,8 @@
       clicks.forEach((c) => tl.fromTo(sel, { scale: 1 }, { scale: 0.82, duration: 0.07, yoyo: true, repeat: 1, ...IR }, c));
       if (o.end != null) tl.set(sel, { opacity: 0 }, o.end);
     },
+    // push: a held composition (example cards, a void screen) drifts slowly toward the viewer while the voice talks over it
+    push(tl, sel, t, dur, to = 1.08) { tl.set(sel, { scale: 1 }, 0); tl.fromTo(sel, { scale: 1 }, { scale: to, duration: dur, ease: "none", ...IR }, t); },
     pulse(tl, sel, t, s = 1.08) { tl.fromTo(sel, { scale: 1 }, { scale: s, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", ...IR }, t); },
     swapClass(tl, sel, t, add, remove) {
       $$(sel).forEach((el) => { const cls = el.getAttribute("class"); let n = cls; if (remove) n = n.replace(new RegExp("\\b" + remove + "\\b"), "").trim(); if (add) n += " " + add; tl.set(el, { attr: { class: cls } }, 0); tl.set(el, { attr: { class: n } }, t); });

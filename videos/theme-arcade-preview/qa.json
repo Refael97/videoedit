@@ -1,23 +1,23 @@
 {
  "project": "theme-arcade-preview",
  "theme": "arcade",
- "score": "4/9",
- "ready": false,
+ "score": "9/9",
+ "ready": true,
  "checks": {
   "motion": {
-   "value": 2.3,
+   "value": 2.7,
    "target": ">= 2.39",
-   "pass": false
+   "pass": true
   },
   "flat": {
-   "value": "15.7%",
+   "value": "10.7%",
    "target": "<= 15.0%",
-   "pass": false
+   "pass": true
   },
   "actions": {
-   "value": "0.35 events/s (GSAP 3.44 tweens/s)",
+   "value": "1.05 events/s (GSAP 4.48 tweens/s)",
    "target": "0.71–1.33",
-   "pass": false
+   "pass": true
   },
   "payoff": {
    "value": "0 marked, 0 problems",
@@ -30,9 +30,9 @@
    "pass": true
   },
   "hero": {
-   "value": "median 63%, 1 weak ranges",
+   "value": "median 70%, 0 weak ranges",
    "target": ">= 60%",
-   "pass": false
+   "pass": true
   },
   "collide": {
    "value": "0 collisions",
@@ -41,9 +41,9 @@
    "faces_detected": 68
   },
   "placeholder": {
-   "value": "5 found",
+   "value": "0 found",
    "target": "0",
-   "pass": false
+   "pass": true
   },
   "hook": {
    "value": "visual on screen 3.0s of the first 3s",
@@ -53,9 +53,9 @@
  },
  "metrics": {
   "duration": 17.17,
-  "motion": 2.3,
-  "flat_pct": 15.7,
-  "events_per_s": 0.35
+  "motion": 2.7,
+  "flat_pct": 10.7,
+  "events_per_s": 1.05
  },
  "targets": {
   "motion_min": 2.39,
@@ -63,111 +63,5 @@
   "events_min": 0.71,
   "events_max": 1.33
  },
- "fix_list": [
-  {
-   "t": "0.0–17.2s",
-   "t0": 0,
-   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
-   "check": "motion",
-   "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
-  },
-  {
-   "t": "0.1–2.9s",
-   "t0": 0.07,
-   "words": "אם אתם רוצים לבנות אתרים שנראים טוב",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "2.9–6.6s",
-   "t0": 2.9,
-   "words": "עם motion, מעברים ומבנה כמו שצריך,",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "3.5–4.0s",
-   "t0": 3.5,
-   "words": "motion,",
-   "check": "no placeholders",
-   "fix": "m1: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "4.2–6.2s",
-   "t0": 4.25,
-   "words": "מעברים ומבנה כמו שצריך,",
-   "check": "no placeholders",
-   "fix": "m1: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "4.8–5.2s",
-   "t0": 4.75,
-   "words": "מעברים",
-   "check": "no placeholders",
-   "fix": "pgB: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "6.6–9.9s",
-   "t0": 6.6,
-   "words": "שצריך, אתם צריכים להתקין skill שנקרא Kowalski.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "7.0–7.8s",
-   "t0": 6.97,
-   "words": "צריכים להתקין",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "7.0–7.5s",
-   "t0": 7,
-   "words": "צריכים להתקין",
-   "check": "no placeholders",
-   "fix": "hud2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "7.9–8.9s",
-   "t0": 7.87,
-   "words": "skill שנקרא Kowalski.",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "9.1–9.9s",
-   "t0": 9.13,
-   "words": "Kowalski.",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "9.9–12.9s",
-   "t0": 9.9,
-   "words": "הסקיל הזה בעצם הופך את האתר שלכם למטורף.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "12.2–13.0s",
-   "t0": 12.25,
-   "words": "למטורף.",
-   "check": "no placeholders",
-   "fix": "aft: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "14.5–17.2s",
-   "t0": 14.47,
-   "words": "זה להגיב לי פה ואני שולח לכם את זה.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "14.5–17.2s",
-   "t0": 14.5,
-   "words": "להגיב לי פה ואני שולח לכם את זה.",
-   "check": "hero fill",
-   "fix": "fill 48%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
-  }
- ]
+ "fix_list": []
 }

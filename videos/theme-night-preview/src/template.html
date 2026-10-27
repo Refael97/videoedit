@@ -11,31 +11,41 @@
       html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
 
       /* opening (proof page): three real sites as thumbnails, visitors pill under each */
-      #th1 { left: 70px; top: 520px; width: 290px; height: 470px; }
-      #th2 { left: 395px; top: 520px; width: 290px; height: 470px; }
-      #th3 { left: 720px; top: 520px; width: 290px; height: 470px; }
-      .n-thumb .t { font-size: 40px; top: 26px; right: 18px; left: 18px; text-align: right; }
+      #th1 { left: 70px; top: 470px; width: 290px; height: 560px; }
+      #th2 { left: 395px; top: 470px; width: 290px; height: 560px; }
+      #th3 { left: 720px; top: 470px; width: 290px; height: 560px; }
+      #thumbs0 { position: absolute; inset: 0; }
+      .n-thumb .nav { position: absolute; right: 18px; left: 18px; top: 18px; font-size: 26px; font-weight: 800; opacity: 0.7; white-space: pre; }
+      .n-thumb .t { top: 70px !important; }
+      .n-thumb .pic { position: absolute; left: 18px; right: 18px; top: 190px; height: 170px; border-radius: 10px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .n-thumb .pic i { display: flex; align-items: flex-end; justify-content: flex-end; padding: 8px; border-radius: 8px; font-style: normal; font-size: 26px; font-weight: 800; }
+      .n-thumb .sub { position: absolute; right: 18px; left: 18px; top: 380px; font-size: 26px; font-weight: 600; line-height: 1.25; white-space: pre; }
+      .n-thumb .t { font-size: 40px; top: 70px; right: 18px; left: 18px; text-align: right; }
       .n-thumb .b { position: absolute; right: 18px; bottom: 22px; height: 52px; padding: 0 20px; border-radius: 26px; font-size: 26px; font-weight: 800; display: flex; align-items: center; }
       .n-pill svg { width: 30px; height: 30px; }
 
       /* S1: three rows */
-      #rows1 { left: 90px; right: 90px; top: 520px; gap: 34px; }
-      #rows1 .n-row { height: 150px; font-size: 52px; } #rows1 .n-row .num { font-size: 54px; min-width: 76px; } #rows1 .n-row .lk { width: 44px; height: 44px; }
+      #rows1 { left: 80px; right: 80px; top: 400px; gap: 44px; }
+      #rows1 .n-row { height: 210px; font-size: 60px; } #rows1 .n-row .num { font-size: 54px; min-width: 76px; } #rows1 .n-row .lk { width: 44px; height: 44px; }
 
       /* S2: the install, in a framed document */
-      #doc2 { left: 80px; right: 80px; top: 430px; height: 640px; }
-      #doc2 .cmd { font-family: var(--n-mono); direction: ltr; font-size: 40px; height: 90px; display: flex; align-items: center; white-space: pre; color: #fff; }
-      #doc2 .n-line { direction: ltr; font-family: var(--n-mono); font-size: 36px; font-weight: 500; min-height: 96px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+      #doc2 { left: 70px; right: 70px; top: 400px; padding: 30px 40px; overflow: hidden; }
+      #doc2 .cmd { font-family: var(--n-mono); direction: ltr; font-size: 46px; height: 110px; display: flex; align-items: center; white-space: pre; color: #fff; }
+      #doc2 .n-line { direction: ltr; font-family: var(--n-mono); font-size: 48px; font-weight: 500; min-height: 108px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
       #doc2 .ok { color: var(--n-green); }
       #kw { color: #fff; }
 
       /* S3: before / after chart */
       #chart3 { left: 0; top: 0; }
-      #lb3a { left: 230px; top: 935px; } #lb3b { left: 640px; top: 430px; height: 76px; font-size: 44px; padding: 0 28px; }
+      #lb3a { left: 560px; top: 935px; } #lb3b { left: 470px; top: 380px; height: 76px; font-size: 44px; padding: 0 28px; }
+      .ax-y { position: absolute; left: 30px; width: 96px; text-align: right; font-size: 30px; font-weight: 600; color: rgba(255, 255, 255, 0.75); direction: ltr; transform: translateY(-50%); }
+      .ax-x { position: absolute; top: 1120px; font-size: 30px; font-weight: 600; color: rgba(255, 255, 255, 0.75); white-space: pre; transform: translateX(-50%); }
+      #pk3 { position: absolute; left: 560px; top: 470px; font-size: 120px; font-weight: 800; color: #fff; direction: ltr; text-shadow: var(--n-glow-p); letter-spacing: -3px; }
+      #pk3u { position: absolute; left: 566px; top: 600px; font-size: 32px; font-weight: 700; color: rgba(255,255,255,.8); }
 
       /* S4: the comment + the reply */
       #rows4 { left: 90px; right: 90px; top: 600px; }
-      #rows4 { top: 640px; gap: 34px; } #rows4 .n-row { height: 150px; font-size: 52px; } #rows4 .n-row .num { font-size: 50px; min-width: 76px; }
+      #rows4 { top: 540px; gap: 44px; } #rows4 .n-row { height: 210px; font-size: 56px; } #rows4 .n-row .num { font-size: 50px; min-width: 76px; }
       #typed4 { font-family: var(--n-font); direction: ltr; }
     </style>
   </head>
@@ -71,14 +81,17 @@
           <div id="t3" class="n-title">האתר <em>שלכם</em></div>
           <div id="zoom3" class="n-scene">
             <svg id="chart3" class="n-ink" viewBox="0 0 1080 1920">
-              <path class="axis" id="ax3" d="M140 430 V1060 H950" />
+              <path class="axis" id="ax3" d="M140 430 V1060 H950" /><path class="line" d="M140 722 H950" opacity="0.15" /><path class="line" d="M140 455 H950" opacity="0.15" />
               <path class="curve" id="cv3a" d="M150 990 C260 985 330 1000 420 985 S600 995 680 990 S860 985 940 988" opacity="0.55" />
               <path class="curve p" id="cv3b" d="M150 990 C230 980 270 900 340 870 S430 900 500 790 S600 620 680 650 S820 470 920 455" />
               <circle class="dot d3" cx="340" cy="870" r="13" /><circle class="dot d3" cx="500" cy="790" r="13" /><circle class="dot d3" cx="680" cy="650" r="13" /><circle class="dot d3" cx="920" cy="455" r="18" id="peak" />
               <rect class="bar off b3" x="150" y="1084" width="250" height="16" /><rect class="bar b3" x="420" y="1084" width="250" height="16" /><rect class="bar b3" x="690" y="1084" width="250" height="16" />
             </svg>
-            <div class="n-tag" id="lb3a">לפני</div>
-            <div class="n-tag p" id="lb3b">מטורף</div>
+            <div class="ax-y" style="top: 455px">50K</div><div class="ax-y" style="top: 722px">25K</div><div class="ax-y" style="top: 990px">0</div>
+            <div class="ax-x" style="left: 275px">חודש 1</div><div class="ax-x" style="left: 545px">חודש 2</div><div class="ax-x" style="left: 815px">חודש 3</div>
+            <div class="n-tag" id="lb3a">לפני: 1.2K ביקורים</div>
+            <div class="n-tag p" id="lb3b">אחרי</div>
+            <div id="pk3" data-qa-payoff="למטורף">1.2K</div><div id="pk3u">ביקורים בחודש</div>
           </div>
         </div>
 
@@ -97,12 +110,15 @@
       <div id="proof" class="n-proof">
         <div id="t0" class="n-title">אתרים שנראים <em>מטורף</em>
 <span class="box">עם סקיל אחד</span></div>
-        <div class="n-thumb" id="th1" style="background: #f3ece2"><div class="t" style="color: #2a2118; text-shadow: none">סטודיו
-לעיצוב פנים</div><span class="b" style="background: #2a2118; color: #fff">לתיאום</span><div class="n-pill" id="p1"><span class="ey"></span><span id="v1">1.2K</span></div></div>
-        <div class="n-thumb" id="th2" style="background: #1d1d1f"><div class="t">קפה
-של בוקר</div><span class="b" style="background: #c65a3c; color: #fff">להזמנה</span><div class="n-pill" id="p2"><span class="ey"></span><span id="v2">0.9K</span></div></div>
-        <div class="n-thumb" id="th3" style="background: #e3efe6"><div class="t" style="color: #17331f; text-shadow: none">רהיטים
-מעץ מלא</div><span class="b" style="background: #2f8a4a; color: #fff">לחנות</span><div class="n-pill" id="p3"><span class="ey"></span><span id="v3">2.1K</span></div></div>
+        <div id="thumbs0"><div class="n-thumb" id="th1" style="background: #f3ece2; color: #2a2118"><div class="nav">בית · עבודות</div><div class="t" style="color: #2a2118; text-shadow: none">סטודיו
+לעיצוב פנים</div><div class="pic"><i style="background:#d9c7ad">סלון</i><i style="background:#b99876;color:#fff">מטבח</i></div><div class="sub">40 פרויקטים
+בשנה</div><span class="b" style="background: #2a2118; color: #fff">לתיאום</span><div class="n-pill" id="p1"><span class="ey"></span><span id="v1" data-qa-payoff="טוב">1.2K</span></div></div>
+        <div class="n-thumb" id="th2" style="background: #1d1d1f; color: #fff"><div class="nav">תפריט · שעות</div><div class="t">קפה
+של בוקר</div><div class="pic"><i style="background:#6b4a33;color:#fff">אספרסו</i><i style="background:#c65a3c;color:#fff">קרואסון</i></div><div class="sub">פתוח מ-7:00
+כל יום</div><span class="b" style="background: #c65a3c; color: #fff">להזמנה</span><div class="n-pill" id="p2"><span class="ey"></span><span id="v2" data-qa-payoff="טוב">0.9K</span></div></div>
+        <div class="n-thumb" id="th3" style="background: #e3efe6; color: #17331f"><div class="nav">חנות · סדנה</div><div class="t" style="color: #17331f; text-shadow: none">רהיטים
+מעץ מלא</div><div class="pic"><i style="background:#a7c4ae">שולחן</i><i style="background:#2f8a4a;color:#fff">כיסא</i></div><div class="sub">משלוח חינם
+עד הבית</div><span class="b" style="background: #2f8a4a; color: #fff">לחנות</span><div class="n-pill" id="p3"><span class="ey"></span><span id="v3" data-qa-payoff="טוב">2.1K</span></div></div></div>
       </div>
 
       <div id="face" class="n-face grade"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video></div>
@@ -127,44 +143,56 @@
         // ---- layouts (head top ~50px above the box: scale .95, x 69, y 653) ----
         const box = { s: 0.95, x: 69, y: 600 };
         N.layout(tl, "proof", 0, { box });
-        N.layout(tl, "split", 2.92);
+        N.layout(tl, "split", 3.1);
         N.layout(tl, "face", 12.9);
         N.layout(tl, "split", 14.5);
-        N.scene(tl, "#s1", 2.92, 6.62); N.scene(tl, "#s2", 6.62, 9.92); N.scene(tl, "#s3", 9.92, 12.9); N.scene(tl, "#s4", 14.5);
+        N.scene(tl, "#s1", 3.1, 6.62); N.scene(tl, "#s2", 6.62, 9.92); N.scene(tl, "#s3", 9.92, 12.9); N.scene(tl, "#s4", 14.5);
 
         N.captions(tl, "#caps", WORDS, { darkOnProof: true });
 
         // ---- opening (proof): title word by word, sites pop, visitors roll up and turn green ----
         N.title(tl, "#t0", 0.15);
-        N.pop(tl, ["#th1", "#th2", "#th3"], 0.9, 0.18);
-        N.count(tl, "#v1", 1.2, 48, 1.9, 0.7, { fmt: (v) => v.toFixed(1) + "K" });
-        N.count(tl, "#v2", 0.9, 36, 2.0, 0.7, { fmt: (v) => v.toFixed(1) + "K" });
-        N.count(tl, "#v3", 2.1, 71, 2.1, 0.7, { fmt: (v) => v.toFixed(1) + "K" });
-        N.swapClass(tl, ["#p1"], 2.6, "up"); N.swapClass(tl, ["#p2"], 2.7, "up"); N.swapClass(tl, ["#p3"], 2.8, "up");
+        // the result is on screen from the first frame (rule e), then acted on
+        N.push(tl, "#thumbs0", 0, 3.1, 1.1);
+        N.sweep(tl, ["#th1", "#th2", "#th3"], 1.0, 0.15, 0.7);
+        // payoff: the three counts land together on "טוב" (2.22) and hold to the cut; green comes after they land
+        N.count(tl, "#v1", 1.2, 48, 1.4, 0.8, { fmt: (v) => v.toFixed(1) + "K", ease: "none" });
+        N.count(tl, "#v2", 0.9, 36, 1.4, 0.8, { fmt: (v) => v.toFixed(1) + "K", ease: "none" });
+        N.count(tl, "#v3", 2.1, 71, 1.4, 0.8, { fmt: (v) => v.toFixed(1) + "K", ease: "none" });
+        N.swapClass(tl, ["#p1"], 2.24, "up"); N.swapClass(tl, ["#p2"], 2.3, "up"); N.swapClass(tl, ["#p3"], 2.36, "up");
 
         // ---- S1: rows slide in on their word, all unlock on "כמו שצריך" ----
-        N.title(tl, "#t1", 2.95);
+        N.title(tl, "#t1", 3.12);
         N.rows(tl, "#r1", 3.2); N.rows(tl, "#r2", 4.5); N.rows(tl, "#r3", 5.4);
+        N.sweep(tl, ["#r1", "#r2", "#r3"], [3.5, 4.85, 5.75]);
+        N.sweep(tl, "#r1", 4.05, 0, 0.6);
+        N.sweep(tl, ["#r1", "#r2", "#r3"], 6.25, 0.12, 0.6);
+        N.push(tl, "#rows1", 3.1, 3.5, 1.1);
         N.swapClass(tl, "#r1", 3.45, null, "next"); N.swapClass(tl, "#r2", 4.75, null, "next"); N.swapClass(tl, "#r3", 5.65, null, "next");
         N.done(tl, "#r1", 6.0); N.done(tl, "#r2", 6.12); N.done(tl, "#r3", 6.24);
 
         // ---- S2: typed command, output lines ignite, the parts get marked, punch into the name ----
         N.title(tl, "#t2", 6.66);
         N.ignite(tl, "#doc2", 6.7);
+        N.push(tl, "#zoom2", 6.7, 2.1, 1.1);
         N.type(tl, "#cmdT", "npx skills add kowalski", 6.95, 24);
-        N.hide(tl, ".o2");
-        N.ignite(tl, ".o2", 7.98, 0.18);
+        // the output lines wait dim (real text, .next state) and light up one by one
+        tl.set(".o2", { opacity: 0.4 }, 0); tl.to(".o2", { opacity: 1, duration: 0.22, stagger: 0.18 }, 7.98);
+        N.sweep(tl, "#doc2", 7.2, 0, 0.8);
         N.mark(tl, ["#h2a", "#h2b", "#h2c"], [8.0, 8.18, 8.36]);
-        N.punch(tl, "#s2", 8.8, 1.6, [200, 900]);
+        N.punch(tl, "#s2", 8.8, 1.6, [200, 1010]);
         N.pulse(tl, "#kw", 9.2, 1.12);
         N.unpunch(tl, "#s2", 9.62);
 
         // ---- S3: before (flat) → after (climbs) → punch into the peak on "למטורף" ----
         N.title(tl, "#t3", 9.96);
-        N.push(tl, "#zoom3", 9.92, 2.95, 1.05);
+        N.push(tl, "#zoom3", 9.92, 2.98, 1.12);
         N.draw(tl, "#ax3", 10.0, 0.35);
         N.draw(tl, "#cv3a", 10.3, 0.6);
         N.tag(tl, "#lb3a", 10.6);
+        N.ignite(tl, [".ax-y", ".ax-x"], 10.1, 0.05);
+        N.hide(tl, ["#pk3", "#pk3u"]); N.ignite(tl, ["#pk3", "#pk3u"], 11.1, 0.05);
+        N.count(tl, "#pk3", 1.2, 48, 11.12, 0.98, { fmt: (v) => v.toFixed(1) + "K", ease: "power1.in" });
         N.draw(tl, "#cv3b", 11.1, 0.95, "power1.in");
         N.dots(tl, ".d3", [11.62, 11.78, 11.92, 12.05]);
         N.grow(tl, ".b3", 11.3, 0.12);
@@ -177,6 +205,8 @@
         N.rows(tl, "#r41", 14.6);
         N.type(tl, "#typed4", "Kowalski", 14.8, 16);
         N.rows(tl, "#r42", 15.4);
+        N.sweep(tl, "#r41", 15.2, 0, 0.6); N.sweep(tl, "#r42", 16.3, 0, 0.7);
+        N.push(tl, "#rows4", 14.5, 2.7, 1.05);
         N.done(tl, "#r42", 16.05);
 
         window.__timelines["main"] = tl;

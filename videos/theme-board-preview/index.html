@@ -11,14 +11,23 @@
       html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
 
       /* S0: a real site in a browser card */
-      #site0 { left: 110px; width: 860px; top: 660px; height: 560px; }
+      #site0 { left: 80px; width: 920px; top: 640px; height: 600px; }
+      #site0 .site { height: 536px; }
       .site { position: relative; height: 496px; direction: rtl; }
       .site h3 { position: absolute; right: 40px; top: 46px; margin: 0; font-size: 66px; line-height: 1.02; font-weight: 800; white-space: pre; letter-spacing: -2px; }
       .site p { position: absolute; right: 42px; top: 200px; margin: 0; font-size: 32px; font-weight: 500; color: var(--b-ink-soft); }
       .site .btn { position: absolute; right: 40px; bottom: 50px; height: 76px; padding: 0 36px; border-radius: 38px; background: var(--b-ink); color: #fff; font-size: 34px; font-weight: 800; display: flex; align-items: center; border: 4px solid var(--b-ink); }
       .site .img { position: absolute; left: 36px; top: 40px; width: 300px; height: 410px; border-radius: 14px; border: 4px solid var(--b-ink); background: linear-gradient(#f3c7a8 0 58%, #a8643c 58% 100%); overflow: hidden; }
-      .site .img i { position: absolute; left: 50px; top: 60px; width: 90px; height: 90px; border-radius: 50%; background: #fff6e8; display: block; }
-      .site .img b { position: absolute; left: 150px; top: 170px; width: 110px; height: 70px; background: #fff6e8; border-radius: 10px 10px 0 0; display: block; }
+      .site .img svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      .site .img i { position: absolute; left: 34%; top: 12%; width: 16%; height: 11%; border-radius: 50%; background: #ffe9a8; display: block; box-shadow: 0 0 30px 12px rgba(255, 220, 140, 0.55); }
+      .site .img b { display: none; }
+      .hist { color: var(--b-ink-soft); }
+      #name5 { position: absolute; left: 190px; width: 700px; top: 1236px; height: 88px; z-index: 7; display: flex; align-items: center; gap: 18px; padding: 0 26px; font-size: 36px; font-weight: 800; }
+      #name5 small { font-size: 28px; font-weight: 500; color: var(--b-ink-soft); direction: ltr; }
+      #prof4 { left: 90px; right: 90px; top: 530px; height: 180px; display: flex; align-items: center; gap: 24px; padding: 0 30px; }
+      #prof4 .pav { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--b-ink); background: url(assets/img/avatar.jpg) center / cover; flex: none; }
+      #prof4 .pn { font-size: 46px; font-weight: 800; line-height: 1.1; } #prof4 .pn small { display: block; font-size: 30px; font-weight: 500; color: var(--b-ink-soft); direction: ltr; text-align: right; }
+      #prof4 .fol { margin-right: auto; height: 74px; padding: 0 30px; border-radius: 37px; background: var(--b-coral); color: #fff; font-size: 34px; font-weight: 800; display: flex; align-items: center; border: 4px solid var(--b-ink); }
 
       /* S1: the skill's checklist */
       #list1 { left: 110px; width: 860px; top: 660px; }
@@ -28,10 +37,10 @@
       #list1 .slot > * { position: absolute; inset: 0; }
       #list1 .slot svg { width: 100%; height: 100%; display: block; }
       #list1 .foot { display: flex; justify-content: space-between; align-items: center; padding: 20px 6px 4px; border-top: 2px solid rgba(29, 26, 23, 0.1); direction: ltr; }
-      #list1 .foot span { font-family: var(--b-mono); font-size: 24px; color: var(--b-ink-soft); letter-spacing: 1px; }
+      #list1 .foot span { font-family: var(--b-mono); font-size: 26px; color: var(--b-ink-soft); letter-spacing: 1px; }
 
       /* S2: the install */
-      #term2 { left: 90px; width: 900px; top: 680px; height: 560px; }
+      #term2 { left: 90px; width: 900px; top: 520px; }
       #term2 .ln { display: flex; gap: 16px; align-items: center; min-height: 66px; }
       #term2 .b-meter { margin-top: 22px; }
       #kw2.b-sel { background: rgba(228, 108, 86, 0.35); }
@@ -53,9 +62,9 @@
       #wow3 span { display: inline-block; font-family: var(--b-serif); font-weight: 700; font-size: 112px; line-height: 1.1; color: var(--b-coral); transform: skewX(-11deg); padding: 0 18px; }
 
       /* S4: comment */
-      #in4 { position: absolute; left: 90px; right: 90px; top: 760px; }
-      #rep4 { left: 90px; right: 90px; top: 990px; }
-      #rep4 .row { min-height: 110px; font-size: 40px; }
+      #in4 { position: absolute; left: 90px; right: 90px; top: 770px; height: 110px; }
+      #rep4 { left: 90px; right: 90px; top: 930px; }
+      #rep4 .row { min-height: 130px; font-size: 50px; }
       #rep4 .ic { width: 54px; height: 54px; margin-right: auto; }
     </style>
   </head>
@@ -82,7 +91,7 @@
             <div class="row" id="r1"><span class="n" id="n1">1</span>Motion<div class="slot"><span id="sp1"></span><span id="ok1"></span></div></div>
             <div class="row" id="r2"><span class="n" id="n2">2</span>מעברים בין עמודים<div class="slot"><span id="sp2"></span><span id="ok2"></span></div></div>
             <div class="row" id="r3"><span class="n" id="n3">3</span>מבנה וגריד<div class="slot"><span id="sp3"></span><span id="ok3"></span></div></div>
-            <div class="foot"><span>3 / 3 FEATURES</span><span class="tag green" id="done1" style="display:inline-flex;height:46px;padding:0 18px;border-radius:23px;background:var(--b-green);color:#fff;font-family:var(--b-mono);font-size:24px;align-items:center">✓ READY</span></div>
+            <div class="foot"><span>3 / 3 FEATURES</span><span class="tag green" id="done1" style="display:inline-flex;height:46px;padding:0 18px;border-radius:23px;background:var(--b-green);color:#fff;font-family:var(--b-mono);font-size:26px;align-items:center">✓ READY</span></div>
           </div></div>
       </div>
 
@@ -91,6 +100,7 @@
         <div id="t2" class="b-title">סקיל <em>אחד.</em></div>
         <div id="term2" class="b-card term aa"><div class="bar"><i></i><i></i><i></i><span>claude code · terminal</span></div>
           <div class="body">
+            <div class="ln mono hist">~/studio-bait $ git status</div><div class="ln mono hist">modified: index.html  styles.css</div><div class="ln mono hist">~/studio-bait $ ls skills/</div><div class="ln mono hist">seo-audit  copywriter</div>
             <div class="mono" style="height: 76px">› <span id="cmd2"></span></div>
             <div class="ln mono o2"><span class="ok">✓</span>motion presets</div>
             <div class="ln mono o2"><span class="ok">✓</span>page transitions</div>
@@ -117,14 +127,16 @@
       <!-- 12.9–14.5: the speaker as a card on the board (contributor 67166, translated) -->
       <div id="s5" class="b-scene">
         <div id="t5" class="b-title">כל מה <em>שצריך:</em></div>
+        <div id="name5" class="b-card aa">רפאל לוי <small>@refaelleviii</small></div>
       </div>
       <div id="faceC" class="b-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video></div>
 
       <!-- S4 (14.5–17.2): comment the word, the reply lands and goes green -->
       <div id="s4" class="b-scene">
         <div id="t4" class="b-title">תגיבו <em lang="en">Kowalski</em></div>
+        <div id="prof4" class="b-card aa"><span class="pav"></span><span class="pn">רפאל לוי<small>@refaelleviii</small></span><span class="fol" id="fol4">עקבו</span></div>
         <div id="in4" class="b-input aa"><span class="av"></span><span id="typed4"></span><span class="caret" id="car4"></span><span class="go" id="go4"></span></div>
-        <div id="rep4" class="b-card aa"><div class="body"><div class="row"><span class="n on">✉</span>שלחתי לך את הסקיל<span class="ic" id="ok4"></span></div></div></div>
+        <div id="rep4" class="b-card aa"><div class="body"><div class="row"><span class="n on">✉</span>שלחתי לך את הסקיל<span class="ic" id="ok4"></span></div><div class="row"><span class="n">↓</span><span class="mono" style="direction:ltr;font-size:38px">kowalski-skill.zip</span><span class="tag" style="margin-right:auto">24 KB</span></div></div></div>
       </div>
 
       <!-- the mascot + its reactions (one crab, it travels between scenes) -->
@@ -185,6 +197,9 @@
       <audio id="sfx45" src="assets/theme/sfx/thock.wav" data-start="15.55" data-duration="0.16" data-track-index="11" data-volume="0.4"></audio>
       <audio id="sfx46" src="assets/theme/sfx/hop.wav" data-start="15.6" data-duration="0.14" data-track-index="12" data-volume="0.3"></audio>
       <audio id="sfx47" src="assets/theme/sfx/ding.wav" data-start="16.05" data-duration="0.7" data-track-index="11" data-volume="0.22"></audio>
+      <audio id="sfx48" src="assets/theme/sfx/thock.wav" data-start="13.3" data-duration="0.16" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx49" src="assets/theme/sfx/thock.wav" data-start="14.52" data-duration="0.16" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx50" src="assets/theme/sfx/click.wav" data-start="14.62" data-duration="0.05" data-track-index="14" data-volume="0.25"></audio>
     </div>
     <script>
       const WORDS = [{"text": "אם", "start": 0.24, "end": 0.34}, {"text": "אתם", "start": 0.36, "end": 0.56}, {"text": "רוצים", "start": 0.58, "end": 0.8}, {"text": "לבנות", "start": 0.82, "end": 1.14}, {"text": "אתרים", "start": 1.18, "end": 1.6}, {"text": "שנראים", "start": 1.66, "end": 2.08}, {"text": "טוב", "start": 2.22, "end": 2.9}, {"text": "עם", "start": 2.94, "end": 3.08}, {"text": "motion,", "start": 3.16, "end": 3.76}, {"text": "מעברים", "start": 4.46, "end": 5.34}, {"text": "ומבנה", "start": 5.42, "end": 5.96}, {"text": "כמו", "start": 6.0, "end": 6.16}, {"text": "שצריך,", "start": 6.2, "end": 6.62}, {"text": "אתם", "start": 6.68, "end": 6.839}, {"text": "צריכים", "start": 6.919, "end": 7.1}, {"text": "להתקין", "start": 7.14, "end": 7.6}, {"text": "skill", "start": 7.86, "end": 8.24}, {"text": "שנקרא", "start": 8.3, "end": 8.7}, {"text": "Kowalski.", "start": 8.76, "end": 9.46}, {"text": "הסקיל", "start": 9.96, "end": 10.34}, {"text": "הזה", "start": 10.36, "end": 10.68}, {"text": "בעצם", "start": 10.74, "end": 11.1}, {"text": "הופך", "start": 11.12, "end": 11.38}, {"text": "את", "start": 11.38, "end": 11.44}, {"text": "האתר", "start": 11.48, "end": 11.7}, {"text": "שלכם", "start": 11.8, "end": 12.08}, {"text": "למטורף.", "start": 12.1, "end": 12.76}, {"text": "כל", "start": 13.34, "end": 13.44}, {"text": "מה", "start": 13.48, "end": 13.54}, {"text": "שאתם", "start": 13.58, "end": 13.74}, {"text": "צריכים", "start": 13.78, "end": 13.94}, {"text": "לעשות", "start": 13.98, "end": 14.4}, {"text": "זה", "start": 14.42, "end": 14.5}, {"text": "להגיב", "start": 14.56, "end": 14.84}, {"text": "לי", "start": 14.879, "end": 14.98}, {"text": "פה", "start": 15.039, "end": 15.14}, {"text": "ואני", "start": 15.2, "end": 15.36}, {"text": "שולח", "start": 15.4, "end": 15.7}, {"text": "לכם", "start": 15.76, "end": 16.0}, {"text": "את", "start": 16.02, "end": 16.14}, {"text": "זה.", "start": 16.18, "end": 16.34}];
@@ -197,6 +212,12 @@
         B.art("#rHeart", "heart"); B.art("#rStar", "star"); B.art("#rCheck", "check"); B.art("#rBang", "bang");
         B.art(["#sp1", "#sp2", "#sp3"], "spin"); B.art(["#ok1", "#ok2", "#ok3", "#ok4"], "tick"); B.art("#crossB", "cross");
         B.art("#cur", "cursor"); B.art("#go4", "send");
+        const ROOM = '<svg viewBox="0 0 300 410" preserveAspectRatio="xMidYMid slice"><rect width="300" height="250" fill="#f3d9c2"/><rect y="250" width="300" height="160" fill="#b7744b"/><path d="M0 250H300" stroke="#1d1a17" stroke-width="4"/>' +
+          '<rect x="34" y="44" width="92" height="70" rx="4" fill="#fff6e8" stroke="#1d1a17" stroke-width="4"/><path d="M44 104l24-28 18 18 12-12 18 22z" fill="#3c9c6c"/>' +
+          '<path d="M214 70v126" stroke="#1d1a17" stroke-width="5"/><path d="M186 70h56l-12-34h-32z" fill="#e46c56" stroke="#1d1a17" stroke-width="4" stroke-linejoin="round"/><path d="M196 196h36" stroke="#1d1a17" stroke-width="6" stroke-linecap="round"/>' +
+          '<rect x="22" y="200" width="170" height="70" rx="18" fill="#3c9c6c" stroke="#1d1a17" stroke-width="4"/><rect x="36" y="168" width="142" height="52" rx="14" fill="#4fb07f" stroke="#1d1a17" stroke-width="4"/><path d="M40 270v22M174 270v22" stroke="#1d1a17" stroke-width="6" stroke-linecap="round"/>' +
+          '<path d="M248 300c-24-30-6-70 12-82 4 30 22 44 12 82" fill="#3c9c6c" stroke="#1d1a17" stroke-width="4"/><rect x="236" y="296" width="40" height="44" rx="6" fill="#eaae36" stroke="#1d1a17" stroke-width="4"/></svg>';
+        document.querySelectorAll(".site .img").forEach((e) => e.insertAdjacentHTML("afterbegin", ROOM));
 
         // ---- scenes (transitions: pixels at 2.9 and 9.9, iris at 6.6) ----
         const sw1 = B.pixels(tl, "#pix", 2.62, 7);       // switch ≈ 2.88
@@ -212,8 +233,8 @@
 
         // ---- S0: the site lands, its parts pop, the cursor presses the button, "טוב." lands ----
         B.title(tl, "#t0", 0.15, 0.12);
-        B.drop(tl, "#site0", 0.35);
-        B.pop(tl, ["#img0", "#h0", "#p0", "#btn0"], [0.6, 0.75, 0.9, 1.05]);
+        B.drop(tl, "#site0", 0.0);
+        B.pop(tl, ["#img0", "#h0", "#p0", "#btn0"], [0.02, 0.07, 0.12, 0.17]);
         B.cursor(tl, "#cur", [[900, 1500, 1.2], [760, 1150, 1.85]], [1.9], { end: 2.75 });
         B.press(tl, "#btn0", 1.9);
         // crab: peeks over the card's top-right corner, reacts on "טוב"
@@ -241,8 +262,8 @@
         B.hide(tl, ".o2"); B.rows(tl, ".o2", [8.1, 8.25, 8.4, 8.6]);
         B.meter(tl, "#met2", 8.05, 30, 0.022);
         B.select(tl, "#kw2", 8.8);
-        tl.set("#crab", { x: 830, y: 576 }, sw2 - 0.01); B.snap(tl, "#crab", 8.8, 3);
-        tl.set("#rBang", { x: 870, y: 520 }, 0); B.react(tl, "#rBang", 8.85, 0.5);
+        tl.set("#crab", { x: 830, y: 416 }, sw2 - 0.01); B.snap(tl, "#crab", 8.8, 3);
+        tl.set("#rBang", { x: 870, y: 360 }, 0); B.react(tl, "#rBang", 8.85, 0.5);
 
         // ---- S3: before (plain) gets crossed, after lands on "הופך", the payoff on "למטורף" ----
         B.title(tl, "#t3", sw3 + 0.05, 0.1);
@@ -259,9 +280,12 @@
         tl.set("#faceC", { opacity: 1 }, 12.92); tl.fromTo("#faceC", { y: -70, scale: 0.96 }, { y: 0, scale: 1, duration: 0.38, ease: "back.out(1.6)", immediateRender: false }, 12.92);
         tl.set("#faceC", { opacity: 0 }, 14.5);
         tl.set("#crab", { x: 820, y: 548 }, 12.91);
+        B.drop(tl, "#name5", 13.3);                       // the lower third lands on the speaker card
+        B.snap(tl, "#crab", 13.6, 2);
 
         // ---- S4: CTA ----
         B.title(tl, "#t4", 14.55, 0.12);
+        B.drop(tl, "#prof4", 14.52); B.press(tl, "#fol4", 14.62);
         B.drop(tl, "#in4", 14.6);
         B.type(tl, "#typed4", "KOWALSKI", 14.85, 16);
         tl.set("#car4", { opacity: 1 }, 0); tl.set("#car4", { opacity: 0 }, 15.4);

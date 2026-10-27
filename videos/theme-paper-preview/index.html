@@ -14,12 +14,14 @@
       .scr { position: absolute; overflow: hidden; background: #fff; direction: rtl; }
       .scr h3 { margin: 0; position: absolute; right: 14px; top: 12px; font-size: 34px; line-height: 1.02; font-weight: 800; white-space: pre; }
       .scr .btn { position: absolute; right: 18px; bottom: 16px; height: 50px; padding: 0 22px; border-radius: 25px; background: var(--p-ink); color: #fff; font-size: 26px; font-weight: 800; display: flex; align-items: center; }
-      .scr .img { position: absolute; left: 16px; bottom: 16px; width: 120px; height: 120px; border-radius: 18px; background: linear-gradient(135deg, #c65a3c, #e8a06a); overflow: hidden; }
-      .scr .img i { position: absolute; left: 12px; top: 12px; width: 40px; height: 40px; border-radius: 50%; background: #fff; display: block; }
+      .scr .img { position: absolute; left: 16px; bottom: 16px; width: 120px; height: 120px; border-radius: 18px; background: #f4efe6; border: 2.5px solid #2a241b; overflow: hidden; }
+      .scr .img svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      .scr .img i { position: absolute; left: 12px; top: 12px; width: 26px; height: 26px; border-radius: 50%; background: #c65a3c; display: block; }
+      .scr .nav1 { position: absolute; left: 16px; top: 14px; font-size: 26px; font-weight: 700; color: var(--p-ink-soft); white-space: pre; }
 
       /* hook: a laptop whose screen cycles three real sites */
-      #lapH { left: 30px; top: 560px; width: 380px; height: 285px; z-index: 3; }
-      #scrH { left: 87px; top: 591px; width: 266px; height: 166px; z-index: 4; }
+      #lapH { left: 30px; top: 590px; width: 460px; height: 345px; z-index: 3; }
+      #scrH { left: 99px; top: 628px; width: 322px; height: 201px; z-index: 4; }
       .hs { position: absolute; inset: 0; }
 
       /* S1: laptop hero with tags */
@@ -29,8 +31,9 @@
       .blk { position: absolute; bottom: 16px; width: 120px; height: 56px; border-radius: 12px; background: #f1ebe0; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; }
 
       /* S2: UI zoom terminal (bleeds off the right edge) + hero folder */
-      #term2 { left: 110px; top: 400px; width: 1010px; height: 790px; }
-      #term2 .ln { display: flex; align-items: center; gap: 18px; height: 96px; font-family: var(--p-mono); font-size: 36px; direction: ltr; white-space: pre; border-top: 1px solid var(--p-card-edge); }
+      #term2 { left: 110px; top: 400px; width: 1010px; }
+      .scr .sub { position: absolute; right: 16px; top: 90px; margin: 0; font-size: 26px; font-weight: 700; color: var(--p-ink-soft); white-space: pre; }
+      #term2 .ln { display: flex; align-items: center; gap: 18px; height: 80px; font-family: var(--p-mono); font-size: 36px; direction: ltr; white-space: pre; border-top: 1px solid var(--p-card-edge); }
       #term2 .ln b { color: #2fa860; font-weight: 500; }
       #term2 .ln.dim { color: var(--p-ink-soft); }
       #fold2 { left: 260px; top: 690px; width: 560px; height: 467px; }
@@ -72,10 +75,12 @@
           <div class="p-step"><b>שלב 1.</b> מה עושה אתר טוב</div>
           <div id="lap1" class="p-obj aa"></div>
           <div id="scr1" class="scr">
+            <span class="nav1">בית · פרויקטים</span>
             <h3 id="h1a">עיצוב פנים
 שמרגיש בית</h3>
             <h3 id="h1b">40 פרויקטים
 בשנה</h3>
+            <p class="sub" id="sub1">תיאום תוך 24 שעות</p>
             <div class="img"><i id="ball1"></i></div>
             <span class="blk b1" style="right: 18px">סלון</span><span class="blk b1" style="right: 150px">משרד</span>
           </div>
@@ -89,7 +94,7 @@
         <div id="s2" class="p-scene">
           <div class="p-step"><b>שלב 2.</b> מתקינים את הסקיל</div>
           <div id="term2" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i></div>
-            <div class="body"><div class="mono" style="height: 80px">› <span id="cmdT"></span></div>
+            <div class="body"><div class="ln dim">✻ Welcome to Claude Code</div><div class="ln dim">cwd: ~/my-site</div><div class="mono" style="height: 80px">› <span id="cmdT"></span></div>
               <div class="ln dim o2">Fetching kowalski…</div>
               <div class="ln o2"><b>✓</b>motion presets</div>
               <div class="ln o2"><b>✓</b>page transitions</div>
@@ -141,7 +146,8 @@
       <audio id="aS3" src="assets/theme/sfx/swish.wav" data-start="9.92" data-duration="0.25" data-track-index="12" data-volume="0.3"></audio>
       <audio id="aP8" src="assets/theme/sfx/pop.wav" data-start="10.0" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
       <audio id="aT1" src="assets/theme/sfx/tick.wav" data-start="10.5" data-duration="0.03" data-track-index="17" data-volume="0.3"></audio>
-      <audio id="aW1" src="assets/theme/sfx/whoosh.wav" data-start="11.1" data-duration="0.55" data-track-index="18" data-volume="0.25"></audio>
+      <audio id="aW0" src="assets/theme/sfx/whoosh.wav" data-start="3.36" data-duration="0.55" data-track-index="19" data-volume="0.22"></audio>
+      <audio id="aW1" src="assets/theme/sfx/whoosh.wav" data-start="10.4" data-duration="0.55" data-track-index="18" data-volume="0.25"></audio>
       <audio id="aP9" src="assets/theme/sfx/pop.wav" data-start="11.4" data-duration="0.12" data-track-index="13" data-volume="0.3"></audio>
       <audio id="aD2" src="assets/theme/sfx/ding.wav" data-start="12.1" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
       <audio id="aP10" src="assets/theme/sfx/pop.wav" data-start="13.34" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
@@ -158,6 +164,11 @@
         const tl = gsap.timeline({ paused: true });
 
         // ---- art ----
+        // the sites' picture: a line-drawn interior (paper props style), never a flat colour block
+        const ROOM = '<svg viewBox="0 0 120 120"><path d="M0 84H120" stroke="#2a241b" stroke-width="2.5"/><rect x="14" y="58" width="58" height="22" rx="7" fill="#fff" stroke="#2a241b" stroke-width="2.5"/><rect x="20" y="48" width="46" height="16" rx="5" fill="#f6d8cc" stroke="#2a241b" stroke-width="2.5"/><path d="M18 80v8M68 80v8" stroke="#2a241b" stroke-width="3" stroke-linecap="round"/>' +
+          '<path d="M92 34v50" stroke="#2a241b" stroke-width="2.5"/><path d="M82 34h20l-5-14h-10z" fill="#c65a3c" stroke="#2a241b" stroke-width="2.5" stroke-linejoin="round"/><path d="M85 84h14" stroke="#2a241b" stroke-width="3" stroke-linecap="round"/>' +
+          '<rect x="40" y="16" width="30" height="22" rx="2" fill="#fff" stroke="#2a241b" stroke-width="2.5"/><path d="M43 34l8-9 6 6 4-4 6 7z" fill="#6fcbf6"/><path d="M104 100c-8-10-2-24 4-28 2 10 8 15 4 28" fill="#9cc56a" stroke="#2a241b" stroke-width="2"/></svg>';
+        document.querySelectorAll(".scr .img").forEach((e) => e.insertAdjacentHTML("afterbegin", ROOM));
         P.art(["#lapH", "#lap1"], "laptop"); P.art(["#ph1", "#ph2"], "phone"); P.art("#fan3", "fan");
         P.art("#fold2", "folder"); P.art("#doc2", "doc"); P.art("#repDoc", "doc");
         document.querySelector("#doc2").insertAdjacentHTML("beforeend", "<span>kowalski</span>");
@@ -184,6 +195,9 @@
         // ---- S1: Motion / מעברים / מבנה act on the site ----
         ["#lap1", "#scr1", "#tagM", "#tagT", "#tagS", ".b1"].forEach((s) => P.hide(tl, s));
         P.pop(tl, ["#lap1", "#scr1"], 3.0, 0.03, { y: 40 });
+        // UI zoom: on "Motion" the site lifts out of the laptop and is shown big (paper's main technique), so its motion reads
+        tl.set("#scr1", { x: 0, y: 0, transformOrigin: "50% 50%", boxShadow: "0 0 0 rgba(0,0,0,0)", borderRadius: 0 }, 0);
+        tl.to("#scr1", { y: 66, scale: 1.8, boxShadow: "0 18px 40px rgba(60,42,20,0.22)", borderRadius: 8, duration: 0.5, ease: "power3.out" }, 3.36);
         P.tag(tl, "#tagM", "#ink1", "M240,700 C290,700 330,690 360,670", "m", 3.16);
         tl.fromTo("#ball1", { x: 0, y: 0 }, { x: 60, y: 60, duration: 0.45, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, 3.3);
         P.tag(tl, "#tagT", "#ink1", "M860,425 C840,450 800,470 770,480", "t", 4.46);
@@ -209,8 +223,8 @@
         ["#ph1", "#sc1", "#ph2", "#sc2", "#fan3", "#stBad", "#stGood"].forEach((s) => P.hide(tl, s));
         P.pop(tl, ["#ph1", "#sc1"], 10.0, 0.03, { y: 40 });
         P.pop(tl, "#stBad", 10.5);
-        P.pop(tl, "#fan3", 11.05);
-        P.fanOpen(tl, "#fan3", 11.12, 90);
+        P.pop(tl, "#fan3", 10.4);               // "הזה": the fan comes in as the change starts
+        P.fanOpen(tl, "#fan3", 10.48, 90);
         P.pop(tl, ["#ph2", "#sc2"], 11.4, 0.03, { y: 40 });
         tl.fromTo("#ball3", { x: 0, y: 0 }, { x: 40, y: 40, duration: 0.4, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, 11.6);
         P.pop(tl, "#stGood", 12.1);
