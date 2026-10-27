@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <style>
+      @font-face { font-family: "Rubik"; font-weight: 900; src: url("assets/rubik-hebrew-900-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Rubik"; font-weight: 900; src: url("assets/rubik-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Rubik"; font-weight: 700; src: url("assets/rubik-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Rubik"; font-weight: 700; src: url("assets/rubik-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      :root { --g: #5cff2b; --ink: #141414; --paper: #f8f6f3; }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: var(--paper); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--paper); font-family: "Rubik", sans-serif; direction: rtl; color: var(--ink); }
+      #gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: block; }
+      /* brand chrome, straight from the site: dashed pill label + pause chip */
+      #label { position: absolute; top: 150px; left: 50%; transform: translateX(-50%) rotate(-2deg); padding: 18px 40px 22px; border: 4px dashed var(--ink); border-radius: 60px; background: #fff; font-size: 44px; font-weight: 700; white-space: nowrap; box-shadow: 8px 8px 0 var(--ink); }
+      #pause { position: absolute; top: 1660px; left: 50%; margin-left: -64px; width: 128px; height: 128px; border-radius: 50%; background: var(--ink); display: flex; align-items: center; justify-content: center; gap: 18px; opacity: 0; box-shadow: 0 0 0 8px var(--g); }
+      #pause i { width: 18px; height: 54px; border-radius: 6px; background: var(--g); }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3.6" data-width="1080" data-height="1920" data-no-timeline>
+      <canvas id="gl" width="1080" height="1920"></canvas>
+      <div id="label">המעבדה של רפאל · AI ושיווק</div>
+      <div id="pause"><i></i><i></i></div>
+      <div id="flash"></div>
+      <audio id="vo" src="assets/vo.mp3" data-start="0" data-duration="3.6" data-track-index="10"></audio>
+      <audio id="mus1" src="assets/music.mp3" data-start="0" data-duration="1.36" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="mus2" src="assets/music.mp3" data-start="3.1" data-media-start="1.36" data-duration="0.5" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="x1" src="assets/impact.wav" data-start="0.29" data-duration="0.9" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="x2" src="assets/pop.wav" data-start="0.4" data-duration="0.12" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="x3" src="assets/pop.wav" data-start="0.48" data-duration="0.12" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="x4" src="assets/pop.wav" data-start="0.56" data-duration="0.12" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="x5" src="assets/pop.wav" data-start="0.64" data-duration="0.12" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="x6" src="assets/impact.wav" data-start="1.36" data-duration="0.9" data-track-index="12" data-volume="0.55"></audio>
+      <audio id="x7" src="assets/impact.wav" data-start="2.06" data-duration="0.9" data-track-index="15" data-volume="0.55"></audio>
+      <audio id="x8" src="assets/impact.wav" data-start="2.8" data-duration="0.9" data-track-index="12" data-volume="0.65"></audio>
+      <audio id="x9" src="assets/whoosh.wav" data-start="3.08" data-duration="0.52" data-track-index="13" data-volume="0.6"></audio>
+    </div>
+
+    <script type="application/json" id="fontjson">{"glyphs":{" ":{"ha":258,"x_min":null,"x_max":null,"o":""},"!":{"ha":458,"x_min":71,"x_max":388,"o":"m 350 372 l 108 372 q 82 383 93 372 q 71 410 71 394 l 71 410 l 71 935 q 82 961 71 950 q 108 972 93 972 l 108 972 l 350 972 q 376 961 365 972 q 388 935 388 950 l 388 935 l 388 410 q 376 383 388 394 q 350 372 365 372 l 350 372 z m 350 0 l 108 0 q 82 11 93 0 q 71 38 71 22 l 71 38 l 71 279 q 82 306 71 294 q 108 317 93 317 l 108 317 l 350 317 q 376 306 365 317 q 388 279 388 294 l 388 279 l 388 38 q 376 11 388 22 q 350 0 365 0 l 350 0 z "},".":{"ha":433,"x_min":58,"x_max":375,"o":"m 338 0 l 96 0 q 69 11 81 0 q 58 38 58 22 l 58 38 l 58 279 q 69 306 58 294 q 96 317 81 317 l 96 317 l 338 317 q 364 306 353 317 q 375 279 375 294 l 375 279 l 375 38 q 364 11 375 22 q 338 0 353 0 l 338 0 z "},"?":{"ha":907,"x_min":33,"x_max":872,"o":"m 611 351 l 314 351 q 296 359 304 351 q 288 376 288 367 l 288 376 q 288 382 288 379 q 289 388 288 385 l 289 388 q 326 460 301 426 q 382 524 351 494 q 440 580 413 554 q 486 628 468 606 q 504 671 504 651 l 504 671 q 498 694 504 685 q 481 710 492 704 q 457 715 471 715 l 457 715 q 401 699 415 715 q 376 664 386 682 l 376 664 q 360 640 369 650 q 326 629 350 629 l 326 629 l 68 629 q 44 641 54 629 q 33 672 33 653 l 33 672 q 62 780 35 725 q 144 882 89 835 q 283 958 199 929 q 482 986 367 986 l 482 986 q 679 959 603 986 q 797 890 756 932 q 856 803 839 847 q 872 726 872 760 l 872 726 q 859 644 872 682 q 824 576 846 607 q 775 516 801 544 q 723 462 749 488 q 676 411 697 436 l 676 411 q 668 401 672 406 q 661 392 664 397 l 661 392 q 638 361 647 371 q 611 351 629 351 l 611 351 z m 582 0 l 328 0 q 301 11 313 0 q 290 38 290 22 l 290 38 l 290 258 q 301 285 290 274 q 328 296 313 296 l 328 296 l 582 296 q 608 285 597 296 q 619 258 619 274 l 619 258 l 619 38 q 608 11 619 22 q 582 0 597 0 l 582 0 z "},"ג":{"ha":714,"x_min":63,"x_max":689,"o":"m 649 0 l 400 0 q 374 11 385 0 q 363 38 363 22 l 363 38 l 279 446 q 261 507 272 485 q 231 540 250 529 q 176 550 211 550 l 176 550 l 129 550 q 103 561 114 550 q 92 588 92 572 l 92 588 l 92 769 q 103 796 92 785 q 129 807 114 807 l 129 807 l 183 807 q 402 773 319 807 q 531 661 485 739 q 603 454 578 583 l 603 454 l 686 38 q 676 11 689 22 q 649 0 664 0 l 649 0 z m 294 68 l 294 68 q 191 17 238 36 q 96 -11 144 -1 l 96 -11 q 72 -8 82 -12 q 63 10 63 -4 l 63 10 l 63 217 q 92 251 63 240 l 92 251 q 130 263 101 256 q 191 280 158 271 q 244 297 224 289 l 244 297 q 298 326 274 308 q 342 370 322 344 q 379 431 363 396 l 379 431 l 460 417 q 431 248 450 315 q 379 138 413 181 q 294 68 346 96 z "},"ה":{"ha":928,"x_min":65,"x_max":871,"o":"m 833 0 l 599 0 q 572 10 583 0 q 561 36 561 21 l 561 36 l 561 446 q 535 524 561 499 q 458 550 510 550 l 458 550 l 103 550 q 76 561 88 550 q 65 588 65 572 l 65 588 l 65 756 q 76 782 65 771 q 103 793 88 793 l 103 793 l 465 793 q 765 713 658 793 q 871 440 871 632 l 871 440 l 871 38 q 860 11 871 22 q 833 0 849 0 l 833 0 z m 338 0 l 103 0 q 76 11 88 0 q 65 38 65 22 l 65 38 l 65 401 q 76 428 65 417 q 103 439 88 439 l 103 439 l 338 439 q 364 428 353 439 q 375 401 375 417 l 375 401 l 375 38 q 364 11 375 22 q 338 0 353 0 l 338 0 z "},"מ":{"ha":1000,"x_min":38,"x_max":943,"o":"m 550 538 l 550 538 l 89 536 q 63 547 74 536 q 51 574 51 558 l 51 574 l 51 756 q 63 782 51 771 q 89 793 74 793 l 89 793 l 600 793 q 775 760 697 793 q 898 653 853 728 q 943 454 943 579 l 943 454 l 943 38 q 932 11 943 22 q 906 0 921 0 l 906 0 l 514 0 q 488 11 499 0 q 476 38 476 22 l 476 38 l 476 206 q 488 232 476 221 q 514 243 499 243 l 514 243 l 633 243 l 633 440 q 623 497 633 475 q 594 528 613 518 q 550 538 575 538 z m 306 0 l 79 0 q 51 11 64 0 q 42 38 38 22 l 42 38 l 213 603 q 226 629 217 618 q 250 640 235 640 l 250 640 l 446 640 q 474 626 461 640 q 483 596 488 611 l 483 596 l 343 38 q 332 11 343 22 q 306 0 321 0 l 306 0 z "},"ע":{"ha":938,"x_min":40,"x_max":881,"o":"m 469 -18 l 78 -79 q 51 -69 63 -81 q 40 -42 40 -57 l 40 -42 l 40 131 q 52 156 40 146 q 78 168 64 165 l 78 168 l 393 226 q 506 262 468 240 q 558 321 544 283 q 571 417 571 358 l 571 417 l 571 757 q 582 783 571 772 q 608 793 593 793 l 608 793 l 843 793 q 869 782 858 793 q 881 756 881 771 l 881 756 l 881 326 q 833 156 881 226 q 693 42 785 85 q 469 -18 601 -1 l 469 -18 z m 529 65 l 256 33 l 60 738 q 55 754 57 749 q 53 765 53 760 l 53 765 q 61 785 53 776 q 81 793 69 793 l 81 793 l 340 793 q 372 772 367 793 l 372 772 l 529 65 z "},"ר":{"ha":781,"x_min":42,"x_max":724,"o":"m 686 0 l 451 0 q 425 10 436 0 q 414 36 414 21 l 414 36 l 414 446 q 388 524 414 499 q 311 550 363 550 l 311 550 l 79 550 q 53 561 64 550 q 42 588 42 572 l 42 588 l 42 756 q 53 782 42 771 q 79 793 64 793 l 79 793 l 319 793 q 539 763 449 793 q 676 660 629 733 q 724 454 724 586 l 724 454 l 724 38 q 713 11 724 22 q 686 0 701 0 l 686 0 z "}},"familyName":"Rubik Black","ascender":1299,"descender":-347,"underlinePosition":-75,"underlineThickness":50,"boundingBox":{"xMin":-220,"xMax":1748,"yMin":-532,"yMax":1119},"resolution":1000,"original_font_information":{"256":{"en":"Weight"},"263":{"en":"Black"},"264":{"en":"Italic"},"265":{"en":"Roman"},"copyright":{"en":"Copyright 2015 The Rubik Project Authors (https://github.com/googlefonts/rubik)"},"fontFamily":{"en":"Rubik Black"},"fontSubfamily":{"en":"Regular"},"uniqueID":{"en":"2.300;NONE;Rubik-Black"},"fullName":{"en":"Rubik Black"},"version":{"en":"Version 2.300;gftools[0.9.30]"},"postScriptName":{"en":"Rubik-Black"},"licenseURL":{"en":"https://scripts.sil.org/OFL"},"preferredFamily":{"en":"Rubik"},"preferredSubfamily":{"en":"Black"}}}</script>
+    <script type="module">
+      import * as THREE from "three";
+      import { Font } from "three/addons/loaders/FontLoader.js";
+      import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      const W = 1080, H = 1920;
+      const PAPER = 0xf8f6f3, INK = 0x141414, GREEN = 0x5cff2b;
+      const font = new Font(JSON.parse(document.getElementById("fontjson").textContent));
+
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const E = {
+        lin: (x) => x,
+        outCubic: (x) => 1 - Math.pow(1 - x, 3),
+        inCubic: (x) => x * x * x,
+        inOutCubic: (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2),
+        inOutSine: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
+        outExpo: (x) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x)),
+        inQuad: (x) => x * x,
+        outBack: (x) => { const c1 = 2.4, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+      };
+      let seed = 2026;
+      const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      // ---------- renderer ----------
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+      renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = 1.0;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(PAPER);
+      scene.fog = new THREE.Fog(PAPER, 140, 430);
+      const camera = new THREE.PerspectiveCamera(42, W / H, 0.5, 1500);
+
+      scene.add(new THREE.HemisphereLight(0xffffff, 0xdcd4c6, 1.7));
+      const sun = new THREE.DirectionalLight(0xffffff, 2.4);
+      sun.position.set(-38, 80, 46); sun.target.position.set(0, 0, 0);
+      sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096);
+      Object.assign(sun.shadow.camera, { left: -70, right: 70, top: 70, bottom: -70, near: 1, far: 260 });
+      sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.02;
+      scene.add(sun, sun.target);
+
+      // ---------- the graph-paper floor (the site's lab grid) ----------
+      const gridTex = (() => {
+        const c = document.createElement("canvas"); c.width = c.height = 1024; const g = c.getContext("2d");
+        g.fillStyle = "#f8f6f3"; g.fillRect(0, 0, 1024, 1024);
+        g.fillStyle = "rgba(17,17,17,0.13)";
+        for (let i = 0; i < 8; i++) { g.fillRect(i * 128, 0, 5, 1024); g.fillRect(0, i * 128, 1024, 5); }
+        const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(125, 125);
+        t.anisotropy = renderer.capabilities.getMaxAnisotropy(); t.colorSpace = THREE.SRGBColorSpace; return t;
+      })();
+      const floor = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshStandardMaterial({ map: gridTex, roughness: 0.92, metalness: 0 }));
+      floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+
+      // ---------- extruded Rubik 900 (the site's headline face) ----------
+      const matInk = [new THREE.MeshStandardMaterial({ color: 0x1b1b1b, roughness: 0.3, metalness: 0.05 }), new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.42 })];
+      const matGreen = [new THREE.MeshStandardMaterial({ color: GREEN, emissive: 0x2a8a0c, emissiveIntensity: 0.35, roughness: 0.32 }), new THREE.MeshStandardMaterial({ color: 0x1f7d08, roughness: 0.4 })];
+      const res = font.data.resolution;
+      function makeWord(text, size, depth, matFor) {
+        const g = new THREE.Group(); const glyphs = []; let x = 0;
+        [...text].reverse().forEach((ch) => { // Hebrew: reverse logical order into left-to-right visual order
+          const gd = font.data.glyphs[ch]; const adv = ((gd ? gd.ha : res * 0.28) / res) * size;
+          if (ch !== " " && gd) {
+            const geo = new TextGeometry(ch, { font, size, depth, curveSegments: 10, bevelEnabled: true, bevelThickness: size * 0.04, bevelSize: size * 0.025, bevelSegments: 4 });
+            geo.computeBoundingBox(); const cx = (geo.boundingBox.min.x + geo.boundingBox.max.x) / 2;
+            geo.translate(-cx, 0, -depth / 2);
+            const m = new THREE.Mesh(geo, matFor(ch)); m.castShadow = true; m.receiveShadow = true;
+            const h = new THREE.Group(); h.add(m); h.userData = { x: x + cx, ch }; glyphs.push(h); g.add(h);
+          }
+          x += adv * 1.0;
+        });
+        glyphs.forEach((h) => { h.position.x = h.userData.x - x / 2; h.userData.x = h.position.x; });
+        g.userData = { glyphs, width: x }; return g;
+      }
+      const isPunct = (ch) => ch === "?" || ch === "!";
+      // two rows so the vertical frame holds them: big "מה" behind, green "?!?!" in front
+      const MA = makeWord("מה", 14, 5.5, () => matInk); MA.position.set(0, 0, -4); scene.add(MA);
+      const PU = makeWord("?!?!", 8, 3.6, () => matGreen); PU.position.set(0, 0, 8); scene.add(PU);
+      const letters = MA.userData.glyphs;
+      const puncts = PU.userData.glyphs.slice().reverse(); // pop right-to-left: ? ! ? !
+
+      // three "רגע." stamps, one per freeze shot
+      const R = [0, 1, 2].map(() => { const w = makeWord("רגע.", 7.5, 3, () => matGreen); scene.add(w); return w; });
+
+      // ---------- confetti: green / ink / white chips with shadows ----------
+      const NC = 320;
+      const chip = new THREE.BoxGeometry(1.1, 1.1, 0.14);
+      const confetti = new THREE.InstancedMesh(chip, new THREE.MeshStandardMaterial({ roughness: 0.5 }), NC);
+      confetti.castShadow = true; confetti.receiveShadow = true;
+      const C0 = [];
+      const cols = [new THREE.Color(GREEN), new THREE.Color(GREEN), new THREE.Color(INK), new THREE.Color(0xffffff)];
+      for (let i = 0; i < NC; i++) {
+        const a = rnd() * Math.PI * 2, sp = 18 + rnd() * 38, up = 22 + rnd() * 34;
+        C0.push({ vx: Math.cos(a) * sp, vz: Math.sin(a) * sp * 0.8, vy: up, ox: (rnd() - 0.5) * 30, rx: rnd() * 9 - 4.5, ry: rnd() * 9 - 4.5, rz: rnd() * 9 - 4.5 });
+        confetti.setColorAt(i, cols[i % 4]);
+      }
+      scene.add(confetti);
+      const dummy = new THREE.Object3D();
+
+      // ---------- post: chroma kick + grain ----------
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 }));
+      composer.setPixelRatio(1); composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      composer.addPass(new OutputPass());
+      const fx = new ShaderPass({
+        uniforms: { tDiffuse: { value: null }, amount: { value: 0 }, time: { value: 0 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float amount; uniform float time; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time * 61.7) * 43758.5453); }
+          void main(){ vec2 d = (vUv - 0.5) * amount;
+            vec3 c = vec3(texture2D(tDiffuse, vUv + d).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - d).b);
+            c *= mix(0.86, 1.0, smoothstep(1.0, 0.4, length((vUv - 0.5) * vec2(0.9, 1.0))));
+            c += (hash(floor(vUv * vec2(1080.0, 1920.0))) - 0.5) * 0.035;
+            gl_FragColor = vec4(c, 1.0); }`,
+      });
+      composer.addPass(fx);
+
+      // ---------- shots ----------
+      const T_IMP = 0.3, F1 = 1.38, F2 = 2.08, F3 = 2.82, UNF = 3.1;
+      // simulation clock: runs, freezes on the first "רגע", resumes after the third
+      const sim = (t) => (t < F1 ? t : t < UNF ? F1 : t - (UNF - F1));
+      const v3 = (x, y, z) => new THREE.Vector3(x, y, z);
+      const SHOTS = [
+        { a: 0, b: 0.62, p0: v3(0, 50, 92), p1: v3(0, 44, 84), l0: v3(0, 10, 0), l1: v3(0, 10, 0), e: E.outCubic },
+        { a: 0.62, b: F1, p0: v3(0, 44, 84), p1: v3(-38, 13, 66), l0: v3(0, 10, 0), l1: v3(2, 8, 0), e: E.inOutCubic },
+        { a: F1, b: F2, p0: v3(44, 5, 50), p1: v3(40, 6.5, 55), l0: v3(-2, 7, 0), l1: v3(-2, 7, 0), e: E.inOutSine, stamp: 0 },
+        { a: F2, b: F3, p0: v3(-6, 76, 40), p1: v3(-2, 80, 44), l0: v3(0, 0, 3), l1: v3(0, 0, 3), e: E.inOutSine, stamp: 1 },
+        { a: F3, b: UNF, p0: v3(22, 14, 36), p1: v3(19, 14.5, 39), l0: v3(-2, 7, -2), l1: v3(-2, 7, -2), e: E.inOutSine, stamp: 2 },
+        { a: UNF, b: 3.6, p0: v3(19, 14.5, 39), p1: v3(6, 120, 70), l0: v3(-2, 7, -2), l1: v3(0, 150, -160), e: E.inCubic },
+      ];
+      const camPos = new THREE.Vector3(), camLook = new THREE.Vector3(), fwd = new THREE.Vector3();
+      // place each stamp in front of its shot's camera, facing it
+      SHOTS.forEach((s) => {
+        if (s.stamp === undefined) return;
+        const w = R[s.stamp]; const dir = s.l0.clone().sub(s.p0).normalize();
+        // sized so the stamp spans ~70% of the frame width at its distance
+        const D = [20, 26, 16][s.stamp]; const fit = (0.7 * 0.432 * D) / R[s.stamp].userData.width;
+        w.position.copy(s.p0).addScaledVector(dir, D);
+        w.lookAt(s.p0); w.userData.base = w.quaternion.clone();
+        const up = new THREE.Vector3(0, 1, 0).applyQuaternion(w.quaternion); const sideDrop = [-0.26, 0.2, 0.22][s.stamp] * 0.432 * D * 1.77;
+        w.position.addScaledVector(up, sideDrop - 0.35 * fit * 7.5);
+        w.scale.setScalar(fit); w.userData.s = fit;
+      });
+
+      const flash = document.getElementById("flash"), pause = document.getElementById("pause"), label = document.getElementById("label");
+      function renderAt(t) {
+        const st = sim(t);
+        // falling letters
+        letters.forEach((g, i) => {
+          const s = 0.06 + i * 0.03, e = T_IMP - 0.02 + i * 0.02; const k = seg(st, s, e);
+          g.visible = st >= s; g.position.y = lerp(95, 0, E.inQuad(k));
+          g.rotation.z = lerp(i ? 0.6 : -0.5, 0, E.inQuad(k));
+          const sq = st > e ? 1 - 0.2 * Math.exp(-(st - e) * 13) * Math.cos((st - e) * 34) : 1;
+          g.scale.set(2 - sq, sq, 1); // squash-stretch on landing
+        });
+        // punctuation pops up out of the paper
+        puncts.forEach((g, i) => {
+          const s = 0.38 + i * 0.08; const k = seg(st, s, s + 0.3);
+          g.visible = st >= s; const sc = E.outBack(k); g.scale.setScalar(Math.max(0.001, sc));
+          g.position.y = Math.sin(Math.PI * clamp(k * 1.4)) * 7;
+          g.rotation.y = (1 - E.outCubic(k)) * 3.2;
+        });
+        // confetti from the impact point, frozen with the sim clock
+        const ct = st - T_IMP;
+        confetti.visible = ct > 0;
+        for (let i = 0; i < NC; i++) {
+          const c = C0[i]; const dt = Math.max(0, ct); const drag = (1 - Math.exp(-dt * 1.6)) / 1.6;
+          let y = 2 + c.vy * drag - 30 * dt * dt; const landed = y < 0.08; if (landed) y = 0.08;
+          dummy.position.set(c.ox + c.vx * drag, y, 1 + c.vz * drag);
+          dummy.rotation.set(landed ? -Math.PI / 2 : c.rx * dt, landed ? 0 : c.ry * dt, c.rz * dt);
+          dummy.scale.setScalar(ct > 0 ? 1 : 0.001); dummy.updateMatrix(); confetti.setMatrixAt(i, dummy.matrix);
+        }
+        confetti.instanceMatrix.needsUpdate = true;
+
+        // stamps: each "רגע." slams in on its cut and stays only in its own shot
+        R.forEach((w, i) => {
+          const s = SHOTS.find((x) => x.stamp === i); const on = t >= s.a && t < s.b + (i === 2 ? 0.25 : 0);
+          w.visible = on; if (!on) return;
+          const k = seg(t, s.a, s.a + 0.16); w.scale.setScalar(w.userData.s * lerp(2.2, 1, E.outExpo(k)));
+          w.quaternion.copy(w.userData.base); w.rotateZ(lerp([-0.35, 0.3, -0.12][i], [-0.06, 0.05, 0][i], E.outExpo(k)));
+        });
+
+        // camera
+        const sh = SHOTS.find((s) => t >= s.a && t < s.b) || SHOTS[SHOTS.length - 1];
+        const k = sh.e(seg(t, sh.a, sh.b));
+        camPos.lerpVectors(sh.p0, sh.p1, k); camLook.lerpVectors(sh.l0, sh.l1, k);
+        let shake = Math.exp(-Math.max(0, t - T_IMP) * 9) * (t > T_IMP ? 1 : 0);
+        [F1, F2, F3].forEach((f) => { if (t >= f) shake += 0.8 * Math.exp(-(t - f) * 14); });
+        camera.position.set(camPos.x + Math.sin(t * 93) * shake * 0.9, camPos.y + Math.cos(t * 81) * shake * 0.9, camPos.z);
+        camera.lookAt(camLook);
+        camera.rotation.z += Math.sin(t * 1.4) * 0.01 + Math.sin(t * 70) * shake * 0.015;
+        camera.updateProjectionMatrix();
+
+        const whip = Math.pow(seg(t, UNF, 3.6), 2);
+        canvas.style.filter = `blur(${(whip * 9).toFixed(2)}px)`;
+        let ch = 0; [F1, F2, F3].forEach((f) => { if (t >= f) ch += Math.exp(-(t - f) * 16); });
+        fx.uniforms.amount.value = 0.002 + ch * 0.02 + 0.02 * Math.exp(-Math.max(0, t - T_IMP) * 10) * (t > T_IMP ? 1 : 0) + whip * 0.02;
+        fx.uniforms.time.value = Math.floor(t * 60) / 60;
+        let fl = 0; [F1, F2, F3].forEach((f) => { if (t >= f) fl += 0.6 * Math.exp(-(t - f) * 22); });
+        flash.style.opacity = fl.toFixed(3);
+        pause.style.opacity = t >= F1 && t < UNF ? "1" : "0";
+        pause.style.transform = `scale(${t >= F1 && t < UNF ? (1 + 0.18 * Math.exp(-(t - [F1, F2, F3].filter((f) => t >= f).pop()) * 12)).toFixed(3) : 1})`;
+        label.style.opacity = t < UNF ? "1" : (1 - seg(t, UNF, 3.3)).toFixed(3);
+        composer.render();
+      }
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      renderAt(window.__hfThreeTime || 0);
+    </script>
+  </body>
+</html>
