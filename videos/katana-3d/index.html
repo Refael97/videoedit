@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: block; }
+      #flash { position: absolute; inset: 0; background: #ff2a3a; opacity: 0; pointer-events: none; mix-blend-mode: screen; }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./assets/vendor/three/three.module.js",
+          "three/addons/": "./assets/vendor/three/addons/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3" data-width="1080" data-height="1920" data-no-timeline>
+      <canvas id="gl" width="1080" height="1920"></canvas>
+      <div id="flash"></div>
+      <audio id="vo" src="assets/vo.mp3" data-start="0" data-duration="2.58" data-track-index="10"></audio>
+      <audio id="music" src="assets/music.mp3" data-start="0" data-duration="3" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="x1" src="assets/impact.wav" data-start="0.31" data-duration="0.9" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="x2" src="assets/whoosh.wav" data-start="0.9" data-duration="0.7" data-track-index="13" data-volume="0.55"></audio>
+      <audio id="x3" src="assets/impact.wav" data-start="1.43" data-duration="0.9" data-track-index="14" data-volume="0.7"></audio>
+      <audio id="x4" src="assets/whoosh.wav" data-start="2.42" data-duration="0.58" data-track-index="13" data-volume="0.6"></audio>
+    </div>
+
+    <script type="application/json" id="fontjson">{"glyphs":{" ":{"ha":347,"x_min":null,"x_max":null,"o":""},"!":{"ha":393,"x_min":67,"x_max":336,"o":"m 302 321 l 105 321 l 73 987 l 334 987 l 302 321 z m 201 -14 l 201 -14 q 104 23 142 -14 q 67 113 67 60 l 67 113 q 104 203 67 168 q 201 239 142 239 l 201 239 q 299 203 262 239 q 336 113 336 168 l 336 113 q 299 23 336 60 q 201 -14 262 -14 z "},".":{"ha":430,"x_min":77,"x_max":345,"o":"m 211 -7 l 211 -7 q 115 29 152 -7 q 77 119 77 65 l 77 119 q 115 208 77 172 q 211 244 152 244 l 211 244 q 308 208 271 244 q 345 119 345 172 l 345 119 q 308 29 345 65 q 211 -7 271 -7 z "},"?":{"ha":716,"x_min":18,"x_max":670,"o":"m 437 321 l 231 321 q 239 427 231 380 q 268 511 248 474 q 325 577 289 549 l 325 577 q 378 625 356 602 q 412 671 400 648 q 425 718 425 694 l 425 718 q 405 785 425 764 q 346 805 385 805 l 346 805 q 290 782 315 805 q 263 705 264 759 l 263 705 l 18 705 q 63 876 19 811 q 180 971 106 941 q 346 1001 254 1001 l 346 1001 q 584 933 497 1001 q 670 730 670 865 l 670 730 q 648 630 670 671 q 588 553 625 589 q 506 475 551 517 l 506 475 q 453 408 467 441 q 437 321 439 375 l 437 321 z m 336 -8 l 336 -8 q 239 28 276 -8 q 201 118 201 64 l 201 118 q 239 208 201 172 q 336 244 276 244 l 336 244 q 433 208 396 244 q 470 118 470 172 l 470 118 q 433 28 470 64 q 336 -8 396 -8 z "},"א":{"ha":956,"x_min":59,"x_max":912,"o":"m 901 0 l 616 0 l 59 821 l 345 821 l 901 0 z m 342 0 l 94 0 l 94 259 q 138 463 94 391 q 286 570 182 534 l 286 570 l 374 443 q 342 374 342 413 l 342 374 l 342 0 z m 625 821 l 912 821 l 648 291 l 482 495 l 625 821 z "},"ה":{"ha":892,"x_min":92,"x_max":808,"o":"m 808 0 l 551 0 l 551 537 q 527 600 551 578 q 456 623 502 623 l 456 623 l 97 623 l 97 821 l 475 821 q 720 742 631 821 q 808 524 808 663 l 808 524 l 808 0 z m 340 0 l 92 0 l 92 282 q 114 413 92 373 q 148 460 136 452 l 148 460 l 351 460 q 343 398 347 435 q 340 312 340 361 l 340 312 l 340 0 z "},"ו":{"ha":465,"x_min":43,"x_max":361,"o":"m 361 0 l 104 0 l 104 623 l 43 623 l 43 821 l 361 821 l 361 0 z "},"י":{"ha":507,"x_min":33,"x_max":408,"o":"m 408 347 l 151 347 l 151 623 l 33 623 l 33 821 l 408 821 l 408 347 z "},"כ":{"ha":778,"x_min":37,"x_max":673,"o":"m 280 -14 l 280 -14 q 164 -6 224 -14 q 37 16 103 2 l 37 16 l 76 201 q 241 182 176 182 l 241 182 q 376 220 336 182 q 416 334 416 258 l 416 334 l 416 623 l 71 623 l 71 821 l 673 821 l 673 376 q 624 150 673 236 q 487 26 575 64 q 280 -14 399 -13 z "},"ל":{"ha":777,"x_min":38,"x_max":732,"o":"m 645 623 l 38 623 l 38 1042 l 295 1042 l 295 821 l 645 821 l 645 623 z m 732 821 l 732 656 l 474 0 l 203 0 l 538 821 l 732 821 z "},"מ":{"ha":945,"x_min":62,"x_max":861,"o":"m 353 0 l 100 0 l 148 432 q 173 536 154 486 q 218 616 193 587 l 218 616 q 222 620 220 617 q 225 623 224 622 l 225 623 l 225 626 q 167 612 200 623 q 115 594 134 602 l 115 594 l 62 778 q 181 812 115 798 q 320 836 248 827 q 459 844 392 844 l 459 844 q 759 745 656 844 q 861 453 861 646 l 861 453 l 861 0 l 492 0 l 492 198 l 604 198 l 604 488 q 579 596 604 557 q 510 636 554 636 l 510 636 q 430 594 456 636 q 396 467 404 551 l 396 467 l 353 0 z "},"ק":{"ha":930,"x_min":106,"x_max":825,"o":"m 414 0 l 414 0 l 414 193 q 529 240 490 197 q 568 372 568 283 l 568 372 l 568 623 l 106 623 l 106 821 l 825 821 l 825 376 q 777 175 825 257 q 636 49 728 93 q 414 0 544 5 z m 355 -282 l 109 -282 l 109 277 q 130 408 109 368 q 163 455 152 448 l 163 455 l 367 455 q 359 394 362 431 q 355 307 355 357 l 355 307 l 355 -282 z "},"ת":{"ha":912,"x_min":7,"x_max":829,"o":"m 66 821 l 500 821 q 745 742 661 821 q 829 511 829 663 l 829 511 l 829 0 l 573 0 l 571 534 q 553 600 571 576 q 501 623 534 623 l 501 623 l 400 623 q 394 546 395 584 q 392 479 392 507 l 392 479 l 392 264 q 320 59 392 133 q 123 -14 248 -14 l 123 -14 q 64 -12 90 -14 q 7 -4 37 -9 l 7 -4 l 7 192 q 28 192 18 192 q 51 191 39 191 l 51 191 q 117 214 93 191 q 142 284 142 237 l 142 284 l 142 454 q 151 534 142 486 q 181 623 159 583 l 181 623 l 66 623 l 66 821 z "}},"familyName":"Heebo Black","ascender":1455,"descender":-585,"underlinePosition":-150,"underlineThickness":100,"boundingBox":{"xMin":-1072,"xMax":1946,"yMin":-862,"yMax":1990},"resolution":1000,"original_font_information":{"258":{"en":"Weight"},"267":{"en":"Black"},"copyright":{"en":"Copyright 2014 The Heebo Project Authors (https://github.com/OdedEzer/heebo)"},"fontFamily":{"en":"Heebo Black"},"fontSubfamily":{"en":"Regular"},"uniqueID":{"en":"3.100;NONE;Heebo-Black"},"fullName":{"en":"Heebo Black"},"version":{"en":"Version 3.100"},"postScriptName":{"en":"Heebo-Black"},"licenseURL":{"en":"https://scripts.sil.org/OFL"},"preferredFamily":{"en":"Heebo"},"preferredSubfamily":{"en":"Black"}}}</script>
+    <script type="module">
+      import * as THREE from "three";
+      import { Font } from "three/addons/loaders/FontLoader.js";
+      import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      const W = 1080, H = 1920;
+      const font = new Font(JSON.parse(document.getElementById("fontjson").textContent));
+
+      // ---------- easing / time helpers (everything is a pure function of t) ----------
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const E = {
+        lin: (x) => x,
+        outCubic: (x) => 1 - Math.pow(1 - x, 3),
+        inOutCubic: (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2),
+        inOutSine: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
+        outSine: (x) => Math.sin((x * Math.PI) / 2),
+        outExpo: (x) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x)),
+        inExpo: (x) => (x === 0 ? 0 : Math.pow(2, 10 * x - 10)),
+        inQuart: (x) => x * x * x * x,
+        outBack: (x) => { const c1 = 2.2, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+        outElastic: (x) => (x === 0 ? 0 : x === 1 ? 1 : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * ((2 * Math.PI) / 3)) + 1),
+      };
+      let seed = 1337;
+      const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      // ---------- renderer / scene ----------
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+      renderer.setPixelRatio(1);
+      renderer.setSize(W, H, false);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.05;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x020001);
+      scene.fog = new THREE.FogExp2(0x030001, 0.0052);
+      const camera = new THREE.PerspectiveCamera(46, W / H, 0.1, 1200);
+
+      // lights: dim red bounce, a white key from above, red rims behind the type, a sweeping spot
+      const hemi = new THREE.HemisphereLight(0xff6670, 0x120004, 0.22);
+      scene.add(hemi);
+      const key = new THREE.DirectionalLight(0xffffff, 2.6);
+      key.position.set(-40, 90, 110);
+      scene.add(key);
+      const rimA = new THREE.PointLight(0xff1a2e, 900, 160, 1.6); rimA.position.set(0, 26, -20); scene.add(rimA);
+      const rimB = new THREE.PointLight(0xff1a2e, 700, 140, 1.6); rimB.position.set(0, -6, -8); scene.add(rimB);
+      const sweep = new THREE.PointLight(0xfff1e8, 0, 90, 1.4); scene.add(sweep);
+      const hit = new THREE.PointLight(0xff3344, 0, 120, 1.2); scene.add(hit);
+
+      // far red glow behind everything
+      const glowTex = (() => {
+        const c = document.createElement("canvas"); c.width = c.height = 512;
+        const g = c.getContext("2d"); const gr = g.createRadialGradient(256, 256, 0, 256, 256, 256);
+        gr.addColorStop(0, "rgba(255,40,60,0.95)"); gr.addColorStop(0.35, "rgba(170,10,30,0.45)"); gr.addColorStop(1, "rgba(0,0,0,0)");
+        g.fillStyle = gr; g.fillRect(0, 0, 512, 512); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+      })();
+      const glow = new THREE.Mesh(new THREE.PlaneGeometry(700, 520), new THREE.MeshBasicMaterial({ map: glowTex, transparent: true, depthWrite: false, fog: false, blending: THREE.AdditiveBlending, opacity: 0.22 }));
+      glow.position.set(0, 40, -320);
+      scene.add(glow);
+
+      // floor: glossy black + a red grid that dies into the fog
+      const FLOOR = -24;
+      const floor = new THREE.Mesh(new THREE.PlaneGeometry(1200, 1200), new THREE.MeshStandardMaterial({ color: 0x050101, roughness: 0.42, metalness: 0.6 }));
+      floor.rotation.x = -Math.PI / 2; floor.position.y = FLOOR;
+      const grid = new THREE.GridHelper(900, 150, 0xff2a3a, 0x5a0710);
+      grid.position.y = FLOOR + 0.02; grid.material.transparent = true; grid.material.opacity = 0.2;
+
+      // ---------- extruded Hebrew type, one mesh per glyph ----------
+      const matRed = [
+        new THREE.MeshStandardMaterial({ color: 0xff2a3a, emissive: 0x6a0010, emissiveIntensity: 1, roughness: 0.32, metalness: 0.25 }),
+        new THREE.MeshStandardMaterial({ color: 0x5c0610, emissive: 0x1a0003, roughness: 0.22, metalness: 0.75 }),
+      ];
+      const matHot = [
+        new THREE.MeshStandardMaterial({ color: 0xe9e3df, emissive: 0x3a1414, emissiveIntensity: 1, roughness: 0.25, metalness: 0.1 }),
+        new THREE.MeshStandardMaterial({ color: 0xff2a3a, emissive: 0x3a0008, roughness: 0.25, metalness: 0.6 }),
+      ];
+      const matWhite = [
+        new THREE.MeshStandardMaterial({ color: 0xe6e1dc, emissive: 0x1c0a0a, roughness: 0.3, metalness: 0.1 }),
+        new THREE.MeshStandardMaterial({ color: 0x8a0a18, emissive: 0x200004, roughness: 0.25, metalness: 0.7 }),
+      ];
+      const res = font.data.resolution;
+      // Hebrew is laid out right-to-left: reverse the logical string to get left-to-right visual order
+      function makeWord(text, size, depth, mats) {
+        const g = new THREE.Group(); const glyphs = []; let x = 0;
+        const vis = [...text].reverse();
+        vis.forEach((ch) => {
+          const gd = font.data.glyphs[ch]; const adv = ((gd ? gd.ha : res * 0.3) / res) * size;
+          if (ch !== " " && gd) {
+            const geo = new TextGeometry(ch, { font, size, depth, curveSegments: 10, bevelEnabled: true, bevelThickness: size * 0.035, bevelSize: size * 0.022, bevelSegments: 4 });
+            geo.computeBoundingBox();
+            const cx = (geo.boundingBox.min.x + geo.boundingBox.max.x) / 2;
+            geo.translate(-cx, -size * 0.36, -depth / 2);
+            const m = new THREE.Mesh(geo, mats);
+            const holder = new THREE.Group(); holder.add(m);
+            holder.userData = { x: x + cx, ch };
+            glyphs.push(holder); g.add(holder);
+          }
+          x += adv * 1.02;
+        });
+        glyphs.forEach((h) => { h.position.x = h.userData.x - x / 2; h.userData.x = h.position.x; });
+        g.userData = { glyphs, width: x };
+        return g;
+      }
+
+      const A = makeWord("מה?!", 13, 5, matRed);       A.position.set(0, 20, 0);   scene.add(A);
+      const B = makeWord("לא יכול", 7.2, 3.2, matWhite); B.position.set(0, 0, 10); scene.add(B);
+      const C = makeWord("להיות!", 8.8, 3.6, matHot);   C.position.set(0, -12.5, 10); scene.add(C);
+      const excl = C.userData.glyphs[0]; // "!" is the left-most glyph of להיות!
+
+      // ---------- embers drifting in depth ----------
+      const N_EMB = 2600;
+      const embGeo = new THREE.BufferGeometry();
+      const emb0 = new Float32Array(N_EMB * 3), embPos = new Float32Array(N_EMB * 3), embPh = new Float32Array(N_EMB);
+      for (let i = 0; i < N_EMB; i++) {
+        emb0[i * 3] = -110 + rnd() * 260; emb0[i * 3 + 1] = FLOOR + rnd() * 90; emb0[i * 3 + 2] = -220 + rnd() * 340; embPh[i] = rnd() * 6.28;
+      }
+      embGeo.setAttribute("position", new THREE.BufferAttribute(embPos, 3));
+      const dotTex = (() => {
+        const c = document.createElement("canvas"); c.width = c.height = 64; const g = c.getContext("2d");
+        const gr = g.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(0.3, "rgba(255,190,170,0.8)"); gr.addColorStop(1, "rgba(255,40,40,0)");
+        g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c);
+      })();
+      const embers = new THREE.Points(embGeo, new THREE.PointsMaterial({ color: 0xff6a4a, size: 0.55, map: dotTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true }));
+      scene.add(embers);
+
+      // ---------- impacts: spark bursts + floor shockwaves ----------
+      const IMPACTS = [
+        { t: 0.33, o: new THREE.Vector3(0, 20, 2), n: 900, sp: 60, ring: new THREE.Vector3(0, 20, -3) },
+        { t: 1.45, o: new THREE.Vector3(0, -12.5, 12), n: 700, sp: 50, ring: new THREE.Vector3(0, -8, 7) },
+      ];
+      IMPACTS.forEach((im) => {
+        const geo = new THREE.BufferGeometry(); const p = new Float32Array(im.n * 3); im.v = new Float32Array(im.n * 3);
+        for (let i = 0; i < im.n; i++) {
+          const th = rnd() * Math.PI * 2, ph = Math.acos(2 * rnd() - 1), s = im.sp * (0.25 + rnd() * 0.75);
+          im.v[i * 3] = Math.sin(ph) * Math.cos(th) * s; im.v[i * 3 + 1] = Math.abs(Math.cos(ph)) * s * 0.8 + 6; im.v[i * 3 + 2] = Math.sin(ph) * Math.sin(th) * s;
+        }
+        geo.setAttribute("position", new THREE.BufferAttribute(p, 3)); im.geo = geo; im.pos = p;
+        im.pts = new THREE.Points(geo, new THREE.PointsMaterial({ color: 0xffc2a8, size: 0.7, map: dotTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+        scene.add(im.pts);
+        im.ringM = new THREE.Mesh(new THREE.RingGeometry(0.92, 1, 128), new THREE.MeshBasicMaterial({ color: 0xff3a48, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }));
+        im.ringM.position.copy(im.ring); scene.add(im.ringM);
+      });
+
+      // ---------- post: bloom, then chroma split + grain + vignette ----------
+      const rt = new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 });
+      const composer = new EffectComposer(renderer, rt);
+      composer.setPixelRatio(1); composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.45, 0.5, 0.84);
+      composer.addPass(bloom);
+      composer.addPass(new OutputPass());
+      const fx = new ShaderPass({
+        uniforms: { tDiffuse: { value: null }, amount: { value: 0.004 }, time: { value: 0 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float amount; uniform float time; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time * 61.7) * 43758.5453); }
+          void main(){
+            vec2 d = (vUv - 0.5) * amount;
+            vec3 c = vec3(texture2D(tDiffuse, vUv + d).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - d).b);
+            float v = smoothstep(0.98, 0.32, length((vUv - 0.5) * vec2(0.9, 1.0)));
+            c *= mix(0.42, 1.0, v);
+            c += (hash(floor(vUv * vec2(1080.0, 1920.0))) - 0.5) * 0.07;
+            gl_FragColor = vec4(c, 1.0);
+          }`,
+      });
+      composer.addPass(fx);
+
+      // ---------- camera path (keyframes; the A orbit is cylindrical around its target) ----------
+      const v3 = (x, y, z) => new THREE.Vector3(x, y, z);
+      const exclWorld = () => { const p = new THREE.Vector3(); excl.getWorldPosition(p); return p; };
+      const EX = (() => { C.updateMatrixWorld(true); return exclWorld(); })();
+      const KF = [
+        { t: 0.0, p: v3(5, 24, 175), l: v3(0, 20, 0) },
+        { t: 0.34, p: v3(0, 21, 104), l: v3(0, 20, 0), e: E.outCubic },
+        { t: 0.93, p: null, orbit: { c: v3(0, 20, 0), r0: 104, r1: 84, a0: 0, a1: -0.5, y0: 21, y1: 29 }, l: v3(0, 20, 0), e: E.inOutSine },
+        { t: 1.07, p: v3(4, 1, 100), l: v3(0, -5, 10), e: E.inOutCubic },
+        { t: 1.46, p: v3(2, -3, 93), l: v3(0, -6, 10), e: E.outSine },
+        { t: 2.36, p: v3(-12, 23, 134), l: v3(0, 4, 4), e: E.inOutCubic },
+        { t: 2.5, p: v3(-11, 22, 130), l: v3(0, 4, 4), e: E.lin },
+        { t: 3.0, p: v3(EX.x, EX.y + 0.4, EX.z + 3.2), l: v3(EX.x, EX.y + 0.4, EX.z - 10), e: (x) => x * x * x },
+      ];
+      const camPos = new THREE.Vector3(), camLook = new THREE.Vector3();
+      function camAt(t) {
+        let i = 0; while (i < KF.length - 2 && t > KF[i + 1].t) i++;
+        const a = KF[i], b = KF[i + 1]; const k = (b.e || E.lin)(seg(t, a.t, b.t));
+        const pa = a.p || orbitPos(a.orbit, 1), pb = b.p;
+        if (b.orbit) { camPos.copy(orbitPos(b.orbit, k)); }
+        else camPos.lerpVectors(pa, pb, k);
+        camLook.lerpVectors(a.l, b.l, k);
+      }
+      function orbitPos(o, k) {
+        const r = lerp(o.r0, o.r1, k), ang = lerp(o.a0, o.a1, k);
+        return v3(o.c.x + Math.sin(ang) * r, lerp(o.y0, o.y1, k), o.c.z + Math.cos(ang) * r);
+      }
+
+      // ---------- per-frame state ----------
+      const imp = (t, ti, rate) => (t < ti ? 0 : Math.exp(-(t - ti) * rate));
+      const flash = document.getElementById("flash");
+      function renderAt(t) {
+        seed = 99; // shake noise stays deterministic per frame
+        // A: "מה?!" glyphs rocket in from deep space, squash on impact, then settle
+        A.userData.glyphs.forEach((g, i) => {
+          const s = 0.18 + i * 0.022, e = 0.31 + i * 0.008;
+          const k = seg(t, s, e);
+          g.visible = t >= s;
+          g.position.z = lerp(-520, 0, E.inQuart(k));
+          g.position.y = lerp(30 * (i % 2 ? 1 : -1), 0, E.outCubic(k));
+          g.rotation.y = lerp((i - 1.5) * 0.9, 0, E.outCubic(k));
+          const sq = t > e ? 1 - 0.38 * Math.exp(-(t - e) * 14) * Math.cos((t - e) * 38) : 1;
+          g.scale.set(1, 1, sq);
+          g.rotation.x = t > e ? 0.05 * Math.exp(-(t - e) * 6) * Math.sin((t - e) * 24 + i) : 0;
+        });
+        // B: "לא יכול" letters drop in on the whip, one by one
+        const bg = B.userData.glyphs; const nB = bg.length;
+        bg.forEach((g, i) => {
+          const j = nB - 1 - i; // right-to-left order
+          const s = 0.97 + j * 0.035; const k = seg(t, s, s + 0.26);
+          g.visible = t >= s;
+          g.position.y = lerp(34, 0, E.outBack(k));
+          g.rotation.x = lerp(-1.4, 0, E.outBack(k));
+          g.rotation.z = lerp((j % 2 ? 0.5 : -0.5), 0, E.outCubic(k));
+        });
+        // C: "להיות!" punches up from below the floor, white-hot
+        const cg = C.userData.glyphs; const nC = cg.length;
+        cg.forEach((g, i) => {
+          const j = nC - 1 - i; const s = 1.3 + j * 0.018; const k = seg(t, s, s + 0.15);
+          g.visible = t >= s;
+          g.position.y = lerp(-46, 0, E.outExpo(k));
+          g.rotation.x = lerp(1.1, 0, E.outExpo(k));
+          const e2 = s + 0.15; const sq = t > e2 ? 1 + 0.22 * Math.exp(-(t - e2) * 12) * Math.sin((t - e2) * 40) : 1;
+          g.scale.set(1, sq, 1);
+        });
+        matHot[0].emissiveIntensity = 1 + 0.8 * imp(t, 1.45, 7);
+        matRed[0].emissiveIntensity = 1 + 2 * imp(t, 0.33, 6) + 1.2 * seg(t, 2.6, 3.0);
+
+        // embers drift upward and sway
+        for (let i = 0; i < N_EMB; i++) {
+          embPos[i * 3] = emb0[i * 3] + Math.sin(t * 0.9 + embPh[i]) * 1.6;
+          embPos[i * 3 + 1] = emb0[i * 3 + 1] + ((t * 4.5 + embPh[i] * 3) % 90) - 10;
+          embPos[i * 3 + 2] = emb0[i * 3 + 2];
+        }
+        embGeo.attributes.position.needsUpdate = true;
+
+        // impacts: sparks with gravity, floor shockwave, light hit
+        let shake = 0, bloomK = 0, chroma = 0;
+        IMPACTS.forEach((im) => {
+          const dt = t - im.t; const on = dt >= 0 && dt < 1.4;
+          im.pts.visible = on; im.ringM.visible = dt >= 0 && dt < 0.6;
+          if (on) {
+            for (let i = 0; i < im.n; i++) {
+              const drag = (1 - Math.exp(-dt * 2.2)) / 2.2;
+              im.pos[i * 3] = im.o.x + im.v[i * 3] * drag;
+              im.pos[i * 3 + 1] = Math.max(FLOOR + 0.2, im.o.y + im.v[i * 3 + 1] * drag - 24 * dt * dt);
+              im.pos[i * 3 + 2] = im.o.z + im.v[i * 3 + 2] * drag;
+            }
+            im.geo.attributes.position.needsUpdate = true;
+            im.pts.material.opacity = clamp(1 - dt / 1.4) ** 1.5;
+            im.pts.material.size = 0.9 * (1 - dt / 1.6);
+          }
+          if (dt >= 0 && dt < 0.6) { const k = E.outExpo(seg(dt, 0, 0.6)); im.ringM.scale.setScalar(4 + k * (im.t > 1 ? 34 : 70)); im.ringM.material.opacity = 0.8 * (1 - seg(dt, 0, 0.6)); }
+          const p = imp(t, im.t, 9); shake += p; bloomK += imp(t, im.t, 6); chroma += imp(t, im.t, 7);
+        });
+        hit.position.set(0, t < 1.4 ? 22 : -10, t < 1.4 ? 16 : 26);
+        hit.intensity = 900 * imp(t, 0.33, 7) + 350 * imp(t, 1.45, 7);
+
+        // light sweep across the full composition during the crane-back
+        const sk = seg(t, 1.75, 2.55);
+        sweep.position.set(lerp(-45, 45, E.inOutSine(sk)), 6, 34);
+        sweep.intensity = 650 * Math.sin(Math.PI * sk);
+
+        // camera + handheld + impact shake + whip/rush motion blur
+        camAt(t);
+        const sh = shake * 1.6;
+        camera.position.set(camPos.x + Math.sin(t * 2.1) * 0.6 + Math.sin(t * 91) * sh, camPos.y + Math.sin(t * 1.7 + 1) * 0.5 + Math.cos(t * 83) * sh, camPos.z);
+        camera.lookAt(camLook);
+        camera.rotation.z += Math.sin(t * 1.3) * 0.012 + Math.sin(t * 67) * shake * 0.02;
+        camera.fov = 46 - 6 * seg(t, 2.5, 3.0) ** 2; camera.updateProjectionMatrix();
+        const whip = Math.sin(Math.PI * seg(t, 0.93, 1.07));
+        const rush = Math.pow(seg(t, 2.55, 3.0), 3);
+        canvas.style.filter = `blur(${(whip * 7 + rush * 5).toFixed(2)}px)`;
+
+        bloom.strength = 0.45 + bloomK * 0.55 + rush * 1.0;
+        bloom.radius = 0.55 + bloomK * 0.2;
+        fx.uniforms.amount.value = 0.0035 + chroma * 0.028 + whip * 0.02 + rush * 0.03;
+        fx.uniforms.time.value = Math.floor(t * 60) / 60;
+        flash.style.opacity = (0.22 * imp(t, 0.33, 16) + 0.18 * imp(t, 1.45, 16) + E.inExpo(seg(t, 2.82, 3.0)) * 0.9).toFixed(3);
+
+        composer.render();
+      }
+
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      renderAt(window.__hfThreeTime || 0);
+    </script>
+  </body>
+</html>
