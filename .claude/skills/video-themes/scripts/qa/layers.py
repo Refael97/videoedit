@@ -4,7 +4,8 @@ Anchor (one flat video): graphics motion = frame difference after removing the c
 transform from tracked corners, RANSAC) and masking out the speaker (body box from the face), averaged over the
 windows that carry graphics, minus the same residual in windows without graphics (the footage's own baseline).
 Draft (we have the layers): graphics motion = the same measurement on a render with the footage blacked out
-(`qa` renders it), masked with the speaker box found in the full draft. Same function, same constants, both sides.
+(`qa` renders it): no speaker to mask, no camera to remove, no footage residual to subtract — the layer is measured
+directly. Same detectors and constants as the anchor.
 
 Footage motion (info only): camera jitter (px/frame at 270 wide) and deliberate camera moves — punches (scale jump
 >= PUNCH within 4 frames) and drifts (steady zoom/pan >= DRIFT over >= 1 s). Camera moves count as theme actions.
@@ -92,7 +93,7 @@ def camera_moves(cam):
     return {"jitter_px": round(jitter, 2), "punches": [round(t, 2) for t in punches], "drifts": [round(t, 2) for t in drifts]}
 
 
-def graphics_motion(diff_src, mask_src=None, compensate=True):
+def graphics_motion(diff_src, mask_src=None, compensate=True, footage=True):
     """returns dict: gfx_motion, baseline, gfx_share, footage {jitter, punches, drifts}, per-window classes"""
     G = frames(diff_src)
     Fm = G if mask_src is None else frames(mask_src)
@@ -120,14 +121,21 @@ def graphics_motion(diff_src, mask_src=None, compensate=True):
     gfx_w = [bool(np.median(edg[k * FPS:(k + 1) * FPS]) >= EDGE_NOGFX) for k in range(nw)]
     win = lambda k: res[k * FPS:(k + 1) * FPS]
     usable = [np.isfinite(win(k)).mean() >= 0.5 for k in range(nw)]
+    if mask_src is not None and not any(usable):
+        # the speaker fills every frame of the draft: nothing outside it to read, so read the whole graphics layer
+        r = graphics_motion(diff_src, None, compensate, footage)
+        r["note"] = "speaker fills the frame: measured unmasked"
+        return r
     g = [np.nanmean(win(k)) for k in range(nw) if gfx_w[k] and usable[k]]
     o = [np.nanmean(win(k)) for k in range(nw) if not gfx_w[k] and usable[k]]
     # baseline = the footage's own residual (grain, compression, speaker spill, leftover camera) in windows without
     # graphics; when the video has < 3 s of such windows, the quietest 10% of windows stand in for it
     allw = [np.nanmean(win(k)) for k in range(nw) if usable[k]]
     base = float(np.mean(o)) if len(o) >= 3 else (float(np.percentile(allw, 10)) if allw else 0.0)
+    if not footage:
+        base = 0.0  # a graphics-only render has no footage, so it has no footage residual to remove
     gm = max(0.0, float(np.mean(g)) - base) if g else 0.0
-    return {"gfx_motion": round(gm, 2), "gfx_raw": round(float(np.mean(g)), 2) if g else 0.0, "baseline": round(base, 2), "baseline_s": len(o), "baseline_from": "no-graphics windows" if len(o) >= 3 else "quietest 10% of windows", "gfx_share": round(len(g) / max(1, nw), 2),
+    return {"gfx_motion": round(gm, 2), "gfx_raw": round(float(np.mean(g)), 2) if g else 0.0, "baseline": round(base, 2), "baseline_s": len(o), "baseline_from": ("no-graphics windows" if len(o) >= 3 else "quietest 10% of windows") if footage else "none (graphics-only render)", "gfx_share": round(len(g) / max(1, nw), 2),
             "footage": camera_moves(cam)}
 
 

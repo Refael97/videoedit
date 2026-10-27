@@ -174,26 +174,30 @@ const { chromium } = require("playwright");
           const isMedia = tag === "img" || tag === "canvas" || (tag === "video") || (tag === "svg" && !el.parentElement.closest("svg"));
           const isCard = bgVisible(cs) || (cs.backdropFilter && cs.backdropFilter !== "none") || (parseFloat(cs.borderTopWidth) >= 2 && cs.borderTopStyle !== "none") || cs.boxShadow !== "none";
           if (!isMedia && !isCard) continue;
+          // a ring / frame / glow with nothing inside (no fill, no text, no media) is an ink mark around a thing, not a card
+          if (!isMedia && !bgVisible(cs) && !(el.innerText || "").trim() && !el.querySelector("img,svg,canvas,video")) continue;
           if (q.width >= 0.95 * VW && q.height >= 0.25 * VH && !(el.innerText || "").trim()) continue;
           if (tag === "svg") { let x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9; el.querySelectorAll("path,circle,rect,line,polyline,polygon,ellipse,text,image").forEach((c) => { if (c.closest("defs,mask,clipPath") || opa(c) < 0.05) return; const cr = c.getBoundingClientRect(); if (cr.width < 1 && cr.height < 1) return; x1 = Math.min(x1, cr.left); y1 = Math.min(y1, cr.top); x2 = Math.max(x2, cr.right); y2 = Math.max(y2, cr.bottom); }); if (x2 <= x1 || x2 - x1 < 160 && y2 - y1 < 100) continue; r = [x1, y1, x2 - x1, y2 - y1]; }
           else r = [q.left, q.top, q.width, q.height];
         }
         const cb = clipBox(el); const v = [Math.max(r[0], cb[0], 0), Math.max(r[1], cb[1], 0), Math.min(r[0] + r[2], cb[2], VW), Math.min(r[1] + r[3], cb[3], VH)];
         if (v[2] - v[0] < 4 || v[3] - v[1] < 4) continue;
-        majors.push({ el, r: [v[0], v[1], v[2] - v[0], v[3] - v[1]], label: el.id ? "#" + el.id : tag + "." + String(el.className.baseVal ?? el.className).split(" ")[0] });
+        const blockOf = (e) => { for (let x = e; x; x = x.parentElement) { const d = getComputedStyle(x).display; if (d === "block" || d === "flex" || d === "grid") return x; } return e; };
+        majors.push({ el, text: !!(own.length && r && !el.matches("svg,img,canvas,video")) && !(bgVisible(cs)), block: blockOf(el), r: [v[0], v[1], v[2] - v[0], v[3] - v[1]], label: el.id ? "#" + el.id : tag + "." + String(el.className.baseVal ?? el.className).split(" ")[0] });
       }
       S.overlaps = [];
       for (let i = 0; i < majors.length; i++) for (let j = i + 1; j < majors.length; j++) {
         const A = majors[i], B = majors[j];
         if (A.el.contains(B.el) || B.el.contains(A.el)) continue;
         const sa = A.el.closest("[data-qa-stack]"), sb = B.el.closest("[data-qa-stack]"); if (sa && sa === sb) continue;
+        if (A.text && B.text && A.block === B.block) continue;  // lines of one title: tight leading, not a collision
         const ix = Math.max(0, Math.min(A.r[0] + A.r[2], B.r[0] + B.r[2]) - Math.max(A.r[0], B.r[0])), iy = Math.max(0, Math.min(A.r[1] + A.r[3], B.r[1] + B.r[3]) - Math.max(A.r[1], B.r[1]));
         const ia = ix * iy, small = Math.min(A.r[2] * A.r[3], B.r[2] * B.r[3]);
         if (!(ia > 400 && ia > 0.04 * small)) continue;
         // fully placed ON a larger surface and painted above it = sitting on it, not colliding
         if (ia >= 0.9 * small) {
           const S_ = A.r[2] * A.r[3] <= B.r[2] * B.r[3] ? A : B;
-          const top = document.elementFromPoint(S_.r[0] + S_.r[2] / 2, S_.r[1] + S_.r[3] / 2);
+          const top = document.elementsFromPoint(S_.r[0] + S_.r[2] / 2, S_.r[1] + S_.r[3] / 2).find((e) => opa(e) > 0.3);  // hit-testing ignores opacity
           if (top && (top === S_.el || S_.el.contains(top))) continue;
         }
         S.overlaps.push({ a: A.label, b: B.label, share: +(ia / small).toFixed(2) });

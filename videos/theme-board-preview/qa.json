@@ -6,7 +6,7 @@
  "checks": {
   "motion": {
    "value": 0.55,
-   "target": ">= 1.44",
+   "target": ">= 0.67",
    "pass": false,
    "footage": "camera jitter 0.01 px/frame, 2 punches, 0 drifts (anchor: jitter 0.08 px/frame, 10.5 camera moves/min)"
   },
@@ -89,7 +89,7 @@
   "actions_per_s": 0.7
  },
  "targets": {
-  "gfx_motion_min": 1.44,
+  "gfx_motion_min": 0.67,
   "flat_max": 46.0,
   "events_min": 0.51,
   "events_max": 0.96,

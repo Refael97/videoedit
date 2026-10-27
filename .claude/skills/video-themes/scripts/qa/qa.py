@@ -161,7 +161,8 @@ def main():
     M = vm.metrics(draft)
     dur = M["duration"]
     gfx = render_graphics_only(proj, html, draft, dur, a.reuse_draft)
-    GL = layers.graphics_motion(gfx, mask_src=draft)       # graphics layer, measured like the anchor
+    # the graphics layer itself (no camera, no footage residual), read over the same area as the anchor: outside the speaker
+    GL = layers.graphics_motion(gfx, mask_src=draft, compensate=False, footage=False)
     Lfoot = layers.camera_moves(layers.camera(vm.frames(draft)))  # footage / camera layer of the full draft (info)
     acts = layers.actions(M["events"], Lfoot)
 

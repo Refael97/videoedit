@@ -1,13 +1,14 @@
 {
  "project": "theme-arcade-preview",
  "theme": "arcade",
- "score": "9/9",
- "ready": true,
+ "score": "9/10",
+ "ready": false,
  "checks": {
   "motion": {
-   "value": 2.7,
-   "target": ">= 2.39",
-   "pass": true
+   "value": 1.02,
+   "target": ">= 0.91",
+   "pass": true,
+   "footage": "camera jitter 0.24 px/frame, 8 punches, 2 drifts (anchor: jitter 0.14 px/frame, 16.2 camera moves/min)"
   },
   "flat": {
    "value": "10.7%",
@@ -16,7 +17,7 @@
   },
   "actions": {
    "value": "1.05 events/s (GSAP 4.48 tweens/s)",
-   "target": "0.71–1.33",
+   "target": "0.74–1.37",
    "pass": true
   },
   "payoff": {
@@ -40,6 +41,11 @@
    "pass": true,
    "faces_detected": 68
   },
+  "overlap": {
+   "value": "5 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": false
+  },
   "placeholder": {
    "value": "0 found",
    "target": "0",
@@ -55,13 +61,93 @@
   "duration": 17.17,
   "motion": 2.7,
   "flat_pct": 10.7,
-  "events_per_s": 1.05
+  "events_per_s": 1.05,
+  "graphics": {
+   "gfx_motion": 1.02,
+   "gfx_raw": 1.62,
+   "baseline": 0.59,
+   "baseline_s": 2,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.88,
+   "footage": {
+    "jitter_px": 0.24,
+    "punches": [
+     1.07,
+     1.57,
+     2.07,
+     2.63,
+     6.37,
+     7.53,
+     8.67,
+     9.27
+    ],
+    "drifts": [
+     0.67,
+     9.0
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.24,
+   "punches": [
+    1.07,
+    1.57,
+    2.07,
+    2.63,
+    6.37,
+    7.53,
+    8.67,
+    9.27
+   ],
+   "drifts": [
+    0.67,
+    9.0
+   ]
+  },
+  "actions_per_s": 1.05
  },
  "targets": {
-  "motion_min": 2.39,
+  "gfx_motion_min": 0.91,
   "flat_max": 15.0,
-  "events_min": 0.71,
-  "events_max": 1.33
+  "events_min": 0.74,
+  "events_max": 1.37,
+  "footage_info": "jitter 0.14 px/frame, 16.2 camera moves/min"
  },
- "fix_list": []
+ "fix_list": [
+  {
+   "t": "1.0–2.2s",
+   "t0": 1,
+   "words": "לבנות אתרים שנראים טוב",
+   "check": "graphic overlaps",
+   "fix": "svg. overlaps svg. (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "5.2–6.8s",
+   "t0": 5.25,
+   "words": "מעברים ומבנה כמו שצריך, אתם",
+   "check": "graphic overlaps",
+   "fix": "#m1 overlaps #pgA (80% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "5.2–6.8s",
+   "t0": 5.25,
+   "words": "מעברים ומבנה כמו שצריך, אתם",
+   "check": "graphic overlaps",
+   "fix": "#m1 overlaps div.h (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "12.2–13.0s",
+   "t0": 12.25,
+   "words": "למטורף.",
+   "check": "graphic overlaps",
+   "fix": "div.h overlaps svg. (57% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "12.5–13.0s",
+   "t0": 12.5,
+   "words": "למטורף.",
+   "check": "graphic overlaps",
+   "fix": "div.serif overlaps svg. (52% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  }
+ ]
 }

@@ -1,18 +1,21 @@
 # QA · theme-night-preview · theme `night`
 
-**7/9 checks passed — NOT READY**
+**8/10 checks passed — NOT READY**
 
 | | check | value | target |
 |---|---|---|---|
-| ✓ | motion | 2.28 | >= 2.02 |
+| ✓ | graphics motion | 0.95 | >= 0.79 |
 | ✗ | flat stretches | 21.9% | <= 12.0% |
-| ✓ | actions / s | 0.58 events/s (GSAP 4.02 tweens/s) | 0.38–0.7 |
+| ✓ | actions / s | 0.64 events/s (GSAP 4.02 tweens/s) | 0.44–0.81 |
 | ✓ | payoff lands | 4 marked, 0 problems | ends on word ±0.15, holds 0.8, stamp after |
 | ✓ | min text | 0 items < 26px | >= 26px |
 | ✗ | hero fill | median 74%, 1 weak ranges | >= 60% |
 | ✓ | collisions | 0 collisions | 0 |
+| ✓ | graphic overlaps | 0 overlaps | 0 (unless in one data-qa-stack) |
 | ✓ | no placeholders | 0 found | 0 |
 | ✓ | hook visual | visual on screen 3.0s of the first 3s | >= 0.5s |
+
+footage motion (info, not scored): camera jitter 0.2 px/frame, 2 punches, 3 drifts (anchor: jitter 0.16 px/frame, 16.1 camera moves/min)
 
 ## FIX LIST
 

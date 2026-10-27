@@ -1,13 +1,14 @@
 {
  "project": "theme-hooks-preview",
  "theme": "hooks",
- "score": "8/9",
+ "score": "9/10",
  "ready": false,
  "checks": {
   "motion": {
-   "value": 2.42,
-   "target": ">= 2.49",
-   "pass": false
+   "value": 1.56,
+   "target": ">= 0.53",
+   "pass": true,
+   "footage": "camera jitter 0.32 px/frame, 2 punches, 3 drifts (anchor: jitter 0.30 px/frame, 26.2 camera moves/min)"
   },
   "flat": {
    "value": "23.9%",
@@ -15,8 +16,8 @@
    "pass": true
   },
   "actions": {
-   "value": "0.7 events/s (GSAP 2.56 tweens/s)",
-   "target": "0.39–0.72",
+   "value": "0.82 events/s (GSAP 2.56 tweens/s)",
+   "target": "0.48–0.9",
    "pass": true
   },
   "payoff": {
@@ -40,6 +41,11 @@
    "pass": true,
    "faces_detected": 68
   },
+  "overlap": {
+   "value": "3 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": false
+  },
   "placeholder": {
    "value": "0 found",
    "target": "0",
@@ -55,21 +61,69 @@
   "duration": 17.17,
   "motion": 2.42,
   "flat_pct": 23.9,
-  "events_per_s": 0.7
+  "events_per_s": 0.7,
+  "graphics": {
+   "gfx_motion": 1.56,
+   "gfx_raw": 1.56,
+   "baseline": 0.0,
+   "baseline_s": 7,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.59,
+   "footage": {
+    "jitter_px": 0.32,
+    "punches": [
+     12.77,
+     15.27
+    ],
+    "drifts": [
+     7.0,
+     9.33,
+     14.67
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.32,
+   "punches": [
+    12.77,
+    15.27
+   ],
+   "drifts": [
+    7.0,
+    9.33,
+    14.67
+   ]
+  },
+  "actions_per_s": 0.82
  },
  "targets": {
-  "motion_min": 2.49,
+  "gfx_motion_min": 0.53,
   "flat_max": 34.0,
-  "events_min": 0.39,
-  "events_max": 0.72
+  "events_min": 0.48,
+  "events_max": 0.9,
+  "footage_info": "jitter 0.30 px/frame, 26.2 camera moves/min"
  },
  "fix_list": [
   {
-   "t": "0.0–17.2s",
-   "t0": 0,
-   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
-   "check": "motion",
-   "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
+   "t": "0.5–3.0s",
+   "t0": 0.5,
+   "words": "אתם רוצים לבנות אתרים שנראים טוב עם",
+   "check": "graphic overlaps",
+   "fix": "#th1 overlaps #th2 (9% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "0.8–3.0s",
+   "t0": 0.75,
+   "words": "רוצים לבנות אתרים שנראים טוב עם",
+   "check": "graphic overlaps",
+   "fix": "#th2 overlaps #th3 (9% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "15.2–17.2s",
+   "t0": 15.25,
+   "words": "ואני שולח לכם את זה.",
+   "check": "graphic overlaps",
+   "fix": "span.glw overlaps span.sub (25% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
   }
  ]
 }
