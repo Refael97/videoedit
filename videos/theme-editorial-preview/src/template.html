@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+
+      /* S0 opening (cutout) */
+      #h0 { top: 250px; }
+      #d0 { top: 540px; font-size: 360px; }
+      #i0 { position: absolute; left: 0; right: 0; top: 270px; text-align: center; font-size: 120px; }
+      #tc0 { position: absolute; left: 62px; top: 190px; }
+
+      /* S1 stack */
+      #st1 { top: 230px; }
+
+      /* S2 input */
+      #in2 { left: 50px; right: 50px; top: 250px; }
+
+      /* S3 cover */
+      #d3 { top: 610px; font-size: 270px; direction: ltr; }
+
+      /* S4 product card + payoff */
+      #card4 { left: 50px; right: 50px; top: 200px; height: 410px; }
+      #card4 .bd { display: flex; gap: 34px; align-items: center; height: 336px; box-sizing: border-box; }
+      #thumbs4 { position: relative; width: 220px; height: 290px; flex: none; }
+      #thumbs4 .e-thumb { inset: 0; }
+      .site { position: absolute; inset: 0; padding: 22px 18px; direction: rtl; }
+      .site h4 { margin: 0; font-size: 40px; line-height: 1.02; white-space: pre; }
+      .site .b { position: absolute; right: 18px; bottom: 22px; height: 50px; padding: 0 20px; display: flex; align-items: center; font-size: 26px; }
+      #sA { background: #fff; color: #333; font-family: "Times New Roman", serif; }
+      #sA h4 { font-weight: 400; } #sA .b { background: #ddd; color: #333; }
+      #sB { background: var(--e-green); color: var(--e-cream); font-family: var(--e-sans); }
+      #sB h4 { font-weight: 900; letter-spacing: -0.03em; } #sB h4 em { font-family: var(--e-italic); font-style: normal; font-weight: 400; color: var(--e-gold); font-stretch: 62.5%; display: inline-block; transform: skewX(-11deg); }
+      #sB .b { background: var(--e-gold); color: var(--e-ink); border-radius: 25px; font-weight: 900; }
+      #txt4 { font-family: var(--e-sans); font-weight: 900; font-size: 104px; line-height: 0.95; letter-spacing: -0.035em; }
+      #pay4 { top: 640px; }
+
+      /* S6 CTA */
+      #cm2 { top: 610px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="e-root" data-composition-id="main" data-start="0" data-duration="17.2" data-width="1080" data-height="1920">
+      <div id="face" class="e-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video></div>
+      <div id="page" class="e-page"></div>
+
+      <!-- text that sits behind the speaker -->
+      <div id="behind" class="e-behind">
+        <div id="s0b" class="e-scene"><div id="d0" class="e-display">אתרים</div></div>
+        <div id="s3b" class="e-scene"><div id="d3" class="e-display">KOWALSKI</div></div>
+      </div>
+
+      <div id="matte" class="e-matte"><video id="matteVid" src="assets/video/matte.webm" data-start="0" data-duration="17.2" data-track-index="1" muted playsinline></video></div>
+      <div id="cover" class="e-cover"><div class="e-issue">NO. 01 · OCTOBER 2026 · SKILL: KOWALSKI</div></div>
+
+      <div id="over" class="e-over">
+        <!-- S0: opening on the green page -->
+        <div id="s0" class="e-scene">
+          <div id="tc0" class="e-tc"></div>
+          <div id="h0" class="e-heavy"><span class="ln"><span>אם אתם רוצים</span></span><span class="ln"><span>לבנות</span></span></div>
+          <div id="i0"><span id="i0t" style="display: inline-block"><span class="e-it he">שנראים טוב.</span></span></div>
+        </div>
+
+        <!-- S1: the three things, as pasted slips -->
+        <div id="s1" class="e-scene">
+          <div id="st1" class="e-stack">
+            <div class="e-slip heavy" id="sl1"><span class="in" style="direction: ltr">MOTION</span></div>
+            <div class="e-slip it he" id="sl2"><span class="in"><span>מעברים</span></span></div>
+            <div class="e-slip it he cream" id="sl3"><span class="in"><span>ומבנה</span></span></div>
+            <div class="e-slip small" id="sl4" style="margin-top: 14px"><span class="in">כמו שצריך ✓</span></div>
+          </div>
+        </div>
+
+        <!-- S2: the prompt -->
+        <div id="s2" class="e-scene">
+          <div id="in2" class="e-input"><div class="k">TO CLAUDE</div><div class="tx"><span class="t"><span id="typ2"></span><span class="e-caret" id="car2"></span></span><span class="go" id="go2"></span></div></div>
+        </div>
+
+        <!-- S4: the product card turns the site, the payoff lands -->
+        <div id="s4" class="e-scene">
+          <div id="card4" class="e-card">
+            <div class="hd">Kowalski <span class="ver" id="ver4">v0.1</span><span class="st" id="st4">● RUNNING</span></div>
+            <div class="bd">
+              <div id="thumbs4">
+                <div class="e-thumb" id="tA"><div class="site" id="sA"><h4>עיצוב
+פנים</h4><span class="b">צור קשר</span></div></div>
+                <div class="e-thumb" id="tB"><div class="site" id="sB"><h4>עיצוב
+<em>שמרגיש</em>
+בית</h4><span class="b">לתיאום</span></div></div>
+              </div>
+              <div id="txt4"><div class="tl" style="overflow: hidden"><span id="t4a" style="display: inline-block">האתר</span></div><div class="tl" style="overflow: hidden"><span id="t4b" style="display: inline-block"><span class="e-it he" style="font-size: 110px">שלכם</span></span></div></div>
+            </div>
+          </div>
+          <div id="pay4" class="e-stack"><div class="e-slip it he" id="pay4s" style="font-size: 136px"><span class="in"><span>למטורף.</span></span></div></div>
+        </div>
+
+        <!-- S6: CTA -->
+        <div id="s6" class="e-scene">
+          <div id="cta6" class="e-cta"><div class="pill">תגיבו "KOWALSKI"
+ואשלח לכם את הסקיל</div></div>
+          <div id="cm1" class="e-comment"><div class="av"></div><div><div class="who">you · now</div><div class="t" id="cmT"></div></div><div class="hrt" id="hrt1"></div></div>
+          <div id="cm2" class="e-comment" style="direction: rtl"><div class="av" style="background: var(--e-gold)"></div><div><div class="who">kowalski · עכשיו</div><div class="t" style="font-size: 40px">שלחתי לך את הסקיל ✓</div></div></div>
+        </div>
+      </div>
+
+      <div id="caps" class="e-caps"></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="17.2" data-track-index="10" data-volume="1"></audio>
+<!--__SFX__-->
+    </div>
+    <script>
+      const WORDS = __WORDS__;
+      const E = window.EDITORIAL;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        E.art("#go2", "up"); E.art(["#hrt1"], "heart");
+
+        // ---- layouts ----
+        E.layout(tl, "cutout", 0);
+        E.layout(tl, "face", 2.9);
+        E.layout(tl, "cover", 8.75);
+        E.layout(tl, "face", 9.9);
+        E.scene(tl, ["#s0", "#s0b"], 0, 2.9); E.scene(tl, "#s1", 2.9, 6.62); E.scene(tl, "#s2", 6.62, 8.75);
+        E.scene(tl, "#s3b", 8.75, 9.9); E.scene(tl, "#s4", 9.9, 12.9); E.scene(tl, "#s6", 14.5);
+
+        E.captions(tl, "#caps", WORDS);
+
+        // ---- S0: heavy lines rise, tick out; the display word sets itself behind the head; the italic lands ----
+        E.timecode(tl, "#tc0", 0, 2.9, 0, 2.9);
+        E.lines(tl, "#h0 .ln > span", 0.2, 0.3);
+        E.linesOut(tl, "#h0 .ln > span", 1.1);
+        E.letters(tl, "#d0", 1.15, 0.09);
+        E.hide(tl, "#i0t"); tl.fromTo("#i0t", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, 1.72);
+
+        // ---- S1: one slip per word, then "כמו שצריך" ----
+        E.slip(tl, ["#sl1", "#sl2", "#sl3", "#sl4"], [3.2, 4.5, 5.4, 6.0]);
+        E.pulse(tl, "#sl1", 3.7); E.pulse(tl, "#sl2", 4.95);
+
+        // ---- S2: the prompt is typed and sent ----
+        E.rise(tl, "#in2", 6.7);
+        E.type(tl, "#typ2", "/plugin install kowalski", 6.95, 24);
+        tl.set("#car2", { opacity: 1 }, 0); [7.95, 8.25, 8.55].forEach((t, i) => tl.set("#car2", { opacity: i % 2 ? 1 : 0 }, t));
+        E.press(tl, "#go2", 8.05);
+        E.out(tl, "#in2", 8.6);
+
+        // ---- S3: the cover, the name behind the head ----
+        E.letters(tl, "#d3", 8.8, 0.07);
+
+        // ---- S4: the card runs, the site turns, the version lands on the payoff word ----
+        E.rise(tl, "#card4", 9.95);
+        E.lines(tl, ["#t4a", "#t4b"], [10.45, 11.75]);
+        E.hide(tl, "#tB"); E.print(tl, "#tB", 11.1);
+        E.count(tl, "#ver4", 1, 10, 11.1, 1.0, { fmt: (v) => "v" + (Math.round(v) / 10).toFixed(1) });
+        E.swapClass(tl, "#st4", 12.1, "done");
+        tl.set("#st4", { textContent: "● RUNNING" }, 0); tl.set("#st4", { textContent: "● DONE · 1.0" }, 12.1);
+        E.slip(tl, "#pay4s", 12.1);
+
+        // ---- S6: CTA pill, the comment is typed, the reply arrives ----
+        E.rise(tl, "#cta6", 14.55);
+        E.rise(tl, "#cm1", 14.7);
+        E.type(tl, "#cmT", "KOWALSKI", 14.85, 16);
+        E.press(tl, "#hrt1", 15.45);
+        E.rise(tl, "#cm2", 15.4);
+        E.pulse(tl, "#cm2", 16.05, 1.04);
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>
