@@ -5,6 +5,9 @@
 > looks like it belongs. When the script needs something new, do not copy the nearest reference element — build
 > it from the materials, the anatomy, the scales and the motion verbs below. If the result needs a value this
 > file does not give, the design is wrong, not the file.
+>
+> **v2:** built from the anchor creator's 3 videos (20957, 73421, 30868). Values and rules seen once are marked
+> *(1/3, provisional)*; see `theme.md` for what was measured where.
 
 ---
 
@@ -12,8 +15,8 @@
 
 | Material | Class | Looks like | Means | Use for |
 |---|---|---|---|---|
-| **Light glass** | `.m-light` | white 16% + blur 14px + 1.5px white 40% edge + top inner highlight | a *place* | the floating desktop, a map, a calendar page, a "space" that holds other things |
-| **Dark glass** | `.m-dark` | near-black 55% + blur 16px + 1.5px white 32% edge | a *moment / a fact* | numbers, results, a notification, a quote, anything that should be read in one glance |
+| **Light glass** | `.m-light` | white 16% + blur 14px + 1.5px white 40% edge + top inner highlight | a *place* or *the system* | the floating desktop, the video's timeline strip, a picture-in-picture bezel, a map, a calendar page, a system dialog (permission, confirm) |
+| **Dark glass** | `.m-dark` | near-black 55% + blur 16px + 1.5px white 32% edge | a *moment / a fact / a name* | numbers, results, a notification, a quote, a tag naming a real object, a spec card, small numbered tiles, chat pills |
 | **Window** | `.m-win` | opaque dark #1e1e21 94% + 1px white 12% edge + traffic lights | a *tool* | an app: terminal, chat, editor, browser, list, settings |
 
 Rules:
@@ -49,7 +52,14 @@ Rules:
 | T3 | 30 | 900 / 700 | element headers, list headers (orange in lists) |
 | T4 | 25–28 | 700 | rows, messages, labels |
 | T5 | 18–20 | 500–700 | sub-labels, timestamps, menu bar, window titles (grey) |
-Screen text (hook 72/124, captions 76) is separate and always bigger than anything inside glass.
+Screen text (hook 72/124, captions 76) is separate and always bigger than anything inside glass, **except the payoff**
+(the counted number / the final word of a dark-glass fact: T1 132, or a big tag at 64px) — the payoff is the biggest thing
+in its element.
+
+**v2 parts** (measured on 73421/30868, ×1.5): timeline strip 860–940 wide × 200–240 tall (ruler T5 mono, thumbnails
+110–120 tall, waveform 34) · object tag height 76 (T3 34px + a 50px icon tile), small tag 54 (26px) · tiles 92×76, gap 12,
+4 per row *(1/3)* · dialog 560–640 wide, icon 84, title 34px, text 26px, buttons 62 tall · picture-in-picture 380–520
+wide with a 10px light-glass bezel.
 
 **Space**: 8 · 12 · 16 · 22 · 34 px. Padding of windows 22, of dark glass 26×34, row height 50–54, gaps 8–12.
 **Radii**: light glass 30 · dark glass 30 · window 18 · inner surfaces 10–14 · chips/pills full.
@@ -74,10 +84,20 @@ Max **one** accent color per element (plus white). The footage supplies all othe
 
 ## 5. Space and depth
 
-- **World space** (`.g-cam`, moves with zooms): footage, light glass, windows, dark glass.
+- **World space** (`.g-cam`, moves with zooms): footage, light glass, windows, dark glass. Tags stay attached to
+  their object (30868 tracks them through a handheld move); if the footage moves, move the tag with it.
 - **Screen space** (fixed): hook, captions, CTA. Nothing else.
-- Placement: on the side of the speaker with free room; dark-glass facts above the head (top 6–20%) or
-  beside it. Never over the mouth/eyes, never under the caption line (74.7%), never touching the frame edge (≥18px).
+- **Captions** sit on one fixed line per video, just under the chin / on the upper chest: 74.7% for a seated wide
+  shot (20957), 66–68% for a closer standing shot (73421, 30868). Set `--g-cap-center` once per video; never move it.
+- **Layout respects the shot** (v2). Pick where the glass lives from the framing, per shot:
+  | Shot | The glass lives… |
+  |---|---|
+  | medium/wide with free room on one side (20957) | beside the speaker, on the free side, standing on the desk |
+  | standing, room behind (73421) | above the head (timeline strip, floating objects) and beside the shoulder (chat pills, a PiP) |
+  | first-person POV at a desk (30868) | **on the real objects**: tags over the laptops, tile grids in the window above them |
+  | tight selfie (no free side) | above the head (y 60–330) and on the dark chest **below** the caption line (y 1520–1870); never beside the face |
+  A profile, a hand over the face, or a moving shot → keep the glass small and away from the face for that beat.
+- Placement: never over the mouth/eyes, **never over the caption slot**, never touching the frame edge (≥18px).
 - Only **one** primary element on screen. Showing a new one = replace (§6), not stack.
 - The cursor belongs to the light glass it is in; it only appears when something is being *done*.
 - **Captions stop when the CTA appears** (the CTA *is* the last line); never show both. The CTA takes the
@@ -103,7 +123,13 @@ All are in `motion.js` as `GLASS.<verb>`.
 | `point` | "here", "this one" | cursor eases to it (power2.inOut), squash .82 on click | `click` |
 | `replace` | the topic changes | old: scale .85 + blur 8 + fade .22s power2.in; new `appear` starts .05s after | `pop` |
 | `exit` | the topic ends | same as the old half of replace | — |
-| `punch` | a new idea starts | whole camera snaps between wide (1.0) and tight (1.1–1.15) in .15s power2.inOut, every ≈4s | `zoom` |
+| `punch` | a new idea starts | whole camera snaps between wide (1.0) and tight (1.1–1.18) in .15s power2.inOut; a punch or a cut every 3–5 s | `zoom` |
+| `cut` | a new place / a new angle (v2, 2/3) | hard cut to another clip of the same person, ≈ every 10 s | `whoosh` (soft) |
+| `strip` / `playhead` / `marker` | "this video", "the edit", "add X to it" (v2, 2/3) | the strip blurs in with its thumbnails, the blue playhead runs, an effect/chapter chip drops onto it (back.out .3s) | `pop`, `tick` |
+| `tag` | naming a real thing in the room (v2, 2/3) | the dark pill grows out of the object (scale .4→1 + blur, .35s expo.out) and stays attached | `pop` |
+| `multiply` | "lots of", "N chapters / N videos" (v2, 1/3) | small tiles pop in reading order at ≈8 per second | `tick` every few |
+| `swap` | a button is pressed, a state flips (v2) | hard class change (blue → green), after the cursor click | `click` + `ding` |
+| `count` (payoff) | the number the video is about | counts so it **lands on the payoff word**; the final value holds ≥0.8 s before any cut; a check/stamp comes after it lands; the payoff is the biggest thing in its element | `tick` → `ding` |
 Forbidden: bounce on anything but a state mark and the CTA, rotation/flip, slide-in from outside the frame,
 typewriter on anything but a terminal/prompt line, more than two verbs on screen at the same moment.
 
@@ -124,6 +150,12 @@ typewriter on anything but a terminal/prompt line, more than two verbs on screen
    | progress, "almost done", a level | dark glass | `.g-meter` bar filling to the value, label T4 |
    | a file, an asset, a folder | light glass desktop | `.g-tile` icons + a window |
    | a choice, options, settings | window | chips (`.g-chip`), the chosen one green / selected blue |
+   | this video, the edit, adding effects/cuts (v2) | light glass | the **timeline strip** with its real thumbnails; each thing added drops onto it as a chip |
+   | a real object in the shot (laptop, camera, product) (v2) | dark glass | a **tag** attached to it: icon tile + its name/role; a spec card under it if the script gives specs |
+   | many items, chapters, lessons (v2, 1/3) | dark glass | a **tile grid** that multiplies (`.g-tiles`), the count landing on the number said |
+   | a permission, "allow", "approve", "confirm" (v2, 1/3) | light glass | a **system dialog**: icon, the real question, two buttons; the cursor clicks, the button turns green |
+   | an example clip, "look at this", a result video (v2, 2/3) | light glass | a **picture-in-picture** bezel with the real clip/frame inside |
+   | "go inside", "deeper", a reveal (v2) | light glass | a round **portal** the camera punches into |
 3. Write its anatomy (§2): header, body, state. The state lands on the word that carries the payoff.
 4. Size and place it (§3, §5). Pick the verbs (§6) from the words: appear on the noun, update/confirm on the
    payoff, exit/replace when the next noun arrives.
@@ -138,6 +170,9 @@ Inside them use:
 `.g-bars > .bar > i` (column chart) · `.g-toast` (notification: avatar + title + text + time) ·
 `.g-bubble.in|.out` (chat bubbles) · `.g-avatar` (circle, image or initials) · `.g-cal` (month grid; `.today`, `.mark`) ·
 `.g-map` (abstract street lines + `.pin` + `.route`) · `.g-tile` (icon + label) · `.g-input` (prompt field) ·
+**v2:** `.g-strip` (`.ruler`, `.thumbs`, `.wave`, `.head`, `.mks > .mk(.on)`, `svg.curve`) · `.g-tag` (+`.sm`, `.ic`) ·
+`.g-tiles` (`b > small`, `.on`) · `.g-dialog` (`.ico`, `.ttl`, `.txt`, `.btns > span(.yes, .done)`) · `.g-pip` (`.in`) ·
+`.g-portal` (`.in`) · `.g-hook.cta-top` ·
 `.g-badge` (outlined green) · `.g-sep` (1px white 8% line).
 Ready-made windows from the reference (`.g-term`, `.g-chat`, `.g-list`, `.g-stat`) are just these blocks
 already assembled; read them as examples of the grammar, not as the only options.
@@ -150,6 +185,8 @@ already assembled; read them as examples of the grammar, not as the only options
 - [ ] In world space, on the free side, not over face or captions (§5)
 - [ ] Every movement is a verb from §6, timed to a word, with its sound
 - [ ] No logo, no brand icon, no new font
+- [ ] The glass placement fits this shot's framing (§5 table); captions on their one fixed line
+- [ ] The payoff lands on its word, holds ≥0.8 s, and is the biggest thing in its element
 
 ## 10. Mandatory rules (in glass terms)
 
@@ -163,9 +200,9 @@ b. **Real content.** Windows show real, readable things from the script: a real 
 c. **The thing itself first.** "A website" → a real-looking page in a browser window. "Comments" → a comment
    list with names and text. A chart only with real numbers on it; a before/after only with what changed
    written on both sides (the glass test's unlabeled bars: wrong).
-d. **Action density.** Reference: the terminal does 3 installs + 3 checks + a badge in ~3.5 s, the chat does
-   thumbnails → prompt → reply → chips in ~3 s, the checklist ticks 4 rows in ~2 s → **≈1.5–2 actions per second
-   inside the element on screen**. Hold an element still for at most ~1 s.
-e. **The opening has a visual.** Reference: the hook sits over a glass timeline strip of video thumbnails with the
-   AI logo moving across it, not over the bare room. The hook always carries the strongest image of the video in
-   glass (the result, the tool) behind/under the two-tier title.
+d. **Action density ≈ 1.5–2.5 actions per second** inside the element on screen (3 videos: 20957 terminal 3 installs +
+   3 checks + badge / 3.5 s = 2.0; 73421 dialog in → cursor → click → green / 1.6 s = 2.5; 73421 timeline strip +
+   thumbnails + playhead + marks / 2 s = 2.0; 30868 tiles 20 in 2.5 s + tag ≈ 1.2). Hold an element still for at most
+   ~1 s; if nothing happens, let the camera drift or punch.
+e. **The opening has a visual.** 2/3 open on the two-tier hook over a **glass timeline strip** of the video itself
+   (20957, 73421); 30868 opens on a tag over the real laptop. Never the bare room with text only.

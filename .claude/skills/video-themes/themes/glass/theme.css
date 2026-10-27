@@ -162,6 +162,7 @@
 
 /* abstract map (light glass): svg streets + pin + route */
 .g-map { position: relative; overflow: hidden; }
+.g-card.g-map { position: absolute; }   /* a map that is itself the card stays absolutely placed */
 .g-map svg.streets { position: absolute; inset: 0; width: 100%; height: 100%; }
 .g-map svg.streets path { fill: none; stroke: rgba(255, 255, 255, 0.18); stroke-width: 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .g-map svg.streets path.route { stroke: var(--g-blue); stroke-width: 7; }
@@ -179,3 +180,57 @@
 .bg-bright .m-light, .bg-bright .g-space { background: rgba(255, 255, 255, 0.3); border-color: rgba(255, 255, 255, 0.85); box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.9), 0 30px 70px rgba(0, 0, 0, 0.16); }
 .bg-bright .g-dock { background: rgba(255, 255, 255, 0.55); }
 .bg-bright .g-hook { text-shadow: 0 4px 22px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.45); }
+
+/* =====================================================================================================
+   v2 BLOCKS (measured on 73421 + 30868; language.md §8). Additive: v1 classes above are unchanged.
+   ===================================================================================================== */
+
+/* timeline strip (light glass): the video being edited, as a ruler + thumbnail row + waveform + playhead.
+   <div class="g-card m-light g-strip"><div class="ruler"></div><div class="thumbs"></div><svg class="wave"></svg><i class="head"></i></div>
+   built by GLASS.strip(); 2/3 anchor videos (20957 hook, 73421 ×4) */
+.g-strip { padding: 16px 20px 14px; direction: ltr; }
+.g-strip .ruler { display: flex; justify-content: space-between; height: 24px; font-family: var(--g-mono); font-size: 18px; color: rgba(255, 255, 255, 0.75); }
+.g-strip .thumbs { display: flex; gap: 4px; height: 118px; margin-top: 6px; }
+.g-strip .thumbs b { flex: 1; border-radius: 8px; background: rgba(255, 255, 255, 0.12) center / cover; display: block; border: 1px solid rgba(255, 255, 255, 0.18); }
+.g-strip .wave { display: block; width: 100%; height: 34px; margin-top: 8px; }
+.g-strip .wave rect { fill: rgba(255, 255, 255, 0.55); }
+.g-strip .head { position: absolute; top: 10px; bottom: 10px; left: 20px; width: 4px; margin-left: -2px; border-radius: 2px; background: var(--g-blue); box-shadow: 0 0 10px rgba(10, 132, 255, 0.8); display: block; }
+.g-strip .mks { position: absolute; left: 20px; right: 20px; top: 52px; height: 0; }
+.g-strip .mk { position: absolute; top: 0; translate: -50% 0; height: 40px; padding: 0 14px; border-radius: 999px; background: var(--g-glass-dark); border: 1px solid rgba(255, 255, 255, 0.35); color: #fff; font-family: var(--g-font); font-size: 22px; font-weight: 900; display: flex; align-items: center; gap: 6px; white-space: pre; direction: rtl; }
+.g-strip .mk.on { background: var(--g-green); border-color: rgba(255, 255, 255, 0.6); }
+.g-strip svg.curve { position: absolute; left: 20px; top: 46px; width: calc(100% - 40px); height: 118px; overflow: visible; }
+.g-strip svg.curve path { fill: none; stroke: var(--g-green); stroke-width: 6; stroke-linecap: round; filter: drop-shadow(0 0 8px rgba(47, 205, 88, 0.7)); }
+
+/* object tag (dark glass pill + icon tile), anchored to a real thing in the room (30868: "מנהל עריכה" over the laptop) */
+.g-tag { position: absolute; display: flex; align-items: center; gap: 14px; height: 76px; padding: 0 16px 0 26px; border-radius: 22px; background: var(--g-glass-dark); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); border: 1.5px solid rgba(255, 255, 255, 0.32); box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.3), 0 18px 40px rgba(0, 0, 0, 0.3); font-size: 34px; font-weight: 900; color: #fff; white-space: pre; }
+.g-tag .ic { width: 50px; height: 50px; flex: none; } .g-tag .ic svg { width: 50px; height: 50px; display: block; }
+.g-tag.sm { height: 54px; font-size: 26px; border-radius: 16px; padding: 0 12px 0 18px; } .g-tag.sm .ic, .g-tag.sm .ic svg { width: 34px; height: 34px; }
+
+/* tile grid: many small dark-glass tiles that multiply (30868: 20 "פרק" tiles). <div class="g-tiles"><b><small>פרק</small>1</b>…</div> */
+.g-tiles { position: absolute; display: grid; grid-template-columns: repeat(var(--cols, 4), 92px); gap: 12px; direction: rtl; }
+.g-tiles b { height: 76px; border-radius: 14px; background: var(--g-glass-dark); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1.5px solid rgba(255, 255, 255, 0.32); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 30px; font-weight: 900; line-height: 1; }
+.g-tiles b small { font-size: 16px; font-weight: 700; color: rgba(255, 255, 255, 0.7); margin-bottom: 4px; }
+.g-tiles b.on { background: rgba(47, 205, 88, 0.85); }
+
+/* system dialog (light glass, white text, two buttons; 73421 "would like to control this computer") */
+.g-dialog { text-align: center; padding: 30px 34px 26px; }
+.g-dialog .ico { width: 84px; height: 84px; margin: 0 auto 14px; } .g-dialog .ico svg { width: 84px; height: 84px; display: block; }
+.g-dialog .ttl { font-size: 34px; font-weight: 900; line-height: 1.15; }
+.g-dialog .txt { margin-top: 8px; font-size: 26px; font-weight: 700; color: rgba(255, 255, 255, 0.82); }
+.g-dialog .btns { display: flex; gap: 14px; margin-top: 22px; }
+.g-dialog .btns span { flex: 1; height: 62px; border-radius: 16px; background: rgba(255, 255, 255, 0.22); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; }
+.g-dialog .btns span.yes { background: var(--g-blue); }
+.g-dialog .btns span.yes.done { background: var(--g-green); }
+
+/* picture-in-picture frame (light glass bezel around footage or an image; 73421 13.5 s, 30868 45 s) */
+.g-pip { padding: 10px; border-radius: 30px; }
+.g-pip .in { position: relative; width: 100%; height: 100%; border-radius: 22px; overflow: hidden; background: #111 center / cover; }
+.g-pip .in > video, .g-pip .in > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.g-pip .lbl { position: absolute; left: 50%; bottom: -30px; translate: -50% 0; }
+
+/* portal: a light-glass circle the camera can punch into */
+.g-portal { border-radius: 50%; padding: 12px; }
+.g-portal .in { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #111 center / cover; }
+
+/* two-tier title used as the CTA (73421 ends on "תגיבו / עריכה" at the top, same style as the hook) */
+.g-hook.cta-top .l2 { font-size: 150px; }

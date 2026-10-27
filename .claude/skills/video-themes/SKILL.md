@@ -23,9 +23,15 @@ Built on HyperFrames: one paused GSAP timeline at `window.__timelines["main"]`, 
 
 | Theme | Status | Look | Format |
 |---|---|---|---|
-| `glass` | v1 — README, spec, tokens, components, motion, sfx, preview (`videos/theme-glass-preview`) | talking head + a floating frosted-glass desktop with app windows, punch zooms | 9:16 |
+| `glass` | v2 (anchor 20957, 3/3) — preview (`videos/theme-glass-preview`) | talking head in a real room + frosted-glass windows anchored in the space, timeline strip, punch zooms | 9:16 |
 | `paper` | v1 (anchor 15422, 1/1) — tested on new footage (`videos/paper-test-scope`) | step-by-step tutorial: cream graph-paper page above the face, folders, real UI zooms, orange ink | 9:16 |
-| `night` | v1 (anchor 50462, 4/4) — preview (`videos/theme-night-preview`) | a framework lighting up on a black dot-grid stage: neon ladders, glowing curves, rows that unlock; the speaker in a rounded box at the bottom, head popping out | 9:16 |
+| `night` | v1 (anchor 50462, 4/4) — preview (`videos/theme-night-preview`) | a framework lighting up on a black dot-grid stage: neon ladders, glowing curves, rows that unlock; speaker in a rounded box, head popping out | 9:16 |
+| `editorial` | v1 (anchor 66150, 3/3) — preview (`videos/theme-editorial-preview`) | green magazine page: huge serif word behind the head, ticker headlines, pasted paper slips, cover frame, karaoke captions | 9:16 |
+| `headline` | v1 (anchor 97418, 5/5) — preview (`videos/theme-headline-preview`) | bright wall, headline with a blue box + serif italic, real screenshots in blue-edged windows, focus rings, blur-ins | 9:16 |
+| `arcade` | v1 (anchor 5777, 4/4) — preview (`videos/theme-arcade-preview`) | light split page with generated pixel-art worlds, mascot "Bit", mono uppercase caption pill, red pen strikes | 9:16 |
+| `neon-studio` | v1 (anchor 70647, 4/4) — preview (`videos/theme-neon-studio-preview`) | dark gaming-room footage, yellow keyword line, huge thin italic keyword, pixel sprites landing on the chest, UI cards on a light page | 9:16 |
+| `hooks` | v1 (anchor 7784, 4/4) — preview (`videos/theme-hooks-preview`) | glowing meaning-colored word on the chest, black screen with amber corner light, chips with [slots], switches that flip | 9:16 |
+| `board` | v1 (anchor 31455, 2/2, provisional) — preview (`videos/theme-board-preview`) | faceless-first: neo-brutalist cards on cream, coral serif word, pixel crab "Pinch", pixel dissolves; the speaker as a face card | 9:16 |
 
 Default when the user names none: ask once, then remember the answer in the project's `meta.json`
 (`"theme": "<name>"`).

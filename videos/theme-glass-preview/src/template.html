@@ -10,14 +10,27 @@
     <style>
       html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
       #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
-      /* subject sits right of center so the glass has room on the left (as in the reference) */
       #face { position: absolute; left: 0; top: -30px; width: 1080px; height: 1964px; object-fit: cover; }
-      #space { left: 18px; top: 640px; width: 400px; height: 560px; }
-      #term { left: 26px; top: 112px; width: 352px; height: 310px; }
-      #chat { left: 26px; top: 112px; width: 352px; height: 350px; }
-      #list { left: 26px; top: 112px; width: 352px; height: 330px; }
-      #stat { left: 160px; top: 120px; width: 760px; }
-      #cur { z-index: 6; }
+      /* tight selfie framing (language.md §5): the glass lives above the head (y 60-320) and on the dark
+         sweater under the caption line (y 1530-1870), never beside the face */
+      .g-hook { top: 70px; }
+      #strip { left: 70px; top: 1550px; width: 940px; height: 220px; }
+      #map { left: 120px; top: 1535px; width: 840px; height: 330px; padding: 0; overflow: hidden; }
+      #map .pin { left: 78%; top: 30%; }
+      #chat { left: 120px; top: 1525px; width: 840px; height: 350px; }
+      #chat .body { display: flex; flex-direction: column; justify-content: flex-end; height: 290px; padding-bottom: 14px; }
+      #chat .g-bubble { font-size: 30px; }
+      #pip { left: 330px; top: 1545px; width: 420px; height: 300px; }
+      #esc { position: absolute; left: 340px; top: 1555px; width: 400px; height: 280px; border-radius: 22px; background: url(assets/img/thumb2.jpg) center / cover; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); }
+      #zt { left: 320px; top: 250px; }
+      #list { left: 240px; top: 1520px; width: 600px; }
+      #list .row { height: 66px; font-size: 32px; }
+      #list .head { font-size: 34px; }
+      .st { position: absolute; }
+      #portal { left: 390px; top: 1550px; width: 300px; height: 300px; }
+      #pay { left: 250px; top: 150px; }
+      #pay.g-tag { height: 120px; font-size: 64px; padding: 0 22px 0 36px; border-radius: 30px; }
+      #pay .ic, #pay .ic svg { width: 76px; height: 76px; }
     </style>
   </head>
   <body>
@@ -25,84 +38,57 @@
       <div id="cam" class="g-cam">
         <video id="face" src="assets/video/face.mp4" data-start="0" data-duration="18.6" data-track-index="0" muted playsinline></video>
 
-        <!-- glass space placed in the room -->
-        <div id="space" class="g-space aa">
-          <div class="menubar"><b>Studio</b><span>File</span><span>Edit</span><span>View</span></div>
-          <div id="step" class="g-step"><span>שלב 1</span><span>שלב 2</span><span>שלב 3</span></div>
+        <!-- opening + ending: the video being edited, as a glass timeline strip -->
+        <div id="strip" class="g-card m-light g-strip aa"><div class="ruler"></div><div class="thumbs"></div><svg class="wave"></svg><i class="head"></i>
+          <svg class="curve" viewBox="0 0 900 118" preserveAspectRatio="none"><path id="curve" d="M0 110 C120 108 200 100 300 88 S480 70 560 52 S760 20 900 6" /></svg></div>
 
-          <div id="term" class="g-win g-term aa">
-            <div class="bar"><i></i><i></i><i></i><span>Terminal</span></div>
-            <div class="body">
-              <div class="row r"><span class="p">›</span>install ffmpeg<span class="ok"></span></div>
-              <div class="row r"><span class="p">›</span>install node<span class="ok"></span></div>
-              <div class="row r"><span class="p">›</span>install hyperframes<span class="ok"></span></div>
-              <div style="display: flex; justify-content: flex-end; margin-top: 16px"><span id="free" class="g-badge">חינם</span></div>
-            </div>
-          </div>
+        <!-- "מסלול": abstract map, the route draws, the pin lands -->
+        <div id="map" class="g-card m-light g-map aa"><div class="pin" id="pin"></div></div>
 
-          <div id="chat" class="g-win g-chat aa">
-            <div class="bar"><i></i><i></i><i></i><span>Assistant</span></div>
-            <div class="body">
-              <div class="thumbs"><b class="th" style="background-image: url(assets/img/thumb1.jpg)"></b><b class="th" style="background-image: url(assets/img/thumb2.jpg)"></b><b class="th" style="background-image: url(assets/img/thumb3.jpg)"></b></div>
-              <div class="msg" id="msg">תלמד את הסגנון שלי</div>
-              <div class="reply" id="reply">למדתי את הסגנון שלך ✦</div>
-              <div class="chips" id="chips"><span class="on">כתוביות ✓</span><span>זומים</span><span>סאונד</span><span>קצב</span></div>
-            </div>
-            <div class="input">תערוך לי את זה…</div>
-          </div>
+        <!-- "השתלטות צ'אט": the chat fills until it takes over the window -->
+        <div id="chat" class="g-card m-win aa"><div class="bar"><i></i><i></i><i></i><span>Claude</span></div>
+          <div class="body">
+            <div class="g-bubble out cb">תערוך את הסרטון הזה</div>
+            <div class="g-bubble in cb">מוסיף מסלול ✓</div>
+            <div class="g-bubble in cb">משתלט על הצ'אט ✓</div>
+            <div class="g-bubble in cb">עוד רגע הכול מוכן…</div>
+          </div></div>
 
-          <div id="list" class="g-win g-list aa">
-            <div class="bar"><i></i><i></i><i></i><span>Reminders</span></div>
-            <div class="body">
-              <div class="head">הקורס</div>
-              <div class="row"><span class="box"><b></b></span>התקנה</div>
-              <div class="row"><span class="box"><b></b></span>כלים</div>
-              <div class="row"><span class="box"><b></b></span>סגנון</div>
-              <div class="row"><span class="box"><b></b></span>עריכה</div>
-            </div>
-          </div>
+        <!-- "בריחה מהפריים": a frame, the picture breaks out of it -->
+        <div id="pip" class="g-card m-light g-pip aa"><div class="in" style="background-image: url(assets/img/thumb2.jpg)"></div></div>
+        <div id="esc" class="aa"></div>
 
-          <div id="cur" class="g-cursor"></div>
-          <div id="dock" class="g-dock" style="transform: translateX(-50%)"></div>
-        </div>
+        <!-- "זום חד": a tag above the head names the punch -->
+        <div id="zt" class="g-tag aa"><span class="ic" id="ztIc"></span><span id="ztT">זום חד <span dir="ltr">×1.18</span></span></div>
 
-        <!-- stat card (dark glass) -->
-        <div id="stat" class="g-stat aa">
-          <div class="label">חסכתם החודש</div>
-          <div class="num" id="num">₪0</div>
-          <div class="sub"><span>חיובים החודש</span><span>כרטיס אשראי</span></div>
-          <div class="item"><span class="ico"></span><span class="t">עריכת ריל<small>עורך וידאו</small></span><span class="price">₪300</span><span class="strike"></span></div>
-          <div class="item"><span class="ico"></span><span class="t">עריכת ריל<small>עורך וידאו</small></span><span class="price">₪300</span><span class="strike"></span></div>
-          <div class="item"><span class="ico"></span><span class="t">עריכת יוטיוב<small>עורך וידאו</small></span><span class="price">₪1,500</span><span class="strike"></span></div>
-        </div>
+        <!-- "רשימה קופצת": the list of effects so far pops in -->
+        <div id="list" class="g-card m-win g-list aa"><div class="bar"><i></i><i></i><i></i><span>Effects</span></div>
+          <div class="body"><div class="head">האפקטים</div>
+            <div class="row lr"><span class="box"><b></b></span>מסלול</div>
+            <div class="row lr"><span class="box"><b></b></span>השתלטות צ'אט</div>
+            <div class="row lr"><span class="box"><b></b></span>בריחה מהפריים</div>
+            <div class="row lr"><span class="box"><b></b></span>זום חד</div></div></div>
+
+        <!-- "סערת כותרות": the headlines storm in -->
+        <div class="g-tag sm st aa" style="left: 120px; top: 1540px"><span class="ic"></span>מסלול</div>
+        <div class="g-tag sm st aa" style="left: 560px; top: 1580px"><span class="ic"></span>השתלטות צ'אט</div>
+        <div class="g-tag sm st aa" style="left: 200px; top: 1650px"><span class="ic"></span>בריחה מהפריים</div>
+        <div class="g-tag sm st aa" style="left: 640px; top: 1700px"><span class="ic"></span>זום חד</div>
+        <div class="g-tag sm st aa" style="left: 300px; top: 1770px"><span class="ic"></span>רשימה קופצת</div>
+        <div class="g-tag sm st aa" style="left: 700px; top: 1790px"><span class="ic"></span>סערת כותרות</div>
+
+        <!-- "פורטל זום": the camera flies into a glass portal -->
+        <div id="portal" class="g-card m-light g-portal aa"><div class="in" style="background-image: url(assets/img/thumb3.jpg)"></div></div>
+
+        <!-- payoff over the head: the count lands on "צמיחה" -->
+        <div id="pay" class="g-tag aa"><span class="ic" id="payIc"></span><span id="payN">0 אפקטים</span></div>
       </div>
 
-      <!-- screen-space text -->
-      <div id="hook" class="g-hook"><span class="l1">איך נותנים לקלוד</span><span class="l2">לערוך לכם סרטון?</span></div>
+      <div id="hook" class="g-hook"><span class="l1">קלוד, תערוך את הסרטון הזה</span><span class="l2">ותוסיף אפקטים</span></div>
       <div id="caps" class="g-caps"></div>
-      <div id="cta" class="g-cta"><div class="pill">תסתכלו למטה</div><div class="arrow"></div></div>
 
       <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="18.6" data-track-index="10" data-volume="1"></audio>
-      <audio id="sfxZ1" src="assets/theme/sfx/zoom.wav" data-start="2.45" data-duration="0.22" data-track-index="11" data-volume="0.35"></audio>
-      <audio id="sfxW1" src="assets/theme/sfx/pop.wav" data-start="2.6" data-duration="0.12" data-track-index="12" data-volume="0.3"></audio>
-      <audio id="sfxP1" src="assets/theme/sfx/pop.wav" data-start="3.1" data-duration="0.12" data-track-index="13" data-volume="0.3"></audio>
-      <audio id="sfxT1" src="assets/theme/sfx/tick.wav" data-start="3.75" data-duration="0.03" data-track-index="14" data-volume="0.35"></audio>
-      <audio id="sfxT2" src="assets/theme/sfx/tick.wav" data-start="4.2" data-duration="0.03" data-track-index="15" data-volume="0.35"></audio>
-      <audio id="sfxT3" src="assets/theme/sfx/tick.wav" data-start="4.65" data-duration="0.03" data-track-index="14" data-volume="0.35"></audio>
-      <audio id="sfxD1" src="assets/theme/sfx/ding.wav" data-start="5.2" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
-      <audio id="sfxZ2" src="assets/theme/sfx/zoom.wav" data-start="6.75" data-duration="0.22" data-track-index="11" data-volume="0.35"></audio>
-      <audio id="sfxP2" src="assets/theme/sfx/pop.wav" data-start="7.0" data-duration="0.12" data-track-index="13" data-volume="0.3"></audio>
-      <audio id="sfxC1" src="assets/theme/sfx/click.wav" data-start="8.6" data-duration="0.05" data-track-index="17" data-volume="0.45"></audio>
-      <audio id="sfxZ3" src="assets/theme/sfx/zoom.wav" data-start="10.75" data-duration="0.22" data-track-index="11" data-volume="0.35"></audio>
-      <audio id="sfxWh" src="assets/theme/sfx/whoosh.wav" data-start="10.8" data-duration="0.55" data-track-index="18" data-volume="0.28"></audio>
-      <audio id="sfxD2" src="assets/theme/sfx/ding.wav" data-start="12.6" data-duration="0.7" data-track-index="16" data-volume="0.22"></audio>
-      <audio id="sfxZ4" src="assets/theme/sfx/zoom.wav" data-start="14.15" data-duration="0.22" data-track-index="11" data-volume="0.35"></audio>
-      <audio id="sfxP3" src="assets/theme/sfx/pop.wav" data-start="14.4" data-duration="0.12" data-track-index="13" data-volume="0.3"></audio>
-      <audio id="sfxC2" src="assets/theme/sfx/click.wav" data-start="15.0" data-duration="0.05" data-track-index="17" data-volume="0.45"></audio>
-      <audio id="sfxC3" src="assets/theme/sfx/click.wav" data-start="15.35" data-duration="0.05" data-track-index="17" data-volume="0.45"></audio>
-      <audio id="sfxC4" src="assets/theme/sfx/click.wav" data-start="15.7" data-duration="0.05" data-track-index="17" data-volume="0.45"></audio>
-      <audio id="sfxC5" src="assets/theme/sfx/click.wav" data-start="16.05" data-duration="0.05" data-track-index="17" data-volume="0.45"></audio>
-      <audio id="sfxP4" src="assets/theme/sfx/pop.wav" data-start="16.6" data-duration="0.12" data-track-index="13" data-volume="0.35"></audio>
+<!--__SFX__-->
     </div>
     <script>
       const WORDS = __WORDS__;
@@ -110,62 +96,87 @@
       const tl = gsap.timeline({ paused: true });
 
       // ---- build DOM ----
-      G.dock("#dock", ["folder", "globe", "photos", "notes", "spark", "clip", "trash"]);
-      document.querySelectorAll("#term .ok").forEach((e) => (e.innerHTML = G.CHECK));
+      const effects = ["מסלול", "צ'אט", "בריחה", "זום", "רשימה", "כותרות", "פורטל", "צמיחה"];
+      G.strip("#strip", { n: 8, thumbs: ["assets/img/thumb1.jpg", "assets/img/thumb2.jpg", "assets/img/thumb3.jpg"], ruler: ["00:00", "00:05", "00:10", "00:15", "00:18"],
+        marks: effects.map((e, i) => ({ text: e, at: 0.06 + i * 0.125 })) });
+      G.map("#map", { seed: 5, streets: 8, route: [[10, 85], [30, 70], [42, 72], [55, 48], [68, 40], [78, 30]] });
       document.querySelectorAll("#list .box b").forEach((e) => (e.innerHTML = G.TICK));
-      document.querySelector("#cur").innerHTML = G.CURSOR;
-      document.querySelector("#cta .arrow").innerHTML = G.ARROW;
+      document.querySelectorAll(".st .ic").forEach((e) => (e.innerHTML = G.ICONS.spark));
+      document.querySelector("#ztIc").innerHTML = G.ICONS.clip;
+      document.querySelector("#payIc").innerHTML = G.CHECK;
+      // the strip's markers alternate above/below so the names never overlap
+      document.querySelectorAll("#strip .mk").forEach((m, i) => (m.style.top = i % 2 ? "120px" : "-4px"));
 
-      // ---- hidden until cue ----
-      ["#space", "#term", "#chat", "#list", "#stat", "#cta .pill", "#cta .arrow svg"].forEach((s) => G.hide(tl, s));
+      ["#strip", "#map", "#pin", "#chat", "#pip", "#esc", "#zt", "#list", ".st", "#portal", "#pay", "#strip .mk", "#curve"].forEach((s) => G.hide(tl, s));
 
-      // ---- camera: punch zooms every ~4 s, slow drift between ----
-      G.zoomInit(tl, "#cam", 1.12, 0, 40);
-      G.drift(tl, "#cam", 0, 2.45);
-      G.zoom(tl, "#cam", 2.45, 1.0, 0, 0);
-      G.drift(tl, "#cam", 2.6, 4.1);
-      G.zoom(tl, "#cam", 6.75, 1.14, 110, -40);
-      G.drift(tl, "#cam", 6.9, 3.85);
-      G.zoom(tl, "#cam", 10.75, 1.0, 0, 0);
-      G.drift(tl, "#cam", 10.9, 3.25);
-      G.zoom(tl, "#cam", 14.15, 1.1, 90, -20);
-      G.drift(tl, "#cam", 14.3, 4.3);
+      // ---- camera: a punch (or the portal) every 2-4 s, drift between ----
+      G.zoomInit(tl, "#cam", 1.0, 0, 0);
+      G.drift(tl, "#cam", 0, 3.5);
+      G.zoom(tl, "#cam", 3.6, 1.06, 0, -30);
+      G.drift(tl, "#cam", 3.75, 5.0);
+      G.zoom(tl, "#cam", 8.92, 1.18, 0, 60);
+      G.zoom(tl, "#cam", 10.86, 1.0, 0, 0);
+      G.zoom(tl, "#cam", 13.04, 1.06, 0, -30);
+      G.drift(tl, "#cam", 13.2, 1.8);
+      tl.to("#cam", { scale: 2.6, x: 0, y: -2080, duration: 0.42, ease: "power2.in" }, 15.6);   // into the portal (origin 540,864 → portal 540,1700)
+      tl.set("#cam", { scale: 1.0, x: 0, y: 0 }, 16.04);                                              // out the other side, hard
+      G.drift(tl, "#cam", 16.1, 2.5);
 
-      // ---- hook (cut on the first zoom), then captions ----
-      G.hook(tl, "#hook", 0.05, 2.45);
-      G.captions(tl, "#caps", WORDS, { maxWords: 3, until: 16.5 }).length;
+      // ---- hook over the strip (opening visual: the video being edited) ----
+      G.hook(tl, "#hook", 0.05, 3.55);
+      G.spaceIn(tl, "#strip", 0.15);
+      G.stripFill(tl, "#strip", 0.35, 0.08);
+      G.playhead(tl, "#strip", 0.3, 3.2, 0, 0.36);
+      G.exit(tl, "#strip", 3.55);
+      G.captions(tl, "#caps", WORDS.filter((w) => w.start >= 3.55), { maxWords: 3 });
 
-      // ---- step 1: terminal ----
-      G.spaceIn(tl, "#space", 2.55);
-      G.steps(tl, "#step", [2.55, 6.95, 14.35]);
-      G.winIn(tl, "#term", 3.1);
-      G.rows(tl, "#term .r", 3.35, 0.45);
-      G.pop(tl, "#term .ok", 3.75, 0.45);
-      G.pop(tl, "#free", 5.2, 0);
-      G.winOut(tl, "#term", 6.75);
+      // ---- מסלול ----
+      G.spaceIn(tl, "#map", 3.62);
+      G.route(tl, "#map", 3.72, 0.9);
+      G.confirm(tl, "#pin", 4.62);
+      G.exit(tl, "#map", 5.0);
 
-      // ---- step 2: chat learns the style ----
-      G.winIn(tl, "#chat", 7.0);
-      G.pop(tl, "#chat .th", 7.3, 0.12);
-      G.rows(tl, ["#msg", "#reply", "#chips"], 7.8, 0.6);
-      G.cursor(tl, "#cur", [[300, 520, 7.4], [250, 430, 8.5], [250, 430, 9.0], [330, 380, 10.0]], [8.6]);
-      G.winOut(tl, "#chat", 10.7);
-      G.spaceOut(tl, "#space", 10.75);
+      // ---- השתלטות צ'אט ----
+      G.appear(tl, "#chat", 5.06, "win");
+      G.fill(tl, "#chat .cb", [5.1, 5.45, 5.75, 6.05]);
+      G.emphasize(tl, "#chat", 6.2);
+      G.exit(tl, "#chat", 6.86);
 
-      // ---- stat card: money saved ----
-      G.winIn(tl, "#stat", 10.85, { y: 40 });
-      G.count(tl, "#num", 0, 2100, 11.1, 1.5, { prefix: "₪" });
-      G.strike(tl, "#stat .strike", 11.4, 0.4);
-      tl.to("#stat", { opacity: 0, scale: 0.9, filter: "blur(8px)", duration: 0.25, ease: "power2.in" }, 14.0);
+      // ---- בריחה מהפריים ----
+      G.spaceIn(tl, "#pip", 6.92);
+      tl.set("#esc", { opacity: 1 }, 7.32);
+      tl.fromTo("#esc", { scale: 1, y: 0, x: 0 }, { scale: 1.18, y: -40, x: 140, duration: 0.42, ease: "back.out(1.6)", immediateRender: false }, 7.32);
+      tl.to("#pip .in", { opacity: 0.25, duration: 0.2 }, 7.32);
+      G.exit(tl, ["#pip", "#esc"], 8.82);
 
-      // ---- step 3: checklist ----
-      G.spaceIn(tl, "#space", 14.25);
-      G.winIn(tl, "#list", 14.4);
-      G.cursor(tl, "#cur", [[340, 560, 14.5], [70, 250, 14.95], [70, 300, 15.3], [70, 350, 15.65], [70, 400, 16.0], [200, 520, 16.6]], [15.0, 15.35, 15.7, 16.05], { init: false });
-      G.check(tl, "#list .box b", 15.0, 0.35);
+      // ---- זום חד ----
+      G.tag(tl, "#zt", 9.0);
+      G.emphasize(tl, "#zt", 9.28);
+      G.exit(tl, "#zt", 10.8);
 
-      // ---- CTA ----
-      G.cta(tl, "#cta", 16.55);
+      // ---- רשימה קופצת ----
+      G.appear(tl, "#list", 10.92, "win");
+      G.pop(tl, "#list .lr", 11.05, 0.2);
+      G.check(tl, "#list .box b", 11.6, 0.12);
+      G.exit(tl, "#list", 12.98);
+
+      // ---- סערת כותרות ----
+      G.multiply(tl, ".st", 13.08, 5);
+      G.exit(tl, ".st", 14.96);
+
+      // ---- פורטל זום ----
+      G.spaceIn(tl, "#portal", 15.1);
+      tl.set("#portal", { opacity: 0 }, 16.04);
+
+      // ---- עקומת צמיחה: the strip returns with every effect on it, the curve climbs, the count lands on "צמיחה" ----
+      G.spaceIn(tl, "#strip", 16.1);
+      G.playhead(tl, "#strip", 16.1, 1.5, 0.36, 1.0);
+      document.querySelectorAll("#strip .mk").forEach((m, i) => { { tl.set(m, { opacity: 0, y: -46, scale: 0.6 }, 0); tl.fromTo(m, { opacity: 0, y: -46, scale: 0.6 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2.2)", immediateRender: false }, 16.2 + i * 0.11); } });
+      G.swap(tl, "#strip .mk", 17.62, "on");
+      tl.set("#curve", { opacity: 1 }, 17.12);
+      G.draw(tl, "#curve", 17.12, 0.5, "power1.in");
+      G.tag(tl, "#pay", 16.4, "50% 50%");
+      G.count(tl, "#payN", 0, 8, 16.5, 1.12, { suffix: " אפקטים" });
 
       window.__timelines["main"] = tl;
     </script>
