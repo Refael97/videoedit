@@ -92,16 +92,19 @@ video only. Board needs a third video by this creator to confirm which caption v
 
 ## QA targets
 
-Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
+Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
 
-| video | length | motion | flat % | events / s |
-|---|---|---|---|---|
-| Video-31455 | 48.67 s | 1.7 | 72.1% | 0.41 |
-| Video-42755 | 36.97 s | 3.4 | 11.2% | 1.03 |
-| **anchor** | 85.6 s | **2.43** | **45.8%** | **0.68** |
+| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|
+| Video-31455 | 48.67 s | 0.88 (1.08 − 0.2) | 72.1% | 0.45 | 0.05 px · 2P 3D |
+| Video-42755 | 36.97 s | 0.91 (1.87 − 0.97) | 11.2% | 1.11 | 0.12 px · 5P 5D |
+| **anchor** | 85.6 s | **0.89** | **45.8%** | **0.73** | jitter 0.08 px/frame, 10.5 camera moves/min |
 
 | check | target |
 |---|---|
-| motion | >= 1.83 (0.75 x anchor) |
+| graphics motion | >= 0.67 (0.75 x anchor) |
 | flat stretches | <= 46.0% |
-| actions / s (big moments) | 0.47–0.88 (anchor ±30%) |
+| actions / s (events + camera moves) | 0.51–0.96 (anchor ±30%) |
+| footage motion | reported, never failed |

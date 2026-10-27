@@ -164,7 +164,9 @@ const { chromium } = require("playwright");
         const cs = getComputedStyle(el), tag = el.tagName.toLowerCase();
         let r = null;
         const own = Array.from(el.childNodes).filter((n) => n.nodeType === 3 && n.textContent.trim());
-        if (own.length && parseFloat(cs.fontSize) * scaleOf(el) >= 40 && !el.closest("svg")) {
+        const alphaOf = (c) => { const m = String(c).match(/rgba?\(([^)]+)\)/); if (!m) return 1; const v = m[1].split(","); return v.length > 3 ? parseFloat(v[3]) : 1; };
+        const ghost = alphaOf(cs.color) < 0.3 && (parseFloat(cs.webkitTextStrokeWidth || 0) === 0 || alphaOf(cs.webkitTextStrokeColor) < 0.3);  // watermark text = background
+        if (own.length && !ghost && parseFloat(cs.fontSize) * scaleOf(el) >= 40 && !el.closest("svg")) {
           let x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9; own.forEach((n) => { const rg = document.createRange(); rg.selectNodeContents(n); const q = rg.getBoundingClientRect(); x1 = Math.min(x1, q.left); y1 = Math.min(y1, q.top); x2 = Math.max(x2, q.right); y2 = Math.max(y2, q.bottom); });
           r = [x1, y1, x2 - x1, y2 - y1];
         } else {
@@ -187,7 +189,14 @@ const { chromium } = require("playwright");
         const sa = A.el.closest("[data-qa-stack]"), sb = B.el.closest("[data-qa-stack]"); if (sa && sa === sb) continue;
         const ix = Math.max(0, Math.min(A.r[0] + A.r[2], B.r[0] + B.r[2]) - Math.max(A.r[0], B.r[0])), iy = Math.max(0, Math.min(A.r[1] + A.r[3], B.r[1] + B.r[3]) - Math.max(A.r[1], B.r[1]));
         const ia = ix * iy, small = Math.min(A.r[2] * A.r[3], B.r[2] * B.r[3]);
-        if (ia > 400 && ia > 0.04 * small) S.overlaps.push({ a: A.label, b: B.label, share: +(ia / small).toFixed(2) });
+        if (!(ia > 400 && ia > 0.04 * small)) continue;
+        // fully placed ON a larger surface and painted above it = sitting on it, not colliding
+        if (ia >= 0.9 * small) {
+          const S_ = A.r[2] * A.r[3] <= B.r[2] * B.r[3] ? A : B;
+          const top = document.elementFromPoint(S_.r[0] + S_.r[2] / 2, S_.r[1] + S_.r[3] / 2);
+          if (top && (top === S_.el || S_.el.contains(top))) continue;
+        }
+        S.overlaps.push({ a: A.label, b: B.label, share: +(ia / small).toFixed(2) });
       }
       // digits near charts
       S.charts.forEach((c) => { const [x, y, w, h] = c.r; c.digits = S.texts.some((tx) => /\d/.test(tx.tx) && !tx.cap && tx.r[0] < x + w + 40 && tx.r[0] + tx.r[2] > x - 40 && tx.r[1] < y + h + 40 && tx.r[1] + tx.r[3] > y - 40); });

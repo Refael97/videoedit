@@ -17,6 +17,7 @@ from video_metrics import FPS, W, H, frames
 EDGE_THR = 300.0       # Sobel magnitude of a "hard" synthetic edge at 270x480
 EDGE_NOGFX = 0.012     # a 1-s window is "no graphics" when < 1.2% of the pixels outside the speaker are hard edges
 PUNCH, DRIFT = 0.04, 0.03
+CUT = 12.0             # a frame pair whose whole-frame difference is >= 12 is a cut / jump, not motion
 _face = None
 
 
@@ -109,17 +110,21 @@ def graphics_motion(diff_src, mask_src=None, compensate=True):
             m = m | ~valid
         d = np.abs(b.astype(np.int16) - a.astype(np.int16))
         keep = ~m
-        res.append(float(d[keep].mean()) if keep.mean() > 0.05 else float(d.mean()))
+        raw = float(np.abs(G[i + 1].astype(np.int16) - G[i].astype(np.int16)).mean())
+        # unmeasurable pairs are left out: the speaker fills the frame (< 15% left to read) or a hard cut / layout
+        # jump (counted as an action instead, never as layer motion)
+        res.append(float(d[keep].mean()) if keep.mean() >= 0.15 and raw < CUT else np.nan)
         edg.append(edges_outside(b, m) if i % 3 == 0 else (edg[-1] if edg else 0.0))
     res, edg = np.array(res), np.array(edg)
     nw = len(res) // FPS
     gfx_w = [bool(np.median(edg[k * FPS:(k + 1) * FPS]) >= EDGE_NOGFX) for k in range(nw)]
     win = lambda k: res[k * FPS:(k + 1) * FPS]
-    g = [win(k).mean() for k in range(nw) if gfx_w[k]]
-    o = [win(k).mean() for k in range(nw) if not gfx_w[k]]
+    usable = [np.isfinite(win(k)).mean() >= 0.5 for k in range(nw)]
+    g = [np.nanmean(win(k)) for k in range(nw) if gfx_w[k] and usable[k]]
+    o = [np.nanmean(win(k)) for k in range(nw) if not gfx_w[k] and usable[k]]
     # baseline = the footage's own residual (grain, compression, speaker spill, leftover camera) in windows without
     # graphics; when the video has < 3 s of such windows, the quietest 10% of windows stand in for it
-    allw = [win(k).mean() for k in range(nw)]
+    allw = [np.nanmean(win(k)) for k in range(nw) if usable[k]]
     base = float(np.mean(o)) if len(o) >= 3 else (float(np.percentile(allw, 10)) if allw else 0.0)
     gm = max(0.0, float(np.mean(g)) - base) if g else 0.0
     return {"gfx_motion": round(gm, 2), "gfx_raw": round(float(np.mean(g)), 2) if g else 0.0, "baseline": round(base, 2), "baseline_s": len(o), "baseline_from": "no-graphics windows" if len(o) >= 3 else "quietest 10% of windows", "gfx_share": round(len(g) / max(1, nw), 2),

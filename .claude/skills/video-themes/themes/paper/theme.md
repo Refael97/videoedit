@@ -95,12 +95,12 @@ graphics, minus the footage's own residual (windows without graphics, else the q
 
 | video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
 |---|---|---|---|---|---|
-| Video-15422 | 76.83 s | 0.14 (2.16 − 2.02) | 18.5% | 0.51 | 0.16 px · 5P 7D |
-| **anchor** | 76.8 s | **0.14** | **18.5%** | **0.51** | jitter 0.16 px/frame, 9.4 camera moves/min |
+| Video-15422 | 76.83 s | 0.92 (1.38 − 0.47) | 18.5% | 0.51 | 0.16 px · 5P 7D |
+| **anchor** | 76.8 s | **0.92** | **18.5%** | **0.51** | jitter 0.16 px/frame, 9.4 camera moves/min |
 
 | check | target |
 |---|---|
-| graphics motion | >= 0.11 (0.75 x anchor) |
+| graphics motion | >= 0.69 (0.75 x anchor) |
 | flat stretches | <= 19.0% |
 | actions / s (events + camera moves) | 0.36–0.66 (anchor ±30%) |
 | footage motion | reported, never failed |

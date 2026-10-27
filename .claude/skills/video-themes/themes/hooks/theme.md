@@ -64,18 +64,21 @@ template line: 6 words + chip / 1.2 s · tile: pop + 3 icons + push / 2.4 s ≈ 
 
 ## QA targets
 
-Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
+Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
 
-| video | length | motion | flat % | events / s |
-|---|---|---|---|---|
-| Video-7784 | 49.53 s | 4.53 | 5.7% | 0.52 |
-| Video-28202 | 53.77 s | 2.58 | 55.3% | 0.52 |
-| Video-68494 | 47.37 s | 3.44 | 28.0% | 0.42 |
-| Video-93864 | 64.67 s | 2.93 | 39.4% | 0.7 |
-| **anchor** | 215.3 s | **3.32** | **33.1%** | **0.55** |
+| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|
+| Video-7784 | 49.53 s | 0.29 (0.95 − 0.66) | 5.7% | 0.69 | 0.39 px · 8P 11D |
+| Video-28202 | 53.77 s | 0.15 (0.71 − 0.56) | 55.3% | 0.65 | 0.21 px · 11P 11D |
+| Video-68494 | 47.37 s | 2.53 (3.01 − 0.49) | 28.0% | 0.59 | 0.4 px · 18P 15D |
+| Video-93864 | 64.67 s | 0.17 (0.83 − 0.66) | 39.4% | 0.8 | 0.23 px · 5P 15D |
+| **anchor** | 215.3 s | **0.71** | **33.1%** | **0.69** | jitter 0.30 px/frame, 26.2 camera moves/min |
 
 | check | target |
 |---|---|
-| motion | >= 2.49 (0.75 x anchor) |
+| graphics motion | >= 0.53 (0.75 x anchor) |
 | flat stretches | <= 34.0% |
-| actions / s (big moments) | 0.39–0.72 (anchor ±30%) |
+| actions / s (events + camera moves) | 0.48–0.9 (anchor ±30%) |
+| footage motion | reported, never failed |
