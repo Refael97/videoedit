@@ -1,0 +1,337 @@
+"""Theme QA: checks a draft against the theme's measured anchor targets and the known-mistake rules.
+
+usage: qa <project> [--theme NAME] [--reuse-draft] [--step 0.25]
+writes <project>/qa.json and <project>/qa-report.md, prints "N/9 READY|NOT READY"; exit code 0 only when 9/9.
+The draft is rendered at 30 fps, draft quality, to <project>/renders/qa-draft.mp4 (the renderer has no 540p preset;
+analysis runs at 270x480 / 540x960 anyway).
+"""
+import argparse, json, math, pathlib, re, subprocess, sys
+import numpy as np
+
+HERE = pathlib.Path(__file__).resolve().parent
+THEMES = HERE.parent.parent / "themes"
+sys.path.insert(0, str(HERE))
+import video_metrics as vm  # noqa: E402
+
+HF = ["npx", "--yes", "hyperframes@0.8.150"]
+VW, VH = 1080, 1920
+MIN_TEXT = 26
+HERO_MIN = 0.60
+PAYOFF_TOL, PAYOFF_HOLD = 0.15, 0.8
+
+CHECKS = [
+    ("motion", "motion"), ("flat", "flat stretches"), ("actions", "actions / s"), ("payoff", "payoff lands"),
+    ("text", "min text"), ("hero", "hero fill"), ("collide", "collisions"), ("placeholder", "no placeholders"), ("hook", "hook visual"),
+]
+FIX = {
+    "motion": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words",
+    "flat": "add a build-up event, secondary motion or a camera move (push / punch) here",
+    "actions_low": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s",
+    "actions_high": "too busy: merge or drop events so each lands on a word",
+    "payoff_end": "retime the count so it ends ON the payoff word (start it on the set-up word)",
+    "payoff_hold": "hold the final value >= 0.8 s before any exit or cut",
+    "payoff_stamp": "move the stamp / check after the number lands",
+    "payoff_unmarked": "a number changes on screen: mark the payoff element with data-qa-payoff=\"<word>\" (and data-qa-stamp)",
+    "text": "enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)",
+    "hero": "make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space",
+    "hero_empty": "the stage is empty here: put the hero on it or switch to the face layout",
+    "cap_card": "move the caption off the card (card bottom >= 60px above the caption) or move the card",
+    "face": "keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space",
+    "uniform": "uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it",
+    "flat_img": "image with almost no detail (grey box?): use a real frame / screenshot",
+    "chart": "a chart needs real numbers: add axis values / the measured figures, or drop the chart",
+    "hook": "open on a visual (the result, the thing itself, real thumbnails), not text alone",
+}
+
+
+def words_between(words, a, b):
+    return " ".join(w["text"] for w in words if w["end"] > a and w["start"] < b)
+
+
+def rect_inter(a, b):
+    x1, y1 = max(a[0], b[0]), max(a[1], b[1])
+    x2, y2 = min(a[0] + a[2], b[0] + b[2]), min(a[1] + a[3], b[1] + b[3])
+    return max(0, x2 - x1) * max(0, y2 - y1)
+
+
+def group_times(ts, step, minlen=1):
+    """[t...] -> [(a, b)] runs of consecutive samples, keeping runs of >= minlen samples"""
+    runs, cur = [], []
+    for t in sorted(ts):
+        if cur and t - cur[-1] > step * 1.5:
+            runs.append(cur); cur = []
+        cur.append(t)
+    if cur:
+        runs.append(cur)
+    return [(r[0], r[-1] + step) for r in runs if len(r) >= minlen]
+
+
+def face_boxes(src, times):
+    try:
+        import cv2
+        cv2.CascadeClassifier  # OpenCV 5 dropped it: needs opencv-python-headless<5
+    except (ImportError, AttributeError):
+        print("! opencv missing: pip install \"opencv-python-headless<5\"  (face checks skipped)")
+        return {}, None
+    cap = cv2.VideoCapture(str(src))
+    size = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+    det = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+    found = {}
+    for t in times:
+        cap.set(cv2.CAP_PROP_POS_MSEC, t * 1000)
+        ok, fr = cap.read()
+        if not ok:
+            continue
+        g = cv2.cvtColor(fr, cv2.COLOR_BGR2GRAY)
+        f = det.detectMultiScale(g, 1.1, 6, minSize=(size[0] // 8, size[0] // 8))
+        if len(f):
+            found[t] = [int(v) for v in max(f, key=lambda b: b[2] * b[3])]
+    # one box per shot: fill gaps from the nearest detection within 1 s
+    out = {}
+    for t in times:
+        near = [k for k in found if abs(k - t) <= 1.0]
+        if near:
+            out[f"{t:.2f}"] = found[min(near, key=lambda k: abs(k - t))]
+    return out, size
+
+
+def draft_frames(path):
+    raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(path), "-vf", "fps=30,scale=540:960,format=gray", "-f", "rawvideo", "-"], capture_output=True, check=True).stdout
+    return np.frombuffer(raw, np.uint8).reshape(-1, 960, 540)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("project")
+    ap.add_argument("--theme")
+    ap.add_argument("--reuse-draft", action="store_true")
+    ap.add_argument("--step", type=float, default=0.25)
+    a = ap.parse_args()
+    proj = pathlib.Path(a.project).resolve()
+    meta = json.loads((proj / "meta.json").read_text()) if (proj / "meta.json").exists() else {}
+    theme = a.theme or meta.get("theme")
+    tpath = THEMES / theme / "qa-targets.json"
+    if not tpath.exists():
+        sys.exit(f"no QA targets for theme '{theme}': run  python3 {HERE}/anchor.py {theme}")
+    T = json.loads(tpath.read_text())["targets"]
+    words = json.loads((proj / "data/words.json").read_text()) if (proj / "data/words.json").exists() else []
+    html = (proj / "index.html").read_text()
+
+    # ---- 1. draft ----
+    draft = proj / "renders/qa-draft.mp4"
+    if not (a.reuse_draft and draft.exists() and draft.stat().st_mtime > (proj / "index.html").stat().st_mtime):
+        print("rendering draft (30 fps, draft quality)…")
+        r = subprocess.run(HF + ["render", "--fps", "30", "-q", "draft", "-o", str(draft)], cwd=proj, capture_output=True, text=True)
+        if r.returncode:
+            sys.exit("draft render failed:\n" + r.stdout[-2000:] + r.stderr[-2000:])
+    M = vm.metrics(draft)
+    dur = M["duration"]
+
+    # ---- 2. faces (source footage) ----
+    m = re.search(r'<video[^>]*(?:data-qa="face"|id="[^"]*face[^"]*"|data-track-index="0")[^>]*>', html, re.I)
+    src = re.search(r'src="([^"]+)"', m.group(0)).group(1) if m else None
+    times = [round(i * a.step, 2) for i in range(int(dur / a.step))]
+    faces, fsize = face_boxes(proj / src, times) if src and (proj / src).exists() else ({}, None)
+
+    # ---- 3. DOM probe ----
+    pin, pout = proj / "renders/qa-probe-in.json", proj / "renders/qa-probe.json"
+    pin.write_text(json.dumps({"step": a.step, "faces": faces, "faceSize": fsize, "words": words}))
+    r = subprocess.run(["node", str(HERE / "probe.cjs"), str(proj / "index.html"), str(pin), str(pout)], capture_output=True, text=True)
+    if r.returncode:
+        sys.exit("probe failed:\n" + r.stderr[-3000:])
+    P = json.loads(pout.read_text())
+    S = P["samples"]
+    step = a.step
+    res, fixes = {}, []
+
+    def fix(t0, t1, check, msg):
+        fixes.append({"t": f"{t0:.1f}–{t1:.1f}s", "t0": round(t0, 2), "words": words_between(words, t0, t1), "check": check, "fix": msg})
+
+    # C1 motion
+    ok = M["motion"] >= T["motion_min"]
+    res["motion"] = {"value": M["motion"], "target": f">= {T['motion_min']}", "pass": ok}
+    if not ok:
+        fix(0, dur, "motion", FIX["motion"])
+    # C2 flat
+    ok = M["flat_pct"] <= T["flat_max"]
+    res["flat"] = {"value": f"{M['flat_pct']}%", "target": f"<= {T['flat_max']}%", "pass": ok}
+    if not ok:
+        for x, y in sorted(M["flat_runs"], key=lambda r: r[1] - r[0], reverse=True)[:12]:
+            fix(x, y, "flat stretches", FIX["flat"])
+    # C3 actions / s (video events, same detector as the anchor) + GSAP diagnostics
+    ev = M["events_per_s"]
+    lo, hi = T["events_min"], T["events_max"]
+    ok = lo <= ev <= hi
+    tw = [t for t in P["tweens"] if t["dom"] and not t["cap"]]
+    gsap_rate = round(len(tw) / dur, 2)
+    res["actions"] = {"value": f"{ev} events/s (GSAP {gsap_rate} tweens/s)", "target": f"{lo}–{hi}", "pass": ok}
+    if ev < lo:
+        e = [0.0] + M["events"] + [dur]
+        for x, y in zip(e, e[1:]):
+            if y - x >= 2.0:
+                fix(x, y, "actions / s", FIX["actions_low"])
+    elif ev > hi:
+        fix(0, dur, "actions / s", FIX["actions_high"])
+    # C4 payoff
+    bad = []
+    for p in P["payoffs"]:
+        if p.get("wordStart") is None:
+            bad.append((0, dur, f"payoff word '{p['word']}' not found in words.json"))
+            continue
+        if p.get("end") is None:
+            bad.append((p["wordStart"] - 1, p["wordStart"] + 1, f"{p['sel']}: no change found around '{p['word']}'"))
+            continue
+        if abs(p["end"] - p["wordStart"]) > PAYOFF_TOL:
+            bad.append((p["end"] - 0.5, p["end"] + 0.5, f"{p['sel']} lands at {p['end']:.2f}s, word at {p['wordStart']:.2f}s: " + FIX["payoff_end"]))
+        if p["hold"] < PAYOFF_HOLD - 0.05 and p["untilEnd"] >= PAYOFF_HOLD:
+            bad.append((p["end"], p["end"] + 1, f"{p['sel']} holds {p['hold']}s: " + FIX["payoff_hold"]))
+        if p.get("stamp") and (p.get("stampAt") is None or p["stampAt"] < p["end"] - 0.02):
+            bad.append((p["end"] - 0.5, p["end"] + 0.5, f"stamp {p['stamp']} at {p.get('stampAt')}: " + FIX["payoff_stamp"]))
+    for c in P["changingDigits"]:
+        bad.append((0, dur, f"{c['key'].split('|')[0]} changes {c['values']}: " + FIX["payoff_unmarked"]))
+    res["payoff"] = {"value": f"{len(P['payoffs'])} marked, {len(bad)} problems", "target": "ends on word ±0.15, holds 0.8, stamp after", "pass": not bad}
+    for x, y, msg in bad:
+        fix(max(0, x), min(dur, y), "payoff lands", msg)
+
+    # C5 min text (persisting >= 2 samples)
+    small = {}
+    for s in S:
+        for tx in s["texts"]:
+            if tx["op"] > 0.3 and tx["fs"] < MIN_TEXT:
+                small.setdefault((tx["id"], tx["tx"]), []).append((s["t"], tx["fs"]))
+    nbad = 0
+    for (eid, txt), occ in small.items():
+        for x, y in group_times([t for t, _ in occ], step, 2):
+            nbad += 1
+            fix(x, y, "min text", f"'{txt}' ({min(f for _, f in occ):.0f}px): " + FIX["text"])
+    res["text"] = {"value": f"{nbad} items < {MIN_TEXT}px", "target": f">= {MIN_TEXT}px", "pass": nbad == 0}
+
+    # C6 hero fill
+    low, empty, fills = [], [], []
+    for s in S:
+        f = s["face"]
+        frect = None
+        if f and f["op"] > 0.5:
+            c = f["clip"]; r = f["rect"]
+            fx1, fy1 = max(c[0], r[0]), max(c[1], r[1]); fx2, fy2 = min(c[2], r[0] + r[2]), min(c[3], r[1] + r[3])
+            if fx2 > fx1 and fy2 > fy1:
+                frect = [fx1, fy1, fx2 - fx1, fy2 - fy1]
+        if frect and frect[2] * frect[3] >= 0.8 * VW * VH:
+            continue  # full face: cards over the face are small on purpose
+        # the composition's planned extent: elements of the visible scene, including ones not revealed yet
+        gfx = [b["r"] for b in s["boxes"] + s["media"] if b.get("po", b["op"]) >= 0.5]
+        boxes = [b["r"] for b in s["boxes"]]
+        titles = [tx["r"] for tx in s["texts"] if not tx["cap"] and tx["op"] > 0.5 and tx["r"][1] < 0.3 * VH and not any(rect_inter(tx["r"], b) > 0 for b in boxes)]
+        top = max([r[1] + r[3] for r in titles], default=40) + 20
+        caps = [tx["r"][1] for tx in s["texts"] if tx["cap"] and tx["op"] > 0.5]
+        bottom = min(caps + ([frect[1]] if frect and frect[1] > 0.4 * VH else []) + [VH - 40]) - 20
+        surf = [40, top, VW - 80, max(1, bottom - top)]
+        if not gfx:
+            empty.append(s["t"]); continue
+        clipped = []
+        for g in gfx:
+            x1, y1 = max(g[0], surf[0]), max(g[1], surf[1]); x2, y2 = min(g[0] + g[2], surf[0] + surf[2]), min(g[1] + g[3], surf[1] + surf[3])
+            if x2 > x1 and y2 > y1:
+                clipped.append((x1, y1, x2, y2))
+        if not clipped:
+            empty.append(s["t"]); continue
+        ux1, uy1 = min(c[0] for c in clipped), min(c[1] for c in clipped); ux2, uy2 = max(c[2] for c in clipped), max(c[3] for c in clipped)
+        fill = (ux2 - ux1) * (uy2 - uy1) / (surf[2] * surf[3])
+        fills.append(fill)
+        if fill < HERO_MIN:
+            low.append((s["t"], fill))
+    for x, y in group_times(empty, step, 2):
+        fix(x, y, "hero fill", FIX["hero_empty"])
+    for x, y in group_times([t for t, _ in low], step, 2):
+        fv = min(f for t, f in low if x <= t < y)
+        fix(x, y, "hero fill", f"fill {fv:.0%}: " + FIX["hero"])
+    nh = len(group_times(empty, step, 2)) + len(group_times([t for t, _ in low], step, 2))
+    res["hero"] = {"value": f"median {np.median(fills):.0%}" if fills else "n/a", "target": f">= {HERO_MIN:.0%}", "pass": nh == 0}
+
+    # C7 collisions
+    cc, fc = {}, {}
+    for s in S:
+        caps = [tx for tx in s["texts"] if tx["cap"] and tx["op"] > 0.5]
+        for c in caps:
+            for b in s["boxes"]:
+                if b["op"] > 0.5 and rect_inter(c["r"], b["r"]) > 0.15 * c["r"][2] * c["r"][3]:
+                    cc.setdefault((c["tx"], b["id"] or b["cls"]), []).append(s["t"])
+        if s["face"] and s["face"].get("covered"):
+            for k, n in s["face"]["covered"].items():
+                if n >= 3:
+                    fc.setdefault(k, []).append(s["t"])
+    nc = 0
+    for (cap, box), ts in cc.items():
+        for x, y in group_times(ts, step, 1):
+            nc += 1; fix(x, y, "collisions", f"caption '{cap}' on {box}: " + FIX["cap_card"])
+    for k, ts in fc.items():
+        for x, y in group_times(ts, step, 2):
+            nc += 1; fix(x, y, "collisions", f"{k} on the eyes/mouth: " + FIX["face"])
+    res["collide"] = {"value": f"{nc} collisions", "target": "0", "pass": nc == 0, "faces_detected": len(faces)}
+
+    # C8 placeholders (pixels of the draft + charts without digits)
+    F = draft_frames(draft)
+    uni, flatimg, nochart = {}, {}, {}
+    for s in S:
+        i = min(len(F) - 1, int(round(s["t"] * 30)))
+        fr = F[i]
+        for kind, items in (("box", s["boxes"]), ("media", s["media"])):
+            for b in items:
+                x, y, w, h = b["r"]
+                if b["op"] < 0.8 or w < 150 or h < 100:
+                    continue
+                x1, y1, x2, y2 = max(0, x + 10) // 2, max(0, y + 10) // 2, min(VW, x + w - 10) // 2, min(VH, y + h - 10) // 2
+                if x2 - x1 < 20 or y2 - y1 < 20:
+                    continue
+                crop = fr[y1:y2, x1:x2]
+                sd = float(crop.std())
+                key = b["id"] or b.get("cls") or b.get("tag")
+                # a big panel is "mostly empty" when < 20% of its 12px cells carry any detail
+                ch, cw = (y2 - y1) // 6, (x2 - x1) // 6
+                cells = crop[:ch * 6, :cw * 6].reshape(ch, 6, cw, 6).std(axis=(1, 3)) if ch and cw else np.zeros(1)
+                busy = float((cells > 6).mean())
+                if kind == "box" and (sd < 5 or (w >= 250 and h >= 250 and busy < 0.2)):
+                    uni.setdefault(key, []).append(s["t"])
+                if kind == "media" and sd < 8:
+                    flatimg.setdefault(key, []).append(s["t"])
+        for c in s["charts"]:
+            if not c["digits"]:
+                nochart.setdefault(c["id"] or "svg", []).append(s["t"])
+    npl = 0
+    for d, msgk in ((uni, "uniform"), (flatimg, "flat_img"), (nochart, "chart")):
+        for k, ts in d.items():
+            for x, y in group_times(ts, step, 2):
+                npl += 1; fix(x, y, "no placeholders", f"{k}: " + FIX[msgk])
+    res["placeholder"] = {"value": f"{npl} found", "target": "0", "pass": npl == 0}
+
+    # C9 hook visual
+    vis = [s["t"] for s in S if s["t"] < 3 and (any(m_["op"] > 0.5 and m_["r"][2] >= 120 and m_["r"][3] >= 120 for m_ in s["media"]) or any(b["op"] > 0.5 and b["r"][2] >= 150 and b["r"][3] >= 150 for b in s["boxes"]))]
+    ok = len(vis) * step >= 0.5
+    res["hook"] = {"value": f"visual on screen {len(vis) * step:.1f}s of the first 3s", "target": ">= 0.5s", "pass": ok}
+    if not ok:
+        fix(0, 3, "hook visual", FIX["hook"])
+
+    # ---- report ----
+    score = sum(1 for k, _ in CHECKS if res[k]["pass"])
+    ready = score == len(CHECKS)
+    fixes.sort(key=lambda f: f["t0"])
+    out = {"project": proj.name, "theme": theme, "score": f"{score}/{len(CHECKS)}", "ready": ready, "checks": res, "metrics": {k: M[k] for k in ("duration", "motion", "flat_pct", "events_per_s")}, "targets": T, "fix_list": fixes}
+    (proj / "qa.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
+    L = [f"# QA · {proj.name} · theme `{theme}`", "", f"**{score}/{len(CHECKS)} checks passed — {'READY' if ready else 'NOT READY'}**", "",
+         "| | check | value | target |", "|---|---|---|---|"]
+    for k, name in CHECKS:
+        L.append(f"| {'✓' if res[k]['pass'] else '✗'} | {name} | {res[k]['value']} | {res[k]['target']} |")
+    L += ["", "## FIX LIST", ""]
+    if fixes:
+        L += ["| time | words | check | fix |", "|---|---|---|---|"]
+        L += [f"| {f['t']} | {f['words'][:60]} | {f['check']} | {f['fix']} |" for f in fixes]
+    else:
+        L.append("nothing to fix")
+    L += ["", f"_targets measured on the anchor (`themes/{theme}/qa-targets.json`); draft `renders/qa-draft.mp4`; faces detected in {len(faces)}/{len(times)} samples_"]
+    (proj / "qa-report.md").write_text("\n".join(L) + "\n")
+    print(f"{score}/{len(CHECKS)} {'READY' if ready else 'NOT READY'}  ({len(fixes)} fixes) → {proj / 'qa-report.md'}")
+    sys.exit(0 if ready else 1)
+
+
+if __name__ == "__main__":
+    main()

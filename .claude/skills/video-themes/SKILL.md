@@ -33,6 +33,8 @@ Built on HyperFrames: one paused GSAP timeline at `window.__timelines["main"]`, 
 | `hooks` | v1 (anchor 7784, 4/4) — preview (`videos/theme-hooks-preview`) | glowing meaning-colored word on the chest, black screen with amber corner light, chips with [slots], switches that flip | 9:16 |
 | `board` | v1 (anchor 31455, 2/2, provisional) — preview (`videos/theme-board-preview`) | faceless-first: neo-brutalist cards on cream, coral serif word, pixel crab "Pinch", pixel dissolves; the speaker as a face card | 9:16 |
 
+**night vs hooks (both dark accents):** night draws a *system* (ladder, rows, curve) as light on a black stage with the speaker in a box at the bottom; hooks keeps the speaker *full frame in a bright room* and lands *one glowing word* on the chest. Explaining a structure → night; selling one idea → hooks.
+
 Default when the user names none: ask once, then remember the answer in the project's `meta.json`
 (`"theme": "<name>"`).
 
@@ -118,7 +120,15 @@ brightness, clutter), light, and what to avoid. Measured from the anchor.
    gets added to the theme's blocks (so the next video gets it); it must pass the self-check (§9).
 4. Check the theme's rules (`theme.md` → Rules) against the storyboard: caption words, max time on one
    layout, forbidden moves.
-5. `npx --yes hyperframes@0.8.150 check`, snapshots of every scene, then render at 60 fps in the background.
+5. `npx --yes hyperframes@0.8.150 check` and snapshots of every scene.
+6. **QA gate (mandatory — no draft reaches the user before it passes):** `scripts/qa/qa <project>`. It renders a
+   fast draft (30 fps, draft quality), measures it against the theme's anchor targets (`themes/<name>/qa-targets.json`)
+   and the known-mistake rules, and writes `qa-report.md` + `qa.json`: a score N/9 and a FIX LIST with time, words,
+   the failed check and a concrete fix. Mark every payoff number with `data-qa-payoff="<word>"` (+ `data-qa-stamp`).
+   Loop: fix → `qa` again, **at most 3 rounds**. Only at 9/9 render the final 60 fps. If something still fails after
+   3 rounds, tell the user exactly what fails and why — never send it silently. Targets are never edited to make a
+   draft pass; they change only by re-measuring the anchor (`scripts/qa/anchor.py <theme>`). See `scripts/qa/README.md`.
+7. Render at 60 fps in the background.
 
 ## Workflow: building a theme from a reference video
 

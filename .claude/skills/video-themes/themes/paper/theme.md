@@ -86,3 +86,18 @@ lifted camera with orange tags · comment pill typing the word.
 | cta | `.p-cta` + `PAPER.cta()` |
 | transition.* | `layout` (cut / flash), `pop`, `park`, `out` |
 | sfx.* | `sfx/*.wav` |
+
+## QA targets
+
+Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+
+| video | length | motion | flat % | events / s |
+|---|---|---|---|---|
+| Video-15422 | 76.83 s | 2.96 | 18.5% | 0.46 |
+| **anchor** | 76.8 s | **2.96** | **18.5%** | **0.46** |
+
+| check | target |
+|---|---|
+| motion | >= 2.22 (0.75 x anchor) |
+| flat stretches | <= 19.0% |
+| actions / s (big moments) | 0.32–0.6 (anchor ±30%) |

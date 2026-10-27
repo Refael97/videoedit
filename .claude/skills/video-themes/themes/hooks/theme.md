@@ -61,3 +61,21 @@ template line: 6 words + chip / 1.2 s · tile: pop + 3 icons + push / 2.4 s ≈ 
 | Instagram / TikTok / Facebook logos | generic glyph tiles (`.h-icon`), no brand marks |
 | blurred / unreadable UI rows | fewer rows, all real text |
 | real platform screenshots | real screens rebuilt from the user's actual settings / pages (`.h-screen`) |
+
+## QA targets
+
+Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+
+| video | length | motion | flat % | events / s |
+|---|---|---|---|---|
+| Video-7784 | 49.53 s | 4.53 | 5.7% | 0.52 |
+| Video-28202 | 53.77 s | 2.58 | 55.3% | 0.52 |
+| Video-68494 | 47.37 s | 3.44 | 28.0% | 0.42 |
+| Video-93864 | 64.67 s | 2.93 | 39.4% | 0.7 |
+| **anchor** | 215.3 s | **3.32** | **33.1%** | **0.55** |
+
+| check | target |
+|---|---|
+| motion | >= 2.49 (0.75 x anchor) |
+| flat stretches | <= 34.0% |
+| actions / s (big moments) | 0.39–0.72 (anchor ±30%) |

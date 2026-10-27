@@ -1,0 +1,51 @@
+{
+ "theme": "editorial",
+ "anchor_videos": [
+  "references/editorial/Video-66150.mp4",
+  "references/editorial/Video-72005.mp4",
+  "references/editorial/Video-90553.mp4"
+ ],
+ "measured": {
+  "Video-66150": {
+   "duration": 53.97,
+   "motion": 6.69,
+   "flat_pct": 2.6,
+   "events_per_s": 0.46
+  },
+  "Video-72005": {
+   "duration": 57.97,
+   "motion": 7.84,
+   "flat_pct": 2.2,
+   "events_per_s": 0.45
+  },
+  "Video-90553": {
+   "duration": 49.07,
+   "motion": 5.27,
+   "flat_pct": 0.0,
+   "events_per_s": 0.71
+  }
+ },
+ "anchor": {
+  "motion": 6.67,
+  "flat_pct": 1.7,
+  "events_per_s": 0.53
+ },
+ "targets": {
+  "motion_min": 5.0,
+  "flat_max": 2.0,
+  "events_min": 0.37,
+  "events_max": 0.69
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2
+ }
+}

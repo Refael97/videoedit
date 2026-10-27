@@ -1,0 +1,58 @@
+{
+ "theme": "neon-studio",
+ "anchor_videos": [
+  "references/neon-studio/Video-70647.mp4",
+  "references/neon-studio/Video-10899.mp4",
+  "references/neon-studio/Video-1191.mp4",
+  "references/neon-studio/Video-49478.mp4"
+ ],
+ "measured": {
+  "Video-70647": {
+   "duration": 37.4,
+   "motion": 3.76,
+   "flat_pct": 33.1,
+   "events_per_s": 0.67
+  },
+  "Video-10899": {
+   "duration": 27.93,
+   "motion": 3.68,
+   "flat_pct": 5.1,
+   "events_per_s": 1.25
+  },
+  "Video-1191": {
+   "duration": 27.17,
+   "motion": 8.3,
+   "flat_pct": 9.4,
+   "events_per_s": 1.14
+  },
+  "Video-49478": {
+   "duration": 23.77,
+   "motion": 6.66,
+   "flat_pct": 20.3,
+   "events_per_s": 1.26
+  }
+ },
+ "anchor": {
+  "motion": 5.39,
+  "flat_pct": 18.2,
+  "events_per_s": 1.04
+ },
+ "targets": {
+  "motion_min": 4.05,
+  "flat_max": 19.0,
+  "events_min": 0.73,
+  "events_max": 1.35
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2
+ }
+}

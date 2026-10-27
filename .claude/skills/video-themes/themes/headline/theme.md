@@ -63,3 +63,22 @@ None. (97418 was a paper contributor; here it is the anchor.)
 ## Not yet measured / derived
 The stat card is measured; the `.h-photo` card (a real photo without browser chrome) is from the opening image of 97418.
 The air veil (`.h-air`) is a theme technique for footage on a darker wall — the anchor doesn't need it.
+
+## QA targets
+
+Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+
+| video | length | motion | flat % | events / s |
+|---|---|---|---|---|
+| Video-97418 | 36.97 s | 3.68 | 16.3% | 0.65 |
+| Video-75789 | 46.73 s | 3.84 | 10.9% | 0.47 |
+| Video-81754 | 38.33 s | 3.73 | 18.8% | 0.39 |
+| Video-89398 | 35.07 s | 3.61 | 22.2% | 0.71 |
+| Video-98315 | 37.17 s | 3.77 | 13.3% | 0.32 |
+| **anchor** | 194.3 s | **3.73** | **16.0%** | **0.5** |
+
+| check | target |
+|---|---|
+| motion | >= 2.8 (0.75 x anchor) |
+| flat stretches | <= 16.0% |
+| actions / s (big moments) | 0.35–0.65 (anchor ±30%) |

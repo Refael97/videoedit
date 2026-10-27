@@ -5,6 +5,8 @@
 > Anchor: one creator, 4 videos (50462 "Addictive Storytelling Ladder", 19647, 33830, 41438). Contributors: 32135,
 > 9041, 29402 (translated, see `theme.md`).
 
+> **Not hooks:** night draws a *system* as light on a black stage, speaker in a box; hooks lands *one glowing word* on a full-frame speaker in a bright room.
+
 ## The idea in one sentence
 A creator explains a **system** (a framework, a ladder of levels, a before/after curve) while the system itself
 **lights up** above them on a black stage — neon structures, glowing curves, rows that unlock one by one — and the

@@ -1,0 +1,58 @@
+{
+ "theme": "night",
+ "anchor_videos": [
+  "references/night/Video-50462.mp4",
+  "references/night/Video-19647.mp4",
+  "references/night/Video-33830.mp4",
+  "references/night/Video-41438.mp4"
+ ],
+ "measured": {
+  "Video-50462": {
+   "duration": 124.0,
+   "motion": 2.3,
+   "flat_pct": 9.2,
+   "events_per_s": 0.56
+  },
+  "Video-19647": {
+   "duration": 73.9,
+   "motion": 2.61,
+   "flat_pct": 8.5,
+   "events_per_s": 0.47
+  },
+  "Video-33830": {
+   "duration": 78.3,
+   "motion": 3.29,
+   "flat_pct": 9.4,
+   "events_per_s": 0.57
+  },
+  "Video-41438": {
+   "duration": 107.5,
+   "motion": 2.78,
+   "flat_pct": 17.4,
+   "events_per_s": 0.54
+  }
+ },
+ "anchor": {
+  "motion": 2.7,
+  "flat_pct": 11.4,
+  "events_per_s": 0.54
+ },
+ "targets": {
+  "motion_min": 2.02,
+  "flat_max": 12.0,
+  "events_min": 0.38,
+  "events_max": 0.7
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2
+ }
+}

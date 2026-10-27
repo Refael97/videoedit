@@ -1,0 +1,65 @@
+{
+ "theme": "headline",
+ "anchor_videos": [
+  "references/headline/Video-97418.mp4",
+  "references/headline/Video-75789.mp4",
+  "references/headline/Video-81754.mp4",
+  "references/headline/Video-89398.mp4",
+  "references/headline/Video-98315.mp4"
+ ],
+ "measured": {
+  "Video-97418": {
+   "duration": 36.97,
+   "motion": 3.68,
+   "flat_pct": 16.3,
+   "events_per_s": 0.65
+  },
+  "Video-75789": {
+   "duration": 46.73,
+   "motion": 3.84,
+   "flat_pct": 10.9,
+   "events_per_s": 0.47
+  },
+  "Video-81754": {
+   "duration": 38.33,
+   "motion": 3.73,
+   "flat_pct": 18.8,
+   "events_per_s": 0.39
+  },
+  "Video-89398": {
+   "duration": 35.07,
+   "motion": 3.61,
+   "flat_pct": 22.2,
+   "events_per_s": 0.71
+  },
+  "Video-98315": {
+   "duration": 37.17,
+   "motion": 3.77,
+   "flat_pct": 13.3,
+   "events_per_s": 0.32
+  }
+ },
+ "anchor": {
+  "motion": 3.73,
+  "flat_pct": 16.0,
+  "events_per_s": 0.5
+ },
+ "targets": {
+  "motion_min": 2.8,
+  "flat_max": 16.0,
+  "events_min": 0.35,
+  "events_max": 0.65
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2
+ }
+}

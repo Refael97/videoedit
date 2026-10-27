@@ -1,0 +1,51 @@
+{
+ "theme": "glass",
+ "anchor_videos": [
+  "references/glass/Video-20957.mp4",
+  "references/glass/Video-73421.mp4",
+  "references/glass/Video-30868.mp4"
+ ],
+ "measured": {
+  "Video-20957": {
+   "duration": 37.57,
+   "motion": 3.18,
+   "flat_pct": 2.2,
+   "events_per_s": 0.48
+  },
+  "Video-73421": {
+   "duration": 55.3,
+   "motion": 3.3,
+   "flat_pct": 2.0,
+   "events_per_s": 0.24
+  },
+  "Video-30868": {
+   "duration": 49.2,
+   "motion": 6.79,
+   "flat_pct": 0.0,
+   "events_per_s": 0.08
+  }
+ },
+ "anchor": {
+  "motion": 4.48,
+  "flat_pct": 1.4,
+  "events_per_s": 0.25
+ },
+ "targets": {
+  "motion_min": 3.36,
+  "flat_max": 2.0,
+  "events_min": 0.17,
+  "events_max": 0.32
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2
+ }
+}

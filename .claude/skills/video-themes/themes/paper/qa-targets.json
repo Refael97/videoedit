@@ -1,0 +1,37 @@
+{
+ "theme": "paper",
+ "anchor_videos": [
+  "references/paper/Video-15422.mp4"
+ ],
+ "measured": {
+  "Video-15422": {
+   "duration": 76.83,
+   "motion": 2.96,
+   "flat_pct": 18.5,
+   "events_per_s": 0.46
+  }
+ },
+ "anchor": {
+  "motion": 2.96,
+  "flat_pct": 18.5,
+  "events_per_s": 0.46
+ },
+ "targets": {
+  "motion_min": 2.22,
+  "flat_max": 19.0,
+  "events_min": 0.32,
+  "events_max": 0.6
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2
+ }
+}

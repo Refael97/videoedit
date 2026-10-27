@@ -1,0 +1,58 @@
+{
+ "theme": "hooks",
+ "anchor_videos": [
+  "references/hooks/Video-7784.mp4",
+  "references/hooks/Video-28202.mp4",
+  "references/hooks/Video-68494.mp4",
+  "references/hooks/Video-93864.mp4"
+ ],
+ "measured": {
+  "Video-7784": {
+   "duration": 49.53,
+   "motion": 4.53,
+   "flat_pct": 5.7,
+   "events_per_s": 0.52
+  },
+  "Video-28202": {
+   "duration": 53.77,
+   "motion": 2.58,
+   "flat_pct": 55.3,
+   "events_per_s": 0.52
+  },
+  "Video-68494": {
+   "duration": 47.37,
+   "motion": 3.44,
+   "flat_pct": 28.0,
+   "events_per_s": 0.42
+  },
+  "Video-93864": {
+   "duration": 64.67,
+   "motion": 2.93,
+   "flat_pct": 39.4,
+   "events_per_s": 0.7
+  }
+ },
+ "anchor": {
+  "motion": 3.32,
+  "flat_pct": 33.1,
+  "events_per_s": 0.55
+ },
+ "targets": {
+  "motion_min": 2.49,
+  "flat_max": 34.0,
+  "events_min": 0.39,
+  "events_max": 0.72
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2
+ }
+}

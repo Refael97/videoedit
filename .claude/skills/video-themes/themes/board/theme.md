@@ -89,3 +89,19 @@ Faceless: one board layout (+ the dark section once, 1/2). 14 compositions in 37
 ## Not yet measured / provisional (1/2)
 Header strip + step row, dark "catch" section, line-caption variant, ring counter and day tiles each come from one
 video only. Board needs a third video by this creator to confirm which caption variant is the default.
+
+## QA targets
+
+Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+
+| video | length | motion | flat % | events / s |
+|---|---|---|---|---|
+| Video-31455 | 48.67 s | 1.7 | 72.1% | 0.41 |
+| Video-42755 | 36.97 s | 3.4 | 11.2% | 1.03 |
+| **anchor** | 85.6 s | **2.43** | **45.8%** | **0.68** |
+
+| check | target |
+|---|---|
+| motion | >= 1.83 (0.75 x anchor) |
+| flat stretches | <= 46.0% |
+| actions / s (big moments) | 0.47–0.88 (anchor ±30%) |

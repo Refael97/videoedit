@@ -67,3 +67,21 @@ reasoning cards: 3 cards + 4 builds / 1.2 s ≈ 3 · pen: 2 strikes + circle + s
 ## Not borrowed
 The anchor's mascot is a company's mascot and its scenes are hand-made pixel paintings; the theme ships its own mascot (Bit)
 and generated worlds (`ARCADE.world`), which are simpler than the anchor's illustrated scenes (honest gap).
+
+## QA targets
+
+Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+
+| video | length | motion | flat % | events / s |
+|---|---|---|---|---|
+| Video-5777 | 34.1 s | 4.19 | 13.2% | 0.73 |
+| Video-208 | 44.3 s | 2.69 | 15.7% | 0.99 |
+| Video-58260 | 33.4 s | 2.72 | 11.5% | 0.9 |
+| Video-95186 | 43.8 s | 3.26 | 15.4% | 1.37 |
+| **anchor** | 155.6 s | **3.19** | **14.2%** | **1.02** |
+
+| check | target |
+|---|---|
+| motion | >= 2.39 (0.75 x anchor) |
+| flat stretches | <= 15.0% |
+| actions / s (big moments) | 0.71–1.33 (anchor ±30%) |

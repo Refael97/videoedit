@@ -85,3 +85,20 @@ multiply as 2–3 actions) ≈ 1.2 → **≈1.5–2.5 actions per second** while
 ```
 Full working example: `videos/theme-glass-preview/` (`src/template.html`, `src/sfx.txt`, `build.py`).
 v1 projects (`videos/glass-test-kowalski`) keep working: v2 only adds classes and verbs.
+
+## QA targets
+
+Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+
+| video | length | motion | flat % | events / s |
+|---|---|---|---|---|
+| Video-20957 | 37.57 s | 3.18 | 2.2% | 0.48 |
+| Video-73421 | 55.3 s | 3.3 | 2.0% | 0.24 |
+| Video-30868 | 49.2 s | 6.79 | 0.0% | 0.08 |
+| **anchor** | 142.1 s | **4.48** | **1.4%** | **0.25** |
+
+| check | target |
+|---|---|
+| motion | >= 3.36 (0.75 x anchor) |
+| flat stretches | <= 2.0% |
+| actions / s (big moments) | 0.17–0.32 (anchor ±30%) |

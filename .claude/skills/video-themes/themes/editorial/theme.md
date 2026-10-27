@@ -65,3 +65,20 @@ typed letters, send, out in 3 s · average while an overlay is up ≈2/s.
 ## Gaps / not measured
 - The anchor's barcode on the cover and the thumbnail grid are described but not built as components (use real images).
 - The matte edge on a plain white wall shows a light fringe on the green page; the anchor's footage is cut more cleanly.
+
+## QA targets
+
+Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+
+| video | length | motion | flat % | events / s |
+|---|---|---|---|---|
+| Video-66150 | 53.97 s | 6.69 | 2.6% | 0.46 |
+| Video-72005 | 57.97 s | 7.84 | 2.2% | 0.45 |
+| Video-90553 | 49.07 s | 5.27 | 0.0% | 0.71 |
+| **anchor** | 161.0 s | **6.67** | **1.7%** | **0.53** |
+
+| check | target |
+|---|---|
+| motion | >= 5.0 (0.75 x anchor) |
+| flat stretches | <= 2.0% |
+| actions / s (big moments) | 0.37–0.69 (anchor ±30%) |

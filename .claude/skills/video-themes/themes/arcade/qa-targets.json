@@ -1,0 +1,58 @@
+{
+ "theme": "arcade",
+ "anchor_videos": [
+  "references/arcade/Video-5777.mp4",
+  "references/arcade/Video-208.mp4",
+  "references/arcade/Video-58260.mp4",
+  "references/arcade/Video-95186.mp4"
+ ],
+ "measured": {
+  "Video-5777": {
+   "duration": 34.1,
+   "motion": 4.19,
+   "flat_pct": 13.2,
+   "events_per_s": 0.73
+  },
+  "Video-208": {
+   "duration": 44.3,
+   "motion": 2.69,
+   "flat_pct": 15.7,
+   "events_per_s": 0.99
+  },
+  "Video-58260": {
+   "duration": 33.4,
+   "motion": 2.72,
+   "flat_pct": 11.5,
+   "events_per_s": 0.9
+  },
+  "Video-95186": {
+   "duration": 43.8,
+   "motion": 3.26,
+   "flat_pct": 15.4,
+   "events_per_s": 1.37
+  }
+ },
+ "anchor": {
+  "motion": 3.19,
+  "flat_pct": 14.2,
+  "events_per_s": 1.02
+ },
+ "targets": {
+  "motion_min": 2.39,
+  "flat_max": 15.0,
+  "events_min": 0.71,
+  "events_max": 1.33
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2
+ }
+}

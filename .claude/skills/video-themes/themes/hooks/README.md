@@ -4,6 +4,8 @@
 > style, incl. the five mandatory rules) → `theme.md` (numbers measured on the anchor).
 > Anchor: one creator, 4 videos (7784 "7 hooks", 28202, 68494, 93864). No contributors.
 
+> **Not night:** hooks lands *one glowing word* on a full-frame speaker in a bright room; night draws a *system* (ladder, rows, curve) as light on a black stage with the speaker in a box.
+
 ## The idea in one sentence
 A creator talks straight to camera in a bright, warm room, and the **one word that matters lights up on their
 chest** like a neon sign; whenever an idea needs to be *shown*, the frame cuts to a black void lit by amber

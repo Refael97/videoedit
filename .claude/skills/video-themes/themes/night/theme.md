@@ -68,3 +68,21 @@ ladder build: 5 levels ≈1 s · framework list: 4 rows + 2 unlocks / 3 s = 2.0 
 
 ## Not yet measured
 3/4 videos open on the proof page, so the hook-over-face variant (`.n-hook`) is derived, not measured.
+
+## QA targets
+
+Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+
+| video | length | motion | flat % | events / s |
+|---|---|---|---|---|
+| Video-50462 | 124.0 s | 2.3 | 9.2% | 0.56 |
+| Video-19647 | 73.9 s | 2.61 | 8.5% | 0.47 |
+| Video-33830 | 78.3 s | 3.29 | 9.4% | 0.57 |
+| Video-41438 | 107.5 s | 2.78 | 17.4% | 0.54 |
+| **anchor** | 383.7 s | **2.7** | **11.4%** | **0.54** |
+
+| check | target |
+|---|---|
+| motion | >= 2.02 (0.75 x anchor) |
+| flat stretches | <= 12.0% |
+| actions / s (big moments) | 0.38–0.7 (anchor ±30%) |

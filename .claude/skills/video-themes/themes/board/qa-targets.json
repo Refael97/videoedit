@@ -1,0 +1,44 @@
+{
+ "theme": "board",
+ "anchor_videos": [
+  "references/board/Video-31455.mp4",
+  "references/board/Video-42755.mp4"
+ ],
+ "measured": {
+  "Video-31455": {
+   "duration": 48.67,
+   "motion": 1.7,
+   "flat_pct": 72.1,
+   "events_per_s": 0.41
+  },
+  "Video-42755": {
+   "duration": 36.97,
+   "motion": 3.4,
+   "flat_pct": 11.2,
+   "events_per_s": 1.03
+  }
+ },
+ "anchor": {
+  "motion": 2.43,
+  "flat_pct": 45.8,
+  "events_per_s": 0.68
+ },
+ "targets": {
+  "motion_min": 1.83,
+  "flat_max": 46.0,
+  "events_min": 0.47,
+  "events_max": 0.88
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2
+ }
+}

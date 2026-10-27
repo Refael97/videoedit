@@ -55,3 +55,21 @@ whooshes, typing) on almost every graphic change. Theme set (synthesized): `air 
 
 ## Contributions
 None. (49478's small grey pill captions and its magenta gradient were seen once each; not adopted as rules.)
+
+## QA targets
+
+Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+
+| video | length | motion | flat % | events / s |
+|---|---|---|---|---|
+| Video-70647 | 37.4 s | 3.76 | 33.1% | 0.67 |
+| Video-10899 | 27.93 s | 3.68 | 5.1% | 1.25 |
+| Video-1191 | 27.17 s | 8.3 | 9.4% | 1.14 |
+| Video-49478 | 23.77 s | 6.66 | 20.3% | 1.26 |
+| **anchor** | 116.3 s | **5.39** | **18.2%** | **1.04** |
+
+| check | target |
+|---|---|
+| motion | >= 4.05 (0.75 x anchor) |
+| flat stretches | <= 19.0% |
+| actions / s (big moments) | 0.73–1.35 (anchor ±30%) |
