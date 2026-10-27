@@ -5,7 +5,7 @@
  "ready": false,
  "checks": {
   "motion": {
-   "value": 0.5,
+   "value": 0.89,
    "target": ">= 1.26",
    "pass": false,
    "footage": "camera jitter 0.26 px/frame, 3 punches, 1 drifts (anchor: jitter 0.24 px/frame, 29.4 camera moves/min)"
@@ -42,7 +42,7 @@
    "faces_detected": 68
   },
   "overlap": {
-   "value": "34 overlaps",
+   "value": "3 overlaps",
    "target": "0 (unless in one data-qa-stack)",
    "pass": false
   },
@@ -63,17 +63,21 @@
   "flat_pct": 0.0,
   "events_per_s": 0.52,
   "graphics": {
-   "gfx_motion": 0.5,
-   "gfx_raw": 0.5,
+   "gfx_motion": 0.89,
+   "gfx_raw": 0.89,
    "baseline": 0.0,
-   "baseline_s": 4,
+   "baseline_s": 2,
    "baseline_from": "none (graphics-only render)",
-   "gfx_share": 0.76,
+   "gfx_share": 0.88,
    "footage": {
-    "jitter_px": 0.0,
-    "punches": [],
+    "jitter_px": 0.26,
+    "punches": [
+     4.37,
+     12.77,
+     13.17
+    ],
     "drifts": [
-     14.0
+     6.0
     ]
    }
   },
@@ -120,228 +124,11 @@
    "fix": "#th0 overlaps span.l (59% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
   },
   {
-   "t": "1.5–3.0s",
-   "t0": 1.5,
-   "words": "אתרים שנראים טוב עם",
-   "check": "graphic overlaps",
-   "fix": "#sA0 overlaps span.l (59% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "1.5–3.0s",
-   "t0": 1.5,
-   "words": "אתרים שנראים טוב עם",
-   "check": "graphic overlaps",
-   "fix": "div.ph overlaps span.l (17% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
    "t": "2.0–3.0s",
    "t0": 2,
    "words": "שנראים טוב עם",
    "check": "graphic overlaps",
    "fix": "span. overlaps span.e-it (12% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "2.2–3.0s",
-   "t0": 2.25,
-   "words": "טוב עם",
-   "check": "graphic overlaps",
-   "fix": "#sB0 overlaps span.l (59% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "2.2–3.0s",
-   "t0": 2.25,
-   "words": "טוב עם",
-   "check": "graphic overlaps",
-   "fix": "h4. overlaps span.l (20% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "2.2–3.0s",
-   "t0": 2.25,
-   "words": "טוב עם",
-   "check": "graphic overlaps",
-   "fix": "#sA0 overlaps #sB0 (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "2.2–3.0s",
-   "t0": 2.25,
-   "words": "טוב עם",
-   "check": "graphic overlaps",
-   "fix": "#sB0 overlaps h4. (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "2.2–3.0s",
-   "t0": 2.25,
-   "words": "טוב עם",
-   "check": "graphic overlaps",
-   "fix": "h4. overlaps h4. (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "2.2–3.0s",
-   "t0": 2.25,
-   "words": "טוב עם",
-   "check": "graphic overlaps",
-   "fix": "em. overlaps h4. (83% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "2.2–3.0s",
-   "t0": 2.25,
-   "words": "טוב עם",
-   "check": "graphic overlaps",
-   "fix": "#sB0 overlaps div.ph (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "2.2–3.0s",
-   "t0": 2.25,
-   "words": "טוב עם",
-   "check": "graphic overlaps",
-   "fix": "div.ph overlaps div.ph (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "4.8–6.8s",
-   "t0": 4.75,
-   "words": "מעברים ומבנה כמו שצריך, אתם",
-   "check": "graphic overlaps",
-   "fix": "#sl1 overlaps #sl2 (7% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "4.8–6.8s",
-   "t0": 4.75,
-   "words": "מעברים ומבנה כמו שצריך, אתם",
-   "check": "graphic overlaps",
-   "fix": "#sl1 overlaps span. (7% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "4.8–6.8s",
-   "t0": 4.75,
-   "words": "מעברים ומבנה כמו שצריך, אתם",
-   "check": "graphic overlaps",
-   "fix": "#sl2 overlaps span.in (6% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "4.8–6.8s",
-   "t0": 4.75,
-   "words": "מעברים ומבנה כמו שצריך, אתם",
-   "check": "graphic overlaps",
-   "fix": "span. overlaps span.in (6% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "5.5–6.8s",
-   "t0": 5.5,
-   "words": "ומבנה כמו שצריך, אתם",
-   "check": "graphic overlaps",
-   "fix": "#sl2 overlaps #sl3 (5% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "5.5–6.8s",
-   "t0": 5.5,
-   "words": "ומבנה כמו שצריך, אתם",
-   "check": "graphic overlaps",
-   "fix": "#sl3 overlaps span. (5% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "5.8–6.8s",
-   "t0": 5.75,
-   "words": "ומבנה כמו שצריך, אתם",
-   "check": "graphic overlaps",
-   "fix": "span. overlaps span. (5% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "5.8–6.8s",
-   "t0": 5.75,
-   "words": "ומבנה כמו שצריך, אתם",
-   "check": "graphic overlaps",
-   "fix": "#sl2 overlaps span. (5% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "h4. overlaps h4. (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "em. overlaps h4. (81% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "div.ph overlaps div.ph (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "#tA overlaps #tB (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "#sA overlaps #tB (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "#sA overlaps #sB (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "#tB overlaps h4. (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "#sB overlaps h4. (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "#tB overlaps div.ph (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "#sB overlaps div.ph (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "div.ph overlaps h4. (33% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "11.2–13.0s",
-   "t0": 11.25,
-   "words": "הופך את האתר שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "div.ph overlaps em. (9% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "12.0–13.0s",
-   "t0": 12,
-   "words": "שלכם למטורף.",
-   "check": "graphic overlaps",
-   "fix": "#t4a overlaps span.e-it (22% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
   }
  ]
 }

@@ -5,7 +5,7 @@
  "ready": false,
  "checks": {
   "motion": {
-   "value": 1.56,
+   "value": 1.48,
    "target": ">= 0.53",
    "pass": true,
    "footage": "camera jitter 0.32 px/frame, 2 punches, 3 drifts (anchor: jitter 0.30 px/frame, 26.2 camera moves/min)"
@@ -42,7 +42,7 @@
    "faces_detected": 68
   },
   "overlap": {
-   "value": "3 overlaps",
+   "value": "2 overlaps",
    "target": "0 (unless in one data-qa-stack)",
    "pass": false
   },
@@ -63,11 +63,11 @@
   "flat_pct": 23.9,
   "events_per_s": 0.7,
   "graphics": {
-   "gfx_motion": 1.56,
-   "gfx_raw": 1.56,
+   "gfx_motion": 1.48,
+   "gfx_raw": 1.48,
    "baseline": 0.0,
    "baseline_s": 7,
-   "baseline_from": "no-graphics windows",
+   "baseline_from": "none (graphics-only render)",
    "gfx_share": 0.59,
    "footage": {
     "jitter_px": 0.32,
@@ -117,13 +117,6 @@
    "words": "רוצים לבנות אתרים שנראים טוב עם",
    "check": "graphic overlaps",
    "fix": "#th2 overlaps #th3 (9% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "15.2–17.2s",
-   "t0": 15.25,
-   "words": "ואני שולח לכם את זה.",
-   "check": "graphic overlaps",
-   "fix": "span.glw overlaps span.sub (25% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
   }
  ]
 }

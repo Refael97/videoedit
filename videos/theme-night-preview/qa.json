@@ -5,7 +5,7 @@
  "ready": false,
  "checks": {
   "motion": {
-   "value": 0.95,
+   "value": 1.44,
    "target": ">= 0.79",
    "pass": true,
    "footage": "camera jitter 0.2 px/frame, 2 punches, 3 drifts (anchor: jitter 0.16 px/frame, 16.1 camera moves/min)"
@@ -63,11 +63,11 @@
   "flat_pct": 21.9,
   "events_per_s": 0.58,
   "graphics": {
-   "gfx_motion": 0.95,
-   "gfx_raw": 1.45,
-   "baseline": 0.5,
+   "gfx_motion": 1.44,
+   "gfx_raw": 1.44,
+   "baseline": 0.0,
    "baseline_s": 2,
-   "baseline_from": "quietest 10% of windows",
+   "baseline_from": "none (graphics-only render)",
    "gfx_share": 0.88,
    "footage": {
     "jitter_px": 0.2,

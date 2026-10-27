@@ -5,7 +5,7 @@
  "ready": false,
  "checks": {
   "motion": {
-   "value": 0.85,
+   "value": 1.06,
    "target": ">= 1.19",
    "pass": false,
    "footage": "camera jitter 0.37 px/frame, 3 punches, 5 drifts (anchor: jitter 0.22 px/frame, 26.3 camera moves/min)"
@@ -42,7 +42,7 @@
    "faces_detected": 68
   },
   "overlap": {
-   "value": "3 overlaps",
+   "value": "2 overlaps",
    "target": "0 (unless in one data-qa-stack)",
    "pass": false
   },
@@ -63,27 +63,25 @@
   "flat_pct": 11.3,
   "events_per_s": 0.41,
   "graphics": {
-   "gfx_motion": 0.85,
-   "gfx_raw": 0.85,
+   "gfx_motion": 1.06,
+   "gfx_raw": 1.06,
    "baseline": 0.0,
-   "baseline_s": 3,
+   "baseline_s": 4,
    "baseline_from": "none (graphics-only render)",
-   "gfx_share": 0.82,
+   "gfx_share": 0.76,
    "footage": {
-    "jitter_px": 0.11,
+    "jitter_px": 0.37,
     "punches": [
      8.7,
      9.6,
-     12.0,
-     14.8,
-     15.9,
-     16.17
+     12.0
     ],
     "drifts": [
+     0.0,
      6.67,
      8.67,
      11.33,
-     14.0
+     14.67
     ]
    }
   },
@@ -132,13 +130,6 @@
    "words": "למטורף.",
    "check": "graphic overlaps",
    "fix": "#b3 overlaps #w3b (72% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "12.2–13.0s",
-   "t0": 12.25,
-   "words": "למטורף.",
-   "check": "graphic overlaps",
-   "fix": "#w3b overlaps span.w (67% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
   },
   {
    "t": "15.0–17.2s",

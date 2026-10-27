@@ -1,11 +1,11 @@
 {
  "project": "theme-arcade-preview",
  "theme": "arcade",
- "score": "9/10",
- "ready": false,
+ "score": "10/10",
+ "ready": true,
  "checks": {
   "motion": {
-   "value": 1.02,
+   "value": 1.44,
    "target": ">= 0.91",
    "pass": true,
    "footage": "camera jitter 0.24 px/frame, 8 punches, 2 drifts (anchor: jitter 0.14 px/frame, 16.2 camera moves/min)"
@@ -42,9 +42,9 @@
    "faces_detected": 68
   },
   "overlap": {
-   "value": "5 overlaps",
+   "value": "0 overlaps",
    "target": "0 (unless in one data-qa-stack)",
-   "pass": false
+   "pass": true
   },
   "placeholder": {
    "value": "0 found",
@@ -63,11 +63,11 @@
   "flat_pct": 10.7,
   "events_per_s": 1.05,
   "graphics": {
-   "gfx_motion": 1.02,
-   "gfx_raw": 1.62,
-   "baseline": 0.59,
+   "gfx_motion": 1.44,
+   "gfx_raw": 1.44,
+   "baseline": 0.0,
    "baseline_s": 2,
-   "baseline_from": "quietest 10% of windows",
+   "baseline_from": "none (graphics-only render)",
    "gfx_share": 0.88,
    "footage": {
     "jitter_px": 0.24,
@@ -113,41 +113,5 @@
   "events_max": 1.37,
   "footage_info": "jitter 0.14 px/frame, 16.2 camera moves/min"
  },
- "fix_list": [
-  {
-   "t": "1.0–2.2s",
-   "t0": 1,
-   "words": "לבנות אתרים שנראים טוב",
-   "check": "graphic overlaps",
-   "fix": "svg. overlaps svg. (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "5.2–6.8s",
-   "t0": 5.25,
-   "words": "מעברים ומבנה כמו שצריך, אתם",
-   "check": "graphic overlaps",
-   "fix": "#m1 overlaps #pgA (80% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "5.2–6.8s",
-   "t0": 5.25,
-   "words": "מעברים ומבנה כמו שצריך, אתם",
-   "check": "graphic overlaps",
-   "fix": "#m1 overlaps div.h (100% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "12.2–13.0s",
-   "t0": 12.25,
-   "words": "למטורף.",
-   "check": "graphic overlaps",
-   "fix": "div.h overlaps svg. (57% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "12.5–13.0s",
-   "t0": 12.5,
-   "words": "למטורף.",
-   "check": "graphic overlaps",
-   "fix": "div.serif overlaps svg. (52% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  }
- ]
+ "fix_list": []
 }

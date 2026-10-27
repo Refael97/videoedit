@@ -4,7 +4,7 @@
 
 | | check | value | target |
 |---|---|---|---|
-| ✓ | graphics motion | 0.95 | >= 0.79 |
+| ✓ | graphics motion | 1.44 | >= 0.79 |
 | ✗ | flat stretches | 21.9% | <= 12.0% |
 | ✓ | actions / s | 0.64 events/s (GSAP 4.02 tweens/s) | 0.44–0.81 |
 | ✓ | payoff lands | 4 marked, 0 problems | ends on word ±0.15, holds 0.8, stamp after |

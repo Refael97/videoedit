@@ -105,6 +105,7 @@ const { chromium } = require("playwright");
               if (top.tagName === "VIDEO" && (top === faceVid || /matte|face/i.test(top.id + " " + (top.parentElement && top.parentElement.className)))) continue;
               if (top === faceVid || top.contains(faceVid)) continue;
               if (opa(top) < 0.3) continue;  // hit-testing ignores opacity: an invisible element is not covering anything
+              { const tr = top.getBoundingClientRect(); if (tr.width * tr.height > 0.85 * VW * VH && !bgVisible(getComputedStyle(top))) continue; }  // a transparent full-frame overlay (ink svg, scene) covers nothing
               const cs = getComputedStyle(top); const cap = isCap(top);
               const ownText = Array.from(top.childNodes).some((n) => n.nodeType === 3 && n.textContent.trim());
               if (!cap && !bgVisible(cs) && cs.backdropFilter === "none" && top.tagName !== "IMG" && top.tagName !== "svg" && !top.closest("svg") && !ownText) continue;
@@ -185,6 +186,10 @@ const { chromium } = require("playwright");
         const blockOf = (e) => { for (let x = e; x; x = x.parentElement) { const d = getComputedStyle(x).display; if (d === "block" || d === "flex" || d === "grid") return x; } return e; };
         majors.push({ el, text: !!(own.length && r && !el.matches("svg,img,canvas,video")) && !(bgVisible(cs)), block: blockOf(el), r: [v[0], v[1], v[2] - v[0], v[3] - v[1]], label: el.id ? "#" + el.id : tag + "." + String(el.className.baseVal ?? el.className).split(" ")[0] });
       }
+      // compare top-level graphics only: a card's own contents travel with it (the card is the unit that collides)
+      const majEls = new Set(majors.map((m) => m.el));
+      const tops = majors.filter((m) => { for (let x = m.el.parentElement; x; x = x.parentElement) if (majEls.has(x)) return false; return true; });
+      majors.length = 0; majors.push(...tops);
       S.overlaps = [];
       for (let i = 0; i < majors.length; i++) for (let j = i + 1; j < majors.length; j++) {
         const A = majors[i], B = majors[j];
@@ -194,12 +199,8 @@ const { chromium } = require("playwright");
         const ix = Math.max(0, Math.min(A.r[0] + A.r[2], B.r[0] + B.r[2]) - Math.max(A.r[0], B.r[0])), iy = Math.max(0, Math.min(A.r[1] + A.r[3], B.r[1] + B.r[3]) - Math.max(A.r[1], B.r[1]));
         const ia = ix * iy, small = Math.min(A.r[2] * A.r[3], B.r[2] * B.r[3]);
         if (!(ia > 400 && ia > 0.04 * small)) continue;
-        // fully placed ON a larger surface and painted above it = sitting on it, not colliding
-        if (ia >= 0.9 * small) {
-          const S_ = A.r[2] * A.r[3] <= B.r[2] * B.r[3] ? A : B;
-          const top = document.elementsFromPoint(S_.r[0] + S_.r[2] / 2, S_.r[1] + S_.r[3] / 2).find((e) => opa(e) > 0.3);  // hit-testing ignores opacity
-          if (top && (top === S_.el || S_.el.contains(top))) continue;
-        }
+        // one fully inside the other: either it sits on that surface or it is hidden behind it — never a visible clash
+        if (ia >= 0.9 * small) continue;
         S.overlaps.push({ a: A.label, b: B.label, share: +(ia / small).toFixed(2) });
       }
       // digits near charts

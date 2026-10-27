@@ -1,11 +1,11 @@
 {
  "project": "theme-neon-studio-preview",
  "theme": "neon-studio",
- "score": "8/10",
+ "score": "9/10",
  "ready": false,
  "checks": {
   "motion": {
-   "value": 1.14,
+   "value": 1.15,
    "target": ">= 1.38",
    "pass": false,
    "footage": "camera jitter 0.34 px/frame, 3 punches, 5 drifts (anchor: jitter 0.17 px/frame, 34.6 camera moves/min)"
@@ -42,9 +42,9 @@
    "faces_detected": 68
   },
   "overlap": {
-   "value": "2 overlaps",
+   "value": "0 overlaps",
    "target": "0 (unless in one data-qa-stack)",
-   "pass": false
+   "pass": true
   },
   "placeholder": {
    "value": "0 found",
@@ -63,11 +63,11 @@
   "flat_pct": 17.7,
   "events_per_s": 0.82,
   "graphics": {
-   "gfx_motion": 1.14,
-   "gfx_raw": 1.32,
-   "baseline": 0.18,
+   "gfx_motion": 1.15,
+   "gfx_raw": 1.15,
+   "baseline": 0.0,
    "baseline_s": 7,
-   "baseline_from": "no-graphics windows",
+   "baseline_from": "none (graphics-only render)",
    "gfx_share": 0.59,
    "footage": {
     "jitter_px": 0.34,
@@ -116,20 +116,6 @@
    "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
    "check": "motion",
    "fix": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)"
-  },
-  {
-   "t": "8.2–10.0s",
-   "t0": 8.25,
-   "words": "שנקרא Kowalski. הסקיל",
-   "check": "graphic overlaps",
-   "fix": "#card2 overlaps span.b (49% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "9.0–9.8s",
-   "t0": 9,
-   "words": "Kowalski.",
-   "check": "graphic overlaps",
-   "fix": "#dl2 overlaps span.b (6% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
   }
  ]
 }
