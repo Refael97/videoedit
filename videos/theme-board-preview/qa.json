@@ -1,13 +1,14 @@
 {
  "project": "theme-board-preview",
  "theme": "board",
- "score": "9/9",
- "ready": true,
+ "score": "8/10",
+ "ready": false,
  "checks": {
   "motion": {
-   "value": 1.99,
-   "target": ">= 1.83",
-   "pass": true
+   "value": 0.55,
+   "target": ">= 1.44",
+   "pass": false,
+   "footage": "camera jitter 0.01 px/frame, 2 punches, 0 drifts (anchor: jitter 0.08 px/frame, 10.5 camera moves/min)"
   },
   "flat": {
    "value": "45.0%",
@@ -16,7 +17,7 @@
   },
   "actions": {
    "value": "0.7 events/s (GSAP 4.89 tweens/s)",
-   "target": "0.47–0.88",
+   "target": "0.51–0.96",
    "pass": true
   },
   "payoff": {
@@ -40,6 +41,11 @@
    "pass": true,
    "faces_detected": 68
   },
+  "overlap": {
+   "value": "2 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": false
+  },
   "placeholder": {
    "value": "0 found",
    "target": "0",
@@ -55,13 +61,61 @@
   "duration": 17.17,
   "motion": 1.99,
   "flat_pct": 45.0,
-  "events_per_s": 0.7
+  "events_per_s": 0.7,
+  "graphics": {
+   "gfx_motion": 0.55,
+   "gfx_raw": 0.7,
+   "baseline": 0.15,
+   "baseline_s": 0,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 1.0,
+   "footage": {
+    "jitter_px": 0.01,
+    "punches": [
+     6.6,
+     12.9
+    ],
+    "drifts": []
+   }
+  },
+  "footage": {
+   "jitter_px": 0.01,
+   "punches": [
+    6.6,
+    12.9
+   ],
+   "drifts": []
+  },
+  "actions_per_s": 0.7
  },
  "targets": {
-  "motion_min": 1.83,
+  "gfx_motion_min": 1.44,
   "flat_max": 46.0,
-  "events_min": 0.47,
-  "events_max": 0.88
+  "events_min": 0.51,
+  "events_max": 0.96,
+  "footage_info": "jitter 0.08 px/frame, 10.5 camera moves/min"
  },
- "fix_list": []
+ "fix_list": [
+  {
+   "t": "0.0–17.2s",
+   "t0": 0,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "motion",
+   "fix": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)"
+  },
+  {
+   "t": "11.2–13.0s",
+   "t0": 11.25,
+   "words": "הופך את האתר שלכם למטורף.",
+   "check": "graphic overlaps",
+   "fix": "#aft3 overlaps #bef3 (24% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "11.2–13.0s",
+   "t0": 11.25,
+   "words": "הופך את האתר שלכם למטורף.",
+   "check": "graphic overlaps",
+   "fix": "#bef3 overlaps h3. (43% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  }
+ ]
 }
