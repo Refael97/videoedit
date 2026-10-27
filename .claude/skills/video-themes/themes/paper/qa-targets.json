@@ -6,21 +6,31 @@
  "measured": {
   "Video-15422": {
    "duration": 76.83,
-   "motion": 2.96,
+   "gfx_motion": 0.14,
+   "gfx_raw": 2.16,
+   "baseline": 2.02,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.95,
    "flat_pct": 18.5,
-   "events_per_s": 0.46
+   "actions_per_s": 0.51,
+   "motion_all": 2.96,
+   "jitter_px": 0.16,
+   "punches": 5,
+   "drifts": 7
   }
  },
  "anchor": {
-  "motion": 2.96,
+  "gfx_motion": 0.14,
   "flat_pct": 18.5,
-  "events_per_s": 0.46
+  "actions_per_s": 0.51,
+  "footage": "jitter 0.16 px/frame, 9.4 camera moves/min"
  },
  "targets": {
-  "motion_min": 2.22,
+  "gfx_motion_min": 0.11,
   "flat_max": 19.0,
-  "events_min": 0.32,
-  "events_max": 0.6
+  "events_min": 0.36,
+  "events_max": 0.66,
+  "footage_info": "jitter 0.16 px/frame, 9.4 camera moves/min"
  },
  "detector": {
   "fps": 30,
@@ -32,6 +42,9 @@
   "flat_min_s": 0.4,
   "ev_abs": 3.0,
   "ev_rel": 3.0,
-  "ev_gap": 0.2
+  "ev_gap": 0.2,
+  "edge_nogfx": 0.012,
+  "punch": 0.04,
+  "drift": 0.03
  }
 }

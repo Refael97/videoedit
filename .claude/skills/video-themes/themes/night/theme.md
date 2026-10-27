@@ -71,18 +71,21 @@ ladder build: 5 levels ≈1 s · framework list: 4 rows + 2 unlocks / 3 s = 2.0 
 
 ## QA targets
 
-Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
+Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
 
-| video | length | motion | flat % | events / s |
-|---|---|---|---|---|
-| Video-50462 | 124.0 s | 2.3 | 9.2% | 0.56 |
-| Video-19647 | 73.9 s | 2.61 | 8.5% | 0.47 |
-| Video-33830 | 78.3 s | 3.29 | 9.4% | 0.57 |
-| Video-41438 | 107.5 s | 2.78 | 17.4% | 0.54 |
-| **anchor** | 383.7 s | **2.7** | **11.4%** | **0.54** |
+| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|
+| Video-50462 | 124.0 s | 0.18 (2.31 − 2.13) | 9.2% | 0.6 | 0.16 px · 8P 19D |
+| Video-19647 | 73.9 s | 0.0 (1.98 − 2.98) | 8.5% | 0.57 | 0.13 px · 9P 11D |
+| Video-33830 | 78.3 s | 0.27 (2.87 − 2.59) | 9.4% | 0.7 | 0.15 px · 17P 9D |
+| Video-41438 | 107.5 s | 0.55 (2.4 − 1.85) | 17.4% | 0.64 | 0.18 px · 9P 21D |
+| **anchor** | 383.7 s | **0.27** | **11.4%** | **0.63** | jitter 0.16 px/frame, 16.1 camera moves/min |
 
 | check | target |
 |---|---|
-| motion | >= 2.02 (0.75 x anchor) |
+| graphics motion | >= 0.2 (0.75 x anchor) |
 | flat stretches | <= 12.0% |
-| actions / s (big moments) | 0.38–0.7 (anchor ±30%) |
+| actions / s (events + camera moves) | 0.44–0.81 (anchor ±30%) |
+| footage motion | reported, never failed |

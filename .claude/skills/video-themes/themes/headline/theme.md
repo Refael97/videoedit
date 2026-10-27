@@ -66,19 +66,22 @@ The air veil (`.h-air`) is a theme technique for footage on a darker wall — th
 
 ## QA targets
 
-Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
+Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
 
-| video | length | motion | flat % | events / s |
-|---|---|---|---|---|
-| Video-97418 | 36.97 s | 3.68 | 16.3% | 0.65 |
-| Video-75789 | 46.73 s | 3.84 | 10.9% | 0.47 |
-| Video-81754 | 38.33 s | 3.73 | 18.8% | 0.39 |
-| Video-89398 | 35.07 s | 3.61 | 22.2% | 0.71 |
-| Video-98315 | 37.17 s | 3.77 | 13.3% | 0.32 |
-| **anchor** | 194.3 s | **3.73** | **16.0%** | **0.5** |
+| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|
+| Video-97418 | 36.97 s | 0.0 (3.8 − 3.99) | 16.3% | 0.76 | 0.21 px · 8P 10D |
+| Video-75789 | 46.73 s | 0.0 (3.56 − 5.38) | 10.9% | 0.66 | 0.23 px · 13P 15D |
+| Video-81754 | 38.33 s | 0.0 (3.58 − 4.47) | 18.8% | 0.55 | 0.23 px · 4P 11D |
+| Video-89398 | 35.07 s | 0.0 (3.33 − 4.1) | 22.2% | 0.71 | 0.17 px · 3P 4D |
+| Video-98315 | 37.17 s | 0.0 (2.86 − 5.49) | 13.3% | 0.51 | 0.26 px · 8P 9D |
+| **anchor** | 194.3 s | **0.0** | **16.0%** | **0.64** | jitter 0.22 px/frame, 26.3 camera moves/min |
 
 | check | target |
 |---|---|
-| motion | >= 2.8 (0.75 x anchor) |
+| graphics motion | >= 0.0 (0.75 x anchor) |
 | flat stretches | <= 16.0% |
-| actions / s (big moments) | 0.35–0.65 (anchor ±30%) |
+| actions / s (events + camera moves) | 0.45–0.83 (anchor ±30%) |
+| footage motion | reported, never failed |

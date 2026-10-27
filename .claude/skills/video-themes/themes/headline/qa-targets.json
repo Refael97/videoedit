@@ -10,45 +10,87 @@
  "measured": {
   "Video-97418": {
    "duration": 36.97,
-   "motion": 3.68,
+   "gfx_motion": 0.0,
+   "gfx_raw": 3.8,
+   "baseline": 3.99,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.89,
    "flat_pct": 16.3,
-   "events_per_s": 0.65
+   "actions_per_s": 0.76,
+   "motion_all": 3.68,
+   "jitter_px": 0.21,
+   "punches": 8,
+   "drifts": 10
   },
   "Video-75789": {
    "duration": 46.73,
-   "motion": 3.84,
+   "gfx_motion": 0.0,
+   "gfx_raw": 3.56,
+   "baseline": 5.38,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.89,
    "flat_pct": 10.9,
-   "events_per_s": 0.47
+   "actions_per_s": 0.66,
+   "motion_all": 3.84,
+   "jitter_px": 0.23,
+   "punches": 13,
+   "drifts": 15
   },
   "Video-81754": {
    "duration": 38.33,
-   "motion": 3.73,
+   "gfx_motion": 0.0,
+   "gfx_raw": 3.58,
+   "baseline": 4.47,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.89,
    "flat_pct": 18.8,
-   "events_per_s": 0.39
+   "actions_per_s": 0.55,
+   "motion_all": 3.73,
+   "jitter_px": 0.23,
+   "punches": 4,
+   "drifts": 11
   },
   "Video-89398": {
    "duration": 35.07,
-   "motion": 3.61,
+   "gfx_motion": 0.0,
+   "gfx_raw": 3.33,
+   "baseline": 4.1,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.86,
    "flat_pct": 22.2,
-   "events_per_s": 0.71
+   "actions_per_s": 0.71,
+   "motion_all": 3.61,
+   "jitter_px": 0.17,
+   "punches": 3,
+   "drifts": 4
   },
   "Video-98315": {
    "duration": 37.17,
-   "motion": 3.77,
+   "gfx_motion": 0.0,
+   "gfx_raw": 2.86,
+   "baseline": 5.49,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.76,
    "flat_pct": 13.3,
-   "events_per_s": 0.32
+   "actions_per_s": 0.51,
+   "motion_all": 3.77,
+   "jitter_px": 0.26,
+   "punches": 8,
+   "drifts": 9
   }
  },
  "anchor": {
-  "motion": 3.73,
+  "gfx_motion": 0.0,
   "flat_pct": 16.0,
-  "events_per_s": 0.5
+  "actions_per_s": 0.64,
+  "footage": "jitter 0.22 px/frame, 26.3 camera moves/min"
  },
  "targets": {
-  "motion_min": 2.8,
+  "gfx_motion_min": 0.0,
   "flat_max": 16.0,
-  "events_min": 0.35,
-  "events_max": 0.65
+  "events_min": 0.45,
+  "events_max": 0.83,
+  "footage_info": "jitter 0.22 px/frame, 26.3 camera moves/min"
  },
  "detector": {
   "fps": 30,
@@ -60,6 +102,9 @@
   "flat_min_s": 0.4,
   "ev_abs": 3.0,
   "ev_rel": 3.0,
-  "ev_gap": 0.2
+  "ev_gap": 0.2,
+  "edge_nogfx": 0.012,
+  "punch": 0.04,
+  "drift": 0.03
  }
 }

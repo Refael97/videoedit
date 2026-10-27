@@ -58,18 +58,21 @@ None. (49478's small grey pill captions and its magenta gradient were seen once 
 
 ## QA targets
 
-Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
+Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
 
-| video | length | motion | flat % | events / s |
-|---|---|---|---|---|
-| Video-70647 | 37.4 s | 3.76 | 33.1% | 0.67 |
-| Video-10899 | 27.93 s | 3.68 | 5.1% | 1.25 |
-| Video-1191 | 27.17 s | 8.3 | 9.4% | 1.14 |
-| Video-49478 | 23.77 s | 6.66 | 20.3% | 1.26 |
-| **anchor** | 116.3 s | **5.39** | **18.2%** | **1.04** |
+| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|
+| Video-70647 | 37.4 s | 0.0 (1.77 − 2.68) | 33.1% | 0.78 | 0.04 px · 15P 9D |
+| Video-10899 | 27.93 s | 1.07 (3.93 − 2.86) | 5.1% | 1.29 | 0.12 px · 5P 4D |
+| Video-1191 | 27.17 s | 5.18 (9.25 − 4.07) | 9.4% | 1.32 | 0.49 px · 11P 8D |
+| Video-49478 | 23.77 s | 4.24 (5.92 − 1.68) | 20.3% | 1.3 | 0.09 px · 10P 5D |
+| **anchor** | 116.3 s | **2.33** | **18.2%** | **1.14** | jitter 0.17 px/frame, 34.6 camera moves/min |
 
 | check | target |
 |---|---|
-| motion | >= 4.05 (0.75 x anchor) |
+| graphics motion | >= 1.75 (0.75 x anchor) |
 | flat stretches | <= 19.0% |
-| actions / s (big moments) | 0.73–1.35 (anchor ±30%) |
+| actions / s (events + camera moves) | 0.79–1.48 (anchor ±30%) |
+| footage motion | reported, never failed |

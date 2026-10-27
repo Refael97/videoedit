@@ -89,15 +89,18 @@ lifted camera with orange tags · comment pill typing the word.
 
 ## QA targets
 
-Measured on the anchor by `scripts/qa/anchor.py` (the same detector `qa` runs on drafts). Change only by re-measuring the anchor.
+Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
+Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
 
-| video | length | motion | flat % | events / s |
-|---|---|---|---|---|
-| Video-15422 | 76.83 s | 2.96 | 18.5% | 0.46 |
-| **anchor** | 76.8 s | **2.96** | **18.5%** | **0.46** |
+| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|
+| Video-15422 | 76.83 s | 0.14 (2.16 − 2.02) | 18.5% | 0.51 | 0.16 px · 5P 7D |
+| **anchor** | 76.8 s | **0.14** | **18.5%** | **0.51** | jitter 0.16 px/frame, 9.4 camera moves/min |
 
 | check | target |
 |---|---|
-| motion | >= 2.22 (0.75 x anchor) |
+| graphics motion | >= 0.11 (0.75 x anchor) |
 | flat stretches | <= 19.0% |
-| actions / s (big moments) | 0.32–0.6 (anchor ±30%) |
+| actions / s (events + camera moves) | 0.36–0.66 (anchor ±30%) |
+| footage motion | reported, never failed |

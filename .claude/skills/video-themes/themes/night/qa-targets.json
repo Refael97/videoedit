@@ -9,39 +9,73 @@
  "measured": {
   "Video-50462": {
    "duration": 124.0,
-   "motion": 2.3,
+   "gfx_motion": 0.18,
+   "gfx_raw": 2.31,
+   "baseline": 2.13,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.63,
    "flat_pct": 9.2,
-   "events_per_s": 0.56
+   "actions_per_s": 0.6,
+   "motion_all": 2.3,
+   "jitter_px": 0.16,
+   "punches": 8,
+   "drifts": 19
   },
   "Video-19647": {
    "duration": 73.9,
-   "motion": 2.61,
+   "gfx_motion": 0.0,
+   "gfx_raw": 1.98,
+   "baseline": 2.98,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.67,
    "flat_pct": 8.5,
-   "events_per_s": 0.47
+   "actions_per_s": 0.57,
+   "motion_all": 2.61,
+   "jitter_px": 0.13,
+   "punches": 9,
+   "drifts": 11
   },
   "Video-33830": {
    "duration": 78.3,
-   "motion": 3.29,
+   "gfx_motion": 0.27,
+   "gfx_raw": 2.87,
+   "baseline": 2.59,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.6,
    "flat_pct": 9.4,
-   "events_per_s": 0.57
+   "actions_per_s": 0.7,
+   "motion_all": 3.29,
+   "jitter_px": 0.15,
+   "punches": 17,
+   "drifts": 9
   },
   "Video-41438": {
    "duration": 107.5,
-   "motion": 2.78,
+   "gfx_motion": 0.55,
+   "gfx_raw": 2.4,
+   "baseline": 1.85,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.73,
    "flat_pct": 17.4,
-   "events_per_s": 0.54
+   "actions_per_s": 0.64,
+   "motion_all": 2.78,
+   "jitter_px": 0.18,
+   "punches": 9,
+   "drifts": 21
   }
  },
  "anchor": {
-  "motion": 2.7,
+  "gfx_motion": 0.27,
   "flat_pct": 11.4,
-  "events_per_s": 0.54
+  "actions_per_s": 0.63,
+  "footage": "jitter 0.16 px/frame, 16.1 camera moves/min"
  },
  "targets": {
-  "motion_min": 2.02,
+  "gfx_motion_min": 0.2,
   "flat_max": 12.0,
-  "events_min": 0.38,
-  "events_max": 0.7
+  "events_min": 0.44,
+  "events_max": 0.81,
+  "footage_info": "jitter 0.16 px/frame, 16.1 camera moves/min"
  },
  "detector": {
   "fps": 30,
@@ -53,6 +87,9 @@
   "flat_min_s": 0.4,
   "ev_abs": 3.0,
   "ev_rel": 3.0,
-  "ev_gap": 0.2
+  "ev_gap": 0.2,
+  "edge_nogfx": 0.012,
+  "punch": 0.04,
+  "drift": 0.03
  }
 }
