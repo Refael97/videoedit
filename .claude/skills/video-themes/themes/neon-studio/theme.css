@@ -85,3 +85,6 @@
 .s-cursor { position: absolute; left: 0; top: 0; width: 40px; height: 56px; z-index: 20; }
 .s-cursor svg { width: 40px; height: 56px; display: block; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4)); }
 .s-face.grade video { filter: brightness(0.8) contrast(1.08) saturate(1.05); }   /* bright footage: pull it toward the dark studio (language.md §5) */
+
+/* dock: the strip the helper sprites stand on (one hero instead of three loose sprites) */
+.s-dock { position: absolute; left: 90px; right: 90px; top: 1440px; height: 380px; border-radius: 36px; background: rgba(8, 8, 12, 0.55); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid rgba(255, 255, 255, 0.14); z-index: 18; }

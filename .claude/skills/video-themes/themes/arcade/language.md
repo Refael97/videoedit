@@ -86,6 +86,8 @@ Pixel worlds use their own palettes (`world()` presets) but never pure black bac
 | `scrawl` | the verdict | a handwritten word revealed in reading direction, .45 s stepped | `pen` |
 | `shake` | a hit, a failure | stepped x jitter .25 s | `hit` |
 | `pulse` | the voice stresses it | 1 → 1.08 → 1 | — |
+| `punch` | the stressed word, the payoff | a hard cut-in (×1.08–1.15, no tween), holds ~0.5 s, hard cut back — the anchor's ~2.4 s cut rhythm | `hit` (soft) |
+| `pan` | a held full-bleed world | the game camera scrolls in pixel steps (one step / 0.1 s), so a held scene never freezes | — |
 Forbidden: smooth scaling of sprites, rotation (except the scrawl's fixed −6°), blur, glow, slow fades.
 
 ## 7. Sentence → element recipe

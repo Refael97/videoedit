@@ -36,11 +36,14 @@ const { chromium } = require("playwright");
       let box = [0, 0, VW, VH];
       for (let e = el; e && e.nodeType === 1; e = e.parentElement) {
         const cp = getComputedStyle(e).clipPath; const m = cp && cp.match(/inset\(([^)]*)\)/);
-        if (m) { const v = m[1].split("round")[0].trim().split(/\s+/).map(parseFloat); const [t, r, b, l] = [v[0], v[1] ?? v[0], v[2] ?? v[0], v[3] ?? v[1] ?? v[0]]; const er = e.getBoundingClientRect();
+        if (m) { const er = e.getBoundingClientRect(); const raw = m[1].split("round")[0].trim().split(/\s+/);
+          const px = (x, base) => (/%$/.test(x) ? (parseFloat(x) / 100) * base : parseFloat(x));  // % insets are relative to the box
+          const q = [raw[0], raw[1] ?? raw[0], raw[2] ?? raw[0], raw[3] ?? raw[1] ?? raw[0]]; const [t, r, b, l] = [px(q[0], er.height), px(q[1], er.width), px(q[2], er.height), px(q[3], er.width)];
           const nb = [er.left + l, er.top + t, er.right - r, er.bottom - b]; box = [Math.max(box[0], nb[0]), Math.max(box[1], nb[1]), Math.min(box[2], nb[2]), Math.min(box[3], nb[3])]; }
       }
       return box;
     };
+    const shown = (el) => { if (opa(el) <= 0.5) return false; const r = el.getBoundingClientRect(); if (!onScreen(r)) return false; const c = clipBox(el); return Math.min(r.right, c[2]) - Math.max(r.left, c[0]) > 4 && Math.min(r.bottom, c[3]) - Math.max(r.top, c[1]) > 4; };
     const bgVisible = (cs) => { const m = cs.backgroundColor.match(/rgba?\(([^)]+)\)/); const a = m ? (m[1].split(",")[3] !== undefined ? parseFloat(m[1].split(",")[3]) : 1) : 0; return a > 0.3 || (cs.backgroundImage && cs.backgroundImage !== "none"); };
     const ancestorsOfCaption = new Set();
     document.querySelectorAll("*").forEach((e) => { if (isCap(e)) for (let p = e.parentElement; p; p = p.parentElement) ancestorsOfCaption.add(p); });
@@ -62,13 +65,13 @@ const { chromium } = require("playwright");
       const rec = { word, wordStart: w ? w.start : null, sel: el.id ? "#" + el.id : el.className };
       if (w) {
         let prev = null, end = null; const seen = [];
-        for (let t = Math.max(0, w.start - 4); t <= Math.min(DUR, w.start + 3); t += 1 / 60) { tl.seek(t, true); const tx = el.textContent.trim(); if (prev !== null && tx !== prev) end = t; prev = tx; }
+        for (let t = Math.max(0, w.start - 4); t <= Math.min(DUR, w.start + 3); t += 1 / 60) { tl.seek(t, false); const tx = el.textContent.trim(); if (prev !== null && tx !== prev) end = t; prev = tx; }
         rec.end = end;
         if (end != null) {
-          let hold = 0; for (let t = end; t <= Math.min(DUR, end + 1.5); t += 0.05) { tl.seek(t, true); const r = el.getBoundingClientRect(); if (opa(el) > 0.5 && onScreen(r)) hold = t - end; else break; }
+          let hold = 0; for (let t = end; t <= Math.min(DUR, end + 1.5); t += 0.05) { tl.seek(t, false); if (shown(el)) hold = t - end; else break; }
           rec.hold = +hold.toFixed(2); rec.untilEnd = +(DUR - end).toFixed(2);
           const st = el.getAttribute("data-qa-stamp");
-          if (st) { const se = document.querySelector(st); rec.stamp = st; if (se) { let first = null; for (let t = Math.max(0, end - 3); t <= Math.min(DUR, end + 3); t += 1 / 60) { tl.seek(t, true); if (opa(se) > 0.5) { first = t; break; } } rec.stampAt = first; } }
+          if (st) { const se = document.querySelector(st); rec.stamp = st; if (se) { let first = null; for (let t = Math.max(0, end - 3); t <= Math.min(DUR, end + 3); t += 1 / 60) { tl.seek(t, false); if (shown(se)) { first = t; break; } } rec.stampAt = first; } }
         }
       }
       payoffs.push(rec);
@@ -77,7 +80,7 @@ const { chromium } = require("playwright");
     // ---- samples ----
     const samples = []; const digitTexts = {}; const uid = new WeakMap(); let nUid = 0; const keyOf = (el) => { if (!uid.has(el)) uid.set(el, (el.id || el.className || el.tagName) + "#" + (nUid++)); return uid.get(el); };
     for (let t = 0; t < DUR - 0.05; t += IN.step) {
-      tl.seek(t, true);
+      tl.seek(t, false);
       const S = { t: +t.toFixed(2), texts: [], boxes: [], media: [], charts: [], face: null };
       // face video region
       if (faceVid) {

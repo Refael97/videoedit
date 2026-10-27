@@ -92,6 +92,14 @@
       tl.set(sel, { transformOrigin: origin[0] + "px " + origin[1] + "px" }, 0);
       tl.fromTo(sel, { scale: 1, filter: "blur(0px)" }, { keyframes: [{ scale: 1 + (scale - 1) * 0.6, filter: "blur(6px)", duration: dur * 0.45, ease: "power2.in" }, { scale, filter: "blur(0px)", duration: dur * 0.55, ease: "power2.out" }], ...IR }, t);
     },
+    // sweep: a band of light crosses a panel (the row / frame being talked about is "lit"); needs a .n-sweep child (added here)
+    sweep(tl, sels, t, step = 0.2, dur = 0.7) {
+      $$(sels).forEach((e, i) => {
+        let b = e.querySelector(":scope > .n-sweep"); if (!b) { b = document.createElement("i"); b.className = "n-sweep"; b.dataset.qa = "bg"; e.appendChild(b); }
+        const w = e.offsetWidth; ft(tl, b, { x: w + 60, opacity: 1 }, { x: -260, duration: dur, ease: "power1.inOut" }, (Array.isArray(t) ? t[i] : t + i * step));
+        tl.set(b, { opacity: 0 }, (Array.isArray(t) ? t[i] : t + i * step) + dur);
+      });
+    },
     unpunch(tl, sel, t, dur = 0.28) { tl.to(sel, { scale: 1, filter: "blur(0px)", duration: dur, ease: "power2.inOut" }, t); },
     // rows: framework rows slide in from the side (RTL: from the right), one after another
     rows(tl, sels, t, step = 0.18) { $$(sels).forEach((e, i) => ft(tl, e, { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, Array.isArray(t) ? t[i] : t + i * step)); },
@@ -118,14 +126,16 @@
     out(tl, sel, t) { tl.to(sel, { opacity: 0, duration: 0.15, ease: "power2.in" }, t); },
     // count: digits roll to the payoff (format: k/M suffix helpers via o.fmt)
     count(tl, sel, from, to, t, dur = 0.8, o = {}) {
-      const el = $(sel), p = { v: from }, fmt = o.fmt || ((v) => (o.prefix || "") + Math.round(v).toLocaleString("en-US") + (o.suffix || ""));
+      // a setter target (not onUpdate): the text follows every seek, even when callbacks are suppressed
+      const el = $(sel), fmt = o.fmt || ((v) => (o.prefix || "") + Math.round(v).toLocaleString("en-US") + (o.suffix || ""));
+      let cur = from; const p = { get v() { return cur; }, set v(x) { cur = x; el.textContent = fmt(x); } };
       el.textContent = fmt(from);
-      tl.fromTo(p, { v: from }, { v: to, duration: dur, ease: o.ease || "power2.out", onUpdate: () => (el.textContent = fmt(p.v)), ...IR }, t);
+      tl.fromTo(p, { v: from }, { v: to, duration: dur, ease: o.ease || "power2.out", ...IR }, t);
     },
     // type: letters appear (cps per second)
     type(tl, sel, text, t, cps = 16) {
-      const el = $(sel), p = { n: 0 }; el.textContent = "";
-      tl.fromTo(p, { n: 0 }, { n: text.length, duration: text.length / cps, ease: "none", onUpdate: () => (el.textContent = text.slice(0, Math.round(p.n))), ...IR }, t);
+      const el = $(sel); let n = 0; const p = { get n() { return n; }, set n(x) { n = x; el.textContent = text.slice(0, Math.round(x)); } }; el.textContent = "";
+      tl.fromTo(p, { n: 0 }, { n: text.length, duration: text.length / cps, ease: "none", ...IR }, t);
       return t + text.length / cps;
     },
     // cursor: path [[x,y,t],...], clicks squash

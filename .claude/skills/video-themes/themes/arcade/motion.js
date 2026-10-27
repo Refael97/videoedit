@@ -173,6 +173,10 @@
     blink(tl, sel, t, n = 3, dt = 0.08) { tl.set(sel, { opacity: 0 }, 0); for (let i = 0; i < n; i++) { tl.set(sel, { opacity: 1 }, t + i * 2 * dt); tl.set(sel, { opacity: 0 }, t + (i * 2 + 1) * dt); } tl.set(sel, { opacity: 1 }, t + n * 2 * dt); },
     // shake: a hit (x jitter, stepped)
     shake(tl, sel, t, a = 12) { tl.fromTo(sel, { x: 0 }, { keyframes: [{ x: a }, { x: -a }, { x: a * 0.6 }, { x: -a * 0.6 }, { x: 0 }], duration: 0.25, ease: "steps(1)", ...IR }, t); },
+    // punch: a hard camera cut-in on a stressed word (no tween: the frame jumps closer, holds, cuts back)
+    punch(tl, sel, t, s = 1.12, hold = 0.5, origin = "50% 50%") { tl.set(sel, { scale: 1, transformOrigin: origin }, 0); tl.set(sel, { scale: s }, t); if (hold != null) tl.set(sel, { scale: 1 }, t + hold); },
+    // pan: the game camera scrolls a held world in pixel steps (dx px over dur, one step every 0.1 s)
+    pan(tl, sel, t, dur, dx = -80, s = 1.08) { tl.set(sel, { x: 0, scale: s, transformOrigin: "50% 50%" }, 0); tl.fromTo(sel, { x: 0 }, { x: dx, duration: dur, ease: `steps(${Math.max(1, Math.round(dur / 0.1))})`, immediateRender: false }, t); },
     pulse(tl, sel, t, s = 1.08) { tl.fromTo(sel, { scale: 1 }, { scale: s, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", ...IR }, t); },
     out(tl, sel, t) { tl.to(sel, { opacity: 0, duration: 0.15, ease: "power2.in" }, t); },
     // swapClass: seek-safe class change

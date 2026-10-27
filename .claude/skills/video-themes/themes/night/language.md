@@ -85,6 +85,7 @@ One meaning per element; red is the default structure color.
 | `tag` | naming a part | a dark pill slides out beside it | `tick` |
 | `light` | counting things | chips switch on one by one | `pop` |
 | `count` | a number changes | digits roll, ending **on the payoff word**; the final value holds ≥0.8 s; any green comes after it lands; the payoff is the biggest thing in its composition | `tick` → `ding` |
+| `sweep` | "this one is lit" — a held panel gets attention without changing | a light band crosses the row / frame, .7 s, stagger .2 | `whoosh` (soft) |
 | `push` | holding a graphic | slow continuous scale 1→1.05 over the whole hold | — |
 | `punch` | "this detail" | fast zoom (×1.4–1.9) with a 6px motion blur, .32 s; `unpunch` back | `riser` → `boom` |
 | `type` | writing / commenting | 16–24 letters per second | `key` |

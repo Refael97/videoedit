@@ -1,26 +1,26 @@
 {
  "project": "theme-neon-studio-preview",
  "theme": "neon-studio",
- "score": "3/9",
+ "score": "7/9",
  "ready": false,
  "checks": {
   "motion": {
-   "value": 2.29,
+   "value": 2.46,
    "target": ">= 4.05",
    "pass": false
   },
   "flat": {
-   "value": "21.0%",
+   "value": "17.7%",
    "target": "<= 19.0%",
-   "pass": false
+   "pass": true
   },
   "actions": {
-   "value": "0.47 events/s (GSAP 1.22 tweens/s)",
+   "value": "0.82 events/s (GSAP 2.39 tweens/s)",
    "target": "0.73–1.35",
-   "pass": false
+   "pass": true
   },
   "payoff": {
-   "value": "0 marked, 0 problems",
+   "value": "1 marked, 0 problems",
    "target": "ends on word ±0.15, holds 0.8, stamp after",
    "pass": true
   },
@@ -30,32 +30,32 @@
    "pass": true
   },
   "hero": {
-   "value": "median 74%, 1 weak ranges",
+   "value": "median 78%, 0 weak ranges",
    "target": ">= 60%",
-   "pass": false
+   "pass": true
   },
   "collide": {
-   "value": "6 collisions",
+   "value": "0 collisions",
    "target": "0",
-   "pass": false,
+   "pass": true,
    "faces_detected": 68
   },
   "placeholder": {
-   "value": "10 found",
+   "value": "4 found",
    "target": "0",
    "pass": false
   },
   "hook": {
-   "value": "visual on screen 3.0s of the first 3s",
+   "value": "visual on screen 2.8s of the first 3s",
    "target": ">= 0.5s",
    "pass": true
   }
  },
  "metrics": {
   "duration": 17.17,
-  "motion": 2.29,
-  "flat_pct": 21.0,
-  "events_per_s": 0.47
+  "motion": 2.46,
+  "flat_pct": 17.7,
+  "events_per_s": 0.82
  },
  "targets": {
   "motion_min": 4.05,
@@ -72,74 +72,11 @@
    "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
   },
   {
-   "t": "1.5–3.0s",
-   "t0": 1.5,
-   "words": "אתרים שנראים טוב עם",
+   "t": "3.5–4.8s",
+   "t0": 3.5,
+   "words": "motion, מעברים",
    "check": "no placeholders",
-   "fix": "med0: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "1.5–3.0s",
-   "t0": 1.5,
-   "words": "אתרים שנראים טוב עם",
-   "check": "no placeholders",
-   "fix": "site warm: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "1.5–3.0s",
-   "t0": 1.5,
-   "words": "אתרים שנראים טוב עם",
-   "check": "no placeholders",
-   "fix": "img: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "2.3–2.8s",
-   "t0": 2.27,
-   "words": "טוב",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "2.9–6.6s",
-   "t0": 2.9,
-   "words": "עם motion, מעברים ומבנה כמו שצריך,",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "3.2–6.8s",
-   "t0": 3.25,
-   "words": "motion, מעברים ומבנה כמו שצריך, אתם",
-   "check": "hero fill",
-   "fix": "fill 15%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
-  },
-  {
-   "t": "6.6–9.9s",
-   "t0": 6.6,
-   "words": "שצריך, אתם צריכים להתקין skill שנקרא Kowalski.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "7.0–8.5s",
-   "t0": 7,
-   "words": "צריכים להתקין skill שנקרא",
-   "check": "collisions",
-   "fix": "div.s-prog on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "7.0–10.0s",
-   "t0": 7,
-   "words": "צריכים להתקין skill שנקרא Kowalski. הסקיל",
-   "check": "collisions",
-   "fix": "#card2 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "7.0–10.0s",
-   "t0": 7,
-   "words": "צריכים להתקין skill שנקרא Kowalski. הסקיל",
-   "check": "collisions",
-   "fix": "div.s-page on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+   "fix": "dock1: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
   },
   {
    "t": "7.0–10.0s",
@@ -147,48 +84,6 @@
    "words": "צריכים להתקין skill שנקרא Kowalski. הסקיל",
    "check": "no placeholders",
    "fix": "card2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "7.2–7.8s",
-   "t0": 7.17,
-   "words": "להתקין",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "7.9–8.3s",
-   "t0": 7.87,
-   "words": "skill",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "8.3–8.7s",
-   "t0": 8.3,
-   "words": "שנקרא",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "8.5–9.0s",
-   "t0": 8.5,
-   "words": "שנקרא Kowalski.",
-   "check": "collisions",
-   "fix": "#bar2 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "8.8–9.9s",
-   "t0": 8.8,
-   "words": "Kowalski.",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "10.2–11.2s",
-   "t0": 10.25,
-   "words": "הסקיל הזה בעצם הופך",
-   "check": "no placeholders",
-   "fix": "img: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
   },
   {
    "t": "10.2–11.2s",
@@ -203,55 +98,6 @@
    "words": "הסקיל הזה בעצם הופך",
    "check": "no placeholders",
    "fix": "site plain: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "11.5–13.0s",
-   "t0": 11.5,
-   "words": "האתר שלכם למטורף.",
-   "check": "no placeholders",
-   "fix": "img: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "11.5–13.0s",
-   "t0": 11.5,
-   "words": "האתר שלכם למטורף.",
-   "check": "no placeholders",
-   "fix": "med3b: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "11.5–13.0s",
-   "t0": 11.5,
-   "words": "האתר שלכם למטורף.",
-   "check": "no placeholders",
-   "fix": "site bold: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
-   "t": "12.2–13.0s",
-   "t0": 12.25,
-   "words": "למטורף.",
-   "check": "collisions",
-   "fix": "caption 'למטורף' on seam: move the caption off the card (card bottom >= 60px above the caption) or move the card"
-  },
-  {
-   "t": "12.4–12.9s",
-   "t0": 12.37,
-   "words": "למטורף.",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "13.0–13.5s",
-   "t0": 13,
-   "words": "כל מה",
-   "check": "collisions",
-   "fix": "caption span.w on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "13.3–17.2s",
-   "t0": 13.33,
-   "words": "כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
   }
  ]
 }

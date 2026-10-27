@@ -71,7 +71,8 @@
     slip(tl, sels, t, step = 0.22) {
       $$(sels).forEach((e, i) => {
         const tt = Array.isArray(t) ? t[i] : t + i * step, rtl = getComputedStyle(e).direction === "rtl";
-        ft(tl, e, { clipPath: rtl ? "inset(0% 0% 0% 100%)" : "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.26, ease: "power3.out" }, tt);
+        const w = Math.ceil(e.offsetWidth) + 2;  // px, not %: the wipe is the same, and px insets are what layout tools read
+        ft(tl, e, { clipPath: rtl ? `inset(0px 0px 0px ${w}px)` : `inset(0px ${w}px 0px 0px)` }, { clipPath: "inset(0px 0px 0px 0px)", duration: 0.26, ease: "power3.out" }, tt);
         const inn = e.querySelector(".in"); if (inn) ft(tl, inn, { x: rtl ? 40 : -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.28, ease: "power3.out" }, tt + 0.08);
       });
     },
@@ -111,6 +112,12 @@
     // strike: a line draws through a word that stops being true
     strike(tl, sel, t) { ft(tl, sel, { "--s": 0 }, { "--s": 1, duration: 0.25, ease: "power2.out" }, t); },
     // press: a button / tile is pressed
+    // angle: a hard cut to a closer framing (the anchor cuts between camera angles every few seconds; with one camera
+    // it is a 1.12–1.2× punch on the footage + matte, set instantly on a word). angle(tl, t, 1) cuts back.
+    angle(tl, t, scale = 1.15, origin = [540, 760], o = {}) {
+      const vids = $$(o.videos || ["#faceVid", "#matteVid"]).filter(Boolean);
+      vids.forEach((v) => { tl.set(v, { transformOrigin: origin[0] + "px " + origin[1] + "px" }, 0); tl.set(v, { scale }, t); });
+    },
     press(tl, sel, t) { tl.fromTo(sel, { scale: 1 }, { scale: 0.86, duration: 0.07, yoyo: true, repeat: 1, ease: "power1.inOut", ...IR }, t); },
     pulse(tl, sel, t, s = 1.06) { tl.fromTo(sel, { scale: 1 }, { scale: s, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", ...IR }, t); },
     // film: sprocket edges on both sides for a flashback / history beat

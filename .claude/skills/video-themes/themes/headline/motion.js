@@ -49,6 +49,7 @@
       if (air) tl.set(air, { opacity: mode === "split" ? 1 : 0 }, a);
       if (dark) tl.set(dark, { opacity: mode === "dark" ? 1 : 0 }, a);
       if (page) tl.set(page, { opacity: mode === "page" ? 1 : 0 }, a);
+      const faceBox = vid.parentElement; if (faceBox) tl.set(faceBox, { opacity: mode === "dark" || mode === "page" ? 0 : 1 }, a);  // no speaker on dark / page
       H._layouts.push([t, mode]);
     },
     modeAt(t) { let m = "split"; H._layouts.forEach(([tt, mm]) => { if (tt <= t + 1e-6) m = mm; }); return m; },
@@ -64,7 +65,8 @@
       ws.forEach((w, i) => { cur.push(w); const n = ws[i + 1]; if (/[.,:!?;]$/.test(w.text) || !n || n.start - w.end > gap || cur.length >= max) { groups.push(cur); cur = []; } });
       groups.forEach((g, i) => {
         const a = g[0].start; if (a >= until) return;
-        const nx = groups[i + 1], b = Math.min(until, nx ? Math.min(nx[0].start, g[g.length - 1].end + 0.9) : g[g.length - 1].end + 0.5);
+        let b = Math.min(until, groups[i + 1] ? Math.min(groups[i + 1][0].start, g[g.length - 1].end + 0.9) : g[g.length - 1].end + 0.5);
+        const cut = H._layouts.find(([tt]) => tt > a + 1e-6); if (cut) b = Math.min(b, cut[0]);  // a caption never survives a layout change
         const m = H.modeAt(a), el = document.createElement("div");
         el.className = "h-cap" + (m === "split" || m === "page" ? "" : " light");
         g.forEach((w) => { const s = document.createElement("span"); if (w.em) s.className = "h-acc"; if (w.em && /^[A-Za-z0-9]/.test(w.text)) s.dir = "ltr"; s.textContent = w.text.replace(/[.,:;]$/, ""); el.appendChild(s); });
@@ -132,6 +134,11 @@
       clicks.forEach((c) => tl.fromTo(sel, { scale: 1 }, { scale: 0.82, duration: 0.07, yoyo: true, repeat: 1, ease: "power1.inOut", ...IR }, c));
       if (o.end != null) tl.set(sel, { opacity: 0 }, o.end);
     },
+    // push: a slow, continuous push-in on a held window (secondary motion while the voice explains it)
+    push(tl, sel, t, dur, to = 1.05) { tl.set(sel, { scale: 1 }, 0); tl.fromTo(sel, { scale: 1 }, { scale: to, duration: dur, ease: "none", ...IR }, t); },
+    // punch: a quick zoom into the part the voice names (origin in the element's px), holds; unpunch returns
+    punch(tl, sel, t, scale = 1.25, origin = [450, 300], dur = 0.3) { tl.set(sel, { transformOrigin: origin[0] + "px " + origin[1] + "px" }, 0); tl.to(sel, { scale, duration: dur, ease: "power3.out" }, t); },
+    unpunch(tl, sel, t, dur = 0.3) { tl.to(sel, { scale: 1, duration: dur, ease: "power3.inOut" }, t); },
     pulse(tl, sel, t, s = 1.06) { tl.fromTo(sel, { scale: 1 }, { scale: s, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", ...IR }, t); },
     // cta: the serif lead blurs in, the keyword lands big with its glow
     cta(tl, leadSel, kwSel, t) { H.blurIn(tl, words(leadSel), t, 0.1); ft(tl, kwSel, { opacity: 0, scale: 1.35, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "back.out(1.6)" }, t + 0.3); },

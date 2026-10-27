@@ -75,6 +75,9 @@ One yellow at a time.
 | `pop` | a tile / small thing arrives | blur + scale .6→1 back.out(1.8) | `pop` |
 | `swap` | one media replaces another (before → after) | blur cross, .25 s | `air` |
 | `scroll` | reading a long real document | the content glides up continuously | — |
+| `drift` | ambient behind a media frame | the blurred ambient slowly scales and slides (it is the media's own blur, so it moves) | — |
+| `creep` | the speaker talks (face layout) | the camera creeps in on the footage 1 → 1.1 over the beat | — |
+| `dock` (block) | helpers arrive on the chest | a dark translucent strip the sprites stand on, so the row reads as one hero | — |
 | `zoom` | "look here" inside a UI | smooth push to a part, .5 s power3.inOut | — |
 | `mark` | the phrase that matters | yellow highlight sweeps behind it | `tick` |
 | `type` | writing / prompting / commenting | 18–26 letters per second | `key` |

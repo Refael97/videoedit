@@ -76,9 +76,12 @@ One accent: blue. No red, no green except inside a real screenshot.
 | `select` | "this sentence" | a selection sweeps over real text, .3 s | `tick` |
 | `dim` + stat card + `count` | a number | the window goes grey, the card blurs in, the digits roll **ending on the payoff word**, final value holds ≥0.8 s, the payoff is the biggest thing on screen | `roll` → `ding` |
 | `type` | a command / a comment | 20–24 letters per second | `key` |
+| `push` | a window is being explained | slow continuous scale 1 → 1.05 over the hold (never on the footage in split) | — |
+| `punch` / `unpunch` | the voice names a part of the window | quick zoom ×1.2–1.3 into that part (.3 s power3.out), holds, returns | `air` |
 | `cta` | "comment X" | the serif lead blurs in, the keyword lands big with its glow | `pop` |
 | captions | speech | each word blurs in on its start; up to 3 words, then clear | — |
-Forbidden: slides, rotations, bounces, camera moves on the footage in split, slow fades.
+Forbidden: slides, rotations, bounces, camera moves on the footage in split, slow fades. (The full-face layout may
+push in slowly on the footage: it is the "second camera".) No speaker on dark / page: the footage is hidden there.
 
 ## 7. Sentence → element recipe
 

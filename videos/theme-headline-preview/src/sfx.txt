@@ -19,10 +19,16 @@
 8.62 tick 0.22
 8.8 ding 0.18
 9.92 swish 0.25
-10.45 air 0.3
+10.05 air 0.3
 11.1 whoosh 0.22
 12.1 click 0.35
 12.15 ding 0.2
 12.9 whoosh 0.2
 14.55 air 0.3
 14.85 pop 0.35
+2.25 click 0.2
+8.8 air 0.25
+12.1 air 0.25
+16.0 pop 0.25
+6.75 air 0.2
+10.7 click 0.2

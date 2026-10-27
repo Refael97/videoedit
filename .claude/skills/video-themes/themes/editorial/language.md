@@ -84,6 +84,7 @@ One gold per composition.
 | `strike` | "not anymore" | a red line draws through the word, .25 s | `tick` |
 | `film` | history, a flashback | sprocket edges on both sides scroll | — |
 | `pulse` | the voice stresses it | scale 1.06 and back | — |
+| `angle` | a new thought / a new point | hard cut to a closer framing (×1.12–1.2 on footage + matte), on the word; cut back on the next point | — |
 Forbidden: bounce, rotation, scale-pops on type, blur zooms, anything glowing.
 
 ## 7. Sentence → element recipe

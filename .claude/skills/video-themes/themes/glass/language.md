@@ -33,7 +33,7 @@ Rules:
 
 ```
 ┌──────────────────────────┐
-│ header   small, quiet    │  window: traffic lights + 17px grey title; glass: 26–30px 700 label or nothing
+│ header   small, quiet    │  window: traffic lights + 26px grey title; glass: 26–30px 700 label or nothing
 │ body     the one thing   │  the content the voice is talking about — one idea
 │ state    what changed    │  a check, a number, a badge, a highlight — the payoff
 └──────────────────────────┘
@@ -50,8 +50,8 @@ Rules:
 | T1 | 132 | 900 | the one big number / word of a dark-glass fact |
 | T2 | 56 | 900 | CTA, a short headline inside glass |
 | T3 | 30 | 900 / 700 | element headers, list headers (orange in lists) |
-| T4 | 25–28 | 700 | rows, messages, labels |
-| T5 | 18–20 | 500–700 | sub-labels, timestamps, menu bar, window titles (grey) |
+| T4 | 28–34 | 700 | rows, messages, labels |
+| T5 | 26 (minimum) | 500–700 | sub-labels, timestamps, menu bar, window titles (grey) — the anchor shows these at 18–20, but nothing under 26px as shown survives (QA min text); if it doesn't fit at 26, delete it |
 Screen text (hook 72/124, captions 76) is separate and always bigger than anything inside glass, **except the payoff**
 (the counted number / the final word of a dark-glass fact: T1 132, or a big tag at 64px) — the payoff is the biggest thing
 in its element.
@@ -61,7 +61,7 @@ in its element.
 4 per row *(1/3)* · dialog 560–640 wide, icon 84, title 34px, text 26px, buttons 62 tall · picture-in-picture 380–520
 wide with a 10px light-glass bezel.
 
-**Space**: 8 · 12 · 16 · 22 · 34 px. Padding of windows 22, of dark glass 26×34, row height 50–54, gaps 8–12.
+**Space**: 8 · 12 · 16 · 22 · 34 px. Padding of windows 22, of dark glass 26×34, row height 56–60, gaps 8–12.
 **Radii**: light glass 30 · dark glass 30 · window 18 · inner surfaces 10–14 · chips/pills full.
 **Size**: an element takes 35–45% of frame width when it lives in the glass desktop, 65–75% when it is a
 free dark-glass fact. Never full width, never smaller than 30%.
@@ -95,8 +95,10 @@ Max **one** accent color per element (plus white). The footage supplies all othe
   | medium/wide with free room on one side (20957) | beside the speaker, on the free side, standing on the desk |
   | standing, room behind (73421) | above the head (timeline strip, floating objects) and beside the shoulder (chat pills, a PiP) |
   | first-person POV at a desk (30868) | **on the real objects**: tags over the laptops, tile grids in the window above them |
-  | tight selfie (no free side) | above the head (y 60–330) and on the dark chest **below** the caption line (y 1520–1870); never beside the face |
+  | tight selfie (no free side) | **make a free side:** the camera slides the speaker to one side (`#cam` scale ≈1.28, x ≈+150 so the footage still covers the frame) and one light-glass panel stands **beside the face, 35–45% of the frame width**, vertically in the face band (y ≈400–1160), its inner edge clear of the eyes and mouth (≥15px); each effect *replaces* the content inside that panel. Above the head / on the chest only for a strip or a tag, never as the hero |
   A profile, a hand over the face, or a moving shot → keep the glass small and away from the face for that beat.
+- **The hero glass is 35–45% of the frame width** (v2, after the QA review: small glass at the bottom of the frame reads as a sticker, not the subject). It floats beside the speaker, never small and parked at the bottom.
+- **Text ≥26px as shown** (font-size × every scale, camera zoom included) — window titles, ruler labels, list sub-lines, chips. Anything that would render smaller is deleted.
 - Placement: never over the mouth/eyes, **never over the caption slot**, never touching the frame edge (≥18px).
 - Only **one** primary element on screen. Showing a new one = replace (§6), not stack.
 - The cursor belongs to the light glass it is in; it only appears when something is being *done*.

@@ -16,6 +16,23 @@
       #i0 { position: absolute; left: 0; right: 0; top: 270px; text-align: center; font-size: 120px; }
       #tc0 { position: absolute; left: 62px; top: 190px; }
 
+      /* S0: the result, pasted beside the head — the plain site prints over with the styled one on "טוב" */
+      #th0 { left: 650px; top: 660px; width: 390px; height: 560px; z-index: 2; }
+      #th0 .site h4 { font-size: 58px; } #th0 .site .b { font-size: 30px; height: 60px; }
+      #th0 .chip { z-index: 3; }
+      #sA0 { background: #fff; color: #333; font-family: "Times New Roman", serif; } #sA0 h4 { font-weight: 400; } #sA0 .b { background: #ddd; color: #333; }
+      #sB0 { background: var(--e-green); color: var(--e-cream); font-family: var(--e-sans); } #sB0 h4 { font-weight: 900; letter-spacing: -0.03em; }
+      #sB0 h4 em { font-family: var(--e-italic); font-style: normal; font-weight: 400; color: var(--e-gold); font-stretch: 62.5%; display: inline-block; transform: skewX(-11deg); }
+      #sB0 .b { background: var(--e-gold); color: var(--e-ink); border-radius: 30px; font-weight: 900; }
+      .site .ph { position: absolute; left: 18px; right: 18px; top: 190px; height: 210px; border-radius: 6px; overflow: hidden; background: linear-gradient(#efe4d6 0 60%, #b98b63 60%); }
+      .site .ph i { position: absolute; display: block; }
+      .ph .w1 { left: 22px; top: 20px; width: 90px; height: 100px; background: linear-gradient(#8ec5f0, #d8ecfa); box-shadow: inset 0 0 0 5px #fff; }
+      .ph .s1 { left: 130px; top: 96px; width: 170px; height: 52px; border-radius: 14px 14px 6px 6px; background: #2f5d62; }
+      .ph .c1 { left: 150px; top: 104px; width: 40px; height: 30px; border-radius: 8px; background: #e9c46a; } .ph .c2 { left: 238px; top: 104px; width: 40px; height: 30px; border-radius: 8px; background: #e76f51; }
+      .ph .lp { left: 300px; top: 40px; width: 40px; height: 26px; border-radius: 5px; background: #f7d58a; box-shadow: 0 8px 18px rgba(255, 210, 120, 0.8); } .ph .lb { left: 317px; top: 62px; width: 5px; height: 90px; background: #3a2a1e; }
+      .ph .rg { left: 120px; top: 168px; width: 200px; height: 26px; border-radius: 50%; background: #d9a066; }
+      #sA0 .ph { filter: grayscale(1); }
+
       /* S1 stack */
       #st1 { top: 230px; }
 
@@ -30,6 +47,8 @@
       #card4 .bd { display: flex; gap: 34px; align-items: center; height: 336px; box-sizing: border-box; }
       #thumbs4 { position: relative; width: 220px; height: 290px; flex: none; }
       #thumbs4 .e-thumb { inset: 0; }
+      #thumbs4 .ph { left: 9px; right: auto; top: 104px; width: 400px; height: 220px; transform: scale(0.5); transform-origin: 0 0; }
+      #sA .ph { filter: grayscale(1); }
       .site { position: absolute; inset: 0; padding: 22px 18px; direction: rtl; }
       .site h4 { margin: 0; font-size: 40px; line-height: 1.02; white-space: pre; }
       .site .b { position: absolute; right: 18px; bottom: 22px; height: 50px; padding: 0 20px; display: flex; align-items: center; font-size: 26px; }
@@ -62,6 +81,9 @@
       <div id="over" class="e-over">
         <!-- S0: opening on the green page -->
         <div id="s0" class="e-scene">
+          <div class="e-thumb" id="th0"><div class="site" id="sA0"><h4>עיצוב
+פנים</h4><div class="ph"><i class="w1"></i><i class="s1"></i><i class="c1"></i><i class="c2"></i><i class="lb"></i><i class="lp"></i><i class="rg"></i></div><span class="b">צור קשר</span></div><div class="site" id="sB0"><h4>עיצוב
+<em>שמרגיש</em> בית</h4><div class="ph"><i class="w1"></i><i class="s1"></i><i class="c1"></i><i class="c2"></i><i class="lb"></i><i class="lp"></i><i class="rg"></i></div><span class="b">לתיאום</span></div><span class="chip" id="chip0">BEFORE</span></div>
           <div id="tc0" class="e-tc"></div>
           <div id="h0" class="e-heavy"><span class="ln"><span>אם אתם רוצים</span></span><span class="ln"><span>לבנות</span></span></div>
           <div id="i0"><span id="i0t" style="display: inline-block"><span class="e-it he">שנראים טוב.</span></span></div>
@@ -85,14 +107,14 @@
         <!-- S4: the product card turns the site, the payoff lands -->
         <div id="s4" class="e-scene">
           <div id="card4" class="e-card">
-            <div class="hd">Kowalski <span class="ver" id="ver4">v0.1</span><span class="st" id="st4">● RUNNING</span></div>
+            <div class="hd">Kowalski <span class="ver" id="ver4" data-qa-payoff="למטורף." data-qa-stamp="#pay4s">v0.1</span><span class="st" id="st4">● RUNNING</span></div>
             <div class="bd">
               <div id="thumbs4">
                 <div class="e-thumb" id="tA"><div class="site" id="sA"><h4>עיצוב
-פנים</h4><span class="b">צור קשר</span></div></div>
+פנים</h4><div class="ph"><i class="w1"></i><i class="s1"></i><i class="c1"></i><i class="c2"></i><i class="lb"></i><i class="lp"></i><i class="rg"></i></div><span class="b">צור קשר</span></div></div>
                 <div class="e-thumb" id="tB"><div class="site" id="sB"><h4>עיצוב
 <em>שמרגיש</em>
-בית</h4><span class="b">לתיאום</span></div></div>
+בית</h4><div class="ph"><i class="w1"></i><i class="s1"></i><i class="c1"></i><i class="c2"></i><i class="lb"></i><i class="lp"></i><i class="rg"></i></div><span class="b">לתיאום</span></div></div>
               </div>
               <div id="txt4"><div class="tl" style="overflow: hidden"><span id="t4a" style="display: inline-block">האתר</span></div><div class="tl" style="overflow: hidden"><span id="t4b" style="display: inline-block"><span class="e-it he" style="font-size: 110px">שלכם</span></span></div></div>
             </div>
@@ -138,9 +160,14 @@
         E.letters(tl, "#d0", 1.15, 0.09);
         E.hide(tl, "#i0t"); tl.fromTo("#i0t", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, 1.72);
 
+        E.hide(tl, ["#th0", "#sB0"]); E.rise(tl, "#th0", 0.5);
+        E.print(tl, "#sB0", 2.2); tl.set("#chip0", { textContent: "BEFORE" }, 0); tl.set("#chip0", { textContent: "AFTER" }, 2.2);
+        E.pulse(tl, "#th0", 2.3, 1.05);
+
         // ---- S1: one slip per word, then "כמו שצריך" ----
         E.slip(tl, ["#sl1", "#sl2", "#sl3", "#sl4"], [3.2, 4.5, 5.4, 6.0]);
         E.pulse(tl, "#sl1", 3.7); E.pulse(tl, "#sl2", 4.95);
+        E.angle(tl, 4.5, 1.15); E.angle(tl, 6.0, 1);
 
         // ---- S2: the prompt is typed and sent ----
         E.rise(tl, "#in2", 6.7);
@@ -154,9 +181,10 @@
 
         // ---- S4: the card runs, the site turns, the version lands on the payoff word ----
         E.rise(tl, "#card4", 9.95);
-        E.lines(tl, ["#t4a", "#t4b"], [10.45, 11.75]);
+        E.lines(tl, ["#t4a", "#t4b"], [10.0, 11.75]);
+        E.angle(tl, 11.1, 1.15);
         E.hide(tl, "#tB"); E.print(tl, "#tB", 11.1);
-        E.count(tl, "#ver4", 1, 10, 11.1, 1.0, { fmt: (v) => "v" + (Math.round(v) / 10).toFixed(1) });
+        E.count(tl, "#ver4", 1, 10, 11.1, 1.0, { ease: "none", fmt: (v) => "v" + (Math.round(v) / 10).toFixed(1) });  // linear: the last step lands on "למטורף" (12.04)
         E.swapClass(tl, "#st4", 12.1, "done");
         tl.set("#st4", { textContent: "● RUNNING" }, 0); tl.set("#st4", { textContent: "● DONE · 1.0" }, 12.1);
         E.slip(tl, "#pay4s", 12.1);
@@ -168,6 +196,7 @@
         E.press(tl, "#hrt1", 15.45);
         E.rise(tl, "#cm2", 15.4);
         E.pulse(tl, "#cm2", 16.05, 1.04);
+        E.angle(tl, 12.9, 1); E.angle(tl, 13.3, 1.15);
 
         window.__timelines["main"] = tl;
       });

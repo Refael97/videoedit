@@ -20,21 +20,37 @@
       .site nav { position: absolute; right: 34px; left: 34px; top: 26px; display: flex; justify-content: space-between; font-size: 30px; font-weight: 800; }
       .site h3 { position: absolute; right: 34px; top: 110px; margin: 0; font-size: 92px; line-height: 0.98; font-weight: 800; white-space: pre; letter-spacing: -3px; }
       .site .btn { position: absolute; right: 34px; bottom: 40px; height: 76px; padding: 0 36px; border-radius: 38px; font-size: 34px; font-weight: 800; display: flex; align-items: center; }
-      .site .img { position: absolute; left: 34px; bottom: 40px; width: 250px; height: 250px; border-radius: 30px; overflow: hidden; }
+      .site .img { position: absolute; left: 34px; bottom: 40px; width: 300px; height: 300px; border-radius: 30px; overflow: hidden; }
+      /* the hero photo on the studio's site: a drawn living room (real visual detail, never a flat square) */
+      .room { background: linear-gradient(#efe4d6 0 62%, #b98b63 62% 100%); }
+      .room i { position: absolute; display: block; }
+      .room .win { left: 26px; top: 26px; width: 104px; height: 128px; border-radius: 6px; background: linear-gradient(#8ec5f0, #d8ecfa); box-shadow: inset 0 0 0 6px #fff; }
+      .room .win::after { content: ""; position: absolute; left: 49px; top: 0; bottom: 0; width: 6px; background: #fff; }
+      .room .sun { left: 46px; top: 44px; width: 30px; height: 30px; border-radius: 50%; background: #ffd25e; }
+      .room .frame { left: 170px; top: 36px; width: 86px; height: 64px; border: 5px solid #3a2a1e; background: linear-gradient(135deg, #e07a4f, #f2c14e 55%, #4f8a6e); }
+      .room .lamp { left: 236px; top: 112px; width: 6px; height: 104px; background: #3a2a1e; }
+      .room .shade { left: 214px; top: 96px; width: 50px; height: 30px; border-radius: 6px 6px 2px 2px; background: #f7d58a; box-shadow: 0 10px 22px rgba(255, 210, 120, 0.8); }
+      .room .sofa { left: 30px; top: 170px; width: 190px; height: 64px; border-radius: 18px 18px 8px 8px; background: #2f5d62; }
+      .room .seat { left: 22px; top: 210px; width: 206px; height: 36px; border-radius: 10px; background: #24494d; }
+      .room .cush { top: 180px; width: 46px; height: 36px; border-radius: 10px; background: #e9c46a; } .room .ca { left: 52px; } .room .cb { left: 150px; background: #e76f51; }
+      .room .rug { left: 40px; top: 262px; width: 210px; height: 30px; border-radius: 50%; background: #d9a066; box-shadow: inset 0 0 0 6px #c2864d; }
+      .room .pot { left: 246px; top: 222px; width: 30px; height: 34px; border-radius: 0 0 8px 8px; background: #c05a3c; }
+      .room .leaf { width: 26px; height: 52px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: #3f8a4a; } .room .l1 { left: 238px; top: 176px; transform: rotate(-25deg); } .room .l2 { left: 256px; top: 170px; transform: rotate(20deg); background: #4fa35a; }
+      .site p { position: absolute; right: 34px; top: 330px; margin: 0; font-size: 32px; line-height: 1.3; white-space: pre; opacity: 0.75; }
+      .site.plain .room { filter: grayscale(1); }
+      .site.bold .room { filter: saturate(1.3) contrast(1.1); }
+      #dock1 { }
       .site.plain { background: #f2f2f2; color: #333; font-family: "Times New Roman", serif; letter-spacing: 0; }
       .site.plain h3 { font-weight: 400; font-size: 76px; letter-spacing: 0; }
       .site.plain .btn { background: #ccc; color: #333; border-radius: 0; font-family: "Times New Roman", serif; font-weight: 400; }
-      .site.plain .img { background: #ddd; }
       .site.bold { background: #0d0d12; color: #fff; }
       .site.bold h3 { color: #fff; } .site.bold h3 b { color: var(--s-yellow); font-weight: 800; }
       .site.bold .btn { background: var(--s-blue); color: #fff; }
-      .site.bold .img { background: radial-gradient(circle at 35% 35%, #ff6a3d, #6b2bff 70%); }
       .site.warm { background: #f6efe4; color: #2a2118; }
       .site.warm .btn { background: #2a2118; color: #fff; }
-      .site.warm .img { background: linear-gradient(135deg, #c65a3c, #e8a06a); }
 
       #tile0 { left: 420px; top: 240px; background: linear-gradient(140deg, #3a5bff, #1e2fbf); }
-      #med0, #med3a, #med3b { left: 90px; right: 90px; top: 110px; height: 560px; }
+      #med0, #med3a, #med3b { left: 90px; right: 90px; top: 100px; height: 500px; }
 
       /* sprites on the chest (face layout): three agents */
       #sp1 { right: 270px; top: 1610px; } #sp2 { right: 540px; top: 1610px; } #sp3 { right: 810px; top: 1610px; }
@@ -43,7 +59,9 @@
       #lb1 { right: 270px; top: 1730px; } #lb2 { right: 540px; top: 1730px; } #lb3 { right: 810px; top: 1730px; }
 
       /* S2: install card on the page */
-      #card2 { left: 110px; right: 110px; top: 560px; height: 560px; }
+      #card2 { left: 110px; right: 110px; top: 470px; }
+      #card2 .it { display: flex; align-items: center; gap: 18px; margin: 18px 50px 0; font-size: 34px; font-weight: 700; direction: ltr; }
+      #card2 .it .ck { width: 46px; height: 46px; margin: 0; } #card2 .it:last-child { margin-bottom: 40px; }
       #card2 .dl { width: 150px; height: 150px; border-radius: 34px; background: var(--s-blue); margin: 40px auto 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 18px 40px rgba(7, 79, 250, 0.35); }
       #card2 .dl svg { width: 84px; height: 84px; }
       #card2 .st { text-align: center; font-size: 44px; font-weight: 800; }
@@ -71,7 +89,8 @@
           <div class="s-amb"><div class="src-a"></div></div>
           <div id="tile0" class="s-tile aa"></div>
           <div id="med0" class="s-media aa"><div class="site warm"><nav><span>סטודיו נוי</span><span>☰</span></nav><h3>עיצוב פנים
-שמרגיש בית</h3><span class="btn">לתיאום</span><div class="img"></div></div></div>
+שמרגיש בית</h3><p>40 פרויקטים בשנה
+בתל אביב והמרכז</p><span class="btn">לתיאום</span><div class="img room"><i class="win"></i><i class="sun"></i><i class="frame"></i><i class="lamp"></i><i class="shade"></i><i class="sofa"></i><i class="seat"></i><i class="cush ca"></i><i class="cush cb"></i><i class="rug"></i><i class="pot"></i><i class="leaf l1"></i><i class="leaf l2"></i></div></div></div>
         </div>
 
         <!-- S2 (full page): the install — command typed, the bar fills and lands on "Kowalski" -->
@@ -82,7 +101,10 @@
             <div class="dl" id="dl2"></div>
             <div class="st" id="st2">מתקין…</div>
             <div class="cmd mono">› <span id="cmdT"></span></div>
-            <div class="pr" dir="ltr"><span class="s-pct" id="pct2">0%</span><div class="s-prog"><i id="bar2"></i></div></div>
+            <div class="pr" dir="ltr"><span class="s-pct" id="pct2" data-qa-payoff="Kowalski." data-qa-stamp="#pill2">0%</span><div class="s-prog"><i id="bar2"></i></div></div>
+            <div class="it"><span class="ck" id="ck2a"></span>motion presets</div>
+            <div class="it"><span class="ck" id="ck2b"></span>page transitions</div>
+            <div class="it"><span class="ck" id="ck2c"></span>layout system</div>
           </div>
           <div id="pill2" class="s-pill">✓ הותקן</div>
         </div>
@@ -90,14 +112,17 @@
         <!-- S3 (split, ambient): the same site, before → after on "הופך" -->
         <div id="s3" class="s-scene">
           <div class="s-amb"><div class="src-b" id="amb3a"></div><div class="src-c" id="amb3b"></div></div>
-          <div id="med3a" class="s-media aa"><div class="site plain"><nav><span>סטודיו נוי</span><span>תפריט</span></nav><h3>עיצוב פנים</h3><span class="btn">צור קשר</span><div class="img"></div></div></div>
+          <div id="med3a" class="s-media aa"><div class="site plain"><nav><span>סטודיו נוי</span><span>תפריט</span></nav><h3>עיצוב פנים</h3><p>מעצבת פנים מאז 2012
+בתים ומשרדים</p><span class="btn">צור קשר</span><div class="img room"><i class="win"></i><i class="sun"></i><i class="frame"></i><i class="lamp"></i><i class="shade"></i><i class="sofa"></i><i class="seat"></i><i class="cush ca"></i><i class="cush cb"></i><i class="rug"></i><i class="pot"></i><i class="leaf l1"></i><i class="leaf l2"></i></div></div></div>
           <div id="med3b" class="s-media aa"><div class="site bold"><nav><span>סטודיו נוי</span><span>☰</span></nav><h3>עיצוב פנים
-<b>שמרגיש בית</b></h3><span class="btn">לתיאום ←</span><div class="img"></div></div></div>
+<b>שמרגיש בית</b></h3><p>40 פרויקטים בשנה
+בתל אביב והמרכז</p><span class="btn">לתיאום ←</span><div class="img room"><i class="win"></i><i class="sun"></i><i class="frame"></i><i class="lamp"></i><i class="shade"></i><i class="sofa"></i><i class="seat"></i><i class="cush ca"></i><i class="cush cb"></i><i class="rug"></i><i class="pot"></i><i class="leaf l1"></i><i class="leaf l2"></i></div></div></div>
         </div>
       </div>
       <div id="seam" class="s-seam"></div>
 
       <!-- S1 (face): three pixel agents land on the chest, one per word; all get a check on "כמו שצריך" -->
+      <div class="s-dock" id="dock1"></div>
       <div class="s-sprite" id="sp1"></div><div class="s-sprite" id="sp2"></div><div class="s-sprite" id="sp3"></div>
       <div class="s-icon" id="ic1"></div><div class="s-icon" id="ic2"></div><div class="s-icon" id="ic3"></div>
       <div class="s-icon" id="ok1"></div><div class="s-icon" id="ok2"></div><div class="s-icon" id="ok3"></div>
@@ -133,6 +158,18 @@
       <audio id="sfx22" src="assets/theme/sfx/air.wav" data-start="14.6" data-duration="0.2" data-track-index="11" data-volume="0.4"></audio>
       <audio id="sfx23" src="assets/theme/sfx/pop.wav" data-start="15.4" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
       <audio id="sfx24" src="assets/theme/sfx/ding.wav" data-start="16.05" data-duration="0.7" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx25" src="assets/theme/sfx/air.wav" data-start="3.0" data-duration="0.2" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx26" src="assets/theme/sfx/air.wav" data-start="8.75" data-duration="0.2" data-track-index="13" data-volume="0.25"></audio>
+      <audio id="sfx27" src="assets/theme/sfx/air.wav" data-start="16.6" data-duration="0.2" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx28" src="assets/theme/sfx/air.wav" data-start="3.2" data-duration="0.2" data-track-index="14" data-volume="0.15"></audio>
+      <audio id="sfx29" src="assets/theme/sfx/air.wav" data-start="4.5" data-duration="0.2" data-track-index="14" data-volume="0.15"></audio>
+      <audio id="sfx30" src="assets/theme/sfx/air.wav" data-start="5.4" data-duration="0.2" data-track-index="14" data-volume="0.15"></audio>
+      <audio id="sfx31" src="assets/theme/sfx/air.wav" data-start="7.9" data-duration="0.2" data-track-index="14" data-volume="0.2"></audio>
+      <audio id="sfx32" src="assets/theme/sfx/tick.wav" data-start="8.2" data-duration="0.03" data-track-index="14" data-volume="0.2"></audio>
+      <audio id="sfx33" src="assets/theme/sfx/tick.wav" data-start="8.45" data-duration="0.03" data-track-index="14" data-volume="0.2"></audio>
+      <audio id="sfx34" src="assets/theme/sfx/tick.wav" data-start="8.7" data-duration="0.03" data-track-index="14" data-volume="0.2"></audio>
+      <audio id="sfx35" src="assets/theme/sfx/air.wav" data-start="13.3" data-duration="0.2" data-track-index="13" data-volume="0.15"></audio>
+      <audio id="sfx36" src="assets/theme/sfx/air.wav" data-start="15.4" data-duration="0.2" data-track-index="13" data-volume="0.15"></audio>
     </div>
     <script>
       const WORDS = [{"text": "אם", "start": 0.24, "end": 0.34}, {"text": "אתם", "start": 0.36, "end": 0.56}, {"text": "רוצים", "start": 0.58, "end": 0.8}, {"text": "לבנות", "start": 0.82, "end": 1.14}, {"text": "אתרים", "start": 1.18, "end": 1.6}, {"text": "שנראים", "start": 1.66, "end": 2.08}, {"text": "טוב", "start": 2.22, "end": 2.9}, {"text": "עם", "start": 2.94, "end": 3.08}, {"text": "motion,", "start": 3.16, "end": 3.76}, {"text": "מעברים", "start": 4.46, "end": 5.34}, {"text": "ומבנה", "start": 5.42, "end": 5.96}, {"text": "כמו", "start": 6.0, "end": 6.16}, {"text": "שצריך,", "start": 6.2, "end": 6.62}, {"text": "אתם", "start": 6.68, "end": 6.839}, {"text": "צריכים", "start": 6.919, "end": 7.1}, {"text": "להתקין", "start": 7.14, "end": 7.6}, {"text": "skill", "start": 7.86, "end": 8.24}, {"text": "שנקרא", "start": 8.3, "end": 8.7}, {"text": "Kowalski.", "start": 8.76, "end": 9.46}, {"text": "הסקיל", "start": 9.96, "end": 10.34}, {"text": "הזה", "start": 10.36, "end": 10.68}, {"text": "בעצם", "start": 10.74, "end": 11.1}, {"text": "הופך", "start": 11.12, "end": 11.38}, {"text": "את", "start": 11.38, "end": 11.44}, {"text": "האתר", "start": 11.48, "end": 11.7}, {"text": "שלכם", "start": 11.8, "end": 12.08}, {"text": "למטורף.", "start": 12.1, "end": 12.76}, {"text": "כל", "start": 13.34, "end": 13.44}, {"text": "מה", "start": 13.48, "end": 13.54}, {"text": "שאתם", "start": 13.58, "end": 13.74}, {"text": "צריכים", "start": 13.78, "end": 13.94}, {"text": "לעשות", "start": 13.98, "end": 14.4}, {"text": "זה", "start": 14.42, "end": 14.5}, {"text": "להגיב", "start": 14.56, "end": 14.84}, {"text": "לי", "start": 14.879, "end": 14.98}, {"text": "פה", "start": 15.039, "end": 15.14}, {"text": "ואני", "start": 15.2, "end": 15.36}, {"text": "שולח", "start": 15.4, "end": 15.7}, {"text": "לכם", "start": 15.76, "end": 16.0}, {"text": "את", "start": 16.02, "end": 16.14}, {"text": "זה.", "start": 16.18, "end": 16.34}];
@@ -140,7 +177,7 @@
       document.fonts.ready.then(() => {
         const tl = gsap.timeline({ paused: true });
         S.art("#tile0", S.ART.spark4); S.art("#dl2", S.ART.download); S.art("#dmAv", S.ART.spark4);
-        document.querySelector("#dmCk").innerHTML = S.ART.check;
+        document.querySelectorAll("#dmCk, #card2 .ck").forEach((e) => (e.innerHTML = S.ART.check));
         S.art(["#sp1", "#sp2", "#sp3"], S.ART.sprite());
         S.art("#ic1", S.ART.icon("spark")); S.art("#ic2", S.ART.icon("up")); S.art("#ic3", S.ART.icon("eye"));
         S.art(["#ok1", "#ok2", "#ok3"], S.ART.icon("check"));
@@ -156,7 +193,7 @@
         S.scene(tl, "#s0", 0, 2.92); S.scene(tl, "#s2", 6.62, 9.92); S.scene(tl, "#s3", 9.92, 12.9);
 
         // captions: chest on the face (this speaker's chin is low), above the seam in split, ink on the page; none under the CTA keyword's own line
-        S.captions(tl, "#caps", WORDS, { yFace: 1300, ySplit: 815, yFull: 1330, ink: (t) => S.modeAt(t) === "full", until: 14.55 });
+        S.captions(tl, "#caps", WORDS, { yFace: 1300, ySplit: 760, yFull: 1330, ink: (t) => S.modeAt(t) === "full", until: 14.55 });
         S.captions(tl, "#caps", WORDS.filter((w) => w.start >= 14.55), { yFace: 1330 });
 
         // ---- hook (split): the tile lands, the site replaces it on "אתרים", the button pulses on "טוב" ----
@@ -165,11 +202,17 @@
         S.hide(tl, "#med0"); S.out(tl, "#tile0", 1.15);
         S.blurIn(tl, "#med0", 1.2, 0, { y: 30 });
         S.pulse(tl, "#med0 .btn", 2.2, 1.15);
+        S.drift(tl, "#s0 .s-amb > div", 0, 2.92);
+        S.zoom(tl, "#med0", 1.6, 1.08, [450, 300], 0.6);
 
         // ---- S1 (face): pixel agents land on their words, all checked on "כמו שצריך" ----
+        S.hide(tl, "#dock1"); S.blurIn(tl, "#dock1", 3.15); tl.set("#dock1", { opacity: 0 }, 6.62);
+        // the camera cuts in a step on every helper that lands
+        [[3.2, 1.06], [4.5, 1.12], [5.4, 1.18]].forEach(([t, sc]) => tl.to("#faceVid", { scale: sc, transformOrigin: "50% 35%", duration: 0.14, ease: "power3.out" }, t));
         S.sprites(tl, ["#sp1", "#sp2", "#sp3"], [3.2, 4.5, 5.4], 0, { until: 6.62 });
         S.icons(tl, ["#ic1", "#ic2", "#ic3"], [3.35, 4.65, 5.55], 0, 6.0);
-        S.blurIn(tl, ["#lb1", "#lb2", "#lb3"], [3.3, 4.6, 5.5]);
+        S.hide(tl, ["#lb1", "#lb2", "#lb3"]); tl.to(["#lb1", "#lb2", "#lb3"], { opacity: 0.35, duration: 0.2 }, 3.2);   // the names wait dim on the dock
+        [3.3, 4.6, 5.5].forEach((t, i) => tl.to(["#lb1", "#lb2", "#lb3"][i], { opacity: 1, duration: 0.15 }, t));
         tl.set(["#lb1", "#lb2", "#lb3"], { opacity: 0 }, 6.62);
         S.icons(tl, ["#ok1", "#ok2", "#ok3"], 6.0, 0.1, 6.62);
 
@@ -180,6 +223,9 @@
         S.progress(tl, "#bar2", "#pct2", 0, 100, 7.95, 0.85);
         S.hide(tl, "#pill2");
         S.pop(tl, "#pill2", 9.0);
+        S.zoom(tl, "#card2", 7.9, 1.08, [430, 520], 0.25);
+        S.check(tl, ["#ck2a", "#ck2b", "#ck2c"], [8.2, 8.45, 8.7]);
+        tl.to("#card2", { scale: 1.14, duration: 0.25, ease: "power3.out" }, 8.75); S.pulse(tl, "#pct2", 8.85, 1.2); S.unzoom(tl, "#card2", 9.55);
         tl.set("#st2", { opacity: 1 }, 0);
 
         // ---- S3 (split): before → after on "הופך", the payoff on "למטורף" ----
@@ -187,13 +233,18 @@
         S.hide(tl, "#med3b"); S.hide(tl, "#amb3b");
         S.swap(tl, "#med3a", "#med3b", 11.1);
         S.swap(tl, "#amb3a", "#amb3b", 11.1);
-        S.zoom(tl, "#med3b", 12.1, 1.06, [450, 320], 0.35);
+        S.drift(tl, "#amb3a", 9.92, 1.3); S.drift(tl, "#amb3b", 11.1, 1.8, { x: 60, y: -40 });
+        S.zoom(tl, "#med3a", 10.3, 1.06, [450, 300], 0.8);
+        S.pulse(tl, "#med3b .btn", 12.1, 1.18);
 
         // ---- CTA (face): the thin keyword holds, the DM arrives and gets its check ----
         S.key(tl, "#ctaKey", 14.6);
         S.hide(tl, "#dm");
         S.blurIn(tl, "#dm", 15.4, 0, { y: -30 });
         S.check(tl, "#dmCk", 16.05);
+        tl.to("#faceVid", { scale: 1.08, transformOrigin: "50% 35%", duration: 0.14, ease: "power3.out" }, 13.3);
+        tl.to("#faceVid", { scale: 1.15, duration: 0.14, ease: "power3.out" }, 15.4);
+        S.pulse(tl, "#ctaKey", 16.6, 1.06);
 
         window.__timelines["main"] = tl;
       });

@@ -104,9 +104,10 @@
     count(tl, sel, from, to, t, dur, o = {}) {
       const el = $(sel), pre = o.prefix || "", suf = o.suffix || "";
       const fmt = (v) => pre + Math.round(v).toLocaleString("en-US") + suf;
-      const p = { v: from };
+      // a setter target (not onUpdate): the text follows every seek, even when callbacks are suppressed
+      let cur = from; const p = { get v() { return cur; }, set v(x) { cur = x; el.textContent = fmt(x); } };
       el.textContent = fmt(from);
-      tl.fromTo(p, { v: from }, { v: to, duration: dur, ease: o.ease || "power2.out", onUpdate: () => (el.textContent = fmt(p.v)), ...IR }, t);
+      tl.fromTo(p, { v: from }, { v: to, duration: dur, ease: o.ease || "power2.out", ...IR }, t);
     },
 
     /* red strike lines draw right-to-left across cost rows */
@@ -158,9 +159,9 @@
       meter(tl, sel, value, t, dur = 1.0) { ft(tl, sel + " > i", { scaleX: 0 }, { scaleX: value, duration: dur, ease: "power2.out" }, t); },
       text(tl, sel, texts, times) {
         const el = $(sel);
-        const p = { i: 0 };
+        let cur = 0; const p = { get i() { return cur; }, set i(x) { cur = x; el.textContent = texts[Math.min(texts.length - 1, Math.round(x))]; } };
         el.textContent = texts[0];
-        times.forEach((tt, i) => tl.fromTo(p, { i: i }, { i: i + 1, duration: 0.001, onUpdate: () => (el.textContent = texts[Math.min(texts.length - 1, Math.round(p.i))]), ...IR }, tt));
+        times.forEach((tt, i) => tl.fromTo(p, { i: i }, { i: i + 1, duration: 0.001, ...IR }, tt));
       },
     },
 

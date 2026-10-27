@@ -52,6 +52,7 @@
       const tt = S._layouts.length ? t : 0;
       tl.set(top, { clipPath: clip }, tt); tl.set(vid, vv, tt);
       if (seam) tl.set(seam, { opacity: mode === "split" ? 1 : 0 }, tt);
+      if (vid.parentElement) tl.set(vid.parentElement, { opacity: mode === "full" ? 0 : 1 }, tt);  // no speaker under a full page
       S._layouts.push([t, mode]);
     },
     modeAt(t) { let m = "face"; S._layouts.forEach(([tt, mm]) => { if (tt <= t + 1e-6) m = mm; }); return m; },
@@ -68,7 +69,8 @@
       words.forEach((w, i) => { cur.push(w); const n = words[i + 1]; if (/[.,:!?;]$/.test(w.text) || !n || n.start - w.end > gap || cur.length >= max || w.key || (n && n.key && cur.some((c) => c.key))) { groups.push(cur); cur = []; } });
       groups.forEach((g, i) => {
         const a = g[0].start; if (a >= until || (o.skip && o.skip(a))) return;
-        const nx = groups[i + 1], b = Math.min(until, nx ? Math.min(nx[0].start, g[g.length - 1].end + 0.9) : g[g.length - 1].end + 0.4);
+        const nx = groups[i + 1]; let b = Math.min(until, nx ? Math.min(nx[0].start, g[g.length - 1].end + 0.9) : g[g.length - 1].end + 0.4);
+        const cut = S._layouts.find(([tt]) => tt > a + 1e-6); if (cut) b = Math.min(b, cut[0]);  // a caption never survives a layout change
         const el = document.createElement("div"); el.className = "s-cap" + (o.ink && o.ink(a) ? " ink" : "");
         const l1 = document.createElement("span"); l1.className = "l1";
         const l2 = document.createElement("span"); l2.className = "l2";
@@ -96,6 +98,10 @@
     // scroll: a long real document glides up while it is read (continuous)
     scroll(tl, sel, t, dur, dy) { tl.set(sel, { y: 0 }, 0); tl.fromTo(sel, { y: 0 }, { y: -dy, duration: dur, ease: "power1.inOut", ...IR }, t); },
     // zoom: push into one part of a UI (origin in the element's px), smooth
+    // drift: the ambient is the media's own blur, so it keeps moving with the media (slow scale + slide)
+    drift(tl, sel, t, dur, o = {}) { tl.set(sel, { scale: 1.15, x: 0, y: 0 }, 0); tl.fromTo(sel, { scale: 1.15, x: 0, y: 0 }, { scale: o.scale || 1.35, x: o.x ?? -60, y: o.y ?? 40, duration: dur, ease: "sine.inOut", ...IR }, t); },
+    // creep: the camera keeps creeping in on the footage while the speaker talks (face layout)
+    creep(tl, sel, t, dur, to = 1.12) { tl.fromTo(sel, { scale: 1 }, { scale: to, duration: dur, ease: "none", transformOrigin: "50% 35%", ...IR }, t); },
     zoom(tl, sel, t, scale, origin, dur = 0.5) { tl.set(sel, { transformOrigin: origin[0] + "px " + origin[1] + "px", scale: 1 }, 0); tl.fromTo(sel, { scale: 1 }, { scale, duration: dur, ease: "power3.inOut", ...IR }, t); },
     unzoom(tl, sel, t, dur = 0.4) { tl.to(sel, { scale: 1, duration: dur, ease: "power3.inOut" }, t); },
     // mark: a yellow highlight sweeps behind words in a document

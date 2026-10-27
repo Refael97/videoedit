@@ -85,6 +85,7 @@ One glow color per title. The lead line is always white.
 | `toggle` | turning a setting on | knob slides .16 s, track turns green | `toggle` |
 | `bar` | progress / where in the video | yellow fill grows from the start | `tick` |
 | `count` | a number changes | digits roll, **landing on the payoff word**, hold ≥0.8 s; the green / ding only after it lands | `tick` → `ding` |
+| `push` | a held composition while the voice talks over it | slow continuous scale 1→1.06–1.10 over the hold, linear | — |
 | `pulse` | the voice stresses it | 1→1.08→1 | — |
 Forbidden: tweening `filter` on a glow word (it kills the bloom), slow fades, rotation, wobble, camera moves other
 than the jump punch.
