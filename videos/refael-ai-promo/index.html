@@ -225,14 +225,6 @@
         }
         confetti.instanceMatrix.needsUpdate = true;
 
-        // stamps: each "רגע." slams in on its cut and stays only in its own shot
-        R.forEach((w, i) => {
-          const s = SHOTS.find((x) => x.stamp === i); const on = t >= s.a && t < s.b + (i === 2 ? 0.25 : 0);
-          w.visible = on; if (!on) return;
-          const k = seg(t, s.a, s.a + 0.16); w.scale.setScalar(w.userData.s * lerp(2.2, 1, E.outExpo(k)));
-          w.quaternion.copy(w.userData.base); w.rotateZ(lerp([-0.35, 0.3, -0.12][i], [-0.06, 0.05, 0][i], E.outExpo(k)));
-        });
-
         // camera
         const sh = SHOTS.find((s) => t >= s.a && t < s.b) || SHOTS[SHOTS.length - 1];
         const k = sh.e(seg(t, sh.a, sh.b));
@@ -243,6 +235,20 @@
         camera.lookAt(camLook);
         camera.rotation.z += Math.sin(t * 1.4) * 0.01 + Math.sin(t * 70) * shake * 0.015;
         camera.updateProjectionMatrix();
+        camera.updateMatrixWorld();
+
+        // stamps: each "רגע." slams in on its cut, rides with the camera (lit, in 3D) and stays only in its own shot
+        R.forEach((w, i) => {
+          const s = SHOTS.find((x) => x.stamp === i); const on = t >= s.a && t < s.b + (i === 2 ? 0.25 : 0);
+          w.visible = on; if (!on) return;
+          const D = [20, 26, 16][i];
+          const fw = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+          const upv = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);
+          w.position.copy(camera.position).addScaledVector(fw, D).addScaledVector(upv, [-0.26, 0.2, 0.22][i] * 0.432 * D * 1.77 - 0.35 * w.userData.s * 7.5);
+          w.quaternion.copy(camera.quaternion);
+          const k = seg(t, s.a, s.a + 0.16); w.scale.setScalar(w.userData.s * lerp(2.2, 1, E.outExpo(k)));
+          w.rotateZ(lerp([-0.35, 0.3, -0.12][i], [-0.06, 0.05, 0][i], E.outExpo(k)));
+        });
 
         const whip = Math.pow(seg(t, UNF, 3.6), 2);
         canvas.style.filter = `blur(${(whip * 9).toFixed(2)}px)`;
