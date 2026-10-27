@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <style>
+      @font-face { font-family: "Heebo"; font-weight: 700; src: url("assets/heebo-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 700; src: url("assets/heebo-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("assets/heebo-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("assets/heebo-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #gl { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block; }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="4.4" data-width="1920" data-height="1080" data-no-timeline>
+      <canvas id="gl" width="1920" height="1080"></canvas>
+      <div id="flash"></div>
+      <audio id="crt" src="assets/crt.wav" data-start="0" data-duration="2.4" data-track-index="10" data-volume="0.55"></audio>
+      <audio id="boom" src="assets/boom.wav" data-start="2.98" data-duration="1.42" data-track-index="11" data-volume="1"></audio>
+__KEYAUDIO__
+    </div>
+
+    <script type="application/json" id="fontjson">__FONT__</script>
+    <script type="application/json" id="typing">__TYPE__</script>
+    <script type="module">
+      import * as THREE from "three";
+      import { Font } from "three/addons/loaders/FontLoader.js";
+      import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      const W = 1920, H = 1080;
+      const font = new Font(JSON.parse(document.getElementById("fontjson").textContent));
+      const TYPE = JSON.parse(document.getElementById("typing").textContent); // [{t, line, text}] text state after each key
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const E = {
+        outCubic: (x) => 1 - Math.pow(1 - x, 3),
+        inCubic: (x) => x * x * x,
+        outExpo: (x) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x)),
+        inOutSine: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
+        outBack: (x) => { const c1 = 1.8, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+      };
+      let seed = 7;
+      const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+      const T_BREAK = 3.0;
+
+      // ---------- renderer ----------
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x000000);
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+      const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 500);
+      const CAMZ = 12.4;
+
+      // ---------- the terminal (drawn small, sampled with nearest filtering → chunky old pixels) ----------
+      const TW = 480, TH = 270;
+      const tc = document.createElement("canvas"); tc.width = TW; tc.height = TH; const tg = tc.getContext("2d");
+      const termTex = new THREE.CanvasTexture(tc);
+      termTex.magFilter = THREE.NearestFilter; termTex.minFilter = THREE.LinearFilter; termTex.generateMipmaps = false; termTex.colorSpace = THREE.SRGBColorSpace;
+      let lastKey = "";
+      function drawTerminal(t) {
+        let l1 = "", l2 = "";
+        for (const e of TYPE) { if (e.t > t) break; if (e.line === 1) l1 = e.text; else l2 = e.text; }
+        const cursorOn = Math.floor(t * 2.6) % 2 === 0;
+        const typingLine = TYPE.filter((e) => e.t <= t).length && TYPE.filter((e) => e.t <= t).slice(-1)[0].line === 2 ? 2 : 1;
+        const key = l1 + "|" + l2 + "|" + cursorOn;
+        if (key === lastKey) return; lastKey = key;
+        tg.fillStyle = "#010502"; tg.fillRect(0, 0, TW, TH);
+        tg.fillStyle = "#2bff5e";
+        tg.font = "500 11px Heebo"; tg.direction = "ltr"; tg.textAlign = "left"; tg.textBaseline = "alphabetic";
+        tg.globalAlpha = 0.65; tg.fillText("RAFAEL-OS v1.0   640K RAM OK   C:\\>", 22, 26); tg.globalAlpha = 1;
+        tg.fillRect(22, 32, TW - 44, 1);
+        tg.font = "700 22px Heebo"; tg.direction = "rtl"; tg.textAlign = "right";
+        const xr = TW - 58;
+        const y1 = 108, y2 = 148;
+        tg.fillText(">", xr + 2, y1); tg.fillText(">", xr + 2, y2 * (l2 || typingLine === 2 ? 1 : 0) || -100);
+        const x0 = xr - 18;
+        tg.fillText(l1, x0, y1);
+        if (l2 || typingLine === 2) tg.fillText(l2, x0, y2);
+        if (cursorOn) {
+          const line = typingLine === 2 ? l2 : l1; const y = typingLine === 2 ? y2 : y1;
+          const w = tg.measureText(line).width;
+          tg.fillRect(x0 - w - 14, y - 18, 11, 22);
+        }
+        termTex.needsUpdate = true;
+      }
+
+      // CRT glass material: barrel warp, phosphor glow, scanlines, flicker, rolling bar, power-on line
+      const crtMat = new THREE.ShaderMaterial({
+        side: THREE.DoubleSide,
+        uniforms: { tex: { value: termTex }, time: { value: 0 }, on: { value: 0 }, shake: { value: 0 } },
+        vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+        fragmentShader: `uniform sampler2D tex; uniform float time; uniform float on; uniform float shake; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time*37.0) * 43758.5453); }
+          void main(){
+            vec2 c = vUv - 0.5; float r2 = dot(c, c);
+            vec2 uv = 0.5 + c * (1.0 + 0.16 * r2 + 0.05 * r2 * r2);
+            uv.x += sin(uv.y * 900.0 + time * 40.0) * 0.0007 + shake * 0.004 * sin(time * 90.0);
+            if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) { gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); return; }
+            vec3 col = texture2D(tex, uv).rgb;
+            // phosphor bleed
+            vec3 glow = vec3(0.0);
+            for (int i = -2; i <= 2; i++) { for (int j = -2; j <= 2; j++) { glow += texture2D(tex, uv + vec2(float(i), float(j)) * 0.0024).rgb; } }
+            col = col * 0.85 + glow / 25.0 * 0.9;
+            float scan = 0.72 + 0.28 * sin(uv.y * 270.0 * 3.14159 * 2.0);
+            col *= scan;
+            col *= 0.94 + 0.06 * sin(time * 113.0) ;
+            float bar = smoothstep(0.0, 0.08, fract(uv.y - time * 0.35)) * smoothstep(0.16, 0.08, fract(uv.y - time * 0.35));
+            col += vec3(0.02, 0.08, 0.03) * bar;
+            col += vec3(0.0, 0.02, 0.005) + (hash(floor(uv * vec2(960.0, 540.0))) - 0.5) * 0.05;
+            float vig = smoothstep(0.75, 0.25, length(c * vec2(1.0, 1.15)));
+            col *= mix(0.25, 1.0, vig);
+            // power-on: a hot line that opens vertically
+            float open = smoothstep(0.0, 1.0, on);
+            float band = step(abs(vUv.y - 0.5), 0.5 * open + 0.002);
+            float line = exp(-pow((vUv.y - 0.5) / (0.003 + 0.06 * open), 2.0)) * (1.0 - open) * 1.6;
+            col = col * band + vec3(0.7, 1.0, 0.75) * line * step(abs(vUv.x - 0.5), 0.5 * clamp(on * 3.0, 0.0, 1.0));
+            gl_FragColor = vec4(col, 1.0);
+          }`,
+      });
+
+      // ---------- the glass, pre-cut into radial shards around the impact point ----------
+      const SW = 17.2, SH = SW * 9 / 16; // a touch larger than the frame
+      const IMP = new THREE.Vector2(-1.2, -0.6);
+      const shards = [];
+      {
+        const NS = 18, RINGS = [0, 0.55, 1.3, 2.4, 3.8, 5.6, 8.2, 13];
+        const P = []; // P[ring][spoke]
+        for (let r = 0; r < RINGS.length; r++) {
+          P.push([]);
+          for (let s = 0; s < NS; s++) {
+            const a = (s / NS) * Math.PI * 2 + (rnd() - 0.5) * 0.28;
+            const rr = RINGS[r] * (r ? 0.85 + rnd() * 0.3 : 0);
+            let x = IMP.x + Math.cos(a) * rr, y = IMP.y + Math.sin(a) * rr;
+            x = clamp(x, -SW / 2, SW / 2); y = clamp(y, -SH / 2, SH / 2);
+            P[r].push(new THREE.Vector2(x, y));
+          }
+        }
+        const uvOf = (p) => [(p.x + SW / 2) / SW, (p.y + SH / 2) / SH];
+        for (let r = 0; r < RINGS.length - 1; r++) {
+          for (let s = 0; s < NS; s++) {
+            const a = P[r][s], b = P[r][(s + 1) % NS], c = P[r + 1][(s + 1) % NS], d = P[r + 1][s];
+            const tris = r === 0 ? [[a, c, d]] : [[a, b, c], [a, c, d]];
+            tris.forEach((tri) => {
+              const cx = (tri[0].x + tri[1].x + tri[2].x) / 3, cy = (tri[0].y + tri[1].y + tri[2].y) / 3;
+              const area = Math.abs((tri[1].x - tri[0].x) * (tri[2].y - tri[0].y) - (tri[2].x - tri[0].x) * (tri[1].y - tri[0].y)) / 2;
+              if (area < 1e-4) return;
+              const pos = [], uv = [];
+              tri.forEach((p) => { pos.push(p.x - cx, p.y - cy, 0); uv.push(...uvOf(p)); });
+              const g = new THREE.BufferGeometry();
+              g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+              g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+              const m = new THREE.Mesh(g, crtMat); m.position.set(cx, cy, 0); scene.add(m);
+              const dir = new THREE.Vector2(cx - IMP.x, cy - IMP.y); const dist = dir.length(); dir.normalize();
+              shards.push({ m, c: new THREE.Vector3(cx, cy, 0), dist,
+                v: new THREE.Vector3(dir.x * (2.5 + rnd() * 5) , dir.y * (2.5 + rnd() * 5) + 1.5, 6 + rnd() * 14 - dist * 0.4),
+                ax: new THREE.Vector3(rnd() - 0.5, rnd() - 0.5, rnd() - 0.5).normalize(), w: 3 + rnd() * 9, delay: dist * 0.012 });
+            });
+          }
+        }
+      }
+
+      // ---------- chrome "חארטה?!" ----------
+      const chrome = new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 1, roughness: 0.08, clearcoat: 1, clearcoatRoughness: 0.05, envMapIntensity: 1.6 });
+      const chromeSide = new THREE.MeshPhysicalMaterial({ color: 0xd8dde6, metalness: 1, roughness: 0.18, envMapIntensity: 1.3 });
+      const res = font.data.resolution;
+      const word = new THREE.Group(); const glyphs = []; {
+        let x = 0; const size = 1.85, depth = 0.75;
+        [..."חארטה?!"].reverse().forEach((ch) => {
+          const gd = font.data.glyphs[ch]; const adv = (gd.ha / res) * size;
+          const geo = new TextGeometry(ch, { font, size, depth, curveSegments: 14, bevelEnabled: true, bevelThickness: 0.11, bevelSize: 0.06, bevelSegments: 6 });
+          geo.computeBoundingBox(); const cx = (geo.boundingBox.min.x + geo.boundingBox.max.x) / 2;
+          geo.translate(-cx, -size * 0.36, -depth / 2);
+          const holder = new THREE.Group(); holder.add(new THREE.Mesh(geo, [chrome, chromeSide])); holder.userData.x = x + cx;
+          glyphs.push(holder); word.add(holder); x += adv * 1.1;
+        });
+        glyphs.forEach((h) => { h.position.x = h.userData.x - x / 2; h.userData.x = h.position.x; });
+      }
+      word.position.set(0, 0.2, 1.5); word.scale.setScalar(0.8); scene.add(word);
+
+      // coloured light streaks far behind: they give the chrome something to reflect and the void some depth
+      const streaks = new THREE.Group(); scene.add(streaks);
+      [[0xff2a8a, -3.2, -40], [0x2ad8ff, 2.6, -46], [0x8a5cff, 0.4, -60], [0x2bff5e, -1.4, -70]].forEach(([c, y, z], i) => {
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(120, 0.12 + i * 0.03), new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false }));
+        m.position.set(0, y, z); streaks.add(m);
+      });
+      const kL = new THREE.PointLight(0xff3d9a, 60, 30, 1.5); kL.position.set(-7, 3, 6); scene.add(kL);
+      const kR = new THREE.PointLight(0x3ddcff, 60, 30, 1.5); kR.position.set(7, -2, 6); scene.add(kR);
+
+      // sparks / glass dust
+      const NP = 900; const pg = new THREE.BufferGeometry(); const pp = new Float32Array(NP * 3); const P0 = [];
+      for (let i = 0; i < NP; i++) { const a = rnd() * Math.PI * 2, b = rnd() * 2 - 1, s = 3 + rnd() * 16; P0.push([Math.cos(a) * Math.sqrt(1 - b * b) * s, b * s * 0.6, Math.sin(a) * Math.sqrt(1 - b * b) * s * 0.4 + 6 * rnd()]); }
+      pg.setAttribute("position", new THREE.BufferAttribute(pp, 3));
+      const sparks = new THREE.Points(pg, new THREE.PointsMaterial({ color: 0xcfffe0, size: 0.06, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+      scene.add(sparks);
+
+      // ---------- post ----------
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 }));
+      composer.setPixelRatio(1); composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.8, 0.6, 0.55); composer.addPass(bloom);
+      composer.addPass(new OutputPass());
+      const fx = new ShaderPass({
+        uniforms: { tDiffuse: { value: null }, amount: { value: 0 }, time: { value: 0 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float amount; uniform float time; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time * 61.7) * 43758.5453); }
+          void main(){ vec2 d = (vUv - 0.5) * amount;
+            vec3 c = vec3(texture2D(tDiffuse, vUv + d).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - d).b);
+            c *= mix(0.55, 1.0, smoothstep(1.0, 0.35, length((vUv - 0.5) * vec2(1.0, 0.8))));
+            c += (hash(floor(vUv * vec2(1920.0, 1080.0))) - 0.5) * 0.04;
+            gl_FragColor = vec4(c, 1.0); }`,
+      });
+      composer.addPass(fx);
+
+      const flash = document.getElementById("flash");
+      const q = new THREE.Quaternion();
+      function renderAt(t) {
+        drawTerminal(t);
+        crtMat.uniforms.time.value = t; crtMat.uniforms.on.value = seg(t, 0.05, 0.4);
+        const hitK = t >= T_BREAK ? Math.exp(-(t - T_BREAK) * 7) : 0;
+        crtMat.uniforms.shake.value = seg(t, 2.86, T_BREAK);
+
+        // glass: hairline cracks open just before the break, then everything blows toward the lens
+        shards.forEach((s) => {
+          const dt = t - T_BREAK - s.delay;
+          if (t < T_BREAK - 0.08) { s.m.position.copy(s.c); s.m.quaternion.identity(); s.m.visible = true; return; }
+          if (dt < 0) { // cracked, about to go
+            const pre = seg(t, T_BREAK - 0.08, T_BREAK);
+            s.m.position.set(s.c.x + (s.c.x - IMP.x) * 0.006 * pre, s.c.y + (s.c.y - IMP.y) * 0.006 * pre, pre * 0.05 * (s.dist % 1));
+            s.m.quaternion.identity(); s.m.visible = true; return;
+          }
+          s.m.position.set(s.c.x + s.v.x * dt, s.c.y + s.v.y * dt - 3.5 * dt * dt, s.v.z * dt);
+          q.setFromAxisAngle(s.ax, s.w * dt); s.m.quaternion.copy(q);
+          s.m.visible = s.m.position.z < CAMZ - 0.3;
+        });
+
+        // chrome word: each glyph rockets out of the dark, overshoots, settles and turns slowly
+        glyphs.forEach((g, i) => {
+          const j = glyphs.length - 1 - i; const s = T_BREAK + 0.02 + j * 0.035; const k = seg(t, s, s + 0.3);
+          g.visible = t >= s;
+          g.position.z = lerp(-70, 0, E.outExpo(k));
+          g.position.y = lerp((j % 2 ? 1 : -1) * 3, 0, E.outExpo(k));
+          g.rotation.y = lerp((j - 3) * 0.9, 0, E.outBack(k)) + (t > s + 0.3 ? Math.sin((t - s) * 1.4 + j) * 0.12 : 0);
+          g.rotation.x = lerp(-1.2, 0, E.outBack(k));
+        });
+        word.rotation.y = Math.sin(t * 0.9) * 0.18 * seg(t, 3.4, 4.0);
+        word.position.z = 1.0 + 0.8 * E.inOutSine(seg(t, 3.3, 4.4));
+        streaks.visible = t >= T_BREAK;
+        streaks.children.forEach((m, i) => { m.position.x = Math.sin(t * 0.7 + i) * 6; m.material.opacity = 0.9 * seg(t, T_BREAK, T_BREAK + 0.4); });
+        kL.intensity = kR.intensity = 60 * seg(t, T_BREAK, T_BREAK + 0.2) + 220 * hitK;
+
+        const sp = t - T_BREAK; sparks.visible = sp > 0;
+        for (let i = 0; i < NP; i++) { const k = 1 - Math.exp(-sp * 2.2); pp[i * 3] = IMP.x + P0[i][0] * k; pp[i * 3 + 1] = IMP.y + P0[i][1] * k - sp * sp * 0.6; pp[i * 3 + 2] = P0[i][2] * k; }
+        pg.attributes.position.needsUpdate = true; sparks.material.opacity = Math.max(0, 1 - sp / 1.6);
+
+        // camera: slow creep into the old screen, a hard kick on the break, then a drift around the chrome
+        const push = E.inOutSine(seg(t, 0.3, 2.95));
+        const shake = hitK * 0.35 + seg(t, 2.9, T_BREAK) * 0.04;
+        camera.position.set(Math.sin(t * 1.1) * 0.06 + Math.sin(t * 97) * shake + lerp(0, 0.35, E.inOutSine(seg(t, 3.3, 4.4))),
+                            Math.cos(t * 0.9) * 0.04 + Math.cos(t * 83) * shake + lerp(0, 0.5, E.inOutSine(seg(t, 3.3, 4.4))),
+                            lerp(CAMZ, CAMZ - 0.9, push) + (t > T_BREAK ? -0.9 * E.outCubic(seg(t, T_BREAK, T_BREAK + 0.4)) : 0));
+        camera.lookAt(0, 0, 0);
+        camera.rotation.z += Math.sin(t * 71) * shake * 0.05;
+
+        bloom.strength = t < T_BREAK ? 0.62 : 0.55 + 1.4 * hitK;
+        bloom.threshold = t < T_BREAK ? 0.42 : 0.7;
+        fx.uniforms.amount.value = 0.0025 + 0.03 * hitK + 0.006 * seg(t, 2.9, T_BREAK);
+        fx.uniforms.time.value = Math.floor(t * 60) / 60;
+        flash.style.opacity = (t >= T_BREAK ? 0.95 * Math.exp(-(t - T_BREAK) * 16) : 0).toFixed(3);
+        composer.render();
+      }
+      let ready = false;
+      const built = document.fonts.load("700 22px Heebo").then(() => document.fonts.load("500 11px Heebo")).then(() => { ready = true; });
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady["charta"] = built;
+      built.then(() => renderAt(window.__hfThreeTime || 0));
+      window.addEventListener("hf-seek", (e) => { if (ready) renderAt(e.detail.time); else built.then(() => renderAt(e.detail.time)); });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <style>
+      @font-face { font-family: "Heebo"; font-weight: 700; src: url("assets/heebo-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 700; src: url("assets/heebo-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("assets/heebo-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("assets/heebo-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #gl { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block; }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="4.4" data-width="1920" data-height="1080" data-no-timeline>
+      <canvas id="gl" width="1920" height="1080"></canvas>
+      <div id="flash"></div>
+      <audio id="crt" src="assets/crt.wav" data-start="0" data-duration="2.4" data-track-index="10" data-volume="0.55"></audio>
+      <audio id="boom" src="assets/boom.wav" data-start="2.98" data-duration="1.42" data-track-index="11" data-volume="1"></audio>
+      <audio id="key0" src="assets/k1.wav" data-start="0.450" data-duration="0.16" data-track-index="20" data-volume="0.55"></audio>
+      <audio id="key1" src="assets/k2.wav" data-start="0.484" data-duration="0.16" data-track-index="21" data-volume="0.66"></audio>
+      <audio id="key2" src="assets/k3.wav" data-start="0.522" data-duration="0.16" data-track-index="22" data-volume="0.55"></audio>
+      <audio id="key3" src="assets/k1.wav" data-start="0.570" data-duration="0.16" data-track-index="23" data-volume="0.69"></audio>
+      <audio id="key4" src="assets/k2.wav" data-start="0.605" data-duration="0.16" data-track-index="20" data-volume="0.66"></audio>
+      <audio id="key5" src="assets/k3.wav" data-start="0.641" data-duration="0.16" data-track-index="21" data-volume="0.45"></audio>
+      <audio id="key6" src="assets/k1.wav" data-start="0.679" data-duration="0.16" data-track-index="22" data-volume="0.5"></audio>
+      <audio id="key7" src="assets/k2.wav" data-start="0.765" data-duration="0.16" data-track-index="23" data-volume="0.68"></audio>
+      <audio id="key8" src="assets/k3.wav" data-start="0.802" data-duration="0.16" data-track-index="20" data-volume="0.57"></audio>
+      <audio id="key9" src="assets/k1.wav" data-start="0.841" data-duration="0.16" data-track-index="21" data-volume="0.7"></audio>
+      <audio id="key10" src="assets/k2.wav" data-start="0.946" data-duration="0.16" data-track-index="22" data-volume="0.55"></audio>
+      <audio id="key11" src="assets/k3.wav" data-start="0.969" data-duration="0.16" data-track-index="23" data-volume="0.47"></audio>
+      <audio id="key12" src="assets/k1.wav" data-start="0.999" data-duration="0.16" data-track-index="20" data-volume="0.61"></audio>
+      <audio id="key13" src="assets/k2.wav" data-start="1.022" data-duration="0.16" data-track-index="21" data-volume="0.64"></audio>
+      <audio id="key14" src="assets/k3.wav" data-start="1.067" data-duration="0.16" data-track-index="22" data-volume="0.52"></audio>
+      <audio id="key15" src="assets/k1.wav" data-start="1.169" data-duration="0.16" data-track-index="23" data-volume="0.47"></audio>
+      <audio id="key16" src="assets/k2.wav" data-start="1.190" data-duration="0.16" data-track-index="20" data-volume="0.53"></audio>
+      <audio id="key17" src="assets/k3.wav" data-start="1.241" data-duration="0.16" data-track-index="21" data-volume="0.69"></audio>
+      <audio id="key18" src="assets/k1.wav" data-start="1.291" data-duration="0.16" data-track-index="22" data-volume="0.64"></audio>
+      <audio id="key19" src="assets/k2.wav" data-start="1.331" data-duration="0.16" data-track-index="23" data-volume="0.48"></audio>
+      <audio id="key20" src="assets/k3.wav" data-start="1.371" data-duration="0.16" data-track-index="20" data-volume="0.51"></audio>
+      <audio id="key21" src="assets/k1.wav" data-start="1.456" data-duration="0.16" data-track-index="21" data-volume="0.48"></audio>
+      <audio id="key22" src="assets/k2.wav" data-start="1.477" data-duration="0.16" data-track-index="22" data-volume="0.46"></audio>
+      <audio id="key23" src="assets/k3.wav" data-start="1.513" data-duration="0.16" data-track-index="23" data-volume="0.65"></audio>
+      <audio id="key24" src="assets/k1.wav" data-start="1.535" data-duration="0.16" data-track-index="20" data-volume="0.49"></audio>
+      <audio id="key25" src="assets/k2.wav" data-start="1.562" data-duration="0.16" data-track-index="21" data-volume="0.59"></audio>
+      <audio id="key26" src="assets/k3.wav" data-start="1.589" data-duration="0.16" data-track-index="22" data-volume="0.56"></audio>
+      <audio id="key27" src="assets/k1.wav" data-start="1.611" data-duration="0.16" data-track-index="23" data-volume="0.5"></audio>
+      <audio id="key28" src="assets/k4.wav" data-start="1.811" data-duration="0.16" data-track-index="20" data-volume="0.75"></audio>
+      <audio id="key29" src="assets/k3.wav" data-start="1.921" data-duration="0.16" data-track-index="21" data-volume="0.63"></audio>
+      <audio id="key30" src="assets/k1.wav" data-start="1.955" data-duration="0.16" data-track-index="22" data-volume="0.48"></audio>
+      <audio id="key31" src="assets/k2.wav" data-start="2.020" data-duration="0.16" data-track-index="23" data-volume="0.61"></audio>
+      <audio id="key32" src="assets/k3.wav" data-start="2.074" data-duration="0.16" data-track-index="20" data-volume="0.48"></audio>
+      <audio id="key33" src="assets/k1.wav" data-start="2.117" data-duration="0.16" data-track-index="21" data-volume="0.56"></audio>
+      <audio id="key34" src="assets/k2.wav" data-start="2.164" data-duration="0.16" data-track-index="22" data-volume="0.5"></audio>
+      <audio id="key35" src="assets/k3.wav" data-start="2.206" data-duration="0.16" data-track-index="23" data-volume="0.52"></audio>
+      <audio id="key36" src="assets/k1.wav" data-start="2.254" data-duration="0.16" data-track-index="20" data-volume="0.69"></audio>
+      <audio id="key37" src="assets/k2.wav" data-start="2.354" data-duration="0.16" data-track-index="21" data-volume="0.65"></audio>
+      <audio id="key38" src="assets/k3.wav" data-start="2.388" data-duration="0.16" data-track-index="22" data-volume="0.53"></audio>
+      <audio id="key39" src="assets/k1.wav" data-start="2.448" data-duration="0.16" data-track-index="23" data-volume="0.67"></audio>
+      <audio id="key40" src="assets/k2.wav" data-start="2.508" data-duration="0.16" data-track-index="20" data-volume="0.5"></audio>
+      <audio id="key41" src="assets/k3.wav" data-start="2.622" data-duration="0.16" data-track-index="21" data-volume="0.55"></audio>
+      <audio id="key42" src="assets/k1.wav" data-start="2.672" data-duration="0.16" data-track-index="22" data-volume="0.66"></audio>
+      <audio id="key43" src="assets/k2.wav" data-start="2.707" data-duration="0.16" data-track-index="23" data-volume="0.61"></audio>
+      <audio id="key44" src="assets/k3.wav" data-start="2.739" data-duration="0.16" data-track-index="20" data-volume="0.48"></audio>
+      <audio id="key45" src="assets/k1.wav" data-start="2.774" data-duration="0.16" data-track-index="21" data-volume="0.7"></audio>
+      <audio id="key46" src="assets/k2.wav" data-start="2.800" data-duration="0.16" data-track-index="22" data-volume="0.5"></audio>
+    </div>
+
+    <script type="application/json" id="fontjson">{"glyphs":{"!":{"ha":393,"x_min":67,"x_max":336,"o":"m 302 321 l 105 321 l 73 987 l 334 987 l 302 321 z m 201 -14 l 201 -14 q 104 23 142 -14 q 67 113 67 60 l 67 113 q 104 203 67 168 q 201 239 142 239 l 201 239 q 299 203 262 239 q 336 113 336 168 l 336 113 q 299 23 336 60 q 201 -14 262 -14 z "},"?":{"ha":716,"x_min":18,"x_max":670,"o":"m 437 321 l 231 321 q 239 427 231 380 q 268 511 248 474 q 325 577 289 549 l 325 577 q 378 625 356 602 q 412 671 400 648 q 425 718 425 694 l 425 718 q 405 785 425 764 q 346 805 385 805 l 346 805 q 290 782 315 805 q 263 705 264 759 l 263 705 l 18 705 q 63 876 19 811 q 180 971 106 941 q 346 1001 254 1001 l 346 1001 q 584 933 497 1001 q 670 730 670 865 l 670 730 q 648 630 670 671 q 588 553 625 589 q 506 475 551 517 l 506 475 q 453 408 467 441 q 437 321 439 375 l 437 321 z m 336 -8 l 336 -8 q 239 28 276 -8 q 201 118 201 64 l 201 118 q 239 208 201 172 q 336 244 276 244 l 336 244 q 433 208 396 244 q 470 118 470 172 l 470 118 q 433 28 470 64 q 336 -8 396 -8 z "},"א":{"ha":956,"x_min":59,"x_max":912,"o":"m 901 0 l 616 0 l 59 821 l 345 821 l 901 0 z m 342 0 l 94 0 l 94 259 q 138 463 94 391 q 286 570 182 534 l 286 570 l 374 443 q 342 374 342 413 l 342 374 l 342 0 z m 625 821 l 912 821 l 648 291 l 482 495 l 625 821 z "},"ה":{"ha":892,"x_min":92,"x_max":808,"o":"m 808 0 l 551 0 l 551 537 q 527 600 551 578 q 456 623 502 623 l 456 623 l 97 623 l 97 821 l 475 821 q 720 742 631 821 q 808 524 808 663 l 808 524 l 808 0 z m 340 0 l 92 0 l 92 282 q 114 413 92 373 q 148 460 136 452 l 148 460 l 351 460 q 343 398 347 435 q 340 312 340 361 l 340 312 l 340 0 z "},"ח":{"ha":899,"x_min":105,"x_max":814,"o":"m 361 0 l 105 0 l 106 821 l 486 821 q 730 742 646 821 q 814 511 814 663 l 814 511 l 814 0 l 559 0 l 557 534 q 538 600 557 576 q 486 623 519 623 l 486 623 l 361 623 l 361 0 z "},"ט":{"ha":903,"x_min":105,"x_max":849,"o":"m 477 -17 l 477 -17 q 282 29 366 -17 q 152 157 198 75 q 105 349 105 239 l 105 349 l 105 821 l 361 821 l 361 316 q 393 216 361 254 q 477 178 425 178 l 477 178 q 561 216 529 178 q 592 316 592 254 l 592 316 l 592 533 q 572 602 592 580 q 509 624 552 624 l 509 624 q 483 623 498 624 q 448 621 467 623 l 448 621 l 427 783 q 513 818 465 804 q 603 831 562 831 l 603 831 q 784 757 718 831 q 849 553 849 684 l 849 553 l 849 349 q 803 157 849 239 q 673 29 756 75 q 477 -17 589 -17 z "},"ר":{"ha":695,"x_min":16,"x_max":612,"o":"m 612 0 l 355 0 l 355 527 q 328 599 355 575 q 249 623 302 623 l 249 623 l 16 623 l 16 821 l 271 821 q 521 740 431 821 q 612 515 612 659 l 612 515 l 612 0 z "}},"familyName":"Heebo Black","ascender":1455,"descender":-585,"underlinePosition":-150,"underlineThickness":100,"boundingBox":{"xMin":-1072,"xMax":1946,"yMin":-862,"yMax":1990},"resolution":1000,"original_font_information":{"258":{"en":"Weight"},"267":{"en":"Black"},"copyright":{"en":"Copyright 2014 The Heebo Project Authors (https://github.com/OdedEzer/heebo)"},"fontFamily":{"en":"Heebo Black"},"fontSubfamily":{"en":"Regular"},"uniqueID":{"en":"3.100;NONE;Heebo-Black"},"fullName":{"en":"Heebo Black"},"version":{"en":"Version 3.100"},"postScriptName":{"en":"Heebo-Black"},"licenseURL":{"en":"https://scripts.sil.org/OFL"},"preferredFamily":{"en":"Heebo"},"preferredSubfamily":{"en":"Black"}}}</script>
+    <script type="application/json" id="typing">[{"t": 0.45, "line": 1, "text": "C"}, {"t": 0.484, "line": 1, "text": "Cl"}, {"t": 0.522, "line": 1, "text": "Cla"}, {"t": 0.57, "line": 1, "text": "Clau"}, {"t": 0.605, "line": 1, "text": "Claud"}, {"t": 0.641, "line": 1, "text": "Claude"}, {"t": 0.679, "line": 1, "text": "Claude "}, {"t": 0.765, "line": 1, "text": "Claude ל"}, {"t": 0.802, "line": 1, "text": "Claude לא"}, {"t": 0.841, "line": 1, "text": "Claude לא "}, {"t": 0.946, "line": 1, "text": "Claude לא י"}, {"t": 0.969, "line": 1, "text": "Claude לא יו"}, {"t": 0.999, "line": 1, "text": "Claude לא יוד"}, {"t": 1.022, "line": 1, "text": "Claude לא יודע"}, {"t": 1.067, "line": 1, "text": "Claude לא יודע "}, {"t": 1.169, "line": 1, "text": "Claude לא יודע ל"}, {"t": 1.19, "line": 1, "text": "Claude לא יודע לע"}, {"t": 1.241, "line": 1, "text": "Claude לא יודע לער"}, {"t": 1.291, "line": 1, "text": "Claude לא יודע לערו"}, {"t": 1.331, "line": 1, "text": "Claude לא יודע לערוך"}, {"t": 1.371, "line": 1, "text": "Claude לא יודע לערוך "}, {"t": 1.456, "line": 1, "text": "Claude לא יודע לערוך ס"}, {"t": 1.477, "line": 1, "text": "Claude לא יודע לערוך סר"}, {"t": 1.513, "line": 1, "text": "Claude לא יודע לערוך סרט"}, {"t": 1.535, "line": 1, "text": "Claude לא יודע לערוך סרטו"}, {"t": 1.562, "line": 1, "text": "Claude לא יודע לערוך סרטונ"}, {"t": 1.589, "line": 1, "text": "Claude לא יודע לערוך סרטוני"}, {"t": 1.611, "line": 1, "text": "Claude לא יודע לערוך סרטונינ"}, {"t": 1.811, "line": 1, "text": "Claude לא יודע לערוך סרטוני"}, {"t": 1.921, "line": 1, "text": "Claude לא יודע לערוך סרטונים"}, {"t": 1.955, "line": 1, "text": "Claude לא יודע לערוך סרטונים."}, {"t": 2.02, "line": 2, "text": "."}, {"t": 2.074, "line": 2, "text": ".."}, {"t": 2.117, "line": 2, "text": "..."}, {"t": 2.164, "line": 2, "text": "...ז"}, {"t": 2.206, "line": 2, "text": "...זה"}, {"t": 2.254, "line": 2, "text": "...זה "}, {"t": 2.354, "line": 2, "text": "...זה ס"}, {"t": 2.388, "line": 2, "text": "...זה סת"}, {"t": 2.448, "line": 2, "text": "...זה סתם"}, {"t": 2.508, "line": 2, "text": "...זה סתם "}, {"t": 2.622, "line": 2, "text": "...זה סתם ח"}, {"t": 2.672, "line": 2, "text": "...זה סתם חא"}, {"t": 2.707, "line": 2, "text": "...זה סתם חאר"}, {"t": 2.739, "line": 2, "text": "...זה סתם חארט"}, {"t": 2.774, "line": 2, "text": "...זה סתם חארטה"}, {"t": 2.8, "line": 2, "text": "...זה סתם חארטה."}]</script>
+    <script type="module">
+      import * as THREE from "three";
+      import { Font } from "three/addons/loaders/FontLoader.js";
+      import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      const W = 1920, H = 1080;
+      const font = new Font(JSON.parse(document.getElementById("fontjson").textContent));
+      const TYPE = JSON.parse(document.getElementById("typing").textContent); // [{t, line, text}] text state after each key
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const E = {
+        outCubic: (x) => 1 - Math.pow(1 - x, 3),
+        inCubic: (x) => x * x * x,
+        outExpo: (x) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x)),
+        inOutSine: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
+        outBack: (x) => { const c1 = 1.8, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+      };
+      let seed = 7;
+      const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+      const T_BREAK = 3.0;
+
+      // ---------- renderer ----------
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x000000);
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+      const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 500);
+      const CAMZ = 12.4;
+
+      // ---------- the terminal (drawn small, sampled with nearest filtering → chunky old pixels) ----------
+      const TW = 480, TH = 270;
+      const tc = document.createElement("canvas"); tc.width = TW; tc.height = TH; const tg = tc.getContext("2d");
+      const termTex = new THREE.CanvasTexture(tc);
+      termTex.magFilter = THREE.NearestFilter; termTex.minFilter = THREE.LinearFilter; termTex.generateMipmaps = false; termTex.colorSpace = THREE.SRGBColorSpace;
+      let lastKey = "";
+      function drawTerminal(t) {
+        let l1 = "", l2 = "";
+        for (const e of TYPE) { if (e.t > t) break; if (e.line === 1) l1 = e.text; else l2 = e.text; }
+        const cursorOn = Math.floor(t * 2.6) % 2 === 0;
+        const typingLine = TYPE.filter((e) => e.t <= t).length && TYPE.filter((e) => e.t <= t).slice(-1)[0].line === 2 ? 2 : 1;
+        const key = l1 + "|" + l2 + "|" + cursorOn;
+        if (key === lastKey) return; lastKey = key;
+        tg.fillStyle = "#010502"; tg.fillRect(0, 0, TW, TH);
+        tg.fillStyle = "#2bff5e";
+        tg.font = "500 11px Heebo"; tg.direction = "ltr"; tg.textAlign = "left"; tg.textBaseline = "alphabetic";
+        tg.globalAlpha = 0.65; tg.fillText("RAFAEL-OS v1.0   640K RAM OK   C:\\>", 22, 26); tg.globalAlpha = 1;
+        tg.fillRect(22, 32, TW - 44, 1);
+        tg.font = "700 22px Heebo"; tg.direction = "rtl"; tg.textAlign = "right";
+        const xr = TW - 58;
+        const y1 = 108, y2 = 148;
+        tg.fillText(">", xr + 2, y1); tg.fillText(">", xr + 2, y2 * (l2 || typingLine === 2 ? 1 : 0) || -100);
+        const x0 = xr - 18;
+        tg.fillText(l1, x0, y1);
+        if (l2 || typingLine === 2) tg.fillText(l2, x0, y2);
+        if (cursorOn) {
+          const line = typingLine === 2 ? l2 : l1; const y = typingLine === 2 ? y2 : y1;
+          const w = tg.measureText(line).width;
+          tg.fillRect(x0 - w - 14, y - 18, 11, 22);
+        }
+        termTex.needsUpdate = true;
+      }
+
+      // CRT glass material: barrel warp, phosphor glow, scanlines, flicker, rolling bar, power-on line
+      const crtMat = new THREE.ShaderMaterial({
+        side: THREE.DoubleSide,
+        uniforms: { tex: { value: termTex }, time: { value: 0 }, on: { value: 0 }, shake: { value: 0 } },
+        vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+        fragmentShader: `uniform sampler2D tex; uniform float time; uniform float on; uniform float shake; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time*37.0) * 43758.5453); }
+          void main(){
+            vec2 c = vUv - 0.5; float r2 = dot(c, c);
+            vec2 uv = 0.5 + c * (1.0 + 0.16 * r2 + 0.05 * r2 * r2);
+            uv.x += sin(uv.y * 900.0 + time * 40.0) * 0.0007 + shake * 0.004 * sin(time * 90.0);
+            if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) { gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); return; }
+            vec3 col = texture2D(tex, uv).rgb;
+            // phosphor bleed
+            vec3 glow = vec3(0.0);
+            for (int i = -2; i <= 2; i++) { for (int j = -2; j <= 2; j++) { glow += texture2D(tex, uv + vec2(float(i), float(j)) * 0.0024).rgb; } }
+            col = col * 0.85 + glow / 25.0 * 0.9;
+            float scan = 0.72 + 0.28 * sin(uv.y * 270.0 * 3.14159 * 2.0);
+            col *= scan;
+            col *= 0.94 + 0.06 * sin(time * 113.0) ;
+            float bar = smoothstep(0.0, 0.08, fract(uv.y - time * 0.35)) * smoothstep(0.16, 0.08, fract(uv.y - time * 0.35));
+            col += vec3(0.02, 0.08, 0.03) * bar;
+            col += vec3(0.0, 0.02, 0.005) + (hash(floor(uv * vec2(960.0, 540.0))) - 0.5) * 0.05;
+            float vig = smoothstep(0.75, 0.25, length(c * vec2(1.0, 1.15)));
+            col *= mix(0.25, 1.0, vig);
+            // power-on: a hot line that opens vertically
+            float open = smoothstep(0.0, 1.0, on);
+            float band = step(abs(vUv.y - 0.5), 0.5 * open + 0.002);
+            float line = exp(-pow((vUv.y - 0.5) / (0.003 + 0.06 * open), 2.0)) * (1.0 - open) * 1.6;
+            col = col * band + vec3(0.7, 1.0, 0.75) * line * step(abs(vUv.x - 0.5), 0.5 * clamp(on * 3.0, 0.0, 1.0));
+            gl_FragColor = vec4(col, 1.0);
+          }`,
+      });
+
+      // ---------- the glass, pre-cut into radial shards around the impact point ----------
+      const SW = 17.2, SH = SW * 9 / 16; // a touch larger than the frame
+      const IMP = new THREE.Vector2(-1.2, -0.6);
+      const shards = [];
+      {
+        const NS = 18, RINGS = [0, 0.55, 1.3, 2.4, 3.8, 5.6, 8.2, 13];
+        const P = []; // P[ring][spoke]
+        for (let r = 0; r < RINGS.length; r++) {
+          P.push([]);
+          for (let s = 0; s < NS; s++) {
+            const a = (s / NS) * Math.PI * 2 + (rnd() - 0.5) * 0.28;
+            const rr = RINGS[r] * (r ? 0.85 + rnd() * 0.3 : 0);
+            let x = IMP.x + Math.cos(a) * rr, y = IMP.y + Math.sin(a) * rr;
+            x = clamp(x, -SW / 2, SW / 2); y = clamp(y, -SH / 2, SH / 2);
+            P[r].push(new THREE.Vector2(x, y));
+          }
+        }
+        const uvOf = (p) => [(p.x + SW / 2) / SW, (p.y + SH / 2) / SH];
+        for (let r = 0; r < RINGS.length - 1; r++) {
+          for (let s = 0; s < NS; s++) {
+            const a = P[r][s], b = P[r][(s + 1) % NS], c = P[r + 1][(s + 1) % NS], d = P[r + 1][s];
+            const tris = r === 0 ? [[a, c, d]] : [[a, b, c], [a, c, d]];
+            tris.forEach((tri) => {
+              const cx = (tri[0].x + tri[1].x + tri[2].x) / 3, cy = (tri[0].y + tri[1].y + tri[2].y) / 3;
+              const area = Math.abs((tri[1].x - tri[0].x) * (tri[2].y - tri[0].y) - (tri[2].x - tri[0].x) * (tri[1].y - tri[0].y)) / 2;
+              if (area < 1e-4) return;
+              const pos = [], uv = [];
+              tri.forEach((p) => { pos.push(p.x - cx, p.y - cy, 0); uv.push(...uvOf(p)); });
+              const g = new THREE.BufferGeometry();
+              g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+              g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+              const m = new THREE.Mesh(g, crtMat); m.position.set(cx, cy, 0); scene.add(m);
+              const dir = new THREE.Vector2(cx - IMP.x, cy - IMP.y); const dist = dir.length(); dir.normalize();
+              shards.push({ m, c: new THREE.Vector3(cx, cy, 0), dist,
+                v: new THREE.Vector3(dir.x * (2.5 + rnd() * 5) , dir.y * (2.5 + rnd() * 5) + 1.5, 6 + rnd() * 14 - dist * 0.4),
+                ax: new THREE.Vector3(rnd() - 0.5, rnd() - 0.5, rnd() - 0.5).normalize(), w: 3 + rnd() * 9, delay: dist * 0.012 });
+            });
+          }
+        }
+      }
+
+      // ---------- chrome "חארטה?!" ----------
+      const chrome = new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 1, roughness: 0.08, clearcoat: 1, clearcoatRoughness: 0.05, envMapIntensity: 1.6 });
+      const chromeSide = new THREE.MeshPhysicalMaterial({ color: 0xd8dde6, metalness: 1, roughness: 0.18, envMapIntensity: 1.3 });
+      const res = font.data.resolution;
+      const word = new THREE.Group(); const glyphs = []; {
+        let x = 0; const size = 1.85, depth = 0.75;
+        [..."חארטה?!"].reverse().forEach((ch) => {
+          const gd = font.data.glyphs[ch]; const adv = (gd.ha / res) * size;
+          const geo = new TextGeometry(ch, { font, size, depth, curveSegments: 14, bevelEnabled: true, bevelThickness: 0.11, bevelSize: 0.06, bevelSegments: 6 });
+          geo.computeBoundingBox(); const cx = (geo.boundingBox.min.x + geo.boundingBox.max.x) / 2;
+          geo.translate(-cx, -size * 0.36, -depth / 2);
+          const holder = new THREE.Group(); holder.add(new THREE.Mesh(geo, [chrome, chromeSide])); holder.userData.x = x + cx;
+          glyphs.push(holder); word.add(holder); x += adv * 1.1;
+        });
+        glyphs.forEach((h) => { h.position.x = h.userData.x - x / 2; h.userData.x = h.position.x; });
+      }
+      word.position.set(0, 0.2, 1.5); word.scale.setScalar(0.8); scene.add(word);
+
+      // coloured light streaks far behind: they give the chrome something to reflect and the void some depth
+      const streaks = new THREE.Group(); scene.add(streaks);
+      [[0xff2a8a, -3.2, -40], [0x2ad8ff, 2.6, -46], [0x8a5cff, 0.4, -60], [0x2bff5e, -1.4, -70]].forEach(([c, y, z], i) => {
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(120, 0.12 + i * 0.03), new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false }));
+        m.position.set(0, y, z); streaks.add(m);
+      });
+      const kL = new THREE.PointLight(0xff3d9a, 60, 30, 1.5); kL.position.set(-7, 3, 6); scene.add(kL);
+      const kR = new THREE.PointLight(0x3ddcff, 60, 30, 1.5); kR.position.set(7, -2, 6); scene.add(kR);
+
+      // sparks / glass dust
+      const NP = 900; const pg = new THREE.BufferGeometry(); const pp = new Float32Array(NP * 3); const P0 = [];
+      for (let i = 0; i < NP; i++) { const a = rnd() * Math.PI * 2, b = rnd() * 2 - 1, s = 3 + rnd() * 16; P0.push([Math.cos(a) * Math.sqrt(1 - b * b) * s, b * s * 0.6, Math.sin(a) * Math.sqrt(1 - b * b) * s * 0.4 + 6 * rnd()]); }
+      pg.setAttribute("position", new THREE.BufferAttribute(pp, 3));
+      const sparks = new THREE.Points(pg, new THREE.PointsMaterial({ color: 0xcfffe0, size: 0.06, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+      scene.add(sparks);
+
+      // ---------- post ----------
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 }));
+      composer.setPixelRatio(1); composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.8, 0.6, 0.55); composer.addPass(bloom);
+      composer.addPass(new OutputPass());
+      const fx = new ShaderPass({
+        uniforms: { tDiffuse: { value: null }, amount: { value: 0 }, time: { value: 0 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float amount; uniform float time; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time * 61.7) * 43758.5453); }
+          void main(){ vec2 d = (vUv - 0.5) * amount;
+            vec3 c = vec3(texture2D(tDiffuse, vUv + d).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - d).b);
+            c *= mix(0.55, 1.0, smoothstep(1.0, 0.35, length((vUv - 0.5) * vec2(1.0, 0.8))));
+            c += (hash(floor(vUv * vec2(1920.0, 1080.0))) - 0.5) * 0.04;
+            gl_FragColor = vec4(c, 1.0); }`,
+      });
+      composer.addPass(fx);
+
+      const flash = document.getElementById("flash");
+      const q = new THREE.Quaternion();
+      function renderAt(t) {
+        drawTerminal(t);
+        crtMat.uniforms.time.value = t; crtMat.uniforms.on.value = seg(t, 0.05, 0.4);
+        const hitK = t >= T_BREAK ? Math.exp(-(t - T_BREAK) * 7) : 0;
+        crtMat.uniforms.shake.value = seg(t, 2.86, T_BREAK);
+
+        // glass: hairline cracks open just before the break, then everything blows toward the lens
+        shards.forEach((s) => {
+          const dt = t - T_BREAK - s.delay;
+          if (t < T_BREAK - 0.08) { s.m.position.copy(s.c); s.m.quaternion.identity(); s.m.visible = true; return; }
+          if (dt < 0) { // cracked, about to go
+            const pre = seg(t, T_BREAK - 0.08, T_BREAK);
+            s.m.position.set(s.c.x + (s.c.x - IMP.x) * 0.006 * pre, s.c.y + (s.c.y - IMP.y) * 0.006 * pre, pre * 0.05 * (s.dist % 1));
+            s.m.quaternion.identity(); s.m.visible = true; return;
+          }
+          s.m.position.set(s.c.x + s.v.x * dt, s.c.y + s.v.y * dt - 3.5 * dt * dt, s.v.z * dt);
+          q.setFromAxisAngle(s.ax, s.w * dt); s.m.quaternion.copy(q);
+          s.m.visible = s.m.position.z < CAMZ - 0.3;
+        });
+
+        // chrome word: each glyph rockets out of the dark, overshoots, settles and turns slowly
+        glyphs.forEach((g, i) => {
+          const j = glyphs.length - 1 - i; const s = T_BREAK + 0.02 + j * 0.035; const k = seg(t, s, s + 0.3);
+          g.visible = t >= s;
+          g.position.z = lerp(-70, 0, E.outExpo(k));
+          g.position.y = lerp((j % 2 ? 1 : -1) * 3, 0, E.outExpo(k));
+          g.rotation.y = lerp((j - 3) * 0.9, 0, E.outBack(k)) + (t > s + 0.3 ? Math.sin((t - s) * 1.4 + j) * 0.12 : 0);
+          g.rotation.x = lerp(-1.2, 0, E.outBack(k));
+        });
+        word.rotation.y = Math.sin(t * 0.9) * 0.18 * seg(t, 3.4, 4.0);
+        word.position.z = 1.0 + 0.8 * E.inOutSine(seg(t, 3.3, 4.4));
+        streaks.visible = t >= T_BREAK;
+        streaks.children.forEach((m, i) => { m.position.x = Math.sin(t * 0.7 + i) * 6; m.material.opacity = 0.9 * seg(t, T_BREAK, T_BREAK + 0.4); });
+        kL.intensity = kR.intensity = 60 * seg(t, T_BREAK, T_BREAK + 0.2) + 220 * hitK;
+
+        const sp = t - T_BREAK; sparks.visible = sp > 0;
+        for (let i = 0; i < NP; i++) { const k = 1 - Math.exp(-sp * 2.2); pp[i * 3] = IMP.x + P0[i][0] * k; pp[i * 3 + 1] = IMP.y + P0[i][1] * k - sp * sp * 0.6; pp[i * 3 + 2] = P0[i][2] * k; }
+        pg.attributes.position.needsUpdate = true; sparks.material.opacity = Math.max(0, 1 - sp / 1.6);
+
+        // camera: slow creep into the old screen, a hard kick on the break, then a drift around the chrome
+        const push = E.inOutSine(seg(t, 0.3, 2.95));
+        const shake = hitK * 0.35 + seg(t, 2.9, T_BREAK) * 0.04;
+        camera.position.set(Math.sin(t * 1.1) * 0.06 + Math.sin(t * 97) * shake + lerp(0, 0.35, E.inOutSine(seg(t, 3.3, 4.4))),
+                            Math.cos(t * 0.9) * 0.04 + Math.cos(t * 83) * shake + lerp(0, 0.5, E.inOutSine(seg(t, 3.3, 4.4))),
+                            lerp(CAMZ, CAMZ - 0.9, push) + (t > T_BREAK ? -0.9 * E.outCubic(seg(t, T_BREAK, T_BREAK + 0.4)) : 0));
+        camera.lookAt(0, 0, 0);
+        camera.rotation.z += Math.sin(t * 71) * shake * 0.05;
+
+        bloom.strength = t < T_BREAK ? 0.62 : 0.55 + 1.4 * hitK;
+        bloom.threshold = t < T_BREAK ? 0.42 : 0.7;
+        fx.uniforms.amount.value = 0.0025 + 0.03 * hitK + 0.006 * seg(t, 2.9, T_BREAK);
+        fx.uniforms.time.value = Math.floor(t * 60) / 60;
+        flash.style.opacity = (t >= T_BREAK ? 0.95 * Math.exp(-(t - T_BREAK) * 16) : 0).toFixed(3);
+        composer.render();
+      }
+      let ready = false;
+      const built = document.fonts.load("700 22px Heebo").then(() => document.fonts.load("500 11px Heebo")).then(() => { ready = true; });
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady["charta"] = built;
+      built.then(() => renderAt(window.__hfThreeTime || 0));
+      window.addEventListener("hf-seek", (e) => { if (ready) renderAt(e.detail.time); else built.then(() => renderAt(e.detail.time)); });
+    </script>
+  </body>
+</html>
