@@ -63,12 +63,14 @@
       #disc { position: absolute; left: 170px; top: 720px; width: 740px; height: 740px; border-radius: 50%; background: var(--g); }
       #me { position: absolute; left: 175px; top: 650px; width: 730px; }
       #stk { position: absolute; left: 70px; top: 1180px; padding: 22px 34px; background: #ffe14d; border: 5px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); font-size: 46px; font-weight: 900; transform: rotate(-8deg); }
-      .orb { position: absolute; width: 130px; height: 130px; margin: -65px 0 0 -65px; border-radius: 34px; background: #fff; border: 5px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); display: flex; align-items: center; justify-content: center; font-size: 66px; }
+      .orb { position: absolute; width: 132px; height: 132px; margin: -66px 0 0 -66px; border-radius: 34px; background: #fff; border: 5px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+      .orb img { width: 92px; height: 92px; object-fit: contain; }
       #cbox { position: absolute; left: 70px; right: 70px; top: 1600px; height: 150px; border-radius: 75px; background: #fff; border: 6px solid var(--ink); box-shadow: 12px 12px 0 var(--ink); display: flex; align-items: center; padding: 0 50px; box-sizing: border-box; font-size: 64px; font-weight: 900; white-space: pre; }
       #cbox .sn { position: absolute; left: 22px; top: 20px; width: 98px; height: 98px; border-radius: 50%; background: var(--g); border: 5px solid var(--ink); box-sizing: border-box; }
       #cbox .ph { color: #a5a29c; }
       .heart { position: absolute; font-size: 90px; z-index: 75; opacity: 0; }
       #c7 { top: 200px; }
+      #c7 .ln { font-size: 76px; padding: 4px 28px 12px; margin-bottom: 14px; }
     </style>
     <script type="importmap">
       { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
@@ -106,9 +108,12 @@
       <div id="s7">
         <div id="ring"></div>
         <div id="disc"></div>
-        <div class="orb" id="o1" style="left: 150px; top: 800px">🤖</div>
-        <div class="orb" id="o2" style="left: 930px; top: 860px">✳️</div>
-        <div class="orb" id="o3" style="left: 960px; top: 1290px">🎬</div>
+        <div class="orb" id="o1" style="left: 150px; top: 790px"><img src="assets/img/logo-claude.png" /></div>
+        <div class="orb" id="o2" style="left: 930px; top: 790px"><img src="assets/img/logo-openai.png" /></div>
+        <div class="orb" id="o3" style="left: 985px; top: 1110px"><img src="assets/img/logo-meta.png" /></div>
+        <div class="orb" id="o4" style="left: 92px; top: 1050px"><img src="assets/img/logo-shopify.png" /></div>
+        <div class="orb" id="o5" style="left: 945px; top: 1430px"><img src="assets/img/logo-elevenlabs.png" /></div>
+        <div class="orb" id="o6" style="left: 140px; top: 1440px"><img src="assets/img/logo-nanobanana.png" /></div>
         <img id="me" src="assets/img/refael_cut.png" />
         <div id="stk">זה אני. האמיתי 👋</div>
         <div class="cap" id="c7"></div>
@@ -375,11 +380,11 @@
       // ----- S4: 😱 billboard for the dolly zoom -----
       const g4 = new THREE.Group(); g4.position.copy(X4); scene.add(g4);
       let emo;
-      function buildEmoji() {
-        const c = document.createElement("canvas"); c.width = c.height = 1024; const g = c.getContext("2d");
-        g.font = "880px 'Noto Color Emoji'"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("😱", 512, 560);
-        const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
-        emo = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshStandardMaterial({ map: t, transparent: true, alphaTest: 0.4, roughness: 0.6, side: THREE.DoubleSide }));
+      async function buildEmoji() {
+        // high-res 3D emoji (AI-generated, background removed) instead of the bitmap emoji font
+        const t = await new THREE.TextureLoader().loadAsync("assets/img/emoji.png");
+        t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+        emo = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshStandardMaterial({ map: t, transparent: true, alphaTest: 0.35, roughness: 0.45, side: THREE.DoubleSide }));
         emo.position.set(0, 15.5, 0); emo.castShadow = true; g4.add(emo);
       }
       // a ring of grid "pillars" to sell the dolly zoom
@@ -458,7 +463,7 @@
       let ready = false; const TAP = { x: 470, y: 690 };
       async function build() {
         await Promise.all([document.fonts.load("900 100px Rubik"), document.fonts.load("700 50px Rubik"), document.fonts.load("100px 'Noto Color Emoji'", "😱📘")]);
-        buildCards(); buildCrateFront(); buildEmoji();
+        buildCards(); buildCrateFront(); await buildEmoji();
         // aim the tap ring at the bio link (layout is static inside the phone)
         { const ph = $("#ph"), lk = $("#ig .lk"); let x = 0, y = 0, el = lk; while (el && el !== ph) { x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; } TAP.x = x + lk.offsetWidth / 2; TAP.y = y + lk.offsetHeight / 2; }
         ready = true;
@@ -680,8 +685,8 @@
           $("#ring").style.transform = `rotate(${(t * 12).toFixed(1)}deg) scale(${lerp(0.5, 1, E.outCubic(k)).toFixed(3)})`;
           $("#me").style.transform = `translateY(${lerp(700, 0, E.outCubic(seg(t, 17.2, 17.7))).toFixed(0)}px) scale(${(1 + 0.012 * Math.sin(t * 2)).toFixed(4)})`;
           $("#stk").style.transform = `rotate(-8deg) scale(${Math.max(0.001, E.outBack(seg(t, 17.85, 18.1))).toFixed(3)})`;
-          ["#o1", "#o2", "#o3"].forEach((o, i) => {
-            const kk = E.outBack(seg(t, 17.5 + i * 0.1, 17.8 + i * 0.1));
+          ["#o1", "#o2", "#o3", "#o4", "#o5", "#o6"].forEach((o, i) => {
+            const kk = E.outBack(seg(t, 17.45 + i * 0.07, 17.75 + i * 0.07));
             $(o).style.transform = `scale(${Math.max(0.001, kk).toFixed(3)}) translateY(${(Math.sin(t * 2.2 + i * 2) * 14).toFixed(1)}px) rotate(${(Math.sin(t * 1.6 + i) * 8).toFixed(1)}deg)`;
           });
           const cb = E.outBack(seg(t, 19.2, 19.45));
