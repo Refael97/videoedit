@@ -30,7 +30,7 @@
    "pass": true
   },
   "hero": {
-   "value": "n/a",
+   "value": "full face, 0 weak ranges",
    "target": ">= 60%",
    "pass": true
   },

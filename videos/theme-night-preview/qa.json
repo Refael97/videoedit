@@ -30,7 +30,7 @@
    "pass": true
   },
   "hero": {
-   "value": "median 67%",
+   "value": "median 67%, 3 weak ranges",
    "target": ">= 60%",
    "pass": false
   },

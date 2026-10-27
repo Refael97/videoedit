@@ -30,7 +30,7 @@
    "pass": false
   },
   "hero": {
-   "value": "n/a",
+   "value": "full face, 3 weak ranges",
    "target": ">= 60%",
    "pass": false
   },
@@ -41,7 +41,7 @@
    "faces_detected": 74
   },
   "placeholder": {
-   "value": "4 found",
+   "value": "2 found",
    "target": "0",
    "pass": false
   },
@@ -112,20 +112,6 @@
    "words": "קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול.",
    "check": "min text",
    "fix": "'00:18' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
-  },
-  {
-   "t": "0.0–0.2s",
-   "t0": 0,
-   "words": "קלוד,",
-   "check": "no placeholders",
-   "fix": "svg: image with almost no detail (grey box?): use a real frame / screenshot"
-  },
-  {
-   "t": "0.0–0.2s",
-   "t0": 0,
-   "words": "קלוד,",
-   "check": "no placeholders",
-   "fix": "div: image with almost no detail (grey box?): use a real frame / screenshot"
   },
   {
    "t": "0.9–1.3s",

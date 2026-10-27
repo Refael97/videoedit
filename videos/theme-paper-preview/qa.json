@@ -30,18 +30,18 @@
    "pass": true
   },
   "hero": {
-   "value": "median 77%",
+   "value": "median 77%, 1 weak ranges",
    "target": ">= 60%",
-   "pass": true
+   "pass": false
   },
   "collide": {
-   "value": "1 collisions",
+   "value": "0 collisions",
    "target": "0",
-   "pass": false,
+   "pass": true,
    "faces_detected": 68
   },
   "placeholder": {
-   "value": "3 found",
+   "value": "2 found",
    "target": "0",
    "pass": false
   },
@@ -72,18 +72,11 @@
    "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
   },
   {
-   "t": "0.0–17.0s",
-   "t0": 0,
-   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
-   "check": "collisions",
-   "fix": "#flash on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "0.0–0.2s",
-   "t0": 0,
-   "words": "אם",
-   "check": "no placeholders",
-   "fix": "svg: image with almost no detail (grey box?): use a real frame / screenshot"
+   "t": "0.5–3.0s",
+   "t0": 0.5,
+   "words": "אתם רוצים לבנות אתרים שנראים טוב עם",
+   "check": "hero fill",
+   "fix": "fill 33%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
    "t": "3.4–3.8s",

@@ -1,7 +1,7 @@
 {
  "project": "theme-board-preview",
  "theme": "board",
- "score": "5/9",
+ "score": "6/9",
  "ready": false,
  "checks": {
   "motion": {
@@ -25,19 +25,19 @@
    "pass": true
   },
   "text": {
-   "value": "9 items < 26px",
+   "value": "8 items < 26px",
    "target": ">= 26px",
    "pass": false
   },
   "hero": {
-   "value": "median 69%",
+   "value": "median 69%, 3 weak ranges",
    "target": ">= 60%",
    "pass": false
   },
   "collide": {
-   "value": "4 collisions",
+   "value": "0 collisions",
    "target": "0",
-   "pass": false,
+   "pass": true,
    "faces_detected": 68
   },
   "placeholder": {
@@ -65,18 +65,11 @@
  },
  "fix_list": [
   {
-   "t": "0.0–0.2s",
-   "t0": 0,
-   "words": "אם",
-   "check": "min text",
-   "fix": "'studio-bait.co.il' (24px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
-  },
-  {
    "t": "0.0–0.8s",
    "t0": 0,
    "words": "אם אתם רוצים",
    "check": "hero fill",
-   "fix": "fill 42%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+   "fix": "fill 42%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
    "t": "0.5–3.0s",
@@ -135,27 +128,6 @@
    "fix": "'claude code · terminal' (23px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
   },
   {
-   "t": "6.8–7.0s",
-   "t0": 6.75,
-   "words": "אתם צריכים",
-   "check": "collisions",
-   "fix": "caption 'אתם' on irisP: move the caption off the card (card bottom >= 60px above the caption) or move the card"
-  },
-  {
-   "t": "6.8–7.0s",
-   "t0": 6.75,
-   "words": "אתם צריכים",
-   "check": "collisions",
-   "fix": "caption 'צריכים' on irisP: move the caption off the card (card bottom >= 60px above the caption) or move the card"
-  },
-  {
-   "t": "6.8–7.0s",
-   "t0": 6.75,
-   "words": "אתם צריכים",
-   "check": "collisions",
-   "fix": "caption 'להתקין' on irisP: move the caption off the card (card bottom >= 60px above the caption) or move the card"
-  },
-  {
    "t": "7.0–8.8s",
    "t0": 7,
    "words": "צריכים להתקין skill שנקרא",
@@ -174,14 +146,7 @@
    "t0": 13,
    "words": "כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח",
    "check": "hero fill",
-   "fix": "fill 1%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
-  },
-  {
-   "t": "13.0–14.5s",
-   "t0": 13,
-   "words": "כל מה שאתם צריכים לעשות זה",
-   "check": "collisions",
-   "fix": "#irisP on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+   "fix": "fill 1%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
    "t": "15.8–17.2s",
@@ -195,7 +160,7 @@
    "t0": 16,
    "words": "את זה.",
    "check": "hero fill",
-   "fix": "fill 26%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+   "fix": "fill 26%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   }
  ]
 }

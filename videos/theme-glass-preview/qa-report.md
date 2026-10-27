@@ -9,9 +9,9 @@
 | ✗ | actions / s | 0.48 events/s (GSAP 3.72 tweens/s) | 0.17–0.32 |
 | ✓ | payoff lands | 0 marked, 0 problems | ends on word ±0.15, holds 0.8, stamp after |
 | ✗ | min text | 20 items < 26px | >= 26px |
-| ✗ | hero fill | n/a | >= 60% |
+| ✗ | hero fill | full face, 3 weak ranges | >= 60% |
 | ✗ | collisions | 1 collisions | 0 |
-| ✗ | no placeholders | 4 found | 0 |
+| ✗ | no placeholders | 2 found | 0 |
 | ✓ | hook visual | visual on screen 3.0s of the first 3s | >= 0.5s |
 
 ## FIX LIST
@@ -25,8 +25,6 @@
 | 0.0–3.8s | קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול. | min text | '00:10' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content) |
 | 0.0–3.8s | קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול. | min text | '00:15' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content) |
 | 0.0–3.8s | קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול. | min text | '00:18' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content) |
-| 0.0–0.2s | קלוד, | no placeholders | svg: image with almost no detail (grey box?): use a real frame / screenshot |
-| 0.0–0.2s | קלוד, | no placeholders | div: image with almost no detail (grey box?): use a real frame / screenshot |
 | 0.9–1.3s | את הסרטון | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 2.2–2.8s | את האפקטים | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 3.9–5.0s | מסלול. | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |

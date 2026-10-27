@@ -1,7 +1,7 @@
 {
  "project": "theme-arcade-preview",
  "theme": "arcade",
- "score": "3/9",
+ "score": "4/9",
  "ready": false,
  "checks": {
   "motion": {
@@ -30,18 +30,18 @@
    "pass": true
   },
   "hero": {
-   "value": "median 63%",
+   "value": "median 63%, 1 weak ranges",
    "target": ">= 60%",
    "pass": false
   },
   "collide": {
-   "value": "5 collisions",
+   "value": "0 collisions",
    "target": "0",
-   "pass": false,
+   "pass": true,
    "faces_detected": 68
   },
   "placeholder": {
-   "value": "6 found",
+   "value": "5 found",
    "target": "0",
    "pass": false
   },
@@ -70,20 +70,6 @@
    "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
    "check": "motion",
    "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
-  },
-  {
-   "t": "0.0–6.8s",
-   "t0": 0,
-   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם",
-   "check": "collisions",
-   "fix": "rect. on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "0.0–0.2s",
-   "t0": 0,
-   "words": "אם",
-   "check": "no placeholders",
-   "fix": "svg: image with almost no detail (grey box?): use a real frame / screenshot"
   },
   {
    "t": "0.1–2.9s",
@@ -163,20 +149,6 @@
    "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
   },
   {
-   "t": "10.0–17.0s",
-   "t0": 10,
-   "words": "הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
-   "check": "collisions",
-   "fix": "rect. on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "10.0–14.2s",
-   "t0": 10,
-   "words": "הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות",
-   "check": "collisions",
-   "fix": "svg. on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
    "t": "12.2–13.0s",
    "t0": 12.25,
    "words": "למטורף.",
@@ -195,21 +167,7 @@
    "t0": 14.5,
    "words": "להגיב לי פה ואני שולח לכם את זה.",
    "check": "hero fill",
-   "fix": "fill 48%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
-  },
-  {
-   "t": "14.5–15.5s",
-   "t0": 14.5,
-   "words": "להגיב לי פה ואני שולח",
-   "check": "collisions",
-   "fix": "svg. on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "16.2–16.8s",
-   "t0": 16.25,
-   "words": "זה.",
-   "check": "collisions",
-   "fix": "svg. on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+   "fix": "fill 48%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   }
  ]
 }

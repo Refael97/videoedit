@@ -9,7 +9,7 @@
 | ✗ | actions / s | 0.29 events/s (GSAP 2.27 tweens/s) | 0.35–0.65 |
 | ✓ | payoff lands | 0 marked, 0 problems | ends on word ±0.15, holds 0.8, stamp after |
 | ✗ | min text | 1 items < 26px | >= 26px |
-| ✓ | hero fill | n/a | >= 60% |
+| ✓ | hero fill | full face, 0 weak ranges | >= 60% |
 | ✗ | collisions | 2 collisions | 0 |
 | ✗ | no placeholders | 6 found | 0 |
 | ✓ | hook visual | visual on screen 2.0s of the first 3s | >= 0.5s |
