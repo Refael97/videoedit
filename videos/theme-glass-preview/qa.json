@@ -1,7 +1,7 @@
 {
  "project": "theme-glass-preview",
  "theme": "glass",
- "score": "5/9",
+ "score": "2/9",
  "ready": false,
  "checks": {
   "motion": {
@@ -25,30 +25,30 @@
    "pass": true
   },
   "text": {
-   "value": "0 items < 26px",
+   "value": "20 items < 26px",
    "target": ">= 26px",
-   "pass": true
+   "pass": false
   },
   "hero": {
    "value": "n/a",
    "target": ">= 60%",
-   "pass": true
+   "pass": false
   },
   "collide": {
-   "value": "0 collisions",
+   "value": "1 collisions",
    "target": "0",
-   "pass": true,
+   "pass": false,
    "faces_detected": 74
   },
   "placeholder": {
-   "value": "0 found",
+   "value": "4 found",
    "target": "0",
-   "pass": true
+   "pass": false
   },
   "hook": {
-   "value": "visual on screen 0.0s of the first 3s",
+   "value": "visual on screen 3.0s of the first 3s",
    "target": ">= 0.5s",
-   "pass": false
+   "pass": true
   }
  },
  "metrics": {
@@ -79,11 +79,53 @@
    "fix": "too busy: merge or drop events so each lands on a word"
   },
   {
-   "t": "0.0–3.0s",
+   "t": "0.0–3.8s",
    "t0": 0,
-   "words": "קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה:",
-   "check": "hook visual",
-   "fix": "open on a visual (the result, the thing itself, real thumbnails), not text alone"
+   "words": "קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול.",
+   "check": "min text",
+   "fix": "'00:00' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "0.0–3.8s",
+   "t0": 0,
+   "words": "קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול.",
+   "check": "min text",
+   "fix": "'00:05' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "0.0–3.8s",
+   "t0": 0,
+   "words": "קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול.",
+   "check": "min text",
+   "fix": "'00:10' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "0.0–3.8s",
+   "t0": 0,
+   "words": "קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול.",
+   "check": "min text",
+   "fix": "'00:15' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "0.0–3.8s",
+   "t0": 0,
+   "words": "קלוד, תערוך את הסרטון הזה ותוסיף את האפקטים האלה: מסלול.",
+   "check": "min text",
+   "fix": "'00:18' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "0.0–0.2s",
+   "t0": 0,
+   "words": "קלוד,",
+   "check": "no placeholders",
+   "fix": "svg: image with almost no detail (grey box?): use a real frame / screenshot"
+  },
+  {
+   "t": "0.0–0.2s",
+   "t0": 0,
+   "words": "קלוד,",
+   "check": "no placeholders",
+   "fix": "div: image with almost no detail (grey box?): use a real frame / screenshot"
   },
   {
    "t": "0.9–1.3s",
@@ -107,11 +149,32 @@
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
+   "t": "5.2–7.2s",
+   "t0": 5.25,
+   "words": "השתלטות צ'אט. בריחה",
+   "check": "min text",
+   "fix": "'Claude' (16px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "5.2–6.5s",
+   "t0": 5.25,
+   "words": "השתלטות צ'אט.",
+   "check": "no placeholders",
+   "fix": "chat: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
    "t": "8.3–8.8s",
    "t0": 8.33,
    "words": "",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "9.2–11.0s",
+   "t0": 9.25,
+   "words": "חד. רשימה",
+   "check": "hero fill",
+   "fix": "fill 33%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
    "t": "9.5–10.8s",
@@ -121,6 +184,20 @@
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
+   "t": "11.0–13.2s",
+   "t0": 11,
+   "words": "רשימה קופצת. סערת",
+   "check": "min text",
+   "fix": "'Effects' (14px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "11.2–13.2s",
+   "t0": 11.25,
+   "words": "רשימה קופצת. סערת",
+   "check": "no placeholders",
+   "fix": "list: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
    "t": "11.8–13.0s",
    "t0": 11.8,
    "words": "קופצת.",
@@ -128,11 +205,123 @@
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
+   "t": "13.8–14.5s",
+   "t0": 13.75,
+   "words": "כותרות.",
+   "check": "hero fill",
+   "fix": "fill 16%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
    "t": "13.9–15.0s",
    "t0": 13.93,
    "words": "כותרות.",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "14.8–16.0s",
+   "t0": 14.75,
+   "words": "פורטל זום.",
+   "check": "hero fill",
+   "fix": "fill 26%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "16.0–16.2s",
+   "t0": 16,
+   "words": "זום.",
+   "check": "collisions",
+   "fix": "caption 'פורטל זום' on portal: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "16.2–18.8s",
+   "t0": 16.25,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'00:00' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "16.2–18.8s",
+   "t0": 16.25,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'00:05' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "16.2–18.8s",
+   "t0": 16.25,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'00:10' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "16.2–18.8s",
+   "t0": 16.25,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'00:15' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "16.2–18.8s",
+   "t0": 16.25,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'00:18' (18px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "16.2–18.8s",
+   "t0": 16.25,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'מסלול' (19px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "16.5–18.8s",
+   "t0": 16.5,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'צ'אט' (22px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "16.5–18.8s",
+   "t0": 16.5,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'בריחה' (21px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "16.8–18.8s",
+   "t0": 16.75,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'זום' (22px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "16.8–18.8s",
+   "t0": 16.75,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'רשימה' (22px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "17.0–18.8s",
+   "t0": 17,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'כותרות' (22px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "17.0–18.8s",
+   "t0": 17,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'פורטל' (22px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "17.0–18.8s",
+   "t0": 17,
+   "words": "עקומת צמיחה.",
+   "check": "min text",
+   "fix": "'צמיחה' (17px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
   },
   {
    "t": "18.0–18.5s",

@@ -19,13 +19,13 @@
 | time | words | check | fix |
 |---|---|---|---|
 | 0.0–17.2s | אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה  | motion | more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words |
-| 0.2–1.0s | אם אתם רוצים לבנות | hero fill | fill 54%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space |
+| 0.2–1.0s | אם אתם רוצים לבנות | hero fill | fill 54%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width) |
 | 1.0–3.0s | לבנות אתרים שנראים טוב עם | no placeholders | th1: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 | 1.2–3.0s | אתרים שנראים טוב עם | no placeholders | th2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 | 1.4–2.9s | אתרים שנראים טוב | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 1.5–3.0s | אתרים שנראים טוב עם | no placeholders | th3: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 | 2.9–3.4s | עם motion, | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
-| 3.0–6.8s | עם motion, מעברים ומבנה כמו שצריך, אתם | hero fill | fill 49%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space |
+| 3.0–6.8s | עם motion, מעברים ומבנה כמו שצריך, אתם | hero fill | fill 49%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width) |
 | 3.5–4.7s | motion, מעברים | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 4.8–5.6s | מעברים ומבנה | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 6.8–8.8s | אתם צריכים להתקין skill שנקרא Kowalski. | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
@@ -35,6 +35,6 @@
 | 10.0–12.9s | הסקיל הזה בעצם הופך את האתר שלכם למטורף. | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 10.0–13.0s | הסקיל הזה בעצם הופך את האתר שלכם למטורף. | no placeholders | chart3: a chart needs real numbers: add axis values / the measured figures, or drop the chart |
 | 16.7–17.2s |  | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
-| 16.8–17.2s |  | hero fill | fill 55%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space |
+| 16.8–17.2s |  | hero fill | fill 55%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width) |
 
 _targets measured on the anchor (`themes/night/qa-targets.json`); draft `renders/qa-draft.mp4`; faces detected in 68/68 samples_

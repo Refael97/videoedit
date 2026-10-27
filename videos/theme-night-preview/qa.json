@@ -76,7 +76,7 @@
    "t0": 0.25,
    "words": "אם אתם רוצים לבנות",
    "check": "hero fill",
-   "fix": "fill 54%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+   "fix": "fill 54%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
    "t": "1.0–3.0s",
@@ -118,7 +118,7 @@
    "t0": 3,
    "words": "עם motion, מעברים ומבנה כמו שצריך, אתם",
    "check": "hero fill",
-   "fix": "fill 49%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+   "fix": "fill 49%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
    "t": "3.5–4.7s",
@@ -188,7 +188,7 @@
    "t0": 16.75,
    "words": "",
    "check": "hero fill",
-   "fix": "fill 55%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+   "fix": "fill 55%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   }
  ]
 }

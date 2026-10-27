@@ -1,0 +1,215 @@
+{
+ "project": "theme-hooks-preview",
+ "theme": "hooks",
+ "score": "3/9",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 2.0,
+   "target": ">= 2.49",
+   "pass": false
+  },
+  "flat": {
+   "value": "38.4%",
+   "target": "<= 34.0%",
+   "pass": false
+  },
+  "actions": {
+   "value": "0.29 events/s (GSAP 1.92 tweens/s)",
+   "target": "0.39–0.72",
+   "pass": false
+  },
+  "payoff": {
+   "value": "0 marked, 1 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": false
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "n/a",
+   "target": ">= 60%",
+   "pass": true
+  },
+  "collide": {
+   "value": "5 collisions",
+   "target": "0",
+   "pass": false,
+   "faces_detected": 68
+  },
+  "placeholder": {
+   "value": "4 found",
+   "target": "0",
+   "pass": false
+  },
+  "hook": {
+   "value": "visual on screen 3.0s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 17.17,
+  "motion": 2.0,
+  "flat_pct": 38.4,
+  "events_per_s": 0.29
+ },
+ "targets": {
+  "motion_min": 2.49,
+  "flat_max": 34.0,
+  "events_min": 0.39,
+  "events_max": 0.72
+ },
+ "fix_list": [
+  {
+   "t": "0.0–17.2s",
+   "t0": 0,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "motion",
+   "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
+  },
+  {
+   "t": "0.0–2.9s",
+   "t0": 0.0,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "0.0–17.2s",
+   "t0": 0,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "payoff lands",
+   "fix": "pc1#3 changes ['0%', '33%', '66%']: a number changes on screen: mark the payoff element with data-qa-payoff=\"<word>\" (and data-qa-stamp)"
+  },
+  {
+   "t": "0.2–6.8s",
+   "t0": 0.25,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם",
+   "check": "collisions",
+   "fix": "#s1 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "0.2–5.0s",
+   "t0": 0.25,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים",
+   "check": "collisions",
+   "fix": "#bar1 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "0.5–3.0s",
+   "t0": 0.5,
+   "words": "אתם רוצים לבנות אתרים שנראים טוב עם",
+   "check": "no placeholders",
+   "fix": "th1: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "0.5–3.0s",
+   "t0": 0.5,
+   "words": "אתם רוצים לבנות אתרים שנראים טוב עם",
+   "check": "no placeholders",
+   "fix": "th2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "0.8–3.0s",
+   "t0": 0.75,
+   "words": "רוצים לבנות אתרים שנראים טוב עם",
+   "check": "no placeholders",
+   "fix": "th3: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "2.9–6.6s",
+   "t0": 2.9,
+   "words": "עם motion, מעברים ומבנה כמו שצריך,",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "2.9–4.6s",
+   "t0": 2.93,
+   "words": "עם motion, מעברים",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "4.6–5.6s",
+   "t0": 4.63,
+   "words": "מעברים ומבנה",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "5.0–6.8s",
+   "t0": 5,
+   "words": "מעברים ומבנה כמו שצריך, אתם",
+   "check": "collisions",
+   "fix": "#fill1 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "5.6–6.6s",
+   "t0": 5.63,
+   "words": "ומבנה כמו שצריך,",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "6.6–9.9s",
+   "t0": 6.6,
+   "words": "שצריך, אתם צריכים להתקין skill שנקרא Kowalski.",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "6.8–17.0s",
+   "t0": 6.75,
+   "words": "אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "collisions",
+   "fix": "div.row on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "6.8–17.0s",
+   "t0": 6.75,
+   "words": "אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "collisions",
+   "fix": "#s2 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "6.8–7.8s",
+   "t0": 6.8,
+   "words": "אתם צריכים להתקין",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "7.0–10.0s",
+   "t0": 7,
+   "words": "צריכים להתקין skill שנקרא Kowalski. הסקיל",
+   "check": "no placeholders",
+   "fix": "scr2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "7.9–9.3s",
+   "t0": 7.87,
+   "words": "skill שנקרא Kowalski.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "9.4–9.9s",
+   "t0": 9.37,
+   "words": "Kowalski.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "12.9–17.2s",
+   "t0": 12.87,
+   "words": "כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  }
+ ]
+}

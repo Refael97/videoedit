@@ -1,7 +1,7 @@
 {
  "project": "theme-editorial-preview",
  "theme": "editorial",
- "score": "4/9",
+ "score": "5/9",
  "ready": false,
  "checks": {
   "motion": {
@@ -35,9 +35,9 @@
    "pass": true
   },
   "collide": {
-   "value": "7 collisions",
+   "value": "0 collisions",
    "target": "0",
-   "pass": false,
+   "pass": true,
    "faces_detected": 68
   },
   "placeholder": {
@@ -86,25 +86,11 @@
    "fix": "open on a visual (the result, the thing itself, real thumbnails), not text alone"
   },
   {
-   "t": "0.2–3.0s",
-   "t0": 0.25,
-   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם",
-   "check": "collisions",
-   "fix": "#s0 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
    "t": "2.9–6.6s",
    "t0": 2.87,
    "words": "טוב עם motion, מעברים ומבנה כמו שצריך,",
    "check": "actions / s",
    "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "3.0–6.8s",
-   "t0": 3,
-   "words": "עם motion, מעברים ומבנה כמו שצריך, אתם",
-   "check": "collisions",
-   "fix": "#s1 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
   },
   {
    "t": "3.0–4.8s",
@@ -128,32 +114,11 @@
    "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
   },
   {
-   "t": "6.8–8.8s",
-   "t0": 6.75,
-   "words": "אתם צריכים להתקין skill שנקרא",
-   "check": "collisions",
-   "fix": "#s2 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "8.8–10.0s",
-   "t0": 8.75,
-   "words": "Kowalski. הסקיל",
-   "check": "collisions",
-   "fix": "#over on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
    "t": "10.0–12.9s",
    "t0": 9.97,
    "words": "הסקיל הזה בעצם הופך את האתר שלכם למטורף.",
    "check": "actions / s",
    "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "10.0–13.0s",
-   "t0": 10,
-   "words": "הסקיל הזה בעצם הופך את האתר שלכם למטורף.",
-   "check": "collisions",
-   "fix": "#s4 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
   },
   {
    "t": "10.2–11.2s",
@@ -168,20 +133,6 @@
    "words": "כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
    "check": "actions / s",
    "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "13.0–14.5s",
-   "t0": 13,
-   "words": "כל מה שאתם צריכים לעשות זה",
-   "check": "collisions",
-   "fix": "#over on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "14.5–17.0s",
-   "t0": 14.5,
-   "words": "להגיב לי פה ואני שולח לכם את זה.",
-   "check": "collisions",
-   "fix": "#s6 on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
   }
  ]
 }

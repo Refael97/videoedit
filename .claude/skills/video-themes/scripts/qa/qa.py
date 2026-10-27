@@ -57,7 +57,7 @@ def rect_inter(a, b):
 def group_times(ts, step, minlen=1):
     """[t...] -> [(a, b)] runs of consecutive samples, keeping runs of >= minlen samples"""
     runs, cur = [], []
-    for t in sorted(ts):
+    for t in sorted(set(ts)):
         if cur and t - cur[-1] > step * 1.5:
             runs.append(cur); cur = []
         cur.append(t)
@@ -217,7 +217,11 @@ def main():
             if fx2 > fx1 and fy2 > fy1:
                 frect = [fx1, fy1, fx2 - fx1, fy2 - fy1]
         if frect and frect[2] * frect[3] >= 0.8 * VW * VH:
-            continue  # full face: cards over the face are small on purpose
+            # full face: a card over the face may be smaller, but the hero still reads (>= 35% of the width)
+            over = [b["r"] for b in s["boxes"] + s["media"] if b["op"] >= 0.5]
+            if over and max(r[2] for r in over) < 0.35 * VW:
+                low.append((s["t"], max(r[2] for r in over) / VW))
+            continue
         # the composition's planned extent: elements of the visible scene, including ones not revealed yet
         gfx = [b["r"] for b in s["boxes"] + s["media"] if b.get("po", b["op"]) >= 0.5]
         boxes = [b["r"] for b in s["boxes"]]
@@ -244,9 +248,9 @@ def main():
         fix(x, y, "hero fill", FIX["hero_empty"])
     for x, y in group_times([t for t, _ in low], step, 2):
         fv = min(f for t, f in low if x <= t < y)
-        fix(x, y, "hero fill", f"fill {fv:.0%}: " + FIX["hero"])
+        fix(x, y, "hero fill", f"fill {fv:.0%}: " + FIX["hero"] + " (over the full face: the hero >= 35% of the width)")
     nh = len(group_times(empty, step, 2)) + len(group_times([t for t, _ in low], step, 2))
-    res["hero"] = {"value": f"median {np.median(fills):.0%}" if fills else "n/a", "target": f">= {HERO_MIN:.0%}", "pass": nh == 0}
+    res["hero"] = {"value": (f"median {np.median(fills):.0%}" if fills else "full face") + f", {nh} weak ranges", "target": f">= {HERO_MIN:.0%}", "pass": nh == 0}
 
     # C7 collisions
     cc, fc = {}, {}

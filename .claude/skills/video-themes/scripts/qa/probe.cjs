@@ -99,9 +99,11 @@ const { chromium } = require("playwright");
               const x = vis[0] + (vis[2] - vis[0]) * (i + 0.5) / 5, y = vis[1] + (vis[3] - vis[1]) * (j + 0.5) / 5;
               const top = document.elementFromPoint(x, y); if (!top) continue;
               if (top.tagName === "VIDEO" && (top === faceVid || /matte|face/i.test(top.id + " " + (top.parentElement && top.parentElement.className)))) continue;
-              if (top.closest && faceRoot && faceRoot.contains(top)) continue;
+              if (top === faceVid || top.contains(faceVid)) continue;
+              if (opa(top) < 0.3) continue;  // hit-testing ignores opacity: an invisible element is not covering anything
               const cs = getComputedStyle(top); const cap = isCap(top);
-              if (!cap && !bgVisible(cs) && top.tagName !== "IMG" && top.tagName !== "svg" && !top.closest("svg") && !(top.textContent || "").trim()) continue;
+              const ownText = Array.from(top.childNodes).some((n) => n.nodeType === 3 && n.textContent.trim());
+              if (!cap && !bgVisible(cs) && cs.backdropFilter === "none" && top.tagName !== "IMG" && top.tagName !== "svg" && !top.closest("svg") && !ownText) continue;
               const key = (cap ? "caption " : "") + (top.id ? "#" + top.id : top.tagName.toLowerCase() + "." + String(top.className.baseVal ?? top.className).split(" ")[0]);
               hits[key] = (hits[key] || 0) + 1;
             }
@@ -111,7 +113,7 @@ const { chromium } = require("playwright");
       }
       for (const el of document.body.querySelectorAll("*")) {
         if (["SCRIPT", "STYLE", "AUDIO", "SOURCE"].includes(el.tagName)) continue;
-        if (faceRoot && (faceRoot === el || faceRoot.contains(el))) continue;
+        if (faceVid && (el === faceVid || el.contains(faceVid))) continue;  // the footage and its wrappers (graphics may share the wrapper)
         if (el.dataset && el.dataset.qa === "bg") continue;
         let r = el.getBoundingClientRect(); if (!onScreen(r)) continue;
         const o = opa(el); const po = el.parentElement ? opa(el.parentElement) : 1; if (o < 0.05 && !(po > 0.5 && (el.tagName === "svg" || el.offsetWidth >= 120))) continue;
@@ -140,9 +142,10 @@ const { chromium } = require("playwright");
           const qa = el.dataset.qa;
           if (big) S.media.push({ r: R(r), op: +o.toFixed(2), po: +po.toFixed(2), tag, id: el.id || "" });
           if ((qa === "chart" || CHART.test(lbl)) && qa !== "not-chart" && big && o > 0.3) S.charts.push({ r: R(r), id: el.id || "" });
-        } else if (!full && r.width >= 120 && r.height >= 60 && (bgVisible(cs) || (parseFloat(cs.borderTopWidth) >= 2 && cs.borderTopStyle !== "none") || cs.boxShadow !== "none")) {
+        } else if (!full && r.width >= 120 && r.height >= 60 && (bgVisible(cs) || (cs.backdropFilter && cs.backdropFilter !== "none") || (parseFloat(cs.borderTopWidth) >= 2 && cs.borderTopStyle !== "none") || cs.boxShadow !== "none")) {
           const textIn = (el.innerText || "").trim().length;
           const visualIn = el.querySelector("img,svg,canvas,video") ? 1 : 0;
+          if (r.width >= 0.95 * VW && r.height >= 0.25 * VH && !textIn && !visualIn) continue;  // a full-width band / veil is background, not a card
           S.boxes.push({ r: R(r), op: +o.toFixed(2), po: +po.toFixed(2), id: el.id || "", cls: String(el.className).slice(0, 40), textIn, visualIn });
         }
       }

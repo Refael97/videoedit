@@ -1,0 +1,201 @@
+{
+ "project": "theme-board-preview",
+ "theme": "board",
+ "score": "5/9",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 1.87,
+   "target": ">= 1.83",
+   "pass": true
+  },
+  "flat": {
+   "value": "45.0%",
+   "target": "<= 46.0%",
+   "pass": true
+  },
+  "actions": {
+   "value": "0.82 events/s (GSAP 4.72 tweens/s)",
+   "target": "0.47–0.88",
+   "pass": true
+  },
+  "payoff": {
+   "value": "0 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "9 items < 26px",
+   "target": ">= 26px",
+   "pass": false
+  },
+  "hero": {
+   "value": "median 69%",
+   "target": ">= 60%",
+   "pass": false
+  },
+  "collide": {
+   "value": "4 collisions",
+   "target": "0",
+   "pass": false,
+   "faces_detected": 68
+  },
+  "placeholder": {
+   "value": "3 found",
+   "target": "0",
+   "pass": false
+  },
+  "hook": {
+   "value": "visual on screen 2.8s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 17.17,
+  "motion": 1.87,
+  "flat_pct": 45.0,
+  "events_per_s": 0.82
+ },
+ "targets": {
+  "motion_min": 1.83,
+  "flat_max": 46.0,
+  "events_min": 0.47,
+  "events_max": 0.88
+ },
+ "fix_list": [
+  {
+   "t": "0.0–0.2s",
+   "t0": 0,
+   "words": "אם",
+   "check": "min text",
+   "fix": "'studio-bait.co.il' (24px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "0.0–0.8s",
+   "t0": 0,
+   "words": "אם אתם רוצים",
+   "check": "hero fill",
+   "fix": "fill 42%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+  },
+  {
+   "t": "0.5–3.0s",
+   "t0": 0.5,
+   "words": "אתם רוצים לבנות אתרים שנראים טוב עם",
+   "check": "min text",
+   "fix": "'studio-bait.co.il' (24px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "0.5–1.0s",
+   "t0": 0.5,
+   "words": "אתם רוצים לבנות",
+   "check": "no placeholders",
+   "fix": "site0: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "0.8–3.0s",
+   "t0": 0.75,
+   "words": "רוצים לבנות אתרים שנראים טוב עם",
+   "check": "no placeholders",
+   "fix": "img0: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "3.0–6.8s",
+   "t0": 3,
+   "words": "עם motion, מעברים ומבנה כמו שצריך, אתם",
+   "check": "min text",
+   "fix": "'STEP 1/3' (24px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "3.2–6.8s",
+   "t0": 3.25,
+   "words": "motion, מעברים ומבנה כמו שצריך, אתם",
+   "check": "min text",
+   "fix": "'kowalski · skill' (24px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "3.2–6.8s",
+   "t0": 3.25,
+   "words": "motion, מעברים ומבנה כמו שצריך, אתם",
+   "check": "min text",
+   "fix": "'3 / 3 FEATURES' (24px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "6.2–6.8s",
+   "t0": 6.25,
+   "words": "שצריך, אתם",
+   "check": "min text",
+   "fix": "'✓ READY' (24px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "6.8–10.0s",
+   "t0": 6.75,
+   "words": "אתם צריכים להתקין skill שנקרא Kowalski. הסקיל",
+   "check": "min text",
+   "fix": "'claude code · terminal' (23px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "6.8–7.0s",
+   "t0": 6.75,
+   "words": "אתם צריכים",
+   "check": "collisions",
+   "fix": "caption 'אתם' on irisP: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "6.8–7.0s",
+   "t0": 6.75,
+   "words": "אתם צריכים",
+   "check": "collisions",
+   "fix": "caption 'צריכים' on irisP: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "6.8–7.0s",
+   "t0": 6.75,
+   "words": "אתם צריכים",
+   "check": "collisions",
+   "fix": "caption 'להתקין' on irisP: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "7.0–8.8s",
+   "t0": 7,
+   "words": "צריכים להתקין skill שנקרא",
+   "check": "no placeholders",
+   "fix": "term2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+  },
+  {
+   "t": "11.2–13.0s",
+   "t0": 11.25,
+   "words": "הופך את האתר שלכם למטורף.",
+   "check": "min text",
+   "fix": "'studio-bait.co.il' (24px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "13.0–15.8s",
+   "t0": 13,
+   "words": "כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח",
+   "check": "hero fill",
+   "fix": "fill 1%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+  },
+  {
+   "t": "13.0–14.5s",
+   "t0": 13,
+   "words": "כל מה שאתם צריכים לעשות זה",
+   "check": "collisions",
+   "fix": "#irisP on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
+  },
+  {
+   "t": "15.8–17.2s",
+   "t0": 15.75,
+   "words": "לכם את זה.",
+   "check": "min text",
+   "fix": "'✉' (24px): enlarge to >= 26px as shown (font-size x scale) or delete it (decoration, not content)"
+  },
+  {
+   "t": "16.0–17.2s",
+   "t0": 16,
+   "words": "את זה.",
+   "check": "hero fill",
+   "fix": "fill 26%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space"
+  }
+ ]
+}
