@@ -1,0 +1,110 @@
+/* hooks theme: layouts, materials and building blocks. Needs tokens.css. Read language.md first. */
+
+.h-root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--h-font); direction: rtl; color: var(--h-white); letter-spacing: var(--h-track); background: #000; }
+.aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+/* ===================== LAYOUTS (switched by HOOKS.layout) ===================== */
+/* room: the footage, always full frame (this theme never boxes the speaker) */
+.h-room { position: absolute; inset: 0; z-index: 1; overflow: hidden; }
+.h-room video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 40%; }
+.h-room.warm video { filter: saturate(1.08) contrast(1.04); }       /* a cool white-wall room nudged toward the anchor's warm daylight */
+/* void: black with amber light from two opposite corners (top-right + bottom-left); .four lights all corners */
+.h-void { position: absolute; inset: 0; z-index: 5; overflow: hidden; background: var(--h-void); opacity: 0; }
+.h-void::before { content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 38% at 100% 0%, var(--h-amber), rgba(255, 183, 0, 0) 70%),
+              radial-gradient(ellipse 70% 38% at 0% 100%, var(--h-amber), rgba(255, 183, 0, 0) 70%); }
+.h-void.four::before { background: radial-gradient(ellipse 60% 30% at 100% 0%, var(--h-amber), transparent 70%), radial-gradient(ellipse 60% 30% at 0% 0%, var(--h-amber), transparent 70%),
+  radial-gradient(ellipse 60% 30% at 100% 100%, var(--h-amber), transparent 70%), radial-gradient(ellipse 60% 30% at 0% 100%, var(--h-amber), transparent 70%); }
+/* cutaway: another video (an example the speaker is talking about), full frame */
+.h-cut { position: absolute; inset: 0; z-index: 6; overflow: hidden; background: #000; opacity: 0; }
+.h-cut video, .h-cut img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.h-scene { position: absolute; inset: 0; }
+
+/* ===================== GLOW TYPE (the signature) ===================== */
+/* a glow title on the chest: optional lead line (white) + one glow word fitted to 55–75% of the width */
+.h-glowt { position: absolute; left: 30px; right: 30px; top: var(--h-glow-y); transform: translateY(-50%); text-align: center; z-index: 30; pointer-events: none; }
+.h-glowt .lead { display: block; font-size: var(--h-lead); font-weight: 800; line-height: 1; color: #fff; text-shadow: 0 0 18px rgba(255, 255, 255, 0.45), 0 3px 10px rgba(0, 0, 0, 0.5); margin-bottom: 6px; white-space: pre; }
+.h-glowt .glw { display: inline-block; font-weight: 900; line-height: 0.92; white-space: pre; padding: 0 0.04em;
+  background: linear-gradient(180deg, var(--a), var(--b) 85%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 10px var(--g)) drop-shadow(0 0 34px var(--g)); }
+/* bright clothing / a white wall behind the chest: a soft dark pool under the title so the glow reads (language.md §5) */
+.h-glowt.shade { padding: 70px 0; background: radial-gradient(ellipse 46% 50% at 50% 52%, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0) 100%); }
+.h-glowt .sub { display: block; font-family: var(--h-cond); font-size: 76px; line-height: 1; color: #fff; margin-top: -0.12em; text-shadow: 0 0 14px rgba(255, 255, 255, 0.4); white-space: pre; }
+.h-glowt.gold   { --a: var(--h-gold-a);   --b: var(--h-gold-b);   --g: var(--h-gold-g); }
+.h-glowt.fire   { --a: var(--h-fire-a);   --b: var(--h-fire-b);   --g: var(--h-fire-g); }
+.h-glowt.lime   { --a: var(--h-lime-a);   --b: var(--h-lime-b);   --g: var(--h-lime-g); }
+.h-glowt.violet { --a: var(--h-violet-a); --b: var(--h-violet-b); --g: var(--h-violet-g); }
+.h-glowt.red    { --a: var(--h-red-a);    --b: var(--h-red-b);    --g: var(--h-red-g); }
+/* neon number: the opening count, red neon with a slight 3D lift ("7 HOOKS") */
+.h-glowt .neo { font-weight: 900; color: #ffd6da; -webkit-text-stroke: 3px #ff2a44; text-shadow: 0 0 8px #ff2a44, 0 0 26px #ff1f3d, 0 0 60px rgba(255, 30, 60, 0.7), 4px 6px 0 rgba(120, 0, 20, 0.85); display: inline-block; line-height: 0.92; }
+
+/* captions: white 800, 1–4 words, soft shadow, no outline; hidden while a glow title is up */
+.h-caps { position: absolute; left: 0; right: 0; top: 0; height: 0; z-index: 29; }
+.h-cap { position: absolute; left: 50px; right: 50px; height: 90px; margin-top: -45px; display: flex; align-items: center; justify-content: center; font-size: var(--h-cap); font-weight: 800; color: #fff; text-shadow: 0 0 16px rgba(0, 0, 0, 0.35), 0 3px 10px rgba(0, 0, 0, 0.55); white-space: pre; opacity: 0; }
+
+/* ===================== OBJECTS ===================== */
+/* numbered chip: yellow ring + number + condensed label in a dark glass pill */
+.h-chip { position: absolute; height: 120px; padding: 0 44px 0 30px; border-radius: 60px; background: var(--h-glass); border: 1.5px solid var(--h-glass-edge); display: flex; align-items: center; gap: 26px; font-family: var(--h-cond); font-size: var(--h-chip); color: #fff; white-space: pre; z-index: 31; backdrop-filter: blur(6px); }
+.h-chip .n { width: 72px; height: 72px; border-radius: 50%; border: 5px solid var(--h-ring); box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-family: var(--h-font); font-weight: 900; font-size: 38px; color: var(--h-ring); box-shadow: 0 0 14px rgba(255, 201, 40, 0.55), inset 0 0 10px rgba(255, 201, 40, 0.35); flex: none; }
+.h-chip.dim { opacity: 0.45; }
+/* a stack of chips (the list so far), top corner */
+.h-chips { position: absolute; display: flex; flex-direction: column; gap: 18px; z-index: 31; }
+.h-chips .h-chip { position: relative; height: 96px; font-size: 40px; padding: 0 34px 0 22px; } .h-chips .h-chip .n { width: 60px; height: 60px; font-size: 32px; }
+
+/* template line: the formula in a hand font, the slot in [brackets] glowing yellow */
+.h-hand { position: absolute; left: 40px; right: 40px; top: var(--h-hand-y); transform: translateY(-50%); text-align: center; font-family: var(--h-hand); font-weight: 600; font-size: var(--h-hand-size); line-height: 1.2; color: #fff; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6); z-index: 30; white-space: pre-wrap; letter-spacing: 0; }
+.h-hand .w { display: inline-block; }
+.h-hand .slot { color: var(--h-ring); text-shadow: 0 0 12px rgba(255, 190, 20, 0.85), 0 0 28px rgba(255, 170, 0, 0.5); }
+
+/* view pill: dark glass, eye + count (on cutaways and thumbnails) */
+.h-views { position: absolute; left: 50%; top: var(--h-pill-y); transform: translate(-50%, -50%); height: 112px; padding: 0 44px; border-radius: 56px; background: var(--h-glass); border: 1.5px solid var(--h-glass-edge); display: flex; align-items: center; gap: 20px; font-weight: 800; font-size: var(--h-pill); color: #fff; direction: ltr; white-space: pre; z-index: 31; overflow: hidden; backdrop-filter: blur(6px); }
+.h-views svg { width: 54px; height: 54px; }
+.h-views .shine { position: absolute; top: -20%; bottom: -20%; width: 80px; left: -120px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent); transform: skewX(-20deg); }
+.h-views.sm { height: 64px; padding: 0 22px; font-size: 34px; gap: 10px; border-radius: 32px; } .h-views.sm svg { width: 32px; height: 32px; }
+/* title strip on a cutaway (what the example is) */
+.h-strip { position: absolute; left: 50%; top: var(--h-strip-y); transform: translate(-50%, -50%); padding: 14px 30px; border-radius: 12px; background: rgba(0, 0, 0, 0.62); font-weight: 800; font-size: 44px; color: #fff; white-space: pre; z-index: 31; }
+
+/* gold tile: a numbered step on the void */
+.h-tile { position: absolute; width: 360px; height: 360px; margin: -180px 0 0 -180px; border-radius: 14px; background: linear-gradient(90deg, var(--h-tile-a), var(--h-tile-b)); box-shadow: 0 0 40px rgba(255, 210, 60, 0.45), 0 0 120px rgba(255, 190, 20, 0.25), inset 0 2px 0 rgba(255, 255, 255, 0.6); color: var(--h-tile-ink); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 10; }
+.h-tile .n { font-weight: 900; font-size: 120px; line-height: 0.95; direction: ltr; letter-spacing: -0.04em; }
+.h-tile .l { font-weight: 900; font-size: 36px; line-height: 1.05; margin-top: 10px; padding: 0 24px; white-space: pre; }
+
+/* glossy pill: a colored label with an inner gradient and its own glow (a set of options / variants) */
+.h-gpill { position: absolute; height: 104px; padding: 0 34px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 46px; color: #fff; white-space: pre; transform: translate(50%, -50%); border: 2px solid rgba(255, 255, 255, 0.45); text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35); z-index: 10; }
+.h-gpill.red    { background: linear-gradient(180deg, #ff6a6a, #d8001e); box-shadow: 0 0 26px rgba(255, 30, 60, 0.7); }
+.h-gpill.orange { background: linear-gradient(180deg, #ffc35a, #f06a00); box-shadow: 0 0 26px rgba(255, 130, 20, 0.7); }
+.h-gpill.green  { background: linear-gradient(180deg, #8dff6a, #1fbf2a); box-shadow: 0 0 26px rgba(60, 230, 50, 0.7); }
+.h-gpill.blue   { background: linear-gradient(180deg, #5a8dff, #1a2fc0); box-shadow: 0 0 26px rgba(50, 90, 255, 0.7); }
+.h-gpill.violet { background: linear-gradient(180deg, #d58dff, #7a1ad8); box-shadow: 0 0 26px rgba(160, 40, 255, 0.7); }
+
+/* real UI on the void: a dark phone/app screen with real rows and a toggle */
+.h-screen { position: absolute; border-radius: 34px; background: #121216; border: 2px solid rgba(255, 255, 255, 0.1); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(255, 190, 20, 0.12); overflow: hidden; z-index: 10; font-size: 40px; font-weight: 800; }
+.h-screen .hd { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 40px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); white-space: pre; }
+.h-screen .row { height: 120px; display: flex; align-items: center; gap: 24px; padding: 0 40px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); white-space: pre; }
+.h-screen .row small { display: block; font-size: 30px; font-weight: 600; color: rgba(255, 255, 255, 0.55); }
+.h-screen .row.sel { background: rgba(255, 201, 40, 0.1); box-shadow: inset -6px 0 0 var(--h-ring); }
+.h-screen .mono { direction: ltr; font-family: "HooksMono", ui-monospace, monospace; }
+.h-toggle { margin-right: auto; width: 110px; height: 62px; border-radius: 31px; background: #3a3a40; position: relative; flex: none; }
+.h-toggle i { position: absolute; top: 6px; left: 6px; width: 50px; height: 50px; border-radius: 50%; background: #fff; display: block; }
+.h-toggle.on { background: #34c759; box-shadow: 0 0 18px rgba(52, 199, 89, 0.6); }
+/* the "NEW" badge next to a setting */
+.h-new { height: 44px; padding: 0 14px; border-radius: 10px; background: #2f7cff; color: #fff; font-size: 26px; font-weight: 900; display: flex; align-items: center; }
+
+/* thumbnails (example videos as cards) */
+.h-thumb { position: absolute; width: 300px; height: 533px; border-radius: 22px; background: #222 center / cover; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); overflow: visible; z-index: 10; }
+.h-thumb .t { position: absolute; left: 16px; right: 16px; top: 220px; text-align: center; font-weight: 900; font-size: 40px; line-height: 1; color: #fff; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); white-space: pre; }
+.h-thumb .h-views { top: auto; bottom: -34px; transform: translateX(-50%); }
+
+/* the timeline bar: where the hook sits in the video */
+.h-bar { position: absolute; height: 44px; border-radius: 8px; background: #1b1b1f; overflow: visible; z-index: 10; }
+.h-bar .fill { position: absolute; right: 0; top: 0; bottom: 0; border-radius: 8px; background: linear-gradient(90deg, #ffe55c, #ffc21a); box-shadow: 0 0 20px rgba(255, 200, 30, 0.6); transform-origin: 100% 50%; }
+.h-bar .mk { position: absolute; top: -80px; transform: translateX(50%); font-size: 34px; font-weight: 800; white-space: pre; text-align: center; }
+.h-bar .mk::after { content: ""; display: block; margin: 6px auto 0; width: 0; height: 0; border-left: 16px solid transparent; border-right: 16px solid transparent; border-top: 22px solid #fff; }
+
+/* icons row (generic, brand-free glyph tiles) */
+.h-icons { position: absolute; display: flex; gap: 26px; z-index: 10; }
+.h-icon { width: 110px; height: 110px; border-radius: 28px; display: flex; align-items: center; justify-content: center; font-size: 58px; box-shadow: 0 0 22px rgba(255, 255, 255, 0.15); }
+
+/* CTA: comment + the keyword as a glow word in quotes, the promise in the condensed sub line (anchor: '"HOOK" I'll send them') */
+.h-cursor { position: absolute; left: 0; top: 0; width: 36px; height: 50px; z-index: 40; }
+.h-cursor svg { width: 36px; height: 50px; display: block; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6)); }

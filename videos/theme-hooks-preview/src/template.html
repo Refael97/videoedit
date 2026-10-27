@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      /* this footage sits low (chin at y≈1245): glow titles and captions move under the chin (language.md §5) */
+      .h-glowt { top: 1480px; }
+
+      /* opening: three real sites as example cards above the head */
+      #th1 { left: 60px; top: 130px; width: 290px; height: 470px; }
+      #th2 { left: 395px; top: 100px; width: 290px; height: 470px; }
+      #th3 { left: 730px; top: 130px; width: 290px; height: 470px; }
+      .h-thumb .t { top: 40px; text-align: right; right: 22px; left: 22px; font-size: 44px; }
+      .h-thumb .b { position: absolute; right: 22px; bottom: 70px; height: 56px; padding: 0 22px; border-radius: 28px; font-size: 28px; font-weight: 900; display: flex; align-items: center; }
+
+      /* S1 (void): three glossy pills + the site meter */
+      #pl1 { right: 540px; top: 560px; } #pl2 { right: 540px; top: 720px; } #pl3 { right: 540px; top: 880px; }
+      #bar1 { left: 140px; right: 140px; top: 1110px; }
+      #bar1 .mk { right: 100%; }
+      #lb1 { position: absolute; left: 0; right: 0; top: 1190px; text-align: center; font-size: 46px; font-weight: 800; }
+      #pc1 { color: #ffc928; direction: ltr; display: inline-block; }
+
+      /* S2 (void): the real skills screen */
+      #scr2 { left: 110px; right: 110px; top: 330px; }
+      #scr2 .srch { height: 110px; margin: 24px 30px; border-radius: 22px; background: #1e1e24; display: flex; align-items: center; padding: 0 30px; gap: 18px; direction: ltr; font-family: "HooksMono", monospace; font-weight: 500; font-size: 42px; color: #fff; }
+      #scr2 .srch b { color: rgba(255, 255, 255, 0.4); font-weight: 500; }
+      #scr2 .row .nm { direction: ltr; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="h-root" data-composition-id="main" data-start="0" data-duration="17.2" data-width="1080" data-height="1920">
+      <div id="room" class="h-room warm"><video id="roomVid" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video></div>
+
+      <!-- opening (rule e): three real sites as example cards, view counts glint -->
+      <div class="h-thumb aa" id="th1" style="background: #f3ece2"><div class="t" style="color: #2a2118; text-shadow: none">סטודיו
+לעיצוב פנים</div><span class="b" style="background: #2a2118; color: #fff">לתיאום</span><div class="h-views sm" id="v1"><span class="ey"></span>48K<i class="shine"></i></div></div>
+      <div class="h-thumb aa" id="th2" style="background: #1d1d1f"><div class="t">קפה
+של בוקר</div><span class="b" style="background: #ff6a1a; color: #fff">להזמנה</span><div class="h-views sm" id="v2"><span class="ey"></span>1.2M<i class="shine"></i></div></div>
+      <div class="h-thumb aa" id="th3" style="background: #e3efe6"><div class="t" style="color: #17331f; text-shadow: none">רהיטים
+מעץ מלא</div><span class="b" style="background: #2f8a4a; color: #fff">לחנות</span><div class="h-views sm" id="v3"><span class="ey"></span>310K<i class="shine"></i></div></div>
+
+      <div id="void" class="h-void">
+        <!-- S1: what a good site needs; each pill pops on its word, the meter lands on "כמו שצריך" -->
+        <div id="s1" class="h-scene">
+          <div class="h-gpill red aa" id="pl1">Motion</div>
+          <div class="h-gpill orange aa" id="pl2">מעברים</div>
+          <div class="h-gpill green aa" id="pl3">מבנה</div>
+          <div class="h-bar" id="bar1"><div class="fill" id="fill1" style="left: 0"></div></div>
+          <div id="lb1">אתר שנראה טוב: <span id="pc1">0%</span></div>
+        </div>
+        <!-- S2: the real skills screen; the name is typed, the row appears, the switch flips on "Kowalski" -->
+        <div id="s2" class="h-scene">
+          <div class="h-screen aa" id="scr2">
+            <div class="hd">Skills</div>
+            <div class="srch">⌕ <span id="q2"></span><b id="ph2">search skills</b></div>
+            <div class="row" id="rk"><span class="nm">kowalski</span><span class="h-new">NEW</span><span class="h-toggle" id="tg0"><i></i></span></div>
+            <div class="row r2"><span class="nm">motion presets</span><span class="h-toggle" id="tg1"><i></i></span></div>
+            <div class="row r2"><span class="nm">page transitions</span><span class="h-toggle" id="tg2"><i></i></span></div>
+            <div class="row r2"><span class="nm">layout system</span><span class="h-toggle" id="tg3"><i></i></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- glow titles on the chest -->
+      <div class="h-glowt gold shade" id="g0"><span class="lead">לבנות אתרים</span><span class="glw">שנראים טוב</span></div>
+      <div class="h-glowt violet shade" id="g1"><span class="lead">הופך את האתר שלכם</span><span class="glw">למטורף</span></div>
+      <div class="h-glowt gold shade" id="g2"><span class="lead">תגיבו לי</span><span class="glw" dir="ltr">"KOWALSKI"</span><span class="sub">ואני שולח לכם</span></div>
+
+      <div id="caps" class="h-caps"></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="17.2" data-track-index="10" data-volume="1"></audio>
+<!--__SFX__-->
+    </div>
+    <script>
+      const WORDS = __WORDS__;
+      const H = window.HOOKS;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        document.querySelectorAll(".h-views .ey").forEach((e) => (e.innerHTML = H.ART.eye));
+        H.fit("#g0 .glw", 0.72); H.fit("#g1 .glw", 0.62); H.fit("#g2 .glw", 0.78);
+
+        // ---- layouts ----
+        H.layout(tl, "face", 0);
+        H.layout(tl, "void", 2.92);
+        H.layout(tl, "face", 9.92, { zoom: 1.18 });   // the "second angle": a jump-cut punch
+        H.layout(tl, "face", 12.9);
+        H.scene(tl, "#s1", 0, 6.62); H.scene(tl, "#s2", 6.62);
+
+        // ---- captions (silent while a glow title speaks) ----
+        H.captions(tl, "#caps", WORDS, { y: 1440, mute: [[0.8, 2.9], [11.1, 12.9], [14.6, 17.2]], yAt: (t) => (H.modeAt(t) === "void" ? 1560 : 1440) });
+
+        // ---- opening: example sites pop above the head, their counts glint; the glow title on the chest ----
+        H.pop(tl, ["#th2", "#th1", "#th3"], 0.2, 0.14);
+        H.views(tl, "#v2", 0.45, 0.3); H.views(tl, "#v1", 0.6, 0.3); H.views(tl, "#v3", 0.75, 0.3);
+        H.glow(tl, "#g0", 0.8, 1.7, 2.92);
+        tl.set(["#th1", "#th2", "#th3"], { autoAlpha: 0 }, 2.92);
+
+        // ---- S1 (void): pills on their words, the meter fills and lands on "כמו שצריך" ----
+        H.pop(tl, "#pl1", 3.2); H.pop(tl, "#pl2", 4.5); H.pop(tl, "#pl3", 5.4);
+        tl.set("#fill1", { transformOrigin: "100% 50%" }, 0);
+        H.bar(tl, "#fill1", 3.3, 0.33, 0.4); tl.to("#fill1", { scaleX: 0.66, duration: 0.4, ease: "power2.out" }, 4.6); tl.to("#fill1", { scaleX: 1, duration: 0.5, ease: "power2.out" }, 5.5);
+        H.count(tl, "#pc1", 0, 33, 3.3, 0.4, { suffix: "%" });
+        const pc = { v: 33 }; tl.fromTo(pc, { v: 33 }, { v: 66, duration: 0.4, ease: "power2.out", onUpdate: () => (document.querySelector("#pc1").textContent = Math.round(pc.v) + "%"), immediateRender: false }, 4.6);
+        const pc2 = { v: 66 }; tl.fromTo(pc2, { v: 66 }, { v: 100, duration: 0.6, ease: "power2.out", onUpdate: () => (document.querySelector("#pc1").textContent = Math.round(pc2.v) + "%"), immediateRender: false }, 5.6);
+        H.pulse(tl, "#lb1", 6.2, 1.1);
+
+        // ---- S2 (void): the screen rises, the name is typed, the switch flips on "Kowalski", the parts follow ----
+        H.rise(tl, "#scr2", 6.66);
+        tl.set("#ph2", { opacity: 1 }, 0); tl.set("#ph2", { opacity: 0 }, 7.1);
+        H.type(tl, "#q2", "kowalski", 7.1, 12);
+        H.hide(tl, ["#rk", ".r2"]);
+        H.pop(tl, "#rk", 7.95);
+        H.select(tl, "#rk", 8.3);
+        H.toggle(tl, "#tg0", 8.8);
+        H.rise(tl, ".r2", 9.0, 0.12);
+        H.toggle(tl, "#tg1", 9.3); H.toggle(tl, "#tg2", 9.45); H.toggle(tl, "#tg3", 9.6);
+
+        // ---- S3 (face, punched): the payoff word glows violet on "למטורף" and holds ----
+        H.glow(tl, "#g1", 11.1, 12.1, 12.9);
+
+        // ---- CTA: '"KOWALSKI" ואני שולח לכם' ----
+        H.glow(tl, "#g2", 14.6, 14.9, null);
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+
+      /* S0: a real site in a browser card */
+      #site0 { left: 110px; width: 860px; top: 660px; height: 560px; }
+      .site { position: relative; height: 496px; direction: rtl; }
+      .site h3 { position: absolute; right: 40px; top: 46px; margin: 0; font-size: 66px; line-height: 1.02; font-weight: 800; white-space: pre; letter-spacing: -2px; }
+      .site p { position: absolute; right: 42px; top: 200px; margin: 0; font-size: 32px; font-weight: 500; color: var(--b-ink-soft); }
+      .site .btn { position: absolute; right: 40px; bottom: 50px; height: 76px; padding: 0 36px; border-radius: 38px; background: var(--b-ink); color: #fff; font-size: 34px; font-weight: 800; display: flex; align-items: center; border: 4px solid var(--b-ink); }
+      .site .img { position: absolute; left: 36px; top: 40px; width: 300px; height: 410px; border-radius: 14px; border: 4px solid var(--b-ink); background: linear-gradient(#f3c7a8 0 58%, #a8643c 58% 100%); overflow: hidden; }
+      .site .img i { position: absolute; left: 50px; top: 60px; width: 90px; height: 90px; border-radius: 50%; background: #fff6e8; display: block; }
+      .site .img b { position: absolute; left: 150px; top: 170px; width: 110px; height: 70px; background: #fff6e8; border-radius: 10px 10px 0 0; display: block; }
+
+      /* S1: the skill's checklist */
+      #list1 { left: 110px; width: 860px; top: 660px; }
+      #list1 .row { min-height: 120px; font-size: 46px; }
+      #list1 .row .n { width: 60px; height: 60px; font-size: 30px; }
+      #list1 .slot { margin-right: auto; width: 54px; height: 54px; position: relative; flex: none; }
+      #list1 .slot > * { position: absolute; inset: 0; }
+      #list1 .slot svg { width: 100%; height: 100%; display: block; }
+      #list1 .foot { display: flex; justify-content: space-between; align-items: center; padding: 20px 6px 4px; border-top: 2px solid rgba(29, 26, 23, 0.1); direction: ltr; }
+      #list1 .foot span { font-family: var(--b-mono); font-size: 24px; color: var(--b-ink-soft); letter-spacing: 1px; }
+
+      /* S2: the install */
+      #term2 { left: 90px; width: 900px; top: 680px; height: 560px; }
+      #term2 .ln { display: flex; gap: 16px; align-items: center; min-height: 66px; }
+      #term2 .b-meter { margin-top: 22px; }
+      #kw2.b-sel { background: rgba(228, 108, 86, 0.35); }
+
+      /* S3: before / after */
+      #bef3 { left: 560px; width: 430px; top: 650px; height: 330px; }
+      #bef3 .site { height: 266px; } #bef3 .site p { top: 100px; right: 30px; font-size: 28px; font-family: "Times New Roman", serif; letter-spacing: 0; }
+      #aft3 { left: 90px; width: 620px; top: 760px; height: 480px; }
+      #bef3 .site h3 { font-family: "Times New Roman", serif; font-weight: 400; font-size: 44px; letter-spacing: 0; top: 40px; right: 30px; }
+      #bef3 .site .btn { background: #ddd; color: #555; border: 0; border-radius: 0; height: 56px; font-size: 26px; padding: 0 22px; bottom: 30px; right: 30px; }
+      #aft3 .site { height: 408px; } #aft3 .site h3 { font-size: 58px; top: 36px; right: 34px; }
+      #aft3 .site .img { width: 220px; height: 300px; left: 30px; top: 34px; }
+      #aft3 .site .btn { background: var(--b-coral); border-color: var(--b-coral); bottom: 40px; right: 34px; }
+      .lab { position: absolute; font-family: var(--b-mono); font-size: 26px; letter-spacing: 2px; direction: ltr; height: 48px; padding: 0 18px; display: flex; align-items: center; border: 3px solid var(--b-ink); border-radius: 24px; background: #fff; z-index: 8; }
+      .lab.coral { background: var(--b-coral); color: #fff; border-color: var(--b-coral); }
+      #crossB { position: absolute; width: 72px; height: 72px; left: 900px; top: 870px; z-index: 9; }
+      #crossB svg, .ic svg { width: 100%; height: 100%; display: block; }
+      #wow3 { position: absolute; left: 700px; width: 360px; top: 1060px; text-align: center; z-index: 9; font-size: 0; }
+      #wow3 span { display: inline-block; font-family: var(--b-serif); font-weight: 700; font-size: 112px; line-height: 1.1; color: var(--b-coral); transform: skewX(-11deg); padding: 0 18px; }
+
+      /* S4: comment */
+      #in4 { position: absolute; left: 90px; right: 90px; top: 760px; }
+      #rep4 { left: 90px; right: 90px; top: 920px; }
+      #rep4 .row { min-height: 110px; font-size: 40px; }
+      #rep4 .ic { width: 54px; height: 54px; margin-right: auto; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="b-root" data-composition-id="main" data-start="0" data-duration="17.2" data-width="1080" data-height="1920">
+      <div class="b-page"></div>
+      <div class="b-head"><i></i>@refaelleviii<div class="prog"><b id="prog"></b></div></div>
+
+      <!-- S0 (0–2.9): opening visual — a real site lands, the cursor presses its button, "טוב" lands in coral -->
+      <div id="s0" class="b-scene">
+        <div id="t0" class="b-title">אתרים שנראים <em>טוב.</em></div>
+        <div id="site0" class="b-card aa"><div class="bar"><i></i><i></i><i></i><span>studio-bait.co.il</span></div>
+          <div class="site"><div class="img" id="img0"><i></i><b></b></div><h3 id="h0">עיצוב פנים
+שמרגיש בית</h3><p id="p0">40 פרויקטים בשנה</p><span class="btn" id="btn0">לתיאום פגישה</span></div></div>
+      </div>
+
+      <!-- S1 (2.9–6.6): the checklist — each feature row goes active on its word, the spinner turns into a tick -->
+      <div id="s1" class="b-scene">
+        <div class="b-water">03</div>
+        <div class="b-step"><span>STEP 1/3</span><div class="seg"><b id="sg1"></b></div><div class="seg"><b id="sg2"></b></div><div class="seg"><b id="sg3"></b></div></div>
+        <div id="t1" class="b-title">מה הסקיל <em>נותן?</em></div>
+        <div id="list1" class="b-card aa"><div class="bar"><i></i><i></i><i></i><span>kowalski · skill</span></div>
+          <div class="body">
+            <div class="row" id="r1"><span class="n" id="n1">1</span>Motion<div class="slot"><span id="sp1"></span><span id="ok1"></span></div></div>
+            <div class="row" id="r2"><span class="n" id="n2">2</span>מעברים בין עמודים<div class="slot"><span id="sp2"></span><span id="ok2"></span></div></div>
+            <div class="row" id="r3"><span class="n" id="n3">3</span>מבנה וגריד<div class="slot"><span id="sp3"></span><span id="ok3"></span></div></div>
+            <div class="foot"><span>3 / 3 FEATURES</span><span class="tag green" id="done1" style="display:inline-flex;height:46px;padding:0 18px;border-radius:23px;background:var(--b-green);color:#fff;font-family:var(--b-mono);font-size:24px;align-items:center">✓ READY</span></div>
+          </div></div>
+      </div>
+
+      <!-- S2 (6.6–9.9): the install — typed command, real output, a meter fills, the name gets the selection box -->
+      <div id="s2" class="b-scene">
+        <div id="t2" class="b-title">סקיל <em>אחד.</em></div>
+        <div id="term2" class="b-card term aa"><div class="bar"><i></i><i></i><i></i><span>claude code · terminal</span></div>
+          <div class="body">
+            <div class="mono" style="height: 76px">› <span id="cmd2"></span></div>
+            <div class="ln mono o2"><span class="ok">✓</span>motion presets</div>
+            <div class="ln mono o2"><span class="ok">✓</span>page transitions</div>
+            <div class="ln mono o2"><span class="ok">✓</span>layout system</div>
+            <div class="ln mono o2">installed: <span id="kw2">kowalski</span></div>
+            <div class="b-meter" id="met2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div></div>
+      </div>
+
+      <!-- S3 (9.9–12.9): before → after; the payoff "למטורף" is the biggest thing on the board -->
+      <div id="s3" class="b-scene">
+        <div id="t3" class="b-title">האתר <em>שלכם.</em></div>
+        <div id="bef3" class="b-card warm aa"><div class="bar"><i></i><i></i><i></i></div>
+          <div class="site"><h3>עיצוב פנים</h3><p>ברוכים הבאים לאתר שלנו</p><span class="btn">צור קשר</span></div></div>
+        <div class="lab" id="lbB" style="left: 846px; top: 626px">BEFORE</div>
+        <div id="crossB" class="ic"></div>
+        <div id="aft3" class="b-card coral aa"><div class="bar"><i></i><i></i><i></i><span>studio-bait.co.il</span></div>
+          <div class="site"><div class="img"><i id="sun3"></i><b></b></div><h3>עיצוב פנים
+שמרגיש בית</h3><span class="btn">לתיאום פגישה</span></div></div>
+        <div class="lab coral" id="lbA" style="left: 110px; top: 736px">AFTER</div>
+        <div id="wow3"><span class="b-sel" id="wowW">מטורף.</span></div>
+      </div>
+
+      <!-- 12.9–14.5: the speaker as a card on the board (contributor 67166, translated) -->
+      <div id="s5" class="b-scene">
+        <div id="t5" class="b-title">כל מה <em>שצריך:</em></div>
+      </div>
+      <div id="faceC" class="b-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video></div>
+
+      <!-- S4 (14.5–17.2): comment the word, the reply lands and goes green -->
+      <div id="s4" class="b-scene">
+        <div id="t4" class="b-title">תגיבו <em lang="en">Kowalski</em></div>
+        <div id="in4" class="b-input aa"><span class="av"></span><span id="typed4"></span><span class="caret" id="car4"></span><span class="go" id="go4"></span></div>
+        <div id="rep4" class="b-card aa"><div class="body"><div class="row"><span class="n on">✉</span>שלחתי לך את הסקיל<span class="ic" id="ok4"></span></div></div></div>
+      </div>
+
+      <!-- the mascot + its reactions (one crab, it travels between scenes) -->
+      <div id="crab" class="b-mascot"></div>
+      <div id="rHeart" class="b-pop"></div><div id="rStar" class="b-pop"></div><div id="rCheck" class="b-pop"></div><div id="rBang" class="b-pop"></div>
+      <div id="cur" class="b-cursor"></div>
+
+      <div id="caps" class="b-caps"></div>
+      <div id="pix" class="b-pix"></div>
+      <div id="irisC" class="b-iris"></div><div id="irisP" class="b-iris paper"></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="17.2" data-track-index="10" data-volume="1"></audio>
+      <audio id="sfx0" src="assets/theme/sfx/thock.wav" data-start="0.35" data-duration="0.16" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="sfx1" src="assets/theme/sfx/pop.wav" data-start="0.6" data-duration="0.12" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx2" src="assets/theme/sfx/pop.wav" data-start="0.75" data-duration="0.12" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx3" src="assets/theme/sfx/pop.wav" data-start="0.9" data-duration="0.12" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx4" src="assets/theme/sfx/pop.wav" data-start="1.05" data-duration="0.12" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx5" src="assets/theme/sfx/hop.wav" data-start="0.7" data-duration="0.14" data-track-index="12" data-volume="0.25"></audio>
+      <audio id="sfx6" src="assets/theme/sfx/click.wav" data-start="1.9" data-duration="0.05" data-track-index="11" data-volume="0.4"></audio>
+      <audio id="sfx7" src="assets/theme/sfx/snap.wav" data-start="2.2" data-duration="0.12" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx8" src="assets/theme/sfx/ding.wav" data-start="2.2" data-duration="0.7" data-track-index="12" data-volume="0.15"></audio>
+      <audio id="sfx9" src="assets/theme/sfx/pixels.wav" data-start="2.62" data-duration="0.55" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx10" src="assets/theme/sfx/thock.wav" data-start="3.0" data-duration="0.16" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sfx11" src="assets/theme/sfx/tick.wav" data-start="3.2" data-duration="0.03" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx12" src="assets/theme/sfx/tick.wav" data-start="3.65" data-duration="0.03" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx13" src="assets/theme/sfx/tick.wav" data-start="4.5" data-duration="0.03" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx14" src="assets/theme/sfx/tick.wav" data-start="4.95" data-duration="0.03" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx15" src="assets/theme/sfx/tick.wav" data-start="5.4" data-duration="0.03" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx16" src="assets/theme/sfx/tick.wav" data-start="5.85" data-duration="0.03" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx17" src="assets/theme/sfx/hop.wav" data-start="5.95" data-duration="0.14" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx18" src="assets/theme/sfx/ding.wav" data-start="6.0" data-duration="0.7" data-track-index="12" data-volume="0.22"></audio>
+      <audio id="sfx19" src="assets/theme/sfx/iris.wav" data-start="6.32" data-duration="0.4" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx20" src="assets/theme/sfx/thock.wav" data-start="6.72" data-duration="0.16" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sfx21" src="assets/theme/sfx/key.wav" data-start="7.0" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx22" src="assets/theme/sfx/key.wav" data-start="7.25" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx23" src="assets/theme/sfx/key.wav" data-start="7.5" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx24" src="assets/theme/sfx/key.wav" data-start="7.75" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx25" src="assets/theme/sfx/key.wav" data-start="8.0" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx26" src="assets/theme/sfx/tick.wav" data-start="8.1" data-duration="0.03" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx27" src="assets/theme/sfx/tick.wav" data-start="8.25" data-duration="0.03" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx28" src="assets/theme/sfx/tick.wav" data-start="8.4" data-duration="0.03" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx29" src="assets/theme/sfx/tick.wav" data-start="8.6" data-duration="0.03" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx30" src="assets/theme/sfx/snap.wav" data-start="8.8" data-duration="0.12" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx31" src="assets/theme/sfx/pop.wav" data-start="8.8" data-duration="0.12" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx32" src="assets/theme/sfx/pixels.wav" data-start="9.62" data-duration="0.55" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx33" src="assets/theme/sfx/thock.wav" data-start="10.0" data-duration="0.16" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sfx34" src="assets/theme/sfx/pop.wav" data-start="10.75" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx35" src="assets/theme/sfx/thock.wav" data-start="11.1" data-duration="0.16" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="sfx36" src="assets/theme/sfx/hop.wav" data-start="11.45" data-duration="0.14" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx37" src="assets/theme/sfx/ding.wav" data-start="12.1" data-duration="0.7" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx38" src="assets/theme/sfx/snap.wav" data-start="12.15" data-duration="0.12" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx39" src="assets/theme/sfx/thock.wav" data-start="12.92" data-duration="0.16" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="sfx40" src="assets/theme/sfx/thock.wav" data-start="14.6" data-duration="0.16" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="sfx41" src="assets/theme/sfx/key.wav" data-start="14.85" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx42" src="assets/theme/sfx/key.wav" data-start="15.05" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx43" src="assets/theme/sfx/key.wav" data-start="15.25" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx44" src="assets/theme/sfx/click.wav" data-start="15.4" data-duration="0.05" data-track-index="11" data-volume="0.4"></audio>
+      <audio id="sfx45" src="assets/theme/sfx/thock.wav" data-start="15.55" data-duration="0.16" data-track-index="11" data-volume="0.4"></audio>
+      <audio id="sfx46" src="assets/theme/sfx/hop.wav" data-start="15.6" data-duration="0.14" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx47" src="assets/theme/sfx/ding.wav" data-start="16.05" data-duration="0.7" data-track-index="11" data-volume="0.22"></audio>
+    </div>
+    <script>
+      const WORDS = [{"text": "אם", "start": 0.24, "end": 0.34}, {"text": "אתם", "start": 0.36, "end": 0.56}, {"text": "רוצים", "start": 0.58, "end": 0.8}, {"text": "לבנות", "start": 0.82, "end": 1.14}, {"text": "אתרים", "start": 1.18, "end": 1.6}, {"text": "שנראים", "start": 1.66, "end": 2.08}, {"text": "טוב", "start": 2.22, "end": 2.9}, {"text": "עם", "start": 2.94, "end": 3.08}, {"text": "motion,", "start": 3.16, "end": 3.76}, {"text": "מעברים", "start": 4.46, "end": 5.34}, {"text": "ומבנה", "start": 5.42, "end": 5.96}, {"text": "כמו", "start": 6.0, "end": 6.16}, {"text": "שצריך,", "start": 6.2, "end": 6.62}, {"text": "אתם", "start": 6.68, "end": 6.839}, {"text": "צריכים", "start": 6.919, "end": 7.1}, {"text": "להתקין", "start": 7.14, "end": 7.6}, {"text": "skill", "start": 7.86, "end": 8.24}, {"text": "שנקרא", "start": 8.3, "end": 8.7}, {"text": "Kowalski.", "start": 8.76, "end": 9.46}, {"text": "הסקיל", "start": 9.96, "end": 10.34}, {"text": "הזה", "start": 10.36, "end": 10.68}, {"text": "בעצם", "start": 10.74, "end": 11.1}, {"text": "הופך", "start": 11.12, "end": 11.38}, {"text": "את", "start": 11.38, "end": 11.44}, {"text": "האתר", "start": 11.48, "end": 11.7}, {"text": "שלכם", "start": 11.8, "end": 12.08}, {"text": "למטורף.", "start": 12.1, "end": 12.76}, {"text": "כל", "start": 13.34, "end": 13.44}, {"text": "מה", "start": 13.48, "end": 13.54}, {"text": "שאתם", "start": 13.58, "end": 13.74}, {"text": "צריכים", "start": 13.78, "end": 13.94}, {"text": "לעשות", "start": 13.98, "end": 14.4}, {"text": "זה", "start": 14.42, "end": 14.5}, {"text": "להגיב", "start": 14.56, "end": 14.84}, {"text": "לי", "start": 14.879, "end": 14.98}, {"text": "פה", "start": 15.039, "end": 15.14}, {"text": "ואני", "start": 15.2, "end": 15.36}, {"text": "שולח", "start": 15.4, "end": 15.7}, {"text": "לכם", "start": 15.76, "end": 16.0}, {"text": "את", "start": 16.02, "end": 16.14}, {"text": "זה.", "start": 16.18, "end": 16.34}];
+      const B = window.BOARD;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        // ---- art ----
+        $("#crab").innerHTML = B.ART.crabPair;
+        B.art("#rHeart", "heart"); B.art("#rStar", "star"); B.art("#rCheck", "check"); B.art("#rBang", "bang");
+        B.art(["#sp1", "#sp2", "#sp3"], "spin"); B.art(["#ok1", "#ok2", "#ok3", "#ok4"], "tick"); B.art("#crossB", "cross");
+        B.art("#cur", "cursor"); B.art("#go4", "send");
+
+        // ---- scenes (transitions: pixels at 2.9 and 9.9, iris at 6.6) ----
+        const sw1 = B.pixels(tl, "#pix", 2.62, 7);       // switch ≈ 2.88
+        const sw2 = B.iris(tl, "#irisC", "#irisP", 6.32, [540, 900]); // switch 6.62
+        const sw3 = B.pixels(tl, "#pix", 9.62, 11);      // second use of the same grid: re-seeded times
+        B.scene(tl, "#s0", 0, sw1); B.scene(tl, "#s1", sw1, sw2); B.scene(tl, "#s2", sw2, sw3); B.scene(tl, "#s3", sw3, 12.92);
+        B.scene(tl, "#s5", 12.92, 14.5); B.scene(tl, "#s4", 14.5);
+        tl.set("#faceC", { opacity: 0 }, 0);
+        B.progress(tl, "#prog", 0.1, 0.18); B.progress(tl, "#prog", sw1, 0.38); B.progress(tl, "#prog", sw2, 0.56); B.progress(tl, "#prog", sw3, 0.74); B.progress(tl, "#prog", 12.92, 0.86); B.progress(tl, "#prog", 14.5, 1);
+        tl.set("#prog", { scaleX: 0, transformOrigin: "0% 50%" }, 0);
+
+        B.captions(tl, "#caps", WORDS, { maxWords: 3 });
+
+        // ---- S0: the site lands, its parts pop, the cursor presses the button, "טוב." lands ----
+        B.title(tl, "#t0", 0.15, 0.12);
+        B.drop(tl, "#site0", 0.35);
+        B.pop(tl, ["#img0", "#h0", "#p0", "#btn0"], [0.6, 0.75, 0.9, 1.05]);
+        B.cursor(tl, "#cur", [[900, 1500, 1.2], [760, 1150, 1.85]], [1.9], { end: 2.75 });
+        B.press(tl, "#btn0", 1.9);
+        // crab: peeks over the card's top-right corner, reacts on "טוב"
+        B.place(tl, "#crab", 800, 556); B.peek(tl, "#crab", 0.7, 60); B.idle(tl, "#crab", 1.0, 2.1);
+        tl.set("#rHeart", { x: 840, y: 500 }, 0); B.react(tl, "#rHeart", 2.2, 0.55); B.snap(tl, "#crab", 2.2, 2);
+
+        // ---- S1: rows on their words, step segments fill, all ready on "כמו שצריך" ----
+        B.title(tl, "#t1", sw1 + 0.05, 0.1);
+        B.drop(tl, "#list1", sw1 + 0.12);
+        ["#ok1", "#ok2", "#ok3"].forEach((s) => tl.set(s, { opacity: 0 }, 0));
+        [[1, 3.2], [2, 4.5], [3, 5.4]].forEach(([i, t]) => {
+          B.swapClass(tl, "#r" + i, t, "act"); B.swapClass(tl, "#n" + i, t, "on");
+          B.spin(tl, "#sp" + i, sw1, t + 0.45); B.swap(tl, "#sp" + i, "#ok" + i, t + 0.45);
+          B.swapClass(tl, "#r" + i, t + 0.9 > 6.0 ? 6.0 : t + 0.9, null, "act");
+          B.fill(tl, "#sg" + i, t, 0.4);
+        });
+        B.pop(tl, "#done1", 6.0);
+        tl.set("#crab", { x: 820, y: 556 }, sw1); B.hop(tl, "#crab", 5.95, 660, 556, 110);
+        tl.set("#rCheck", { x: 700, y: 490 }, 0); B.react(tl, "#rCheck", 6.2, 0.4);
+
+        // ---- S2: typed command, output, meter, the name selected on "Kowalski" ----
+        B.title(tl, "#t2", sw2 + 0.05, 0.1);
+        B.drop(tl, "#term2", sw2 + 0.1);
+        B.type(tl, "#cmd2", "/plugin install kowalski", 7.0, 22);
+        B.hide(tl, ".o2"); B.rows(tl, ".o2", [8.1, 8.25, 8.4, 8.6]);
+        B.meter(tl, "#met2", 8.05, 30, 0.022);
+        B.select(tl, "#kw2", 8.8);
+        tl.set("#crab", { x: 830, y: 576 }, sw2 - 0.01); B.snap(tl, "#crab", 8.8, 3);
+        tl.set("#rBang", { x: 870, y: 520 }, 0); B.react(tl, "#rBang", 8.85, 0.5);
+
+        // ---- S3: before (plain) gets crossed, after lands on "הופך", the payoff on "למטורף" ----
+        B.title(tl, "#t3", sw3 + 0.05, 0.1);
+        B.drop(tl, "#bef3", sw3 + 0.12); B.pop(tl, "#lbB", sw3 + 0.3);
+        B.pop(tl, "#crossB", 10.75);
+        B.drop(tl, "#aft3", 11.1); B.pop(tl, "#lbA", 11.3);
+        tl.fromTo("#sun3", { y: 40 }, { y: 0, duration: 0.6, ease: "power2.out", immediateRender: false }, 11.3);
+        tl.set("#wowW", { opacity: 0 }, 0); tl.fromTo("#wowW", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.4)", immediateRender: false }, 12.1);
+        tl.set("#crab", { x: 640, y: 554 }, sw3 - 0.01); B.hop(tl, "#crab", 11.45, 480, 664, 120);
+        tl.set("#rStar", { x: 520, y: 600 }, 0); B.react(tl, "#rStar", 12.15, 0.6); B.snap(tl, "#crab", 12.15, 3);
+
+        // ---- face card ----
+        B.title(tl, "#t5", 12.97, 0.1);
+        tl.set("#faceC", { opacity: 1 }, 12.92); tl.fromTo("#faceC", { y: -70, scale: 0.96 }, { y: 0, scale: 1, duration: 0.38, ease: "back.out(1.6)", immediateRender: false }, 12.92);
+        tl.set("#faceC", { opacity: 0 }, 14.5);
+        tl.set("#crab", { x: 820, y: 548 }, 12.91);
+
+        // ---- S4: CTA ----
+        B.title(tl, "#t4", 14.55, 0.12);
+        B.drop(tl, "#in4", 14.6);
+        B.type(tl, "#typed4", "KOWALSKI", 14.85, 16);
+        tl.set("#car4", { opacity: 1 }, 0); tl.set("#car4", { opacity: 0 }, 15.4);
+        B.press(tl, "#go4", 15.4);
+        tl.set("#ok4", { opacity: 0 }, 0);
+        B.drop(tl, "#rep4", 15.55);
+        B.pop(tl, "#ok4", 16.05);
+        tl.set("#crab", { x: 120, y: 664 }, 14.49); B.hop(tl, "#crab", 15.6, 130, 828, 100);
+        tl.set("#rHeart", { x: 166, y: 770 }, 16.1); B.react(tl, "#rHeart", 16.15, 0.8);
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

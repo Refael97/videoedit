@@ -1,0 +1,87 @@
+/* neon-studio theme: layouts, surfaces and building blocks. Needs tokens.css. Read language.md first. */
+
+.s-root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--s-font); direction: rtl; color: #fff; letter-spacing: var(--s-track); background: #000; }
+.aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+/* ===================== LAYOUTS (switched by NEONSTUDIO.layout) ===================== */
+/* the studio: the footage, full frame. split moves it down so the face fills the bottom half */
+.s-face { position: absolute; inset: 0; z-index: 1; overflow: hidden; }
+.s-face video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 0; }
+/* the top half in split: an ambient backdrop (default) or the page; it is clipped to 0..seam by the layout */
+.s-top { position: absolute; inset: 0; z-index: 2; overflow: hidden; }
+/* ambient: a blurred, darkened, saturated copy of the media behind it */
+.s-amb { position: absolute; inset: -80px; overflow: hidden; background: #0b0b10; }
+.s-amb > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(var(--s-amb-blur)) brightness(var(--s-amb-dim)) saturate(1.4); transform: scale(1.15); }
+/* page: warm off-white (light UI lives here) */
+.s-page { position: absolute; inset: 0; background: var(--s-page); color: var(--s-ink); }
+.s-page.cool { background: var(--s-page-cool); }
+/* a scene is one composition; only one is visible at a time */
+.s-scene { position: absolute; inset: 0; }
+/* the soft shadow at the seam in split so the media half and the face half read as two panes */
+.s-seam { position: absolute; left: 0; right: 0; top: 930px; height: 60px; z-index: 3; pointer-events: none; opacity: 0; background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.55) 50%, rgba(0, 0, 0, 0)); }
+
+/* ===================== TEXT ===================== */
+/* captions: a white line + (optionally) the yellow keyword under it; words blur in one by one */
+.s-caps { position: absolute; left: 0; right: 0; top: 0; height: 0; z-index: 30; }
+.s-cap { position: absolute; left: 40px; right: 40px; text-align: center; white-space: pre; opacity: 0; transform: translateY(-50%); }
+.s-cap .l1 { display: block; font-size: var(--s-cap); font-weight: 800; line-height: 1.05; color: #fff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45), 0 4px 22px rgba(0, 0, 0, 0.6); }
+.s-cap .l2 { display: block; font-size: var(--s-cap-key); font-weight: 800; line-height: 1.0; color: var(--s-yellow); text-shadow: 0 4px 18px rgba(0, 0, 0, 0.5); }
+.s-cap .l2.big { font-size: var(--s-cap-big); line-height: 0.95; }
+.s-cap .w { display: inline-block; }
+.s-cap.ink .l1 { color: var(--s-ink); text-shadow: none; }            /* on the page */
+.s-cap.ink .l2 { color: var(--s-ink); text-shadow: none; }
+/* the thin keyword (CTA): thin italic yellow, huge, stays while the white line above changes */
+.s-key { position: absolute; left: 0; right: 0; z-index: 31; text-align: center; font-family: var(--s-thin); font-weight: 300; font-size: var(--s-cap-big); line-height: 1; color: var(--s-yellow); white-space: pre; text-shadow: 0 4px 22px rgba(0, 0, 0, 0.45); transform: translateY(-50%); }
+.s-key span { display: inline-block; transform: skewX(var(--s-thin-slant)); }
+.s-key span:lang(en) { transform: none; }
+
+/* page text */
+.s-title { position: absolute; left: 60px; right: 60px; top: var(--s-title-top); text-align: center; font-size: var(--s-title); font-weight: 800; color: var(--s-ink); white-space: pre; }
+.s-head { position: absolute; left: 50px; right: 50px; top: var(--s-head-top); text-align: center; font-size: var(--s-head); font-weight: 800; line-height: 1.02; color: var(--s-ink); white-space: pre; }
+.s-head .b { color: var(--s-blue); display: block; }
+
+/* ===================== SURFACES ===================== */
+/* media frame: a screenshot / b-roll / site, rounded, thin light edge (on the ambient backdrop) */
+.s-media { position: absolute; border-radius: var(--s-r-card); overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.16); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55); background: #111; }
+/* card: a real UI window on the page (white, soft shadow) */
+.s-card { position: absolute; background: var(--s-card); border-radius: var(--s-r-card); border: 1px solid var(--s-card-edge); box-shadow: var(--s-card-shadow); color: var(--s-ink); font-size: var(--s-ui); font-weight: 600; overflow: hidden; letter-spacing: -0.3px; }
+.s-card .hd { display: flex; align-items: center; gap: 14px; height: 76px; padding: 0 28px; font-size: 32px; font-weight: 800; border-bottom: 1px solid var(--s-card-edge); }
+.s-card .bd { padding: 22px 28px; }
+.s-card .row { display: flex; align-items: center; gap: 18px; min-height: 84px; font-size: 32px; font-weight: 600; white-space: pre; }
+.s-card .row + .row { border-top: 1px solid var(--s-card-edge); }
+.s-card .ck { margin-right: auto; width: 46px; height: 46px; border-radius: 50%; background: #e7e7ec; display: flex; align-items: center; justify-content: center; color: #fff; flex: none; }
+.s-card .ck svg { width: 28px; height: 28px; opacity: 0; }
+.s-card .ck.on { background: var(--s-green); } .s-card .ck.on svg { opacity: 1; }
+.s-card .mono { font-family: var(--s-mono); direction: ltr; font-size: 30px; font-weight: 500; white-space: pre; }
+.s-card .mk { background-image: linear-gradient(var(--s-yellow-mark), var(--s-yellow-mark)); background-repeat: no-repeat; background-position: right center; background-size: 0% 100%; padding: 0 6px; border-radius: 3px; }
+.s-card .mk[dir="ltr"], [dir="ltr"] .mk { background-position: left center; }
+.s-card .typed { min-height: 44px; font-size: 36px; font-weight: 600; white-space: pre-wrap; }
+.s-card .caret { display: inline-block; width: 3px; height: 1em; background: var(--s-blue); vertical-align: -0.12em; margin: 0 2px; }
+/* pill: a state ("● פועל", "✓ 3 מתוך 3") */
+.s-pill { position: absolute; height: 58px; padding: 0 24px; border-radius: 29px; background: #e8f7ee; color: #148a45; font-size: 30px; font-weight: 800; display: flex; align-items: center; gap: 10px; white-space: pre; transform: translateX(50%); box-shadow: 0 6px 16px rgba(20, 138, 69, 0.18); }
+.s-pill.blue { background: #e6eeff; color: var(--s-blue); box-shadow: 0 6px 16px rgba(7, 79, 250, 0.18); }
+/* black pill button (the action you do) */
+.s-btn { position: absolute; height: 74px; padding: 0 38px; border-radius: 37px; background: #111; color: #fff; font-size: 36px; font-weight: 800; display: flex; align-items: center; white-space: pre; transform: translateX(50%); }
+/* progress: blue bar + percentage */
+.s-prog { position: relative; height: 18px; border-radius: 9px; background: #e9ecf3; overflow: hidden; }
+.s-prog i { position: absolute; right: 0; top: 0; bottom: 0; width: 100%; border-radius: 9px; background: var(--s-blue); transform-origin: 100% 50%; }
+.s-prog[dir="ltr"] i { left: 0; right: auto; transform-origin: 0 50%; }
+.s-pct { font-size: 34px; font-weight: 800; color: var(--s-blue); direction: ltr; }
+/* app tile (the subject as an object): rounded square, any brand-free glyph */
+.s-tile { position: absolute; width: 240px; height: 240px; border-radius: 56px; display: flex; align-items: center; justify-content: center; box-shadow: 0 26px 60px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.25); }
+.s-tile svg { width: 58%; height: 58%; }
+/* connectors (tree from one node to options), blue 3px */
+.s-ink { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; pointer-events: none; z-index: 4; }
+.s-ink .ln { fill: none; stroke: var(--s-blue); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.s-ink .nd { fill: var(--s-blue); }
+
+/* ===================== SPRITES (pixel art over the speaker) ===================== */
+.s-sprite { position: absolute; width: 195px; height: 150px; z-index: 32; image-rendering: pixelated; transform: translate(50%, -50%); }
+.s-sprite svg, .s-icon svg { width: 100%; height: 100%; display: block; shape-rendering: crispEdges; overflow: visible; }
+.s-icon { position: absolute; width: 84px; height: 84px; z-index: 33; transform: translate(50%, -50%); filter: drop-shadow(0 0 8px rgba(243, 200, 74, 0.55)); }
+.s-plabel { position: absolute; z-index: 33; height: 54px; padding: 0 16px; background: #111; border: 3px solid #fff; font-family: var(--s-pixel); font-weight: 700; font-size: 34px; color: #fff; display: flex; align-items: center; white-space: pre; transform: translate(50%, -50%); direction: ltr; box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5); }
+
+/* cursor */
+.s-cursor { position: absolute; left: 0; top: 0; width: 40px; height: 56px; z-index: 20; }
+.s-cursor svg { width: 40px; height: 56px; display: block; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4)); }
+.s-face.grade video { filter: brightness(0.8) contrast(1.08) saturate(1.05); }   /* bright footage: pull it toward the dark studio (language.md §5) */
