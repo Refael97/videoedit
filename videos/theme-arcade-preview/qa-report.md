@@ -12,7 +12,7 @@
 | ✓ | hero fill | median 70%, 0 weak ranges | >= 60% |
 | ✓ | collisions | 0 collisions | 0 |
 | ✓ | no placeholders | 0 found | 0 |
-| ✓ | hook visual | visual on screen 3.0s of the first 3s | >= 0.5s |
+| ✓ | hook visual | visual on screen 2.8s of the first 3s | >= 0.5s |
 
 ## FIX LIST
 

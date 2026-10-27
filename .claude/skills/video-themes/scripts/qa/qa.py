@@ -37,7 +37,7 @@ FIX = {
     "hero_empty": "the stage is empty here: put the hero on it or switch to the face layout",
     "cap_card": "move the caption off the card (card bottom >= 60px above the caption) or move the card",
     "face": "keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space",
-    "uniform": "uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it",
+    "uniform": "uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content",
     "flat_img": "image with almost no detail (grey box?): use a real frame / screenshot",
     "chart": "a chart needs real numbers: add axis values / the measured figures, or drop the chart",
     "hook": "open on a visual (the result, the thing itself, real thumbnails), not text alone",
@@ -276,6 +276,7 @@ def main():
     # C8 placeholders (pixels of the draft + charts without digits)
     F = draft_frames(draft)
     uni, flatimg, nochart = {}, {}, {}
+    prev_r = {}
     for s in S:
         i = min(len(F) - 1, int(round(s["t"] * 30)))
         fr = F[i]
@@ -290,11 +291,16 @@ def main():
                 crop = fr[y1:y2, x1:x2]
                 sd = float(crop.std())
                 key = b["id"] or b.get("cls") or b.get("tag")
+                pr = prev_r.get((kind, key)); prev_r[(kind, key)] = b["r"]
+                if pr is None or max(abs(u - v) for u, v in zip(pr, b["r"])) > 8:
+                    continue  # moving / just arrived: a placeholder is something that sits still
                 # a big panel is "mostly empty" when < 20% of its 12px cells carry any detail
                 ch, cw = (y2 - y1) // 6, (x2 - x1) // 6
                 cells = crop[:ch * 6, :cw * 6].reshape(ch, 6, cw, 6).std(axis=(1, 3)) if ch and cw else np.zeros(1)
-                busy = float((cells > 6).mean())
-                if kind == "box" and (sd < 5 or (w >= 250 and h >= 250 and busy < 0.2)):
+                # content extent: bounding box of the 12px cells that carry detail, as a share of the panel
+                bc = np.argwhere(cells > 6)
+                extent = ((np.ptp(bc[:, 0]) + 1) * (np.ptp(bc[:, 1]) + 1) / cells.size) if len(bc) else 0.0
+                if kind == "box" and (sd < 5 or (w >= 250 and h >= 250 and extent < 0.4)):
                     uni.setdefault(key, []).append(s["t"])
                 if kind == "media" and sd < 8:
                     flatimg.setdefault(key, []).append(s["t"])

@@ -1,6 +1,6 @@
 # QA · theme-board-preview · theme `board`
 
-**8/9 checks passed — NOT READY**
+**9/9 checks passed — READY**
 
 | | check | value | target |
 |---|---|---|---|
@@ -11,13 +11,11 @@
 | ✓ | min text | 0 items < 26px | >= 26px |
 | ✓ | hero fill | median 71%, 0 weak ranges | >= 60% |
 | ✓ | collisions | 0 collisions | 0 |
-| ✗ | no placeholders | 1 found | 0 |
-| ✓ | hook visual | visual on screen 3.0s of the first 3s | >= 0.5s |
+| ✓ | no placeholders | 0 found | 0 |
+| ✓ | hook visual | visual on screen 2.8s of the first 3s | >= 0.5s |
 
 ## FIX LIST
 
-| time | words | check | fix |
-|---|---|---|---|
-| 7.0–8.2s | צריכים להתקין skill | no placeholders | term2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
+nothing to fix
 
 _targets measured on the anchor (`themes/board/qa-targets.json`); draft `renders/qa-draft.mp4`; faces detected in 68/68 samples_

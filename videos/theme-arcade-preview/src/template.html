@@ -203,7 +203,7 @@
         tl.set("#fb", { textContent: "לעקוב" }, 0); tl.set("#fb", { textContent: "עוקבים ✓" }, 14.75);
         A.pulse(tl, "#fb", 14.75, 1.1);
         A.type(tl, "#cw", "KOWALSKI", 14.75, 16);
-        A.hide(tl, "#dm4"); A.rise(tl, "#dm4", 15.4);
+        A.hide(tl, "#dm4"); tl.fromTo("#dm4", { opacity: 0, y: -50, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, 15.4);  // drops from above: rising from below would cross the caption
         A.walk(tl, "#env4", 15.9, -400, 0.4);
         A.hide(tl, "#env4"); tl.set("#env4", { opacity: 1 }, 15.9);
 

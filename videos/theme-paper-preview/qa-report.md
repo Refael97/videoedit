@@ -12,13 +12,13 @@
 | ✓ | hero fill | median 80%, 0 weak ranges | >= 60% |
 | ✓ | collisions | 0 collisions | 0 |
 | ✗ | no placeholders | 1 found | 0 |
-| ✓ | hook visual | visual on screen 2.8s of the first 3s | >= 0.5s |
+| ✓ | hook visual | visual on screen 2.5s of the first 3s | >= 0.5s |
 
 ## FIX LIST
 
 | time | words | check | fix |
 |---|---|---|---|
 | 0.0–17.2s | אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה  | motion | more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words |
-| 7.0–9.2s | צריכים להתקין skill שנקרא Kowalski. | no placeholders | term2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
+| 7.2–8.2s | להתקין skill | no placeholders | term2: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content |
 
 _targets measured on the anchor (`themes/paper/qa-targets.json`); draft `renders/qa-draft.mp4`; faces detected in 68/68 samples_

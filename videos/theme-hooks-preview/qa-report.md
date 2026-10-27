@@ -1,6 +1,6 @@
 # QA · theme-hooks-preview · theme `hooks`
 
-**7/9 checks passed — NOT READY**
+**8/9 checks passed — NOT READY**
 
 | | check | value | target |
 |---|---|---|---|
@@ -11,7 +11,7 @@
 | ✓ | min text | 0 items < 26px | >= 26px |
 | ✓ | hero fill | median 83%, 0 weak ranges | >= 60% |
 | ✓ | collisions | 0 collisions | 0 |
-| ✗ | no placeholders | 1 found | 0 |
+| ✓ | no placeholders | 0 found | 0 |
 | ✓ | hook visual | visual on screen 2.8s of the first 3s | >= 0.5s |
 
 ## FIX LIST
@@ -19,6 +19,5 @@
 | time | words | check | fix |
 |---|---|---|---|
 | 0.0–17.2s | אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה  | motion | more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words |
-| 7.2–8.2s | להתקין skill | no placeholders | scr2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 
 _targets measured on the anchor (`themes/hooks/qa-targets.json`); draft `renders/qa-draft.mp4`; faces detected in 68/68 samples_

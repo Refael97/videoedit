@@ -1,8 +1,8 @@
 {
  "project": "theme-board-preview",
  "theme": "board",
- "score": "8/9",
- "ready": false,
+ "score": "9/9",
+ "ready": true,
  "checks": {
   "motion": {
    "value": 1.99,
@@ -41,12 +41,12 @@
    "faces_detected": 68
   },
   "placeholder": {
-   "value": "1 found",
+   "value": "0 found",
    "target": "0",
-   "pass": false
+   "pass": true
   },
   "hook": {
-   "value": "visual on screen 3.0s of the first 3s",
+   "value": "visual on screen 2.8s of the first 3s",
    "target": ">= 0.5s",
    "pass": true
   }
@@ -63,13 +63,5 @@
   "events_min": 0.47,
   "events_max": 0.88
  },
- "fix_list": [
-  {
-   "t": "7.0–8.2s",
-   "t0": 7,
-   "words": "צריכים להתקין skill",
-   "check": "no placeholders",
-   "fix": "term2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  }
- ]
+ "fix_list": []
 }

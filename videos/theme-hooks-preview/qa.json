@@ -1,7 +1,7 @@
 {
  "project": "theme-hooks-preview",
  "theme": "hooks",
- "score": "7/9",
+ "score": "8/9",
  "ready": false,
  "checks": {
   "motion": {
@@ -41,9 +41,9 @@
    "faces_detected": 68
   },
   "placeholder": {
-   "value": "1 found",
+   "value": "0 found",
    "target": "0",
-   "pass": false
+   "pass": true
   },
   "hook": {
    "value": "visual on screen 2.8s of the first 3s",
@@ -70,13 +70,6 @@
    "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
    "check": "motion",
    "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
-  },
-  {
-   "t": "7.2–8.2s",
-   "t0": 7.25,
-   "words": "להתקין skill",
-   "check": "no placeholders",
-   "fix": "scr2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
   }
  ]
 }

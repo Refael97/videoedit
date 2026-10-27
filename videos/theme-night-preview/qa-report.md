@@ -1,6 +1,6 @@
 # QA · theme-night-preview · theme `night`
 
-**6/9 checks passed — NOT READY**
+**7/9 checks passed — NOT READY**
 
 | | check | value | target |
 |---|---|---|---|
@@ -11,7 +11,7 @@
 | ✓ | min text | 0 items < 26px | >= 26px |
 | ✗ | hero fill | median 74%, 1 weak ranges | >= 60% |
 | ✓ | collisions | 0 collisions | 0 |
-| ✗ | no placeholders | 1 found | 0 |
+| ✓ | no placeholders | 0 found | 0 |
 | ✓ | hook visual | visual on screen 3.0s of the first 3s | >= 0.5s |
 
 ## FIX LIST
@@ -21,7 +21,6 @@
 | 2.0–2.8s | שנראים טוב | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 4.1–4.7s | מעברים | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 6.9–7.4s | צריכים להתקין | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
-| 7.0–9.0s | צריכים להתקין skill שנקרא Kowalski. | no placeholders | doc2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 | 9.2–9.8s | Kowalski. | hero fill | fill 5%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width) |
 | 10.0–11.1s | הסקיל הזה בעצם | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 12.2–12.9s | למטורף. | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |

@@ -1,7 +1,7 @@
 {
  "project": "theme-glass-preview",
  "theme": "glass",
- "score": "4/9",
+ "score": "5/9",
  "ready": false,
  "checks": {
   "motion": {
@@ -41,9 +41,9 @@
    "faces_detected": 74
   },
   "placeholder": {
-   "value": "1 found",
+   "value": "0 found",
    "target": "0",
-   "pass": false
+   "pass": true
   },
   "hook": {
    "value": "visual on screen 2.8s of the first 3s",
@@ -105,13 +105,6 @@
    "words": "",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "11.0–11.5s",
-   "t0": 11,
-   "words": "רשימה קופצת.",
-   "check": "no placeholders",
-   "fix": "side: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
   },
   {
    "t": "12.0–12.9s",

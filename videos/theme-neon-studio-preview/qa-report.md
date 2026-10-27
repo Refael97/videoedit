@@ -1,6 +1,6 @@
 # QA · theme-neon-studio-preview · theme `neon-studio`
 
-**7/9 checks passed — NOT READY**
+**8/9 checks passed — NOT READY**
 
 | | check | value | target |
 |---|---|---|---|
@@ -11,7 +11,7 @@
 | ✓ | min text | 0 items < 26px | >= 26px |
 | ✓ | hero fill | median 78%, 0 weak ranges | >= 60% |
 | ✓ | collisions | 0 collisions | 0 |
-| ✗ | no placeholders | 4 found | 0 |
+| ✓ | no placeholders | 0 found | 0 |
 | ✓ | hook visual | visual on screen 2.8s of the first 3s | >= 0.5s |
 
 ## FIX LIST
@@ -19,9 +19,5 @@
 | time | words | check | fix |
 |---|---|---|---|
 | 0.0–17.2s | אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה  | motion | more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words |
-| 3.5–4.8s | motion, מעברים | no placeholders | dock1: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
-| 7.0–10.0s | צריכים להתקין skill שנקרא Kowalski. הסקיל | no placeholders | card2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
-| 10.2–11.2s | הסקיל הזה בעצם הופך | no placeholders | med3a: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
-| 10.2–11.2s | הסקיל הזה בעצם הופך | no placeholders | site plain: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 
 _targets measured on the anchor (`themes/neon-studio/qa-targets.json`); draft `renders/qa-draft.mp4`; faces detected in 68/68 samples_

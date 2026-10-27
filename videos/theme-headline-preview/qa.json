@@ -1,7 +1,7 @@
 {
  "project": "theme-headline-preview",
  "theme": "headline",
- "score": "6/9",
+ "score": "7/9",
  "ready": false,
  "checks": {
   "motion": {
@@ -41,12 +41,12 @@
    "faces_detected": 68
   },
   "placeholder": {
-   "value": "2 found",
+   "value": "0 found",
    "target": "0",
-   "pass": false
+   "pass": true
   },
   "hook": {
-   "value": "visual on screen 2.0s of the first 3s",
+   "value": "visual on screen 1.8s of the first 3s",
    "target": ">= 0.5s",
    "pass": true
   }
@@ -72,25 +72,11 @@
    "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
   },
   {
-   "t": "7.0–9.0s",
-   "t0": 7,
-   "words": "צריכים להתקין skill שנקרא Kowalski.",
-   "check": "no placeholders",
-   "fix": "w2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
-  },
-  {
    "t": "10.0–10.5s",
    "t0": 10,
    "words": "הסקיל הזה",
    "check": "hero fill",
    "fix": "fill 27%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
-  },
-  {
-   "t": "10.2–10.8s",
-   "t0": 10.25,
-   "words": "הסקיל הזה בעצם",
-   "check": "no placeholders",
-   "fix": "site plain: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
   }
  ]
 }

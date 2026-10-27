@@ -1,6 +1,6 @@
 # QA · theme-glass-preview · theme `glass`
 
-**4/9 checks passed — NOT READY**
+**5/9 checks passed — NOT READY**
 
 | | check | value | target |
 |---|---|---|---|
@@ -11,7 +11,7 @@
 | ✓ | min text | 0 items < 26px | >= 26px |
 | ✓ | hero fill | full face, 0 weak ranges | >= 60% |
 | ✗ | collisions | 1 collisions | 0 |
-| ✗ | no placeholders | 1 found | 0 |
+| ✓ | no placeholders | 0 found | 0 |
 | ✓ | hook visual | visual on screen 2.8s of the first 3s | >= 0.5s |
 
 ## FIX LIST
@@ -24,7 +24,6 @@
 | 4.0–5.0s | מסלול. | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 8.3–8.8s |  | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 9.8–10.6s |  | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
-| 11.0–11.5s | רשימה קופצת. | no placeholders | side: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it |
 | 12.0–12.9s | קופצת. | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 13.8–14.5s | כותרות. | collisions | #side on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space |
 | 13.9–15.0s | כותרות. | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |

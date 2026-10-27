@@ -46,7 +46,7 @@
    "pass": false
   },
   "hook": {
-   "value": "visual on screen 2.8s of the first 3s",
+   "value": "visual on screen 2.5s of the first 3s",
    "target": ">= 0.5s",
    "pass": true
   }
@@ -72,11 +72,11 @@
    "fix": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words"
   },
   {
-   "t": "7.0–9.2s",
-   "t0": 7,
-   "words": "צריכים להתקין skill שנקרא Kowalski.",
+   "t": "7.2–8.2s",
+   "t0": 7.25,
+   "words": "להתקין skill",
    "check": "no placeholders",
-   "fix": "term2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
+   "fix": "term2: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
   }
  ]
 }

@@ -77,6 +77,7 @@ const { chromium } = require("playwright");
       payoffs.push(rec);
     }
 
+    tl.seek(0.05, false); tl.seek(0, false);  // force the t=0 state to render (a fresh paused timeline has not rendered its sets yet)
     // ---- samples ----
     const samples = []; const digitTexts = {}; const uid = new WeakMap(); let nUid = 0; const keyOf = (el) => { if (!uid.has(el)) uid.set(el, (el.id || el.className || el.tagName) + "#" + (nUid++)); return uid.get(el); };
     for (let t = 0; t < DUR - 0.05; t += IN.step) {

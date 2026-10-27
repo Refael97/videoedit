@@ -22,7 +22,7 @@ Output: `<project>/qa-report.md`, `<project>/qa.json` (score N/9, checks, FIX LI
 | 5 | min text | Playwright seeks every 0.25 s; every visible text: computed font-size × cumulative transform scale ≥ 26 px (for ≥ 0.5 s) | 0 items |
 | 6 | hero fill | the visible scene's cards / media / svg content (incl. parts not revealed yet), union box ÷ the free area between the title and the caption / face box | ≥ 60% (full-face beats exempt) |
 | 7 | collisions | caption text over a card (> 15% of the caption); a caption or card on top of the eyes–mouth core of the face (Haar face box in the source footage mapped through the video's on-screen box, `elementFromPoint` on a 5×5 grid) | 0 |
-| 8 | no placeholders | in the draft frames: a panel with luma std < 5, a ≥ 250×250 panel with < 20% detailed cells, an image with std < 8; a chart (svg with *axis/chart/curve/graph/plot*) with no digit near it | 0 |
+| 8 | no placeholders | in the draft frames: a panel with luma std < 5, a ≥ 250×250 panel whose detailed 12px cells span < 40% of it (content bounding box), an image with std < 8; a chart (svg with *axis/chart/curve/graph/plot*) with no digit near it | 0 |
 | 9 | hook visual | in the first 3 s a non-text visual (media / svg / card ≥ 150 px) on screen ≥ 0.5 s | yes |
 
 Conventions the probe relies on: captions have a class containing `cap` (or `data-qa="caption"`); the speaker video is

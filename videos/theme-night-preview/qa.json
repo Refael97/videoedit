@@ -1,7 +1,7 @@
 {
  "project": "theme-night-preview",
  "theme": "night",
- "score": "6/9",
+ "score": "7/9",
  "ready": false,
  "checks": {
   "motion": {
@@ -41,9 +41,9 @@
    "faces_detected": 68
   },
   "placeholder": {
-   "value": "1 found",
+   "value": "0 found",
    "target": "0",
-   "pass": false
+   "pass": true
   },
   "hook": {
    "value": "visual on screen 3.0s of the first 3s",
@@ -84,13 +84,6 @@
    "words": "צריכים להתקין",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "7.0–9.0s",
-   "t0": 7,
-   "words": "צריכים להתקין skill שנקרא Kowalski.",
-   "check": "no placeholders",
-   "fix": "doc2: uniform / empty panel: fill it with the real content (text, screenshot, data) or remove it"
   },
   {
    "t": "9.2–9.8s",
