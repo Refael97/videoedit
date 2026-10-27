@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <style>
+      @font-face { font-family: "Rubik"; font-weight: 900; src: url("assets/rubik-hebrew-900-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Rubik"; font-weight: 900; src: url("assets/rubik-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Rubik"; font-weight: 700; src: url("assets/rubik-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Rubik"; font-weight: 700; src: url("assets/rubik-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      :root { --g: #5cff2b; --ink: #141414; --paper: #f8f6f3; }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: var(--paper); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--paper); font-family: "Rubik", sans-serif; direction: rtl; color: var(--ink); }
+      #gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: block; }
+      .hide { opacity: 0; }
+      /* brand chrome from the site */
+      #label { position: absolute; top: 150px; left: 50%; transform: translateX(-50%) rotate(-2deg); padding: 18px 40px 22px; border: 4px dashed var(--ink); border-radius: 60px; background: #fff; font-size: 44px; font-weight: 700; white-space: nowrap; box-shadow: 8px 8px 0 var(--ink); }
+      #pause { position: absolute; top: 1660px; left: 50%; margin-left: -64px; width: 128px; height: 128px; border-radius: 50%; background: var(--ink); display: flex; align-items: center; justify-content: center; gap: 18px; opacity: 0; box-shadow: 0 0 0 8px var(--g); }
+      #pause i { width: 18px; height: 54px; border-radius: 6px; background: var(--g); }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 90; }
+      /* kinetic captions: Rubik 900, the site's green highlight bar */
+      .cap { position: absolute; left: 40px; right: 40px; text-align: center; z-index: 20; pointer-events: none; }
+      .cap .ln { display: table; margin: 0 auto 18px; padding: 6px 34px 14px; font-size: 96px; font-weight: 900; line-height: 1.12; white-space: nowrap; background: #fff; border: 6px solid var(--ink); border-radius: 30px; box-shadow: 10px 10px 0 var(--ink); }
+      .cap .w { display: inline-block; white-space: pre; }
+      .cap .hl { position: relative; display: inline-block; padding: 0 10px 4px; }
+      .cap .hl b { position: absolute; left: -34px; right: -34px; top: -6px; bottom: -14px; background: var(--g); border-radius: 24px; transform-origin: 100% 50%; z-index: -1; }
+      .cap .hl span { position: relative; }
+      .cap.light .ln { color: #fff; text-shadow: 0 6px 30px rgba(0, 0, 0, 0.5); }
+      #dots { position: absolute; left: 50%; top: 1500px; margin-left: -150px; width: 300px; height: 150px; border-radius: 75px; background: #fff; border: 6px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); display: flex; align-items: center; justify-content: center; gap: 26px; opacity: 0; z-index: 25; }
+      #dots i { width: 34px; height: 34px; border-radius: 50%; background: var(--ink); }
+      #iris { position: absolute; inset: 0; background: var(--g); z-index: 60; clip-path: circle(0px at 540px 960px); }
+
+      /* ---------- S6: the site on a phone, then the profile ---------- */
+      #s6 { position: absolute; inset: 0; z-index: 50; opacity: 0; background-color: var(--paper); background-image: linear-gradient(rgba(17, 17, 17, 0.08) 3px, transparent 3px), linear-gradient(90deg, rgba(17, 17, 17, 0.08) 3px, transparent 3px); background-size: 90px 90px; perspective: 2200px; }
+      #ph { position: absolute; left: 175px; top: 520px; width: 730px; height: 1300px; border-radius: 80px; background: #fff; border: 10px solid var(--ink); box-shadow: 22px 22px 0 var(--ink); overflow: hidden; transform-style: preserve-3d; }
+      #bar { position: absolute; left: 30px; right: 30px; top: 46px; height: 92px; border-radius: 46px; background: #f0eee9; border: 4px solid var(--ink); display: flex; align-items: center; padding: 0 34px; box-sizing: border-box; direction: ltr; font-size: 42px; font-weight: 700; white-space: pre; z-index: 3; }
+      #bar .lock { width: 26px; height: 30px; border-radius: 6px; background: var(--ink); margin-right: 18px; }
+      #car { display: inline-block; width: 5px; height: 46px; background: var(--ink); margin-left: 2px; }
+      #page { position: absolute; left: 0; top: 160px; width: 730px; height: 1140px; overflow: hidden; background: var(--paper); }
+      #page img { position: absolute; left: 0; top: 0; width: 730px; }
+      #load { position: absolute; left: 0; top: 160px; height: 8px; width: 730px; background: var(--g); transform-origin: 0 50%; z-index: 4; }
+      #ig { position: absolute; inset: 0; background: #fff; direction: rtl; opacity: 0; }
+      #ig .top { position: absolute; left: 0; right: 0; top: 50px; text-align: center; font-size: 40px; font-weight: 900; direction: ltr; }
+      #ig .av { position: absolute; right: 50px; top: 150px; width: 200px; height: 200px; border-radius: 50%; background: var(--g); overflow: hidden; box-shadow: 0 0 0 7px #fff, 0 0 0 13px #e1306c; }
+      #ig .av img { position: absolute; left: 10px; top: 12px; width: 180px; }
+      #ig .st { position: absolute; right: 290px; left: 40px; top: 190px; display: flex; justify-content: space-around; text-align: center; font-size: 30px; color: #444; }
+      #ig .st b { display: block; font-size: 42px; color: var(--ink); }
+      #ig .nm { position: absolute; right: 50px; top: 385px; font-size: 40px; font-weight: 900; }
+      #ig .bio { position: absolute; right: 50px; left: 50px; top: 445px; font-size: 34px; line-height: 1.45; font-weight: 700; color: #333; }
+      #ig .lk { display: inline-block; margin-top: 12px; padding: 10px 26px; border-radius: 40px; color: #1a4fd6; direction: ltr; font-weight: 900; position: relative; }
+      #ig .lk i { position: absolute; inset: 0; border-radius: 40px; background: var(--g); z-index: -1; transform-origin: 0 50%; }
+      #ig .btns { position: absolute; right: 50px; left: 50px; top: 700px; display: flex; gap: 20px; }
+      #ig .btns div { flex: 1; height: 86px; border-radius: 20px; background: #efefef; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 900; }
+      #ig .btns .f { background: #0095f6; color: #fff; }
+      #ig .gridp { position: absolute; left: 0; right: 0; top: 840px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      #ig .gridp div { height: 240px; }
+      #tap { position: absolute; width: 130px; height: 130px; margin: -65px 0 0 -65px; border-radius: 50%; border: 8px solid var(--ink); background: rgba(92, 255, 43, 0.5); z-index: 8; opacity: 0; }
+      #c6 { top: 210px; }
+
+      /* ---------- S7: CTA ---------- */
+      #s7 { position: absolute; inset: 0; z-index: 70; opacity: 0; background-color: var(--paper); background-image: linear-gradient(rgba(17, 17, 17, 0.08) 3px, transparent 3px), linear-gradient(90deg, rgba(17, 17, 17, 0.08) 3px, transparent 3px); background-size: 90px 90px; overflow: hidden; }
+      #ring { position: absolute; left: 90px; top: 640px; width: 900px; height: 900px; border-radius: 50%; border: 5px dashed rgba(20, 20, 20, 0.35); }
+      #disc { position: absolute; left: 170px; top: 720px; width: 740px; height: 740px; border-radius: 50%; background: var(--g); }
+      #me { position: absolute; left: 175px; top: 650px; width: 730px; }
+      #stk { position: absolute; left: 70px; top: 1180px; padding: 22px 34px; background: #ffe14d; border: 5px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); font-size: 46px; font-weight: 900; transform: rotate(-8deg); }
+      .orb { position: absolute; width: 130px; height: 130px; margin: -65px 0 0 -65px; border-radius: 34px; background: #fff; border: 5px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); display: flex; align-items: center; justify-content: center; font-size: 66px; }
+      #cbox { position: absolute; left: 70px; right: 70px; top: 1600px; height: 150px; border-radius: 75px; background: #fff; border: 6px solid var(--ink); box-shadow: 12px 12px 0 var(--ink); display: flex; align-items: center; padding: 0 50px; box-sizing: border-box; font-size: 64px; font-weight: 900; white-space: pre; }
+      #cbox .sn { position: absolute; left: 22px; top: 20px; width: 98px; height: 98px; border-radius: 50%; background: var(--g); border: 5px solid var(--ink); box-sizing: border-box; }
+      #cbox .ph { color: #a5a29c; }
+      .heart { position: absolute; font-size: 90px; z-index: 75; opacity: 0; }
+      #c7 { top: 200px; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="21.6" data-width="1080" data-height="1920" data-no-timeline>
+      <canvas id="gl" width="1080" height="1920"></canvas>
+      <div id="label">המעבדה של רפאל · AI ושיווק</div>
+      <div id="pause"><i></i><i></i></div>
+      <div class="cap" id="c2" style="top: 250px"></div>
+      <div class="cap" id="c3" style="top: 250px"></div>
+      <div class="cap" id="c4" style="top: 230px"></div>
+      <div id="dots"><i></i><i></i><i></i></div>
+
+      <div id="s6">
+        <div class="cap" id="c6"></div>
+        <div id="ph">
+          <div id="bar"><i class="lock"></i><span id="url"></span><i id="car"></i></div>
+          <div id="load"></div>
+          <div id="page"><img id="site" src="assets/img/site.jpg" /></div>
+          <div id="ig">
+            <div class="top">refaelleviii ✓</div>
+            <div class="av"><img src="assets/img/refael_cut.png" /></div>
+            <div class="st"><div><b>12.4K</b>עוקבים</div><div><b>340</b>עוקב</div><div><b>210</b>פוסטים</div></div>
+            <div class="nm">רפאל לוי</div>
+            <div class="bio">מומחה AI ושיווק דיגיטלי 🤖<br />מלמד AI בשפה של בני אדם 👇<br /><span class="lk"><i id="lkhl"></i>refael-ai.com</span></div>
+            <div class="btns"><div class="f">עקוב</div><div>הודעה</div></div>
+            <div class="gridp"><div style="background: #ffd400"></div><div style="background: #141414"></div><div style="background: #26e9f2"></div><div style="background: #5cff2b"></div><div style="background: #e9e5de"></div><div style="background: #ff2a3a"></div></div>
+          </div>
+          <div id="tap"></div>
+        </div>
+      </div>
+
+      <div id="s7">
+        <div id="ring"></div>
+        <div id="disc"></div>
+        <div class="orb" id="o1" style="left: 150px; top: 800px">🤖</div>
+        <div class="orb" id="o2" style="left: 930px; top: 860px">✳️</div>
+        <div class="orb" id="o3" style="left: 960px; top: 1290px">🎬</div>
+        <img id="me" src="assets/img/refael_cut.png" />
+        <div id="stk">זה אני. האמיתי 👋</div>
+        <div class="cap" id="c7"></div>
+        <div id="cbox"><span id="cbt"></span><span class="ph" id="cph">הוסף תגובה...</span><i class="sn"></i></div>
+      </div>
+
+      <div id="iris"></div>
+      <div id="flash"></div>
+
+      <audio id="vo" src="assets/vo.mp3" data-start="0" data-duration="20.43" data-track-index="10"></audio>
+      <audio id="mus1" src="assets/music.mp3" data-start="0" data-duration="1.36" data-track-index="11" data-volume="0.42"></audio>
+      <audio id="mus2" src="assets/music.mp3" data-start="3.1" data-media-start="1.36" data-duration="8.6" data-track-index="11" data-volume="0.42"></audio>
+      <audio id="mus3" src="assets/music.mp3" data-start="12.62" data-media-start="14.0" data-duration="8.98" data-track-index="11" data-volume="0.42"></audio>
+      <audio id="x1" src="assets/impact.wav" data-start="0.29" data-duration="0.9" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="x2" src="assets/pop.wav" data-start="0.4" data-duration="0.12" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="x3" src="assets/pop.wav" data-start="0.48" data-duration="0.12" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="x4" src="assets/pop.wav" data-start="0.56" data-duration="0.12" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="x5" src="assets/pop.wav" data-start="0.64" data-duration="0.12" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="x6" src="assets/impact.wav" data-start="1.36" data-duration="0.9" data-track-index="12" data-volume="0.55"></audio>
+      <audio id="x7" src="assets/impact.wav" data-start="2.06" data-duration="0.9" data-track-index="15" data-volume="0.55"></audio>
+      <audio id="x8" src="assets/impact.wav" data-start="2.8" data-duration="0.9" data-track-index="12" data-volume="0.65"></audio>
+      <audio id="x9" src="assets/whoosh.wav" data-start="3.08" data-duration="0.7" data-track-index="13" data-volume="0.6"></audio>
+      <audio id="x10" src="assets/pop.wav" data-start="3.9" data-duration="0.12" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="x11" src="assets/pop.wav" data-start="4.02" data-duration="0.12" data-track-index="15" data-volume="0.45"></audio>
+      <audio id="x12" src="assets/pop.wav" data-start="4.14" data-duration="0.12" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="x13" src="assets/pop.wav" data-start="4.26" data-duration="0.12" data-track-index="15" data-volume="0.45"></audio>
+      <audio id="x14" src="assets/pop.wav" data-start="4.38" data-duration="0.12" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="x15" src="assets/whoosh.wav" data-start="5.3" data-duration="0.7" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x16" src="assets/impact.wav" data-start="5.74" data-duration="0.9" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="x17" src="assets/whoosh.wav" data-start="6.28" data-duration="0.7" data-track-index="13" data-volume="0.55"></audio>
+      <audio id="x18" src="assets/click.wav" data-start="7.94" data-duration="0.04" data-track-index="14" data-volume="0.8"></audio>
+      <audio id="x19" src="assets/click.wav" data-start="8.12" data-duration="0.04" data-track-index="15" data-volume="0.8"></audio>
+      <audio id="x20" src="assets/click.wav" data-start="8.3" data-duration="0.04" data-track-index="14" data-volume="0.8"></audio>
+      <audio id="x21" src="assets/click.wav" data-start="8.48" data-duration="0.04" data-track-index="15" data-volume="0.8"></audio>
+      <audio id="x22" src="assets/impact.wav" data-start="8.74" data-duration="0.9" data-track-index="12" data-volume="0.65"></audio>
+      <audio id="x23" src="assets/whoosh.wav" data-start="9.3" data-duration="0.7" data-track-index="13" data-volume="0.55"></audio>
+      <audio id="x24" src="assets/riser.wav" data-start="11.02" data-duration="1.6" data-track-index="16" data-volume="0.55"></audio>
+      <audio id="x25" src="assets/impact.wav" data-start="12.64" data-duration="0.9" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="x26" src="assets/whoosh.wav" data-start="13.42" data-duration="0.7" data-track-index="13" data-volume="0.55"></audio>
+      <audio id="x27" src="assets/pop.wav" data-start="15.1" data-duration="0.12" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="x28" src="assets/whoosh.wav" data-start="16.12" data-duration="0.7" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x29" src="assets/pop.wav" data-start="16.55" data-duration="0.12" data-track-index="14" data-volume="0.55"></audio>
+      <audio id="x30" src="assets/whoosh.wav" data-start="17.05" data-duration="0.7" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="x31" src="assets/pop.wav" data-start="20.0" data-duration="0.12" data-track-index="14" data-volume="0.6"></audio>
+      <audio id="x32" src="assets/impact.wav" data-start="20.05" data-duration="0.9" data-track-index="12" data-volume="0.45"></audio>
+    </div>
+
+    <script type="application/json" id="fontjson">__FONT__</script>
+    <script type="module">
+      import * as THREE from "three";
+      import { Font } from "three/addons/loaders/FontLoader.js";
+      import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      const W = 1080, H = 1920;
+      const PAPER = 0xf8f6f3, INK = 0x141414, GREEN = 0x5cff2b;
+      const font = new Font(JSON.parse(document.getElementById("fontjson").textContent));
+      const $ = (s) => document.querySelector(s);
+
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const E = {
+        lin: (x) => x,
+        outCubic: (x) => 1 - Math.pow(1 - x, 3),
+        inCubic: (x) => x * x * x,
+        inOutCubic: (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2),
+        inOutSine: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
+        outExpo: (x) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x)),
+        inExpo: (x) => (x === 0 ? 0 : Math.pow(2, 10 * x - 10)),
+        inQuad: (x) => x * x,
+        outBack: (x) => { const c1 = 2.4, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+      };
+      let seed = 2026;
+      const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+      const v3 = (x, y, z) => new THREE.Vector3(x, y, z);
+
+      // scene cut points (VO clock)
+      const T = { S2: 3.6, S3: 6.42, S4: 9.55, S5: 12.62, S6: 13.62, S7: 17.12, END: 21.6 };
+      const F1 = 1.38, F2 = 2.08, F3 = 2.82, UNF = 3.1, T_IMP = 0.3;
+      const DIGIT_ROT = Math.PI / 2, DIGIT_OFF = 0, DIGIT_DIR = 1;
+      const X2 = v3(700, 0, 0), X3 = v3(1400, 0, 0), X4 = v3(2100, 0, 0);
+
+      // ---------- renderer ----------
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+      renderer.toneMapping = THREE.NeutralToneMapping; renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
+      const camera = new THREE.PerspectiveCamera(42, W / H, 0.5, 2000);
+
+      // ===== the paper world (S1–S4) =====
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(PAPER);
+      scene.fog = new THREE.Fog(PAPER, 140, 430);
+      scene.add(new THREE.HemisphereLight(0xffffff, 0xdcd4c6, 1.7));
+      const sun = new THREE.DirectionalLight(0xffffff, 2.4);
+      sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096);
+      Object.assign(sun.shadow.camera, { left: -70, right: 70, top: 70, bottom: -70, near: 1, far: 260 });
+      sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.02;
+      scene.add(sun, sun.target);
+      const placeSun = (o) => { sun.position.set(o.x - 38, 80, o.z + 46); sun.target.position.copy(o); sun.target.updateMatrixWorld(); };
+      const alarm = new THREE.PointLight(0xff3344, 0, 90, 1.3); scene.add(alarm);
+
+      const gridTex = (() => {
+        const c = document.createElement("canvas"); c.width = c.height = 1024; const g = c.getContext("2d");
+        g.fillStyle = "#f8f6f3"; g.fillRect(0, 0, 1024, 1024); g.fillStyle = "rgba(17,17,17,0.13)";
+        for (let i = 0; i < 8; i++) { g.fillRect(i * 128, 0, 5, 1024); g.fillRect(0, i * 128, 1024, 5); }
+        const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(500, 500);
+        t.anisotropy = renderer.capabilities.getMaxAnisotropy(); t.colorSpace = THREE.SRGBColorSpace; return t;
+      })();
+      const floor = new THREE.Mesh(new THREE.PlaneGeometry(8000, 8000), new THREE.MeshStandardMaterial({ map: gridTex, roughness: 0.92 }));
+      floor.rotation.x = -Math.PI / 2; floor.position.x = 1000; floor.receiveShadow = true; scene.add(floor);
+
+      const matInk = [new THREE.MeshStandardMaterial({ color: 0x1b1b1b, roughness: 0.3, metalness: 0.05 }), new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.42 })];
+      const matGreen = [new THREE.MeshStandardMaterial({ color: GREEN, emissive: 0x2a8a0c, emissiveIntensity: 0.35, roughness: 0.32 }), new THREE.MeshStandardMaterial({ color: 0x1f7d08, roughness: 0.4 })];
+      const res = font.data.resolution;
+      function makeWord(text, size, depth, matFor, opts = {}) {
+        const g = new THREE.Group(); const glyphs = []; let x = 0;
+        const vis = opts.ltr ? [...text] : [...text].reverse(); // Hebrew: reverse into left-to-right visual order
+        vis.forEach((ch) => {
+          const gd = font.data.glyphs[ch]; const adv = ((gd ? gd.ha : res * 0.28) / res) * size;
+          if (ch !== " " && gd) {
+            const geo = new TextGeometry(ch, { font, size, depth, curveSegments: 10, bevelEnabled: true, bevelThickness: size * 0.04, bevelSize: size * 0.025, bevelSegments: 4 });
+            geo.computeBoundingBox(); const cx = (geo.boundingBox.min.x + geo.boundingBox.max.x) / 2;
+            geo.translate(-cx, 0, -depth / 2);
+            const m = new THREE.Mesh(geo, matFor(ch)); m.castShadow = true; m.receiveShadow = true;
+            const h = new THREE.Group(); h.add(m); h.userData = { x: x + cx, ch }; glyphs.push(h); g.add(h);
+          }
+          x += adv;
+        });
+        glyphs.forEach((h) => { h.position.x = h.userData.x - x / 2; h.userData.x = h.position.x; });
+        g.userData = { glyphs, width: x }; return g;
+      }
+      const dummy = new THREE.Object3D();
+      function makeConfetti(n, cols) {
+        const m = new THREE.InstancedMesh(new THREE.BoxGeometry(1.1, 1.1, 0.14), new THREE.MeshStandardMaterial({ roughness: 0.5 }), n);
+        m.castShadow = true; m.receiveShadow = true; const P = [];
+        for (let i = 0; i < n; i++) {
+          const a = rnd() * Math.PI * 2, sp = 18 + rnd() * 38, up = 22 + rnd() * 34;
+          P.push({ vx: Math.cos(a) * sp, vz: Math.sin(a) * sp * 0.8, vy: up, ox: (rnd() - 0.5) * 30, rx: rnd() * 9 - 4.5, ry: rnd() * 9 - 4.5, rz: rnd() * 9 - 4.5 });
+          m.setColorAt(i, new THREE.Color(cols[i % cols.length]));
+        }
+        m.userData.P = P; return m;
+      }
+      function stepConfetti(m, o, dt, floorY = 0.08, scale = 1) {
+        m.visible = dt > 0; const P = m.userData.P;
+        for (let i = 0; i < P.length; i++) {
+          const c = P[i]; const d = Math.max(0, dt); const drag = (1 - Math.exp(-d * 1.6)) / 1.6;
+          let y = 2 + c.vy * drag * scale - 30 * d * d; const landed = y < floorY; if (landed) y = floorY;
+          dummy.position.set(o.x + (c.ox + c.vx * drag) * scale, o.y + y, o.z + 1 + c.vz * drag * scale);
+          dummy.rotation.set(landed ? -Math.PI / 2 : c.rx * d, landed ? 0 : c.ry * d, c.rz * d);
+          dummy.scale.setScalar(dt > 0 ? 1 : 0.001); dummy.updateMatrix(); m.setMatrixAt(i, dummy.matrix);
+        }
+        m.instanceMatrix.needsUpdate = true;
+      }
+
+      // ----- S1: "מה" + "?!?!" + three "רגע." stamps -----
+      const isPunct = (ch) => ch === "?" || ch === "!";
+      const MA = makeWord("מה", 14, 5.5, () => matInk); MA.position.set(0, 0, -4); scene.add(MA);
+      const PU = makeWord("?!?!", 8, 3.6, () => matGreen); PU.position.set(0, 0, 8); scene.add(PU);
+      const letters = MA.userData.glyphs, puncts = PU.userData.glyphs.slice().reverse();
+      const R = [0, 1, 2].map(() => { const w = makeWord("רגע.", 7.5, 3, () => matGreen); scene.add(w); return w; });
+      const conf1 = makeConfetti(320, [GREEN, GREEN, INK, 0xffffff]); scene.add(conf1);
+      const S1SHOTS = [
+        { a: 0, b: 0.62, p0: v3(0, 50, 92), p1: v3(0, 44, 84), l0: v3(0, 10, 0), l1: v3(0, 10, 0), e: E.outCubic },
+        { a: 0.62, b: F1, p0: v3(0, 44, 84), p1: v3(-38, 13, 66), l0: v3(0, 10, 0), l1: v3(2, 8, 0), e: E.inOutCubic },
+        { a: F1, b: F2, p0: v3(44, 5, 50), p1: v3(40, 6.5, 55), l0: v3(-2, 7, 0), l1: v3(-2, 7, 0), e: E.inOutSine, stamp: 0 },
+        { a: F2, b: F3, p0: v3(-6, 76, 40), p1: v3(-2, 80, 44), l0: v3(0, 0, 3), l1: v3(0, 0, 3), e: E.inOutSine, stamp: 1 },
+        { a: F3, b: UNF, p0: v3(22, 14, 36), p1: v3(19, 14.5, 39), l0: v3(-2, 7, -2), l1: v3(-2, 7, -2), e: E.inOutSine, stamp: 2 },
+        { a: UNF, b: T.S2, p0: v3(19, 14.5, 39), p1: v3(6, 120, 70), l0: v3(-2, 7, -2), l1: v3(0, 150, -160), e: E.inCubic },
+      ];
+      R.forEach((w, i) => { w.userData.s = (0.7 * 0.432 * [20, 26, 16][i]) / w.userData.width; });
+
+      // ----- S2: Claude starburst + the site's five cards → one green crate -----
+      const g2 = new THREE.Group(); g2.position.copy(X2); scene.add(g2);
+      const orange = new THREE.MeshStandardMaterial({ color: 0xd97757, roughness: 0.35, emissive: 0x3a1408, emissiveIntensity: 0.4 });
+      const star = new THREE.Group();
+      {
+        const sh = new THREE.Shape(); const L = 7, w0 = 1.25, w1 = 0.45;
+        sh.moveTo(-w0, 0); sh.lineTo(-w1, L); sh.quadraticCurveTo(0, L + 0.9, w1, L); sh.lineTo(w0, 0); sh.quadraticCurveTo(0, -0.9, -w0, 0);
+        const rg = new THREE.ExtrudeGeometry(sh, { depth: 1.6, bevelEnabled: true, bevelThickness: 0.35, bevelSize: 0.3, bevelSegments: 3 });
+        rg.translate(0, 0.6, -0.8);
+        for (let i = 0; i < 12; i++) { const m = new THREE.Mesh(rg, orange); m.rotation.z = (i / 12) * Math.PI * 2 + (i % 2 ? 0.08 : 0); m.scale.y = i % 3 === 0 ? 1.12 : i % 3 === 1 ? 0.92 : 1.0; m.castShadow = true; star.add(m); }
+      }
+      star.position.set(0, 14, -6); g2.add(star);
+      function cardTex(title, sub, emoji, badge, tint) {
+        const c = document.createElement("canvas"); c.width = 1024; c.height = 680; const g = c.getContext("2d");
+        g.fillStyle = "#141414"; g.beginPath(); g.roundRect(0, 0, 1024, 680, 70); g.fill();
+        g.fillStyle = "#ffffff"; g.beginPath(); g.roundRect(18, 18, 988, 644, 56); g.fill();
+        g.fillStyle = tint; g.strokeStyle = "#141414"; g.lineWidth = 10; g.beginPath(); g.roundRect(774, 60, 190, 190, 42); g.fill(); g.stroke();
+        g.font = "120px 'Noto Color Emoji'"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(emoji, 869, 162);
+        g.fillStyle = "#141414"; g.beginPath(); g.roundRect(60, 70, 230, 92, 46); g.fill();
+        g.fillStyle = "#fff"; g.font = "900 50px Rubik"; g.direction = "rtl"; g.fillText(badge, 175, 118);
+        g.fillStyle = "#141414"; g.textAlign = "right"; g.font = "900 128px Rubik"; g.fillText(title, 960, 380);
+        g.fillStyle = "#555"; g.font = "700 54px Rubik"; g.fillText(sub, 960, 500);
+        g.fillStyle = "#5cff2b"; g.strokeStyle = "#141414"; g.lineWidth = 8; g.beginPath(); g.arc(120, 570, 52, 0, Math.PI * 2); g.fill(); g.stroke();
+        g.fillStyle = "#141414"; g.font = "900 60px Rubik"; g.textAlign = "center"; g.fillText("←", 120, 574);
+        const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+      }
+      const CARDS = [["מדריכים", "מה בדקתי ומה עבד", "📘", "חינם", "#d9d6ff"], ["קורסים", "צעד אחרי צעד", "🎓", "בקרוב", "#5cff2b"], ["סקילים", "הסקילים שבניתי", "⚡", "חדש", "#ffd2b8"], ["סדנאות", "עושים את זה ביחד", "🧪", "בקרוב", "#cdeaff"], ["ניוזלטר", "כל ניסוי, ישר למייל", "✉️", "חינם", "#fff27a"]];
+      const cardMeshes = [];
+      function buildCards() {
+        const side = new THREE.MeshStandardMaterial({ color: 0x141414, roughness: 0.5 });
+        CARDS.forEach((c, i) => {
+          const m = new THREE.Mesh(new THREE.BoxGeometry(12, 8, 0.7), [side, side, side, side, new THREE.MeshStandardMaterial({ map: cardTex(...c), roughness: 0.6 }), side]);
+          m.castShadow = true; m.receiveShadow = true; g2.add(m); cardMeshes.push(m);
+        });
+      }
+      // crate (open top) + hinged lid with a label
+      const crate = new THREE.Group(); g2.add(crate);
+      const greenM = new THREE.MeshStandardMaterial({ color: GREEN, roughness: 0.4, emissive: 0x1f6a08, emissiveIntensity: 0.25 });
+      const inkM = new THREE.MeshStandardMaterial({ color: 0x141414, roughness: 0.5 });
+      const CW = 20, CH = 11, CD = 14, TH = 0.9;
+      const wall = (w, h, d, x, y, z, mat) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true; crate.add(m); return m; };
+      wall(CW, TH, CD, 0, TH / 2, 0, greenM);
+      wall(TH, CH, CD, -CW / 2 + TH / 2, CH / 2, 0, greenM); wall(TH, CH, CD, CW / 2 - TH / 2, CH / 2, 0, greenM);
+      wall(CW, CH, TH, 0, CH / 2, -CD / 2 + TH / 2, greenM);
+      let labelMesh;
+      function buildCrateFront() {
+        const c = document.createElement("canvas"); c.width = 1024; c.height = 564; const g = c.getContext("2d");
+        g.fillStyle = "#5cff2b"; g.fillRect(0, 0, 1024, 564); g.strokeStyle = "#141414"; g.lineWidth = 26; g.strokeRect(13, 13, 998, 538);
+        g.fillStyle = "#141414"; g.beginPath(); g.roundRect(150, 200, 724, 170, 85); g.fill();
+        g.fillStyle = "#5cff2b"; g.font = "900 92px Rubik"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("refael-ai.com", 512, 290);
+        const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+        const fm = new THREE.MeshStandardMaterial({ map: t, roughness: 0.45 });
+        labelMesh = new THREE.Mesh(new THREE.BoxGeometry(CW, CH, TH), [greenM, greenM, greenM, greenM, fm, greenM]);
+        labelMesh.position.set(0, CH / 2, CD / 2 - TH / 2); labelMesh.castShadow = true; crate.add(labelMesh);
+      }
+      const lidPivot = new THREE.Group(); lidPivot.position.set(0, CH, -CD / 2); crate.add(lidPivot);
+      const lid = new THREE.Mesh(new THREE.BoxGeometry(CW + 0.6, TH, CD + 0.6), inkM); lid.position.set(0, TH / 2, CD / 2); lid.castShadow = true; lidPivot.add(lid);
+      crate.position.set(0, 0, 8);
+      const conf2 = makeConfetti(160, [GREEN, INK, 0xffffff]); scene.add(conf2);
+
+      // ----- S3: slot-machine price reels "5,000₪" -----
+      const g3 = new THREE.Group(); g3.position.copy(X3); g3.scale.setScalar(0.8); scene.add(g3);
+      const frame = new THREE.Group(); g3.add(frame);
+      const fw = (w, h, d, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), inkM); m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true; frame.add(m); };
+      fw(42, 2.2, 9, 0, 1.1, 0); fw(42, 2.2, 9, 0, 14.9, 0); fw(2.2, 16, 9, -20, 8, 0); fw(2.2, 16, 9, 20, 8, 0); fw(42, 16, 1, 0, 8, -4.2);
+      const reelTex = (() => {
+        // digits run along u (around the reel), each turned so it stands upright on the drum's face
+        const c = document.createElement("canvas"); c.width = 2560; c.height = 256; const g = c.getContext("2d");
+        g.fillStyle = "#ffffff"; g.fillRect(0, 0, 2560, 256); g.fillStyle = "#141414"; g.font = "900 200px Rubik"; g.textAlign = "center"; g.textBaseline = "middle";
+        for (let d = 0; d < 10; d++) { g.save(); g.translate(d * 256 + 128, 128); g.rotate(DIGIT_ROT); g.fillText(String(d), 0, 10); g.restore(); g.fillRect(d * 256 + 253, 0, 6, 256); }
+        const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+      })();
+      const reels = [];
+      const reelX = [-13.5, -3.5, 3.5, 10.5]; // "5" , "0" "0" "0"  (comma sits between the first two)
+      reelX.forEach((x) => {
+        const geo = new THREE.CylinderGeometry(5.6, 5.6, 6.2, 64, 1, false); geo.rotateZ(Math.PI / 2);
+        const m = new THREE.Mesh(geo, [new THREE.MeshStandardMaterial({ map: reelTex, roughness: 0.4 }), inkM, inkM]);
+        m.position.set(x, 8, 0); m.castShadow = true; g3.add(m); reels.push(m);
+      });
+      const comma = makeWord(",", 8, 2, () => matInk, { ltr: true }); comma.position.set(-8.6, 3.2, 4.6); g3.add(comma);
+      const shek = makeWord("₪", 9, 3, () => matGreen, { ltr: true }); shek.position.set(27.5, 2.2, 1); g3.add(shek);
+      const bang = makeWord("!!", 13, 4, () => matInk, { ltr: true }); bang.position.set(0, 17.5, 0); g3.add(bang);
+      // the strip maps digit d to angle; digits run around the cylinder
+      const digitAngle = (d) => DIGIT_OFF + DIGIT_DIR * (d / 10) * Math.PI * 2;
+
+      // ----- S4: 😱 billboard for the dolly zoom -----
+      const g4 = new THREE.Group(); g4.position.copy(X4); scene.add(g4);
+      let emo;
+      function buildEmoji() {
+        const c = document.createElement("canvas"); c.width = c.height = 1024; const g = c.getContext("2d");
+        g.font = "880px 'Noto Color Emoji'"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("😱", 512, 560);
+        const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+        emo = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshStandardMaterial({ map: t, transparent: true, alphaTest: 0.4, roughness: 0.6, side: THREE.DoubleSide }));
+        emo.position.set(0, 15.5, 0); emo.castShadow = true; g4.add(emo);
+      }
+      // a ring of grid "pillars" to sell the dolly zoom
+      for (let i = 0; i < 18; i++) {
+        const x = (i % 6 - 2.5) * 22 + (i % 2) * 6, z = -40 - Math.floor(i / 6) * 34, h = 5 + (i % 4) * 4;
+        const m = new THREE.Mesh(new THREE.BoxGeometry(4, h, 4), i % 3 ? inkM : greenM);
+        m.position.set(x, h / 2, z); m.castShadow = true; m.receiveShadow = true; g4.add(m);
+      }
+
+      // ===== S5: the dark lab section =====
+      const dark = new THREE.Scene();
+      dark.background = new THREE.Color(0x0d0d0d);
+      dark.fog = new THREE.FogExp2(0x0d0d0d, 0.0065);
+      dark.add(new THREE.HemisphereLight(0x9cff7a, 0x050505, 0.6));
+      const dkey = new THREE.DirectionalLight(0xffffff, 1.6); dkey.position.set(-30, 60, 60); dark.add(dkey);
+      const drim = new THREE.PointLight(GREEN, 600, 120, 1.4); drim.position.set(0, 14, -14); dark.add(drim);
+      const dgrid = new THREE.GridHelper(1200, 120, 0x2f7d18, 0x1e3a14); dgrid.material.transparent = true; dgrid.material.opacity = 0.55; dark.add(dgrid);
+      const matNeon = [new THREE.MeshStandardMaterial({ color: GREEN, emissive: GREEN, emissiveIntensity: 0.18, roughness: 0.3 }), new THREE.MeshStandardMaterial({ color: 0x1f7d08, emissive: 0x0d3a04, roughness: 0.35, metalness: 0.3 })];
+      const AF = makeWord("אפשר!!", 7.6, 3.4, () => matNeon); AF.position.set(0, 2, 0); dark.add(AF);
+      const conf5 = makeConfetti(260, [GREEN, GREEN, 0xffffff]); dark.add(conf5);
+
+      // ---------- post ----------
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 }));
+      composer.setPixelRatio(1); composer.setSize(W, H);
+      const rpass = new RenderPass(scene, camera); composer.addPass(rpass);
+      const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0, 0.45, 0.82); composer.addPass(bloom);
+      composer.addPass(new OutputPass());
+      const fx = new ShaderPass({
+        uniforms: { tDiffuse: { value: null }, amount: { value: 0 }, time: { value: 0 }, vig: { value: 0.86 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float amount; uniform float time; uniform float vig; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time * 61.7) * 43758.5453); }
+          void main(){ vec2 d = (vUv - 0.5) * amount;
+            vec3 c = vec3(texture2D(tDiffuse, vUv + d).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - d).b);
+            c *= mix(vig, 1.0, smoothstep(1.0, 0.4, length((vUv - 0.5) * vec2(0.9, 1.0))));
+            c += (hash(floor(vUv * vec2(1080.0, 1920.0))) - 0.5) * 0.035;
+            gl_FragColor = vec4(c, 1.0); }`,
+      });
+      composer.addPass(fx);
+
+      // ---------- HTML captions ----------
+      // each line: [text, t, highlight]; words reveal on their own VO times
+      function buildCap(id, lines) {
+        const host = $(id); const items = [];
+        lines.forEach(([words, hl]) => {
+          const ln = document.createElement("span"); ln.className = "ln";
+          const box = hl ? document.createElement("span") : ln;
+          items.push({ el: ln, t: words[0][1], line: true });
+          if (hl) { box.className = "hl"; const b = document.createElement("b"); box.appendChild(b); items.push({ el: b, t: words[0][1], bar: true }); ln.appendChild(box); }
+          words.forEach(([w, t], i) => {
+            const s = document.createElement("span"); s.className = "w"; s.textContent = w + (i < words.length - 1 ? " " : "");
+            (hl ? box : ln).appendChild(s); items.push({ el: s, t });
+          });
+          host.appendChild(ln);
+        });
+        return items;
+      }
+      const CAP2 = buildCap("#c2", [[[["כל", 3.64], ["מה", 3.84], ["שצריך", 3.96], ["לדעת", 4.34]]], [[["על", 4.64], ["Claude", 4.82]]], [[["במקום", 5.28], ["אחד?!", 5.7]], true]]);
+      const CAP3 = buildCap("#c3", [[[["אבל", 6.64], ["אמרו", 6.82], ["לי", 7.02]]], [[["שאני", 7.14], ["צריך", 7.36], ["קורס", 7.68]]]]);
+      const CAP4 = buildCap("#c4", [[[["אל", 9.64], ["תגיד", 9.8], ["לי", 10.06]]], [[["שאפשר", 10.18], ["ללמוד", 10.5]]], [[["Claude", 10.86], ["בקלות", 11.12]], true]]);
+      const CAP6 = buildCap("#c6", [[[["כנסו", 13.82], ["עכשיו", 14.14]]], [[["refael-ai.com", 14.6]], true]]);
+      const CAP7 = buildCap("#c7", [[[["רוצה", 17.32], ["ללמוד", 17.56], ["איך", 17.84]]], [[["עושים", 17.94], ["את", 18.18], ["הסרטון", 18.28], ["הזה?", 18.72]]], [[["תגיב", 19.3], ["״אני״", 19.86]], true]]);
+      function playCap(items, t, tOut) {
+        items.forEach((it) => {
+          const k = seg(t, it.t - 0.04, it.t + 0.18);
+          if (it.bar) { it.el.style.transform = `scaleX(${E.outExpo(k).toFixed(3)})`; return; }
+          if (it.line) { const kl = seg(t, it.t - 0.08, it.t + 0.12); it.el.style.opacity = kl > 0 ? "1" : "0"; it.el.style.transform = `rotate(${(1 - E.outBack(kl)) * -6}deg) scale(${Math.max(0.001, E.outBack(kl)).toFixed(3)})`; return; }
+          it.el.style.display = k > 0 ? "inline-block" : "none";
+          it.el.style.transform = `translateY(${(lerp(70, 0, E.outBack(k))).toFixed(1)}px) scale(${lerp(0.6, 1, E.outBack(k)).toFixed(3)})`;
+        });
+        const host = items[0].el.closest(".cap");
+        host.style.opacity = t < tOut ? "1" : "0";
+      }
+
+      // ---------- build (fonts first so canvas textures use Rubik / Noto Emoji) ----------
+      let ready = false; const TAP = { x: 470, y: 690 };
+      async function build() {
+        await Promise.all([document.fonts.load("900 100px Rubik"), document.fonts.load("700 50px Rubik"), document.fonts.load("100px 'Noto Color Emoji'", "😱📘")]);
+        buildCards(); buildCrateFront(); buildEmoji();
+        // aim the tap ring at the bio link (layout is static inside the phone)
+        { const ph = $("#ph"), lk = $("#ig .lk"); let x = 0, y = 0, el = lk; while (el && el !== ph) { x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; } TAP.x = x + lk.offsetWidth / 2; TAP.y = y + lk.offsetHeight / 2; }
+        ready = true;
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      const built = build(); window.__hf.buildReady["promo-scene"] = built;
+
+      // ---------- camera helpers ----------
+      const camPos = new THREE.Vector3(), camLook = new THREE.Vector3();
+      function fromShots(shots, t) {
+        const sh = shots.find((s) => t >= s.a && t < s.b) || shots[shots.length - 1];
+        const k = (sh.e || E.lin)(seg(t, sh.a, sh.b));
+        camPos.lerpVectors(sh.p0, sh.p1, k); camLook.lerpVectors(sh.l0, sh.l1, k); return sh;
+      }
+      const add = (o, x, y, z) => v3(o.x + x, o.y + y, o.z + z);
+      const S2SHOTS = [
+        { a: T.S2, b: 4.1, p0: add(X2, 4, 120, 90), p1: add(X2, 0, 30, 76), l0: add(X2, 0, 40, -40), l1: add(X2, 0, 8, 0), e: E.outCubic },
+        { a: 4.1, b: 5.25, p0: add(X2, 0, 30, 76), p1: add(X2, 24, 22, 68), l0: add(X2, 0, 8, 0), l1: add(X2, 0, 7, 0), e: E.inOutSine },
+        { a: 5.25, b: 5.8, p0: add(X2, 24, 22, 68), p1: add(X2, 8, 30, 66), l0: add(X2, 0, 7, 0), l1: add(X2, 0, 3, 8), e: E.inOutCubic },
+        { a: 5.8, b: T.S3, p0: add(X2, 8, 30, 66), p1: add(X2, 3, 20, 50), l0: add(X2, 0, 3, 8), l1: add(X2, 0, 4, 8), e: E.outCubic },
+      ];
+      const S3SHOTS = [
+        { a: T.S3, b: 7.9, p0: add(X3, -14, 20, 92), p1: add(X3, -3, 10, 84), l0: add(X3, 2, 6, 0), l1: add(X3, 2, 6, 0), e: E.outCubic },
+        { a: 7.9, b: 8.72, p0: add(X3, -3, 10, 84), p1: add(X3, 4, 8, 78), l0: add(X3, 2, 6, 0), l1: add(X3, 3, 6, 0), e: E.inOutSine },
+        { a: 8.72, b: 9.25, p0: add(X3, 4, 12, 86), p1: add(X3, 3, 13, 90), l0: add(X3, 3, 7, 0), l1: add(X3, 3, 7, 0), e: E.outCubic },
+        { a: 9.25, b: T.S4, p0: add(X3, 3, 13, 90), p1: add(X3, 6.5, 5.3, 6), l0: add(X3, 3, 7, 0), l1: add(X3, 6.5, 5.1, 0), e: E.inExpo },
+      ];
+
+      const flash = $("#flash"), pause = $("#pause"), label = $("#label"), dots = $("#dots"), iris = $("#iris");
+      const s6 = $("#s6"), s7 = $("#s7");
+      function renderAt(t) {
+        if (!ready) return;
+        let shake = 0, chroma = 0.002, blur = 0, fl = 0, fov = 42, roll = 0;
+        const hit = (ti, a = 1, r = 12) => (t >= ti ? a * Math.exp(-(t - ti) * r) : 0);
+        const darkMode = t >= T.S5 && t < T.S6;
+        rpass.scene = darkMode ? dark : scene;
+        bloom.strength = darkMode ? 0.45 + 0.7 * hit(12.66, 1, 6) : 0;
+        fx.uniforms.vig.value = darkMode ? 0.55 : 0.86;
+
+        // --- S1 ---
+        const sim = (x) => (x < F1 ? x : x < UNF ? F1 : x - (UNF - F1));
+        const st = sim(t); const inS1 = t < T.S2;
+        letters.forEach((g, i) => {
+          const s = 0.06 + i * 0.03, e = T_IMP - 0.02 + i * 0.02; const k = seg(st, s, e);
+          g.visible = st >= s; g.position.y = lerp(95, 0, E.inQuad(k)); g.rotation.z = lerp(i ? 0.6 : -0.5, 0, E.inQuad(k));
+          const sq = st > e ? 1 - 0.2 * Math.exp(-(st - e) * 13) * Math.cos((st - e) * 34) : 1; g.scale.set(2 - sq, sq, 1);
+        });
+        puncts.forEach((g, i) => {
+          const s = 0.38 + i * 0.08; const k = seg(st, s, s + 0.3);
+          g.visible = st >= s; g.scale.setScalar(Math.max(0.001, E.outBack(k)));
+          g.position.y = Math.sin(Math.PI * clamp(k * 1.4)) * 7; g.rotation.y = (1 - E.outCubic(k)) * 3.2;
+        });
+        stepConfetti(conf1, v3(0, 0, 0), inS1 ? st - T_IMP : -1);
+
+        // --- S2: star rises, cards orbit, all dive into the crate, lid slams ---
+        const s2t = t - T.S2;
+        star.visible = t >= 3.62 && t < 5.72;
+        star.scale.setScalar(Math.max(0.001, E.outBack(seg(t, 3.64, 4.0)) * (1 + 0.18 * hit(4.82, 1, 8)) * (1 - E.inCubic(seg(t, 5.36, 5.68)))));
+        star.rotation.z = -t * 1.6; star.rotation.y = Math.sin(t * 1.3) * 0.35;
+        star.position.y = lerp(14, 6, E.inCubic(seg(t, 5.36, 5.68)));
+        star.position.z = lerp(-6, 8, E.inCubic(seg(t, 5.36, 5.68)));
+        cardMeshes.forEach((m, i) => {
+          const tin = 3.9 + i * 0.12; const k = E.outBack(seg(t, tin, tin + 0.35));
+          const ang = (i / 5) * Math.PI * 2 + s2t * 1.1;
+          const ox = Math.sin(ang) * 13, oz = Math.cos(ang) * 10 - 6, oy = 9 + Math.sin(ang * 2 + i) * 1.5;
+          const from = v3(Math.sin(ang) * 120, 40 + i * 6, Math.cos(ang) * 90);
+          const dive = E.inCubic(seg(t, 5.3 + i * 0.06, 5.58 + i * 0.06));
+          m.visible = t >= tin && dive < 1;
+          m.position.set(lerp(lerp(from.x, ox, k), 0, dive), lerp(lerp(from.y, oy, k), 5, dive), lerp(lerp(from.z, oz, k), 8, dive));
+          m.rotation.set(lerp(0, -1.4, dive), lerp(ang, 0, dive) + (1 - k) * 2, lerp(Math.sin(ang) * 0.08, 0, dive));
+          m.scale.setScalar(lerp(0.78, 0.45, dive));
+        });
+        const cr = E.outBack(seg(t, 5.2, 5.5)); crate.visible = t >= 5.2; crate.position.y = lerp(-14, 0, cr);
+        const lidK = seg(t, 5.6, 5.76); lidPivot.rotation.x = lerp(-1.95, 0, E.inQuad(lidK));
+        const bounce = t > 5.76 ? Math.exp(-(t - 5.76) * 6) * Math.sin((t - 5.76) * 22) : 0;
+        crate.scale.set(1 + 0.08 * bounce, 1 - 0.1 * bounce, 1 + 0.08 * bounce);
+        stepConfetti(conf2, add(X2, 0, 10, 8), t >= T.S2 && t < T.S3 ? t - 5.76 : -1, 0.08, 0.6);
+
+        // --- S3: reels spin and land on 5 / 0 / 0 / 0; alarm light; "!!" ---
+        const LAND = [7.94, 8.12, 8.3, 8.48], TARGET = [5, 0, 0, 0];
+        reels.forEach((m, i) => {
+          const t0 = 6.5, t1 = LAND[i]; const k = seg(t, t0, t1);
+          const spins = 9 + i * 2; const final = digitAngle(TARGET[i]) + spins * Math.PI * 2;
+          const ease = 1 - Math.pow(1 - k, 3);
+          m.rotation.x = -(final * ease) - (t > t1 ? 0.06 * Math.exp(-(t - t1) * 10) * Math.sin((t - t1) * 40) : 0);
+        });
+        comma.visible = t >= 8.12; comma.scale.setScalar(Math.max(0.001, E.outBack(seg(t, 8.12, 8.3))));
+        shek.visible = t >= 8.7; shek.scale.setScalar(Math.max(0.001, E.outBack(seg(t, 8.72, 8.95)))); shek.rotation.y = (1 - E.outCubic(seg(t, 8.72, 9.1))) * 6;
+        bang.visible = t >= 8.86; bang.position.y = lerp(60, 17.5, E.inQuad(seg(t, 8.86, 9.02)));
+        const inS3 = t >= T.S3 && t < T.S4;
+        alarm.position.set(X3.x + Math.sin(t * 9) * 18, 12, 14); alarm.intensity = inS3 && t > 8.7 ? 900 * (0.6 + 0.4 * Math.sin(t * 24)) : 0;
+
+        // --- S4 ---
+        if (emo) { emo.rotation.y = Math.sin(t * 1.1) * 0.12; const sc = 1 + 0.04 * Math.sin(t * 10) * seg(t, 11.66, 12.6); emo.scale.setScalar(sc); }
+
+        // --- S5: "אפשר!!" flies in from behind the camera ---
+        AF.userData.glyphs.forEach((g, i) => {
+          const j = AF.userData.glyphs.length - 1 - i; const s = 12.62 + j * 0.03; const k = seg(t, s, s + 0.16);
+          g.visible = t >= s; g.position.z = lerp(110, 0, E.outExpo(k)); g.rotation.x = lerp(-1.2, 0, E.outExpo(k));
+          const e = s + 0.16; const sq = t > e ? 1 + 0.25 * Math.exp(-(t - e) * 12) * Math.sin((t - e) * 36) : 1; g.scale.set(1, sq, 1);
+        });
+        stepConfetti(conf5, v3(0, 2, 0), darkMode ? t - 12.7 : -1, 0.05, 1.1);
+
+        // ===== camera per scene =====
+        if (t < T.S2) {
+          placeSun(v3(0, 0, 0));
+          const sh = fromShots(S1SHOTS, t);
+          shake += hit(T_IMP, 1, 9); [F1, F2, F3].forEach((f) => { shake += hit(f, 0.8, 14); chroma += hit(f, 0.02, 16); fl += hit(f, 0.6, 22); });
+          chroma += hit(T_IMP, 0.02, 10);
+          blur = Math.pow(seg(t, UNF, T.S2), 2) * 9;
+          pause.style.opacity = t >= F1 && t < UNF ? "1" : "0";
+          const lastF = [F1, F2, F3].filter((f) => t >= f).pop();
+          pause.style.transform = `scale(${t >= F1 && t < UNF ? (1 + 0.18 * Math.exp(-(t - lastF) * 12)).toFixed(3) : 1})`;
+        } else if (t < T.S3) {
+          placeSun(X2); fromShots(S2SHOTS, t);
+          blur = Math.pow(1 - seg(t, T.S2, 3.85), 2) * 9 + Math.pow(seg(t, 6.25, T.S3), 2) * 10;
+          shake += hit(5.76, 1.1, 10) + hit(4.82, 0.3, 12); chroma += hit(5.76, 0.02, 10);
+          roll = Math.sin(t * 1.2) * 0.02;
+        } else if (t < T.S4) {
+          placeSun(X3); fromShots(S3SHOTS, t);
+          blur = Math.pow(1 - seg(t, T.S3, 6.62), 2) * 10 + Math.pow(seg(t, 9.35, T.S4), 2) * 6;
+          LAND.forEach((l) => (shake += hit(l, 0.35, 16)));
+          shake += hit(8.74, 1.0, 9) + hit(9.0, 0.7, 10); chroma += hit(8.74, 0.025, 9);
+          roll = lerp(0.12, 0.05, seg(t, T.S3, 8.7)) + hit(8.74, 0.05, 8);
+          fl += hit(T.S4 - 0.06, 0, 1);
+        } else if (t < T.S5) {
+          // dolly zoom: pull back while the lens narrows so 😱 holds its size and the world stretches
+          placeSun(X4);
+          const k = E.inOutSine(seg(t, T.S4, 11.7));
+          const target = add(X4, 0, 15.5, 0);
+          const half = 30; // the emoji holds ~half the frame height
+          fov = lerp(88, 22, k);
+          const dist = half / Math.tan(THREE.MathUtils.degToRad(fov / 2));
+          const creep = seg(t, 11.66, T.S5);
+          camPos.set(target.x + Math.sin(k * 0.6) * dist * 0.12, target.y + 2 + k * 6, target.z + dist * Math.cos(k * 0.6) * (1 - 0.18 * E.inCubic(creep)));
+          camLook.copy(target);
+          fl += hit(T.S4, 0.7, 10);
+          shake += 0.05 * Math.sin(t * 40) * creep;
+        } else {
+          // S5 dark
+          const k = seg(t, T.S5, T.S6);
+          camPos.set(lerp(-6, 6, k), lerp(9, 11, k), lerp(104, 94, E.outCubic(k)));
+          camLook.set(0, 6, 0);
+          shake += hit(12.66, 1.4, 8); chroma += hit(12.66, 0.03, 8); fl += hit(12.62, 0.8, 16);
+        }
+        camera.fov = fov; camera.updateProjectionMatrix();
+        camera.position.set(camPos.x + Math.sin(t * 93) * shake * 0.9, camPos.y + Math.cos(t * 81) * shake * 0.9, camPos.z);
+        camera.lookAt(camLook);
+        camera.rotation.z += roll + Math.sin(t * 1.4) * 0.01 + Math.sin(t * 70) * shake * 0.015;
+        camera.updateMatrixWorld();
+
+        // S1 stamps ride with the camera
+        R.forEach((w, i) => {
+          const s = S1SHOTS.find((x) => x.stamp === i); const on = t >= s.a && t < s.b + (i === 2 ? 0.25 : 0) && t < T.S2;
+          w.visible = on; if (!on) return;
+          const D = [20, 26, 16][i];
+          const fwv = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion), upv = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);
+          w.position.copy(camera.position).addScaledVector(fwv, D).addScaledVector(upv, [-0.26, 0.2, 0.22][i] * 0.432 * D * 1.77 - 0.35 * w.userData.s * 7.5);
+          w.quaternion.copy(camera.quaternion);
+          const k = seg(t, s.a, s.a + 0.16); w.scale.setScalar(w.userData.s * lerp(2.2, 1, E.outExpo(k)));
+          w.rotateZ(lerp([-0.35, 0.3, -0.12][i], [-0.06, 0.05, 0][i], E.outExpo(k)));
+        });
+
+        canvas.style.filter = blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : "none";
+        fx.uniforms.amount.value = chroma;
+        fx.uniforms.time.value = Math.floor(t * 60) / 60;
+        if (t < T.S6) composer.render();
+
+        // ===== HTML layers =====
+        label.style.opacity = t < UNF ? "1" : (1 - seg(t, UNF, 3.3)).toFixed(3);
+        playCap(CAP2, t, T.S3); $("#c2").style.opacity = t >= T.S2 && t < T.S3 - 0.12 ? "1" : "0";
+        playCap(CAP3, t, T.S4); $("#c3").style.opacity = t >= T.S3 && t < 9.3 ? "1" : "0";
+        playCap(CAP4, t, T.S5); $("#c4").style.opacity = t >= T.S4 && t < 11.75 ? "1" : "0";
+        // "..." typing dots during the silence
+        const dk = seg(t, 11.72, 11.9) * (1 - seg(t, 12.5, 12.62));
+        dots.style.opacity = dk.toFixed(3);
+        dots.style.transform = `scale(${lerp(0.6, 1, E.outBack(seg(t, 11.72, 11.95))).toFixed(3)})`;
+        [...dots.children].forEach((d, i) => { d.style.transform = `translateY(${(-16 * Math.max(0, Math.sin((t - 11.7) * 9 - i * 0.9))).toFixed(1)}px)`; });
+
+        // iris: green circle swallows the dark scene, then wipes up to reveal the site
+        const ik = E.inCubic(seg(t, 13.36, T.S6));
+        const up = E.inOutCubic(seg(t, T.S6, 13.9));
+        iris.style.clipPath = `circle(${(ik * 1200).toFixed(0)}px at 540px 960px)`;
+        iris.style.transform = `translateY(${(-up * 1920).toFixed(0)}px)`;
+        iris.style.opacity = t >= 13.36 && t < 13.92 ? "1" : "0";
+
+        // S6
+        s6.style.opacity = t >= T.S6 && t < T.S7 + 0.05 ? "1" : "0";
+        if (t >= T.S6 && t < T.S7 + 0.05) {
+          playCap(CAP6, t, T.S7);
+          const k = E.outCubic(seg(t, T.S6, 14.5));
+          const out = E.inCubic(seg(t, 16.95, T.S7));
+          $("#ph").style.transform = `translateY(${lerp(500, 0, k).toFixed(0)}px) rotateY(${lerp(-24, 0, k).toFixed(2)}deg) rotateX(${lerp(14, 0, k).toFixed(2)}deg) scale(${lerp(1, 3.2, out).toFixed(3)})`;
+          $("#ph").style.transformOrigin = "620px 250px";
+          const url = "refael-ai.com"; const n = Math.round(clamp((t - 13.86) / 1.0) * url.length);
+          $("#url").textContent = url.slice(0, n);
+          $("#car").style.opacity = t < 15.1 && Math.floor(t * 4) % 2 === 0 ? "1" : "0";
+          $("#load").style.transform = `scaleX(${E.outCubic(seg(t, 14.9, 15.2)).toFixed(3)})`;
+          $("#load").style.opacity = t >= 14.9 && t < 15.35 ? "1" : "0";
+          const pg = seg(t, 15.05, 15.2);
+          $("#page").style.opacity = pg.toFixed(3);
+          $("#site").style.transform = `translateY(${(-E.inOutSine(seg(t, 15.4, 16.1)) * 420).toFixed(0)}px)`;
+          const igk = seg(t, 16.12, 16.3);
+          $("#ig").style.opacity = igk.toFixed(3); $("#bar").style.opacity = (1 - igk).toFixed(3);
+          $("#ig").style.transform = `translateX(${lerp(-200, 0, E.outCubic(igk)).toFixed(0)}px)`;
+          $("#lkhl").style.transform = `scaleX(${E.outExpo(seg(t, 16.55, 16.8)).toFixed(3)})`;
+          const tp = seg(t, 16.5, 16.62) * (1 - seg(t, 16.8, 16.95));
+          const tapEl = $("#tap"); tapEl.style.opacity = tp.toFixed(3); tapEl.style.left = TAP.x + "px"; tapEl.style.top = TAP.y + "px";
+          tapEl.style.transform = `scale(${lerp(1.6, 1, E.outBack(seg(t, 16.5, 16.65))).toFixed(3)})`;
+          $("#c6").style.opacity = t < 16.1 ? "1" : "0";
+        }
+
+        // S7
+        s7.style.opacity = t >= T.S7 ? "1" : "0";
+        if (t >= T.S7) {
+          playCap(CAP7, t, T.END + 1);
+          const k = seg(t, T.S7, 17.5);
+          $("#disc").style.transform = `scale(${lerp(0.2, 1, E.outBack(k)).toFixed(3)})`;
+          $("#ring").style.transform = `rotate(${(t * 12).toFixed(1)}deg) scale(${lerp(0.5, 1, E.outCubic(k)).toFixed(3)})`;
+          $("#me").style.transform = `translateY(${lerp(700, 0, E.outCubic(seg(t, 17.2, 17.7))).toFixed(0)}px) scale(${(1 + 0.012 * Math.sin(t * 2)).toFixed(4)})`;
+          $("#stk").style.transform = `rotate(-8deg) scale(${Math.max(0.001, E.outBack(seg(t, 17.85, 18.1))).toFixed(3)})`;
+          ["#o1", "#o2", "#o3"].forEach((o, i) => {
+            const kk = E.outBack(seg(t, 17.5 + i * 0.1, 17.8 + i * 0.1));
+            $(o).style.transform = `scale(${Math.max(0.001, kk).toFixed(3)}) translateY(${(Math.sin(t * 2.2 + i * 2) * 14).toFixed(1)}px) rotate(${(Math.sin(t * 1.6 + i) * 8).toFixed(1)}deg)`;
+          });
+          const cb = E.outBack(seg(t, 19.2, 19.45));
+          $("#cbox").style.transform = `translateY(${lerp(300, 0, cb).toFixed(0)}px) scale(${(1 + 0.06 * hit(20.0, 1, 8)).toFixed(3)})`;
+          const typed = "אני"; const n = Math.round(clamp((t - 19.5) / 0.4) * typed.length);
+          $("#cbt").textContent = typed.slice(0, n); $("#cph").style.display = n > 0 ? "none" : "inline";
+        }
+        // hearts burst on "send"
+        document.querySelectorAll(".heart").forEach((h, i) => {
+          const dt = t - 20.02 - i * 0.03; const on = dt > 0 && dt < 1.4;
+          h.style.opacity = on ? (1 - seg(dt, 0.8, 1.4)).toFixed(3) : "0";
+          const a = (i / 9) * Math.PI - Math.PI; const r = 280 * E.outCubic(seg(dt, 0, 0.9));
+          h.style.transform = `translate(${(Math.cos(a) * r).toFixed(0)}px, ${(Math.sin(a) * r * 1.2 - dt * 60).toFixed(0)}px) scale(${lerp(0.3, 1, E.outBack(seg(dt, 0, 0.3))).toFixed(3)})`;
+        });
+        flash.style.opacity = clamp(fl).toFixed(3);
+      }
+      // hearts
+      for (let i = 0; i < 10; i++) { const h = document.createElement("div"); h.className = "heart"; h.textContent = i % 3 ? "💚" : "🤍"; h.style.left = "460px"; h.style.top = "1580px"; s7.appendChild(h); }
+
+      built.then(() => renderAt(window.__hfThreeTime || 0));
+      window.addEventListener("hf-seek", (e) => { if (ready) renderAt(e.detail.time); else built.then(() => renderAt(e.detail.time)); });
+    </script>
+  </body>
+</html>
