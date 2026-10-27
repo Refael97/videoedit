@@ -153,6 +153,42 @@ const { chromium } = require("playwright");
           S.boxes.push({ r: R(r), op: +o.toFixed(2), po: +po.toFixed(2), id: el.id || "", cls: String(el.className).slice(0, 40), textIn, visualIn });
         }
       }
+      // graphic-on-graphic overlaps between major items (cards >= 160x100, media, titles >= 40px), unless both sit in
+      // the same [data-qa-stack] (stacking the language allows) or one contains the other
+      const majors = [];
+      for (const el of document.body.querySelectorAll("*")) {
+        if (["SCRIPT", "STYLE", "AUDIO", "SOURCE"].includes(el.tagName) || isCap(el)) continue;
+        if (faceVid && (el === faceVid || el.contains(faceVid) || /matte/i.test(el.id))) continue;
+        if (el.dataset && (el.dataset.qa === "bg" || el.dataset.qa === "overlay")) continue;
+        const o = opa(el); if (o <= 0.5) continue;
+        const cs = getComputedStyle(el), tag = el.tagName.toLowerCase();
+        let r = null;
+        const own = Array.from(el.childNodes).filter((n) => n.nodeType === 3 && n.textContent.trim());
+        if (own.length && parseFloat(cs.fontSize) * scaleOf(el) >= 40 && !el.closest("svg")) {
+          let x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9; own.forEach((n) => { const rg = document.createRange(); rg.selectNodeContents(n); const q = rg.getBoundingClientRect(); x1 = Math.min(x1, q.left); y1 = Math.min(y1, q.top); x2 = Math.max(x2, q.right); y2 = Math.max(y2, q.bottom); });
+          r = [x1, y1, x2 - x1, y2 - y1];
+        } else {
+          const q = el.getBoundingClientRect(); if (q.width < 160 || q.height < 100 || q.width * q.height > 0.85 * VW * VH) continue;
+          const isMedia = tag === "img" || tag === "canvas" || (tag === "video") || (tag === "svg" && !el.parentElement.closest("svg"));
+          const isCard = bgVisible(cs) || (cs.backdropFilter && cs.backdropFilter !== "none") || (parseFloat(cs.borderTopWidth) >= 2 && cs.borderTopStyle !== "none") || cs.boxShadow !== "none";
+          if (!isMedia && !isCard) continue;
+          if (q.width >= 0.95 * VW && q.height >= 0.25 * VH && !(el.innerText || "").trim()) continue;
+          if (tag === "svg") { let x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9; el.querySelectorAll("path,circle,rect,line,polyline,polygon,ellipse,text,image").forEach((c) => { if (c.closest("defs,mask,clipPath") || opa(c) < 0.05) return; const cr = c.getBoundingClientRect(); if (cr.width < 1 && cr.height < 1) return; x1 = Math.min(x1, cr.left); y1 = Math.min(y1, cr.top); x2 = Math.max(x2, cr.right); y2 = Math.max(y2, cr.bottom); }); if (x2 <= x1 || x2 - x1 < 160 && y2 - y1 < 100) continue; r = [x1, y1, x2 - x1, y2 - y1]; }
+          else r = [q.left, q.top, q.width, q.height];
+        }
+        const cb = clipBox(el); const v = [Math.max(r[0], cb[0], 0), Math.max(r[1], cb[1], 0), Math.min(r[0] + r[2], cb[2], VW), Math.min(r[1] + r[3], cb[3], VH)];
+        if (v[2] - v[0] < 4 || v[3] - v[1] < 4) continue;
+        majors.push({ el, r: [v[0], v[1], v[2] - v[0], v[3] - v[1]], label: el.id ? "#" + el.id : tag + "." + String(el.className.baseVal ?? el.className).split(" ")[0] });
+      }
+      S.overlaps = [];
+      for (let i = 0; i < majors.length; i++) for (let j = i + 1; j < majors.length; j++) {
+        const A = majors[i], B = majors[j];
+        if (A.el.contains(B.el) || B.el.contains(A.el)) continue;
+        const sa = A.el.closest("[data-qa-stack]"), sb = B.el.closest("[data-qa-stack]"); if (sa && sa === sb) continue;
+        const ix = Math.max(0, Math.min(A.r[0] + A.r[2], B.r[0] + B.r[2]) - Math.max(A.r[0], B.r[0])), iy = Math.max(0, Math.min(A.r[1] + A.r[3], B.r[1] + B.r[3]) - Math.max(A.r[1], B.r[1]));
+        const ia = ix * iy, small = Math.min(A.r[2] * A.r[3], B.r[2] * B.r[3]);
+        if (ia > 400 && ia > 0.04 * small) S.overlaps.push({ a: A.label, b: B.label, share: +(ia / small).toFixed(2) });
+      }
       // digits near charts
       S.charts.forEach((c) => { const [x, y, w, h] = c.r; c.digits = S.texts.some((tx) => /\d/.test(tx.tx) && !tx.cap && tx.r[0] < x + w + 40 && tx.r[0] + tx.r[2] > x - 40 && tx.r[1] < y + h + 40 && tx.r[1] + tx.r[3] > y - 40); });
       samples.push(S);

@@ -12,6 +12,7 @@ HERE = pathlib.Path(__file__).resolve().parent
 THEMES = HERE.parent.parent / "themes"
 sys.path.insert(0, str(HERE))
 import video_metrics as vm  # noqa: E402
+import layers  # noqa: E402
 
 HF = ["npx", "--yes", "hyperframes@0.8.150"]
 VW, VH = 1080, 1920
@@ -20,11 +21,11 @@ HERO_MIN = 0.60
 PAYOFF_TOL, PAYOFF_HOLD = 0.15, 0.8
 
 CHECKS = [
-    ("motion", "motion"), ("flat", "flat stretches"), ("actions", "actions / s"), ("payoff", "payoff lands"),
-    ("text", "min text"), ("hero", "hero fill"), ("collide", "collisions"), ("placeholder", "no placeholders"), ("hook", "hook visual"),
+    ("motion", "graphics motion"), ("flat", "flat stretches"), ("actions", "actions / s"), ("payoff", "payoff lands"),
+    ("text", "min text"), ("hero", "hero fill"), ("collide", "collisions"), ("overlap", "graphic overlaps"), ("placeholder", "no placeholders"), ("hook", "hook visual"),
 ]
 FIX = {
-    "motion": "more movement overall: give held graphics a slow push, add secondary motion (dots, sweeps, counters), punch on stressed words",
+    "motion": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)",
     "flat": "add a build-up event, secondary motion or a camera move (push / punch) here",
     "actions_low": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s",
     "actions_high": "too busy: merge or drop events so each lands on a word",
@@ -40,6 +41,7 @@ FIX = {
     "uniform": "uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content",
     "flat_img": "image with almost no detail (grey box?): use a real frame / screenshot",
     "chart": "a chart needs real numbers: add axis values / the measured figures, or drop the chart",
+    "overlap": "move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container",
     "hook": "open on a visual (the result, the thing itself, real thumbnails), not text alone",
 }
 
@@ -95,6 +97,38 @@ def face_boxes(src, times):
     return out, size
 
 
+def render_graphics_only(proj, html, draft, dur, reuse):
+    """the same composition with the footage blacked out (face video -> black, matte -> transparent), drafted like the
+    main draft: a mirror project in renders/qa-gfx/ whose files are symlinks except index.html"""
+    import os, shutil
+    out = proj / "renders/qa-gfx-draft.mp4"
+    if reuse and out.exists() and out.stat().st_mtime > (proj / "index.html").stat().st_mtime:
+        return out
+    mir = proj / "renders/qa-gfx"
+    if mir.exists():
+        shutil.rmtree(mir)
+    mir.mkdir(parents=True)
+    for e in proj.iterdir():
+        if e.name not in ("index.html", "renders", "node_modules", ".hyperframes"):
+            os.symlink(e, mir / e.name)
+    black, clear = mir / "qa-black.mp4", mir / "qa-clear.webm"
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i", f"color=black:s=1080x1920:r=30:d={dur + 1}", "-c:v", "libx264", "-pix_fmt", "yuv420p", str(black)], check=True)
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i", f"color=black@0.0:s=360x640:r=30:d={dur + 1},format=yuva420p", "-c:v", "libvpx-vp9", "-pix_fmt", "yuva420p", "-auto-alt-ref", "0", str(clear)], check=True)
+    def swap(m):
+        tag = m.group(0)
+        if re.search(r'matte', tag, re.I):
+            return re.sub(r'src="[^"]+"', 'src="qa-clear.webm"', tag)
+        if re.search(r'data-qa="face"|id="[^"]*face[^"]*"|data-track-index="0"', tag, re.I):
+            return re.sub(r'src="[^"]+"', 'src="qa-black.mp4"', tag)
+        return tag
+    (mir / "index.html").write_text(re.sub(r"<video\b[^>]*>", swap, html))
+    print("rendering graphics-only draft (footage blacked out)…")
+    r = subprocess.run(HF + ["render", "--fps", "30", "-q", "draft", "-o", str(out)], cwd=mir, capture_output=True, text=True)
+    if r.returncode:
+        sys.exit("graphics-only render failed:\n" + r.stdout[-2000:] + r.stderr[-2000:])
+    return out
+
+
 def draft_frames(path):
     raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(path), "-vf", "fps=30,scale=540:960,format=gray", "-f", "rawvideo", "-"], capture_output=True, check=True).stdout
     return np.frombuffer(raw, np.uint8).reshape(-1, 960, 540)
@@ -126,6 +160,10 @@ def main():
             sys.exit("draft render failed:\n" + r.stdout[-2000:] + r.stderr[-2000:])
     M = vm.metrics(draft)
     dur = M["duration"]
+    gfx = render_graphics_only(proj, html, draft, dur, a.reuse_draft)
+    GL = layers.graphics_motion(gfx, mask_src=draft)       # graphics layer, measured like the anchor
+    Lfoot = layers.camera_moves(layers.camera(vm.frames(draft)))  # footage / camera layer of the full draft (info)
+    acts = layers.actions(M["events"], Lfoot)
 
     # ---- 2. faces (source footage) ----
     m = re.search(r'<video[^>]*(?:data-qa="face"|id="[^"]*face[^"]*"|data-track-index="0")[^>]*>', html, re.I)
@@ -147,9 +185,10 @@ def main():
     def fix(t0, t1, check, msg):
         fixes.append({"t": f"{t0:.1f}–{t1:.1f}s", "t0": round(t0, 2), "words": words_between(words, t0, t1), "check": check, "fix": msg})
 
-    # C1 motion
-    ok = M["motion"] >= T["motion_min"]
-    res["motion"] = {"value": M["motion"], "target": f">= {T['motion_min']}", "pass": ok}
+    # C1 graphics motion (the footage layer is reported, never failed)
+    ok = GL["gfx_motion"] >= T["gfx_motion_min"]
+    res["motion"] = {"value": GL["gfx_motion"], "target": f">= {T['gfx_motion_min']}", "pass": ok,
+                     "footage": f"camera jitter {Lfoot['jitter_px']} px/frame, {len(Lfoot['punches'])} punches, {len(Lfoot['drifts'])} drifts (anchor: {T.get('footage_info', 'n/a')})"}
     if not ok:
         fix(0, dur, "motion", FIX["motion"])
     # C2 flat
@@ -159,14 +198,14 @@ def main():
         for x, y in sorted(M["flat_runs"], key=lambda r: r[1] - r[0], reverse=True)[:12]:
             fix(x, y, "flat stretches", FIX["flat"])
     # C3 actions / s (video events, same detector as the anchor) + GSAP diagnostics
-    ev = M["events_per_s"]
+    ev = round(len(acts) / dur, 2)
     lo, hi = T["events_min"], T["events_max"]
     ok = lo <= ev <= hi
     tw = [t for t in P["tweens"] if t["dom"] and not t["cap"]]
     gsap_rate = round(len(tw) / dur, 2)
     res["actions"] = {"value": f"{ev} events/s (GSAP {gsap_rate} tweens/s)", "target": f"{lo}–{hi}", "pass": ok}
     if ev < lo:
-        e = [0.0] + M["events"] + [dur]
+        e = [0.0] + acts + [dur]
         for x, y in zip(e, e[1:]):
             if y - x >= 2.0:
                 fix(x, y, "actions / s", FIX["actions_low"])
@@ -273,7 +312,20 @@ def main():
             nc += 1; fix(x, y, "collisions", f"{k} on the eyes/mouth: " + FIX["face"])
     res["collide"] = {"value": f"{nc} collisions", "target": "0", "pass": nc == 0, "faces_detected": len(faces)}
 
-    # C8 placeholders (pixels of the draft + charts without digits)
+    # C8 graphic-on-graphic overlaps (persisting >= 0.5 s)
+    ov = {}
+    for s in S:
+        for o in s.get("overlaps", []):
+            ov.setdefault(tuple(sorted((o["a"], o["b"]))), []).append((s["t"], o["share"]))
+    no = 0
+    for (x_, y_), occ in ov.items():
+        for x, y in group_times([t for t, _ in occ], step, 2):
+            no += 1
+            sh = max(v for t, v in occ if x <= t < y)
+            fix(x, y, "graphic overlaps", f"{x_} overlaps {y_} ({sh:.0%} of the smaller): " + FIX["overlap"])
+    res["overlap"] = {"value": f"{no} overlaps", "target": "0 (unless in one data-qa-stack)", "pass": no == 0}
+
+    # C9 placeholders (pixels of the draft + charts without digits)
     F = draft_frames(draft)
     uni, flatimg, nochart = {}, {}, {}
     prev_r = {}
@@ -314,7 +366,7 @@ def main():
                 npl += 1; fix(x, y, "no placeholders", f"{k}: " + FIX[msgk])
     res["placeholder"] = {"value": f"{npl} found", "target": "0", "pass": npl == 0}
 
-    # C9 hook visual
+    # C10 hook visual
     vis = [s["t"] for s in S if s["t"] < 3 and (any(m_["op"] > 0.5 and m_["r"][2] >= 120 and m_["r"][3] >= 120 for m_ in s["media"]) or any(b["op"] > 0.5 and b["r"][2] >= 150 and b["r"][3] >= 150 for b in s["boxes"]))]
     ok = len(vis) * step >= 0.5
     res["hook"] = {"value": f"visual on screen {len(vis) * step:.1f}s of the first 3s", "target": ">= 0.5s", "pass": ok}
@@ -325,13 +377,13 @@ def main():
     score = sum(1 for k, _ in CHECKS if res[k]["pass"])
     ready = score == len(CHECKS)
     fixes.sort(key=lambda f: f["t0"])
-    out = {"project": proj.name, "theme": theme, "score": f"{score}/{len(CHECKS)}", "ready": ready, "checks": res, "metrics": {k: M[k] for k in ("duration", "motion", "flat_pct", "events_per_s")}, "targets": T, "fix_list": fixes}
+    out = {"project": proj.name, "theme": theme, "score": f"{score}/{len(CHECKS)}", "ready": ready, "checks": res, "metrics": {**{k: M[k] for k in ("duration", "motion", "flat_pct", "events_per_s")}, "graphics": GL, "footage": Lfoot, "actions_per_s": round(len(acts) / dur, 2)}, "targets": T, "fix_list": fixes}
     (proj / "qa.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
     L = [f"# QA · {proj.name} · theme `{theme}`", "", f"**{score}/{len(CHECKS)} checks passed — {'READY' if ready else 'NOT READY'}**", "",
          "| | check | value | target |", "|---|---|---|---|"]
     for k, name in CHECKS:
         L.append(f"| {'✓' if res[k]['pass'] else '✗'} | {name} | {res[k]['value']} | {res[k]['target']} |")
-    L += ["", "## FIX LIST", ""]
+    L += ["", f"footage motion (info, not scored): {res['motion']['footage']}", "", "## FIX LIST", ""]
     if fixes:
         L += ["| time | words | check | fix |", "|---|---|---|---|"]
         L += [f"| {f['t']} | {f['words'][:60]} | {f['check']} | {f['fix']} |" for f in fixes]
