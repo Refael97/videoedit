@@ -333,7 +333,7 @@
         H.select(tl, "#sel9b", 46.58);
         H.dim(tl, "#dim9", 46.45);
         H.hide(tl, "#st9"); H.win(tl, "#st9", 46.5);
-        H.count(tl, "#n9", 400, 10000, 46.58, 0.84, { fmt: (v) => (v >= 9999.5 ? "10K" : (Math.round(v / 50) * 50).toLocaleString("en-US")) });
+        H.count(tl, "#n9", 400, 10000, 46.58, 0.84, { fmt: (v) => (v >= 9950 ? "10K" : v >= 1000 ? (v / 1000).toFixed(1) + "K" : String(Math.round(v / 10) * 10)) });
         H.pulse(tl, "#st9", 47.42, 1.06);
         H.push(tl, "#w9", 40.85, 7.8, 1.05);
 
