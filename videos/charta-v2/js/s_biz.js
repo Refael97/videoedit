@@ -11,16 +11,16 @@ function screen(kind) {
   g.fillStyle = INKS; g.font = "700 26px Heebo"; g.fillText("9:41", 40, 52); rr(g, 190, 22, 160, 40, 20); g.fillStyle = "#0b0b0c"; g.fill();
   g.direction = "rtl"; g.textAlign = "right";
   if (kind === "shop") {
-    g.fillStyle = INKS; g.font = "800 46px Heebo"; g.fillText("נובה", 500, 140); g.fillStyle = "rgba(18,18,20,.45)"; g.font = "500 26px Heebo"; g.fillText("קולקציית חורף", 500, 182);
+    g.fillStyle = INKS; g.font = "800 46px Heebo"; g.direction = "ltr"; g.fillText("Refael AI", 500, 140); g.direction = "rtl"; g.fillStyle = "rgba(18,18,20,.45)"; g.font = "500 26px Heebo"; g.fillText("קורסים", 500, 182);
     rr(g, 40, 220, 460, 460, 32); g.fillStyle = "#e9e7e2"; g.fill();
-    g.save(); g.translate(270, 470); g.rotate(-0.12); g.fillStyle = INKS;
-    g.beginPath(); g.moveTo(-170, 40); g.bezierCurveTo(-170, -10, -120, -40, -60, -50); g.lineTo(10, -110); g.bezierCurveTo(40, -120, 70, -100, 80, -70); g.bezierCurveTo(120, -40, 170, -10, 185, 30); g.lineTo(185, 60); g.lineTo(-170, 60); g.closePath(); g.fill();
-    g.fillStyle = "#fff"; g.fillRect(-170, 52, 355, 16); g.strokeStyle = ACC; g.lineWidth = 8; g.beginPath(); g.moveTo(-90, 10); g.quadraticCurveTo(10, -10, 90, 20); g.stroke(); g.restore();
-    g.fillStyle = INKS; g.font = "800 40px Heebo"; g.fillText("נעלי ריצה נובה X", 500, 750); g.fillStyle = "rgba(18,18,20,.5)"; g.font = "500 28px Heebo"; g.fillText("★★★★★  4.9", 500, 798);
+    rr(g, 40, 220, 460, 460, 32); g.fillStyle = INKS; g.fill();
+    g.save(); g.translate(270, 430); g.fillStyle = ACC; for (let i = 0; i < 11; i++) { g.save(); g.rotate((i / 11) * Math.PI * 2); rr(g, -14, 22, 28, 92, 14); g.fill(); g.restore(); } g.beginPath(); g.arc(0, 0, 36, 0, 7); g.fill(); g.restore();
+    g.fillStyle = "#fff"; g.font = "800 40px Heebo"; g.textAlign = "center"; g.fillText("Claude מאפס", 270, 620); g.textAlign = "right";
+    g.fillStyle = INKS; g.font = "800 40px Heebo"; g.fillText("קורס Claude מלא", 500, 750); g.fillStyle = "rgba(18,18,20,.5)"; g.font = "500 28px Heebo"; g.fillText("★★★★★  4.9", 500, 798);
     g.fillStyle = INKS; g.font = "800 62px Heebo"; g.direction = "ltr"; g.textAlign = "left"; g.fillText("₪299", 40, 880); g.direction = "rtl"; g.textAlign = "right";
     rr(g, 40, 930, 460, 106, 53); g.fillStyle = INKS; g.fill(); g.fillStyle = "#fff"; g.font = "800 42px Heebo"; g.textAlign = "center"; g.fillText("הוסף לסל", 270, 998);
   } else if (kind === "ad") {
-    g.fillStyle = INKS; g.font = "800 30px Heebo"; g.fillText("nova.store", 440, 130); g.fillStyle = ACC; g.beginPath(); g.arc(475, 120, 24, 0, 7); g.fill();
+    g.fillStyle = INKS; g.font = "800 30px Heebo"; g.direction = "ltr"; g.fillText("refael-ai.com", 440, 130); g.direction = "rtl"; g.fillStyle = ACC; g.beginPath(); g.arc(475, 120, 24, 0, 7); g.fill();
     rr(g, 0, 170, 540, 620, 0); g.fillStyle = "#121214"; g.fill();
     g.fillStyle = ACC; g.font = "800 120px Heebo"; g.textAlign = "center"; g.fillText("-40%", 270, 470); g.fillStyle = "#fff"; g.font = "800 46px Heebo"; g.fillText("רק היום", 270, 560);
     g.textAlign = "right"; g.fillStyle = INKS; g.font = "700 30px Heebo"; g.fillText("12,480 אהבו", 500, 850);
@@ -63,9 +63,9 @@ function makeBiz() {
   const logo = new THREE.Group(); logo.position.set(0, 0.7, 3.2); scene.add(logo);
   const disc = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 0.28, 96).rotateX(Math.PI / 2), mats.ceramic()); disc.castShadow = true; logo.add(disc);
   const ringM = new THREE.Mesh(new THREE.TorusGeometry(1.2, 0.05, 16, 160), mats.accent()); ringM.position.z = 0.0; logo.add(ringM); const RT = ringM.geometry.index.count;
-  const lac = mats.lacquer(); const N = chromeWord("N", { size: 1.25, depth: 0.25, mats: [lac, lac] }); N.group.position.set(0, 0.05, 0.25); logo.add(N.group);
-  const wm = chromeWord("נובה", { size: 0.95, depth: 0.3, spacing: 1.08, mats: [lac, mats.lacquer({ roughness: 0.3 })] }); wm.group.position.set(0, -2.1, 0); logo.add(wm.group);
-  const sub = canvasPlane(textCanvas("החנות שלך. בכל מסך.", { font: "800 90px Heebo", color: ACC, pad: 10 }).canvas, 0.42); sub.material.toneMapped = true; sub.position.set(0, -2.95, 0); logo.add(sub);
+  const lac = mats.lacquer(); const N = chromeWord("R", { size: 1.25, depth: 0.25, mats: [lac, lac] }); N.group.position.set(0, 0.05, 0.25); logo.add(N.group);
+  const wm = chromeWord("Refael AI", { size: 0.7, depth: 0.26, spacing: 1.04, mats: [lac, mats.lacquer({ roughness: 0.3 })] }); wm.group.position.set(0, -1.95, 0); logo.add(wm.group);
+  const sub = canvasPlane(textCanvas("לומדים AI בקלות", { font: "800 90px Heebo", color: ACC, pad: 10 }).canvas, 0.42); sub.material.toneMapped = true; sub.position.set(0, -2.72, 0); logo.add(sub);
   const backdrop = new THREE.Mesh(new THREE.PlaneGeometry(80, 50), new THREE.MeshBasicMaterial({ color: 0xdcdce0, transparent: true, fog: false })); backdrop.position.z = 1.6; scene.add(backdrop);
   const TAGPOS = new THREE.Vector3(2.35, -0.55, 1.3);
   function update(t) {
