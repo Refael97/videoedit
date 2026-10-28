@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <style>
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #d9d9db; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="7" data-width="1920" data-height="1080" data-no-timeline>
+      <canvas id="gl" width="1920" height="1080"></canvas>
+    </div>
+    <script type="module">
+      // A black lacquer cube in a pale grey photo studio. Softbox reflections slide over its faces as the camera
+      // orbits; then rivulets run down from the top edges, the corners slacken, and the whole thing slumps into a
+      // glossy puddle. The melt is a CPU deformation of a dense, welded, rounded-cube mesh with normals rebuilt per frame.
+      import * as THREE from "three";
+      import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { BokehPass } from "three/addons/postprocessing/BokehPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      const W = 1920, H = 1080, DUR = 7;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const sstep = (a, b, x) => { const k = clamp((x - a) / (b - a)); return k * k * (3 - 2 * k); };
+      const inOutSine = (x) => -(Math.cos(Math.PI * x) - 1) / 2;
+      const inOutCubic = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+      let seed = 9; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+      // cheap smooth 3D value noise for organic wobble (deterministic)
+      const hash = (x, y, z) => { const s = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453; return s - Math.floor(s); };
+      function vnoise(x, y, z) {
+        const xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z), xf = x - xi, yf = y - yi, zf = z - zi;
+        const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), w = zf * zf * (3 - 2 * zf);
+        const L = (a, b, k) => a + (b - a) * k;
+        return L(L(L(hash(xi, yi, zi), hash(xi + 1, yi, zi), u), L(hash(xi, yi + 1, zi), hash(xi + 1, yi + 1, zi), u), v),
+                 L(L(hash(xi, yi, zi + 1), hash(xi + 1, yi, zi + 1), u), L(hash(xi, yi + 1, zi + 1), hash(xi + 1, yi + 1, zi + 1), u), v), w) * 2 - 1;
+      }
+
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+      renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = 0.92;
+      renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
+
+      // ---------- the studio as an HDR environment: soft grey room + three softboxes (these are what the cube reflects) ----------
+      const envScene = new THREE.Scene();
+      envScene.add(new THREE.Mesh(new THREE.SphereGeometry(50, 64, 32), new THREE.ShaderMaterial({ side: THREE.BackSide,
+        vertexShader: "varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: "varying vec3 vP; void main(){ float h = vP.y; vec3 c = mix(vec3(0.34), vec3(0.12), smoothstep(0.0, 0.7, h)); c = mix(c, vec3(0.55), smoothstep(-0.05, -0.5, h)); gl_FragColor = vec4(c, 1.0); }" })));
+      const box = (w, h, x, y, z, ry, rx, I) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(I, I, I), side: THREE.DoubleSide })); m.position.set(x, y, z); m.rotation.set(rx, ry, 0); m.lookAt(0, 0, 0); envScene.add(m); };
+      box(26, 14, 0, 30, 4, 0, 0, 40.0);       // big overhead softbox
+      box(6, 30, -26, 6, 10, 0, 0, 30.0);      // tall strip, left
+      box(4, 26, 24, 5, -8, 0, 0, 16.0);       // strip, right-back (rim)
+      box(4, 22, 18, 3, -24, 0, 0, 5.0);     // strip seen in the +x face
+      box(4, 22, -18, 3, 24, 0, 0, 5.0);     // strip seen in the +z face        // low front fill
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      const envTex = pmrem.fromScene(envScene, 0.035).texture;
+
+      const scene = new THREE.Scene();
+      // the softbox environment lights only the lacquer; the floor is lit by real lights so it keeps its shadow
+      const BG = new THREE.Color(0xc2c2c6);
+      scene.background = BG; scene.fog = new THREE.Fog(BG, 14, 34);
+      // seamless cyclorama: floor that curves up into the back wall
+      const cyc = new THREE.Shape(); // profile is extruded sideways: flat floor → quarter round → wall
+      const pts = []; for (let i = 0; i <= 24; i++) { const a = (i / 24) * Math.PI / 2; pts.push(new THREE.Vector2(-6 - Math.sin(a) * 6, -1 + (1 - Math.cos(a)) * 6)); }
+      const prof = [new THREE.Vector2(14, -1), ...pts, new THREE.Vector2(-12, 14)];
+      const cycGeo = new THREE.BufferGeometry(); { const SEGX = 2, pos = [], idx = []; const X = [-30, 30];
+        prof.forEach((p) => X.forEach((x) => pos.push(x, p.y, p.x)));
+        for (let i = 0; i < prof.length - 1; i++) { const a = i * 2, b = a + 1, c = a + 2, d = a + 3; idx.push(a, c, b, b, c, d); }
+        cycGeo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); cycGeo.setIndex(idx); cycGeo.computeVertexNormals(); }
+      const floorMat = new THREE.MeshStandardMaterial({ color: 0x9c9ca2, roughness: 0.55, metalness: 0, envMapIntensity: 0.0, side: THREE.DoubleSide });
+      const floor = new THREE.Mesh(cycGeo, floorMat); floor.receiveShadow = true; scene.add(floor);
+      // key light (soft VSM shadow) + gentle fill
+      const key = new THREE.DirectionalLight(0xffffff, 1.9); key.position.set(-2, 12, 2.5); key.castShadow = true;
+      key.shadow.mapSize.set(2048, 2048); key.shadow.camera.left = key.shadow.camera.bottom = -5; key.shadow.camera.right = key.shadow.camera.top = 5; key.shadow.radius = 16; key.shadow.blurSamples = 24; key.shadow.bias = -0.0004;
+      scene.add(key); scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d8dc, 2.3));
+
+      // ---------- the cube: dense box grid, welded so the melt never tears at the edges ----------
+      const SEG = 112;
+      let g0 = new THREE.BoxGeometry(2, 2, 2, SEG, SEG, SEG); g0.deleteAttribute("normal"); g0.deleteAttribute("uv");
+      g0 = mergeVertices(g0, 1e-5);
+      const base = g0.attributes.position.array.slice(); // points on the surface of [-1,1]^3
+      const NV = base.length / 3;
+      const geo = new THREE.BufferGeometry(); geo.setIndex(g0.index);
+      const posArr = new Float32Array(base.length); geo.setAttribute("position", new THREE.BufferAttribute(posArr, 3));
+      geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 6);
+      const lacquer = new THREE.MeshPhysicalMaterial({ envMap: envTex, color: 0x020203, roughness: 0.22, metalness: 0.0, clearcoat: 1.0, clearcoatRoughness: 0.02, envMapIntensity: 1.6, specularIntensity: 1, ior: 1.5 });
+      const cube = new THREE.Mesh(geo, lacquer); cube.castShadow = true; scene.add(cube);
+      const aoC = document.createElement("canvas"); aoC.width = aoC.height = 256; const aoG = aoC.getContext("2d");
+      const aoGr = aoG.createRadialGradient(128, 128, 20, 128, 128, 128); aoGr.addColorStop(0, "rgba(0,0,0,.75)"); aoGr.addColorStop(0.45, "rgba(0,0,0,.35)"); aoGr.addColorStop(1, "rgba(0,0,0,0)");
+      aoG.fillStyle = aoGr; aoG.fillRect(0, 0, 256, 256);
+      const ao = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 3.4), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(aoC), transparent: true, depthWrite: false }));
+      ao.rotation.x = -Math.PI / 2; ao.position.y = -0.995; scene.add(ao);
+
+      // drips: columns that start on the top edges of the four side faces and run to the floor
+      const DRIPS = []; for (let f = 0; f < 4; f++) for (let k = 0; k < 4; k++) {
+        const along = -0.62 + (k / 3) * 1.24 + (rnd() - 0.5) * 0.18;
+        DRIPS.push({ f, a: along, w: 0.065 + rnd() * 0.05, t0: 1.55 + rnd() * 0.9, sp: 0.38 + rnd() * 0.5, th: 0.03 + rnd() * 0.03 });
+      }
+      // face f: 0 = +x, 1 = -x, 2 = +z, 3 = -z ; along-coordinate on that face
+      const faceOf = (x, z) => (Math.abs(x) >= Math.abs(z) ? (x > 0 ? 0 : 1) : z > 0 ? 2 : 3);
+      const alongOf = (f, x, z) => (f < 2 ? z : x);
+
+      const MELT0 = 2.4, MELT1 = 6.3;
+      function deform(t) {
+        const m = inOutCubic(seg(t, MELT0, MELT1));                 // global slump
+        const soft = sstep(1.7, 4.6, t);                              // corners slacken
+        const r = lerp(0.045, 0.85, soft * 0.85 + m * 0.15);          // rounding radius: crisp cube → pillow
+        const c = 1 - r;
+        for (let i = 0; i < NV; i++) {
+          const qx = base[i * 3], qy = base[i * 3 + 1], qz = base[i * 3 + 2];
+          // rounded cube from the box point
+          const cx = clamp(qx, -c, c), cy = clamp(qy, -c, c), cz = clamp(qz, -c, c);
+          let nx = qx - cx, ny = qy - cy, nz = qz - cz; const nl = Math.hypot(nx, ny, nz) || 1;
+          let x = cx + (nx / nl) * r, y = cy + (ny / nl) * r, z = cz + (nz / nl) * r;
+          if (nl === 1 && nx === 0 && ny === 0 && nz === 0) { x = qx; y = qy; z = qz; }
+          // rivulets on the side faces
+          const hy = y + 1; const side = Math.abs(qy) < 1 - 1e-6;
+          if (side) {
+            const f = faceOf(qx, qz), a = alongOf(f, qx, qz); let out = 0;
+            for (const d of DRIPS) {
+              if (d.f !== f || t < d.t0) continue;
+              const across = Math.exp(-Math.pow((a - d.a) / d.w, 2)); if (across < 0.02) continue;
+              const front = 2.05 - (t - d.t0) * d.sp * (1 + (t - d.t0) * 0.5); // accelerating as it runs
+              if (hy > front) out += across * d.th * (0.6 + 0.4 * Math.min(1, (hy - front) * 2));
+              out += across * d.th * 1.35 * Math.exp(-Math.pow((hy - front) / 0.12, 2));   // the bead at the front
+            }
+            // also a thin wet sheet that grows near the top edge
+            out += sstep(1.6, 3.2, t) * 0.02 * sstep(1.2, 1.95, hy);
+            out *= 1 - 0.85 * m;
+            // push along the face's own normal, so nothing spikes out sideways at the corners
+            if (f === 0) x += out; else if (f === 1) x -= out; else if (f === 2) z += out; else z -= out;
+          }
+          // slump: height compresses (top first), mass flows outward at the bottom into a puddle
+          let h = y + 1;
+          const wob = vnoise(x * 1.6 + 3, h * 1.2, z * 1.6 + t * 0.35);
+          const sag = m * (0.72 + 0.12 * wob);
+          h = h * (1 - sag) * (1 - 0.06 * soft * (h / 2) * (h / 2));
+          const low = Math.pow(1 - clamp(h / Math.max(0.05, 2 * (1 - sag))), 2.4);
+          // square → circle for the spreading base so the puddle reads organic
+          const sx = x * Math.sqrt(Math.max(0, 1 - (z * z) / 2)), sz = z * Math.sqrt(Math.max(0, 1 - (x * x) / 2));
+          const blend = m * low;
+          x = lerp(x, sx * 1.4, blend); z = lerp(z, sz * 1.4, blend);
+          const spread = 1 + m * (0.15 + 1.35 * low) * (1 + 0.07 * vnoise(x * 1.6, 7, z * 1.6));
+          x *= spread; z *= spread;
+          y = Math.max(-0.999, h - 1 + wob * 0.025 * m);
+          posArr[i * 3] = x; posArr[i * 3 + 1] = y; posArr[i * 3 + 2] = z;
+        }
+        geo.attributes.position.needsUpdate = true; geo.computeVertexNormals();
+        lacquer.roughness = lerp(0.22, 0.06, sstep(1.8, 3.2, t));   // it gets wet as it goes
+        ao.scale.setScalar(1 + m * 1.9);
+      }
+
+      const camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 100);
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 }));
+      composer.setPixelRatio(1); composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      const bokeh = new BokehPass(scene, camera, { focus: 7, aperture: 0.0016, maxblur: 0.006 }); composer.addPass(bokeh);
+      composer.addPass(new OutputPass());
+      const lens = new ShaderPass({ uniforms: { tDiffuse: { value: null }, time: { value: 0 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float time; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time) * 43758.5453); }
+          void main(){ vec3 c = texture2D(tDiffuse, vUv).rgb; c *= mix(0.86, 1.0, smoothstep(1.0, 0.35, length((vUv - 0.5) * vec2(1.0, 0.9))));
+            c += (hash(floor(vUv * vec2(1920.0, 1080.0))) - 0.5) * 0.018; gl_FragColor = vec4(c, 1.0); }` });
+      composer.addPass(lens);
+
+      const target = new THREE.Vector3();
+      function renderAt(t) {
+        t = clamp(t, 0, DUR - 1e-4);
+        deform(t);
+        // camera: slow 3/4 orbit, easing down and in as the cube collapses
+        const k = inOutSine(seg(t, 0, DUR)); const ang = lerp(0.62, 0.18, k); const dist = lerp(8.4, 7.2, k);
+        camera.position.set(Math.sin(ang) * dist, lerp(1.9, 1.15, k), Math.cos(ang) * dist);
+        target.set(0, lerp(-0.1, -0.55, inOutCubic(seg(t, 2.6, 6.6))), 0); camera.lookAt(target);
+        bokeh.uniforms.focus.value = camera.position.distanceTo(target);
+        lens.uniforms.time.value = Math.floor(t * 60);
+        composer.render();
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady["melt"] = Promise.resolve();
+      renderAt(window.__hfThreeTime || 0);
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      window.__renderAt = renderAt;
+    </script>
+  </body>
+</html>
