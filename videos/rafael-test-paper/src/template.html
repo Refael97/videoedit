@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      .shot { position: absolute; background: #222 center / cover no-repeat; }
+
+      /* S0 hook: three real reels edited with the skill (frames of this project's theme previews), cycling */
+      .hth { position: absolute; top: 520px; width: 170px; height: 300px; border-radius: 14px; border: 5px solid #fff; box-shadow: var(--p-card-shadow); overflow: hidden; z-index: 32; }
+      .hth .shot { inset: 0; }
+      #tagH { z-index: 33; }
+
+      /* S1 the question, in a real chat window (UI zoom) */
+      #chat1 { left: 70px; top: 390px; width: 940px; height: 440px; }
+      #chat1 .thread { position: absolute; left: 36px; right: 36px; top: 96px; }
+      .bub { display: inline-flex; align-items: center; gap: 12px; padding: 14px 22px; border-radius: 22px; font-size: 34px; font-weight: 700; white-space: pre; }
+      .bub.ai { background: var(--p-card-warm); border: 1px solid var(--p-card-edge); font-weight: 500; }
+      .bub.me { background: var(--p-ink); color: #fff; float: left; margin-top: 16px; }
+      .bub .sp { width: 34px; height: 34px; }
+      #chat1 .input { position: absolute; left: 36px; right: 36px; bottom: 30px; margin: 0; height: 88px; font-size: 36px; }
+      #chat1 .chip { display: inline-flex; align-items: center; gap: 10px; height: 54px; padding: 0 18px; border-radius: 12px; background: #fff; border: 1px solid var(--p-card-edge); font-size: 28px; font-weight: 700; direction: ltr; margin-left: 12px; }
+
+      /* S2 the three steps, waiting */
+      .stp { position: absolute; top: 440px; width: 240px; height: 240px; border-radius: var(--p-r-tile); background: var(--p-orange); box-shadow: 0 12px 26px rgba(198, 90, 60, 0.35); color: #fff; font-size: 130px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+      .stl { position: absolute; top: 700px; width: 240px; text-align: center; font-size: 44px; font-weight: 700; color: var(--p-ink); }
+
+      /* S3 step 1: the phone that films */
+      #ph3 { left: 346px; top: 380px; width: 388px; height: 720px; }
+      #scr3 { left: 390px; top: 435px; width: 299px; height: 610px; border-radius: 22px; overflow: hidden; }
+      #scr3 .rec { position: absolute; left: 18px; top: 18px; display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 16px; border-radius: 25px; background: rgba(0, 0, 0, 0.55); color: #fff; font-size: 30px; font-weight: 800; direction: ltr; font-family: var(--p-mono); }
+      #scr3 .rec i { width: 18px; height: 18px; border-radius: 50%; background: #e5372c; display: block; }
+      #recBtn { position: absolute; left: 50%; bottom: 26px; width: 84px; height: 84px; margin-left: -42px; border-radius: 50%; border: 6px solid #fff; box-sizing: border-box; }
+      #recBtn b { position: absolute; inset: 8px; border-radius: 50%; background: #e5372c; display: block; }
+
+      /* S4 step 2: the upload (UI zoom chat) */
+      #chat4 { left: 70px; top: 390px; width: 940px; height: 440px; }
+      #file4 { position: absolute; right: 36px; top: 100px; width: 560px; height: 180px; border-radius: 18px; background: var(--p-card-warm); border: 1px solid var(--p-card-edge); }
+      #file4 .ic { position: absolute; right: 22px; top: 26px; width: 92px; height: 128px; border-radius: 10px; background: #222 center / cover; }
+      #file4 .nm { position: absolute; right: 136px; top: 30px; font-family: var(--p-mono); font-size: 34px; direction: ltr; }
+      #file4 .sz { position: absolute; right: 136px; top: 80px; font-size: 28px; color: var(--p-ink-soft); direction: ltr; }
+      #file4 .bar4 { position: absolute; right: 136px; left: 120px; top: 130px; height: 14px; border-radius: 7px; background: #ece5d8; overflow: hidden; }
+      #file4 .bar4 i { position: absolute; right: 0; top: 0; bottom: 0; width: 100%; background: var(--p-orange); transform-origin: 100% 50%; display: block; }
+      #pct4 { position: absolute; left: 22px; top: 112px; font-size: 32px; font-weight: 800; direction: ltr; }
+      #ok4 { position: absolute; right: 36px; top: 310px; font-size: 38px; font-weight: 800; color: var(--p-green); }
+
+      /* S5 step 3: the install (terminal UI zoom) */
+      #term5 { left: 70px; top: 400px; width: 1010px; }
+      #term5 .ln { display: flex; align-items: center; gap: 18px; height: 72px; font-family: var(--p-mono); font-size: 34px; direction: ltr; white-space: pre; border-top: 1px solid var(--p-card-edge); }
+      #term5 .ln b { color: #2fa860; font-weight: 500; }
+      #term5 .ln.dim { color: var(--p-ink-soft); }
+      #imp5 { right: 150px; top: 430px; z-index: 5; }
+
+      /* S7 before / after on phones: the raw frame vs. the same frame edited */
+      #ph7a { left: 704px; top: 400px; width: 236px; height: 438px; }
+      #ph7b { left: 140px; top: 400px; width: 236px; height: 438px; }
+      .scr7 { position: absolute; width: 182px; height: 371px; border-radius: 12px; overflow: hidden; }
+      #sc7a { left: 731px; top: 434px; }
+      #sc7b { left: 167px; top: 434px; }
+      .scr7 .shot { inset: 0; }
+      #sc7b .pg { position: absolute; left: 0; right: 0; top: 0; height: 50%; background: var(--p-paper); background-image: linear-gradient(var(--p-grid) 1px, transparent 1px), linear-gradient(90deg, var(--p-grid) 1px, transparent 1px); background-size: 16px 16px; }
+      #sc7b .pg b { position: absolute; left: 0; right: 0; top: 30px; text-align: center; font-size: 26px; font-weight: 800; }
+      #sc7b .pg b em { font-style: normal; color: var(--p-orange); }
+      #sc7b .pg .mini { position: absolute; left: 50%; top: 74px; width: 64px; height: 54px; margin-left: -32px; }
+      #sc7b .bt { position: absolute; left: 50%; top: 50%; margin-top: 52px; transform: translateX(-50%); font-size: 26px; font-weight: 800; color: #fff; -webkit-text-stroke: 5px #111; paint-order: stroke fill; white-space: pre; }
+      #sc7b .shot { top: 50%; }
+
+      /* S8 the themes inside the skill (real frames of each theme's preview) */
+      .tth { position: absolute; width: 220px; height: 300px; border-radius: 14px; border: 5px solid #fff; box-shadow: var(--p-card-shadow); overflow: hidden; }
+      .tth .shot { inset: 0; }
+      .ttl { position: absolute; width: 230px; text-align: center; font-size: 34px; font-weight: 700; color: var(--p-ink); direction: ltr; }
+      .ttl.on { color: var(--p-orange); }
+      #fold8 { left: 330px; top: 520px; width: 420px; height: 350px; }
+      #lab8 { right: 540px; top: 900px; }
+
+      /* S9 the views (stats card, UI zoom) */
+      #stat9 { left: 70px; top: 390px; width: 940px; height: 440px; }
+      #stat9 .body { padding: 26px 40px; }
+      #stat9 .lbl { font-size: 36px; font-weight: 700; color: var(--p-ink-soft); }
+      #before9 { margin-top: 14px; font-size: 40px; font-weight: 700; }
+      #before9 s { color: var(--p-ink-soft); }
+      #big9 { position: absolute; right: 40px; bottom: 34px; display: flex; align-items: baseline; gap: 6px; direction: ltr; font-size: 132px; font-weight: 800; letter-spacing: -4px; line-height: 1; }
+      #big9 .pl { color: var(--p-orange); }
+      #up9 { position: absolute; left: 60px; top: 150px; width: 170px; height: 230px; }
+      #stamp9 { right: 820px; top: 520px; }
+
+      /* S11 the reply */
+      #reply11 { right: 90px; top: 340px; display: flex; align-items: center; gap: 16px; }
+      #reply11 .d { width: 46px; height: 58px; flex: none; }
+
+      /* S12 profile + courses (UI zoom card) */
+      #prof { left: 70px; top: 390px; width: 940px; height: 690px; }
+      #prof .av { position: absolute; right: 40px; top: 40px; width: 190px; height: 190px; border-radius: 50%; background: url(assets/img/avatar.jpg) center / cover; border: 5px solid #fff; box-shadow: 0 6px 18px rgba(60, 42, 20, 0.2); }
+      #prof .nm { position: absolute; right: 260px; top: 54px; font-size: 62px; font-weight: 800; }
+      #prof .ti { position: absolute; right: 260px; top: 132px; font-size: 34px; color: var(--p-ink-soft); font-weight: 500; }
+      #prof .hd { position: absolute; right: 260px; top: 184px; font-family: var(--p-mono); font-size: 30px; color: var(--p-orange); direction: ltr; }
+      .crs { position: absolute; right: 40px; left: 40px; height: 96px; border-top: 1px solid var(--p-card-edge); display: flex; align-items: center; gap: 18px; font-size: 40px; font-weight: 700; }
+      .crs i { width: 46px; height: 46px; border-radius: 12px; background: var(--p-orange-soft); color: var(--p-orange); font-style: normal; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800; }
+      #go12 { position: absolute; left: 40px; bottom: 36px; height: 76px; padding: 0 34px; border-radius: 38px; background: var(--p-ink); color: #fff; font-size: 36px; font-weight: 800; display: flex; align-items: center; }
+      #tag12 { left: 250px; top: 640px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="p-root" data-composition-id="main" data-start="0" data-duration="70.95" data-width="1080" data-height="1920">
+      <div id="face" class="p-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="70.95" data-track-index="0" muted playsinline></video></div>
+
+      <div id="stage" class="p-stage">
+        <!-- S1 (split, 4.56–8.98): the question, asked in a real chat window -->
+        <div id="s1" class="p-scene">
+          <div class="p-step"><b>השאלה:</b> איך?</div>
+          <div id="chat1" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i><span>Claude</span></div>
+            <div class="thread"><span class="bub ai"><span class="sp" id="sp1"></span>היי! במה אפשר לעזור?</span><br /><span class="bub me" id="me1">איך עורכים סרטון ברמה כזאת?</span></div>
+            <div class="input"><span class="chip">🎬 IMG_5381.mov</span><span id="typ1"></span><div class="send" id="snd1" style="margin-right: auto"></div></div></div>
+        </div>
+
+        <!-- S2 (split, 8.98–12.16): the three steps, still empty -->
+        <div id="s2" class="p-scene">
+          <div class="p-step"><b>3</b> שלבים</div>
+          <svg id="ink2" class="p-ink" viewBox="0 0 1080 1920"></svg>
+          <div class="stp" id="st1" style="left: 760px">1</div><div class="stp" id="st2" style="left: 420px">2</div><div class="stp" id="st3" style="left: 80px">3</div>
+          <div class="stl" id="sl1" style="left: 760px">מצלמים</div><div class="stl" id="sl2" style="left: 420px">מעלים</div><div class="stl" id="sl3" style="left: 80px">מתקינים</div>
+        </div>
+
+        <!-- S3 (full page, 12.16–17.68): step 1, the phone films -->
+        <div id="s3" class="p-scene">
+          <div class="p-step"><b>שלב 1.</b> מצלמים</div>
+          <svg id="ink3" class="p-ink" viewBox="0 0 1080 1920"></svg>
+          <div id="ph3" class="p-obj aa"></div>
+          <div id="scr3" class="p-obj"><div class="shot" style="inset: 0; background-image: url(assets/img/raw.jpg)"></div>
+            <div class="rec" id="rec3"><i id="dot3"></i><span id="tim3" data-qa-payoff="רוצים.">00:00</span></div>
+            <div id="recBtn"><b></b></div></div>
+          <div class="p-tag" id="tag3" style="left: 210px; top: 760px">נושא שאתם רוצים</div>
+        </div>
+
+        <!-- S4 (split, 17.68–20.66): step 2, the upload -->
+        <div id="s4" class="p-scene">
+          <div class="p-step"><b>שלב 2.</b> מעלים ל-Claude</div>
+          <div id="chat4" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i><span>Claude</span></div>
+            <div id="file4"><div class="ic" style="background-image: url(assets/img/raw.jpg)"></div><div class="nm">IMG_5381.mov</div><div class="sz">70 MB · 1:11</div>
+              <div class="bar4"><i id="fill4"></i></div><div id="pct4" data-qa-payoff="לקלוד.">0%</div></div>
+            <div id="ok4">✓ הסרטון הועלה</div></div>
+        </div>
+
+        <!-- S5 (full page, 20.66–25.22): step 3, the install -->
+        <div id="s5" class="p-scene">
+          <div class="p-step"><b>שלב 3.</b> מתקינים את הסקיל</div>
+          <div id="term5" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i></div>
+            <div class="body"><div class="ln dim">✻ Welcome to Claude Code</div><div class="mono" style="height: 72px; display: flex; align-items: center">› <span id="cmd5"></span></div>
+              <div class="ln dim o5">Fetching video-themes…</div>
+              <div class="ln o5"><b>✓</b>glass · paper · night</div>
+              <div class="ln o5"><b>✓</b>editorial · headline · arcade</div>
+              <div class="ln o5"><b>✓</b>neon-studio · hooks · board</div>
+              <div class="ln o5"><b>✓</b>qa checker</div>
+              <div class="ln o5"><b>✓</b>installed → skills/video-themes</div></div></div>
+          <div class="p-stamp" id="imp5">הכי חשוב!</div>
+        </div>
+
+        <!-- S7 (split, 28.36–31.98): before / after of this very clip -->
+        <div id="s7" class="p-scene">
+          <div class="p-step">הסרטון <b>שלכם</b></div>
+          <svg id="ink7" class="p-ink" viewBox="0 0 1080 1920"></svg>
+          <div id="ph7a" class="p-obj aa"></div><div id="sc7a" class="scr7"><div class="shot" style="background-image: url(assets/img/raw.jpg)"></div></div>
+          <div id="ph7b" class="p-obj aa"></div><div id="sc7b" class="scr7"><div class="shot" style="background-image: url(assets/img/raw.jpg)"></div>
+            <div class="pg" id="pg7"><b id="pgT"><em>שלב 1.</em> מצלמים</b><div class="mini p-obj" id="mini7"></div></div><div class="bt" id="bt7">ברמה מטורפת</div></div>
+          <div class="p-stamp" id="stBad7" style="right: 250px; top: 860px">✕ גולמי</div>
+          <div class="p-stamp ok" id="stGood7" style="right: 815px; top: 860px">✓ ערוך</div>
+        </div>
+
+        <!-- S8 (full page, 31.98–40.78): the themes inside the skill -->
+        <div id="s8" class="p-scene">
+          <div class="p-step"><b>9</b> עיצובים בתוך הסקיל</div>
+          <div id="fold8" class="p-obj aa"></div>
+          <div class="p-label" id="lab8">video-themes</div>
+          <div id="grid8"></div>
+          <div class="p-tag" id="tag8" style="left: 400px; top: 1560px">כמו העורכים הגדולים</div>
+        </div>
+
+        <!-- S9 (split, 40.78–48.72): the views -->
+        <div id="s9" class="p-scene">
+          <div class="p-step">הצפיות <b>שלי</b></div>
+          <div id="stat9" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i><span>צפיות לסרטון</span></div>
+            <div class="body"><div class="lbl">לפני הסקיל</div><div id="before9"><bdi dir="ltr">300–400</bdi> צפיות</div></div>
+            <div id="up9" class="p-obj"></div>
+            <div id="big9"><span id="num9" data-qa-payoff="אלפים." data-qa-stamp="#stamp9">400</span><span class="pl" id="pl9">+</span></div></div>
+          <div class="p-stamp" id="stamp9">עשרות אלפים ✓</div>
+        </div>
+
+        <!-- S12 (full page, 57.64–70.95): who, and the courses -->
+        <div id="s12" class="p-scene">
+          <div class="p-step">רוצים <b>ללמוד</b>?</div>
+          <div id="prof" class="p-card p-zoom aa"><div class="av" id="av12"></div><div class="nm">רפאל לוי</div><div class="ti">מומחה AI ושיווק דיגיטלי</div><div class="hd">@refaelleviii</div>
+            <div class="crs" id="c1" style="top: 270px"><i>1</i>עריכת וידאו מקצועית</div>
+            <div class="crs" id="c2" style="top: 366px"><i>2</i>Motion graphics</div>
+            <div class="crs" id="c3" style="top: 462px"><i>3</i>Higgsfield ועוד</div>
+            <div id="go12">לאתר ←</div></div>
+          <div class="p-tag" id="tag12">קורסים</div>
+        </div>
+      </div>
+
+      <div id="seam" class="p-seam"></div>
+      <div id="flash" class="p-flash"></div>
+
+      <!-- S0 (face, 0–4.56): the hook + three reels edited with the skill -->
+      <div id="hook" class="p-hook stroke">איך עורכים סרטון כזה
+עם Claude‏?</div>
+      <div class="hth" id="hA" style="left: 705px"><div class="shot hA" style="background-image: url(assets/img/th-night.jpg)"></div><div class="shot hA" style="background-image: url(assets/img/th-night2.jpg)"></div></div>
+      <div class="hth" id="hB" style="left: 455px"><div class="shot hB" style="background-image: url(assets/img/th-editorial.jpg)"></div><div class="shot hB" style="background-image: url(assets/img/th-headline.jpg)"></div></div>
+      <div class="hth" id="hC" style="left: 205px"><div class="shot hC" style="background-image: url(assets/img/th-arcade.jpg)"></div><div class="shot hC" style="background-image: url(assets/img/th-hooks.jpg)"></div></div>
+      <div class="p-tag" id="tagH" style="left: 380px; top: 860px">נערך עם Claude</div>
+
+      <div id="caps" class="p-caps"></div>
+      <div id="cta" class="p-cta"><div class="sp" id="ctaSp"></div><span class="ph">הוסיפו תגובה…</span><span class="word" id="ctaW"></span><div class="go" id="ctaGo"></div></div>
+      <div id="cta2" class="p-cta"><div class="sp" id="ctaSp2"></div><span class="ph">הוסיפו תגובה…</span><span class="word" id="ctaW2"></span><div class="go" id="ctaGo2"></div></div>
+      <div id="reply11" class="p-bubble ai aa"><div class="d" id="repDoc"></div>שלחתי לך את הסקיל ✓</div>
+      <div id="cur" class="p-cursor"></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="70.95" data-track-index="10" data-volume="1"></audio>
+<!--__SFX__-->
+    </div>
+    <script>
+      const WORDS = __WORDS__;
+      const P = window.PAPER;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        const SH = 380; // split / page: the face moves down so it sits in the bottom half (face box at 910–1240 in the take)
+
+        // ---- art ----
+        P.art(["#ph3", "#ph7a", "#ph7b"], "phone"); P.art(["#sp1", "#ctaSp", "#ctaSp2"], "sparkOrange"); P.art(["#snd1", "#ctaGo", "#ctaGo2"], "send");
+        P.art("#fold8", "folder"); P.art("#repDoc", "doc"); P.art("#cur", "cursor"); P.art("#mini7", "laptop"); P.art("#up9", "up");
+        document.querySelector("#up9 svg path").setAttribute("stroke", "#2fa860");
+        P.fit("#hook", 0.8);
+        // the 3x3 grid of the real themes
+        const TH = ["glass", "paper", "night", "editorial", "headline", "arcade", "neon-studio", "hooks", "board"];
+        const g = document.querySelector("#grid8");
+        TH.forEach((t, i) => { const c = i % 3, r = Math.floor(i / 3), x = 790 - c * 260, y = 400 + r * 360;
+          g.insertAdjacentHTML("beforeend", `<div class="tth t8" id="t8${i}" style="left:${x}px;top:${y}px"><div class="shot" style="background-image:url(assets/img/th-${t}.jpg)"></div></div><div class="ttl l8" id="l8${i}" style="left:${x - 5}px;top:${y + 306}px">${t}</div>`); });
+
+        // ---- layouts ----
+        P.layout(tl, "face", 0);
+        P.layout(tl, "split", 4.56, { shift: SH });
+        P.layout(tl, "paper", 12.16, { flash: true, shift: SH });
+        P.layout(tl, "split", 17.68, { shift: SH });
+        P.layout(tl, "paper", 20.66, { flash: true, shift: SH });
+        P.layout(tl, "face", 25.22);
+        P.layout(tl, "split", 28.36, { shift: SH });
+        P.layout(tl, "paper", 31.98, { flash: true, shift: SH });
+        P.layout(tl, "split", 40.78, { shift: SH });
+        P.layout(tl, "face", 48.72);
+        P.layout(tl, "paper", 57.64, { flash: true, shift: SH });
+        P.scene(tl, "#s1", 4.56, 8.98); P.scene(tl, "#s2", 8.98, 12.16); P.scene(tl, "#s3", 12.16, 17.68); P.scene(tl, "#s4", 17.68, 20.66);
+        P.scene(tl, "#s5", 20.66, 25.22); P.scene(tl, "#s7", 28.36, 31.98); P.scene(tl, "#s8", 31.98, 40.78); P.scene(tl, "#s9", 40.78, 48.72); P.scene(tl, "#s12", 57.64);
+
+        // ---- captions: from the end of the hook; under the chin on the face (his mouth is at ~1160), lower on the theme grid ----
+        P.captions(tl, "#caps", WORDS.filter((w) => w.start >= 4.5), { maxWords: 3, yFace: 1400,
+          yAt: (t) => (P.modeAt(t) === "face" ? 1400 : P.modeAt(t) === "split" ? 908 : t >= 31.98 && t < 40.78 ? 1760 : 1190) });
+
+        // ---- S0 hook: the question over the face + three reels edited with the skill ----
+        P.hook(tl, "#hook", 0.05, 4.56);
+        P.pop(tl, ["#hA", "#hB", "#hC"], [0.7, 1.84, 3.16], 0, { y: 40 });   // "אתם" · "סרטונים" · "ואומרים"
+        P.cycle(tl, ".hA", [0, 2.4]); P.cycle(tl, ".hB", [0, 3.0]); P.cycle(tl, ".hC", [0, 3.9]);
+        P.pop(tl, "#tagH", 3.62);                                            // "שערוך את זה עם קלוד"
+        P.pulse(tl, "#tagH", 4.28);
+        tl.set(["#hA", "#hB", "#hC", "#tagH"], { autoAlpha: 0 }, 4.56);
+
+        // ---- S1 the doubt, typed into a real chat ----
+        P.hide(tl, "#me1");
+        P.rise(tl, "#chat1", 4.6);
+        P.type(tl, "#typ1", "איך עורכים סרטון ברמה כזאת?", 5.3, 13);
+        tl.set("#typ1", { opacity: 1 }, 0); tl.set("#typ1", { opacity: 0 }, 7.62);
+        tl.fromTo("#snd1", { scale: 1 }, { scale: 0.8, duration: 0.07, yoyo: true, repeat: 1, immediateRender: false }, 7.5);
+        P.rise(tl, "#me1", 7.62);
+        P.pulse(tl, "#sp1", 7.82);                                           // "קלוד?"
+
+        // ---- S2 the three steps, waiting ----
+        ["#st1", "#st2", "#st3", "#sl1", "#sl2", "#sl3"].forEach((s) => P.hide(tl, s));
+        P.pop(tl, ["#st1", "#st2", "#st3"], [9.12, 9.5, 9.72], 0);
+        P.connect(tl, "#ink2", "M755,560 C700,520 680,520 665,560", "a", 9.9);
+        P.connect(tl, "#ink2", "M415,560 C360,520 340,520 325,560", "b", 10.2);
+        P.label(tl, "#sl1", 10.36, 10.7); P.label(tl, "#sl2", 10.6, 10.9); P.label(tl, "#sl3", 10.85, null);
+        P.pulse(tl, "#st3", 11.04);                                          // "הסוף"
+
+        // ---- S3 step 1: the phone films ----
+        ["#ph3", "#scr3", "#tag3"].forEach((s) => P.hide(tl, s));
+        P.pop(tl, ["#ph3", "#scr3"], 12.3, 0.03, { y: 40 });
+        P.cursor(tl, "#cur", [[760, 1200, 12.4], [540, 1000, 12.86]], [12.86], { end: 13.4 });   // "תצלמו": the record button
+        tl.fromTo("#recBtn b", { scale: 1 }, { scale: 0.55, borderRadius: "10px", duration: 0.2, immediateRender: false }, 12.9);
+        P.count(tl, "#tim3", 0, 5, 12.9, 3.95, { prefix: "00:0", ease: "none" });              // runs while he talks, lands on "רוצים"
+        tl.fromTo("#dot3", { opacity: 1 }, { opacity: 0.2, duration: 0.4, yoyo: true, repeat: 9, ease: "none", immediateRender: false }, 12.9);
+        P.tag(tl, "#tag3", "#ink3", "M300,760 C340,720 360,700 390,690", "t3", 16.22);           // "נושא"
+        P.pulse(tl, ["#ph3", "#scr3"], 16.94);
+
+        // ---- S4 step 2: the upload lands on "לקלוד" ----
+        ["#file4", "#ok4"].forEach((s) => P.hide(tl, s));
+        P.rise(tl, "#chat4", 17.75);
+        P.drop(tl, "#file4", "#chat4", 18.58, [0, -260]);                  // "תעלו"
+        tl.set("#fill4", { scaleX: 0 }, 0); tl.to("#fill4", { scaleX: 1, duration: 0.7, ease: "power1.inOut" }, 18.98);
+        P.count(tl, "#pct4", 0, 100, 18.98, 0.7, { suffix: "%", ease: "power1.inOut" });
+        P.pop(tl, "#ok4", 19.86);
+
+        // ---- S5 step 3: the install, "the most important" ----
+        P.hide(tl, ".o5"); P.hide(tl, "#imp5");
+        P.rise(tl, "#term5", 20.75);
+        P.pop(tl, "#imp5", 21.88, 0, { from: 1.6 });                         // "הכי חשוב"
+        P.type(tl, "#cmd5", "/plugin install video-themes", 22.48, 26);
+        P.fill(tl, ".o5", [23.66, 23.84, 24.0, 24.16, 24.34, 24.6]);
+        P.pulse(tl, "#imp5", 24.34);
+
+        // ---- S6 CTA 1 (face): comment "סקיל" ----
+        P.hide(tl, "#cta");
+        P.cta(tl, "#cta", "סקיל", 26.95);
+        tl.fromTo("#ctaGo", { scale: 1 }, { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1, immediateRender: false }, 27.86);
+        tl.set("#cta", { autoAlpha: 0 }, 28.36);
+
+        // ---- S7 before / after of this clip ----
+        ["#ph7a", "#sc7a", "#ph7b", "#sc7b", "#stBad7", "#stGood7", "#pg7", "#bt7"].forEach((s) => P.hide(tl, s));
+        P.pop(tl, ["#ph7a", "#sc7a"], 28.4, 0.03, { y: 40 });
+        P.pop(tl, "#stBad7", 29.04);                                         // "מאפשר"
+        P.connect(tl, "#ink7", "M700,620 C620,560 470,560 390,620", "c7", 29.46);  // "לקלוד"
+        P.pop(tl, ["#ph7b", "#sc7b"], 30.08, 0.03, { y: 40 });              // "לערוך"
+        tl.fromTo("#pg7", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, 30.58);
+        P.pop(tl, "#bt7", 31.18);
+        P.pop(tl, "#stGood7", 31.52);                                        // "מטורפת"
+        P.pulse(tl, ["#ph7b", "#sc7b"], 31.52);
+
+        // ---- S8 the themes inside the skill ----
+        ["#fold8", "#lab8", ".t8", ".l8", "#tag8"].forEach((s) => P.hide(tl, s));
+        P.pop(tl, "#fold8", 32.0); P.label(tl, "#lab8", 32.26, null);       // "בתוך הסקיל"
+        P.out(tl, ["#fold8", "#lab8"], 33.4);
+        P.pop(tl, ".t8", 33.56, 0.17, { y: 30 });                           // "עשרות סוגי עיצובים"
+        P.fill(tl, ".l8", 33.7, 0.17);
+        P.cursor(tl, "#cur", [[1000, 1500, 35.3], [560, 970, 35.9], [820, 610, 36.9], [300, 610, 37.7], [560, 1330, 38.6]], [35.9, 36.9, 37.7, 38.6], { end: 39.3 });
+        const pick = (i, t) => { P.pulse(tl, `#t8${i}`, t); tl.set(`#l8${i}`, { color: "#221c12" }, 0); tl.set(`#l8${i}`, { color: "#c65a3c" }, t); tl.set(`#l8${i}`, { color: "#221c12" }, t + 0.8); };
+        pick(4, 35.9); pick(0, 36.9); pick(2, 37.7); pick(7, 38.6);        // "ולפי העיצובים האלה קלוד יודע איך לערוך"
+        P.pop(tl, "#tag8", 38.72);                                           // "שעורכי התוכן הכי גדולים"
+        P.pulse(tl, ".t8", 39.86);
+
+        // ---- S9 the views: 400 → 10,000+ lands on "אלפים" ----
+        ["#before9", "#up9", "#big9", "#stamp9"].forEach((s) => P.hide(tl, s));
+        P.rise(tl, "#stat9", 40.85);
+        P.fill(tl, "#before9", 43.88);                                       // "משלוש מאות ארבע מאות"
+        P.pop(tl, "#big9", 45.18);
+        P.count(tl, "#num9", 400, 10000, 45.58, 1.84, { ease: "power2.in" }); // "לסרטון" → "אלפים"
+        P.pop(tl, "#up9", 46.58);                                            // "לעשרות"
+        P.pop(tl, "#stamp9", 47.62);                                         // after the number lands
+        P.pulse(tl, "#big9", 47.5);
+
+        // ---- S10 (face, 48.72–52.76): "life-changing" — the face alone ----
+
+        // ---- S11 CTA 2: comment "skill", the reply arrives ----
+        P.hide(tl, "#cta2"); P.hide(tl, "#reply11");
+        P.cta(tl, "#cta2", "skill", 54.86);
+        tl.fromTo("#ctaGo2", { scale: 1 }, { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1, immediateRender: false }, 56.2);
+        P.pop(tl, "#reply11", 56.5, 0, { y: 30 });                           // "וזה בדרך אליכם"
+        tl.set(["#cta2", "#reply11"], { autoAlpha: 0 }, 57.64);
+
+        // ---- S12 who, and the courses ----
+        ["#c1", "#c2", "#c3", "#go12", "#tag12"].forEach((s) => P.hide(tl, s));
+        P.rise(tl, "#prof", 57.7);
+        P.pulse(tl, "#av12", 58.4);
+        P.fill(tl, ["#c1", "#c2", "#c3"], [59.44, 61.3, 62.96]);           // "לערוך וידאו" · "motion" · "Higgsfield"
+        P.pop(tl, "#go12", 65.12);                                           // "כנסו אליי לאתר"
+        P.cursor(tl, "#cur", [[600, 1300, 65.2], [220, 1020, 65.7]], [65.75]);
+        P.pop(tl, "#tag12", 66.82);                                          // "קורסים"
+        P.highlight(tl, "#c1, #c2, #c3", 67.52, 0.12);                       // "בדיוק בשבילכם"
+        P.pulse(tl, "#prof", 68.6);                                          // "אל תישארו מאחור"
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

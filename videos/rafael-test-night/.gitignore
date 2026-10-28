@@ -1,0 +1,5 @@
+renders/
+snapshots/
+assets/video/
+.hyperframes/
+node_modules/

@@ -65,6 +65,8 @@ One meaning per element; red is the default structure color.
   leaving the middle third → face full or full for that beat.
 - **Bright footage** (white wall, daylight; mean luma > ~150): grade it down (`.n-face.grade` + `.n-matte.grade`) so the box
   doesn't glow brighter than the graphics.
+- **Light clothing under the captions** (white hoodie/shirt): add `.shade` to `.n-caps` (dark halo) and on the full face
+  move captions under the chin (`yFace`), never on the mouth.
 - Nothing under 1200 on the stage in split (the head and the caption live there).
 
 ## 6. Motion verbs (`motion.js` → `NIGHT.<verb>`)

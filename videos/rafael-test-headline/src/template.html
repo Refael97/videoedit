@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      .rtl { direction: rtl; text-align: right; }
+      .h-win h4 { margin: 0 0 20px; font-size: 52px; font-weight: 800; letter-spacing: -1.5px; }
+
+      /* B1: reels feed (three real edited frames) → the chat with the doubt */
+      #w1a { left: 115px; top: 450px; }
+      #w1a .body { display: flex; gap: 20px; padding: 22px 34px; justify-content: center; }
+      .reel { position: relative; width: 240px; height: 391px; border-radius: 16px; overflow: hidden; background: #ddd center top / cover; }
+      .reel .chip { position: absolute; left: 10px; right: 10px; bottom: 12px; height: 46px; border-radius: 23px; background: rgba(255, 255, 255, 0.94); color: #151515; font-size: 26px; font-weight: 700; display: flex; align-items: center; justify-content: center; direction: rtl; white-space: pre; }
+      #w1b { left: 115px; top: 450px; }
+      .bub { display: inline-block; max-width: 640px; padding: 22px 30px; border-radius: 30px 30px 8px 30px; background: #f0f2f5; font-size: 40px; font-weight: 700; line-height: 1.25; min-height: 52px; white-space: pre-wrap; }
+      .inp { margin-top: 26px; height: 84px; border-radius: 22px; border: 2px solid #dfe3e8; display: flex; align-items: center; gap: 16px; padding: 0 16px 0 26px; font-size: 32px; color: #8a9099; }
+      .inp .go { margin-right: auto; width: 60px; height: 60px; border-radius: 16px; background: var(--h-blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 800; }
+
+      /* B2 / B4 / B7 / B8 / B12: page sections */
+      .rows p { font-size: 40px; font-weight: 700; margin: 0 0 24px; }
+      .rows p b { color: var(--h-blue); font-weight: 800; margin-left: 14px; }
+      #w2 { left: 115px; top: 470px; }
+
+      /* B3: the camera, recording */
+      #p3 { left: 350px; top: 220px; width: 380px; height: 640px; background-image: url(assets/img/raw-a.jpg); }
+      .rec { position: absolute; right: 18px; top: 18px; height: 50px; padding: 0 18px; border-radius: 25px; background: rgba(0, 0, 0, 0.6); color: #fff; font-size: 28px; font-weight: 800; display: flex; align-items: center; gap: 10px; direction: ltr; }
+      .rec i { width: 18px; height: 18px; border-radius: 50%; background: #ff3b30; display: block; }
+      .grid3 { position: absolute; inset: 0; background-image: linear-gradient(90deg, transparent 33.1%, rgba(255,255,255,.55) 33.3%, transparent 33.5%, transparent 66.5%, rgba(255,255,255,.55) 66.7%, transparent 66.9%), linear-gradient(transparent 33.1%, rgba(255,255,255,.55) 33.3%, transparent 33.5%, transparent 66.5%, rgba(255,255,255,.55) 66.7%, transparent 66.9%); }
+      .topic { position: absolute; left: 16px; right: 16px; bottom: 18px; min-height: 60px; border-radius: 14px; background: rgba(255, 255, 255, 0.95); font-size: 30px; font-weight: 700; display: flex; align-items: center; justify-content: center; direction: rtl; white-space: pre; color: #151515; }
+      #ringRec { z-index: 4; }
+
+      /* B4: upload to Claude */
+      #w4 { left: 115px; top: 470px; }
+      .file { display: flex; align-items: center; gap: 22px; padding: 20px 24px; border-radius: 20px; border: 2px solid #dfe3e8; }
+      .file .ic { width: 84px; height: 110px; border-radius: 12px; background: url(assets/img/raw-a.jpg) center / cover; flex: none; }
+      .file .nm { font-size: 38px; font-weight: 800; direction: ltr; text-align: right; }
+      .file .st { font-size: 30px; color: #6a7078; margin-top: 6px; }
+      .bar2 { height: 14px; border-radius: 7px; background: #e6e9ee; margin-top: 14px; overflow: hidden; }
+      .bar2 i { display: block; height: 100%; width: 100%; background: var(--h-blue); transform-origin: 100% 50%; }
+
+      /* B5: the install (dark) */
+      #w5 { left: 60px; top: 470px; width: 960px; } #w5 .body { font-size: 32px; line-height: 1.75; }
+
+      /* B6: comment */
+      #w6 { left: 115px; top: 300px; }
+      .post { display: flex; align-items: center; gap: 18px; padding-bottom: 20px; border-bottom: 1px solid #e3e3e6; margin-bottom: 20px; }
+      .post .av { width: 70px; height: 70px; border-radius: 50%; background: url(assets/img/avatar.jpg) center / cover; flex: none; }
+      .post b { font-size: 36px; } .post span { font-size: 30px; color: #6a7078; }
+      .cin { height: 90px; border-radius: 45px; border: 2px solid #dfe3e8; display: flex; align-items: center; padding: 0 30px; gap: 16px; font-size: 40px; font-weight: 800; }
+      .cin .ph { color: #9aa0a8; font-weight: 500; font-size: 34px; }
+      .cin .snd { margin-right: auto; color: var(--h-blue); font-size: 34px; font-weight: 800; }
+
+      /* B7: before → after of this very clip */
+      #p7a, #p7b { left: 330px; top: 460px; width: 420px; height: 746px; background-image: url(assets/img/raw-b.jpg); }
+      .mini-t { position: absolute; left: 0; right: 0; top: 60px; text-align: center; font-size: 34px; font-weight: 800; color: #151515; direction: rtl; }
+      .mini-b { display: inline-block; margin-top: 8px; padding: 2px 14px 6px; background: var(--h-blue); color: #fff; font-family: var(--h-serif); font-size: 38px; transform: skewX(-12deg); }
+      .mini-w { position: absolute; left: 40px; right: 40px; top: 210px; height: 150px; border-radius: 12px; border: 2px solid var(--h-win-edge); box-shadow: 0 0 0 3px var(--h-win-halo); background: #fff; direction: rtl; padding: 12px 16px; font-size: 26px; font-weight: 700; color: #151515; }
+      .mini-w i { display: block; margin-top: 10px; height: 54px; border-radius: 8px; background: url(assets/img/th-headline.jpg) center 30% / cover; }
+      .mini-c { position: absolute; left: 0; right: 0; top: 420px; text-align: center; font-size: 34px; font-weight: 800; color: #151515; direction: rtl; }
+      .lab { position: absolute; left: 0; right: 0; top: 1230px; text-align: center; font-size: 60px; font-weight: 700; z-index: 7; }
+      #lab7b { color: var(--h-blue-text); }
+
+      /* B8: the themes inside the skill (real frames of each theme's preview) */
+      #w8 { left: 115px; top: 440px; }
+      #w8 .body { display: grid; grid-template-columns: repeat(3, 250px); gap: 18px 20px; padding: 24px 30px; justify-content: center; }
+      .th { position: relative; width: 250px; height: 250px; border-radius: 14px; overflow: hidden; background: #ccc center 18% / cover; }
+      .th .nm { position: absolute; left: 8px; right: 8px; bottom: 8px; height: 44px; border-radius: 10px; background: rgba(255, 255, 255, 0.94); font-family: var(--h-mono); font-size: 26px; font-weight: 500; display: flex; align-items: center; justify-content: center; color: #151515; }
+      #w8 .h-ring { border-radius: 18px; }
+
+      /* B9: the views jump */
+      #w9 { left: 115px; top: 300px; }
+      #w9 .body { min-height: 470px; }
+      .vrow { display: flex; justify-content: space-between; align-items: center; font-size: 40px; font-weight: 700; padding: 18px 0; border-top: 1px solid #e3e3e6; }
+      .vrow .v { font-weight: 800; direction: ltr; }
+      #st9 { left: 60px; top: 130px; width: 640px; } #st9 .n { font-size: 170px; }
+
+      /* B11: the DM on its way */
+      #w11 { left: 115px; top: 180px; }
+      .dm { display: inline-block; padding: 20px 28px; border-radius: 30px 30px 30px 8px; background: var(--h-blue); color: #fff; font-size: 38px; font-weight: 700; }
+      .dm.f { margin-top: 14px; background: #f0f2f5; color: #151515; direction: ltr; font-family: var(--h-mono); font-size: 32px; }
+
+      /* B12: courses + profile */
+      #w12 { left: 115px; top: 470px; }
+      .crs p { display: flex; align-items: center; gap: 16px; font-size: 42px; font-weight: 700; margin: 0 0 26px; }
+      .crs p .ck { width: 40px; height: 40px; color: var(--h-blue); flex: none; } .crs p .ck svg { width: 40px; height: 40px; display: block; }
+      #w13 { left: 115px; top: 280px; }
+      .prof { display: flex; align-items: center; gap: 30px; }
+      .prof .av { width: 170px; height: 170px; border-radius: 50%; background: url(assets/img/avatar.jpg) center / cover; flex: none; box-shadow: 0 0 0 5px #fff, 0 0 0 9px var(--h-blue); }
+      .prof h5 { margin: 0; font-size: 56px; font-weight: 800; letter-spacing: -1.5px; }
+      .prof .ro { font-size: 32px; color: #4a5058; margin-top: 6px; }
+      .prof .hd { font-size: 30px; color: var(--h-blue); direction: ltr; text-align: right; margin-top: 6px; }
+      .cbtn { margin-top: 30px; height: 96px; border-radius: 48px; background: #151515; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 800; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="h-root" data-composition-id="main" data-start="0" data-duration="70.9" data-width="1080" data-height="1920">
+      <div id="face" class="h-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="70.9" data-track-index="0" muted playsinline></video></div>
+      <div id="air" class="h-air"></div>
+
+      <!-- B1 (split): the headline, real edited reels, then the chat with the doubt -->
+      <div id="s1" class="h-scene" style="z-index: 7">
+        <div class="h-title" id="t1">איך עורכים ככה</div>
+        <div class="h-boxline" style="top: 300px"><span class="h-box" id="b1">עם קלוד?</span></div>
+        <div class="h-win" id="w1a"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/reels</span></div>
+          <div class="body" id="reels"><div class="reel" style="background-image: url(assets/img/th-night.jpg)"><span class="chip">ערוך עם Claude</span></div><div class="reel" style="background-image: url(assets/img/th-editorial.jpg)"><span class="chip" id="chip1">ערוך עם Claude</span></div><div class="reel" style="background-image: url(assets/img/th-hooks.jpg)"><span class="chip">ערוך עם Claude</span></div></div>
+          <div class="h-ring" id="r1"></div><div class="h-streak" id="sk1" style="left: 0; top: -2px"></div></div>
+        <div class="h-win" id="w1b"><div class="bar"><i></i><i></i><i></i><span class="url">claude.ai</span></div>
+          <div class="body rtl"><div class="bub" id="q1"></div><div class="inp"><span>שלחו הודעה…</span><span class="go" id="go1">↑</span></div></div>
+          <div class="h-ring" id="r1b"></div></div>
+      </div>
+
+      <!-- B3 (split): step 1, the camera records -->
+      <div id="s3" class="h-scene" style="z-index: 7">
+        <div class="h-photo" id="p3"><div class="grid3"></div><span class="rec" id="rec3"><i id="dot3"></i>REC</span><span class="topic" id="topic3"></span><div class="h-ring" id="ringRec"></div></div>
+        <div class="h-streak" id="sk3" style="left: 350px; top: 218px"></div>
+      </div>
+
+      <!-- B6 (split): comment "סקיל" -->
+      <div id="s6" class="h-scene" style="z-index: 7">
+        <div class="h-win" id="w6"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/refaelleviii</span></div>
+          <div class="body rtl"><div class="post"><span class="av"></span><div><b>רפאל לוי</b><br /><span>תגובות</span></div></div>
+            <div class="cin" id="cin6"><span class="ph" id="ph6">הוסיפו תגובה…</span><span id="ty6"></span><span class="snd" id="snd6">פרסום</span></div></div>
+          <div class="h-ring" id="r6"></div><div class="h-ring" id="r6b"></div></div>
+      </div>
+
+      <!-- B9 (split): the views before / after, the stat card lands on "אלפים" -->
+      <div id="s9" class="h-scene" style="z-index: 7">
+        <div class="h-win" id="w9"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/insights</span></div>
+          <div class="body rtl"><h4>צפיות לסרטון</h4>
+            <div class="vrow"><span>לפני הסקיל</span><span class="v"><span class="sel" id="sel9a">300–400</span></span></div>
+            <div class="vrow"><span>עם הסקיל</span><span class="v"><span class="sel" id="sel9b">עשרות אלפים</span></span></div></div>
+          <div class="h-dim" id="dim9"></div>
+          <div class="h-stat" id="st9"><span class="n" id="n9" data-qa-payoff="אלפים.">400</span><span class="l">צפיות לסרטון</span></div>
+          <div class="h-streak" id="sk9" style="left: 0; top: -2px"></div></div>
+      </div>
+
+      <!-- B11 (face): the DM on its way -->
+      <div id="s11" class="h-scene" style="z-index: 7">
+        <div class="h-win" id="w11"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/direct</span></div>
+          <div class="body rtl"><span class="dm">הנה הסקיל שביקשת ✓</span><br /><span class="dm f">video-themes</span></div></div>
+      </div>
+
+      <!-- B12b (split): the profile, the courses button -->
+      <div id="s13" class="h-scene" style="z-index: 7">
+        <div class="h-win" id="w13"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/refaelleviii</span></div>
+          <div class="body rtl"><div class="prof"><span class="av"></span><div><h5>רפאל לוי</h5><div class="ro">מומחה AI ושיווק דיגיטלי</div><div class="hd">@refaelleviii</div></div></div>
+            <div class="cbtn" id="btn13"><span class="sel" id="sel13">לקורסים באתר</span></div></div>
+          <div class="h-ring" id="r13"></div><div class="h-streak" id="sk13" style="left: 0; top: -2px"></div></div>
+      </div>
+
+      <!-- page (B2, B4, B7, B8, B12a) -->
+      <div id="page" class="h-page">
+        <div id="g2" class="h-scene">
+          <div class="h-sec"><span class="t" id="t2">איך עושים את זה</span><span class="h-caret" id="c2"></span><span class="h-box" id="b2">ב־3 שלבים</span></div>
+          <div class="h-win" id="w2"><div class="bar"><i></i><i></i><i></i><span class="url">3 steps</span></div>
+            <div class="body rtl rows"><p class="r2"><b>1</b>מצלמים את עצמכם</p><p class="r2"><b>2</b>מעלים את הסרטון לקלוד</p><p class="r2"><b>3</b><span class="sel" id="sel2">מתקינים את הסקיל</span></p></div></div>
+        </div>
+        <div id="g4" class="h-scene">
+          <div class="h-sec"><span class="t" id="t4">שלב</span><span class="h-caret" id="c4"></span><span class="h-box" id="b4">שני</span></div>
+          <div class="h-win" id="w4"><div class="bar"><i></i><i></i><i></i><span class="url">claude.ai</span></div>
+            <div class="body rtl"><div class="file" id="file4"><span class="ic"></span><div style="flex: 1"><div class="nm">IMG_5381.mov</div><div class="st"><span id="st4a">מעלה…</span><span id="st4b" style="position: absolute; opacity: 0">הועלה ✓</span></div><div class="bar2"><i id="fill4"></i></div></div></div>
+              <div class="inp"><span id="ty4"></span><span class="go" id="go4">↑</span></div></div>
+            <div class="h-ring" id="r4"></div></div>
+        </div>
+        <div id="g7" class="h-scene">
+          <div class="h-sec"><span class="t" id="t7">אותו סרטון</span><span class="h-caret" id="c7"></span><span class="h-box" id="b7">עם הסקיל</span></div>
+          <div class="h-photo" id="p7a"></div>
+          <div class="h-photo" id="p7b"><div class="mini-t">איך עורכים ככה<br /><span class="mini-b" id="mb7">עם קלוד?</span></div><div class="mini-w">claude.ai<i></i></div><div class="mini-c">ברמה <span style="color: var(--h-blue-text)">מטורפת</span></div><div class="h-ring" id="r7"></div></div>
+          <div class="lab" id="lab7a">לפני</div><div class="lab" id="lab7b">אחרי</div>
+        </div>
+        <div id="g8" class="h-scene">
+          <div class="h-sec"><span class="t" id="t8">בתוך הסקיל</span><span class="h-caret" id="c8"></span><span class="h-box" id="b8">סוגי עיצובים</span></div>
+          <div class="h-win" id="w8"><div class="bar"><i></i><i></i><i></i><span class="url">video-themes/themes</span><span class="cnt">9</span></div>
+            <div class="body" id="grid8">
+              <div class="th" id="th-glass" style="background-image: url(assets/img/th-glass.jpg)"><span class="nm">glass</span></div>
+              <div class="th" id="th-paper" style="background-image: url(assets/img/th-paper.jpg)"><span class="nm">paper</span></div>
+              <div class="th" id="th-night" style="background-image: url(assets/img/th-night.jpg)"><span class="nm">night</span></div>
+              <div class="th" id="th-editorial" style="background-image: url(assets/img/th-editorial.jpg)"><span class="nm">editorial</span></div>
+              <div class="th" id="th-headline" style="background-image: url(assets/img/th-headline.jpg)"><span class="nm">headline</span></div>
+              <div class="th" id="th-arcade" style="background-image: url(assets/img/th-arcade.jpg)"><span class="nm">arcade</span></div>
+              <div class="th" id="th-neon" style="background-image: url(assets/img/th-neon-studio.jpg)"><span class="nm">neon-studio</span></div>
+              <div class="th" id="th-hooks" style="background-image: url(assets/img/th-hooks.jpg)"><span class="nm">hooks</span></div>
+              <div class="th" id="th-board" style="background-image: url(assets/img/th-board.jpg)"><span class="nm">board</span></div></div>
+            <div class="h-ring" id="r8"></div><div class="h-streak" id="sk8" style="left: 0; top: -2px"></div></div>
+        </div>
+        <div id="g12" class="h-scene">
+          <div class="h-sec"><span class="t" id="t12">רוצים ללמוד</span><span class="h-caret" id="c12"></span><span class="h-box" id="b12">עריכה מקצועית</span></div>
+          <div class="h-win" id="w12"><div class="bar"><i></i><i></i><i></i><span class="url">קורסים · רפאל לוי</span></div>
+            <div class="body rtl crs"><p><span class="ck"></span><span class="sel" id="c12a">עריכת וידאו מקצועית</span></p><p><span class="ck"></span><span class="sel" id="c12b" dir="ltr">Motion graphics</span></p><p><span class="ck"></span><span class="sel" id="c12c" dir="ltr">Higgsfield</span></p><p><span class="ck"></span><span class="sel" id="c12d">ועוד</span></p></div></div>
+        </div>
+      </div>
+
+      <!-- dark (B5): step 3, the install -->
+      <div id="dark" class="h-dark">
+        <div class="h-sec"><span class="t" id="t5" style="color: #fff">שלב שלישי</span><span class="h-caret" id="c5"></span><span class="h-box" id="b5">הכי חשוב</span></div>
+        <div class="h-win term" id="w5"><div class="bar"><i></i><i></i><i></i><span class="ttl">claude — my-video</span></div>
+          <div class="body"><div class="dim">~/my-video $ claude</div><div class="in">&gt; <span id="cmd5"></span></div><div class="o5"><span class="ok">●</span> Installing video-themes</div><div class="o5 dim">└ 9 themes: glass · paper · night</div><div class="o5 dim">  editorial · headline · arcade</div><div class="o5 dim">  neon-studio · hooks · board</div><div class="o5" id="ok5"><span class="ok">✓</span> Installed: <b>video-themes</b></div></div>
+          <div class="h-ring" id="r5"></div></div>
+        <div class="h-streak" id="sk5" style="left: 70px; top: 468px"></div>
+      </div>
+
+      <div id="caps" class="h-caps"></div>
+
+      <!-- CTA (face, B11) -->
+      <div id="cta" class="h-cta" style="top: 1330px"><span class="lead" id="ctaL">תגיבו</span><span class="kw" id="ctaK"><span class="q">“</span>skill<span class="q">”</span></span></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="70.9" data-track-index="10" data-volume="1"></audio>
+<!--__SFX__-->
+    </div>
+    <script>
+      const WORDS = __WORDS__;
+      const H = window.HEADLINE;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        document.querySelectorAll(".crs .ck").forEach((e) => (e.innerHTML = H.ART.check));
+        H.place("#r1", "#chip1", 8); H.place("#r1b", "#go1", 8); H.place("#ringRec", "#rec3", 6); H.place("#r4", "#file4", 8);
+        H.place("#r5", "#ok5", 6); H.place("#r6", "#cin6", 6); H.place("#r6b", "#snd6", 8); H.place("#r7", "#mb7", 8);
+        H.place("#r13", "#btn13", 8);
+        WORDS.forEach((w) => { if (/^(קלוד\?|חשוב|מטורפת|אלפים|skill)/.test(w.text)) w.em = true; });
+        // no captions under the face CTA (the keyword is the text there)
+        const capWords = WORDS.filter((w) => !(w.start >= 54.2 && w.start < 57.6));
+
+        // ---- layouts (head top dropped to ~55%: drop 250) ----
+        H.layout(tl, "split", 0, { drop: 250 });
+        H.layout(tl, "page", 8.9);
+        H.layout(tl, "split", 12.1);
+        H.layout(tl, "page", 17.6);
+        H.layout(tl, "dark", 20.6);
+        H.layout(tl, "split", 25.15);
+        H.layout(tl, "page", 28.3);
+        H.layout(tl, "split", 40.7);
+        H.layout(tl, "face", 48.65);
+        H.layout(tl, "page", 57.55);
+        H.layout(tl, "split", 65.05);
+        H.scene(tl, "#s1", 0, 8.9); H.scene(tl, "#s3", 12.1, 17.6); H.scene(tl, "#s6", 25.15, 28.3); H.scene(tl, "#s9", 40.7, 48.65);
+        H.scene(tl, "#s11", 48.65, 57.55); H.scene(tl, "#s13", 65.05);
+        H.scene(tl, "#g2", 8.9, 12.1); H.scene(tl, "#g4", 17.6, 20.6); H.scene(tl, "#g7", 28.3, 31.95); H.scene(tl, "#g8", 31.95, 40.7); H.scene(tl, "#g12", 57.55, 65.05);
+        H.hide(tl, "#cta");
+
+        H.captions(tl, "#caps", capWords, { yFace: 1530 });  // the second camera puts the chin at ~1390
+
+        // ---- B1: headline + real edited reels (hook visual inside the first second), then the doubt in the chat ----
+        H.headline(tl, "#t1", "#b1", 0.12);
+        H.win(tl, "#w1a", 0.4);
+        H.push(tl, "#reels", 0.4, 4.1, 1.06);
+        H.streak(tl, "#sk1", 1.84, 700);
+        H.pulse(tl, "#chip1", 3.62, 1.08);
+        H.hide(tl, "#r1"); H.ring(tl, "#r1", 4.28);
+        H.hide(tl, "#w1b"); H.swap(tl, "#w1a", "#w1b", 4.56);
+        H.type(tl, "#q1", "איך אני עורך סרטון ברמה כזאת?", 5.32, 14);
+        H.hide(tl, "#r1b"); H.ring(tl, "#r1b", 7.78); H.pulse(tl, "#go1", 7.8, 1.15);
+
+        // ---- B2 (page): the 3 steps, step 3 selected on "הסוף" ----
+        H.section(tl, "#t2", "#c2", "#b2", 8.95);
+        H.hide(tl, "#w2"); H.win(tl, "#w2", 9.55);
+        H.hide(tl, ".r2"); H.blurIn(tl, ".r2", [9.72, 10.12, 10.6], 0, 0.24);
+        H.select(tl, "#sel2", 11.04);
+        H.push(tl, "#w2", 9.55, 2.55, 1.05);
+
+        // ---- B3 (split): step 1, the camera records ----
+        H.win(tl, "#p3", 12.16);
+        H.streak(tl, "#sk3", 12.5, 260, 0.8);
+        tl.fromTo("#dot3", { opacity: 1 }, { opacity: 0.15, duration: 0.4, repeat: 11, yoyo: true, ease: "steps(1)", immediateRender: false }, 12.86);
+        H.hide(tl, "#ringRec"); H.ring(tl, "#ringRec", 12.86);
+        H.punch(tl, "#p3", 14.52, 1.12, [190, 260]); H.unpunch(tl, "#p3", 15.9);
+        H.hide(tl, "#topic3"); H.win(tl, "#topic3", 16.0); H.type(tl, "#topic3", "הנושא: עריכה עם קלוד", 16.22, 18);
+        H.pulse(tl, "#topic3", 16.94, 1.06);
+
+        // ---- B4 (page): step 2, the upload ----
+        H.section(tl, "#t4", "#c4", "#b4", 17.66);
+        H.hide(tl, "#w4"); H.win(tl, "#w4", 18.0);
+        H.type(tl, "#ty4", "תערוך לי את הסרטון הזה", 18.2, 22);
+        tl.set("#fill4", { scaleX: 0 }, 0); tl.fromTo("#fill4", { scaleX: 0 }, { scaleX: 1, duration: 1.1, ease: "power1.inOut", immediateRender: false }, 18.58);
+        tl.set("#st4a", { opacity: 0 }, 19.68); tl.set("#st4b", { opacity: 1 }, 19.68);
+        H.hide(tl, "#r4"); H.ring(tl, "#r4", 19.68); H.pulse(tl, "#go4", 20.0, 1.15);
+
+        // ---- B5 (dark): step 3, the most important: the install ----
+        H.section(tl, "#t5", "#c5", "#b5", 20.66);
+        H.pulse(tl, "#b5", 22.08, 1.1);
+        H.hide(tl, "#w5"); H.win(tl, "#w5", 21.1);
+        H.streak(tl, "#sk5", 21.3, 760, 0.9);
+        H.type(tl, "#cmd5", "/plugin install video-themes", 22.48, 24);
+        H.hide(tl, ".o5"); H.blurIn(tl, ".o5", [23.7, 23.85, 24.0, 24.15, 24.34], 0, 0.2);
+        H.hide(tl, "#r5"); H.ring(tl, "#r5", 24.4);
+        H.push(tl, "#w5", 21.1, 4.0, 1.06);
+
+        // ---- B6 (split): "comment סקיל" ----
+        H.win(tl, "#w6", 25.25);
+        H.hide(tl, "#r6"); H.ring(tl, "#r6", 26.52);
+        tl.set("#ph6", { opacity: 1 }, 0); tl.set("#ph6", { opacity: 0 }, 27.4);
+        H.type(tl, "#ty6", "סקיל", 27.44, 12);
+        H.hide(tl, "#r6b"); tl.to("#r6", { opacity: 0, duration: 0.15 }, 27.75); H.ring(tl, "#r6b", 27.8);
+        H.push(tl, "#w6", 25.25, 3.0, 1.05);
+
+        // ---- B7 (page): this very clip, before → after ----
+        H.section(tl, "#t7", "#c7", "#b7", 28.4);
+        H.hide(tl, ["#p7a", "#lab7a", "#p7b", "#lab7b"]);
+        H.win(tl, ["#p7a", "#lab7a"], 28.9, 0.05);
+        H.pulse(tl, "#p7a", 29.46, 1.04);
+        tl.to("#lab7a", { opacity: 0, filter: "blur(10px)", duration: 0.18 }, 30.08);
+        H.swap(tl, "#p7a", ["#p7b", "#lab7b"], 30.08);
+        H.hide(tl, "#r7"); H.ring(tl, "#r7", 31.52);
+        H.push(tl, "#p7b", 30.2, 1.75, 1.05);
+
+        // ---- B8 (page): the themes inside the skill ----
+        H.section(tl, "#t8", "#c8", "#b8", 32.0);
+        H.hide(tl, "#w8"); H.win(tl, "#w8", 32.4);
+        H.hide(tl, ".th"); H.win(tl, ".th", 32.6, 0.1);
+        H.pulse(tl, "#grid8", 33.56, 1.03);
+        H.streak(tl, "#sk8", 34.36, 700);
+        // the ring visits the looks on "ולפי העיצובים האלה", lands on this video's own theme on "קלוד יודע"
+        const hop = (t, sel) => { const r = document.querySelector("#r8"), w = document.querySelector("#w8").getBoundingClientRect(), e = document.querySelector(sel).getBoundingClientRect();
+          const xy = { x: e.left - w.left - 8, y: e.top - w.top - 8 }; tl.set(r, { width: e.width + 16, height: e.height + 16 }, 0); return [t, xy]; };
+        const hops = [hop(35.32, "#th-glass"), hop(35.66, "#th-night"), hop(36.14, "#th-hooks"), hop(36.92, "#th-headline")];
+        tl.set("#r8", { left: 0, top: 0, x: hops[0][1].x, y: hops[0][1].y, opacity: 0 }, 0);
+        H.ring(tl, "#r8", 35.32);
+        hops.slice(1).forEach(([t, xy]) => tl.to("#r8", { x: xy.x, y: xy.y, duration: 0.22, ease: "power3.inOut" }, t));
+        H.punch(tl, "#grid8", 38.24, 1.22, [395, 400]); H.unpunch(tl, "#grid8", 39.9);
+        H.pulse(tl, "#th-headline", 39.58, 1.06);
+
+        // ---- B9 (split): the views, the stat card lands on "אלפים" ----
+        H.win(tl, "#w9", 40.85);
+        H.streak(tl, "#sk9", 41.6, 700);
+        H.select(tl, "#sel9a", 43.88);
+        H.pulse(tl, "#sel9a", 45.34, 1.1);
+        H.select(tl, "#sel9b", 46.58);
+        H.dim(tl, "#dim9", 46.45);
+        H.hide(tl, "#st9"); H.win(tl, "#st9", 46.5);
+        H.count(tl, "#n9", 400, 10000, 46.58, 0.84, { fmt: (v) => (v >= 10000 ? "10,000+" : Math.round(v / 50) * 50 + "").replace(/\B(?=(\d{3})+(?!\d))/g, ",") });
+        H.pulse(tl, "#st9", 47.42, 1.06);
+        H.push(tl, "#w9", 40.85, 7.8, 1.05);
+
+        // ---- B10 (face): emotion; the second camera creeps in ----
+        tl.fromTo("#faceVid", { scale: 1.18 }, { scale: 1.3, duration: 8.9, ease: "none", immediateRender: false }, 48.65);
+
+        // ---- B11 (face): CTA "skill", the DM arrives on "בדרך אליכם" ----
+        H.cta(tl, "#ctaL", "#ctaK", 54.28); tl.set("#cta", { opacity: 1 }, 54.28); tl.set("#cta", { opacity: 0 }, 57.55);
+        H.pulse(tl, "#ctaK", 55.36, 1.08);
+        H.hide(tl, "#w11"); H.win(tl, "#w11", 56.26);
+
+        // ---- B12 (page): the courses, each selected on its word ----
+        H.section(tl, "#t12", "#c12", "#b12", 57.64);
+        H.hide(tl, "#w12"); H.win(tl, "#w12", 58.3);
+        H.select(tl, ["#c12a", "#c12b", "#c12c", "#c12d"], [59.44, 61.3, 62.96, 64.14]);
+        H.push(tl, "#w12", 58.3, 6.75, 1.06);
+
+        // ---- B12b (split): the profile, the courses button on "לאתר" ----
+        H.win(tl, "#w13", 65.12);
+        H.hide(tl, "#r13"); H.ring(tl, "#r13", 65.68);
+        H.select(tl, "#sel13", 66.82);
+        H.streak(tl, "#sk13", 67.6, 700);
+        H.pulse(tl, "#btn13", 68.6, 1.08);
+        H.push(tl, "#w13", 65.12, 5.8, 1.06);
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>
