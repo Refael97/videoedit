@@ -81,7 +81,7 @@ function makeBiz() {
     ringM.geometry.setDrawRange(0, Math.floor((RT * E.inOutCubic(seg(t, LOGO, LOGO + 0.55))) / 3) * 3);
     disc.scale.setScalar(lerp(0.2, 1, E.outBack(seg(t, HIT - 0.2, HIT + 0.05)))); disc.visible = t >= HIT - 0.2;
     N.group.visible = t >= HIT - 0.05; N.group.scale.setScalar(E.outBack(seg(t, HIT - 0.05, HIT + 0.2)));
-    wm.glyphs.forEach((g, i) => { const st = HIT + 0.05 + i * 0.05; const k = seg(t, st, st + 0.3); g.visible = t >= st; g.position.y = lerp(-1.2, 0, E.outBack(k)); });
+    wm.glyphs.forEach((g, i) => { const st = HIT + 0.02 + i * 0.022; const k = seg(t, st, st + 0.24); g.visible = t >= st; g.position.y = lerp(-1.2, 0, E.outBack(k)); });
     sub.material.opacity = seg(t, HIT + 0.3, HIT + 0.6);
     logo.rotation.y = Math.sin(t * 1.2) * 0.15 * seg(t, HIT, T1);
     const c1 = E.inOutCubic(seg(t, LINE1 - 0.3, TAG - 0.1)), c2 = E.inOutCubic(seg(t, LOGO - 0.1, LOGO + 0.5));
