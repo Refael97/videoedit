@@ -1,24 +1,24 @@
 {
  "project": "rafael-test-headline",
  "theme": "headline",
- "score": "3/10",
+ "score": "5/10",
  "ready": false,
  "checks": {
   "motion": {
-   "value": 0.47,
+   "value": 0.71,
    "target": ">= 1.19",
    "pass": false,
-   "footage": "camera jitter 0.08 px/frame, 3 punches, 6 drifts (anchor: jitter 0.22 px/frame, 26.3 camera moves/min)"
+   "footage": "camera jitter 0.08 px/frame, 10 punches, 10 drifts (anchor: jitter 0.22 px/frame, 26.3 camera moves/min)"
   },
   "flat": {
-   "value": "42.2%",
+   "value": "37.3%",
    "target": "<= 16.0%",
    "pass": false
   },
   "actions": {
-   "value": "0.37 events/s (GSAP 1.95 tweens/s)",
+   "value": "0.58 events/s (GSAP 2.75 tweens/s)",
    "target": "0.45–0.83",
-   "pass": false
+   "pass": true
   },
   "payoff": {
    "value": "1 marked, 0 problems",
@@ -31,23 +31,23 @@
    "pass": true
   },
   "hero": {
-   "value": "median 52%, 4 weak ranges",
+   "value": "median 76%, 4 weak ranges",
    "target": ">= 60%",
    "pass": false
   },
   "collide": {
-   "value": "1 collisions",
+   "value": "0 collisions",
    "target": "0",
-   "pass": false,
+   "pass": true,
    "faces_detected": 283
   },
   "overlap": {
-   "value": "1 overlaps",
+   "value": "2 overlaps",
    "target": "0 (unless in one data-qa-stack)",
    "pass": false
   },
   "placeholder": {
-   "value": "1 found",
+   "value": "2 found",
    "target": "0",
    "pass": false
   },
@@ -59,25 +59,36 @@
  },
  "metrics": {
   "duration": 70.87,
-  "motion": 1.64,
-  "flat_pct": 42.2,
-  "events_per_s": 0.31,
+  "motion": 1.83,
+  "flat_pct": 37.3,
+  "events_per_s": 0.47,
   "graphics": {
-   "gfx_motion": 0.47,
-   "gfx_raw": 0.47,
+   "gfx_motion": 0.71,
+   "gfx_raw": 0.71,
    "baseline": 0.0,
    "baseline_s": 7,
    "baseline_from": "none (graphics-only render)",
-   "gfx_share": 0.89,
+   "gfx_share": 0.9,
    "footage": {
     "jitter_px": 0.08,
     "punches": [
-     38.13,
+     18.9,
+     19.93,
+     24.13,
+     31.1,
+     33.53,
+     36.8,
      39.9,
-     48.53
+     48.53,
+     50.2,
+     52.0
     ],
     "drifts": [
-     39.67,
+     18.0,
+     31.0,
+     33.0,
+     36.67,
+     39.33,
      49.0,
      51.0,
      53.67,
@@ -89,12 +100,23 @@
   "footage": {
    "jitter_px": 0.08,
    "punches": [
-    38.13,
+    18.9,
+    19.93,
+    24.13,
+    31.1,
+    33.53,
+    36.8,
     39.9,
-    48.53
+    48.53,
+    50.2,
+    52.0
    ],
    "drifts": [
-    39.67,
+    18.0,
+    31.0,
+    33.0,
+    36.67,
+    39.33,
     49.0,
     51.0,
     53.67,
@@ -102,7 +124,7 @@
     68.67
    ]
   },
-  "actions_per_s": 0.37
+  "actions_per_s": 0.58
  },
  "targets": {
   "gfx_motion_min": 1.19,
@@ -120,137 +142,95 @@
    "fix": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)"
   },
   {
-   "t": "0.4–4.7s",
-   "t0": 0.4,
-   "words": "אתם מכירים את זה שאתם רואים סרטונים ברשתות ואומרים לכם שערוך את זה עם קלוד? אבל",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+   "t": "7.9–8.8s",
+   "t0": 7.87,
+   "words": "קלוד?",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "4.7–8.9s",
-   "t0": 4.67,
-   "words": "אבל אתם אומרים איך לעזאזל אני עורך סרטון ברמה כזאת עם קלוד?",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+   "t": "8.9–9.7s",
+   "t0": 8.9,
+   "words": "אז אני עכשיו הולך",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "8.9–12.1s",
-   "t0": 8.87,
-   "words": "אז אני עכשיו הולך לספר לכם, תישארו עד הסוף.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "9.0–12.2s",
+   "t": "9.0–9.8s",
    "t0": 9,
-   "words": "אז אני עכשיו הולך לספר לכם, תישארו עד הסוף. שלב",
+   "words": "אז אני עכשיו הולך לספר",
    "check": "hero fill",
-   "fix": "fill 15%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+   "fix": "fill 28%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
-   "t": "10.4–12.1s",
-   "t0": 10.37,
+   "t": "10.5–11.9s",
+   "t0": 10.5,
    "words": "תישארו עד הסוף.",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "12.1–17.6s",
-   "t0": 12.07,
-   "words": "שלב הראשון תצלמו את עצמכם מדברים למצלמה על נושא שאתם רוצים.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "17.6–20.6s",
-   "t0": 17.57,
-   "words": "שלב שני תעלו את הסרטון הזה לקלוד.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "17.8–21.2s",
+   "t": "17.8–18.2s",
    "t0": 17.75,
-   "words": "שלב שני תעלו את הסרטון הזה לקלוד. שלב שלישי",
+   "words": "שלב שני",
    "check": "hero fill",
-   "fix": "fill 30%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+   "fix": "fill 48%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
-   "t": "18.1–19.7s",
-   "t0": 18.13,
-   "words": "שני תעלו את הסרטון הזה",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "20.6–25.1s",
-   "t0": 20.57,
-   "words": "שלב שלישי וזה השלב הכי חשוב תתקינו בקלוד את הסקיל שלי.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "21.5–24.0s",
+   "t": "21.5–22.0s",
    "t0": 21.5,
-   "words": "וזה השלב הכי חשוב תתקינו בקלוד את הסקיל",
+   "words": "וזה השלב הכי",
    "check": "no placeholders",
    "fix": "w5: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
   },
   {
-   "t": "21.6–23.8s",
+   "t": "21.6–22.5s",
    "t0": 21.6,
-   "words": "השלב הכי חשוב תתקינו בקלוד את",
+   "words": "השלב הכי חשוב",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "23.9–25.1s",
-   "t0": 23.87,
-   "words": "הסקיל שלי.",
+   "t": "22.2–23.5s",
+   "t0": 22.25,
+   "words": "חשוב תתקינו בקלוד",
+   "check": "no placeholders",
+   "fix": "w5: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
+  },
+  {
+   "t": "22.6–23.8s",
+   "t0": 22.6,
+   "words": "תתקינו בקלוד את",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "25.1–28.3s",
-   "t0": 25.13,
-   "words": "מי שרוצה את הסקיל תגיבו פה את המילה סקיל.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+   "t": "24.3–25.1s",
+   "t0": 24.33,
+   "words": "שלי.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "28.5–32.2s",
+   "t": "28.5–29.0s",
    "t0": 28.5,
-   "words": "הסקיל הזה מאפשר לקלוד לערוך לכם את הסרטון ברמה מטורפת. בתוך",
+   "words": "הסקיל הזה",
    "check": "hero fill",
-   "fix": "fill 25%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+   "fix": "fill 57%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
-   "t": "28.9–31.9s",
-   "t0": 28.9,
-   "words": "הזה מאפשר לקלוד לערוך לכם את הסרטון ברמה מטורפת.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+   "t": "29.8–30.2s",
+   "t0": 29.75,
+   "words": "לקלוד לערוך",
+   "check": "graphic overlaps",
+   "fix": "#b7 overlaps #p7a (22% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
   },
   {
-   "t": "30.5–31.5s",
-   "t0": 30.53,
-   "words": "את הסרטון ברמה",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "33.8–38.2s",
-   "t0": 33.77,
-   "words": "עשרות סוגי עיצובים ולפי העיצובים האלה קלוד יודע איך לערוך לכם את זה",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "33.8–35.3s",
-   "t0": 33.8,
-   "words": "עשרות סוגי עיצובים",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+   "t": "31.2–32.0s",
+   "t0": 31.25,
+   "words": "ברמה מטורפת. בתוך",
+   "check": "graphic overlaps",
+   "fix": "#b7 overlaps #p7b (29% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
   },
   {
    "t": "35.3–36.9s",
@@ -260,71 +240,29 @@
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "36.9–38.2s",
-   "t0": 36.93,
-   "words": "קלוד יודע איך לערוך לכם את זה",
+   "t": "37.1–39.0s",
+   "t0": 37.13,
+   "words": "יודע איך לערוך לכם את זה ברמה שעורכי",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "40.9–47.4s",
-   "t0": 40.9,
-   "words": "משתמש בס- בסקיל הזה וזה הקפיץ לי את הצפיות משלוש מאות ארבע מאות צפיות לסרטון לעשרות",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+   "t": "39.0–39.8s",
+   "t0": 39.03,
+   "words": "התוכן הכי גדולים",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "48.6–51.0s",
-   "t0": 48.63,
-   "words": "חבר'ה הסקיל הזה הוא משנה חיים וגם",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "51.0–53.7s",
-   "t0": 51.0,
-   "words": "וגם חוסך לכם הרבה זמן. אז כל מה שאתם צריכים לעשות",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "53.7–55.7s",
-   "t0": 53.67,
-   "words": "לעשות זה להגיב לי פה את המילה skill",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "54.5–57.8s",
-   "t0": 54.5,
-   "words": "להגיב לי פה את המילה skill וזה בדרך אליכם. וכמובן",
-   "check": "collisions",
-   "fix": "span.w on the eyes/mouth: keep captions and cards off the eyes and mouth: move it, or use a layout that gives the face its own space"
-  },
-  {
-   "t": "54.8–57.8s",
-   "t0": 54.75,
-   "words": "פה את המילה skill וזה בדרך אליכם. וכמובן",
-   "check": "graphic overlaps",
-   "fix": "#ctaK overlaps span.w (27% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "57.5–65.0s",
-   "t0": 57.53,
-   "words": "וכמובן אם אתם רוצים ללמוד איך לערוך וידאו בצורה מקצועית עם motion graphics, להשתמש ב-Higgsfield ועוד,",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "57.8–65.2s",
+   "t": "57.8–58.2s",
    "t0": 57.75,
-   "words": "וכמובן אם אתם רוצים ללמוד איך לערוך וידאו בצורה מקצועית עם motion graphics, להשתמש ב-Higgsfield ועוד, כנסו",
+   "words": "וכמובן אם אתם",
    "check": "hero fill",
-   "fix": "fill 33%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+   "fix": "fill 54%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
-   "t": "58.4–59.4s",
-   "t0": 58.43,
+   "t": "58.5–59.4s",
+   "t0": 58.5,
    "words": "רוצים ללמוד איך",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
@@ -337,32 +275,11 @@
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "60.7–61.7s",
-   "t0": 60.67,
-   "words": "מקצועית עם motion",
+   "t": "62.8–65.0s",
+   "t0": 62.83,
+   "words": "להשתמש ב-Higgsfield ועוד,",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "61.7–65.0s",
-   "t0": 61.7,
-   "words": "graphics, להשתמש ב-Higgsfield ועוד,",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "65.3–68.7s",
-   "t0": 65.27,
-   "words": "כנסו אליי לאתר. יש לי שמה קורסים בדיוק בשבילכם, אל תישארו",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
-  },
-  {
-   "t": "68.7–70.9s",
-   "t0": 68.67,
-   "words": "תישארו מאחור חבר'ה.",
-   "check": "actions / s",
-   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
   }
  ]
 }

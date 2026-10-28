@@ -265,7 +265,7 @@
 
         // ---- B2 (page): the 3 steps, step 3 selected on "הסוף" ----
         H.section(tl, "#t2", "#c2", "#b2", 8.95);
-        H.hide(tl, "#w2"); H.win(tl, "#w2", 9.55);
+        H.hide(tl, "#w2"); H.win(tl, "#w2", 9.0);
         H.hide(tl, ".r2"); H.blurIn(tl, ".r2", [9.72, 10.12, 10.6], 0, 0.24);
         H.select(tl, "#sel2", 11.04);
         H.push(tl, "#w2", 9.55, 2.55, 1.05);
@@ -281,7 +281,7 @@
 
         // ---- B4 (page): step 2, the upload ----
         H.section(tl, "#t4", "#c4", "#b4", 17.66);
-        H.hide(tl, "#w4"); H.win(tl, "#w4", 18.0);
+        H.hide(tl, "#w4"); H.win(tl, "#w4", 17.7);
         H.type(tl, "#ty4", "תערוך לי את הסרטון הזה", 18.2, 22);
         tl.set("#fill4", { scaleX: 0 }, 0); tl.fromTo("#fill4", { scaleX: 0 }, { scaleX: 1, duration: 1.1, ease: "power1.inOut", immediateRender: false }, 18.58);
         tl.set("#st4a", { opacity: 0 }, 19.68); tl.set("#st4b", { opacity: 1 }, 19.68);
@@ -293,6 +293,7 @@
         H.hide(tl, "#w5"); H.win(tl, "#w5", 21.1);
         H.streak(tl, "#sk5", 21.3, 760, 0.9);
         H.type(tl, "#cmd5", "/plugin install video-themes", 22.48, 24);
+        document.querySelectorAll(".o5").forEach((e, i) => { tl.set(e, { display: "none" }, 0); tl.set(e, { display: "block" }, [23.7, 23.85, 24.0, 24.15, 24.34][i]); });
         H.hide(tl, ".o5"); H.blurIn(tl, ".o5", [23.7, 23.85, 24.0, 24.15, 24.34], 0, 0.2);
         H.hide(tl, "#r5"); H.ring(tl, "#r5", 24.4);
         H.push(tl, "#w5", 21.1, 4.0, 1.06);
@@ -308,7 +309,7 @@
         // ---- B7 (page): this very clip, before → after ----
         H.section(tl, "#t7", "#c7", "#b7", 28.4);
         H.hide(tl, ["#p7a", "#lab7a", "#p7b", "#lab7b"]);
-        H.win(tl, ["#p7a", "#lab7a"], 28.9, 0.05);
+        H.win(tl, ["#p7a", "#lab7a"], 28.45, 0.05);
         tl.to("#lab7a", { opacity: 0, filter: "blur(10px)", duration: 0.18 }, 30.08);
         H.swap(tl, "#p7a", ["#p7b", "#lab7b"], 30.08);
         H.hide(tl, "#r7"); H.ring(tl, "#r7", 31.52);
@@ -351,7 +352,7 @@
 
         // ---- B12 (page): the courses, each selected on its word ----
         H.section(tl, "#t12", "#c12", "#b12", 57.64);
-        H.hide(tl, "#w12"); H.win(tl, "#w12", 58.3);
+        H.hide(tl, "#w12"); H.win(tl, "#w12", 57.75);
         H.select(tl, ["#c12a", "#c12b", "#c12c", "#c12d"], [59.44, 61.3, 62.96, 64.14]);
         H.push(tl, "#w12", 58.3, 6.75, 1.06);
 
@@ -378,21 +379,28 @@
         path([["#w13", 65.25, 150, 60], ["#btn13", 65.62]], [65.7], 67.0);
         const body = (w) => document.querySelector(w + " .body");
         const pp = (w, t1, t2, s, ox, oy) => { H.punch(tl, body(w), t1, s, [ox, oy]); H.unpunch(tl, body(w), t2); };
+        // hold: punch into the part the voice names, keep creeping in while it is explained, return
+        const hold = (w, t1, s1, s2, t2, ox, oy) => { const b = body(w); tl.set(b, { transformOrigin: ox + "px " + oy + "px" }, t1 - 0.01); tl.to(b, { scale: s1, duration: 0.3, ease: "power3.out" }, t1); tl.to(b, { scale: s2, duration: Math.max(0.2, t2 - t1 - 0.6), ease: "none" }, t1 + 0.3); tl.to(b, { scale: 1, duration: 0.3, ease: "power3.inOut" }, t2 - 0.3); };
         H.punch(tl, "#w1a", 2.3, 1.06, [425, 250]); H.unpunch(tl, "#w1a", 3.3);
-        pp("#w2", 10.36, 11.85, 1.1, 870, 380);
+        hold("#w1b", 6.84, 1.06, 1.12, 8.8, 700, 120);
+        hold("#w2", 10.36, 1.08, 1.16, 11.85, 870, 380);
         H.punch(tl, "#p3", 16.22, 1.1, [190, 600]); H.unpunch(tl, "#p3", 17.3);
         H.streak(tl, "#sk3", 15.3, 260, 0.8);
         pp("#w4", 18.94, 19.9, 1.12, 300, 160);
-        pp("#w5", 22.48, 24.1, 1.14, 40, 330);
+        hold("#w5", 22.48, 1.1, 1.2, 24.25, 40, 330);
+        H.pulse(tl, body("#w5"), 24.4, 1.04);
         H.streak(tl, "#sk5", 24.4, 760, 0.9);
         pp("#w6", 26.52, 28.0, 1.14, 450, 220);
-        H.punch(tl, "#p7a", 29.46, 1.08, [380, 600]); H.unpunch(tl, "#p7a", 30.05);
-        H.punch(tl, "#p7b", 31.18, 1.1, [380, 560]);
+        H.punch(tl, "#p7a", 29.46, 1.08, [380, 60]); H.unpunch(tl, "#p7a", 30.05);
+        H.punch(tl, "#p7b", 31.18, 1.1, [380, 60]);
         H.punch(tl, "#grid8", 33.56, 1.08, [395, 400]); H.unpunch(tl, "#grid8", 34.3);
-        H.punch(tl, "#grid8", 36.92, 1.3, [395, 400]); H.streak(tl, "#sk8", 38.72, 700); H.unpunch(tl, "#grid8", 39.9);
+        tl.to("#grid8", { scale: 1.06, duration: 2.5, ease: "none" }, 34.35);
+        H.punch(tl, "#grid8", 36.92, 1.3, [395, 400]); tl.to("#grid8", { scale: 1.4, duration: 2.6, ease: "none" }, 37.25); H.streak(tl, "#sk8", 38.72, 700); H.unpunch(tl, "#grid8", 39.9);
         pp("#w9", 42.72, 43.75, 1.12, 400, 260);
         H.streak(tl, "#sk9", 44.6, 700);
-        pp("#w12", 61.3, 62.6, 1.1, 450, 200);
+        hold("#w12", 59.44, 1.06, 1.12, 61.0, 700, 80);
+        hold("#w12", 61.3, 1.08, 1.14, 62.75, 700, 200);
+        hold("#w12", 62.96, 1.08, 1.16, 65.0, 700, 330);
         pp("#w13", 66.82, 68.2, 1.1, 450, 300);
         H.punch(tl, body("#w13"), 69.08, 1.08, [450, 200]);
         window.__timelines["main"] = tl;

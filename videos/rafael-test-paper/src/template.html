@@ -13,8 +13,8 @@
 
       /* S0 hook: three real reels edited with the skill (frames of this project's theme previews), cycling */
       /* one card holding three reels: real theme previews, playing */
-      #reel0 { left: 90px; top: 505px; width: 900px; height: 330px; z-index: 32; border-radius: 22px; }
-      #reel0 video { position: absolute; top: 14px; width: 168px; height: 300px; object-fit: cover; border-radius: 12px; }
+      #reel0 { left: 90px; top: 532px; width: 900px; height: 306px; z-index: 32; border-radius: 22px; }
+      #reel0 video { position: absolute; top: 12px; width: 158px; height: 282px; object-fit: cover; border-radius: 12px; }
       .vid { position: absolute; object-fit: cover; }
       #tagH { z-index: 33; }
 
@@ -37,10 +37,12 @@
       #scr3 { left: 341px; top: 471px; width: 278px; height: 566px; border-radius: 20px; overflow: hidden; }
       #scr3 video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
       /* UI zoom on the recorder: the timer, big */
-      #recZ { left: 690px; top: 560px; width: 340px; height: 210px; }
+      #recZ { left: 690px; top: 540px; width: 340px; height: 270px; }
       #recZ .body { padding: 26px 30px; }
       #recZ .rz { display: flex; align-items: center; gap: 14px; font-size: 34px; font-weight: 800; color: #e5372c; direction: ltr; }
       #recZ .rz i { width: 24px; height: 24px; border-radius: 50%; background: #e5372c; display: block; }
+      #wave3 { display: flex; align-items: center; gap: 7px; height: 56px; margin-top: 6px; direction: ltr; }
+      #wave3 i { width: 12px; height: 56px; border-radius: 6px; background: var(--p-orange); display: block; transform-origin: 50% 50%; }
       #tim3 { font-family: var(--p-mono); font-size: 76px; font-weight: 500; direction: ltr; margin-top: 8px; display: block; }
       #scr3 .rec { position: absolute; left: 18px; top: 18px; display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 16px; border-radius: 25px; background: rgba(0, 0, 0, 0.55); color: #fff; font-size: 30px; font-weight: 800; direction: ltr; font-family: var(--p-mono); }
       #scr3 .rec i { width: 18px; height: 18px; border-radius: 50%; background: #e5372c; display: block; }
@@ -105,17 +107,18 @@
 
       /* S12 profile + courses (UI zoom card) */
       #prof { left: 70px; top: 430px; width: 940px; height: 680px; }
-      #reel12 { position: absolute; left: 40px; top: 250px; width: 170px; height: 302px; border-radius: 12px; object-fit: cover; }
+      #reel12 { position: absolute; left: 40px; top: 210px; width: 250px; height: 444px; border-radius: 12px; object-fit: cover; }
       #prof .av { position: absolute; right: 40px; top: 40px; width: 190px; height: 190px; border-radius: 50%; background: url(assets/img/avatar.jpg) center / cover; border: 5px solid #fff; box-shadow: 0 6px 18px rgba(60, 42, 20, 0.2); }
       #prof .nm { position: absolute; right: 260px; top: 54px; font-size: 62px; font-weight: 800; }
       #prof .ti { position: absolute; right: 260px; top: 132px; font-size: 34px; color: var(--p-ink-soft); font-weight: 500; }
       #prof .hd { position: absolute; right: 260px; top: 184px; font-family: var(--p-mono); font-size: 30px; color: var(--p-orange); direction: ltr; }
-      .crs { position: absolute; right: 40px; left: 240px; height: 96px; border-top: 1px solid var(--p-card-edge); display: flex; align-items: center; gap: 18px; font-size: 40px; font-weight: 700; }
+      .crs { position: absolute; right: 40px; left: 320px; height: 96px; border-top: 1px solid var(--p-card-edge); display: flex; align-items: center; gap: 18px; font-size: 40px; font-weight: 700; }
       .crs i { width: 46px; height: 46px; border-radius: 12px; background: var(--p-orange-soft); color: var(--p-orange); font-style: normal; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800; }
-      #url12 { position: absolute; left: 40px; right: 40px; bottom: 34px; height: 84px; border-radius: 42px; background: var(--p-card-warm); border: 1px solid var(--p-card-edge); display: flex; align-items: center; gap: 14px; padding: 0 12px 0 28px; direction: ltr; font-family: var(--p-mono); font-size: 38px; }
+      #url12 { position: absolute; left: 320px; right: 40px; bottom: 34px; height: 84px; border-radius: 42px; background: var(--p-card-warm); border: 1px solid var(--p-card-edge); display: flex; align-items: center; gap: 14px; padding: 0 12px 0 28px; direction: ltr; font-family: var(--p-mono); font-size: 38px; }
       #url12 .lk { font-size: 28px; }
       #go12 { margin-left: auto; width: 64px; height: 64px; border-radius: 50%; background: var(--p-ink); color: #fff; font-family: var(--p-font); font-size: 34px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
-      #tag12 { left: 250px; top: 640px; }
+      #tag12 { left: 350px; top: 692px; }
+      #end12 { left: 190px; top: 1150px; width: 700px; height: 130px; border-radius: 65px; display: flex; align-items: center; justify-content: center; font-family: var(--p-mono); font-size: 54px; font-weight: 500; color: var(--p-orange); direction: ltr; }
     </style>
   </head>
   <body>
@@ -147,7 +150,7 @@
           <div id="scr3" class="p-obj"><video id="v3" src="assets/video/face.mp4" data-start="12.16" data-duration="5.52" data-media-start="12.16" data-track-index="2" muted playsinline></video>
             <div class="rec" id="rec3"><i id="dot3"></i>REC</div>
             <div id="recBtn"><b></b></div></div>
-          <div id="recZ" class="p-card aa"><div class="body"><div class="rz"><i id="dotZ"></i>REC</div><span id="tim3" data-qa-payoff="רוצים.">00:00</span></div></div>
+          <div id="recZ" class="p-card aa"><div class="body"><div class="rz"><i id="dotZ"></i>REC</div><span id="tim3" data-qa-payoff="רוצים.">00:00</span><div id="wave3"></div></div></div>
           <div class="p-tag" id="tag3" style="left: 210px; top: 760px">נושא שאתם רוצים</div>
         </div>
 
@@ -213,6 +216,7 @@
             <div class="crs" id="c3" style="top: 462px"><i>3</i>Higgsfield ועוד</div>
             <div id="url12"><span class="lk">🔒</span><span id="urlT"></span><div id="go12">←</div></div></div>
           <div class="p-tag" id="tag12">קורסים</div>
+          <div id="end12" class="p-card"><span>refael-ai.com</span></div>
         </div>
       </div>
 
@@ -253,7 +257,7 @@
         const TH = ["glass", "paper", "night", "editorial", "headline", "arcade", "neon-studio", "hooks", "board"];
         const g = document.querySelector("#grid8");
         TH.forEach((t, i) => { const c = i % 3, r = Math.floor(i / 3), x = 790 - c * 260, y = 400 + r * 360;
-          g.insertAdjacentHTML("beforeend", `<div class="tth t8" id="t8${i}" style="left:${x}px;top:${y}px"><video id="v8${i}" src="assets/th/${t}.mp4" data-start="33.4" data-duration="7.38" data-media-start="2" data-track-index="${20 + i}" muted playsinline></video></div><div class="ttl l8" id="l8${i}" style="left:${x - 5}px;top:${y + 306}px">${t}</div>`); });
+          g.insertAdjacentHTML("beforeend", `<div class="tth t8" id="t8${i}" style="left:${x}px;top:${y}px"><video id="v8${i}" src="assets/th/${t}.mp4" data-start="32.5" data-duration="8.28" data-media-start="${t === "hooks" ? 7 : 2}" data-track-index="${20 + i}" muted playsinline></video></div><div class="ttl l8" id="l8${i}" style="left:${x - 5}px;top:${y + 306}px">${t}</div>`); });
 
         // ---- layouts ----
         P.layout(tl, "face", 0);
@@ -272,12 +276,13 @@
 
         // ---- captions: from the end of the hook; under the chin on the face (his mouth is at ~1160), lower on the theme grid ----
         P.captions(tl, "#caps", WORDS.filter((w) => w.start >= 4.5), { maxWords: 3, yFace: 1400,
-          yAt: (t) => (P.modeAt(t) === "face" ? 1400 : P.modeAt(t) === "split" ? 908 : t >= 31.98 && t < 40.78 ? 1760 : 1190) });
+          yAt: (t) => (P.modeAt(t) === "face" ? 1400 : P.modeAt(t) === "split" ? 908 : t >= 31.98 && t < 40.78 ? 1760 : t >= 57.64 ? 1440 : 1190) });
 
         // ---- S0 hook: the question over the face + three reels edited with the skill ----
         P.hook(tl, "#hook", 0.05, 4.56);
         P.rise(tl, "#reel0", 0.4);
-        P.pop(tl, ["#hA", "#hB", "#hC"], [0.7, 1.84, 3.16], 0, { y: 30 });   // "אתם" · "סרטונים" · "ואומרים"
+        P.pop(tl, ["#hA", "#hB", "#hC"], 0.5, 0.14, { y: 30 });
+        P.pulse(tl, "#hA", 0.88); P.pulse(tl, "#hB", 1.84); P.pulse(tl, "#hC", 3.16);   // "מכירים" · "סרטונים" · "ואומרים"
         P.pop(tl, "#tagH", 3.62);                                            // "שערוך את זה עם קלוד"
         P.pulse(tl, "#tagH", 4.28);
         tl.set(["#reel0", "#tagH"], { autoAlpha: 0 }, 4.56);
@@ -307,23 +312,26 @@
         P.lift(tl, "#recZ", 13.0, { scale: 0.4, x: -260, y: -60 });          // UI zoom: the recorder's timer comes out of the phone
         P.count(tl, "#tim3", 0, 4, 12.9, 4.0, { ease: "none", fmt: (v) => "00:0" + Math.min(4, Math.floor(v + 1e-6)) });  // last tick lands on "רוצים"
         tl.fromTo(["#dot3", "#dotZ"], { opacity: 1 }, { opacity: 0.2, duration: 0.4, yoyo: true, repeat: 9, ease: "none", immediateRender: false }, 12.9);
+        // the mic level while he talks (UI zoom on the recorder)
+        const wv = document.querySelector("#wave3"); for (let i = 0; i < 14; i++) wv.insertAdjacentHTML("beforeend", "<i></i>");
+        document.querySelectorAll("#wave3 i").forEach((b, i) => { tl.set(b, { scaleY: 0.2 }, 0); tl.to(b, { keyframes: [0.9, 0.3, 0.7, 0.25, 1, 0.4, 0.8, 0.2].map((v, k) => ({ scaleY: ((v + i * 0.37 + k * 0.21) % 1) * 0.85 + 0.15, duration: 0.18 + ((i * 7) % 5) * 0.03 })), repeat: 3, ease: "sine.inOut" }, 13.05); });
         P.tag(tl, "#tag3", "#ink3", "M250,820 C290,780 310,760 340,750", "t3", 16.22);           // "נושא"
         P.pulse(tl, ["#ph3", "#scr3"], 16.94);
 
         // ---- S4 step 2: the upload lands on "לקלוד" ----
         ["#file4", "#ok4"].forEach((s) => P.hide(tl, s)); P.art("#sp4", "sparkOrange");
         P.rise(tl, "#chat4", 17.75);
-        P.drop(tl, "#file4", "#chat4", 18.58, [0, -260]);                  // "תעלו"
-        tl.set("#fill4", { scaleX: 0 }, 0); tl.to("#fill4", { scaleX: 1, duration: 0.7, ease: "power1.inOut" }, 18.98);
-        P.count(tl, "#pct4", 0, 100, 18.98, 0.7, { suffix: "%", ease: "power1.inOut" });
+        P.drop(tl, "#file4", "#chat4", 17.95, [0, -260]);
+        tl.set("#fill4", { scaleX: 0 }, 0); tl.to("#fill4", { scaleX: 1, duration: 1.1, ease: "power1.inOut" }, 18.58);   // "תעלו" → "לקלוד"
+        P.count(tl, "#pct4", 0, 100, 18.58, 1.1, { suffix: "%", ease: "power1.inOut" });
         P.pop(tl, "#ok4", 19.86);
 
         // ---- S5 step 3: the install, "the most important" ----
-        P.hide(tl, ".o5"); P.hide(tl, "#imp5");
+        P.hide(tl, "#imp5"); tl.set(".o5", { opacity: 0.3 }, 0);   // the output waits dim, lights up as it completes
         P.rise(tl, "#term5", 20.75);
         P.pop(tl, "#imp5", 21.88, 0, { from: 1.6 });                         // "הכי חשוב"
         P.type(tl, "#cmd5", "/plugin install video-themes", 22.48, 26);
-        P.fill(tl, ".o5", [23.66, 23.9, 24.14, 24.4]);
+        [23.66, 23.9, 24.14, 24.4].forEach((t, i) => { tl.to(`.o5:nth-child(${i + 6})`, { opacity: 1, duration: 0.15 }, t); });
         P.pulse(tl, "#imp5", 24.34);
 
         // ---- S6 CTA 1 (face): comment "סקיל" ----
@@ -346,9 +354,9 @@
         // ---- S8 the themes inside the skill ----
         ["#fold8", "#lab8", ".t8", ".l8", "#tag8"].forEach((s) => P.hide(tl, s));
         P.pop(tl, "#fold8", 32.0); P.label(tl, "#lab8", 32.26, null);       // "בתוך הסקיל"
-        P.out(tl, ["#fold8", "#lab8"], 33.4);
-        P.pop(tl, ".t8", 33.56, 0.17, { y: 30 });                           // "עשרות סוגי עיצובים"
-        P.fill(tl, ".l8", 33.7, 0.17);
+        P.out(tl, ["#fold8", "#lab8"], 32.45);
+        P.pop(tl, ".t8", 32.6, 0.15, { y: 30 });                            // "יצרתי" … "עשרות סוגי עיצובים"
+        P.fill(tl, ".l8", 32.7, 0.15);
         P.cursor(tl, "#cur", [[1000, 1500, 35.3], [560, 970, 35.9], [820, 610, 36.9], [300, 610, 37.7], [560, 1330, 38.6]], [35.9, 36.9, 37.7, 38.6], { end: 39.3 });
         const pick = (i, t) => { P.pulse(tl, `#t8${i}`, t); tl.set(`#l8${i}`, { color: "#221c12" }, 0); tl.set(`#l8${i}`, { color: "#c65a3c" }, t); tl.set(`#l8${i}`, { color: "#221c12" }, t + 0.8); };
         pick(4, 35.9); pick(0, 36.9); pick(2, 37.7); pick(7, 38.6);        // "ולפי העיצובים האלה קלוד יודע איך לערוך"
@@ -386,6 +394,7 @@
         P.pop(tl, "#tag12", 66.82);                                          // "קורסים"
         P.highlight(tl, "#c1, #c2, #c3", 67.52, 0.12);                       // "בדיוק בשבילכם"
         P.pulse(tl, "#prof", 68.6);                                          // "אל תישארו מאחור"
+        P.hide(tl, "#end12"); P.rise(tl, "#end12", 69.52);                   // "חבר'ה": the site, last thing on screen
 
         window.__timelines["main"] = tl;
       });
