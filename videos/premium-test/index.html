@@ -110,7 +110,7 @@
 
       // ---------- lights ----------
       const key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(-3, 6, 8); scene.add(key);
-      const rimL = new THREE.PointLight(0xff9a6a, 10, 14, 2); rimL.position.set(-5, -1.5, 2.5); scene.add(rimL);
+      const rimL = new THREE.PointLight(0xffb08a, 5, 14, 2); rimL.position.set(-6, -2.5, 1.0); scene.add(rimL);
       const rimR = new THREE.PointLight(0x8ab4ff, 8, 14, 2); rimR.position.set(5, 2, 2); scene.add(rimR);
 
       // ---------- frosted glass prompt bar (a true capsule, extruded + bevelled) ----------
@@ -138,8 +138,8 @@
         tTex.needsUpdate = true;
       }
       // the send button: a glossy orange disc with an arrow, sitting on the left end (RTL layout)
-      const btn = new THREE.Group(); btn.position.set(-BW / 2 + 0.56, 0, 0.16); bar.add(btn);
-      const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.08, 64).rotateX(Math.PI / 2), new THREE.MeshPhysicalMaterial({ color: 0xff7a35, emissive: 0xff5a1a, emissiveIntensity: 0.25, roughness: 0.25, clearcoat: 1 })); btn.add(disc);
+      const btn = new THREE.Group(); btn.position.set(-BW / 2 + 0.56, 0, 0.2); bar.add(btn);
+      const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.08, 64).rotateX(Math.PI / 2), new THREE.MeshPhysicalMaterial({ color: 0xff7a35, emissive: 0xff5a1a, emissiveIntensity: 0.25, roughness: 0.25, clearcoat: 1, transparent: true }) /* transparent: kept out of the glass's transmission pass, so no refracted ghost */); btn.add(disc);
       const AC = document.createElement("canvas"); AC.width = AC.height = 256; const ag = AC.getContext("2d"); ag.strokeStyle = "#1b0b05"; ag.lineWidth = 22; ag.lineCap = ag.lineJoin = "round";
       ag.beginPath(); ag.moveTo(128, 196); ag.lineTo(128, 64); ag.moveTo(76, 114); ag.lineTo(128, 62); ag.lineTo(180, 114); ag.stroke();
       const arrow = new THREE.Mesh(new THREE.PlaneGeometry(0.46, 0.46), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(AC), transparent: true, depthWrite: false })); arrow.position.z = 0.05; btn.add(arrow);
