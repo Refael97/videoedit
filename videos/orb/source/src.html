@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <style>
+      @font-face { font-family: "JBM"; font-weight: 500; src: url("assets/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #050505; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="7" data-width="1920" data-height="1080" data-no-timeline>
+      <canvas id="gl" width="1920" height="1080"></canvas>
+      <audio id="voice" src="assets/voice.wav" data-start="0.6" data-duration="6.0" data-track-index="1" data-volume="1"></audio>
+    </div>
+    <script type="application/json" id="audio">__AUDIO__</script>
+    <script type="module">
+      // A living particle orb: ~120k points on a breathing ellipsoid shell, a dense spinning band inside,
+      // and a halo of dust. Everything is driven by the voice: lows swell the shell, mids push travelling
+      // latitude waves, highs make individual points sparkle. Depth of field is done per point in the shader.
+      import * as THREE from "three";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      let resolveBuilt; window.__hf.buildReady["orb"] = new Promise((r) => (resolveBuilt = r));
+      await document.fonts.load("500 20px JBM");
+
+      const W = 1920, H = 1080, DUR = 7, FPS = 60;
+      const AUD = JSON.parse(document.getElementById("audio").textContent);
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const inOutSine = (x) => -(Math.cos(Math.PI * x) - 1) / 2;
+      const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+      const band = (k, t) => { const f = t * FPS, i = Math.floor(f), a = AUD[k][clamp(i, 0, AUD[k].length - 1)], b = AUD[k][clamp(i + 1, 0, AUD[k].length - 1)]; return lerp(a, b, f - i); };
+      let seed = 3; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+      renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+      const scene = new THREE.Scene(); scene.background = new THREE.Color(0x050505);
+      const FOV = 34; const camera = new THREE.PerspectiveCamera(FOV, W / H, 0.1, 100);
+
+      // ---------- particles ----------
+      const NS = 96000, NB = 26000, ND = 7000, N = NS + NB + ND;
+      const aDir = new Float32Array(N * 3), aRnd = new Float32Array(N * 4), aType = new Float32Array(N);
+      const GOLD = Math.PI * (3 - Math.sqrt(5));
+      for (let i = 0; i < N; i++) {
+        let x, y, z, type;
+        if (i < NS) { // fibonacci lattice → the faint latitude structure you see in the reference
+          const k = i + 0.5; y = 1 - (2 * k) / NS; const r = Math.sqrt(1 - y * y); const th = GOLD * k; x = Math.cos(th) * r; z = Math.sin(th) * r; type = 0;
+        } else { const u = rnd() * 2 - 1, a = rnd() * Math.PI * 2; x = Math.sqrt(1 - u * u) * Math.cos(a); y = u; z = Math.sqrt(1 - u * u) * Math.sin(a); type = i < NS + NB ? 1 : 2; }
+        aDir.set([x, y, z], i * 3); aRnd.set([rnd(), rnd(), rnd(), rnd()], i * 4); aType[i] = type;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(aDir, 3)); geo.setAttribute("aRnd", new THREE.BufferAttribute(aRnd, 4)); geo.setAttribute("aType", new THREE.BufferAttribute(aType, 1));
+      geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 10);
+      const SNOISE = `
+        vec3 mod289(vec3 x){ return x - floor(x * (1.0/289.0)) * 289.0; } vec4 mod289(vec4 x){ return x - floor(x * (1.0/289.0)) * 289.0; }
+        vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); } vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
+        float snoise(vec3 v){ const vec2 C = vec2(1.0/6.0, 1.0/3.0); const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+          vec3 i = floor(v + dot(v, C.yyy)); vec3 x0 = v - i + dot(i, C.xxx); vec3 g = step(x0.yzx, x0.xyz); vec3 l = 1.0 - g;
+          vec3 i1 = min(g.xyz, l.zxy); vec3 i2 = max(g.xyz, l.zxy); vec3 x1 = x0 - i1 + C.xxx; vec3 x2 = x0 - i2 + C.yyy; vec3 x3 = x0 - D.yyy;
+          i = mod289(i); vec4 p = permute(permute(permute(i.z + vec4(0.0, i1.z, i2.z, 1.0)) + i.y + vec4(0.0, i1.y, i2.y, 1.0)) + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+          float n_ = 0.142857142857; vec3 ns = n_ * D.wyz - D.xzx; vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+          vec4 x_ = floor(j * ns.z); vec4 y_ = floor(j - 7.0 * x_); vec4 x = x_ * ns.x + ns.yyyy; vec4 y = y_ * ns.x + ns.yyyy; vec4 h = 1.0 - abs(x) - abs(y);
+          vec4 b0 = vec4(x.xy, y.xy); vec4 b1 = vec4(x.zw, y.zw); vec4 s0 = floor(b0)*2.0 + 1.0; vec4 s1 = floor(b1)*2.0 + 1.0; vec4 sh = -step(h, vec4(0.0));
+          vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy; vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+          vec3 p0 = vec3(a0.xy, h.x); vec3 p1 = vec3(a0.zw, h.y); vec3 p2 = vec3(a1.xy, h.z); vec3 p3 = vec3(a1.zw, h.w);
+          vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3))); p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+          vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0); m = m * m;
+          return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3))); }`;
+      const mat = new THREE.ShaderMaterial({
+        transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
+        uniforms: { uTime: { value: 0 }, uLow: { value: 0 }, uMid: { value: 0 }, uHigh: { value: 0 }, uLvl: { value: 0 }, uFocus: { value: 6.5 }, uPx: { value: H / (2 * Math.tan((FOV * Math.PI) / 360)) }, uR: { value: 1.5 }, uWake: { value: 0 } },
+        vertexShader: `uniform float uTime, uLow, uMid, uHigh, uLvl, uFocus, uPx, uR, uWake; attribute vec4 aRnd; attribute float aType;
+          varying vec3 vCol; varying float vA; ${SNOISE}
+          void main(){
+            vec3 d = position; float t = uTime; vec3 p; float bright; float size;
+            vec3 gold = vec3(1.0, 0.80, 0.42), amber = vec3(1.0, 0.46, 0.14), cream = vec3(1.0, 0.94, 0.82);
+            float n1 = snoise(d * 1.3 + vec3(0.0, t * 0.22, t * 0.07));
+            if (aType < 0.5) {
+              float n2 = snoise(d * 3.4 + vec3(t * 0.45));
+              // latitude waves travel downward; the voice's mids make them bigger and faster
+              float wave = sin(d.y * 10.0 - t * (2.6 + uMid * 2.5) + n1 * 2.2);
+              float swell = uLow * 0.09 * (0.7 + 0.3 * n1);
+              float r = uR * (1.0 + n1 * 0.032 + n2 * 0.012 + wave * (0.006 + 0.03 * uMid) + swell);
+              p = d * r + (aRnd.xyz - 0.5) * 0.010 * (1.0 + uHigh * 3.0);
+              vec3 nv = normalize(normalMatrix * d);
+              float rim = pow(1.0 - abs(nv.z), 2.6);
+              float far = nv.z < 0.0 ? 0.38 : 1.0;
+              float spark = step(0.993, aRnd.w) * uHigh * 2.0;
+              // ripples read as brighter latitude bands sliding over the surface
+              float ripple = pow(max(wave, 0.0), 10.0) * (0.12 + 0.9 * uMid);
+              bright = (0.026 + rim * 1.9 + ripple) * far + spark + uLvl * 0.05;
+              // key light from the upper left: cream on that side, burnt orange on the far side
+              float lit = clamp(dot(normalize(nv.xy + 1e-4), normalize(vec2(-0.75, 0.66))) * 0.5 + 0.5, 0.0, 1.0);
+              vCol = mix(amber, mix(gold, cream, lit), lit);
+              size = 0.0052;
+            } else if (aType < 1.5) {
+              // the inner band: a flattened, slowly turning disc of glowing grit
+              float ang = aRnd.x * 6.2831 + t * (0.28 + aRnd.y * 0.35) + uLvl * 0.6;
+              float rad = uR * (0.10 + 0.82 * sqrt(aRnd.z));
+              float n = snoise(vec3(cos(ang) * rad, sin(ang) * rad, t * 0.35) * 1.4);
+              float thick = 0.07 * uR * (1.0 + uLow * 2.6 + n * 0.8);
+              p = vec3(cos(ang) * rad, (aRnd.w - 0.5) * thick + n * 0.04 * uR, sin(ang) * rad);
+              float edge = smoothstep(0.92, 0.35, rad / uR);
+              bright = (0.12 + 0.45 * uMid + 0.4 * step(0.97, aRnd.y) * (0.4 + uHigh)) * edge;
+              vCol = mix(gold, cream, aRnd.y * 0.6);
+              size = 0.0065;
+            } else {
+              vec3 dd = normalize(d + 0.35 * vec3(snoise(d * 2.0 + t * 0.08), snoise(d * 2.0 + 5.0 + t * 0.08), snoise(d * 2.0 + 9.0)));
+              p = dd * uR * (1.12 + aRnd.z * 0.95 + uLow * 0.25 * aRnd.z);
+              bright = 0.10 + 0.12 * uLvl;
+              vCol = mix(amber, gold, aRnd.x);
+              size = 0.010;
+            }
+            p.y *= 0.94;
+            bright *= uWake;
+            vec4 mv = modelViewMatrix * vec4(p, 1.0);
+            float dist = -mv.z; float coc = abs(dist - uFocus) * 0.85;
+            gl_PointSize = max(1.0, uPx * size / dist * (1.0 + coc * 3.0));
+            vA = bright / (1.0 + coc * coc * 6.0);
+            gl_Position = projectionMatrix * mv;
+          }`,
+        fragmentShader: `varying vec3 vCol; varying float vA;
+          void main(){ float d = length(gl_PointCoord - 0.5); float a = smoothstep(0.5, 0.05, d); gl_FragColor = vec4(vCol * vA * a, 1.0); }`,
+      });
+      const orb = new THREE.Points(geo, mat); orb.frustumCulled = false;
+      const tilt = new THREE.Group(); tilt.rotation.set(0.32, 0, -0.08); tilt.add(orb); scene.add(tilt);
+
+      // ---------- HUD: a quiet mono label and a live input meter ----------
+      const hud = new THREE.Scene(); const hudCam = new THREE.OrthographicCamera(-W / 2, W / 2, H / 2, -H / 2, -10, 10);
+      const MC = document.createElement("canvas"); MC.width = 760; MC.height = 90; const mg = MC.getContext("2d");
+      const mTex = new THREE.CanvasTexture(MC); mTex.colorSpace = THREE.SRGBColorSpace;
+      const meter = new THREE.Mesh(new THREE.PlaneGeometry(760, 90), new THREE.MeshBasicMaterial({ map: mTex, transparent: true, depthTest: false, toneMapped: false }));
+      meter.position.set(-880 + 380, -440, 0); hud.add(meter);
+      function drawMeter(t) {
+        mg.clearRect(0, 0, 760, 90);
+        mg.font = "500 20px JBM"; mg.letterSpacing = "4px"; mg.textBaseline = "middle";
+        const live = t > 0.6 && t < 6.6; mg.fillStyle = live ? "rgba(255,190,110,.95)" : "rgba(255,255,255,.45)";
+        mg.beginPath(); mg.arc(8, 20, 5, 0, 7); mg.fill();
+        mg.fillStyle = "rgba(255,255,255,.62)"; mg.fillText(live ? "VOICE INPUT · LIVE" : "VOICE INPUT · IDLE", 26, 21);
+        // the last ~1.4s of level, drawn as fine bars
+        for (let i = 0; i < 70; i++) { const tt = t - (69 - i) * 0.02; const v = tt > 0 ? band("lvl", tt) : 0; const h = 2 + v * 34; mg.fillStyle = `rgba(255,${170 + i},${90 + i},${0.25 + 0.75 * (i / 69)})`; mg.fillRect(i * 10, 66 - h / 2, 4, h); }
+        mTex.needsUpdate = true;
+      }
+
+      // ---------- post ----------
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 }));
+      composer.setPixelRatio(1); composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.35, 0.4, 0.55); composer.addPass(bloom);
+      const hudPass = new RenderPass(hud, hudCam); hudPass.clear = false; composer.addPass(hudPass);
+      composer.addPass(new OutputPass());
+      const lens = new ShaderPass({
+        uniforms: { tDiffuse: { value: null }, time: { value: 0 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float time; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time) * 43758.5453); }
+          void main(){ vec3 c = texture2D(tDiffuse, vUv).rgb;
+            c *= mix(0.62, 1.0, smoothstep(0.95, 0.25, length((vUv - 0.5) * vec2(1.0, 0.9))));
+            c += (hash(floor(vUv * vec2(1920.0, 1080.0))) - 0.5) * 0.022;
+            gl_FragColor = vec4(c, 1.0); }`,
+      });
+      composer.addPass(lens);
+
+      function renderAt(t) {
+        t = clamp(t, 0, DUR - 1e-4);
+        const u = mat.uniforms;
+        u.uTime.value = t; u.uLow.value = band("low", t); u.uMid.value = band("mid", t); u.uHigh.value = band("high", t); u.uLvl.value = band("lvl", t);
+        u.uWake.value = outCubic(seg(t, 0.0, 0.9));
+        u.uR.value = 1.5 * (0.92 + 0.08 * outCubic(seg(t, 0, 1.2)));
+        orb.rotation.y = t * 0.16 + band("lvl", t) * 0.05;
+        // camera: slow orbit and push, the orb sits right of centre to leave room for type later
+        const k = inOutSine(seg(t, 0, DUR));
+        camera.position.set(Math.sin(lerp(-0.25, 0.2, k)) * 6.6, lerp(0.25, -0.1, k), Math.cos(lerp(-0.25, 0.2, k)) * lerp(6.9, 6.2, k));
+        camera.lookAt(0, 0, 0);
+        u.uFocus.value = camera.position.length() - 0.2;
+        bloom.strength = 0.32 + 0.22 * band("lvl", t);
+        drawMeter(t); meter.material.opacity = outCubic(seg(t, 0.2, 0.8));
+        lens.uniforms.time.value = Math.floor(t * 60);
+        composer.render();
+      }
+      resolveBuilt();
+      renderAt(window.__hfThreeTime || 0);
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      window.__renderAt = renderAt;
+    </script>
+  </body>
+</html>

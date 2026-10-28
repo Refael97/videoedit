@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <style>
+      @font-face { font-family: "JBM"; font-weight: 500; src: url("assets/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #050505; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="7" data-width="1920" data-height="1080" data-no-timeline>
+      <canvas id="gl" width="1920" height="1080"></canvas>
+      <audio id="voice" src="assets/voice.wav" data-start="0.6" data-duration="6.0" data-track-index="1" data-volume="1"></audio>
+    </div>
+    <script type="application/json" id="audio">{"low": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0057, 0.007, 0.0077, 0.0107, 0.0154, 0.0285, 0.2377, 0.7374, 1.0468, 1.1861, 1.1396, 1.0584, 0.9863, 0.9218, 0.8624, 0.8136, 0.7663, 0.713, 0.6576, 0.6117, 0.5841, 0.5631, 0.5343, 0.4976, 0.4627, 0.4453, 0.5206, 0.6817, 0.7221, 0.7012, 0.6612, 0.6147, 0.5686, 0.5317, 0.5141, 0.5099, 0.5077, 0.4975, 0.479, 0.4694, 0.4688, 0.4633, 0.4473, 0.4301, 0.4146, 0.403, 0.4241, 0.5073, 0.5586, 0.5561, 0.5472, 0.5388, 0.5287, 0.5172, 0.5092, 0.5001, 0.487, 0.4736, 0.468, 0.4832, 0.4786, 0.4589, 0.4313, 0.4034, 0.3892, 0.3892, 0.3889, 0.3827, 0.3955, 0.4889, 0.5277, 0.5119, 0.4792, 0.4458, 0.4138, 0.3827, 0.3538, 0.3365, 0.402, 0.5965, 0.7524, 0.7867, 0.7771, 0.7578, 0.7295, 0.6981, 0.6685, 0.6408, 0.6195, 0.5998, 0.5771, 0.555, 0.5363, 0.5202, 0.5025, 0.4803, 0.4533, 0.423, 0.3951, 0.3795, 0.4221, 0.5724, 0.6668, 0.7449, 1.0354, 1.1809, 1.2464, 1.2759, 1.2755, 1.2715, 1.2565, 1.2271, 1.187, 1.1306, 1.0648, 0.9951, 0.9214, 0.8496, 0.7805, 0.7345, 0.7305, 0.8464, 0.8606, 0.8398, 0.7989, 0.7548, 0.7069, 0.6677, 0.6707, 0.8302, 0.8819, 0.8599, 0.8176, 0.7756, 0.7433, 0.7186, 0.6941, 0.6665, 0.6349, 0.6096, 0.6028, 0.6151, 0.6105, 0.5927, 0.568, 0.5483, 0.5264, 0.4949, 0.4584, 0.4219, 0.3865, 0.3533, 0.3226, 0.295, 0.2714, 0.2599, 0.2797, 0.3014, 0.2907, 0.2699, 0.2491, 0.229, 0.2101, 0.1925, 0.1761, 0.161, 0.1471, 0.1346, 0.1232, 0.1128, 0.1032, 0.0943, 0.0863, 0.0791, 0.0725, 0.0663, 0.0607, 0.0559, 0.0515, 0.0475, 0.0437, 0.0402, 0.0372, 0.0359, 0.0481, 0.0805, 0.1313, 0.2036, 0.2852, 0.3892, 0.5152, 0.5797, 0.5787, 0.5839, 0.5843, 0.5827, 0.6495, 0.8709, 1.1002, 1.1439, 1.1191, 1.0745, 1.0258, 0.9756, 0.9137, 0.8413, 0.7716, 0.7071, 0.6493, 0.5974, 0.5487, 0.5147, 0.4902, 0.4629, 0.4272, 0.3914, 0.3591, 0.3295, 0.3028, 0.2787, 0.256, 0.2359, 0.2238, 0.2708, 0.3575, 0.3578, 0.3427, 0.32, 0.297, 0.2764, 0.2588, 0.2418, 0.2228, 0.2059, 0.1898, 0.1759, 0.1684, 0.2209, 0.3162, 0.3505, 0.35, 0.3477, 0.3388, 0.322, 0.3001, 0.2778, 0.2562, 0.2389, 0.2338, 0.2447, 0.241, 0.2276, 0.2106, 0.1939, 0.1791, 0.1759, 0.25, 0.2923, 0.2825, 0.2648, 0.2579, 0.2812, 0.3358, 0.3499, 0.3448, 0.3719, 0.3947, 0.3874, 0.3779, 0.3695, 0.3592, 0.3471, 0.3336, 0.3276, 0.3244, 0.3123, 0.2992, 0.2874, 0.2708, 0.26, 0.3229, 0.3986, 0.391, 0.3655, 0.3374, 0.3117, 0.2873, 0.2642, 0.2428, 0.2236, 0.2075, 0.1928, 0.18, 0.1743, 0.203, 0.2313, 0.2246, 0.21, 0.1963, 0.1857, 0.1755, 0.1668, 0.1829, 0.3434, 0.5344, 0.5557, 0.5303, 0.4925, 0.4555, 0.4197, 0.3857, 0.3562, 0.331, 0.3061, 0.2804, 0.2563, 0.2345, 0.2184, 0.2091, 0.2012, 0.1893, 0.1737, 0.1588, 0.1477, 0.2139, 0.4501, 0.6609, 0.678, 0.6609, 0.641, 0.6208, 0.6049, 0.5906, 0.5753, 0.5593, 0.5421, 0.5214, 0.4939, 0.4616, 0.4287, 0.3966, 0.3659, 0.337, 0.3098, 0.2842, 0.2603, 0.2381, 0.2176, 0.1987, 0.1814, 0.1654, 0.1508, 0.1375, 0.1253, 0.1142, 0.1039, 0.0946, 0.086, 0.0783, 0.0713, 0.0648, 0.059, 0.0537, 0.0489, 0.0445, 0.0405, 0.0368, 0.0335, 0.0305, 0.0277, 0.0252, 0.023, 0.0209, 0.019, 0.0173, 0.0158, 0.0143, 0.013, 0.0119, 0.0108, 0.0098], "mid": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0002, 0.008, 0.0372, 0.0842, 0.1394, 0.2037, 0.2474, 0.2951, 0.4801, 0.776, 0.981, 0.984, 0.9694, 0.942, 0.8943, 0.8337, 0.7798, 0.7397, 0.7165, 0.7041, 0.6875, 0.6561, 0.611, 0.5623, 0.5217, 0.505, 0.5028, 0.4949, 0.4725, 0.4403, 0.4054, 0.3721, 0.3406, 0.3184, 0.3159, 0.4094, 0.4957, 0.535, 0.5597, 0.5616, 0.5514, 0.5272, 0.4979, 0.472, 0.4452, 0.4166, 0.401, 0.4168, 0.5129, 0.5837, 0.5817, 0.5632, 0.5276, 0.4944, 0.486, 0.5774, 0.6805, 0.7079, 0.7024, 0.6885, 0.6603, 0.6162, 0.5667, 0.5224, 0.5031, 0.5407, 0.5968, 0.5949, 0.5919, 0.586, 0.5671, 0.5329, 0.4936, 0.4552, 0.4216, 0.397, 0.3792, 0.3611, 0.3434, 0.3427, 0.4564, 0.6101, 0.7617, 0.8093, 0.7966, 0.784, 0.8394, 1.0112, 1.1019, 1.0805, 1.0214, 0.9429, 0.8646, 0.791, 0.7243, 0.6653, 0.6117, 0.5609, 0.5128, 0.4687, 0.4289, 0.3945, 0.3681, 0.3585, 0.4178, 0.4995, 0.5296, 0.5216, 0.4996, 0.4734, 0.4615, 0.5089, 0.5189, 0.4988, 0.4655, 0.4312, 0.3967, 0.3674, 0.3481, 0.3343, 0.3906, 0.6722, 0.9432, 1.0161, 0.9954, 0.9488, 0.8987, 0.8647, 0.8504, 0.8433, 0.8186, 0.7681, 0.7101, 0.6601, 0.6191, 0.584, 0.5522, 0.5226, 0.4929, 0.4694, 0.4674, 0.5784, 0.6708, 0.677, 0.674, 0.69, 0.7107, 0.7082, 0.7044, 0.6958, 0.6713, 0.6355, 0.5985, 0.5636, 0.5449, 0.5391, 0.5278, 0.4999, 0.4613, 0.4226, 0.3862, 0.3526, 0.3217, 0.2932, 0.2673, 0.2437, 0.2222, 0.2026, 0.1848, 0.1685, 0.1537, 0.1402, 0.1279, 0.1167, 0.1065, 0.0972, 0.0886, 0.0808, 0.0737, 0.0674, 0.0616, 0.0563, 0.053, 0.061, 0.1149, 0.1873, 0.2141, 0.2067, 0.195, 0.281, 0.5624, 0.836, 0.9172, 0.901, 0.8917, 0.9627, 1.0047, 0.9828, 0.9254, 0.8564, 0.7958, 0.7439, 0.699, 0.6711, 0.6657, 0.7412, 0.7954, 0.7901, 0.7901, 0.9293, 1.0582, 1.0492, 1.0049, 0.9377, 0.8676, 0.8112, 0.7852, 0.7792, 0.7718, 0.7498, 0.7192, 0.691, 0.6681, 0.648, 0.6197, 0.5768, 0.5284, 0.4837, 0.4433, 0.418, 0.4134, 0.4461, 0.4435, 0.4306, 0.4164, 0.4102, 0.4183, 0.4178, 0.4073, 0.3875, 0.3689, 0.3514, 0.3311, 0.3073, 0.2819, 0.258, 0.239, 0.2271, 0.3325, 0.6737, 1.002, 1.1079, 1.0875, 1.0414, 0.9996, 0.9691, 0.9345, 0.8826, 0.8138, 0.7441, 0.6812, 0.6237, 0.5781, 0.5594, 0.5678, 0.5651, 0.5453, 0.5211, 0.4996, 0.4753, 0.455, 0.4795, 0.5766, 0.5746, 0.559, 0.5456, 0.5359, 0.5319, 0.5747, 0.6362, 0.6346, 0.6139, 0.5737, 0.5276, 0.4832, 0.4416, 0.4061, 0.3896, 0.4338, 0.549, 0.5883, 0.5764, 0.5662, 0.6052, 0.6072, 0.5832, 0.5392, 0.4955, 0.4593, 0.4397, 0.4339, 0.4323, 0.432, 0.431, 0.4191, 0.3943, 0.3662, 0.339, 0.3126, 0.2877, 0.2659, 0.2609, 0.3441, 0.4321, 0.4767, 0.5116, 0.5348, 0.5328, 0.5204, 0.4929, 0.4559, 0.4193, 0.3853, 0.3549, 0.3368, 0.335, 0.4367, 0.6028, 0.6836, 0.6758, 0.6652, 0.6491, 0.6178, 0.5761, 0.5335, 0.4929, 0.4547, 0.4184, 0.3834, 0.3503, 0.3197, 0.2914, 0.2655, 0.2418, 0.2203, 0.2007, 0.1828, 0.1665, 0.1517, 0.1381, 0.1258, 0.1145, 0.1042, 0.0949, 0.0864, 0.0786, 0.0715, 0.0651, 0.0592, 0.0539, 0.049, 0.0446, 0.0406, 0.037, 0.0336, 0.0306, 0.0278, 0.0253, 0.0231, 0.021, 0.0191, 0.0174, 0.0158, 0.0144, 0.0131, 0.0119, 0.0108, 0.0099, 0.009, 0.0082, 0.0074], "high": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0027, 0.0378, 0.1183, 0.2061, 0.2705, 0.3144, 0.3294, 0.3261, 0.3185, 0.3109, 0.3057, 0.3015, 0.2949, 0.2838, 0.2713, 0.2656, 0.2789, 0.2786, 0.2702, 0.258, 0.2516, 0.3296, 0.4893, 0.635, 0.6624, 0.6545, 0.6929, 0.738, 0.7223, 0.6811, 0.6291, 0.5927, 0.5777, 0.5696, 0.555, 0.553, 0.6701, 0.7691, 0.7944, 0.7911, 0.7776, 0.7505, 0.7248, 0.7074, 0.6836, 0.6439, 0.6047, 0.5928, 0.6729, 0.7181, 0.7016, 0.6633, 0.6129, 0.5694, 0.552, 0.6044, 0.6856, 0.6816, 0.6597, 0.6251, 0.5827, 0.5365, 0.4918, 0.4536, 0.4336, 0.4427, 0.5275, 0.5835, 0.5806, 0.566, 0.5388, 0.5006, 0.4595, 0.4229, 0.3979, 0.3828, 0.3789, 0.3788, 0.3687, 0.3469, 0.3228, 0.3058, 0.3492, 0.4835, 0.5211, 0.5091, 0.4938, 0.4807, 0.4744, 0.4674, 0.4469, 0.4132, 0.3786, 0.3501, 0.328, 0.3086, 0.2885, 0.267, 0.245, 0.224, 0.2047, 0.1871, 0.1731, 0.1665, 0.1653, 0.1701, 0.1694, 0.1642, 0.1558, 0.1509, 0.1487, 0.1464, 0.1505, 0.1768, 0.1772, 0.1703, 0.1595, 0.1576, 0.2079, 0.2451, 0.242, 0.2355, 0.2329, 0.232, 0.2282, 0.2243, 0.2228, 0.3037, 0.6274, 0.9159, 0.9082, 0.8548, 0.7968, 0.753, 0.7232, 0.7011, 0.6833, 0.6706, 0.6537, 0.627, 0.6144, 0.776, 1.0499, 1.1693, 1.1516, 1.1157, 1.0695, 1.0154, 0.958, 0.8949, 0.8268, 0.758, 0.6927, 0.633, 0.5818, 0.5386, 0.499, 0.4589, 0.4193, 0.3823, 0.3484, 0.3174, 0.2892, 0.2637, 0.2407, 0.2197, 0.2007, 0.1835, 0.1677, 0.1534, 0.1404, 0.1285, 0.1176, 0.1076, 0.0984, 0.09, 0.0821, 0.0749, 0.0683, 0.0623, 0.0568, 0.0519, 0.0481, 0.0491, 0.0988, 0.1758, 0.2137, 0.2076, 0.1974, 0.2458, 0.4421, 0.721, 0.9034, 0.8916, 0.8587, 0.8355, 0.8114, 0.7746, 0.7286, 0.6811, 0.6327, 0.5842, 0.539, 0.5002, 0.4721, 0.4564, 0.4433, 0.4264, 0.4684, 0.6759, 0.7889, 0.7745, 0.7564, 0.7537, 0.7535, 0.7419, 0.732, 0.7532, 0.7504, 0.7289, 0.6943, 0.6617, 0.6399, 0.6203, 0.5897, 0.5471, 0.5082, 0.4907, 0.4901, 0.49, 0.496, 0.5657, 0.5969, 0.5933, 0.6367, 0.7846, 0.9632, 1.0137, 0.9855, 0.9365, 0.8991, 0.868, 0.8289, 0.776, 0.7143, 0.6539, 0.6009, 0.5561, 0.5169, 0.4866, 0.4655, 0.448, 0.43, 0.4134, 0.4049, 0.42, 0.4302, 0.4212, 0.407, 0.3914, 0.3708, 0.3444, 0.3226, 0.3411, 0.4913, 0.5672, 0.5615, 0.5586, 0.5548, 0.5399, 0.5147, 0.4879, 0.4686, 0.4502, 0.4255, 0.3971, 0.3766, 0.416, 0.6054, 0.7011, 0.6824, 0.6521, 0.6414, 0.6366, 0.6159, 0.5761, 0.5332, 0.5059, 0.5012, 0.5648, 0.5982, 0.5914, 0.5905, 0.6216, 0.6065, 0.5681, 0.5269, 0.4913, 0.4598, 0.4337, 0.4127, 0.3903, 0.3628, 0.3353, 0.3127, 0.3051, 0.3815, 0.5267, 0.6764, 0.7836, 0.8079, 0.8232, 1.0152, 1.1718, 1.1596, 1.1188, 1.0702, 1.0205, 0.9597, 0.8855, 0.8104, 0.7471, 0.6985, 0.6563, 0.6182, 0.5995, 0.6535, 0.9192, 1.1286, 1.2229, 1.2118, 1.1695, 1.1099, 1.0354, 0.9539, 0.8744, 0.7994, 0.7299, 0.6658, 0.6069, 0.5529, 0.5035, 0.4585, 0.4174, 0.3801, 0.346, 0.3151, 0.2869, 0.2613, 0.2379, 0.2166, 0.1972, 0.1795, 0.1634, 0.1487, 0.1353, 0.1232, 0.1121, 0.102, 0.0928, 0.0845, 0.0769, 0.0699, 0.0636, 0.0579, 0.0527, 0.048, 0.0436, 0.0397, 0.0361, 0.0329, 0.0299, 0.0272, 0.0248, 0.0226, 0.0205, 0.0187, 0.017, 0.0155, 0.0141, 0.0128], "lvl": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0223, 0.0592, 0.0982, 0.1475, 0.1954, 0.2935, 0.4474, 0.6573, 0.8363, 0.9436, 1.0313, 1.0428, 1.0336, 1.0059, 0.9669, 0.9228, 0.876, 0.8373, 0.8066, 0.7786, 0.7523, 0.7274, 0.6968, 0.6633, 0.6409, 0.6266, 0.6146, 0.6027, 0.5918, 0.5741, 0.5478, 0.5132, 0.4853, 0.4728, 0.4721, 0.5084, 0.5632, 0.6218, 0.6459, 0.6418, 0.6322, 0.6188, 0.5977, 0.5694, 0.5432, 0.5254, 0.522, 0.5434, 0.588, 0.6116, 0.6107, 0.6039, 0.5904, 0.5819, 0.5891, 0.6322, 0.6838, 0.7322, 0.731, 0.7195, 0.6986, 0.67, 0.632, 0.6101, 0.5978, 0.5931, 0.6031, 0.6431, 0.6467, 0.6377, 0.6228, 0.6033, 0.5743, 0.535, 0.5022, 0.4732, 0.4486, 0.4351, 0.4424, 0.5141, 0.6411, 0.7436, 0.805, 0.8324, 0.8618, 0.9362, 0.9902, 1.0084, 1.0068, 0.9999, 0.9811, 0.9391, 0.8747, 0.8113, 0.7525, 0.6972, 0.6453, 0.5963, 0.5536, 0.5216, 0.4972, 0.478, 0.4798, 0.5804, 0.6798, 0.7403, 0.7877, 0.8119, 0.8046, 0.7967, 0.7845, 0.7683, 0.7497, 0.7269, 0.6992, 0.6535, 0.611, 0.5706, 0.5419, 0.5763, 0.7154, 0.8496, 0.9287, 0.9692, 0.9686, 0.9508, 0.927, 0.91, 0.895, 0.8807, 0.8654, 0.8473, 0.8129, 0.7676, 0.7252, 0.6897, 0.6583, 0.6287, 0.6064, 0.5991, 0.6316, 0.6813, 0.7381, 0.798, 0.8254, 0.8225, 0.8174, 0.812, 0.801, 0.7821, 0.7576, 0.7273, 0.6899, 0.6609, 0.636, 0.6121, 0.5897, 0.5686, 0.5409, 0.5036, 0.4617, 0.4223, 0.3858, 0.3524, 0.3217, 0.2938, 0.2684, 0.2452, 0.2241, 0.2048, 0.1873, 0.1713, 0.1568, 0.1436, 0.1315, 0.1205, 0.1105, 0.1014, 0.0931, 0.0855, 0.0786, 0.0741, 0.0819, 0.1326, 0.1668, 0.1873, 0.2045, 0.2247, 0.3901, 0.5805, 0.7472, 0.8315, 0.9232, 1.0187, 1.0536, 1.0477, 1.0401, 1.032, 1.0137, 0.9819, 0.9386, 0.8956, 0.8584, 0.8342, 0.8211, 0.813, 0.8106, 0.8807, 0.974, 0.9918, 0.9909, 0.9865, 0.9749, 0.9429, 0.8978, 0.8655, 0.8424, 0.8222, 0.8056, 0.7921, 0.7724, 0.7486, 0.7221, 0.6952, 0.6668, 0.6366, 0.6024, 0.5615, 0.534, 0.5178, 0.5071, 0.4983, 0.4923, 0.4904, 0.4893, 0.4886, 0.4878, 0.4864, 0.4845, 0.4784, 0.4641, 0.4444, 0.4249, 0.4041, 0.3793, 0.3529, 0.3285, 0.4449, 0.6564, 0.8331, 0.9388, 0.9916, 1.0287, 1.0161, 0.9901, 0.9534, 0.9166, 0.8787, 0.8341, 0.7788, 0.7213, 0.6765, 0.6521, 0.6356, 0.622, 0.6119, 0.6042, 0.5912, 0.5667, 0.5505, 0.5462, 0.5427, 0.5411, 0.5456, 0.5617, 0.5563, 0.5538, 0.5858, 0.6215, 0.6285, 0.6268, 0.6203, 0.6028, 0.574, 0.5363, 0.4999, 0.4798, 0.4757, 0.5002, 0.5212, 0.5516, 0.6184, 0.6342, 0.6262, 0.6158, 0.604, 0.5852, 0.549, 0.5215, 0.5016, 0.4887, 0.4828, 0.4811, 0.4769, 0.4697, 0.4605, 0.4479, 0.4315, 0.4151, 0.4009, 0.4022, 0.4432, 0.4896, 0.5366, 0.5854, 0.6218, 0.6175, 0.6077, 0.5928, 0.5708, 0.5412, 0.5012, 0.4628, 0.4437, 0.4388, 0.5297, 0.6351, 0.7161, 0.7837, 0.8031, 0.7986, 0.7798, 0.7536, 0.7219, 0.6798, 0.6361, 0.5936, 0.552, 0.5114, 0.4715, 0.4329, 0.3968, 0.3632, 0.3323, 0.3037, 0.2774, 0.2532, 0.2311, 0.2108, 0.1923, 0.1753, 0.1599, 0.1457, 0.1329, 0.1211, 0.1102, 0.1003, 0.0913, 0.083, 0.0756, 0.0688, 0.0626, 0.0569, 0.0518, 0.0472, 0.0429, 0.0391, 0.0355, 0.0323, 0.0294, 0.0268, 0.0244, 0.0222, 0.0202, 0.0184, 0.0167, 0.0152, 0.0138, 0.0126, 0.0115, 0.0104]}</script>
+    <script type="module">
+      // A living particle orb: ~120k points on a breathing ellipsoid shell, a dense spinning band inside,
+      // and a halo of dust. Everything is driven by the voice: lows swell the shell, mids push travelling
+      // latitude waves, highs make individual points sparkle. Depth of field is done per point in the shader.
+      import * as THREE from "three";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      let resolveBuilt; window.__hf.buildReady["orb"] = new Promise((r) => (resolveBuilt = r));
+      await document.fonts.load("500 20px JBM");
+
+      const W = 1920, H = 1080, DUR = 7, FPS = 60;
+      const AUD = JSON.parse(document.getElementById("audio").textContent);
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const inOutSine = (x) => -(Math.cos(Math.PI * x) - 1) / 2;
+      const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+      const band = (k, t) => { const f = t * FPS, i = Math.floor(f), a = AUD[k][clamp(i, 0, AUD[k].length - 1)], b = AUD[k][clamp(i + 1, 0, AUD[k].length - 1)]; return lerp(a, b, f - i); };
+      let seed = 3; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+      renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+      const scene = new THREE.Scene(); scene.background = new THREE.Color(0x050505);
+      const FOV = 34; const camera = new THREE.PerspectiveCamera(FOV, W / H, 0.1, 100);
+
+      // ---------- particles ----------
+      const NS = 96000, NB = 26000, ND = 7000, N = NS + NB + ND;
+      const aDir = new Float32Array(N * 3), aRnd = new Float32Array(N * 4), aType = new Float32Array(N);
+      const GOLD = Math.PI * (3 - Math.sqrt(5));
+      for (let i = 0; i < N; i++) {
+        let x, y, z, type;
+        if (i < NS) { // fibonacci lattice → the faint latitude structure you see in the reference
+          const k = i + 0.5; y = 1 - (2 * k) / NS; const r = Math.sqrt(1 - y * y); const th = GOLD * k; x = Math.cos(th) * r; z = Math.sin(th) * r; type = 0;
+        } else { const u = rnd() * 2 - 1, a = rnd() * Math.PI * 2; x = Math.sqrt(1 - u * u) * Math.cos(a); y = u; z = Math.sqrt(1 - u * u) * Math.sin(a); type = i < NS + NB ? 1 : 2; }
+        aDir.set([x, y, z], i * 3); aRnd.set([rnd(), rnd(), rnd(), rnd()], i * 4); aType[i] = type;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(aDir, 3)); geo.setAttribute("aRnd", new THREE.BufferAttribute(aRnd, 4)); geo.setAttribute("aType", new THREE.BufferAttribute(aType, 1));
+      geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 10);
+      const SNOISE = `
+        vec3 mod289(vec3 x){ return x - floor(x * (1.0/289.0)) * 289.0; } vec4 mod289(vec4 x){ return x - floor(x * (1.0/289.0)) * 289.0; }
+        vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); } vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
+        float snoise(vec3 v){ const vec2 C = vec2(1.0/6.0, 1.0/3.0); const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+          vec3 i = floor(v + dot(v, C.yyy)); vec3 x0 = v - i + dot(i, C.xxx); vec3 g = step(x0.yzx, x0.xyz); vec3 l = 1.0 - g;
+          vec3 i1 = min(g.xyz, l.zxy); vec3 i2 = max(g.xyz, l.zxy); vec3 x1 = x0 - i1 + C.xxx; vec3 x2 = x0 - i2 + C.yyy; vec3 x3 = x0 - D.yyy;
+          i = mod289(i); vec4 p = permute(permute(permute(i.z + vec4(0.0, i1.z, i2.z, 1.0)) + i.y + vec4(0.0, i1.y, i2.y, 1.0)) + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+          float n_ = 0.142857142857; vec3 ns = n_ * D.wyz - D.xzx; vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+          vec4 x_ = floor(j * ns.z); vec4 y_ = floor(j - 7.0 * x_); vec4 x = x_ * ns.x + ns.yyyy; vec4 y = y_ * ns.x + ns.yyyy; vec4 h = 1.0 - abs(x) - abs(y);
+          vec4 b0 = vec4(x.xy, y.xy); vec4 b1 = vec4(x.zw, y.zw); vec4 s0 = floor(b0)*2.0 + 1.0; vec4 s1 = floor(b1)*2.0 + 1.0; vec4 sh = -step(h, vec4(0.0));
+          vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy; vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+          vec3 p0 = vec3(a0.xy, h.x); vec3 p1 = vec3(a0.zw, h.y); vec3 p2 = vec3(a1.xy, h.z); vec3 p3 = vec3(a1.zw, h.w);
+          vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3))); p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+          vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0); m = m * m;
+          return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3))); }`;
+      const mat = new THREE.ShaderMaterial({
+        transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
+        uniforms: { uTime: { value: 0 }, uLow: { value: 0 }, uMid: { value: 0 }, uHigh: { value: 0 }, uLvl: { value: 0 }, uFocus: { value: 6.5 }, uPx: { value: H / (2 * Math.tan((FOV * Math.PI) / 360)) }, uR: { value: 1.5 }, uWake: { value: 0 } },
+        vertexShader: `uniform float uTime, uLow, uMid, uHigh, uLvl, uFocus, uPx, uR, uWake; attribute vec4 aRnd; attribute float aType;
+          varying vec3 vCol; varying float vA; ${SNOISE}
+          void main(){
+            vec3 d = position; float t = uTime; vec3 p; float bright; float size;
+            vec3 gold = vec3(1.0, 0.80, 0.42), amber = vec3(1.0, 0.46, 0.14), cream = vec3(1.0, 0.94, 0.82);
+            float n1 = snoise(d * 1.3 + vec3(0.0, t * 0.22, t * 0.07));
+            if (aType < 0.5) {
+              float n2 = snoise(d * 3.4 + vec3(t * 0.45));
+              // latitude waves travel downward; the voice's mids make them bigger and faster
+              float wave = sin(d.y * 10.0 - t * (2.6 + uMid * 2.5) + n1 * 2.2);
+              float swell = uLow * 0.09 * (0.7 + 0.3 * n1);
+              float r = uR * (1.0 + n1 * 0.032 + n2 * 0.012 + wave * (0.006 + 0.03 * uMid) + swell);
+              p = d * r + (aRnd.xyz - 0.5) * 0.010 * (1.0 + uHigh * 3.0);
+              vec3 nv = normalize(normalMatrix * d);
+              float rim = pow(1.0 - abs(nv.z), 2.6);
+              float far = nv.z < 0.0 ? 0.38 : 1.0;
+              float spark = step(0.993, aRnd.w) * uHigh * 2.0;
+              // ripples read as brighter latitude bands sliding over the surface
+              float ripple = pow(max(wave, 0.0), 10.0) * (0.12 + 0.9 * uMid);
+              bright = (0.026 + rim * 1.9 + ripple) * far + spark + uLvl * 0.05;
+              // key light from the upper left: cream on that side, burnt orange on the far side
+              float lit = clamp(dot(normalize(nv.xy + 1e-4), normalize(vec2(-0.75, 0.66))) * 0.5 + 0.5, 0.0, 1.0);
+              vCol = mix(amber, mix(gold, cream, lit), lit);
+              size = 0.0052;
+            } else if (aType < 1.5) {
+              // the inner band: a flattened, slowly turning disc of glowing grit
+              float ang = aRnd.x * 6.2831 + t * (0.28 + aRnd.y * 0.35) + uLvl * 0.6;
+              float rad = uR * (0.10 + 0.82 * sqrt(aRnd.z));
+              float n = snoise(vec3(cos(ang) * rad, sin(ang) * rad, t * 0.35) * 1.4);
+              float thick = 0.07 * uR * (1.0 + uLow * 2.6 + n * 0.8);
+              p = vec3(cos(ang) * rad, (aRnd.w - 0.5) * thick + n * 0.04 * uR, sin(ang) * rad);
+              float edge = smoothstep(0.92, 0.35, rad / uR);
+              bright = (0.12 + 0.45 * uMid + 0.4 * step(0.97, aRnd.y) * (0.4 + uHigh)) * edge;
+              vCol = mix(gold, cream, aRnd.y * 0.6);
+              size = 0.0065;
+            } else {
+              vec3 dd = normalize(d + 0.35 * vec3(snoise(d * 2.0 + t * 0.08), snoise(d * 2.0 + 5.0 + t * 0.08), snoise(d * 2.0 + 9.0)));
+              p = dd * uR * (1.12 + aRnd.z * 0.95 + uLow * 0.25 * aRnd.z);
+              bright = 0.10 + 0.12 * uLvl;
+              vCol = mix(amber, gold, aRnd.x);
+              size = 0.010;
+            }
+            p.y *= 0.94;
+            bright *= uWake;
+            vec4 mv = modelViewMatrix * vec4(p, 1.0);
+            float dist = -mv.z; float coc = abs(dist - uFocus) * 0.85;
+            gl_PointSize = max(1.0, uPx * size / dist * (1.0 + coc * 3.0));
+            vA = bright / (1.0 + coc * coc * 6.0);
+            gl_Position = projectionMatrix * mv;
+          }`,
+        fragmentShader: `varying vec3 vCol; varying float vA;
+          void main(){ float d = length(gl_PointCoord - 0.5); float a = smoothstep(0.5, 0.05, d); gl_FragColor = vec4(vCol * vA * a, 1.0); }`,
+      });
+      const orb = new THREE.Points(geo, mat); orb.frustumCulled = false;
+      const tilt = new THREE.Group(); tilt.rotation.set(0.32, 0, -0.08); tilt.add(orb); scene.add(tilt);
+
+      // ---------- HUD: a quiet mono label and a live input meter ----------
+      const hud = new THREE.Scene(); const hudCam = new THREE.OrthographicCamera(-W / 2, W / 2, H / 2, -H / 2, -10, 10);
+      const MC = document.createElement("canvas"); MC.width = 760; MC.height = 90; const mg = MC.getContext("2d");
+      const mTex = new THREE.CanvasTexture(MC); mTex.colorSpace = THREE.SRGBColorSpace;
+      const meter = new THREE.Mesh(new THREE.PlaneGeometry(760, 90), new THREE.MeshBasicMaterial({ map: mTex, transparent: true, depthTest: false, toneMapped: false }));
+      meter.position.set(-880 + 380, -440, 0); hud.add(meter);
+      function drawMeter(t) {
+        mg.clearRect(0, 0, 760, 90);
+        mg.font = "500 20px JBM"; mg.letterSpacing = "4px"; mg.textBaseline = "middle";
+        const live = t > 0.6 && t < 6.6; mg.fillStyle = live ? "rgba(255,190,110,.95)" : "rgba(255,255,255,.45)";
+        mg.beginPath(); mg.arc(8, 20, 5, 0, 7); mg.fill();
+        mg.fillStyle = "rgba(255,255,255,.62)"; mg.fillText(live ? "VOICE INPUT · LIVE" : "VOICE INPUT · IDLE", 26, 21);
+        // the last ~1.4s of level, drawn as fine bars
+        for (let i = 0; i < 70; i++) { const tt = t - (69 - i) * 0.02; const v = tt > 0 ? band("lvl", tt) : 0; const h = 2 + v * 34; mg.fillStyle = `rgba(255,${170 + i},${90 + i},${0.25 + 0.75 * (i / 69)})`; mg.fillRect(i * 10, 66 - h / 2, 4, h); }
+        mTex.needsUpdate = true;
+      }
+
+      // ---------- post ----------
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 }));
+      composer.setPixelRatio(1); composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.35, 0.4, 0.55); composer.addPass(bloom);
+      const hudPass = new RenderPass(hud, hudCam); hudPass.clear = false; composer.addPass(hudPass);
+      composer.addPass(new OutputPass());
+      const lens = new ShaderPass({
+        uniforms: { tDiffuse: { value: null }, time: { value: 0 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float time; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time) * 43758.5453); }
+          void main(){ vec3 c = texture2D(tDiffuse, vUv).rgb;
+            c *= mix(0.62, 1.0, smoothstep(0.95, 0.25, length((vUv - 0.5) * vec2(1.0, 0.9))));
+            c += (hash(floor(vUv * vec2(1920.0, 1080.0))) - 0.5) * 0.022;
+            gl_FragColor = vec4(c, 1.0); }`,
+      });
+      composer.addPass(lens);
+
+      function renderAt(t) {
+        t = clamp(t, 0, DUR - 1e-4);
+        const u = mat.uniforms;
+        u.uTime.value = t; u.uLow.value = band("low", t); u.uMid.value = band("mid", t); u.uHigh.value = band("high", t); u.uLvl.value = band("lvl", t);
+        u.uWake.value = outCubic(seg(t, 0.0, 0.9));
+        u.uR.value = 1.5 * (0.92 + 0.08 * outCubic(seg(t, 0, 1.2)));
+        orb.rotation.y = t * 0.16 + band("lvl", t) * 0.05;
+        // camera: slow orbit and push, the orb sits right of centre to leave room for type later
+        const k = inOutSine(seg(t, 0, DUR));
+        camera.position.set(Math.sin(lerp(-0.25, 0.2, k)) * 6.6, lerp(0.25, -0.1, k), Math.cos(lerp(-0.25, 0.2, k)) * lerp(6.9, 6.2, k));
+        camera.lookAt(0, 0, 0);
+        u.uFocus.value = camera.position.length() - 0.2;
+        bloom.strength = 0.32 + 0.22 * band("lvl", t);
+        drawMeter(t); meter.material.opacity = outCubic(seg(t, 0.2, 0.8));
+        lens.uniforms.time.value = Math.floor(t * 60);
+        composer.render();
+      }
+      resolveBuilt();
+      renderAt(window.__hfThreeTime || 0);
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      window.__renderAt = renderAt;
+    </script>
+  </body>
+</html>
