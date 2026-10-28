@@ -1,0 +1,242 @@
+{
+ "project": "rafael-test-night",
+ "theme": "night",
+ "score": "6/10",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 0.73,
+   "target": ">= 0.79",
+   "pass": false,
+   "footage": "camera jitter 0.11 px/frame, 4 punches, 5 drifts (anchor: jitter 0.16 px/frame, 16.1 camera moves/min)"
+  },
+  "flat": {
+   "value": "61.1%",
+   "target": "<= 12.0%",
+   "pass": false
+  },
+  "actions": {
+   "value": "0.44 events/s (GSAP 2.1 tweens/s)",
+   "target": "0.44–0.81",
+   "pass": true
+  },
+  "payoff": {
+   "value": "1 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "median 76%, 2 weak ranges",
+   "target": ">= 60%",
+   "pass": false
+  },
+  "collide": {
+   "value": "3 collisions",
+   "target": "0",
+   "pass": false,
+   "faces_detected": 283
+  },
+  "overlap": {
+   "value": "0 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": true
+  },
+  "placeholder": {
+   "value": "0 found",
+   "target": "0",
+   "pass": true
+  },
+  "hook": {
+   "value": "visual on screen 3.0s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 70.93,
+  "motion": 1.14,
+  "flat_pct": 61.1,
+  "events_per_s": 0.39,
+  "graphics": {
+   "gfx_motion": 0.73,
+   "gfx_raw": 0.73,
+   "baseline": 0.0,
+   "baseline_s": 4,
+   "baseline_from": "none (graphics-only render)",
+   "gfx_share": 0.94,
+   "footage": {
+    "jitter_px": 0.11,
+    "punches": [
+     24.3,
+     24.77,
+     31.5,
+     39.37
+    ],
+    "drifts": [
+     8.67,
+     23.67,
+     30.67,
+     38.67,
+     50.0
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.11,
+   "punches": [
+    24.3,
+    24.77,
+    31.5,
+    39.37
+   ],
+   "drifts": [
+    8.67,
+    23.67,
+    30.67,
+    38.67,
+    50.0
+   ]
+  },
+  "actions_per_s": 0.44
+ },
+ "targets": {
+  "gfx_motion_min": 0.79,
+  "flat_max": 12.0,
+  "events_min": 0.44,
+  "events_max": 0.81,
+  "footage_info": "jitter 0.16 px/frame, 16.1 camera moves/min"
+ },
+ "fix_list": [
+  {
+   "t": "0.0–70.9s",
+   "t0": 0,
+   "words": "אתם מכירים את זה שאתם רואים סרטונים ברשתות ואומרים לכם שערוך את זה עם קלוד? אבל אתם אומרים איך לעזאזל אני עורך סרטון ברמה כזאת עם קלוד? אז אני עכשיו הולך לספר לכם, תישארו עד הסוף. שלב הראשון תצלמו את עצמכם מדברים למצלמה על נושא שאתם רוצים. שלב שני תעלו את הסרטון הזה לקלוד. שלב שלישי וזה השלב הכי חשוב תתקינו בקלוד את הסקיל שלי. מי שרוצה את הסקיל תגיבו פה את המילה סקיל. הסקיל הזה מאפשר לקלוד לערוך לכם את הסרטון ברמה מטורפת. בתוך הסקיל יצרתי עשרות סוגי עיצובים ולפי העיצובים האלה קלוד יודע איך לערוך לכם את זה ברמה שעורכי התוכן הכי גדולים משתמשים. אני משתמש בס- בסקיל הזה וזה הקפיץ לי את הצפיות משלוש מאות ארבע מאות צפיות לסרטון לעשרות אלפים. חבר'ה הסקיל הזה הוא משנה חיים וגם חוסך לכם הרבה זמן. אז כל מה שאתם צריכים לעשות זה להגיב לי פה את המילה skill וזה בדרך אליכם. וכמובן אם אתם רוצים ללמוד איך לערוך וידאו בצורה מקצועית עם motion graphics, להשתמש ב-Higgsfield ועוד, כנסו אליי לאתר. יש לי שמה קורסים בדיוק בשבילכם, אל תישארו מאחור חבר'ה.",
+   "check": "motion",
+   "fix": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)"
+  },
+  {
+   "t": "0.0–0.8s",
+   "t0": 0,
+   "words": "אתם",
+   "check": "hero fill",
+   "fix": "fill 55%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "2.7–5.3s",
+   "t0": 2.7,
+   "words": "ברשתות ואומרים לכם שערוך את זה עם קלוד? אבל אתם אומרים",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "5.5–7.8s",
+   "t0": 5.53,
+   "words": "לעזאזל אני עורך סרטון ברמה כזאת עם",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "13.3–16.2s",
+   "t0": 13.27,
+   "words": "את עצמכם מדברים למצלמה על",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "16.2–17.6s",
+   "t0": 16.23,
+   "words": "נושא שאתם רוצים.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "22.5–24.8s",
+   "t0": 22.5,
+   "words": "תתקינו בקלוד את הסקיל שלי.",
+   "check": "hero fill",
+   "fix": "fill 39%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "28.7–30.1s",
+   "t0": 28.67,
+   "words": "הסקיל הזה מאפשר לקלוד",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "39.5–39.8s",
+   "t0": 39.5,
+   "words": "הכי גדולים",
+   "check": "collisions",
+   "fix": "caption 'הכי' on tl8: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "39.8–40.0s",
+   "t0": 39.75,
+   "words": "גדולים משתמשים.",
+   "check": "collisions",
+   "fix": "caption 'גדולים' on tl8: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "40.0–40.8s",
+   "t0": 40,
+   "words": "משתמשים.",
+   "check": "collisions",
+   "fix": "caption 'משתמשים' on tl8: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "40.8–43.3s",
+   "t0": 40.8,
+   "words": "אני משתמש בס- בסקיל הזה וזה הקפיץ לי את",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "44.2–46.2s",
+   "t0": 44.23,
+   "words": "משלוש מאות ארבע מאות צפיות לסרטון",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "53.1–54.5s",
+   "t0": 53.1,
+   "words": "שאתם צריכים לעשות זה להגיב",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "55.4–56.9s",
+   "t0": 55.37,
+   "words": "skill וזה בדרך",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "59.8–61.3s",
+   "t0": 59.83,
+   "words": "וידאו בצורה מקצועית עם",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "64.8–67.0s",
+   "t0": 64.77,
+   "words": "כנסו אליי לאתר. יש לי שמה קורסים",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "67.1–68.4s",
+   "t0": 67.07,
+   "words": "קורסים בדיוק בשבילכם,",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  }
+ ]
+}

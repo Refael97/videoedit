@@ -1,0 +1,309 @@
+{
+ "project": "rafael-test-paper",
+ "theme": "paper",
+ "score": "4/10",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 0.43,
+   "target": ">= 0.69",
+   "pass": false,
+   "footage": "camera jitter 0.07 px/frame, 5 punches, 6 drifts (anchor: jitter 0.16 px/frame, 9.4 camera moves/min)"
+  },
+  "flat": {
+   "value": "47.4%",
+   "target": "<= 19.0%",
+   "pass": false
+  },
+  "actions": {
+   "value": "0.39 events/s (GSAP 1.62 tweens/s)",
+   "target": "0.36–0.66",
+   "pass": true
+  },
+  "payoff": {
+   "value": "3 marked, 1 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": false
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "full face, 4 weak ranges",
+   "target": ">= 60%",
+   "pass": false
+  },
+  "collide": {
+   "value": "0 collisions",
+   "target": "0",
+   "pass": true,
+   "faces_detected": 283
+  },
+  "overlap": {
+   "value": "5 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": false
+  },
+  "placeholder": {
+   "value": "4 found",
+   "target": "0",
+   "pass": false
+  },
+  "hook": {
+   "value": "visual on screen 2.2s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 70.93,
+  "motion": 1.49,
+  "flat_pct": 47.4,
+  "events_per_s": 0.35,
+  "graphics": {
+   "gfx_motion": 0.43,
+   "gfx_raw": 0.43,
+   "baseline": 0.0,
+   "baseline_s": 8,
+   "baseline_from": "none (graphics-only render)",
+   "gfx_share": 0.89,
+   "footage": {
+    "jitter_px": 0.07,
+    "punches": [
+     16.83,
+     17.1,
+     57.73,
+     68.5,
+     68.77
+    ],
+    "drifts": [
+     8.33,
+     25.0,
+     27.0,
+     49.0,
+     54.0,
+     56.0
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.07,
+   "punches": [
+    16.83,
+    17.1,
+    57.73,
+    68.5,
+    68.77
+   ],
+   "drifts": [
+    8.33,
+    25.0,
+    27.0,
+    49.0,
+    54.0,
+    56.0
+   ]
+  },
+  "actions_per_s": 0.39
+ },
+ "targets": {
+  "gfx_motion_min": 0.69,
+  "flat_max": 19.0,
+  "events_min": 0.36,
+  "events_max": 0.66,
+  "footage_info": "jitter 0.16 px/frame, 9.4 camera moves/min"
+ },
+ "fix_list": [
+  {
+   "t": "0.0–70.9s",
+   "t0": 0,
+   "words": "אתם מכירים את זה שאתם רואים סרטונים ברשתות ואומרים לכם שערוך את זה עם קלוד? אבל אתם אומרים איך לעזאזל אני עורך סרטון ברמה כזאת עם קלוד? אז אני עכשיו הולך לספר לכם, תישארו עד הסוף. שלב הראשון תצלמו את עצמכם מדברים למצלמה על נושא שאתם רוצים. שלב שני תעלו את הסרטון הזה לקלוד. שלב שלישי וזה השלב הכי חשוב תתקינו בקלוד את הסקיל שלי. מי שרוצה את הסקיל תגיבו פה את המילה סקיל. הסקיל הזה מאפשר לקלוד לערוך לכם את הסרטון ברמה מטורפת. בתוך הסקיל יצרתי עשרות סוגי עיצובים ולפי העיצובים האלה קלוד יודע איך לערוך לכם את זה ברמה שעורכי התוכן הכי גדולים משתמשים. אני משתמש בס- בסקיל הזה וזה הקפיץ לי את הצפיות משלוש מאות ארבע מאות צפיות לסרטון לעשרות אלפים. חבר'ה הסקיל הזה הוא משנה חיים וגם חוסך לכם הרבה זמן. אז כל מה שאתם צריכים לעשות זה להגיב לי פה את המילה skill וזה בדרך אליכם. וכמובן אם אתם רוצים ללמוד איך לערוך וידאו בצורה מקצועית עם motion graphics, להשתמש ב-Higgsfield ועוד, כנסו אליי לאתר. יש לי שמה קורסים בדיוק בשבילכם, אל תישארו מאחור חבר'ה.",
+   "check": "motion",
+   "fix": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)"
+  },
+  {
+   "t": "0.8–4.8s",
+   "t0": 0.75,
+   "words": "אתם מכירים את זה שאתם רואים סרטונים ברשתות ואומרים לכם שערוך את זה עם קלוד? אבל אתם",
+   "check": "hero fill",
+   "fix": "fill 14%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "5.0–9.0s",
+   "t0": 5,
+   "words": "אומרים איך לעזאזל אני עורך סרטון ברמה כזאת עם קלוד? אז",
+   "check": "graphic overlaps",
+   "fix": "#chat1 overlaps div.p-step (12% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "12.5–17.0s",
+   "t0": 12.5,
+   "words": "הראשון תצלמו את עצמכם מדברים למצלמה על נושא שאתם רוצים.",
+   "check": "hero fill",
+   "fix": "fill 33%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "12.5–17.8s",
+   "t0": 12.5,
+   "words": "הראשון תצלמו את עצמכם מדברים למצלמה על נושא שאתם רוצים. שלב",
+   "check": "graphic overlaps",
+   "fix": "div.p-step overlaps svg. (25% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "13.3–14.5s",
+   "t0": 13.27,
+   "words": "את עצמכם מדברים",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "14.5–16.0s",
+   "t0": 14.53,
+   "words": "למצלמה",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "16.0–17.0s",
+   "t0": 15.96,
+   "words": "על נושא שאתם רוצים.",
+   "check": "payoff lands",
+   "fix": "#tim3 lands at 16.46s, word at 16.94s: retime the count so it ends ON the payoff word (start it on the set-up word)"
+  },
+  {
+   "t": "17.2–17.8s",
+   "t0": 17.25,
+   "words": "רוצים. שלב",
+   "check": "hero fill",
+   "fix": "fill 33%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "18.0–20.8s",
+   "t0": 18,
+   "words": "שני תעלו את הסרטון הזה לקלוד. שלב",
+   "check": "graphic overlaps",
+   "fix": "#chat4 overlaps div.p-step (12% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "18.2–19.0s",
+   "t0": 18.25,
+   "words": "שני תעלו את הסרטון",
+   "check": "no placeholders",
+   "fix": "chat4: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
+  },
+  {
+   "t": "21.2–23.8s",
+   "t0": 21.25,
+   "words": "שלישי וזה השלב הכי חשוב תתקינו בקלוד את",
+   "check": "no placeholders",
+   "fix": "term5: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
+  },
+  {
+   "t": "22.5–23.8s",
+   "t0": 22.5,
+   "words": "תתקינו בקלוד את",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "23.9–25.2s",
+   "t0": 23.87,
+   "words": "הסקיל שלי.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "32.1–33.5s",
+   "t0": 32.1,
+   "words": "בתוך הסקיל יצרתי",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "33.8–41.0s",
+   "t0": 33.75,
+   "words": "עשרות סוגי עיצובים ולפי העיצובים האלה קלוד יודע איך לערוך לכם את זה ברמה שעורכי התוכן הכי גדולים משתמשים. אני משתמש",
+   "check": "hero fill",
+   "fix": "fill 21%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "41.2–48.8s",
+   "t0": 41.25,
+   "words": "משתמש בס- בסקיל הזה וזה הקפיץ לי את הצפיות משלוש מאות ארבע מאות צפיות לסרטון לעשרות אלפים. חבר'ה",
+   "check": "graphic overlaps",
+   "fix": "#stat9 overlaps div.p-step (12% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "41.5–44.0s",
+   "t0": 41.5,
+   "words": "בס- בסקיל הזה וזה הקפיץ לי את הצפיות משלוש",
+   "check": "no placeholders",
+   "fix": "stat9: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
+  },
+  {
+   "t": "58.0–71.0s",
+   "t0": 58,
+   "words": "וכמובן אם אתם רוצים ללמוד איך לערוך וידאו בצורה מקצועית עם motion graphics, להשתמש ב-Higgsfield ועוד, כנסו אליי לאתר. יש לי שמה קורסים בדיוק בשבילכם, אל תישארו מאחור חבר'ה.",
+   "check": "graphic overlaps",
+   "fix": "#prof overlaps div.p-step (38% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "58.2–63.0s",
+   "t0": 58.25,
+   "words": "אתם רוצים ללמוד איך לערוך וידאו בצורה מקצועית עם motion graphics, להשתמש ב-Higgsfield",
+   "check": "no placeholders",
+   "fix": "prof: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
+  },
+  {
+   "t": "58.4–59.4s",
+   "t0": 58.4,
+   "words": "רוצים ללמוד איך",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "59.5–60.6s",
+   "t0": 59.47,
+   "words": "לערוך וידאו בצורה",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "60.7–61.7s",
+   "t0": 60.67,
+   "words": "מקצועית עם motion",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "62.5–65.1s",
+   "t0": 62.5,
+   "words": "להשתמש ב-Higgsfield ועוד,",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "65.1–66.2s",
+   "t0": 65.13,
+   "words": "כנסו אליי לאתר.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "66.8–68.4s",
+   "t0": 66.83,
+   "words": "קורסים בדיוק בשבילכם,",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "69.5–70.9s",
+   "t0": 69.53,
+   "words": "חבר'ה.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  }
+ ]
+}

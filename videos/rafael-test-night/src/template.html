@@ -30,6 +30,8 @@
       #rec2 i { width: 20px; height: 20px; border-radius: 50%; background: #ff2d3d; box-shadow: 0 0 12px #ff2d3d; display: block; }
       #bar2 { position: absolute; left: 30px; right: 30px; bottom: 34px; height: 12px; border-radius: 6px; background: rgba(255,255,255,.25); overflow: hidden; }
       #bar2 b { position: absolute; inset: 0; background: #ff2d3d; display: block; }
+      .live { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+      #rec2, #bar2 { z-index: 2; }
       #tg2a { left: 120px; top: 520px; } #tg2b { left: 150px; top: 820px; }
 
       /* S3 step 2: the upload */
@@ -47,8 +49,8 @@
 
       /* S4 step 3: the install */
       #doc4 { left: 60px; right: 60px; top: 380px; padding: 30px 40px; overflow: hidden; }
-      #doc4 .cmd { font-family: var(--n-mono); direction: ltr; font-size: 44px; height: 110px; display: flex; align-items: center; white-space: pre; color: #fff; }
-      #doc4 .n-line { direction: ltr; font-family: var(--n-mono); font-size: 42px; font-weight: 500; min-height: 104px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+      #doc4 .cmd { font-family: var(--n-mono); direction: ltr; font-size: 50px; height: 130px; display: flex; align-items: center; white-space: pre; color: #fff; }
+      #doc4 .n-line { direction: ltr; font-family: var(--n-mono); font-size: 46px; font-weight: 500; min-height: 132px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
       #doc4 .ok { color: var(--n-green); }
 
       /* S5 / S9 CTA rows */
@@ -58,7 +60,7 @@
 
       /* S6 before / after */
       .ba { position: absolute; top: 380px; width: 420px; height: 747px; border-radius: 26px; background: #111 center / cover; border: 4px solid rgba(255,255,255,.15); }
-      #bf6 { right: 80px; background-image: url(assets/img/raw.jpg); }
+      #bf6 { right: 80px; background-image: url(assets/img/raw.jpg); overflow: hidden; }
       #af6 { left: 80px; background-image: url(assets/img/after.jpg); border-color: var(--n-purple); box-shadow: var(--n-glow-p); }
       #lb6a { left: 790px; top: 1160px; } #lb6b { left: 290px; top: 1160px; } #lb6c { left: 290px; top: 340px; height: 76px; font-size: 44px; padding: 0 28px; }
 
@@ -106,7 +108,7 @@
         <!-- S2 step 1: the phone records -->
         <div id="s2" class="n-scene">
           <div id="t2" class="n-title">שלב 1 · <em>מצלמים</em></div>
-          <div id="ph2"><div id="rec2"><i></i>REC</div><div id="bar2"><b></b></div></div>
+          <div id="ph2"><video id="phoneVid" class="live" src="assets/video/face.mp4" data-start="0" data-duration="70.95" data-track-index="2" muted playsinline></video><div id="rec2"><i></i>REC</div><div id="bar2"><b></b></div></div>
           <div class="n-tag" id="tg2a">מדברים למצלמה</div>
           <div class="n-tag y" id="tg2b">על נושא שאתם רוצים</div>
         </div>
@@ -128,6 +130,7 @@
               <div class="cmd">› <span id="cmd4"></span></div>
               <div class="n-line o4"><span class="ok">✓</span><span class="hl y" id="h4a">9 themes</span> · glass · night · paper</div>
               <div class="n-line o4"><span class="ok">✓</span><span class="hl p" id="h4b">QA</span> · 10 checks</div>
+              <div class="n-line o4"><span class="ok">✓</span>sfx · fonts · motion</div>
               <div class="n-line o4"><span class="ok">✓</span>installed: <span class="hl r" id="h4c">video-themes</span></div>
             </div>
           </div>
@@ -146,7 +149,7 @@
         <!-- S6 before / after of this very clip -->
         <div id="s6" class="n-scene">
           <div id="t6" class="n-title">הסקיל <em>עורך</em> לכם</div>
-          <div class="ba" id="bf6"></div>
+          <div class="ba" id="bf6"><video id="rawVid" class="live" src="assets/video/face.mp4" data-start="0" data-duration="70.95" data-track-index="3" muted playsinline></video></div>
           <div class="ba" id="af6"></div>
           <div class="n-tag" id="lb6a">לפני</div>
           <div class="n-tag p" id="lb6b">אחרי</div>
@@ -244,20 +247,32 @@
         const box = { s: 0.95, x: 27, y: 600 };
         N.layout(tl, "proof", 0, { box });
         N.layout(tl, "split", 8.9);
-        N.layout(tl, "face", 48.6);
-        N.layout(tl, "split", 52.7);
+        N.layout(tl, "face", 28.2);   // "הסקיל הזה מאפשר לקלוד" — a talking point, no structure
+        N.layout(tl, "split", 30.0);
+        N.layout(tl, "face", 40.6);   // "אני משתמש בסקיל הזה וזה הקפיץ לי"
+        N.layout(tl, "split", 43.25);
+        N.layout(tl, "face", 48.6);   // emotion
+        N.layout(tl, "split", 54.2);
+        N.layout(tl, "face", 57.6);   // "וכמובן אם אתם רוצים ללמוד"
+        N.layout(tl, "split", 59.3);
+        N.layout(tl, "face", 66.9);   // "יש לי שמה קורסים בדיוק בשבילכם"
+        N.layout(tl, "split", 68.5);
         // scenes: the steps structure (s1) returns between the steps
         const S1 = [[8.9, 12.9], [17.62, 18.6], [20.6, 22.45]];
         tl.set("#s1", { autoAlpha: 0 }, 0); S1.forEach(([a, b]) => { tl.set("#s1", { autoAlpha: 1 }, a); tl.set("#s1", { autoAlpha: 0 }, b); });
         N.scene(tl, "#s2", 12.9, 17.62); N.scene(tl, "#s3", 18.6, 20.6); N.scene(tl, "#s4", 22.45, 25.1);
-        N.scene(tl, "#s5", 25.1, 28.2); N.scene(tl, "#s6", 28.2, 31.96); N.scene(tl, "#s7", 31.96, 40.6);
-        N.scene(tl, "#s8", 40.6, 48.6); N.scene(tl, "#s9", 52.7, 57.6); N.scene(tl, "#s10", 57.6);
+        N.scene(tl, "#s5", 25.1, 28.2); N.scene(tl, "#s6", 30.0, 31.96); N.scene(tl, "#s7", 31.96, 40.6);
+        N.scene(tl, "#s8", 43.25, 48.6); N.scene(tl, "#s9", 54.2, 57.6); N.scene(tl, "#s10", 59.3);
 
         N.captions(tl, "#caps", WORDS, { darkOnProof: true, yFace: 1450 });
 
         // ---- S0 proof: reels edited with Claude; the doubt is typed on "איך לעזאזל" ----
-        N.title(tl, "#t0", 0.7);
-        N.push(tl, "#th0", 0, 8.9, 1.08);
+        N.title(tl, "#t0", 0.15);
+        N.push(tl, "#th0", 0, 8.9, 1.12);
+        // many examples: each reel swaps to another reel edited with the skill
+        [["#rl1", "glass", "board"], ["#rl2", "paper", "neon-studio"], ["#rl3", "headline", "night"]].forEach(([r, a, b]) => {
+          tl.set(r, { backgroundImage: "url(assets/img/t-" + a + ".jpg)" }, 2.9); tl.set(r, { backgroundImage: "url(assets/img/t-" + b + ".jpg)" }, 5.9);
+          N.pulse(tl, r, 2.9, 1.04); N.pulse(tl, r, 5.9, 1.04); });
         N.sweep(tl, ["#rl1", "#rl2", "#rl3"], 1.6, 0.2, 0.7);
         N.swapClass(tl, "#p1", 4.28, "up"); N.swapClass(tl, "#p2", 4.4, "up"); N.swapClass(tl, "#p3", 4.52, "up");
         N.rows(tl, "#ask0", 5.3);
@@ -269,7 +284,7 @@
         N.title(tl, "#t1", 8.95);
         N.rows(tl, ["#r1", "#r2", "#r3"], 9.1, 0.2);
         N.sweep(tl, ["#r1", "#r2", "#r3"], 10.36, 0.15, 0.6);
-        N.push(tl, "#rows1", 8.9, 4.0, 1.06);
+        N.push(tl, "#rows1", 8.9, 4.0, 1.1);
         N.swapClass(tl, "#r1", 12.16, null, "next"); N.sweep(tl, "#r1", 12.2, 0, 0.6);
         N.done(tl, "#r1", 17.7); N.swapClass(tl, "#r2", 17.96, null, "next"); N.sweep(tl, "#r2", 18.0, 0, 0.5);
         N.done(tl, "#r2", 20.66); N.swapClass(tl, "#r3", 20.94, null, "next"); N.sweep(tl, "#r3", 21.0, 0, 0.6);
@@ -278,7 +293,7 @@
         // ---- S2 step 1: the phone is recording ----
         N.title(tl, "#t2", 12.92);
         N.ignite(tl, "#ph2", 12.95);
-        N.push(tl, "#ph2", 12.95, 4.6, 1.06);
+        N.push(tl, "#ph2", 12.95, 4.6, 1.1);
         tl.set("#bar2 b", { transformOrigin: "100% 50%" }, 0);
         tl.fromTo("#bar2 b", { scaleX: 0 }, { scaleX: 1, duration: 4.2, ease: "none", immediateRender: false }, 13.2);
         tl.fromTo("#rec2 i", { opacity: 1 }, { opacity: 0.2, duration: 0.5, repeat: 7, yoyo: true, ease: "steps(1)", immediateRender: false }, 13.2);
@@ -291,16 +306,16 @@
         tl.fromTo("#pg3", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power1.inOut", immediateRender: false }, 18.8);
         N.hide(tl, "#ok3"); N.pop(tl, "#ok3", 20.02);
         N.hide(tl, "#msg3"); N.rows(tl, "#msg3", 19.4);
-        N.push(tl, "#chat3", 18.62, 2.0, 1.05);
+        N.push(tl, "#chat3", 18.62, 2.0, 1.08);
 
         // ---- S4 step 3: install the skill; punch into its name on "שלי" ----
         N.title(tl, "#t4", 22.47);
         N.ignite(tl, "#doc4", 22.47);
         N.type(tl, "#cmd4", "/plugin install video-themes", 22.55, 26);
         tl.set(".o4", { opacity: 0.4 }, 0); tl.to(".o4", { opacity: 1, duration: 0.2, stagger: 0.2 }, 23.7);
-        N.mark(tl, ["#h4a", "#h4b", "#h4c"], [23.75, 23.95, 23.86 + 0.3]);
+        N.mark(tl, ["#h4a", "#h4b", "#h4c"], [23.75, 23.95, 24.36]);
         N.sweep(tl, "#doc4", 23.2, 0, 0.7);
-        N.punch(tl, "#s4", 24.34, 1.5, [560, 790]);
+        N.punch(tl, "#s4", 24.34, 1.12, [540, 1000]);
         N.unpunch(tl, "#s4", 24.8);
 
         // ---- S5 CTA 1: "סקיל" is typed in a comment ----
@@ -312,31 +327,31 @@
         N.push(tl, "#rows5", 25.1, 3.1, 1.05);
 
         // ---- S6 before / after: this clip, raw vs edited ----
-        N.title(tl, "#t6", 28.36);
-        N.ignite(tl, "#bf6", 28.4); N.tag(tl, "#lb6a", 28.7);
-        N.ignite(tl, "#af6", 30.08); N.tag(tl, "#lb6b", 30.3);
-        tl.to("#bf6", { opacity: 0.45, duration: 0.3 }, 30.1);
+        N.title(tl, "#t6", 30.02);
+        N.ignite(tl, "#bf6", 30.05); N.tag(tl, "#lb6a", 30.2);
+        N.ignite(tl, "#af6", 30.58); N.tag(tl, "#lb6b", 30.75);
+        tl.to("#bf6", { opacity: 0.45, duration: 0.3 }, 31.0);
         N.hide(tl, "#lb6c"); N.tag(tl, "#lb6c", 31.52);
         N.punch(tl, "#s6", 31.52, 1.25, [290, 760], 0.3);
 
         // ---- S7 the themes inside: they light one by one, Claude picks one, sweep, punch ----
         N.title(tl, "#t7", 32.0);
         N.ignite(tl, "#grid7", 32.0);
-        N.push(tl, "#grid7", 32.0, 8.6, 1.06);
+
         N.light(tl, ["#tl1", "#tl2", "#tl3", "#tl4", "#tl5", "#tl6", "#tl7", "#tl8", "#tl9"], 32.7, 0.33);
         N.swapClass(tl, "#tl3", 36.92, "sel"); N.pulse(tl, "#tl3", 36.92, 1.1);
         N.sweep(tl, ".tile", 37.5, 0.08, 0.5);
         N.swapClass(tl, "#tl3", 38.6, null, "sel"); N.swapClass(tl, "#tl7", 38.6, "sel");
-        N.punch(tl, "#s7", 39.38, 1.2, [540, 760], 0.3);
+        N.punch(tl, "#grid7", 39.38, 1.08, [480, 444], 0.3);
 
         // ---- S8 views: flat 300–400, then the climb; the number lands on "אלפים" (47.42) ----
-        N.title(tl, "#t8", 40.62);
-        N.push(tl, "#zoom8", 40.6, 8.0, 1.06);
-        N.draw(tl, "#ax8", 40.7, 0.4);
-        N.ignite(tl, [".ax-y", ".ax-x"], 40.9, 0.05);
-        N.draw(tl, "#cv8a", 41.3, 2.4, "none");
+        N.title(tl, "#t8", 43.27);
+        N.push(tl, "#zoom8", 43.25, 5.35, 1.1);
+        N.draw(tl, "#ax8", 43.3, 0.35);
+        N.ignite(tl, [".ax-y", ".ax-x"], 43.4, 0.05);
+        N.draw(tl, "#cv8a", 43.5, 1.1, "none");
         N.hide(tl, "#lb8a"); N.tag(tl, "#lb8a", 43.88);
-        N.grow(tl, ".b8", 44.0, 0.2);
+        N.grow(tl, ".b8", 44.2, 0.2); N.sweep(tl, "#lb8a", 45.0, 0, 0.6);
         N.hide(tl, ["#pk8", "#pk8u"]); N.ignite(tl, ["#pk8", "#pk8u"], 45.6, 0.05);
         N.count(tl, "#pk8", 350, 10000, 46.4, 1.02, { ease: "none", fmt: (v) => (v >= 10000 ? "10K" : v < 1000 ? String(Math.round(v / 10) * 10) : (v / 1000).toFixed(1) + "K") });
         N.draw(tl, "#cv8b", 46.4, 1.02, "none");
@@ -345,18 +360,18 @@
         tl.fromTo("#peak8", { scale: 1, transformOrigin: "50% 50%" }, { scale: 1.9, duration: 0.25, ease: "back.out(3)", immediateRender: false }, 47.42);
 
         // ---- S9 CTA 2: "skill" typed, the reply arrives and goes green ----
-        N.cta(tl, "#t9", 52.78);
-        N.rows(tl, "#r91", 53.0);
+        N.cta(tl, "#t9", 54.22);
+        N.rows(tl, "#r91", 54.3);
         N.type(tl, "#ty9", "skill", 55.36, 10);
         N.rows(tl, "#r92", 56.26); N.done(tl, "#r92", 56.92);
-        N.sweep(tl, "#r91", 54.3, 0, 0.6);
-        N.push(tl, "#rows9", 52.7, 4.9, 1.05);
+        N.sweep(tl, "#r91", 54.9, 0, 0.6);
+        N.push(tl, "#rows9", 54.2, 3.4, 1.1);
 
         // ---- S10 courses: profile, the topics light on their words, the site button, all done at the end ----
-        N.title(tl, "#t10", 57.66);
-        N.ignite(tl, "#prof10", 57.8);
-        N.rows(tl, ["#c1", "#c2", "#c3"], 58.2, 0.18);
-        N.swapClass(tl, "#c1", 59.44, null, "next"); N.sweep(tl, "#c1", 59.5, 0, 0.6);
+        N.title(tl, "#t10", 59.32);
+        N.ignite(tl, "#prof10", 59.35);
+        N.rows(tl, ["#c1", "#c2", "#c3"], 59.5, 0.15);
+        N.swapClass(tl, "#c1", 59.9, null, "next"); N.sweep(tl, "#c1", 59.95, 0, 0.6);
         N.swapClass(tl, "#c2", 61.3, null, "next"); N.sweep(tl, "#c2", 61.35, 0, 0.6);
         N.swapClass(tl, "#c3", 62.96, null, "next"); N.sweep(tl, "#c3", 63.0, 0, 0.6);
         document.querySelector("#go10 .ic").innerHTML = N.ART.lock;
@@ -367,7 +382,7 @@
         N.pulse(tl, "#go10", 66.82, 1.08);
         N.done(tl, "#c1", 68.6); N.done(tl, "#c2", 68.75); N.done(tl, "#c3", 68.9);
         N.pulse(tl, "#prof10", 69.52, 1.04);
-        N.push(tl, "#s10", 57.6, 13.35, 1.05);
+        N.push(tl, "#s10", 59.3, 11.65, 1.08);
 
         window.__timelines["main"] = tl;
       });

@@ -58,6 +58,9 @@ One accent per element besides ink; orange is the default.
 - **Full page:** when a drawing needs the whole height (trees, recaps, illustrations); captions at 62% (1190).
 - Layout changes every ~4–6 s *(1/1: 15 switches in 77 s)*. A step usually spans several layouts.
 - One hero at a time. When the next object arrives, the previous one **parks** (shrinks, moves up/aside) or leaves.
+- **The full page hides the footage** (`layout(..., "paper")` sets the face to hidden): it is fully covered anyway, and the QA probe must not read a covered face as on screen.
+- **Real motion on the page = real media playing:** a phone or thumbnail that shows a video (the take itself in a phone being filmed, the
+  real previews in a gallery) plays it (`<video data-media-start>`), never a still pretending to be a video.
 - Nothing closer than 60px to the frame sides **except UI-zoom cards, which may bleed off one side**; nothing under the seam in split.
 - **The seam on bright footage:** if the footage's mean luma is above ~170 (white wall, daylight), darken the face half by ~15% (`.p-face.dim`) or add the soft seam shadow (`.p-seam`) so the page and the face don't merge into one bright block.
 - **Layout respects the shot.** Split only over a frontal, usable shot. Profile, tight crop, blur or a hand over the

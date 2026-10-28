@@ -54,8 +54,10 @@
       const stage = $(o.stage || "#stage"), vid = $(o.video || "#face video"), shift = o.shift != null ? o.shift : 470;
       const st = { face: { clipPath: "inset(0px 0px 1920px 0px)" }, split: { clipPath: "inset(0px 0px 960px 0px)" }, paper: { clipPath: "inset(0px 0px 0px 0px)" } }[mode];
       const vv = { face: { y: 0, scale: 1 }, split: { y: shift, scale: o.splitScale || 1 }, paper: { y: shift, scale: 1 } }[mode];
-      if (!P._layouts.length) { tl.set(stage, st, 0); tl.set(vid, vv, 0); }
-      else { tl.set(stage, st, t); tl.set(vid, vv, t); }
+      // the full page covers the footage completely: hide it then (no decode, and nothing reads it as "on screen")
+      const fv = { autoAlpha: mode === "paper" ? 0 : 1 }, faceEl = vid && vid.parentElement;
+      if (!P._layouts.length) { tl.set(stage, st, 0); tl.set(vid, vv, 0); if (faceEl) tl.set(faceEl, fv, 0); }
+      else { tl.set(stage, st, t); tl.set(vid, vv, t); if (faceEl) tl.set(faceEl, fv, t); }
       if (o.seam !== false && $(o.seamEl || "#seam")) { const sm = $(o.seamEl || "#seam"); if (!P._layouts.length) tl.set(sm, { opacity: mode === "split" ? 1 : 0 }, 0); else tl.set(sm, { opacity: mode === "split" ? 1 : 0 }, t); }
       P._layouts.push([t, mode]);
       if (o.flash) ft(tl, o.flashEl || "#flash", { opacity: 0 }, { keyframes: [{ opacity: 0.9, duration: 0.05 }, { opacity: 0, duration: 0.12 }] }, t - 0.05);
@@ -92,7 +94,7 @@
     fill(tl, sels, t, step = 0.2) { $$(sels).forEach((e, i) => ft(tl, e, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, Array.isArray(t) ? t[i] : t + i * step)); },
     // count: a number changes in place (formatted with thousands separators)
     count(tl, sel, from, to, t, dur = 0.6, o = {}) {
-      const el = $(sel), p = { v: from }, fmt = (v) => (o.prefix || "") + Math.round(v).toLocaleString("en-US") + (o.suffix || "");
+      const el = $(sel), p = { v: from }, fmt = o.fmt || ((v) => (o.prefix || "") + Math.round(v).toLocaleString("en-US") + (o.suffix || ""));  // o.fmt: a custom display (timer, "10K")
       el.textContent = fmt(from);
       tl.fromTo(p, { v: from }, { v: to, duration: dur, ease: o.ease || "power2.out", onUpdate: () => (el.textContent = fmt(p.v)), ...IR }, t);
     },
