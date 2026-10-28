@@ -1,0 +1,65 @@
+{
+ "theme": "board",
+ "anchor_videos": [
+  "references/board/Video-31455.mp4",
+  "references/board/Video-42755.mp4"
+ ],
+ "measured": {
+  "Video-31455": {
+   "duration": 48.67,
+   "gfx_motion": 0.88,
+   "gfx_raw": 1.08,
+   "baseline": 0.2,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.96,
+   "flat_pct": 72.1,
+   "actions_per_s": 0.45,
+   "motion_all": 1.7,
+   "jitter_px": 0.05,
+   "punches": 2,
+   "drifts": 3
+  },
+  "Video-42755": {
+   "duration": 36.97,
+   "gfx_motion": 0.91,
+   "gfx_raw": 1.87,
+   "baseline": 0.97,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 1.0,
+   "flat_pct": 11.2,
+   "actions_per_s": 1.11,
+   "motion_all": 3.4,
+   "jitter_px": 0.12,
+   "punches": 5,
+   "drifts": 5
+  }
+ },
+ "anchor": {
+  "gfx_motion": 0.89,
+  "flat_pct": 45.8,
+  "actions_per_s": 0.73,
+  "footage": "jitter 0.08 px/frame, 10.5 camera moves/min"
+ },
+ "targets": {
+  "gfx_motion_min": 0.67,
+  "flat_max": 46.0,
+  "events_min": 0.51,
+  "events_max": 0.96,
+  "footage_info": "jitter 0.08 px/frame, 10.5 camera moves/min"
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2,
+  "edge_nogfx": 0.012,
+  "punch": 0.04,
+  "drift": 0.03
+ }
+}

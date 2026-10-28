@@ -1,6 +1,6 @@
 """Synthesize a theme's UI sound set from scratch (no samples, so it is free to redistribute).
 
-usage: python3 synth_sfx.py <out_dir> [set]   (set: default | paper; see SETS)
+usage: python3 synth_sfx.py <out_dir> [set]   (set: default | paper | night; see SETS)
 writes 48 kHz mono wavs, peak -3 dBFS
 """
 import sys, wave
@@ -123,9 +123,52 @@ def swish():
     return x * shape
 
 
+def neon():
+    # neon tube switching on: a click, two short 100 Hz buzz flickers, then a soft hum tail
+    d = 0.45
+    x = t(d)
+    n = len(x)
+    buzz = np.sign(np.sin(2 * np.pi * 100 * x)) * 0.5 + np.sin(2 * np.pi * 200 * x) * 0.5
+    buzz = lowpass(buzz, 2400)
+    gate = np.zeros(n)
+    for a, b, g in [(0.0, 0.03, 1.0), (0.06, 0.09, 0.8), (0.13, 0.45, 0.5)]:
+        gate[int(a * SR):int(b * SR)] = g
+    gate = lowpass(gate, 60)
+    tail = np.exp(-np.maximum(x - 0.13, 0) / 0.12)
+    clk = highpass(rng.standard_normal(n), 2000) * env(n, 0.0003, 0.004)
+    return buzz * gate * tail * 0.6 + clk * 0.8
+
+
+def boom():
+    # punch-in impact: low sine drop + a short noise burst, sits under the voice
+    d = 0.5
+    x = t(d)
+    f = 45 + 110 * np.exp(-x / 0.05)
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    body = np.sin(ph) * env(len(x), 0.002, 0.16)
+    hit = lowpass(rng.standard_normal(len(x)), 900) * env(len(x), 0.001, 0.03) * 0.5
+    return body + hit
+
+
+def riser():
+    # short tension riser before a reveal: noise through a rising lowpass, cut dead at the end
+    d = 0.7
+    n = int(d * SR)
+    x = rng.standard_normal(n)
+    out = np.empty(n)
+    acc = 0.0
+    for i in range(n):
+        cut = 300 + 7000 * (i / n) ** 2
+        k = np.exp(-2 * np.pi * cut / SR)
+        acc = (1 - k) * x[i] + k * acc
+        out[i] = acc
+    return highpass(out, 200) * np.linspace(0, 1, n) ** 2
+
+
 SETS = {
     "default": ["click", "pop", "tick", "ding", "whoosh", "zoom"],
     "paper": ["click", "pop", "tick", "ding", "whoosh", "key", "swish"],
+    "night": ["click", "pop", "tick", "ding", "whoosh", "key", "neon", "boom", "riser"],
 }
 
 

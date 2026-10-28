@@ -23,7 +23,17 @@ Built on HyperFrames: one paused GSAP timeline at `window.__timelines["main"]`, 
 
 | Theme | Status | Look | Format |
 |---|---|---|---|
-| `glass` | v1 — README, spec, tokens, components, motion, sfx, preview (`videos/theme-glass-preview`) | talking head + a floating frosted-glass desktop with app windows, punch zooms | 9:16 |
+| `glass` | v2 (anchor 20957, 3/3) — preview (`videos/theme-glass-preview`) | talking head in a real room + frosted-glass windows anchored in the space, timeline strip, punch zooms | 9:16 |
+| `paper` | v1 (anchor 15422, 1/1) — tested on new footage (`videos/paper-test-scope`) | step-by-step tutorial: cream graph-paper page above the face, folders, real UI zooms, orange ink | 9:16 |
+| `night` | v1 (anchor 50462, 4/4) — preview (`videos/theme-night-preview`) | a framework lighting up on a black dot-grid stage: neon ladders, glowing curves, rows that unlock; speaker in a rounded box, head popping out | 9:16 |
+| `editorial` | v1 (anchor 66150, 3/3) — preview (`videos/theme-editorial-preview`) | green magazine page: huge serif word behind the head, ticker headlines, pasted paper slips, cover frame, karaoke captions | 9:16 |
+| `headline` | v1 (anchor 97418, 5/5) — preview (`videos/theme-headline-preview`) | bright wall, headline with a blue box + serif italic, real screenshots in blue-edged windows, focus rings, blur-ins | 9:16 |
+| `arcade` | v1 (anchor 5777, 4/4) — preview (`videos/theme-arcade-preview`) | light split page with generated pixel-art worlds, mascot "Bit", mono uppercase caption pill, red pen strikes | 9:16 |
+| `neon-studio` | v1 (anchor 70647, 4/4) — preview (`videos/theme-neon-studio-preview`) | dark gaming-room footage, yellow keyword line, huge thin italic keyword, pixel sprites landing on the chest, UI cards on a light page | 9:16 |
+| `hooks` | v1 (anchor 7784, 4/4) — preview (`videos/theme-hooks-preview`) | glowing meaning-colored word on the chest, black screen with amber corner light, chips with [slots], switches that flip | 9:16 |
+| `board` | v1 (anchor 31455, 2/2, provisional) — preview (`videos/theme-board-preview`) | faceless-first: neo-brutalist cards on cream, coral serif word, pixel crab "Pinch", pixel dissolves; the speaker as a face card | 9:16 |
+
+**night vs hooks (both dark accents):** night draws a *system* (ladder, rows, curve) as light on a black stage with the speaker in a box at the bottom; hooks keeps the speaker *full frame in a bright room* and lands *one glowing word* on the chest. Explaining a structure → night; selling one idea → hooks.
 
 Default when the user names none: ask once, then remember the answer in the project's `meta.json`
 (`"theme": "<name>"`).
@@ -110,7 +120,16 @@ brightness, clutter), light, and what to avoid. Measured from the anchor.
    gets added to the theme's blocks (so the next video gets it); it must pass the self-check (§9).
 4. Check the theme's rules (`theme.md` → Rules) against the storyboard: caption words, max time on one
    layout, forbidden moves.
-5. `npx --yes hyperframes@0.8.150 check`, snapshots of every scene, then render at 60 fps in the background.
+5. `npx --yes hyperframes@0.8.150 check` and snapshots of every scene.
+6. **QA gate (mandatory — no draft reaches the user before it passes):** `scripts/qa/qa <project>`. It renders a
+   fast draft (30 fps, draft quality), measures it against the theme's anchor targets (`themes/<name>/qa-targets.json`)
+   and the known-mistake rules, and writes `qa-report.md` + `qa.json`: a score N/10 and a FIX LIST with time, words,
+   the failed check and a concrete fix. Mark every payoff number with `data-qa-payoff="<word>"` (+ `data-qa-stamp`).
+   Mark groups the language lets overlap (cards on cards) with `data-qa-stack`. Loop: fix → `qa` again, **at most
+   3 rounds**. Only at 10/10 render the final 60 fps. If something still fails after
+   3 rounds, tell the user exactly what fails and why — never send it silently. Targets are never edited to make a
+   draft pass; they change only by re-measuring the anchor (`scripts/qa/anchor.py <theme>`). See `scripts/qa/README.md`.
+7. Render at 60 fps in the background.
 
 ## Workflow: building a theme from a reference video
 

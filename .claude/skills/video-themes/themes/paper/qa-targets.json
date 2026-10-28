@@ -1,0 +1,50 @@
+{
+ "theme": "paper",
+ "anchor_videos": [
+  "references/paper/Video-15422.mp4"
+ ],
+ "measured": {
+  "Video-15422": {
+   "duration": 76.83,
+   "gfx_motion": 0.92,
+   "gfx_raw": 1.38,
+   "baseline": 0.47,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.93,
+   "flat_pct": 18.5,
+   "actions_per_s": 0.51,
+   "motion_all": 2.96,
+   "jitter_px": 0.16,
+   "punches": 5,
+   "drifts": 7
+  }
+ },
+ "anchor": {
+  "gfx_motion": 0.92,
+  "flat_pct": 18.5,
+  "actions_per_s": 0.51,
+  "footage": "jitter 0.16 px/frame, 9.4 camera moves/min"
+ },
+ "targets": {
+  "gfx_motion_min": 0.69,
+  "flat_max": 19.0,
+  "events_min": 0.36,
+  "events_max": 0.66,
+  "footage_info": "jitter 0.16 px/frame, 9.4 camera moves/min"
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2,
+  "edge_nogfx": 0.012,
+  "punch": 0.04,
+  "drift": 0.03
+ }
+}

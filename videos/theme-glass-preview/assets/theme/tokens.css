@@ -53,5 +53,5 @@
   /* layout (y as % of 1920) */
   --g-hook-top: 200px;     /* 10.5% */
   --g-cap-center: 1434px;  /* 74.7% */
-  --g-cta-center: 1270px;  /* 66% */
+  --g-cta-center: 1440px;  /* the caption slot (captions stop when the CTA shows); arrow points down to the comments */
 }

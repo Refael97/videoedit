@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# theme QA: qa <project> [--theme NAME] [--reuse-draft]
+exec python3 "$(dirname "$0")/qa.py" "$@"

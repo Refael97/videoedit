@@ -1,0 +1,80 @@
+{
+ "theme": "editorial",
+ "anchor_videos": [
+  "references/editorial/Video-66150.mp4",
+  "references/editorial/Video-72005.mp4",
+  "references/editorial/Video-90553.mp4"
+ ],
+ "measured": {
+  "Video-66150": {
+   "duration": 53.97,
+   "gfx_motion": 1.49,
+   "gfx_raw": 2.39,
+   "baseline": 0.9,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.96,
+   "flat_pct": 2.6,
+   "actions_per_s": 0.7,
+   "motion_all": 6.69,
+   "jitter_px": 0.28,
+   "punches": 19,
+   "drifts": 14
+  },
+  "Video-72005": {
+   "duration": 57.97,
+   "gfx_motion": 2.55,
+   "gfx_raw": 3.23,
+   "baseline": 0.68,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.7,
+   "flat_pct": 2.2,
+   "actions_per_s": 0.53,
+   "motion_all": 7.84,
+   "jitter_px": 0.28,
+   "punches": 17,
+   "drifts": 9
+  },
+  "Video-90553": {
+   "duration": 49.07,
+   "gfx_motion": 0.85,
+   "gfx_raw": 1.19,
+   "baseline": 0.34,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.92,
+   "flat_pct": 0.0,
+   "actions_per_s": 0.82,
+   "motion_all": 5.27,
+   "jitter_px": 0.15,
+   "punches": 11,
+   "drifts": 9
+  }
+ },
+ "anchor": {
+  "gfx_motion": 1.68,
+  "flat_pct": 1.7,
+  "actions_per_s": 0.68,
+  "footage": "jitter 0.24 px/frame, 29.4 camera moves/min"
+ },
+ "targets": {
+  "gfx_motion_min": 1.26,
+  "flat_max": 2.0,
+  "events_min": 0.47,
+  "events_max": 0.88,
+  "footage_info": "jitter 0.24 px/frame, 29.4 camera moves/min"
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2,
+  "edge_nogfx": 0.012,
+  "punch": 0.04,
+  "drift": 0.03
+ }
+}

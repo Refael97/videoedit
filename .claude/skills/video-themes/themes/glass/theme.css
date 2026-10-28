@@ -19,7 +19,7 @@
 
 /* ---------- glass space: the floating "desktop" placed in the room ---------- */
 .g-space { position: absolute; border-radius: var(--g-r-space); background: var(--g-glass); -webkit-backdrop-filter: var(--g-glass-blur); backdrop-filter: var(--g-glass-blur); border: 1.5px solid var(--g-glass-edge); box-shadow: var(--g-glass-shadow); }
-.g-space .menubar { position: absolute; left: 22px; right: 22px; top: 12px; height: 26px; display: flex; direction: ltr; gap: 18px; font-size: 17px; font-weight: 500; color: rgba(255, 255, 255, 0.75); }
+.g-space .menubar { position: absolute; left: 22px; right: 22px; top: 12px; height: 34px; display: flex; direction: ltr; gap: 18px; font-size: 26px; font-weight: 500; color: rgba(255, 255, 255, 0.75); }
 .g-space .menubar b { font-weight: 700; color: #fff; }
 .g-step { position: absolute; top: 46px; right: 22px; height: 46px; padding: 0 20px; border-radius: var(--g-r-pill); background: var(--g-glass-dark); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 8px; font-size: 26px; font-weight: 700; color: #fff; }
 .g-dock { position: absolute; left: 50%; bottom: 16px; height: 64px; padding: 0 10px; border-radius: 20px; background: var(--g-glass-strong); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.35); display: flex; align-items: center; gap: 8px; direction: ltr; }
@@ -28,16 +28,16 @@
 
 /* ---------- app windows (dark) ---------- */
 .g-win { position: absolute; border-radius: var(--g-r-win); background: var(--g-win); border: 1px solid var(--g-win-edge); box-shadow: 0 22px 50px rgba(0, 0, 0, 0.4); overflow: hidden; color: var(--g-win-ink); }
-.g-win .bar { position: relative; height: 42px; display: flex; align-items: center; padding: 0 16px; gap: 9px; direction: ltr; }
-.g-win .bar i { width: 13px; height: 13px; border-radius: 50%; display: block; }
-.g-win .bar i:nth-child(1) { background: var(--g-light-red); }
-.g-win .bar i:nth-child(2) { background: var(--g-light-yellow); }
-.g-win .bar i:nth-child(3) { background: var(--g-light-green); }
-.g-win .bar span { position: absolute; left: 0; right: 0; text-align: center; font-size: 17px; font-weight: 500; color: var(--g-win-title); }
+.m-win > .bar, .g-win .bar { position: relative; height: 52px; display: flex; align-items: center; padding: 0 16px; gap: 9px; direction: ltr; }
+.m-win > .bar i, .g-win .bar i { width: 13px; height: 13px; border-radius: 50%; display: block; }
+.m-win > .bar i:nth-child(1), .g-win .bar i:nth-child(1) { background: var(--g-light-red); }
+.m-win > .bar i:nth-child(2), .g-win .bar i:nth-child(2) { background: var(--g-light-yellow); }
+.m-win > .bar i:nth-child(3), .g-win .bar i:nth-child(3) { background: var(--g-light-green); }
+.m-win > .bar span, .g-win .bar span { position: absolute; left: 0; right: 0; text-align: center; font-size: 26px; font-weight: 500; color: var(--g-win-title); }
 .g-win .body { padding: 10px 22px 20px; }
 
 /* terminal rows */
-.g-term .row { display: flex; align-items: center; height: 54px; direction: ltr; font-family: var(--g-mono); font-size: 25px; white-space: pre; }
+.g-term .row { display: flex; align-items: center; height: 56px; direction: ltr; font-family: var(--g-mono); font-size: 28px; white-space: pre; }
 .g-term .row .p { color: #7db5ff; margin-right: 12px; }
 .g-term .row .ok { margin-left: auto; width: 32px; height: 32px; }
 .g-badge { display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 10px; border: 2px solid var(--g-green); color: var(--g-green); font-size: 26px; font-weight: 700; background: rgba(47, 205, 88, 0.12); }
@@ -45,16 +45,16 @@
 /* chat window: thumbnails + prompt */
 .g-chat .thumbs { display: flex; gap: 8px; justify-content: flex-end; }
 .g-chat .thumbs b { width: 62px; height: 96px; border-radius: 10px; display: block; background-size: cover; background-position: center; border: 1px solid rgba(255, 255, 255, 0.15); }
-.g-chat .msg { margin-top: 10px; text-align: right; font-size: 24px; font-weight: 700; white-space: pre; }
-.g-chat .reply { margin-top: 18px; display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; color: #cfcfd4; white-space: pre; }
+.g-chat .msg { margin-top: 10px; text-align: right; font-size: 28px; font-weight: 700; white-space: pre; }
+.g-chat .reply { margin-top: 18px; display: flex; align-items: center; gap: 10px; font-size: 28px; font-weight: 700; color: #cfcfd4; white-space: pre; }
 .g-chat .chips { margin-top: 14px; display: flex; gap: 6px; flex-wrap: nowrap; }
-.g-chat .chips span { padding: 5px 11px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 18px; font-weight: 700; }
+.g-chat .chips span { padding: 5px 11px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 26px; font-weight: 700; }
 .g-chat .chips span.on { background: rgba(47, 205, 88, 0.18); color: var(--g-green); }
-.g-chat .input { position: absolute; left: 16px; right: 16px; bottom: 16px; height: 50px; border-radius: 25px; background: rgba(255, 255, 255, 0.08); display: flex; align-items: center; padding: 0 18px; font-size: 20px; color: #8e8e93; white-space: pre; }
+.g-chat .input { position: absolute; left: 16px; right: 16px; bottom: 16px; height: 56px; border-radius: 25px; background: rgba(255, 255, 255, 0.08); display: flex; align-items: center; padding: 0 18px; font-size: 26px; color: #8e8e93; white-space: pre; }
 
 /* checklist (reminders) */
 .g-list .head { font-size: 30px; font-weight: 900; color: var(--g-orange); margin-bottom: 4px; }
-.g-list .row { display: flex; align-items: center; gap: 14px; height: 50px; font-size: 25px; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.g-list .row { display: flex; align-items: center; gap: 14px; height: 60px; font-size: 30px; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
 .g-list .box { position: relative; width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid #8e8e93; flex: none; }
 .g-list .box b { position: absolute; inset: -2.5px; border-radius: 50%; background: var(--g-blue); display: block; opacity: 0; }
 .g-list .box b svg { width: 100%; height: 100%; display: block; }
@@ -63,12 +63,12 @@
 .g-stat { position: absolute; border-radius: 30px; background: var(--g-glass-dark); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); border: 1.5px solid rgba(255, 255, 255, 0.32); box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.3), 0 30px 70px rgba(0, 0, 0, 0.3); padding: 26px 34px; }
 .g-stat .label { text-align: center; font-size: 30px; font-weight: 700; color: rgba(255, 255, 255, 0.85); }
 .g-stat .num { text-align: center; font-size: 132px; font-weight: 900; line-height: 1; color: var(--g-green); direction: ltr; text-shadow: 0 0 30px rgba(47, 205, 88, 0.35); }
-.g-stat .sub { display: flex; justify-content: space-between; margin-top: 18px; font-size: 24px; font-weight: 900; }
+.g-stat .sub { display: flex; justify-content: space-between; margin-top: 18px; font-size: 28px; font-weight: 900; }
 .g-stat .sub span:last-child { color: rgba(255, 255, 255, 0.55); font-weight: 700; }
 .g-stat .item { position: relative; display: flex; align-items: center; gap: 14px; height: 76px; }
 .g-stat .item .ico { width: 46px; height: 46px; border-radius: 12px; background: rgba(255, 255, 255, 0.12); flex: none; }
 .g-stat .item .t { font-size: 28px; font-weight: 900; }
-.g-stat .item .t small { display: block; font-size: 19px; font-weight: 700; color: rgba(255, 255, 255, 0.55); }
+.g-stat .item .t small { display: block; font-size: 26px; font-weight: 700; color: rgba(255, 255, 255, 0.55); }
 .g-stat .item .price { margin-right: auto; font-size: 26px; font-weight: 700; color: var(--g-red); direction: ltr; }
 .g-stat .item .strike { position: absolute; left: -8px; right: -8px; top: 37px; height: 4px; border-radius: 2px; background: var(--g-red); transform-origin: 100% 50%; }
 
@@ -98,7 +98,7 @@
 .t2 { font-size: 56px; font-weight: 900; line-height: 1.05; }
 .t3 { font-size: 30px; font-weight: 900; }
 .t4 { font-size: 26px; font-weight: 700; }
-.t5 { font-size: 19px; font-weight: 500; color: var(--g-win-title); }
+.t5 { font-size: 26px; font-weight: 500; color: var(--g-win-title); }
 .mono { font-family: var(--g-mono); font-weight: 500; direction: ltr; }
 .c-green { color: var(--g-green); } .c-red { color: var(--g-red); } .c-blue { color: var(--g-blue); } .c-orange { color: var(--g-orange); } .c-grey { color: var(--g-win-title); }
 
@@ -114,16 +114,16 @@
 .g-num.c-green { text-shadow: 0 0 30px rgba(47, 205, 88, 0.35); }
 .g-label { font-size: 30px; font-weight: 700; color: rgba(255, 255, 255, 0.85); text-align: center; }
 .g-delta { display: inline-flex; align-items: center; gap: 6px; font-size: 26px; font-weight: 900; direction: ltr; }
-.g-delta.up { color: var(--g-green); } .g-delta.up::before { content: "▲"; font-size: 18px; }
-.g-delta.down { color: var(--g-red); } .g-delta.down::before { content: "▼"; font-size: 18px; }
+.g-delta.up { color: var(--g-green); } .g-delta.up::before { content: "▲"; font-size: 26px; }
+.g-delta.down { color: var(--g-red); } .g-delta.down::before { content: "▼"; font-size: 26px; }
 
 /* chips and badges */
-.g-chip { display: inline-flex; align-items: center; height: 38px; padding: 0 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 19px; font-weight: 700; white-space: pre; }
+.g-chip { display: inline-flex; align-items: center; height: 46px; padding: 0 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 26px; font-weight: 700; white-space: pre; }
 .g-chip.on { background: rgba(47, 205, 88, 0.18); color: var(--g-green); }
 .g-chip.sel { background: var(--g-blue); color: #fff; }
 
 /* input / prompt field */
-.g-input { height: 52px; border-radius: 26px; background: rgba(255, 255, 255, 0.08); display: flex; align-items: center; padding: 0 20px; font-size: 21px; color: #cfcfd4; white-space: pre; }
+.g-input { height: 52px; border-radius: 26px; background: rgba(255, 255, 255, 0.08); display: flex; align-items: center; padding: 0 20px; font-size: 26px; color: #cfcfd4; white-space: pre; }
 
 /* progress meter: <div class="g-meter"><i></i></div>  (animate i scaleX) */
 .g-meter { position: relative; height: 16px; border-radius: 8px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
@@ -138,37 +138,38 @@
 .g-bars .bar span { position: absolute; bottom: -42px; font-size: 26px; font-weight: 700; color: rgba(255, 255, 255, 0.85); white-space: nowrap; }
 
 /* avatar */
-.g-avatar { width: 56px; height: 56px; border-radius: 50%; flex: none; background: rgba(255, 255, 255, 0.18) center / cover; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; }
+.g-avatar { width: 56px; height: 56px; border-radius: 50%; flex: none; background: rgba(255, 255, 255, 0.18) center / cover; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; }
 
 /* notification toast (dark glass): <div class="g-card m-dark g-toast"><div class="g-avatar"></div><div><b>שם</b><p>טקסט</p></div><time>עכשיו</time></div> */
 .g-toast { display: flex; align-items: center; gap: 20px; padding: 24px 30px; border-radius: 30px; }
 .g-toast .g-avatar { width: 84px; height: 84px; font-size: 36px; }
 .g-toast b { display: block; font-size: 34px; font-weight: 900; }
 .g-toast p { margin: 4px 0 0; font-size: 30px; font-weight: 700; color: rgba(255, 255, 255, 0.85); white-space: pre; }
-.g-toast time { align-self: flex-start; margin-right: auto; font-size: 20px; color: var(--g-win-title); }
+.g-toast time { align-self: flex-start; margin-right: auto; font-size: 26px; color: var(--g-win-title); }
 
 /* chat bubbles: .g-bubble.in (left, grey) / .g-bubble.out (right, blue) */
-.g-bubble { max-width: 78%; padding: 12px 18px; border-radius: 22px; font-size: 24px; font-weight: 700; line-height: 1.25; white-space: pre-wrap; margin-top: 8px; }
+.g-bubble { max-width: 78%; padding: 12px 18px; border-radius: 22px; font-size: 28px; font-weight: 700; line-height: 1.25; white-space: pre-wrap; margin-top: 8px; }
 .g-bubble.in { background: rgba(255, 255, 255, 0.14); margin-left: auto; border-bottom-left-radius: 6px; }
 .g-bubble.out { background: var(--g-blue); margin-right: 0; border-bottom-right-radius: 6px; }
 
 /* calendar month grid (light glass): 7 columns of .d; .today blue fill, .mark green ring */
 .g-cal .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; direction: rtl; }
-.g-cal .grid b { font-size: 16px; font-weight: 700; color: rgba(255, 255, 255, 0.6); text-align: center; }
-.g-cal .d { height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; }
+.g-cal .grid b { font-size: 26px; font-weight: 700; color: rgba(255, 255, 255, 0.6); text-align: center; }
+.g-cal .d { height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 700; }
 .g-cal .d.today { background: var(--g-blue); }
 .g-cal .d.mark { box-shadow: inset 0 0 0 2.5px var(--g-green); }
 .g-cal .d.off { color: rgba(255, 255, 255, 0.3); }
 
 /* abstract map (light glass): svg streets + pin + route */
 .g-map { position: relative; overflow: hidden; }
+.g-card.g-map { position: absolute; }   /* a map that is itself the card stays absolutely placed */
 .g-map svg.streets { position: absolute; inset: 0; width: 100%; height: 100%; }
 .g-map svg.streets path { fill: none; stroke: rgba(255, 255, 255, 0.18); stroke-width: 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .g-map svg.streets path.route { stroke: var(--g-blue); stroke-width: 7; }
 .g-map .pin { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; background: var(--g-blue); box-shadow: 0 0 0 7px rgba(10, 132, 255, 0.25); }
 
 /* icon tile */
-.g-tile { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; font-size: 17px; font-weight: 500; color: rgba(255, 255, 255, 0.9); }
+.g-tile { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; font-size: 26px; font-weight: 500; color: rgba(255, 255, 255, 0.9); }
 .g-tile svg { width: 72px; height: 72px; display: block; }
 
 /* emphasis ring (for GLASS.emphasize ring mode) */
@@ -179,3 +180,57 @@
 .bg-bright .m-light, .bg-bright .g-space { background: rgba(255, 255, 255, 0.3); border-color: rgba(255, 255, 255, 0.85); box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.9), 0 30px 70px rgba(0, 0, 0, 0.16); }
 .bg-bright .g-dock { background: rgba(255, 255, 255, 0.55); }
 .bg-bright .g-hook { text-shadow: 0 4px 22px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.45); }
+
+/* =====================================================================================================
+   v2 BLOCKS (measured on 73421 + 30868; language.md §8). Additive: v1 classes above are unchanged.
+   ===================================================================================================== */
+
+/* timeline strip (light glass): the video being edited, as a ruler + thumbnail row + waveform + playhead.
+   <div class="g-card m-light g-strip"><div class="ruler"></div><div class="thumbs"></div><svg class="wave"></svg><i class="head"></i></div>
+   built by GLASS.strip(); 2/3 anchor videos (20957 hook, 73421 ×4) */
+.g-strip { padding: 16px 20px 14px; direction: ltr; }
+.g-strip .ruler { display: flex; justify-content: space-between; height: 32px; font-family: var(--g-mono); font-size: 26px; color: rgba(255, 255, 255, 0.75); }
+.g-strip .thumbs { display: flex; gap: 4px; height: 118px; margin-top: 6px; }
+.g-strip .thumbs b { flex: 1; border-radius: 8px; background: rgba(255, 255, 255, 0.12) center / cover; display: block; border: 1px solid rgba(255, 255, 255, 0.18); }
+.g-strip .wave { display: block; width: 100%; height: 34px; margin-top: 8px; }
+.g-strip .wave rect { fill: rgba(255, 255, 255, 0.55); }
+.g-strip .head { position: absolute; top: 10px; bottom: 10px; left: 20px; width: 4px; margin-left: -2px; border-radius: 2px; background: var(--g-blue); box-shadow: 0 0 10px rgba(10, 132, 255, 0.8); display: block; }
+.g-strip .mks { position: absolute; left: 20px; right: 20px; top: 52px; height: 0; }
+.g-strip .mk { position: absolute; top: 0; translate: -50% 0; height: 46px; padding: 0 14px; border-radius: 999px; background: var(--g-glass-dark); border: 1px solid rgba(255, 255, 255, 0.35); color: #fff; font-family: var(--g-font); font-size: 28px; font-weight: 900; display: flex; align-items: center; gap: 6px; white-space: pre; direction: rtl; }
+.g-strip .mk.on { background: var(--g-green); border-color: rgba(255, 255, 255, 0.6); }
+.g-strip svg.curve { position: absolute; left: 20px; top: 46px; width: calc(100% - 40px); height: 118px; overflow: visible; }
+.g-strip svg.curve path { fill: none; stroke: var(--g-green); stroke-width: 6; stroke-linecap: round; filter: drop-shadow(0 0 8px rgba(47, 205, 88, 0.7)); }
+
+/* object tag (dark glass pill + icon tile), anchored to a real thing in the room (30868: "מנהל עריכה" over the laptop) */
+.g-tag { position: absolute; display: flex; align-items: center; gap: 14px; height: 76px; padding: 0 16px 0 26px; border-radius: 22px; background: var(--g-glass-dark); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); border: 1.5px solid rgba(255, 255, 255, 0.32); box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.3), 0 18px 40px rgba(0, 0, 0, 0.3); font-size: 34px; font-weight: 900; color: #fff; white-space: pre; }
+.g-tag .ic { width: 50px; height: 50px; flex: none; } .g-tag .ic svg { width: 50px; height: 50px; display: block; }
+.g-tag.sm { height: 54px; font-size: 26px; border-radius: 16px; padding: 0 12px 0 18px; } .g-tag.sm .ic, .g-tag.sm .ic svg { width: 34px; height: 34px; }
+
+/* tile grid: many small dark-glass tiles that multiply (30868: 20 "פרק" tiles). <div class="g-tiles"><b><small>פרק</small>1</b>…</div> */
+.g-tiles { position: absolute; display: grid; grid-template-columns: repeat(var(--cols, 4), 92px); gap: 12px; direction: rtl; }
+.g-tiles b { height: 76px; border-radius: 14px; background: var(--g-glass-dark); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1.5px solid rgba(255, 255, 255, 0.32); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 30px; font-weight: 900; line-height: 1; }
+.g-tiles b small { font-size: 26px; font-weight: 700; color: rgba(255, 255, 255, 0.7); margin-bottom: 4px; }
+.g-tiles b.on { background: rgba(47, 205, 88, 0.85); }
+
+/* system dialog (light glass, white text, two buttons; 73421 "would like to control this computer") */
+.g-dialog { text-align: center; padding: 30px 34px 26px; }
+.g-dialog .ico { width: 84px; height: 84px; margin: 0 auto 14px; } .g-dialog .ico svg { width: 84px; height: 84px; display: block; }
+.g-dialog .ttl { font-size: 34px; font-weight: 900; line-height: 1.15; }
+.g-dialog .txt { margin-top: 8px; font-size: 26px; font-weight: 700; color: rgba(255, 255, 255, 0.82); }
+.g-dialog .btns { display: flex; gap: 14px; margin-top: 22px; }
+.g-dialog .btns span { flex: 1; height: 62px; border-radius: 16px; background: rgba(255, 255, 255, 0.22); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; }
+.g-dialog .btns span.yes { background: var(--g-blue); }
+.g-dialog .btns span.yes.done { background: var(--g-green); }
+
+/* picture-in-picture frame (light glass bezel around footage or an image; 73421 13.5 s, 30868 45 s) */
+.g-pip { padding: 10px; border-radius: 30px; }
+.g-pip .in { position: relative; width: 100%; height: 100%; border-radius: 22px; overflow: hidden; background: #111 center / cover; }
+.g-pip .in > video, .g-pip .in > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.g-pip .lbl { position: absolute; left: 50%; bottom: -30px; translate: -50% 0; }
+
+/* portal: a light-glass circle the camera can punch into */
+.g-portal { border-radius: 50%; padding: 12px; }
+.g-portal .in { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #111 center / cover; }
+
+/* two-tier title used as the CTA (73421 ends on "תגיבו / עריכה" at the top, same style as the hook) */
+.g-hook.cta-top .l2 { font-size: 150px; }

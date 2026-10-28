@@ -1,15 +1,19 @@
-# Reference styles
+# Reference styles, by anchor creator
 
-A theme = **one anchor creator** (one taste). "Repeats in ≥3" counts only the anchor creator's videos.
-Other creators in the family are **contributors**: an element the anchor never showed may be borrowed only after
-translating it into the anchor's language.
+A theme = **one anchor creator**. "Repeats in ≥3" counts only the anchor's videos. Other creators in the family
+are contributors (borrow an element only after translating it into the anchor's language).
+Sorted 2026-10-27 after 30 more references (one exact duplicate removed: 70223 = 18919).
 
-| Style | Anchor | Contributors | Defining traits (from the anchor) |
-|---|---|---|---|
-| glass | 20957 + 73421 (same creator, 2 videos) | — | real room, frosted spatial-glass desktop + app windows beside the speaker, punch zooms |
-| paper ("notebook") | **15422** | 33407, 82014, 97418, 5777 (pixel arena), 70647 (LinkedIn) | cream graph paper top half, face bottom half, orange "Step N." labels, blue folders, white prompt cards with yellow highlights |
-| night | not chosen yet (32135, 50462, 9041 are 3 different creators) | | dark studio, dark UI with red/white accents |
-| editorial | 66150 + 9953? (check if same creator) | | muted cinematic grade, serif type floating in the footage |
-| board | not chosen yet | 70856, 9561, 67166 (cool grey grid) | full-screen graphic, no face |
-| singles | — | 7784 (hook compilation), 93867 (daylight, plants, dark terminals) | borrow elements only |
-| own | IMG_5297.MOV | | Rafael's test footage |
+| Style | Anchor creator's videos | Count | Contributors / notes | Status |
+|---|---|---|---|---|
+| glass | 20957, 73421, 30868 | 3 ✓ | — | theme v1; v2 can now use 3/3 rules |
+| night | **50462**, 19647, 33830, 41438 | 4 ✓ | 32135, 9041 + 29402 (another creator, 2 videos) | next theme |
+| editorial | **66150**, 72005, 7451, 90553 | 4 ✓ | 9953 (another creator) | ready to build |
+| headline | **97418**, 75789, 81754, 89398, 98315 | 5 ✓ | — (was a paper contributor) | new style: blue box headline + serif italic, split face-bottom |
+| arcade | **5777**, 208, 58260, 95186 | 4 ✓ | 81673 (another creator, same mono labels) | new style: pixel-art scenes + mono uppercase labels |
+| neon-studio | **70647**, 10899, 1191, 49478 | 4 ✓ | — | new style: dark neon studio, pixel invaders, bold highlighted words |
+| hooks | **7784**, 28202, 68494, 93864 | 4 ✓ | — | new style: dark room, yellow/neon accents, kinetic hook titles |
+| paper | **15422** | 1 | 33407, 82014, 67166 | theme v1 (closed); needs 2+ more 15422 videos for 3/3 |
+| board | 31455 + 42755 (cream + pixel crab mascot) | 2 | 70856, 9561 (other creators) | needs 1 more |
+| singles | 18919, 21341, 62285, 79121, 98850, 93867 | — | borrow elements only | |
+| own | IMG_5297.MOV | | Rafael's footage | |

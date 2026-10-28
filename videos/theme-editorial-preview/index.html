@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+
+      /* S0 opening (cutout) */
+      #h0 { top: 250px; }
+      #d0 { top: 540px; font-size: 360px; }
+      #i0 { position: absolute; left: 0; right: 0; top: 270px; text-align: center; font-size: 120px; }
+      #tc0 { position: absolute; left: 62px; top: 190px; }
+
+      /* S0: the result, pasted beside the head — the plain site prints over with the styled one on "טוב" */
+      #th0 { left: 650px; top: 660px; width: 390px; height: 560px; z-index: 2; }
+      #th0 .site h4 { font-size: 58px; } #th0 .site .b { font-size: 30px; height: 60px; }
+      #th0 .chip { z-index: 3; }
+      #sA0 { background: #fff; color: #333; font-family: "Times New Roman", serif; } #sA0 h4 { font-weight: 400; } #sA0 .b { background: #ddd; color: #333; }
+      #sB0 { background: var(--e-green); color: var(--e-cream); font-family: var(--e-sans); } #sB0 h4 { font-weight: 900; letter-spacing: -0.03em; }
+      #sB0 h4 em { font-family: var(--e-italic); font-style: normal; font-weight: 400; color: var(--e-gold); font-stretch: 62.5%; display: inline-block; transform: skewX(-11deg); }
+      #sB0 .b { background: var(--e-gold); color: var(--e-ink); border-radius: 30px; font-weight: 900; }
+      .site .ph { position: absolute; left: 18px; right: 18px; top: 190px; height: 210px; border-radius: 6px; overflow: hidden; background: linear-gradient(#efe4d6 0 60%, #b98b63 60%); }
+      .site .ph i { position: absolute; display: block; }
+      .ph .w1 { left: 22px; top: 20px; width: 90px; height: 100px; background: linear-gradient(#8ec5f0, #d8ecfa); box-shadow: inset 0 0 0 5px #fff; }
+      .ph .s1 { left: 130px; top: 96px; width: 170px; height: 52px; border-radius: 14px 14px 6px 6px; background: #2f5d62; }
+      .ph .c1 { left: 150px; top: 104px; width: 40px; height: 30px; border-radius: 8px; background: #e9c46a; } .ph .c2 { left: 238px; top: 104px; width: 40px; height: 30px; border-radius: 8px; background: #e76f51; }
+      .ph .lp { left: 300px; top: 40px; width: 40px; height: 26px; border-radius: 5px; background: #f7d58a; box-shadow: 0 8px 18px rgba(255, 210, 120, 0.8); } .ph .lb { left: 317px; top: 62px; width: 5px; height: 90px; background: #3a2a1e; }
+      .ph .rg { left: 120px; top: 168px; width: 200px; height: 26px; border-radius: 50%; background: #d9a066; }
+      #sA0 .ph { filter: grayscale(1); }
+
+      /* S1 stack */
+      #st1 { top: 230px; }
+
+      /* S2 input */
+      #in2 { left: 50px; right: 50px; top: 250px; }
+
+      /* S3 cover */
+      #d3 { top: 610px; font-size: 270px; direction: ltr; }
+
+      /* S4 product card + payoff */
+      #card4 { left: 50px; right: 50px; top: 200px; height: 410px; }
+      #card4 .bd { display: flex; gap: 34px; align-items: center; height: 336px; box-sizing: border-box; }
+      #thumbs4 { position: relative; width: 220px; height: 290px; flex: none; }
+      #thumbs4 .e-thumb { inset: 0; }
+      #thumbs4 .ph { left: 9px; right: auto; top: 104px; width: 400px; height: 220px; transform: scale(0.5); transform-origin: 0 0; }
+      #sA .ph { filter: grayscale(1); }
+      .site { position: absolute; inset: 0; padding: 22px 18px; direction: rtl; }
+      .site h4 { margin: 0; font-size: 40px; line-height: 1.02; white-space: pre; }
+      .site .b { position: absolute; right: 18px; bottom: 22px; height: 50px; padding: 0 20px; display: flex; align-items: center; font-size: 26px; }
+      #sA { background: #fff; color: #333; font-family: "Times New Roman", serif; }
+      #sA h4 { font-weight: 400; } #sA .b { background: #ddd; color: #333; }
+      #sB { background: var(--e-green); color: var(--e-cream); font-family: var(--e-sans); }
+      #sB h4 { font-weight: 900; letter-spacing: -0.03em; } #sB h4 em { font-family: var(--e-italic); font-style: normal; font-weight: 400; color: var(--e-gold); font-stretch: 62.5%; display: inline-block; transform: skewX(-11deg); }
+      #sB .b { background: var(--e-gold); color: var(--e-ink); border-radius: 25px; font-weight: 900; }
+      #txt4 { font-family: var(--e-sans); font-weight: 900; font-size: 104px; line-height: 0.95; letter-spacing: -0.035em; }
+      #pay4 { top: 640px; }
+
+      /* S6 CTA */
+      #cm2 { top: 610px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="e-root" data-composition-id="main" data-start="0" data-duration="17.2" data-width="1080" data-height="1920">
+      <div id="face" class="e-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video></div>
+      <div id="page" class="e-page"></div>
+
+      <!-- text that sits behind the speaker -->
+      <div id="behind" class="e-behind">
+        <div id="s0b" class="e-scene"><div id="d0" class="e-display">אתרים</div></div>
+        <div id="s3b" class="e-scene"><div id="d3" class="e-display">KOWALSKI</div></div>
+      </div>
+
+      <div id="matte" class="e-matte"><video id="matteVid" src="assets/video/matte.webm" data-start="0" data-duration="17.2" data-track-index="1" muted playsinline></video></div>
+      <div id="cover" class="e-cover"><div class="e-issue">NO. 01 · OCTOBER 2026 · SKILL: KOWALSKI</div></div>
+
+      <div id="over" class="e-over">
+        <!-- S0: opening on the green page -->
+        <div id="s0" class="e-scene">
+          <div class="e-thumb" id="th0"><div class="site" id="sA0"><h4>עיצוב
+פנים</h4><div class="ph"><i class="w1"></i><i class="s1"></i><i class="c1"></i><i class="c2"></i><i class="lb"></i><i class="lp"></i><i class="rg"></i></div><span class="b">צור קשר</span></div><div class="site" id="sB0"><h4>עיצוב
+<em>שמרגיש</em> בית</h4><div class="ph"><i class="w1"></i><i class="s1"></i><i class="c1"></i><i class="c2"></i><i class="lb"></i><i class="lp"></i><i class="rg"></i></div><span class="b">לתיאום</span></div><span class="chip" id="chip0">BEFORE</span></div>
+          <div id="tc0" class="e-tc"></div>
+          <div id="h0" class="e-heavy"><span class="ln"><span>אם אתם רוצים</span></span><span class="ln"><span>לבנות</span></span></div>
+          <div id="i0"><span id="i0t" style="display: inline-block"><span class="e-it he">שנראים טוב.</span></span></div>
+        </div>
+
+        <!-- S1: the three things, as pasted slips -->
+        <div id="s1" class="e-scene">
+          <div id="st1" class="e-stack" data-qa-stack>
+            <div class="e-slip heavy" id="sl1"><span class="in" style="direction: ltr">MOTION</span></div>
+            <div class="e-slip it he" id="sl2"><span class="in"><span>מעברים</span></span></div>
+            <div class="e-slip it he cream" id="sl3"><span class="in"><span>ומבנה</span></span></div>
+            <div class="e-slip small" id="sl4" style="margin-top: 14px"><span class="in">כמו שצריך ✓</span></div>
+          </div>
+        </div>
+
+        <!-- S2: the prompt -->
+        <div id="s2" class="e-scene">
+          <div id="in2" class="e-input"><div class="k">TO CLAUDE</div><div class="tx"><span class="t"><span id="typ2"></span><span class="e-caret" id="car2"></span></span><span class="go" id="go2"></span></div></div>
+        </div>
+
+        <!-- S4: the product card turns the site, the payoff lands -->
+        <div id="s4" class="e-scene">
+          <div id="card4" class="e-card">
+            <div class="hd">Kowalski <span class="ver" id="ver4" data-qa-payoff="למטורף." data-qa-stamp="#pay4s">v0.1</span><span class="st" id="st4">● RUNNING</span></div>
+            <div class="bd">
+              <div id="thumbs4">
+                <div class="e-thumb" id="tA"><div class="site" id="sA"><h4>עיצוב
+פנים</h4><div class="ph"><i class="w1"></i><i class="s1"></i><i class="c1"></i><i class="c2"></i><i class="lb"></i><i class="lp"></i><i class="rg"></i></div><span class="b">צור קשר</span></div></div>
+                <div class="e-thumb" id="tB"><div class="site" id="sB"><h4>עיצוב
+<em>שמרגיש</em>
+בית</h4><div class="ph"><i class="w1"></i><i class="s1"></i><i class="c1"></i><i class="c2"></i><i class="lb"></i><i class="lp"></i><i class="rg"></i></div><span class="b">לתיאום</span></div></div>
+              </div>
+              <div id="txt4"><div class="tl" style="overflow: hidden"><span id="t4a" style="display: inline-block">האתר</span></div><div class="tl" style="overflow: hidden"><span id="t4b" style="display: inline-block"><span class="e-it he" style="font-size: 110px">שלכם</span></span></div></div>
+            </div>
+          </div>
+          <div id="pay4" class="e-stack" data-qa-stack><div class="e-slip it he" id="pay4s" style="font-size: 136px"><span class="in"><span>למטורף.</span></span></div></div>
+        </div>
+
+        <!-- S6: CTA -->
+        <div id="s6" class="e-scene">
+          <div id="cta6" class="e-cta"><div class="pill">תגיבו "KOWALSKI"
+ואשלח לכם את הסקיל</div></div>
+          <div id="cm1" class="e-comment"><div class="av"></div><div><div class="who">you · now</div><div class="t" id="cmT"></div></div><div class="hrt" id="hrt1"></div></div>
+          <div id="cm2" class="e-comment" style="direction: rtl"><div class="av" style="background: var(--e-gold)"></div><div><div class="who">kowalski · עכשיו</div><div class="t" style="font-size: 40px">שלחתי לך את הסקיל ✓</div></div></div>
+        </div>
+      </div>
+
+      <div id="caps" class="e-caps"></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="17.2" data-track-index="10" data-volume="1"></audio>
+      <audio id="sfx0" src="assets/theme/sfx/slide.wav" data-start="0.2" data-duration="0.3" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx1" src="assets/theme/sfx/slide.wav" data-start="0.5" data-duration="0.3" data-track-index="12" data-volume="0.25"></audio>
+      <audio id="sfx2" src="assets/theme/sfx/swish.wav" data-start="1.1" data-duration="0.25" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx3" src="assets/theme/sfx/key.wav" data-start="1.15" data-duration="0.04" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx4" src="assets/theme/sfx/key.wav" data-start="1.33" data-duration="0.04" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx5" src="assets/theme/sfx/key.wav" data-start="1.51" data-duration="0.04" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx6" src="assets/theme/sfx/slide.wav" data-start="1.72" data-duration="0.3" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx7" src="assets/theme/sfx/whoosh.wav" data-start="2.9" data-duration="0.55" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx8" src="assets/theme/sfx/thud.wav" data-start="3.2" data-duration="0.22" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="sfx9" src="assets/theme/sfx/slide.wav" data-start="4.5" data-duration="0.3" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx10" src="assets/theme/sfx/slide.wav" data-start="5.4" data-duration="0.3" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx11" src="assets/theme/sfx/tick.wav" data-start="6.0" data-duration="0.03" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx12" src="assets/theme/sfx/slide.wav" data-start="6.7" data-duration="0.3" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx13" src="assets/theme/sfx/key.wav" data-start="7.0" data-duration="0.04" data-track-index="12" data-volume="0.25"></audio>
+      <audio id="sfx14" src="assets/theme/sfx/key.wav" data-start="7.25" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx15" src="assets/theme/sfx/key.wav" data-start="7.5" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx16" src="assets/theme/sfx/key.wav" data-start="7.75" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx17" src="assets/theme/sfx/click.wav" data-start="8.05" data-duration="0.05" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx18" src="assets/theme/sfx/shutter.wav" data-start="8.75" data-duration="0.16" data-track-index="11" data-volume="0.4"></audio>
+      <audio id="sfx19" src="assets/theme/sfx/key.wav" data-start="8.8" data-duration="0.04" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx20" src="assets/theme/sfx/key.wav" data-start="9.0" data-duration="0.04" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx21" src="assets/theme/sfx/key.wav" data-start="9.2" data-duration="0.04" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx22" src="assets/theme/sfx/slide.wav" data-start="9.95" data-duration="0.3" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx23" src="assets/theme/sfx/thud.wav" data-start="10.45" data-duration="0.22" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx24" src="assets/theme/sfx/shutter.wav" data-start="11.1" data-duration="0.16" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx25" src="assets/theme/sfx/tick.wav" data-start="11.2" data-duration="0.03" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx26" src="assets/theme/sfx/tick.wav" data-start="11.5" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx27" src="assets/theme/sfx/tick.wav" data-start="11.8" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx28" src="assets/theme/sfx/ding.wav" data-start="12.1" data-duration="0.7" data-track-index="11" data-volume="0.22"></audio>
+      <audio id="sfx29" src="assets/theme/sfx/thud.wav" data-start="12.1" data-duration="0.22" data-track-index="12" data-volume="0.35"></audio>
+      <audio id="sfx30" src="assets/theme/sfx/slide.wav" data-start="14.55" data-duration="0.3" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx31" src="assets/theme/sfx/key.wav" data-start="14.9" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx32" src="assets/theme/sfx/key.wav" data-start="15.15" data-duration="0.04" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx33" src="assets/theme/sfx/slide.wav" data-start="15.4" data-duration="0.3" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx34" src="assets/theme/sfx/ding.wav" data-start="16.05" data-duration="0.7" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx35" src="assets/theme/sfx/shutter.wav" data-start="2.2" data-duration="0.16" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx36" src="assets/theme/sfx/thud.wav" data-start="4.5" data-duration="0.22" data-track-index="13" data-volume="0.15"></audio>
+      <audio id="sfx37" src="assets/theme/sfx/thud.wav" data-start="11.1" data-duration="0.22" data-track-index="13" data-volume="0.15"></audio>
+      <audio id="sfx38" src="assets/theme/sfx/thud.wav" data-start="13.3" data-duration="0.22" data-track-index="12" data-volume="0.15"></audio>
+    </div>
+    <script>
+      const WORDS = [{"text": "אם", "start": 0.24, "end": 0.34}, {"text": "אתם", "start": 0.36, "end": 0.56}, {"text": "רוצים", "start": 0.58, "end": 0.8}, {"text": "לבנות", "start": 0.82, "end": 1.14}, {"text": "אתרים", "start": 1.18, "end": 1.6}, {"text": "שנראים", "start": 1.66, "end": 2.08}, {"text": "טוב", "start": 2.22, "end": 2.9}, {"text": "עם", "start": 2.94, "end": 3.08}, {"text": "motion,", "start": 3.16, "end": 3.76}, {"text": "מעברים", "start": 4.46, "end": 5.34}, {"text": "ומבנה", "start": 5.42, "end": 5.96}, {"text": "כמו", "start": 6.0, "end": 6.16}, {"text": "שצריך,", "start": 6.2, "end": 6.62}, {"text": "אתם", "start": 6.68, "end": 6.839}, {"text": "צריכים", "start": 6.919, "end": 7.1}, {"text": "להתקין", "start": 7.14, "end": 7.6}, {"text": "skill", "start": 7.86, "end": 8.24}, {"text": "שנקרא", "start": 8.3, "end": 8.7}, {"text": "Kowalski.", "start": 8.76, "end": 9.46}, {"text": "הסקיל", "start": 9.96, "end": 10.34}, {"text": "הזה", "start": 10.36, "end": 10.68}, {"text": "בעצם", "start": 10.74, "end": 11.1}, {"text": "הופך", "start": 11.12, "end": 11.38}, {"text": "את", "start": 11.38, "end": 11.44}, {"text": "האתר", "start": 11.48, "end": 11.7}, {"text": "שלכם", "start": 11.8, "end": 12.08}, {"text": "למטורף.", "start": 12.1, "end": 12.76}, {"text": "כל", "start": 13.34, "end": 13.44}, {"text": "מה", "start": 13.48, "end": 13.54}, {"text": "שאתם", "start": 13.58, "end": 13.74}, {"text": "צריכים", "start": 13.78, "end": 13.94}, {"text": "לעשות", "start": 13.98, "end": 14.4}, {"text": "זה", "start": 14.42, "end": 14.5}, {"text": "להגיב", "start": 14.56, "end": 14.84}, {"text": "לי", "start": 14.879, "end": 14.98}, {"text": "פה", "start": 15.039, "end": 15.14}, {"text": "ואני", "start": 15.2, "end": 15.36}, {"text": "שולח", "start": 15.4, "end": 15.7}, {"text": "לכם", "start": 15.76, "end": 16.0}, {"text": "את", "start": 16.02, "end": 16.14}, {"text": "זה.", "start": 16.18, "end": 16.34}];
+      const E = window.EDITORIAL;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        E.art("#go2", "up"); E.art(["#hrt1"], "heart");
+
+        // ---- layouts ----
+        E.layout(tl, "cutout", 0);
+        E.layout(tl, "face", 2.9);
+        E.layout(tl, "cover", 8.75);
+        E.layout(tl, "face", 9.9);
+        E.scene(tl, ["#s0", "#s0b"], 0, 2.9); E.scene(tl, "#s1", 2.9, 6.62); E.scene(tl, "#s2", 6.62, 8.75);
+        E.scene(tl, "#s3b", 8.75, 9.9); E.scene(tl, "#s4", 9.9, 12.9); E.scene(tl, "#s6", 14.5);
+
+        E.captions(tl, "#caps", WORDS);
+
+        // ---- S0: heavy lines rise, tick out; the display word sets itself behind the head; the italic lands ----
+        E.timecode(tl, "#tc0", 0, 2.9, 0, 2.9);
+        E.lines(tl, "#h0 .ln > span", 0.2, 0.3);
+        E.linesOut(tl, "#h0 .ln > span", 1.1);
+        E.letters(tl, "#d0", 1.15, 0.09);
+        E.hide(tl, "#i0t"); tl.fromTo("#i0t", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, 1.72);
+
+        E.hide(tl, ["#th0", "#sB0"]); E.rise(tl, "#th0", 0.5);
+        E.print(tl, "#sB0", 2.2); tl.set("#chip0", { textContent: "BEFORE" }, 0); tl.set("#chip0", { textContent: "AFTER" }, 2.2);
+        E.pulse(tl, "#th0", 2.3, 1.05);
+
+        // ---- S1: one slip per word, then "כמו שצריך" ----
+        E.slip(tl, ["#sl1", "#sl2", "#sl3", "#sl4"], [3.2, 4.5, 5.4, 6.0]);
+        E.pulse(tl, "#sl1", 3.7); E.pulse(tl, "#sl2", 4.95);
+        E.angle(tl, 4.5, 1.15); E.angle(tl, 6.0, 1);
+
+        // ---- S2: the prompt is typed and sent ----
+        E.rise(tl, "#in2", 6.7);
+        E.type(tl, "#typ2", "/plugin install kowalski", 6.95, 24);
+        tl.set("#car2", { opacity: 1 }, 0); [7.95, 8.25, 8.55].forEach((t, i) => tl.set("#car2", { opacity: i % 2 ? 1 : 0 }, t));
+        E.press(tl, "#go2", 8.05);
+        E.out(tl, "#in2", 8.6);
+
+        // ---- S3: the cover, the name behind the head ----
+        E.letters(tl, "#d3", 8.8, 0.07);
+
+        // ---- S4: the card runs, the site turns, the version lands on the payoff word ----
+        E.rise(tl, "#card4", 9.95);
+        E.lines(tl, ["#t4a", "#t4b"], [10.0, 11.75]);
+        E.angle(tl, 11.1, 1.15);
+        E.hide(tl, "#tB"); E.print(tl, "#tB", 11.1);
+        E.count(tl, "#ver4", 1, 10, 11.1, 1.0, { ease: "none", fmt: (v) => "v" + (Math.round(v) / 10).toFixed(1) });  // linear: the last step lands on "למטורף" (12.04)
+        E.swapClass(tl, "#st4", 12.1, "done");
+        tl.set("#st4", { textContent: "● RUNNING" }, 0); tl.set("#st4", { textContent: "● DONE · 1.0" }, 12.1);
+        E.slip(tl, "#pay4s", 12.1);
+
+        // ---- S6: CTA pill, the comment is typed, the reply arrives ----
+        E.rise(tl, "#cta6", 14.55);
+        E.rise(tl, "#cm1", 14.7);
+        E.type(tl, "#cmT", "KOWALSKI", 14.85, 16);
+        E.press(tl, "#hrt1", 15.45);
+        E.rise(tl, "#cm2", 15.4);
+        E.pulse(tl, "#cm2", 16.05, 1.04);
+        E.angle(tl, 12.9, 1); E.angle(tl, 13.3, 1.15);
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

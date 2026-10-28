@@ -104,9 +104,10 @@
     count(tl, sel, from, to, t, dur, o = {}) {
       const el = $(sel), pre = o.prefix || "", suf = o.suffix || "";
       const fmt = (v) => pre + Math.round(v).toLocaleString("en-US") + suf;
-      const p = { v: from };
+      // a setter target (not onUpdate): the text follows every seek, even when callbacks are suppressed
+      let cur = from; const p = { get v() { return cur; }, set v(x) { cur = x; el.textContent = fmt(x); } };
       el.textContent = fmt(from);
-      tl.fromTo(p, { v: from }, { v: to, duration: dur, ease: o.ease || "power2.out", onUpdate: () => (el.textContent = fmt(p.v)), ...IR }, t);
+      tl.fromTo(p, { v: from }, { v: to, duration: dur, ease: o.ease || "power2.out", ...IR }, t);
     },
 
     /* red strike lines draw right-to-left across cost rows */
@@ -158,9 +159,9 @@
       meter(tl, sel, value, t, dur = 1.0) { ft(tl, sel + " > i", { scaleX: 0 }, { scaleX: value, duration: dur, ease: "power2.out" }, t); },
       text(tl, sel, texts, times) {
         const el = $(sel);
-        const p = { i: 0 };
+        let cur = 0; const p = { get i() { return cur; }, set i(x) { cur = x; el.textContent = texts[Math.min(texts.length - 1, Math.round(x))]; } };
         el.textContent = texts[0];
-        times.forEach((tt, i) => tl.fromTo(p, { i: i }, { i: i + 1, duration: 0.001, onUpdate: () => (el.textContent = texts[Math.min(texts.length - 1, Math.round(p.i))]), ...IR }, tt));
+        times.forEach((tt, i) => tl.fromTo(p, { i: i }, { i: i + 1, duration: 0.001, ...IR }, tt));
       },
     },
 
@@ -176,6 +177,45 @@
     /* point = cursor (alias) ; punch = camera zoom (alias) */
     point(tl, sel, pts, clicks, o) { G.cursor(tl, sel, pts, clicks, o); },
     punch(tl, sel, t, scale, x, y) { G.zoom(tl, sel, t, scale, x, y, 0.15); },
+
+
+    /* ================================================================================================
+       v2 VERBS / BUILDERS (73421, 30868). Additive: everything above keeps its v1 behaviour.
+       ================================================================================================ */
+
+    /* timeline strip: n thumbnails (images or null), a ruler with timecodes, a deterministic waveform */
+    strip(sel, o = {}) {
+      const el = $(sel), n = o.n || 8, imgs = o.thumbs || [], marks = o.marks || [];
+      const tc = o.ruler || ["00:00", "00:05", "00:10", "00:15", "00:20"];
+      el.querySelector(".ruler").innerHTML = tc.map((t) => "<span>" + t + "</span>").join("");
+      el.querySelector(".thumbs").innerHTML = Array.from({ length: n }, (_, i) => '<b style="' + (imgs.length ? "background-image:url(" + imgs[i % imgs.length] + ")" : "") + '"></b>').join("");
+      let s = 7, w = ""; const r = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+      for (let i = 0; i < 90; i++) { const h = 6 + r() * 26; w += '<rect x="' + (i * 10 + 2) + '" y="' + (17 - h / 2).toFixed(1) + '" width="6" height="' + h.toFixed(1) + '" rx="3"/>'; }
+      const wv = el.querySelector(".wave"); wv.setAttribute("viewBox", "0 0 900 34"); wv.setAttribute("preserveAspectRatio", "none"); wv.innerHTML = w;
+      if (!el.querySelector(".mks")) el.insertAdjacentHTML("beforeend", '<div class="mks"></div>');
+      el.querySelector(".mks").innerHTML = marks.map((m, i) => '<span class="mk" data-i="' + i + '" style="left:' + (m.at * 100) + '%">' + m.text + "</span>").join("");
+      return el;
+    },
+    /* playhead runs across the strip: from/to are fractions 0..1 of the inner width */
+    playhead(tl, sel, t, dur, from = 0, to = 1) {
+      const el = $(sel), head = el.querySelector(".head"), W = el.clientWidth - 40;
+      tl.set(head, { x: from * W }, 0); tl.fromTo(head, { x: from * W }, { x: to * W, duration: dur, ease: "none", ...IR }, t);
+    },
+    /* a marker chip drops onto the strip (an effect / a cut / a chapter is added) */
+    marker(tl, sel, t, on) { ft(tl, sel, { opacity: 0, y: -46, scale: 0.6 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2.2)" }, t); if (on != null) G.swap(tl, sel, on, "on"); },
+    /* thumbnails of the strip fill in one after another */
+    stripFill(tl, sel, t, step = 0.08) { G.fill(tl, sel + " .thumbs b", t, step); },
+    /* draw any svg path along its length */
+    draw(tl, sel, t, dur = 0.6, ease = "power2.inOut") { $$(sel).forEach((p) => { p = $(p); const L = p.getTotalLength(); ft(tl, p, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease }, t); }); },
+
+    /* tag: the dark pill grows out of its anchor point (transform-origin) with a blur, like appear */
+    tag(tl, sel, t, origin = "50% 100%") { tl.set(sel, { transformOrigin: origin }, 0); ft(tl, sel, { opacity: 0, scale: 0.4, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, t); },
+
+    /* multiply: many tiles pop in reading order, fast (30868: 20 tiles in ~2.5 s, rows of 4) */
+    multiply(tl, sels, t, rate = 8) { $$(sels).forEach((e, i) => ft(tl, e, { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2)" }, t + i / rate)); },
+
+    /* hard class change, seek-safe (button turns green, tile lights) */
+    swap(tl, sel, t, add) { $$(sel).forEach((e) => { e = $(e); const c = e.getAttribute("class"); tl.set(e, { attr: { class: c } }, 0); tl.set(e, { attr: { class: c + " " + add } }, t); }); },
 
     /* ---------- builders for blocks that need generated DOM ---------- */
 
@@ -206,8 +246,11 @@
 
     /* draw the map route (after G.map with a route) */
     route(tl, sel, t, dur = 1.0) {
-      const p = $(sel + " path.route");
-      const L = p.getTotalLength();
+      // the streets svg is stretched (preserveAspectRatio none) and non-scaling-stroke: measure the route in screen px
+      const p = $(sel + " path.route"), svg = p.ownerSVGElement, r = svg.getBoundingClientRect(), sx = r.width / 100, sy = r.height / 100;
+      const L0 = p.getTotalLength(); let L = 0, prev = null;
+      for (let i = 0; i <= 200; i++) { const q = p.getPointAtLength((L0 * i) / 200), c = [q.x * sx, q.y * sy]; if (prev) L += Math.hypot(c[0] - prev[0], c[1] - prev[1]); prev = c; }
+      L = Math.ceil(L) + 2;
       ft(tl, p, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, t);
     },
   };

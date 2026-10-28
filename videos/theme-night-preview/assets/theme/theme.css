@@ -1,0 +1,130 @@
+/* night theme: layouts, materials and building blocks. Needs tokens.css. Read language.md first. */
+
+.n-root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--n-font); direction: rtl; color: var(--n-white); letter-spacing: var(--n-track); background: var(--n-bg); }
+.aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+/* ===================== LAYOUTS (switched by NIGHT.layout) ===================== */
+/* night: the stage, full frame, under everything */
+.n-stage { position: absolute; inset: 0; z-index: 1; overflow: hidden; background-color: var(--n-bg);
+  background-image:
+    radial-gradient(ellipse 70% 45% at 50% 35%, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle, var(--n-dot) 1.5px, transparent 1.6px);
+  background-size: 100% 100%, var(--n-dot-step) var(--n-dot-step); }
+/* proof: the light page (openings: real results with numbers) */
+.n-proof { position: absolute; inset: 0; z-index: 2; overflow: hidden; background-color: var(--n-proof); color: #111;
+  background-image: linear-gradient(var(--n-proof-grid) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--n-proof-grid) 1.5px, transparent 1.5px);
+  background-size: 36px 36px; opacity: 0; }
+/* footage: one <video> in .n-face. "face" = full frame; "split"/"proof" = the rounded box at the bottom (clip-path + transform only) */
+.n-face { position: absolute; inset: 0; z-index: 3; overflow: hidden; }
+.n-face video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 0 0; }
+.n-face.grade video { filter: brightness(0.78) contrast(1.08) saturate(0.9); }   /* bright footage (language.md §5) */
+/* matte: the speaker cut out (hyperframes remove-background), same transform as the video, so the head pops above the box */
+.n-matte { position: absolute; inset: 0; z-index: 4; overflow: hidden; pointer-events: none; opacity: 0; }
+.n-matte video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 0 0; }
+.n-matte.grade video { filter: brightness(0.78) contrast(1.08) saturate(0.9); }
+/* a scene is one composition on the stage; only one is visible at a time */
+.n-scene { position: absolute; inset: 0; }
+.n-full { position: absolute; inset: 0; z-index: 6; overflow: hidden; background: #000; opacity: 0; }   /* full-screen cutaway (b-roll, a meme, a punch) */
+.n-full video, .n-full img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ===================== TEXT ===================== */
+/* title: sans 800, one accent word in serif (em), optional red box line (.box) */
+.n-title { position: absolute; left: 50px; right: 50px; top: var(--n-title-top); text-align: center; font-size: var(--n-title); font-weight: 800; line-height: 1.08; white-space: pre; z-index: 5; }
+.n-title em, .n-cap em, .n-label em { font-family: var(--n-serif); font-style: normal; font-weight: 500; font-size: 1.12em; line-height: 0.9; display: inline-block; transform: skewX(var(--n-serif-slant)); letter-spacing: 0; padding: 0 0.06em; }
+.n-title em:lang(en), .n-root [dir="ltr"] em { transform: none; font-style: italic; }   /* Latin serif is a true italic */
+.n-title .box { display: inline-block; background: var(--n-box); padding: 2px 18px 6px; margin-top: 6px; }
+.n-title .w { display: inline-block; }   /* words revealed one by one by NIGHT.title */
+.n-proof .n-title { color: #111; }
+.n-proof .n-title .box { color: #fff; }
+
+/* captions: usually ONE word, white 800, no outline, soft shadow; serif for key terms (em) */
+.n-caps { position: absolute; left: 0; right: 0; top: 0; height: 0; z-index: 30; }
+.n-cap { position: absolute; left: 40px; right: 40px; height: 90px; margin-top: -45px; display: flex; align-items: center; justify-content: center; font-size: var(--n-cap); font-weight: 800; color: #fff; text-shadow: 0 3px 12px rgba(0, 0, 0, 0.7); white-space: pre; opacity: 0; }
+.n-cap.dark { color: #111; text-shadow: none; }   /* on the proof page */
+
+/* hook over the full face */
+.n-hook { position: absolute; left: 0; right: 0; top: 230px; text-align: center; font-size: 84px; font-weight: 800; line-height: 1.08; white-space: pre; z-index: 31; text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6); }
+
+/* anything placed directly on the root must sit above the footage */
+.n-root > .n-panel, .n-root > .n-rows, .n-root > .n-tag, .n-root > .n-obj { z-index: 33; }
+
+/* ===================== MATERIALS ===================== */
+/* 1. light: neon / glowing strokes drawn in svg (NIGHT.ART) — the structure of the idea */
+.n-obj { position: absolute; }
+.n-obj svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.n-ink { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; pointer-events: none; z-index: 4; }
+.n-ink .line { fill: none; stroke: #fff; stroke-width: 4; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)); }
+.n-ink .curve { fill: none; stroke: #fff; stroke-width: 5; stroke-linecap: round; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7)); }
+.n-ink .curve.p { stroke: var(--n-purple); filter: drop-shadow(0 0 10px rgba(220, 40, 235, 0.9)); }
+.n-ink .curve.r { stroke: #e0283c; filter: drop-shadow(0 0 10px rgba(230, 30, 50, 0.9)); }
+.n-ink .axis { fill: none; stroke: #fff; stroke-width: 4; }
+.n-ink .dot { fill: #fff; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.95)); }
+.n-ink .bar { fill: var(--n-yellow); }
+.n-ink .bar.off { fill: var(--n-grey); }
+
+/* 2. panels: dark rows and cards (a framework, a list of steps, a real message) */
+.n-panel { position: absolute; background: var(--n-panel); border: 1px solid var(--n-panel-edge); border-radius: 10px; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6); font-size: var(--n-ui); font-weight: 600; }
+.n-rows { position: absolute; display: flex; flex-direction: column; gap: 22px; }
+.n-row { position: relative; height: 104px; display: flex; align-items: center; gap: 26px; padding: 0 30px; background: #232323; border-radius: 8px; border: 1px solid var(--n-panel-edge); font-size: 36px; font-weight: 800; white-space: pre; overflow: hidden; }
+.n-row::before { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 9px; background: var(--n-red); }   /* the red side bar (RTL: right) */
+.n-row .num { font-size: 40px; font-weight: 800; color: #fff; min-width: 54px; direction: ltr; }
+.n-row .lk { margin-right: auto; width: 34px; height: 34px; opacity: 0.55; }
+.n-row .lk svg { width: 100%; height: 100%; display: block; }
+.n-row .lk .u { display: none; } .n-row.done .lk { opacity: 1; } .n-row.done .lk .c { display: none; } .n-row.done .lk .u { display: block; }
+.n-row.done { background: var(--n-green); box-shadow: var(--n-glow-g); }
+.n-row.done::before { background: #2a7424; }
+.n-row.next { color: rgba(255, 255, 255, 0.35); background: rgba(35, 35, 35, 0.5); }
+.n-row.next::before { background: var(--n-red-deep); }
+
+/* 3. frame: a red-cornered frame around a real document / list (the anchor's "document") */
+.n-frame { position: absolute; border: 2px solid rgba(255, 255, 255, 0.08); background: rgba(10, 10, 10, 0.85); padding: 40px 44px; }
+.n-frame::before, .n-frame::after { content: ""; position: absolute; width: 48px; height: 48px; border: 5px solid var(--n-red); }
+.n-frame::before { right: -5px; top: -5px; border-left: 0; border-bottom: 0; }
+.n-frame::after { left: -5px; bottom: -5px; border-right: 0; border-top: 0; }
+.n-line { display: flex; align-items: center; gap: 18px; min-height: 66px; font-size: 34px; font-weight: 600; color: rgba(255, 255, 255, 0.92); white-space: pre; }
+.n-line i { width: 14px; height: 14px; background: #fff; flex: none; }   /* the square bullet */
+/* highlight behind a phrase: drawn right-to-left by NIGHT.mark (background-size) */
+.n-line .hl { padding: 0 8px; border-radius: 3px; background-repeat: no-repeat; background-position: right center; background-size: 100% 100%; }
+.n-line .hl.y { background-image: linear-gradient(var(--n-yellow), var(--n-yellow)); color: #111; }
+.n-line .hl.p { background-image: linear-gradient(var(--n-purple), var(--n-purple)); }
+.n-line .hl.r { background-image: linear-gradient(var(--n-red), var(--n-red)); }
+.n-line.dim { color: rgba(255, 255, 255, 0.4); }
+
+/* side tags: a dark pill with white text, joined to its row by a thin line */
+.n-tag { position: absolute; height: 58px; padding: 0 22px; border-radius: 6px; background: #1f1f1f; border: 1px solid rgba(255, 255, 255, 0.25); color: #fff; font-size: 30px; font-weight: 800; display: flex; align-items: center; white-space: pre; transform: translate(50%, -50%); }
+.n-tag.y { border-color: var(--n-yellow); } .n-tag.p { border-color: var(--n-purple); } .n-tag.r { border-color: var(--n-red); }
+
+/* chips: a glowing yellow token for a count of things (stakes, points, coins) */
+.n-chip { position: absolute; width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle, #2a2410 0 44%, #c7a100 45% 52%, #2a2410 53% 60%, #fae302 61% 100%); box-shadow: 0 0 22px rgba(250, 227, 2, 0.45); display: flex; align-items: center; justify-content: center; font-size: 46px; font-weight: 800; color: #fae302; transform: translate(50%, -50%); }
+.n-chip.off { filter: grayscale(1) brightness(0.45); box-shadow: none; }
+
+/* thumbnails with a view-count pill (proof page) */
+.n-thumb { position: absolute; width: 190px; height: 300px; border-radius: 10px; background: #333 center / cover; box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3); overflow: visible; }
+.n-thumb .t { position: absolute; left: 10px; right: 10px; top: 14px; font-size: 26px; font-weight: 800; line-height: 1.05; color: #fff; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); white-space: pre; }
+.n-pill { position: absolute; left: 50%; bottom: -54px; transform: translateX(-50%); height: 44px; padding: 0 16px; border-radius: 6px; background: #9a9a9a; color: #fff; font-size: 28px; font-weight: 800; display: flex; align-items: center; gap: 8px; white-space: pre; direction: ltr; }
+.n-pill.up { background: var(--n-green); }
+
+/* big number (a dot-glow figure) */
+.n-num { position: absolute; font-size: 210px; font-weight: 800; line-height: 1; color: #fff; text-shadow: var(--n-glow-w); direction: ltr; white-space: pre; letter-spacing: -6px; }
+.n-num.r { color: #ff4a5c; text-shadow: var(--n-glow-r); }
+
+/* cursor */
+.n-cursor { position: absolute; left: 0; top: 0; width: 36px; height: 50px; z-index: 20; }
+.n-cursor svg { width: 36px; height: 50px; display: block; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6)); }
+
+/* CTA: "Comment <serif word>" + red box line, over a real page or the stage */
+.n-cta { position: absolute; left: 40px; right: 40px; top: 180px; text-align: center; font-size: 72px; font-weight: 800; line-height: 1.1; white-space: pre; z-index: 32; }
+.n-cta em { font-family: var(--n-serif); font-style: normal; font-weight: 500; display: inline-block; transform: skewX(var(--n-serif-slant)); letter-spacing: 0; }
+.n-cta .box { display: inline-block; background: var(--n-box); padding: 0 20px 6px; font-size: 56px; margin-top: 8px; }
+
+/* neon ladder: a progression of levels (NIGHT.ladder builds it; level 1 at the bottom) */
+.n-ladder { position: absolute; }
+.n-ladder .rail { position: absolute; top: 0; bottom: 0; width: 34px; border-radius: 17px; background: linear-gradient(90deg, #6d0a12, #d0182c 45%, #ff5a68 50%, #d0182c 55%, #6d0a12); box-shadow: var(--n-glow-r); }
+.n-ladder .rail.l { left: 0; } .n-ladder .rail.r { right: 0; }
+.n-ladder .rung { position: absolute; left: 20px; right: 20px; height: 26px; margin-top: -13px; background: linear-gradient(#e0283c, #8c0d0f); box-shadow: var(--n-glow-r); }
+.n-ladder .lv { position: absolute; left: 34px; right: 34px; margin-top: 18px; text-align: center; font-size: 30px; font-weight: 800; color: rgba(255, 255, 255, 0.85); white-space: pre; }
+.n-ladder .nm { position: absolute; left: 34px; right: 34px; margin-top: -64px; text-align: center; font-size: 34px; font-weight: 800; color: rgba(255, 255, 255, 0.28); white-space: pre; }
+.n-ladder .nm.on { color: #fff; text-shadow: var(--n-glow-w); }
+
+/* light sweep across a panel (NIGHT.sweep) */
+.n-sweep { position: absolute; left: 0; top: -20%; width: 200px; height: 140%; pointer-events: none; transform: skewX(-18deg); background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0)); opacity: 0; z-index: 2; }

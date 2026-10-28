@@ -1,0 +1,80 @@
+{
+ "theme": "glass",
+ "anchor_videos": [
+  "references/glass/Video-20957.mp4",
+  "references/glass/Video-73421.mp4",
+  "references/glass/Video-30868.mp4"
+ ],
+ "measured": {
+  "Video-20957": {
+   "duration": 37.57,
+   "gfx_motion": 0.5,
+   "gfx_raw": 1.33,
+   "baseline": 0.84,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 1.0,
+   "flat_pct": 2.2,
+   "actions_per_s": 0.59,
+   "motion_all": 3.18,
+   "jitter_px": 0.17,
+   "punches": 14,
+   "drifts": 10
+  },
+  "Video-73421": {
+   "duration": 55.3,
+   "gfx_motion": 0.47,
+   "gfx_raw": 2.02,
+   "baseline": 1.54,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.89,
+   "flat_pct": 2.0,
+   "actions_per_s": 0.34,
+   "motion_all": 3.3,
+   "jitter_px": 0.19,
+   "punches": 9,
+   "drifts": 6
+  },
+  "Video-30868": {
+   "duration": 49.2,
+   "gfx_motion": 1.78,
+   "gfx_raw": 4.18,
+   "baseline": 2.4,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.59,
+   "flat_pct": 0.0,
+   "actions_per_s": 0.51,
+   "motion_all": 6.79,
+   "jitter_px": 0.8,
+   "punches": 4,
+   "drifts": 21
+  }
+ },
+ "anchor": {
+  "gfx_motion": 0.93,
+  "flat_pct": 1.4,
+  "actions_per_s": 0.46,
+  "footage": "jitter 0.40 px/frame, 27.0 camera moves/min"
+ },
+ "targets": {
+  "gfx_motion_min": 0.7,
+  "flat_max": 2.0,
+  "events_min": 0.33,
+  "events_max": 0.6,
+  "footage_info": "jitter 0.40 px/frame, 27.0 camera moves/min"
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2,
+  "edge_nogfx": 0.012,
+  "punch": 0.04,
+  "drift": 0.03
+ }
+}
