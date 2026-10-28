@@ -1,22 +1,22 @@
 {
  "project": "rafael-test-night",
  "theme": "night",
- "score": "8/10",
+ "score": "9/10",
  "ready": false,
  "checks": {
   "motion": {
-   "value": 0.89,
+   "value": 1.03,
    "target": ">= 0.79",
    "pass": true,
-   "footage": "camera jitter 0.13 px/frame, 4 punches, 9 drifts (anchor: jitter 0.16 px/frame, 16.1 camera moves/min)"
+   "footage": "camera jitter 0.14 px/frame, 4 punches, 10 drifts (anchor: jitter 0.16 px/frame, 16.1 camera moves/min)"
   },
   "flat": {
-   "value": "41.0%",
+   "value": "30.9%",
    "target": "<= 12.0%",
    "pass": false
   },
   "actions": {
-   "value": "0.52 events/s (GSAP 2.2 tweens/s)",
+   "value": "0.59 events/s (GSAP 2.3 tweens/s)",
    "target": "0.44–0.81",
    "pass": true
   },
@@ -47,9 +47,9 @@
    "pass": true
   },
   "placeholder": {
-   "value": "2 found",
+   "value": "0 found",
    "target": "0",
-   "pass": false
+   "pass": true
   },
   "hook": {
    "value": "visual on screen 3.0s of the first 3s",
@@ -59,58 +59,60 @@
  },
  "metrics": {
   "duration": 70.93,
-  "motion": 1.71,
-  "flat_pct": 41.0,
-  "events_per_s": 0.48,
+  "motion": 1.78,
+  "flat_pct": 30.9,
+  "events_per_s": 0.54,
   "graphics": {
-   "gfx_motion": 0.89,
-   "gfx_raw": 0.89,
+   "gfx_motion": 1.03,
+   "gfx_raw": 1.03,
    "baseline": 0.0,
    "baseline_s": 11,
    "baseline_from": "none (graphics-only render)",
    "gfx_share": 0.84,
    "footage": {
-    "jitter_px": 0.13,
+    "jitter_px": 0.14,
     "punches": [
      24.37,
      24.83,
      31.5,
-     39.4
+     40.1
     ],
     "drifts": [
      8.67,
      23.67,
-     28.33,
+     28.0,
      30.67,
-     38.67,
-     49.0,
-     51.33,
+     39.0,
+     41.0,
+     50.0,
+     54.67,
      57.67,
      66.33
     ]
    }
   },
   "footage": {
-   "jitter_px": 0.13,
+   "jitter_px": 0.14,
    "punches": [
     24.37,
     24.83,
     31.5,
-    39.4
+    40.1
    ],
    "drifts": [
     8.67,
     23.67,
-    28.33,
+    28.0,
     30.67,
-    38.67,
-    49.0,
-    51.33,
+    39.0,
+    41.0,
+    50.0,
+    54.67,
     57.67,
     66.33
    ]
   },
-  "actions_per_s": 0.52
+  "actions_per_s": 0.59
  },
  "targets": {
   "gfx_motion_min": 0.79,
@@ -121,102 +123,88 @@
  },
  "fix_list": [
   {
-   "t": "0.0–1.3s",
-   "t0": 0.0,
-   "words": "אתם מכירים את זה",
+   "t": "6.9–7.8s",
+   "t0": 6.9,
+   "words": "ברמה כזאת עם",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "3.2–5.3s",
-   "t0": 3.17,
-   "words": "ואומרים לכם שערוך את זה עם קלוד? אבל אתם אומרים",
+   "t": "8.0–8.8s",
+   "t0": 8.0,
+   "words": "קלוד?",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "6.2–7.8s",
-   "t0": 6.17,
-   "words": "עורך סרטון ברמה כזאת עם",
+   "t": "9.6–10.3s",
+   "t0": 9.57,
+   "words": "הולך לספר לכם,",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "11.1–12.1s",
-   "t0": 11.07,
-   "words": "הסוף.",
+   "t": "19.8–20.6s",
+   "t0": 19.8,
+   "words": "לקלוד.",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "25.7–26.7s",
-   "t0": 25.73,
-   "words": "הסקיל תגיבו",
+   "t": "26.9–27.8s",
+   "t0": 26.9,
+   "words": "פה את המילה סקיל.",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "35.5–36.9s",
-   "t0": 35.53,
-   "words": "ולפי העיצובים האלה",
+   "t": "36.9–38.4s",
+   "t0": 36.93,
+   "words": "קלוד יודע איך לערוך לכם את זה ברמה",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "39.6–40.6s",
-   "t0": 39.63,
-   "words": "גדולים משתמשים.",
+   "t": "38.4–39.4s",
+   "t0": 38.4,
+   "words": "ברמה שעורכי התוכן הכי",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "44.2–45.6s",
-   "t0": 44.23,
-   "words": "משלוש מאות ארבע מאות צפיות",
+   "t": "43.4–44.2s",
+   "t0": 43.37,
+   "words": "הצפיות משלוש",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "47.6–48.6s",
-   "t0": 47.6,
+   "t": "44.4–45.3s",
+   "t0": 44.43,
+   "words": "משלוש מאות ארבע מאות",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "47.6–48.5s",
+   "t0": 47.63,
    "words": "אלפים.",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "55.4–56.9s",
-   "t0": 55.37,
-   "words": "skill וזה בדרך",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "60.2–61.3s",
+   "t": "60.2–61.0s",
    "t0": 60.23,
-   "words": "בצורה מקצועית עם",
+   "words": "בצורה מקצועית",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "65.0–66.2s",
+   "t": "65.0–66.1s",
    "t0": 65.03,
    "words": "כנסו אליי לאתר.",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "67.0–68.5s",
-   "t0": 67,
-   "words": "קורסים בדיוק בשבילכם, אל",
-   "check": "no placeholders",
-   "fix": "prof10: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
-  },
-  {
-   "t": "67.0–68.5s",
-   "t0": 67,
-   "words": "קורסים בדיוק בשבילכם, אל",
-   "check": "no placeholders",
-   "fix": "div: image with almost no detail (grey box?): use a real frame / screenshot"
   }
  ]
 }
