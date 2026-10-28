@@ -83,7 +83,10 @@
       #prof10 .nm { font-size: 56px; font-weight: 800; } #prof10 .rl { font-size: 34px; font-weight: 600; color: rgba(255,255,255,.75); } #prof10 .ig { font-size: 32px; font-weight: 700; direction: ltr; color: var(--n-yellow); }
       #rows10 { left: 80px; right: 80px; top: 640px; gap: 26px; }
       #rows10 .n-row { height: 130px; font-size: 50px; } #rows10 .n-row .num { font-size: 46px; min-width: 70px; }
-      #go10 { position: absolute; left: 50%; top: 1120px; transform: translateX(-50%); height: 96px; padding: 0 40px; background: var(--n-box); display: flex; align-items: center; font-size: 50px; font-weight: 800; white-space: pre; }
+      #go10 { position: absolute; left: 80px; right: 80px; top: 1090px; height: 100px; border-radius: 50px; background: #1c1c1c; border: 2px solid var(--n-red); box-shadow: var(--n-glow-r); display: flex; align-items: center; gap: 22px; padding: 0 36px; direction: ltr; }
+      #go10 svg { width: 40px; height: 40px; flex: none; }
+      #url10 { font-family: var(--n-font); font-size: 52px; font-weight: 800; color: #fff; white-space: pre; }
+      #go10 .k { margin-left: auto; height: 64px; padding: 0 24px; border-radius: 32px; background: var(--n-box); display: flex; align-items: center; font-size: 36px; font-weight: 800; direction: rtl; white-space: pre; }
     </style>
   </head>
   <body>
@@ -204,7 +207,7 @@
             <div class="n-row next" id="c2"><span class="num">02</span>Motion graphics<span class="lk"><span class="c"></span><span class="u"></span></span></div>
             <div class="n-row next" id="c3"><span class="num">03</span>Higgsfield<span class="lk"><span class="c"></span><span class="u"></span></span></div>
           </div>
-          <div id="go10">לאתר הקורסים ←</div>
+          <div id="go10"><span class="ic"></span><span id="url10"></span><span class="k">לאתר הקורסים</span></div>
         </div>
       </div>
 
@@ -335,7 +338,7 @@
         N.hide(tl, "#lb8a"); N.tag(tl, "#lb8a", 43.88);
         N.grow(tl, ".b8", 44.0, 0.2);
         N.hide(tl, ["#pk8", "#pk8u"]); N.ignite(tl, ["#pk8", "#pk8u"], 45.6, 0.05);
-        N.count(tl, "#pk8", 350, 10000, 46.4, 1.02, { ease: "none", fmt: (v) => (v >= 10000 ? "10K+" : v < 1000 ? String(Math.round(v / 10) * 10) : (v / 1000).toFixed(1) + "K") });
+        N.count(tl, "#pk8", 350, 10000, 46.4, 1.02, { ease: "none", fmt: (v) => (v >= 10000 ? "10K" : v < 1000 ? String(Math.round(v / 10) * 10) : (v / 1000).toFixed(1) + "K") });
         N.draw(tl, "#cv8b", 46.4, 1.02, "none");
         N.dots(tl, ".d8", [46.42, 46.8, 47.15, 47.42]);
         N.hide(tl, "#lb8b"); N.tag(tl, "#lb8b", 47.5);
@@ -356,7 +359,10 @@
         N.swapClass(tl, "#c1", 59.44, null, "next"); N.sweep(tl, "#c1", 59.5, 0, 0.6);
         N.swapClass(tl, "#c2", 61.3, null, "next"); N.sweep(tl, "#c2", 61.35, 0, 0.6);
         N.swapClass(tl, "#c3", 62.96, null, "next"); N.sweep(tl, "#c3", 63.0, 0, 0.6);
-        N.hide(tl, "#go10"); N.pop(tl, "#go10", 65.12);
+        document.querySelector("#go10 .ic").innerHTML = N.ART.lock;
+        N.hide(tl, "#go10"); N.rows(tl, "#go10", 64.9);
+        N.type(tl, "#url10", "refael-ai.com", 65.12, 16);
+        N.sweep(tl, "#go10", 66.2, 0, 0.6);
         N.sweep(tl, "#prof10", 64.2, 0, 0.7);
         N.pulse(tl, "#go10", 66.82, 1.08);
         N.done(tl, "#c1", 68.6); N.done(tl, "#c2", 68.75); N.done(tl, "#c3", 68.9);

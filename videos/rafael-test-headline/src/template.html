@@ -148,8 +148,8 @@
 
       <!-- B12b (split): the profile, the courses button -->
       <div id="s13" class="h-scene" style="z-index: 7">
-        <div class="h-win" id="w13"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/refaelleviii</span></div>
-          <div class="body rtl"><div class="prof"><span class="av"></span><div><h5>רפאל לוי</h5><div class="ro">מומחה AI ושיווק דיגיטלי</div><div class="hd">@refaelleviii</div></div></div>
+        <div class="h-win" id="w13"><div class="bar"><i></i><i></i><i></i><span class="url" id="url13"></span></div>
+          <div class="body rtl"><div class="prof"><span class="av"></span><div><h5>רפאל לוי</h5><div class="ro">מומחה AI ושיווק דיגיטלי</div><div class="hd">refael-ai.com · @refaelleviii</div></div></div>
             <div class="cbtn" id="btn13"><span class="sel" id="sel13">לקורסים באתר</span></div></div>
           <div class="h-ring" id="r13"></div><div class="h-streak" id="sk13" style="left: 0; top: -2px"></div></div>
       </div>
@@ -191,7 +191,7 @@
         </div>
         <div id="g12" class="h-scene">
           <div class="h-sec"><span class="t" id="t12">רוצים ללמוד</span><span class="h-caret" id="c12"></span><span class="h-box" id="b12">עריכה מקצועית</span></div>
-          <div class="h-win" id="w12"><div class="bar"><i></i><i></i><i></i><span class="url">קורסים · רפאל לוי</span></div>
+          <div class="h-win" id="w12"><div class="bar"><i></i><i></i><i></i><span class="url">refael-ai.com/courses</span></div>
             <div class="body rtl crs"><p><span class="ck"></span><span class="sel" id="c12a">עריכת וידאו מקצועית</span></p><p><span class="ck"></span><span class="sel" id="c12b" dir="ltr">Motion graphics</span></p><p><span class="ck"></span><span class="sel" id="c12c" dir="ltr">Higgsfield</span></p><p><span class="ck"></span><span class="sel" id="c12d">ועוד</span></p></div></div>
         </div>
       </div>
@@ -332,7 +332,7 @@
         H.select(tl, "#sel9b", 46.58);
         H.dim(tl, "#dim9", 46.45);
         H.hide(tl, "#st9"); H.win(tl, "#st9", 46.5);
-        H.count(tl, "#n9", 400, 10000, 46.58, 0.84, { fmt: (v) => (v >= 10000 ? "10,000+" : Math.round(v / 50) * 50 + "").replace(/\B(?=(\d{3})+(?!\d))/g, ",") });
+        H.count(tl, "#n9", 400, 10000, 46.58, 0.84, { fmt: (v) => (v >= 9999.5 ? "10K" : (Math.round(v / 50) * 50).toLocaleString("en-US")) });
         H.pulse(tl, "#st9", 47.42, 1.06);
         H.push(tl, "#w9", 40.85, 7.8, 1.05);
 
@@ -352,6 +352,7 @@
 
         // ---- B12b (split): the profile, the courses button on "לאתר" ----
         H.win(tl, "#w13", 65.12);
+        H.type(tl, "#url13", "refael-ai.com", 65.2, 26);  // the site, typed on "כנסו אליי לאתר"
         H.hide(tl, "#r13"); H.ring(tl, "#r13", 65.68);
         H.select(tl, "#sel13", 66.82);
         H.streak(tl, "#sk13", 67.6, 700);

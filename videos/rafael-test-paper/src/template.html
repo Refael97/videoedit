@@ -101,7 +101,9 @@
       #prof .hd { position: absolute; right: 260px; top: 184px; font-family: var(--p-mono); font-size: 30px; color: var(--p-orange); direction: ltr; }
       .crs { position: absolute; right: 40px; left: 40px; height: 96px; border-top: 1px solid var(--p-card-edge); display: flex; align-items: center; gap: 18px; font-size: 40px; font-weight: 700; }
       .crs i { width: 46px; height: 46px; border-radius: 12px; background: var(--p-orange-soft); color: var(--p-orange); font-style: normal; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800; }
-      #go12 { position: absolute; left: 40px; bottom: 36px; height: 76px; padding: 0 34px; border-radius: 38px; background: var(--p-ink); color: #fff; font-size: 36px; font-weight: 800; display: flex; align-items: center; }
+      #url12 { position: absolute; left: 40px; right: 40px; bottom: 34px; height: 84px; border-radius: 42px; background: var(--p-card-warm); border: 1px solid var(--p-card-edge); display: flex; align-items: center; gap: 14px; padding: 0 12px 0 28px; direction: ltr; font-family: var(--p-mono); font-size: 38px; }
+      #url12 .lk { font-size: 28px; }
+      #go12 { margin-left: auto; width: 64px; height: 64px; border-radius: 50%; background: var(--p-ink); color: #fff; font-family: var(--p-font); font-size: 34px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
       #tag12 { left: 250px; top: 640px; }
     </style>
   </head>
@@ -186,7 +188,7 @@
           <div id="stat9" class="p-card p-zoom aa"><div class="bar"><i></i><i></i><i></i><span>צפיות לסרטון</span></div>
             <div class="body"><div class="lbl">לפני הסקיל</div><div id="before9"><bdi dir="ltr">300–400</bdi> צפיות</div></div>
             <div id="up9" class="p-obj"></div>
-            <div id="big9"><span id="num9" data-qa-payoff="אלפים." data-qa-stamp="#stamp9">400</span><span class="pl" id="pl9">+</span></div></div>
+            <div id="big9"><span id="num9" data-qa-payoff="אלפים." data-qa-stamp="#stamp9">400</span></div></div>
           <div class="p-stamp" id="stamp9">עשרות אלפים ✓</div>
         </div>
 
@@ -197,7 +199,7 @@
             <div class="crs" id="c1" style="top: 270px"><i>1</i>עריכת וידאו מקצועית</div>
             <div class="crs" id="c2" style="top: 366px"><i>2</i>Motion graphics</div>
             <div class="crs" id="c3" style="top: 462px"><i>3</i>Higgsfield ועוד</div>
-            <div id="go12">לאתר ←</div></div>
+            <div id="url12"><span class="lk">🔒</span><span id="urlT"></span><div id="go12">←</div></div></div>
           <div class="p-tag" id="tag12">קורסים</div>
         </div>
       </div>
@@ -344,7 +346,7 @@
         P.rise(tl, "#stat9", 40.85);
         P.fill(tl, "#before9", 43.88);                                       // "משלוש מאות ארבע מאות"
         P.pop(tl, "#big9", 45.18);
-        P.count(tl, "#num9", 400, 10000, 45.58, 1.84, { ease: "power2.in" }); // "לסרטון" → "אלפים"
+        P.count(tl, "#num9", 400, 10000, 45.58, 1.84, { ease: "power2.in", fmt: (v) => (v >= 9999.5 ? "10K" : Math.round(v).toLocaleString("en-US")) }); // "לסרטון" → "אלפים": 10K (confirmed by Rafael)
         P.pop(tl, "#up9", 46.58);                                            // "לעשרות"
         P.pop(tl, "#stamp9", 47.62);                                         // after the number lands
         P.pulse(tl, "#big9", 47.5);
@@ -359,12 +361,13 @@
         tl.set(["#cta2", "#reply11"], { autoAlpha: 0 }, 57.64);
 
         // ---- S12 who, and the courses ----
-        ["#c1", "#c2", "#c3", "#go12", "#tag12"].forEach((s) => P.hide(tl, s));
+        ["#c1", "#c2", "#c3", "#url12", "#tag12"].forEach((s) => P.hide(tl, s));
         P.rise(tl, "#prof", 57.7);
         P.pulse(tl, "#av12", 58.4);
         P.fill(tl, ["#c1", "#c2", "#c3"], [59.44, 61.3, 62.96]);           // "לערוך וידאו" · "motion" · "Higgsfield"
-        P.pop(tl, "#go12", 65.12);                                           // "כנסו אליי לאתר"
-        P.cursor(tl, "#cur", [[600, 1300, 65.2], [220, 1020, 65.7]], [65.75]);
+        P.pop(tl, "#url12", 64.6, 0, { y: 20 });
+        P.type(tl, "#urlT", "refael-ai.com", 65.12, 14);                     // "כנסו אליי לאתר": the site, typed (confirmed by Rafael)
+        P.cursor(tl, "#cur", [[600, 1300, 65.3], [925, 994, 66.0]], [66.1]); // the go button
         P.pop(tl, "#tag12", 66.82);                                          // "קורסים"
         P.highlight(tl, "#c1, #c2, #c3", 67.52, 0.12);                       // "בדיוק בשבילכם"
         P.pulse(tl, "#prof", 68.6);                                          // "אל תישארו מאחור"
