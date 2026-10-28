@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="assets/theme/theme.css" />
     <script src="assets/theme/motion.js"></script>
     <style>
+      #ctaK { margin-top: 24px; }
       html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
       .rtl { direction: rtl; text-align: right; }
       .h-win h4 { margin: 0 0 20px; font-size: 52px; font-weight: 800; letter-spacing: -1.5px; }
@@ -25,7 +26,9 @@
       /* B2 / B4 / B7 / B8 / B12: page sections */
       .rows p { font-size: 40px; font-weight: 700; margin: 0 0 24px; }
       .rows p b { color: var(--h-blue); font-weight: 800; margin-left: 14px; }
-      #w2 { left: 115px; top: 470px; }
+      #w2 { left: 70px; top: 450px; width: 940px; }
+      #w2 .rows p { display: flex; align-items: center; min-height: 150px; margin: 0; font-size: 58px; border-top: 1px solid #e3e3e6; } #w2 .rows p:first-child { border-top: 0; }
+      #w2 .rows p b { font-size: 84px; width: 90px; }
 
       /* B3: the camera, recording */
       #p3 { left: 350px; top: 220px; width: 380px; height: 640px; background-image: url(assets/img/raw-a.jpg); }
@@ -36,19 +39,22 @@
       #ringRec { z-index: 4; }
 
       /* B4: upload to Claude */
-      #w4 { left: 115px; top: 470px; }
+      #w4 { left: 70px; top: 450px; width: 940px; } #w4 .body { padding: 34px 40px; }
       .file { display: flex; align-items: center; gap: 22px; padding: 20px 24px; border-radius: 20px; border: 2px solid #dfe3e8; }
-      .file .ic { width: 84px; height: 110px; border-radius: 12px; background: url(assets/img/raw-a.jpg) center / cover; flex: none; }
-      .file .nm { font-size: 38px; font-weight: 800; direction: ltr; text-align: right; }
-      .file .st { font-size: 30px; color: #6a7078; margin-top: 6px; }
+      .file .ic { width: 170px; height: 300px; border-radius: 12px; background: url(assets/img/raw-a.jpg) center / cover; flex: none; }
+      .file .nm { font-size: 50px; font-weight: 800; direction: ltr; text-align: right; }
+      .file .st { font-size: 36px; color: #6a7078; margin-top: 6px; }
       .bar2 { height: 14px; border-radius: 7px; background: #e6e9ee; margin-top: 14px; overflow: hidden; }
       .bar2 i { display: block; height: 100%; width: 100%; background: var(--h-blue); transform-origin: 100% 50%; }
 
       /* B5: the install (dark) */
-      #w5 { left: 60px; top: 470px; width: 960px; } #w5 .body { font-size: 32px; line-height: 1.75; }
+      #w5 { left: 60px; top: 450px; width: 960px; } #w5 .body { font-size: 32px; line-height: 1.75; }
 
       /* B6: comment */
-      #w6 { left: 115px; top: 300px; }
+      #w6 { left: 70px; top: 200px; width: 940px; } #w6 .body { padding: 30px 40px; }
+      .post .rl { width: 150px; height: 266px; border-radius: 12px; background: url(assets/img/raw-a.jpg) center / cover; flex: none; margin-right: auto; }
+      .post .av { width: 96px; height: 96px; } .post b { font-size: 46px; } .post span { font-size: 34px; }
+      .cin { height: 110px; border-radius: 55px; font-size: 48px; } .cin .ph { font-size: 40px; } .cin .snd { font-size: 40px; }
       .post { display: flex; align-items: center; gap: 18px; padding-bottom: 20px; border-bottom: 1px solid #e3e3e6; margin-bottom: 20px; }
       .post .av { width: 70px; height: 70px; border-radius: 50%; background: url(assets/img/avatar.jpg) center / cover; flex: none; }
       .post b { font-size: 36px; } .post span { font-size: 30px; color: #6a7078; }
@@ -57,13 +63,13 @@
       .cin .snd { margin-right: auto; color: var(--h-blue); font-size: 34px; font-weight: 800; }
 
       /* B7: before → after of this very clip */
-      #p7a, #p7b { left: 330px; top: 460px; width: 420px; height: 746px; background-image: url(assets/img/raw-b.jpg); }
-      .mini-t { position: absolute; left: 0; right: 0; top: 60px; text-align: center; font-size: 34px; font-weight: 800; color: #151515; direction: rtl; }
-      .mini-b { display: inline-block; margin-top: 8px; padding: 2px 14px 6px; background: var(--h-blue); color: #fff; font-family: var(--h-serif); font-size: 38px; transform: skewX(-12deg); }
-      .mini-w { position: absolute; left: 40px; right: 40px; top: 210px; height: 150px; border-radius: 12px; border: 2px solid var(--h-win-edge); box-shadow: 0 0 0 3px var(--h-win-halo); background: #fff; direction: rtl; padding: 12px 16px; font-size: 26px; font-weight: 700; color: #151515; }
-      .mini-w i { display: block; margin-top: 10px; height: 54px; border-radius: 8px; background: url(assets/img/th-headline.jpg) center 30% / cover; }
-      .mini-c { position: absolute; left: 0; right: 0; top: 420px; text-align: center; font-size: 34px; font-weight: 800; color: #151515; direction: rtl; }
-      .lab { position: absolute; left: 0; right: 0; top: 1230px; text-align: center; font-size: 60px; font-weight: 700; z-index: 7; }
+      #p7a, #p7b { left: 160px; top: 440px; width: 760px; height: 850px; background-image: url(assets/img/raw-b.jpg); background-position: center 35%; }
+      .mini-t { position: absolute; left: 0; right: 0; top: 90px; text-align: center; font-size: 52px; font-weight: 800; color: #151515; direction: rtl; }
+      .mini-b { display: inline-block; margin-top: 10px; padding: 2px 22px 8px; background: var(--h-blue); color: #fff; font-family: var(--h-serif); font-size: 60px; transform: skewX(-12deg); }
+      .mini-w { position: absolute; left: 150px; right: 150px; top: 300px; height: 190px; border-radius: 12px; border: 2px solid var(--h-win-edge); box-shadow: 0 0 0 3px var(--h-win-halo); background: #fff; direction: rtl; padding: 12px 16px; font-size: 26px; font-weight: 700; color: #151515; }
+      .mini-w i { display: block; margin-top: 10px; height: 110px; border-radius: 8px; background: url(assets/img/th-headline.jpg) center 30% / cover; }
+      .mini-c { position: absolute; left: 0; right: 0; top: 740px; text-align: center; font-size: 54px; font-weight: 800; color: #151515; direction: rtl; }
+      .lab { position: absolute; left: 190px; top: 470px; height: 76px; padding: 0 30px; border-radius: 38px; background: #fff; font-size: 48px; font-weight: 800; z-index: 9; display: flex; align-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.18); }
       #lab7b { color: var(--h-blue-text); }
 
       /* B8: the themes inside the skill (real frames of each theme's preview) */
@@ -86,9 +92,9 @@
       .dm.f { margin-top: 14px; background: #f0f2f5; color: #151515; direction: ltr; font-family: var(--h-mono); font-size: 32px; }
 
       /* B12: courses + profile */
-      #w12 { left: 115px; top: 470px; }
-      .crs p { display: flex; align-items: center; gap: 16px; font-size: 42px; font-weight: 700; margin: 0 0 26px; }
-      .crs p .ck { width: 40px; height: 40px; color: var(--h-blue); flex: none; } .crs p .ck svg { width: 40px; height: 40px; display: block; }
+      #w12 { left: 70px; top: 450px; width: 940px; } #w12 .body { padding: 34px 44px; }
+      .crs p { display: flex; align-items: center; gap: 20px; font-size: 54px; font-weight: 700; margin: 0; min-height: 132px; border-top: 1px solid #e3e3e6; } .crs p:first-child { border-top: 0; }
+      .crs p .ck { width: 52px; height: 52px; color: var(--h-blue); flex: none; } .crs p .ck svg { width: 52px; height: 52px; display: block; }
       #w13 { left: 115px; top: 280px; }
       .prof { display: flex; align-items: center; gap: 30px; }
       .prof .av { width: 170px; height: 170px; border-radius: 50%; background: url(assets/img/avatar.jpg) center / cover; flex: none; box-shadow: 0 0 0 5px #fff, 0 0 0 9px var(--h-blue); }
@@ -124,7 +130,7 @@
       <!-- B6 (split): comment "סקיל" -->
       <div id="s6" class="h-scene" style="z-index: 7">
         <div class="h-win" id="w6"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/refaelleviii</span></div>
-          <div class="body rtl"><div class="post"><span class="av"></span><div><b>רפאל לוי</b><br /><span>תגובות</span></div></div>
+          <div class="body rtl"><div class="post"><span class="av"></span><div><b>רפאל לוי</b><br /><span>@refaelleviii · תגובות</span></div><span class="rl"></span></div>
             <div class="cin" id="cin6"><span class="ph" id="ph6">הוסיפו תגובה…</span><span id="ty6"></span><span class="snd" id="snd6">פרסום</span></div></div>
           <div class="h-ring" id="r6"></div><div class="h-ring" id="r6b"></div></div>
       </div>
@@ -148,8 +154,8 @@
 
       <!-- B12b (split): the profile, the courses button -->
       <div id="s13" class="h-scene" style="z-index: 7">
-        <div class="h-win" id="w13"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/refaelleviii</span></div>
-          <div class="body rtl"><div class="prof"><span class="av"></span><div><h5>רפאל לוי</h5><div class="ro">מומחה AI ושיווק דיגיטלי</div><div class="hd">@refaelleviii</div></div></div>
+        <div class="h-win" id="w13"><div class="bar"><i></i><i></i><i></i><span class="url" id="url13"></span></div>
+          <div class="body rtl"><div class="prof"><span class="av"></span><div><h5>רפאל לוי</h5><div class="ro">מומחה AI ושיווק דיגיטלי</div><div class="hd">refael-ai.com · @refaelleviii</div></div></div>
             <div class="cbtn" id="btn13"><span class="sel" id="sel13">לקורסים באתר</span></div></div>
           <div class="h-ring" id="r13"></div><div class="h-streak" id="sk13" style="left: 0; top: -2px"></div></div>
       </div>
@@ -191,7 +197,7 @@
         </div>
         <div id="g12" class="h-scene">
           <div class="h-sec"><span class="t" id="t12">רוצים ללמוד</span><span class="h-caret" id="c12"></span><span class="h-box" id="b12">עריכה מקצועית</span></div>
-          <div class="h-win" id="w12"><div class="bar"><i></i><i></i><i></i><span class="url">קורסים · רפאל לוי</span></div>
+          <div class="h-win" id="w12"><div class="bar"><i></i><i></i><i></i><span class="url">refael-ai.com/courses</span></div>
             <div class="body rtl crs"><p><span class="ck"></span><span class="sel" id="c12a">עריכת וידאו מקצועית</span></p><p><span class="ck"></span><span class="sel" id="c12b" dir="ltr">Motion graphics</span></p><p><span class="ck"></span><span class="sel" id="c12c" dir="ltr">Higgsfield</span></p><p><span class="ck"></span><span class="sel" id="c12d">ועוד</span></p></div></div>
         </div>
       </div>
@@ -200,15 +206,16 @@
       <div id="dark" class="h-dark">
         <div class="h-sec"><span class="t" id="t5" style="color: #fff">שלב שלישי</span><span class="h-caret" id="c5"></span><span class="h-box" id="b5">הכי חשוב</span></div>
         <div class="h-win term" id="w5"><div class="bar"><i></i><i></i><i></i><span class="ttl">claude — my-video</span></div>
-          <div class="body"><div class="dim">~/my-video $ claude</div><div class="in">&gt; <span id="cmd5"></span></div><div class="o5"><span class="ok">●</span> Installing video-themes</div><div class="o5 dim">└ 9 themes: glass · paper · night</div><div class="o5 dim">  editorial · headline · arcade</div><div class="o5 dim">  neon-studio · hooks · board</div><div class="o5" id="ok5"><span class="ok">✓</span> Installed: <b>video-themes</b></div></div>
+          <div class="body"><div class="dim">~/my-video $ ls</div><div class="dim">IMG_5381.mov</div><div class="dim">~/my-video $ claude</div><div class="dim">╭ Claude Code · cwd: ~/my-video</div><div class="in">&gt; <span id="cmd5"></span></div><div class="o5"><span class="ok">●</span> Installing video-themes</div><div class="o5 dim">└ 9 themes: glass · paper · night</div><div class="o5 dim">  editorial · headline · arcade</div><div class="o5 dim">  neon-studio · hooks · board</div><div class="o5" id="ok5"><span class="ok">✓</span> Installed: <b>video-themes</b></div></div>
           <div class="h-ring" id="r5"></div></div>
         <div class="h-streak" id="sk5" style="left: 70px; top: 468px"></div>
       </div>
 
+      <div class="h-cursor" id="cur" style="z-index: 40"></div>
       <div id="caps" class="h-caps"></div>
 
       <!-- CTA (face, B11) -->
-      <div id="cta" class="h-cta" style="top: 1330px"><span class="lead" id="ctaL">תגיבו</span><span class="kw" id="ctaK"><span class="q">“</span>skill<span class="q">”</span></span></div>
+      <div id="cta" class="h-cta" style="top: 1470px"><span class="lead" id="ctaL">תגיבו</span><span class="kw" id="ctaK"><span class="q">“</span>skill<span class="q">”</span></span></div>
 
       <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="70.9" data-track-index="10" data-volume="1"></audio>
       <audio id="sfx0" src="assets/theme/sfx/air.wav" data-start="0.12" data-duration="0.38" data-track-index="11" data-volume="0.25"></audio>
@@ -274,6 +281,25 @@
       <audio id="sfx60" src="assets/theme/sfx/click.wav" data-start="65.68" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
       <audio id="sfx61" src="assets/theme/sfx/tick.wav" data-start="66.82" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
       <audio id="sfx62" src="assets/theme/sfx/ding.wav" data-start="68.6" data-duration="0.7" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx63" src="assets/theme/sfx/key.wav" data-start="65.2" data-duration="0.04" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx64" src="assets/theme/sfx/key.wav" data-start="65.5" data-duration="0.04" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx65" src="assets/theme/sfx/air.wav" data-start="2.3" data-duration="0.38" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx66" src="assets/theme/sfx/click.wav" data-start="4.28" data-duration="0.05" data-track-index="13" data-volume="0.25"></audio>
+      <audio id="sfx67" src="assets/theme/sfx/air.wav" data-start="10.36" data-duration="0.38" data-track-index="13" data-volume="0.25"></audio>
+      <audio id="sfx68" src="assets/theme/sfx/air.wav" data-start="16.22" data-duration="0.38" data-track-index="13" data-volume="0.25"></audio>
+      <audio id="sfx69" src="assets/theme/sfx/air.wav" data-start="18.94" data-duration="0.38" data-track-index="13" data-volume="0.25"></audio>
+      <audio id="sfx70" src="assets/theme/sfx/air.wav" data-start="22.48" data-duration="0.38" data-track-index="13" data-volume="0.25"></audio>
+      <audio id="sfx71" src="assets/theme/sfx/air.wav" data-start="26.52" data-duration="0.38" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx72" src="assets/theme/sfx/air.wav" data-start="29.46" data-duration="0.38" data-track-index="13" data-volume="0.25"></audio>
+      <audio id="sfx73" src="assets/theme/sfx/air.wav" data-start="31.18" data-duration="0.38" data-track-index="13" data-volume="0.25"></audio>
+      <audio id="sfx74" src="assets/theme/sfx/air.wav" data-start="33.56" data-duration="0.38" data-track-index="13" data-volume="0.25"></audio>
+      <audio id="sfx75" src="assets/theme/sfx/air.wav" data-start="36.92" data-duration="0.38" data-track-index="13" data-volume="0.3"></audio>
+      <audio id="sfx76" src="assets/theme/sfx/air.wav" data-start="42.72" data-duration="0.38" data-track-index="13" data-volume="0.25"></audio>
+      <audio id="sfx77" src="assets/theme/sfx/whoosh.wav" data-start="50.32" data-duration="0.55" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx78" src="assets/theme/sfx/whoosh.wav" data-start="52.12" data-duration="0.55" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx79" src="assets/theme/sfx/air.wav" data-start="61.3" data-duration="0.38" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx80" src="assets/theme/sfx/air.wav" data-start="66.82" data-duration="0.38" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx81" src="assets/theme/sfx/air.wav" data-start="69.08" data-duration="0.38" data-track-index="12" data-volume="0.2"></audio>
     </div>
     <script>
       const WORDS = [{"text": "אתם", "start": 0.68, "end": 0.88}, {"text": "מכירים", "start": 0.88, "end": 1.08}, {"text": "את", "start": 1.1, "end": 1.18}, {"text": "זה", "start": 1.2, "end": 1.28}, {"text": "שאתם", "start": 1.32, "end": 1.54}, {"text": "רואים", "start": 1.6, "end": 1.78}, {"text": "סרטונים", "start": 1.84, "end": 2.26}, {"text": "ברשתות", "start": 2.3, "end": 3.08}, {"text": "ואומרים", "start": 3.16, "end": 3.42}, {"text": "לכם", "start": 3.42, "end": 3.56}, {"text": "שערוך", "start": 3.62, "end": 3.9}, {"text": "את", "start": 3.94, "end": 4.0}, {"text": "זה", "start": 4.04, "end": 4.08}, {"text": "עם", "start": 4.1, "end": 4.24}, {"text": "קלוד?", "start": 4.28, "end": 4.52}, {"text": "אבל", "start": 4.56, "end": 4.72}, {"text": "אתם", "start": 4.74, "end": 4.88}, {"text": "אומרים", "start": 4.9, "end": 5.28}, {"text": "איך", "start": 5.32, "end": 5.48}, {"text": "לעזאזל", "start": 5.52, "end": 5.94}, {"text": "אני", "start": 6.0, "end": 6.14}, {"text": "עורך", "start": 6.16, "end": 6.4}, {"text": "סרטון", "start": 6.44, "end": 6.8}, {"text": "ברמה", "start": 6.84, "end": 7.2}, {"text": "כזאת", "start": 7.26, "end": 7.52}, {"text": "עם", "start": 7.58, "end": 7.72}, {"text": "קלוד?", "start": 7.78, "end": 8.06}, {"text": "אז", "start": 8.98, "end": 9.06}, {"text": "אני", "start": 9.12, "end": 9.22}, {"text": "עכשיו", "start": 9.24, "end": 9.48}, {"text": "הולך", "start": 9.5, "end": 9.68}, {"text": "לספר", "start": 9.72, "end": 10.06}, {"text": "לכם,", "start": 10.12, "end": 10.32}, {"text": "תישארו", "start": 10.36, "end": 10.78}, {"text": "עד", "start": 10.9, "end": 10.98}, {"text": "הסוף.", "start": 11.04, "end": 11.4}, {"text": "שלב", "start": 12.16, "end": 12.36}, {"text": "הראשון", "start": 12.4, "end": 12.82}, {"text": "תצלמו", "start": 12.86, "end": 13.22}, {"text": "את", "start": 13.24, "end": 13.32}, {"text": "עצמכם", "start": 13.36, "end": 14.02}, {"text": "מדברים", "start": 14.1, "end": 14.48}, {"text": "למצלמה", "start": 14.52, "end": 15.16}, {"text": "על", "start": 16.0, "end": 16.16}, {"text": "נושא", "start": 16.22, "end": 16.52}, {"text": "שאתם", "start": 16.58, "end": 16.88}, {"text": "רוצים.", "start": 16.94, "end": 17.36}, {"text": "שלב", "start": 17.68, "end": 17.9}, {"text": "שני", "start": 17.96, "end": 18.5}, {"text": "תעלו", "start": 18.58, "end": 18.8}, {"text": "את", "start": 18.82, "end": 18.88}, {"text": "הסרטון", "start": 18.94, "end": 19.42}, {"text": "הזה", "start": 19.46, "end": 19.64}, {"text": "לקלוד.", "start": 19.68, "end": 20.22}, {"text": "שלב", "start": 20.66, "end": 20.9}, {"text": "שלישי", "start": 20.94, "end": 21.32}, {"text": "וזה", "start": 21.36, "end": 21.56}, {"text": "השלב", "start": 21.58, "end": 21.84}, {"text": "הכי", "start": 21.88, "end": 22.04}, {"text": "חשוב", "start": 22.08, "end": 22.42}, {"text": "תתקינו", "start": 22.48, "end": 23.24}, {"text": "בקלוד", "start": 23.28, "end": 23.66}, {"text": "את", "start": 23.72, "end": 23.82}, {"text": "הסקיל", "start": 23.84, "end": 24.28}, {"text": "שלי.", "start": 24.34, "end": 24.7}, {"text": "מי", "start": 25.22, "end": 25.3}, {"text": "שרוצה", "start": 25.34, "end": 25.58}, {"text": "את", "start": 25.6, "end": 25.66}, {"text": "הסקיל", "start": 25.72, "end": 26.46}, {"text": "תגיבו", "start": 26.52, "end": 26.84}, {"text": "פה", "start": 26.88, "end": 26.92}, {"text": "את", "start": 26.96, "end": 27.02}, {"text": "המילה", "start": 27.06, "end": 27.38}, {"text": "סקיל.", "start": 27.44, "end": 27.78}, {"text": "הסקיל", "start": 28.36, "end": 28.72}, {"text": "הזה", "start": 28.78, "end": 28.98}, {"text": "מאפשר", "start": 29.04, "end": 29.42}, {"text": "לקלוד", "start": 29.46, "end": 30.02}, {"text": "לערוך", "start": 30.08, "end": 30.28}, {"text": "לכם", "start": 30.32, "end": 30.5}, {"text": "את", "start": 30.52, "end": 30.54}, {"text": "הסרטון", "start": 30.58, "end": 31.14}, {"text": "ברמה", "start": 31.18, "end": 31.48}, {"text": "מטורפת.", "start": 31.52, "end": 31.94}, {"text": "בתוך", "start": 31.98, "end": 32.2}, {"text": "הסקיל", "start": 32.26, "end": 32.64}, {"text": "יצרתי", "start": 32.7, "end": 33.52}, {"text": "עשרות", "start": 33.56, "end": 34.02}, {"text": "סוגי", "start": 34.08, "end": 34.32}, {"text": "עיצובים", "start": 34.36, "end": 35.22}, {"text": "ולפי", "start": 35.32, "end": 35.62}, {"text": "העיצובים", "start": 35.66, "end": 36.12}, {"text": "האלה", "start": 36.14, "end": 36.84}, {"text": "קלוד", "start": 36.92, "end": 37.12}, {"text": "יודע", "start": 37.16, "end": 37.32}, {"text": "איך", "start": 37.36, "end": 37.46}, {"text": "לערוך", "start": 37.5, "end": 37.72}, {"text": "לכם", "start": 37.76, "end": 37.98}, {"text": "את", "start": 38.0, "end": 38.06}, {"text": "זה", "start": 38.1, "end": 38.18}, {"text": "ברמה", "start": 38.24, "end": 38.64}, {"text": "שעורכי", "start": 38.72, "end": 38.98}, {"text": "התוכן", "start": 39.02, "end": 39.32}, {"text": "הכי", "start": 39.38, "end": 39.54}, {"text": "גדולים", "start": 39.58, "end": 39.84}, {"text": "משתמשים.", "start": 39.86, "end": 40.4}, {"text": "אני", "start": 40.78, "end": 40.9}, {"text": "משתמש", "start": 40.94, "end": 41.28}, {"text": "בס-", "start": 41.3, "end": 41.54}, {"text": "בסקיל", "start": 41.6, "end": 42.06}, {"text": "הזה", "start": 42.12, "end": 42.38}, {"text": "וזה", "start": 42.44, "end": 42.7}, {"text": "הקפיץ", "start": 42.72, "end": 43.04}, {"text": "לי", "start": 43.06, "end": 43.14}, {"text": "את", "start": 43.18, "end": 43.22}, {"text": "הצפיות", "start": 43.28, "end": 43.82}, {"text": "משלוש", "start": 43.88, "end": 44.58}, {"text": "מאות", "start": 44.64, "end": 44.8}, {"text": "ארבע", "start": 44.86, "end": 45.12}, {"text": "מאות", "start": 45.18, "end": 45.3}, {"text": "צפיות", "start": 45.34, "end": 45.54}, {"text": "לסרטון", "start": 45.58, "end": 46.46}, {"text": "לעשרות", "start": 46.58, "end": 47.36}, {"text": "אלפים.", "start": 47.42, "end": 47.98}, {"text": "חבר'ה", "start": 48.72, "end": 49.22}, {"text": "הסקיל", "start": 49.26, "end": 49.58}, {"text": "הזה", "start": 49.62, "end": 49.74}, {"text": "הוא", "start": 49.76, "end": 49.82}, {"text": "משנה", "start": 49.86, "end": 50.24}, {"text": "חיים", "start": 50.32, "end": 50.76}, {"text": "וגם", "start": 50.84, "end": 51.2}, {"text": "חוסך", "start": 51.28, "end": 51.5}, {"text": "לכם", "start": 51.54, "end": 51.76}, {"text": "הרבה", "start": 51.78, "end": 52.04}, {"text": "זמן.", "start": 52.12, "end": 52.46}, {"text": "אז", "start": 52.76, "end": 52.86}, {"text": "כל", "start": 52.9, "end": 52.98}, {"text": "מה", "start": 53.0, "end": 53.06}, {"text": "שאתם", "start": 53.1, "end": 53.18}, {"text": "צריכים", "start": 53.32, "end": 53.46}, {"text": "לעשות", "start": 53.52, "end": 54.0}, {"text": "זה", "start": 54.12, "end": 54.24}, {"text": "להגיב", "start": 54.28, "end": 54.56}, {"text": "לי", "start": 54.6, "end": 54.7}, {"text": "פה", "start": 54.74, "end": 54.76}, {"text": "את", "start": 54.8, "end": 54.88}, {"text": "המילה", "start": 54.92, "end": 55.24}, {"text": "skill", "start": 55.36, "end": 56.18}, {"text": "וזה", "start": 56.26, "end": 56.46}, {"text": "בדרך", "start": 56.5, "end": 56.86}, {"text": "אליכם.", "start": 56.92, "end": 57.38}, {"text": "וכמובן", "start": 57.64, "end": 58.08}, {"text": "אם", "start": 58.1, "end": 58.16}, {"text": "אתם", "start": 58.2, "end": 58.36}, {"text": "רוצים", "start": 58.4, "end": 58.6}, {"text": "ללמוד", "start": 58.64, "end": 59.18}, {"text": "איך", "start": 59.26, "end": 59.4}, {"text": "לערוך", "start": 59.44, "end": 59.78}, {"text": "וידאו", "start": 59.82, "end": 60.14}, {"text": "בצורה", "start": 60.18, "end": 60.6}, {"text": "מקצועית", "start": 60.66, "end": 61.14}, {"text": "עם", "start": 61.18, "end": 61.28}, {"text": "motion", "start": 61.3, "end": 61.64}, {"text": "graphics,", "start": 61.68, "end": 62.14}, {"text": "להשתמש", "start": 62.5, "end": 62.9}, {"text": "ב-Higgsfield", "start": 62.96, "end": 64.08}, {"text": "ועוד,", "start": 64.14, "end": 64.52}, {"text": "כנסו", "start": 65.12, "end": 65.4}, {"text": "אליי", "start": 65.44, "end": 65.64}, {"text": "לאתר.", "start": 65.68, "end": 66.16}, {"text": "יש", "start": 66.22, "end": 66.32}, {"text": "לי", "start": 66.38, "end": 66.46}, {"text": "שמה", "start": 66.52, "end": 66.76}, {"text": "קורסים", "start": 66.82, "end": 67.4}, {"text": "בדיוק", "start": 67.52, "end": 67.74}, {"text": "בשבילכם,", "start": 67.78, "end": 68.36}, {"text": "אל", "start": 68.44, "end": 68.54}, {"text": "תישארו", "start": 68.6, "end": 69.02}, {"text": "מאחור", "start": 69.08, "end": 69.46}, {"text": "חבר'ה.", "start": 69.52, "end": 69.96}];
@@ -364,17 +390,14 @@
         H.section(tl, "#t7", "#c7", "#b7", 28.4);
         H.hide(tl, ["#p7a", "#lab7a", "#p7b", "#lab7b"]);
         H.win(tl, ["#p7a", "#lab7a"], 28.9, 0.05);
-        H.pulse(tl, "#p7a", 29.46, 1.04);
         tl.to("#lab7a", { opacity: 0, filter: "blur(10px)", duration: 0.18 }, 30.08);
         H.swap(tl, "#p7a", ["#p7b", "#lab7b"], 30.08);
         H.hide(tl, "#r7"); H.ring(tl, "#r7", 31.52);
-        H.push(tl, "#p7b", 30.2, 1.75, 1.05);
 
         // ---- B8 (page): the themes inside the skill ----
         H.section(tl, "#t8", "#c8", "#b8", 32.0);
         H.hide(tl, "#w8"); H.win(tl, "#w8", 32.4);
         H.hide(tl, ".th"); H.win(tl, ".th", 32.6, 0.1);
-        H.pulse(tl, "#grid8", 33.56, 1.03);
         H.streak(tl, "#sk8", 34.36, 700);
         // the ring visits the looks on "ולפי העיצובים האלה", lands on this video's own theme on "קלוד יודע"
         const hop = (t, sel) => { const r = document.querySelector("#r8"), w = document.querySelector("#w8").getBoundingClientRect(), e = document.querySelector(sel).getBoundingClientRect();
@@ -383,7 +406,6 @@
         tl.set("#r8", { left: 0, top: 0, x: hops[0][1].x, y: hops[0][1].y, opacity: 0 }, 0);
         H.ring(tl, "#r8", 35.32);
         hops.slice(1).forEach(([t, xy]) => tl.to("#r8", { x: xy.x, y: xy.y, duration: 0.22, ease: "power3.inOut" }, t));
-        H.punch(tl, "#grid8", 38.24, 1.22, [395, 400]); H.unpunch(tl, "#grid8", 39.9);
         H.pulse(tl, "#th-headline", 39.58, 1.06);
 
         // ---- B9 (split): the views, the stat card lands on "אלפים" ----
@@ -394,12 +416,14 @@
         H.select(tl, "#sel9b", 46.58);
         H.dim(tl, "#dim9", 46.45);
         H.hide(tl, "#st9"); H.win(tl, "#st9", 46.5);
-        H.count(tl, "#n9", 400, 10000, 46.58, 0.84, { fmt: (v) => (v >= 10000 ? "10,000+" : Math.round(v / 50) * 50 + "").replace(/\B(?=(\d{3})+(?!\d))/g, ",") });
+        H.count(tl, "#n9", 400, 10000, 46.58, 0.84, { fmt: (v) => (v >= 9999.5 ? "10K" : (Math.round(v / 50) * 50).toLocaleString("en-US")) });
         H.pulse(tl, "#st9", 47.42, 1.06);
         H.push(tl, "#w9", 40.85, 7.8, 1.05);
 
         // ---- B10 (face): emotion; the second camera creeps in ----
-        tl.fromTo("#faceVid", { scale: 1.18 }, { scale: 1.3, duration: 8.9, ease: "none", immediateRender: false }, 48.65);
+        // the second camera creeps in, with hard "angle" cuts on the stressed words (face layout only)
+        [[48.65, 50.32, 1.18, 1.24], [50.32, 52.12, 1.38, 1.42], [52.12, 54.28, 1.2, 1.25], [54.28, 57.55, 1.25, 1.31]].forEach(([a, b, s0, s1]) =>
+          tl.fromTo("#faceVid", { scale: s0 }, { scale: s1, duration: b - a, ease: "none", immediateRender: false }, a));
 
         // ---- B11 (face): CTA "skill", the DM arrives on "בדרך אליכם" ----
         H.cta(tl, "#ctaL", "#ctaK", 54.28); tl.set("#cta", { opacity: 1 }, 54.28); tl.set("#cta", { opacity: 0 }, 57.55);
@@ -414,12 +438,44 @@
 
         // ---- B12b (split): the profile, the courses button on "לאתר" ----
         H.win(tl, "#w13", 65.12);
+        H.type(tl, "#url13", "refael-ai.com", 65.2, 26);  // the site, typed on "כנסו אליי לאתר"
         H.hide(tl, "#r13"); H.ring(tl, "#r13", 65.68);
         H.select(tl, "#sel13", 66.82);
         H.streak(tl, "#sk13", 67.6, 700);
         H.pulse(tl, "#btn13", 68.6, 1.08);
         H.push(tl, "#w13", 65.12, 5.8, 1.06);
 
+
+        // ---- secondary acts: the cursor works the UI, punches into the part the voice names (inside the window) ----
+        H.art("#cur", "cursor");
+        const C = (sel, dx = 0, dy = 0) => { const r = document.querySelector(sel).getBoundingClientRect(); return [r.left + r.width / 2 + dx, r.top + r.height / 2 + dy]; };
+        const path = (pts, clicks, end) => H.cursor(tl, "#cur", pts.map(([sel, t, dx, dy]) => [...(Array.isArray(sel) ? sel : C(sel, dx, dy)), t]), clicks, { end });
+        path([["#reels", 3.0, 200, 120], ["#chip1", 4.15]], [4.28], 4.55);
+        path([["#w1b", 6.6, 100, 60], ["#go1", 7.6]], [7.78], 8.5);
+        path([["#w4", 18.05, 150, 120], ["#file4", 18.9, 60, 0], ["#go4", 19.85]], [20.0], 20.55);
+        path([["#w6", 25.5, 100, 140], ["#cin6", 26.4, 80, 0], ["#snd6", 27.65]], [26.52, 27.8], 28.25);
+        path([["#th-board", 35.0, 0, 60], ["#th-glass", 35.3, 30, 30], ["#th-night", 35.66, 30, 30], ["#th-hooks", 36.14, 30, 30], ["#th-headline", 36.85, 30, 30]], [35.32, 35.68, 36.16, 36.94], 37.9);
+        path([["#w12", 58.9, 200, 100], ["#c12a", 59.4], ["#c12b", 61.25], ["#c12c", 62.9], ["#c12d", 64.1]], [59.46, 61.32, 62.98, 64.16], 64.95);
+        path([["#w13", 65.25, 150, 60], ["#btn13", 65.62]], [65.7], 67.0);
+        const body = (w) => document.querySelector(w + " .body");
+        const pp = (w, t1, t2, s, ox, oy) => { H.punch(tl, body(w), t1, s, [ox, oy]); H.unpunch(tl, body(w), t2); };
+        H.punch(tl, "#w1a", 2.3, 1.06, [425, 250]); H.unpunch(tl, "#w1a", 3.3);
+        pp("#w2", 10.36, 11.85, 1.1, 870, 380);
+        H.punch(tl, "#p3", 16.22, 1.1, [190, 600]); H.unpunch(tl, "#p3", 17.3);
+        H.streak(tl, "#sk3", 15.3, 260, 0.8);
+        pp("#w4", 18.94, 19.9, 1.12, 300, 160);
+        pp("#w5", 22.48, 24.1, 1.14, 40, 330);
+        H.streak(tl, "#sk5", 24.4, 760, 0.9);
+        pp("#w6", 26.52, 28.0, 1.14, 450, 220);
+        H.punch(tl, "#p7a", 29.46, 1.08, [380, 600]); H.unpunch(tl, "#p7a", 30.05);
+        H.punch(tl, "#p7b", 31.18, 1.1, [380, 560]);
+        H.punch(tl, "#grid8", 33.56, 1.08, [395, 400]); H.unpunch(tl, "#grid8", 34.3);
+        H.punch(tl, "#grid8", 36.92, 1.3, [395, 400]); H.streak(tl, "#sk8", 38.72, 700); H.unpunch(tl, "#grid8", 39.9);
+        pp("#w9", 42.72, 43.75, 1.12, 400, 260);
+        H.streak(tl, "#sk9", 44.6, 700);
+        pp("#w12", 61.3, 62.6, 1.1, 450, 200);
+        pp("#w13", 66.82, 68.2, 1.1, 450, 300);
+        H.punch(tl, body("#w13"), 69.08, 1.08, [450, 200]);
         window.__timelines["main"] = tl;
       });
     </script>
