@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <style>
+      @font-face { font-family: "Heebo"; font-weight: 800; src: url("assets/heebo-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 800; src: url("assets/heebo-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("assets/heebo-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("assets/heebo-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "JBM"; font-weight: 500; src: url("assets/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+      @font-face { font-family: "JBM"; font-weight: 700; src: url("assets/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #0d0a1c; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3.2" data-width="1920" data-height="1080" data-no-timeline>
+      <canvas id="gl" width="1920" height="1080"></canvas>
+      <audio id="k0" src="assets/k1.wav" data-start="0.420" data-duration="0.14" data-track-index="20" data-volume="0.24"></audio>
+      <audio id="k1" src="assets/k2.wav" data-start="0.471" data-duration="0.14" data-track-index="21" data-volume="0.26"></audio>
+      <audio id="k2" src="assets/k3.wav" data-start="0.527" data-duration="0.14" data-track-index="22" data-volume="0.25"></audio>
+      <audio id="k3" src="assets/k1.wav" data-start="0.583" data-duration="0.14" data-track-index="23" data-volume="0.18"></audio>
+      <audio id="k5" src="assets/k3.wav" data-start="0.733" data-duration="0.14" data-track-index="25" data-volume="0.24"></audio>
+      <audio id="k6" src="assets/k1.wav" data-start="0.788" data-duration="0.14" data-track-index="20" data-volume="0.19"></audio>
+      <audio id="k8" src="assets/k3.wav" data-start="0.918" data-duration="0.14" data-track-index="22" data-volume="0.23"></audio>
+      <audio id="k9" src="assets/k1.wav" data-start="0.964" data-duration="0.14" data-track-index="23" data-volume="0.18"></audio>
+      <audio id="k10" src="assets/k2.wav" data-start="1.001" data-duration="0.14" data-track-index="24" data-volume="0.21"></audio>
+      <audio id="k11" src="assets/k3.wav" data-start="1.056" data-duration="0.14" data-track-index="25" data-volume="0.26"></audio>
+      <audio id="k12" src="assets/k1.wav" data-start="1.091" data-duration="0.14" data-track-index="20" data-volume="0.26"></audio>
+      <audio id="k13" src="assets/k2.wav" data-start="1.125" data-duration="0.14" data-track-index="21" data-volume="0.24"></audio>
+      <audio id="k14" src="assets/k3.wav" data-start="1.158" data-duration="0.14" data-track-index="22" data-volume="0.18"></audio>
+      <audio id="k15" src="assets/k1.wav" data-start="1.213" data-duration="0.14" data-track-index="23" data-volume="0.2"></audio>
+      <audio id="k17" src="assets/k3.wav" data-start="1.357" data-duration="0.14" data-track-index="25" data-volume="0.27"></audio>
+      <audio id="k18" src="assets/k1.wav" data-start="1.395" data-duration="0.14" data-track-index="20" data-volume="0.28"></audio>
+      <audio id="k19" src="assets/k2.wav" data-start="1.440" data-duration="0.14" data-track-index="21" data-volume="0.25"></audio>
+      <audio id="k20" src="assets/k3.wav" data-start="1.476" data-duration="0.14" data-track-index="22" data-volume="0.27"></audio>
+      <audio id="k21" src="assets/k1.wav" data-start="1.525" data-duration="0.14" data-track-index="23" data-volume="0.28"></audio>
+      <audio id="k23" src="assets/k3.wav" data-start="1.669" data-duration="0.14" data-track-index="25" data-volume="0.22"></audio>
+      <audio id="k24" src="assets/k1.wav" data-start="1.703" data-duration="0.14" data-track-index="20" data-volume="0.19"></audio>
+      <audio id="k25" src="assets/k2.wav" data-start="1.735" data-duration="0.14" data-track-index="21" data-volume="0.21"></audio>
+      <audio id="k26" src="assets/k3.wav" data-start="1.782" data-duration="0.14" data-track-index="22" data-volume="0.18"></audio>
+      <audio id="k27" src="assets/k1.wav" data-start="1.831" data-duration="0.14" data-track-index="23" data-volume="0.21"></audio>
+      <audio id="k28" src="assets/k2.wav" data-start="1.870" data-duration="0.14" data-track-index="24" data-volume="0.26"></audio>
+      <audio id="k29" src="assets/k3.wav" data-start="1.914" data-duration="0.14" data-track-index="25" data-volume="0.21"></audio>
+      <audio id="send" src="assets/click-soft.mp3" data-start="1.900" data-duration="0.37" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="spark" src="assets/sparkle.mp3" data-start="1.950" data-duration="1.2" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="whip" src="assets/whoosh-short.mp3" data-start="2.500" data-duration="0.7" data-track-index="12" data-volume="0.7"></audio>
+    </div>
+    <script type="application/json" id="typing">[{"t": 0.42, "text": "ת"}, {"t": 0.471, "text": "תב"}, {"t": 0.527, "text": "תבנ"}, {"t": 0.583, "text": "תבנה"}, {"t": 0.626, "text": "תבנה "}, {"t": 0.733, "text": "תבנה ל"}, {"t": 0.788, "text": "תבנה לי"}, {"t": 0.831, "text": "תבנה לי "}, {"t": 0.918, "text": "תבנה לי א"}, {"t": 0.964, "text": "תבנה לי אפ"}, {"t": 1.001, "text": "תבנה לי אפל"}, {"t": 1.056, "text": "תבנה לי אפלי"}, {"t": 1.091, "text": "תבנה לי אפליק"}, {"t": 1.125, "text": "תבנה לי אפליקצ"}, {"t": 1.158, "text": "תבנה לי אפליקצי"}, {"t": 1.213, "text": "תבנה לי אפליקציה"}, {"t": 1.249, "text": "תבנה לי אפליקציה "}, {"t": 1.357, "text": "תבנה לי אפליקציה ל"}, {"t": 1.395, "text": "תבנה לי אפליקציה למ"}, {"t": 1.44, "text": "תבנה לי אפליקציה למע"}, {"t": 1.476, "text": "תבנה לי אפליקציה למעק"}, {"t": 1.525, "text": "תבנה לי אפליקציה למעקב"}, {"t": 1.58, "text": "תבנה לי אפליקציה למעקב "}, {"t": 1.669, "text": "תבנה לי אפליקציה למעקב ה"}, {"t": 1.703, "text": "תבנה לי אפליקציה למעקב הר"}, {"t": 1.735, "text": "תבנה לי אפליקציה למעקב הרג"}, {"t": 1.782, "text": "תבנה לי אפליקציה למעקב הרגל"}, {"t": 1.831, "text": "תבנה לי אפליקציה למעקב הרגלי"}, {"t": 1.87, "text": "תבנה לי אפליקציה למעקב הרגלים"}, {"t": 1.914, "text": "תבנה לי אפליקציה למעקב הרגלים."}]</script>
+    <script type="module">
+      // STEP 01 — "תאר את זה": a frosted-glass prompt bar in a violet void, the prompt types itself,
+      // the send button fires a light trail and the camera whips off after it to the next station
+      import * as THREE from "three";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { BokehPass } from "three/addons/postprocessing/BokehPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      // register readiness first, then wait for the faces so every canvas is drawn with the real fonts
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      let resolveBuilt; const built = new Promise((r) => (resolveBuilt = r)); window.__hf.buildReady["premium"] = built;
+      await Promise.all([document.fonts.load("800 100px Heebo", "תאר את זה"), document.fonts.load("500 100px Heebo", "תבנה לי"), document.fonts.load("700 40px JBM"), document.fonts.load("500 20px JBM")]);
+      const W = 1920, H = 1080, DUR = 3.2;
+      const TYPE = JSON.parse(document.getElementById("typing").textContent);
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const E = {
+        outCubic: (x) => 1 - Math.pow(1 - x, 3), inOutSine: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
+        outExpo: (x) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x)), inExpo: (x) => (x === 0 ? 0 : Math.pow(2, 10 * x - 10)),
+        inOutExpo: (x) => (x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? Math.pow(2, 20 * x - 10) / 2 : (2 - Math.pow(2, -20 * x + 10)) / 2),
+        outBack: (x) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+      };
+      let seed = 11; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+      const ORANGE = new THREE.Color("#ff8a4c");
+      const SEND = 1.95, WHIP = 2.45;
+
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+      renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = 1.0;
+      const scene = new THREE.Scene();
+      scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+      scene.environmentIntensity = 0.75;
+      const camera = new THREE.PerspectiveCamera(35, W / H, 0.1, 200);
+
+      // ---------- the void: violet with a warm low-left glow and a cool right, plus very fine grain ----------
+      const bg = new THREE.Mesh(new THREE.PlaneGeometry(90, 52), new THREE.ShaderMaterial({
+        depthWrite: false,
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `varying vec2 vUv;
+          float blob(vec2 p, vec2 c, vec2 r){ vec2 d = (p - c) / r; return exp(-dot(d, d)); }
+          void main(){ vec2 p = vUv;
+            vec3 c = vec3(0.022, 0.012, 0.05);
+            c += vec3(0.26, 0.10, 0.42) * blob(p, vec2(0.50, 0.80), vec2(0.34, 0.26));
+            c += vec3(0.36, 0.08, 0.12) * blob(p, vec2(0.10, 0.20), vec2(0.26, 0.22));
+            c += vec3(0.04, 0.10, 0.30) * blob(p, vec2(0.92, 0.18), vec2(0.28, 0.28));
+            c += vec3(0.14, 0.06, 0.24) * blob(p, vec2(0.34, 0.52), vec2(0.22, 0.18));
+            gl_FragColor = vec4(c, 1.0); }`,
+      }));
+      bg.position.z = -24; scene.add(bg);
+
+      // ---------- lights ----------
+      const key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(-3, 6, 8); scene.add(key);
+      const rimL = new THREE.PointLight(0xff9a6a, 10, 14, 2); rimL.position.set(-5, -1.5, 2.5); scene.add(rimL);
+      const rimR = new THREE.PointLight(0x8ab4ff, 8, 14, 2); rimR.position.set(5, 2, 2); scene.add(rimR);
+
+      // ---------- frosted glass prompt bar (a true capsule, extruded + bevelled) ----------
+      function capsule(w, h) { const r = h / 2, s = new THREE.Shape(); s.moveTo(-w / 2 + r, -h / 2); s.lineTo(w / 2 - r, -h / 2); s.absarc(w / 2 - r, 0, r, -Math.PI / 2, Math.PI / 2, false); s.lineTo(-w / 2 + r, h / 2); s.absarc(-w / 2 + r, 0, r, Math.PI / 2, Math.PI * 1.5, false); return s; }
+      const BW = 5.7, BH = 1.0;
+      const barGeo = new THREE.ExtrudeGeometry(capsule(BW, BH), { depth: 0.14, bevelEnabled: true, bevelThickness: 0.07, bevelSize: 0.07, bevelSegments: 10, curveSegments: 64 }); barGeo.center();
+      const glass = new THREE.MeshPhysicalMaterial({ color: 0xf1ecff, transmission: 1, roughness: 0.34, thickness: 0.9, ior: 1.45, attenuationColor: new THREE.Color(0xcdbdff), attenuationDistance: 2.5, clearcoat: 1, clearcoatRoughness: 0.12, specularIntensity: 1, envMapIntensity: 1.3 });
+      const bar = new THREE.Group(); scene.add(bar);
+      const barMesh = new THREE.Mesh(barGeo, glass); bar.add(barMesh);
+      // crisp light catching the rim
+      const rimPts = capsule(BW + 0.12, BH + 0.12).getPoints(160).map((p) => new THREE.Vector3(p.x, p.y, 0.14));
+      const rim = new THREE.Line(new THREE.BufferGeometry().setFromPoints(rimPts), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35 })); bar.add(rim);
+      // text layer on the front face
+      const TC = document.createElement("canvas"); TC.width = 2048; TC.height = 360; const tg = TC.getContext("2d");
+      const tTex = new THREE.CanvasTexture(TC); tTex.colorSpace = THREE.SRGBColorSpace; tTex.anisotropy = 8;
+      const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(BW, (BW * 360) / 2048), new THREE.MeshBasicMaterial({ map: tTex, transparent: true, depthWrite: false, toneMapped: false }));
+      textPlane.position.z = 0.15; bar.add(textPlane);
+      let lastKey = "";
+      function drawPrompt(txt, cursorOn) {
+        const k = txt + cursorOn; if (k === lastKey) return; lastKey = k;
+        tg.clearRect(0, 0, 2048, 360);
+        tg.font = "500 104px Heebo"; tg.direction = "rtl"; tg.textAlign = "right"; tg.textBaseline = "middle";
+        tg.fillStyle = "rgba(255,255,255,0.96)"; tg.shadowColor = "rgba(40,10,80,.35)"; tg.shadowBlur = 12; tg.fillText(txt, 1890, 186); tg.shadowBlur = 0;
+        if (cursorOn) { const w = tg.measureText(txt).width; tg.fillStyle = "#ff8a4c"; tg.fillRect(1890 - w - 22, 128, 8, 116); }
+        tTex.needsUpdate = true;
+      }
+      // the send button: a glossy orange disc with an arrow, sitting on the left end (RTL layout)
+      const btn = new THREE.Group(); btn.position.set(-BW / 2 + 0.56, 0, 0.16); bar.add(btn);
+      const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.08, 64).rotateX(Math.PI / 2), new THREE.MeshPhysicalMaterial({ color: 0xff7a35, emissive: 0xff5a1a, emissiveIntensity: 0.25, roughness: 0.25, clearcoat: 1 })); btn.add(disc);
+      const AC = document.createElement("canvas"); AC.width = AC.height = 256; const ag = AC.getContext("2d"); ag.strokeStyle = "#1b0b05"; ag.lineWidth = 22; ag.lineCap = ag.lineJoin = "round";
+      ag.beginPath(); ag.moveTo(128, 196); ag.lineTo(128, 64); ag.moveTo(76, 114); ag.lineTo(128, 62); ag.lineTo(180, 114); ag.stroke();
+      const arrow = new THREE.Mesh(new THREE.PlaneGeometry(0.46, 0.46), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(AC), transparent: true, depthWrite: false })); arrow.position.z = 0.05; btn.add(arrow);
+      const halo = new THREE.Mesh(new THREE.RingGeometry(0.36, 0.38, 64), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.8, 0.9, 0.45), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })); halo.position.z = 0.03; btn.add(halo);
+      bar.position.set(-0.2, -0.35, 0); bar.rotation.set(0.06, -0.1, 0.012);
+
+      // ---------- title block (3D planes: STEP eyebrow in mono, title in Heebo 800), right-aligned for RTL ----------
+      function label(text, font, color, h, spacing = 0) {
+        const c = document.createElement("canvas"); const g = c.getContext("2d"); g.font = font; if (spacing) g.letterSpacing = spacing + "px";
+        const w = Math.ceil(g.measureText(text).width) + 40; const px = parseFloat(font.match(/(\d+)px/)[1]);
+        c.width = w; c.height = Math.ceil(px * 1.5); const g2 = c.getContext("2d"); g2.font = font; if (spacing) g2.letterSpacing = spacing + "px";
+        g2.textBaseline = "middle"; g2.textAlign = "right"; g2.direction = /[א-ת]/.test(text) ? "rtl" : "ltr"; g2.fillStyle = color; g2.fillText(text, w - 20, c.height / 2 + px * 0.04);
+        const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+        const m = new THREE.Mesh(new THREE.PlaneGeometry((h * w) / c.height, h), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, toneMapped: false }));
+        m.geometry.translate(-((h * w) / c.height) / 2, 0, 0); // anchor at the right edge
+        return m;
+      }
+      const titleGrp = new THREE.Group(); titleGrp.position.set(2.62, 1.05, 0.25); titleGrp.rotation.set(0.04, -0.1, 0); scene.add(titleGrp);
+      const eyebrow = label("STEP 01", "700 64px JBM", "#ff8a4c", 0.3, 12); eyebrow.position.y = 0.62; titleGrp.add(eyebrow);
+      const title = label("תאר את זה", "800 240px Heebo", "#ffffff", 0.98); title.position.y = 0; titleGrp.add(title);
+      // ---------- glass orbs drifting at different depths (DOF does the rest) ----------
+      const orbMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 1, roughness: 0.04, thickness: 0.35, ior: 1.33, clearcoat: 1, envMapIntensity: 1.6, iridescence: 0.6, iridescenceIOR: 1.3 });
+      const orbs = [];
+      [[-3.9, 1.6, -1.2, 0.2], [3.6, -1.9, 0.8, 0.12], [-1.2, 2.2, -3, 0.3], [4.4, 1.9, -2, 0.18], [-4.6, -1.6, 1.6, 0.1], [0.9, -2.3, 1.9, 0.08], [0.1, 2.9, -5, 0.35], [-2.6, -2.6, -2.5, 0.22], [5.6, 0.2, -4, 0.28], [-5.4, 0.6, -3.5, 0.26], [1.4, 1.75, 2.6, 0.05], [-0.6, -1.25, 2.9, 0.04]]
+        .forEach(([x, y, z, r], i) => { const m = new THREE.Mesh(new THREE.SphereGeometry(r, 48, 32), orbMat); m.position.set(x, y, z); m.userData = { x, y, z, ph: i * 1.7 }; scene.add(m); orbs.push(m); });
+      // fine dust
+      const ND = 700, dpos = new Float32Array(ND * 3); for (let i = 0; i < ND; i++) { dpos[i * 3] = (rnd() - 0.5) * 22; dpos[i * 3 + 1] = (rnd() - 0.5) * 13; dpos[i * 3 + 2] = -10 + rnd() * 13; }
+      const dc = document.createElement("canvas"); dc.width = dc.height = 32; const dgc = dc.getContext("2d"); const dgr = dgc.createRadialGradient(16, 16, 0, 16, 16, 16); dgr.addColorStop(0, "rgba(255,255,255,1)"); dgr.addColorStop(1, "rgba(255,255,255,0)"); dgc.fillStyle = dgr; dgc.fillRect(0, 0, 32, 32);
+      const dgeo = new THREE.BufferGeometry(); dgeo.setAttribute("position", new THREE.BufferAttribute(dpos, 3));
+      const dust = new THREE.Points(dgeo, new THREE.PointsMaterial({ map: new THREE.CanvasTexture(dc), size: 0.035, color: 0xd9ccff, transparent: true, opacity: 0.7, depthWrite: false, blending: THREE.AdditiveBlending })); scene.add(dust);
+
+      // ---------- light trail: comes in low from the right, rises into the send button, then fires off left ----------
+      const trailMat = (col) => new THREE.ShaderMaterial({
+        uniforms: { head: { value: 0 }, len: { value: 0.32 }, col: { value: col } }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false,
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform float head, len; uniform vec3 col; varying vec2 vUv;
+          void main(){ float u = vUv.x; if (u > head) discard;
+            float k = smoothstep(head - len, head, u);
+            float core = 1.0 - abs(vUv.y - 0.5) * 2.0;
+            vec3 c = mix(col, vec3(1.6, 1.45, 1.3), pow(k, 6.0));
+            gl_FragColor = vec4(c * (0.25 + 1.6 * pow(k, 2.2)), k * (0.35 + 0.65 * core)); }`,
+      });
+      const inCurve = new THREE.CatmullRomCurve3([[9.5, -3.4, 0.6], [6.2, -2.6, 0.7], [3.0, -1.8, 0.8], [0.2, -1.55, 0.7], [-2.2, -1.2, 0.5], [-2.9, -0.55, 0.3]].map((a) => new THREE.Vector3(...a)));
+      const outCurve = new THREE.CatmullRomCurve3([[-2.9, -0.35, 0.3], [-4.0, -0.9, 0.6], [-6.5, -1.6, 0.8], [-12, -2.6, 0.6], [-20, -3.0, 0]].map((a) => new THREE.Vector3(...a)));
+      const mkTube = (curve) => { const m = new THREE.Mesh(new THREE.TubeGeometry(curve, 260, 0.022, 10, false), trailMat(new THREE.Color(1.6, 0.62, 0.26))); scene.add(m); return m; };
+      const tIn = mkTube(inCurve), tOut = mkTube(outCurve);
+      const headSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(dc), color: new THREE.Color(2.2, 1.6, 1.1), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })); headSprite.scale.setScalar(0.55); scene.add(headSprite);
+      const headCore = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(dc), color: new THREE.Color(3, 2.8, 2.5), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })); headCore.scale.setScalar(0.16); scene.add(headCore);
+
+      // ---------- HUD (screen space, never blurred): thin rule + mono labels ----------
+      const hud = new THREE.Scene(); const hudCam = new THREE.OrthographicCamera(-W / 2, W / 2, H / 2, -H / 2, -10, 10);
+      function hudLabel(text, font, color, x, y, alignRight) {
+        const c = document.createElement("canvas"); const g = c.getContext("2d"); g.font = font; g.letterSpacing = "4px"; const w = Math.ceil(g.measureText(text).width) + 16; c.width = w; c.height = 40;
+        const g2 = c.getContext("2d"); g2.font = font; g2.letterSpacing = "4px"; g2.fillStyle = color; g2.textBaseline = "middle"; g2.fillText(text, 8, 21);
+        const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(w, 40), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthTest: false, toneMapped: false }));
+        m.position.set(alignRight ? x - w / 2 : x + w / 2, y, 0); hud.add(m); return m;
+      }
+      const hl1 = hudLabel("HOW CLAUDE BUILDS AN APP", "500 22px JBM", "rgba(255,255,255,.7)", -880, 482);
+      const hl2 = hudLabel("01 / 04", "500 22px JBM", "rgba(255,138,76,1)", 880, 482, true);
+      const rule = new THREE.Mesh(new THREE.PlaneGeometry(1760, 1), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.18, depthTest: false })); rule.position.y = 458; hud.add(rule);
+      const hudItems = [hl1, hl2, rule];
+
+      // ---------- post: DOF → HUD → gentle bloom → tone map → lens (edge-only chroma, vignette, grain, motion blur) ----------
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 }));
+      composer.setPixelRatio(1); composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      const bokeh = new BokehPass(scene, camera, { focus: 7.6, aperture: 0.003, maxblur: 0.01 }); composer.addPass(bokeh);
+      const hudPass = new RenderPass(hud, hudCam); hudPass.clear = false; composer.addPass(hudPass);
+      const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.38, 0.55, 1.0); composer.addPass(bloom);
+      composer.addPass(new OutputPass());
+      const lens = new ShaderPass({
+        uniforms: { tDiffuse: { value: null }, time: { value: 0 }, vel: { value: 0 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float time, vel; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time) * 43758.5453); }
+          vec3 samp(vec2 uv){ vec2 d = (uv - 0.5); float e = dot(d, d) * 0.012;
+            return vec3(texture2D(tDiffuse, uv + d * e).r, texture2D(tDiffuse, uv).g, texture2D(tDiffuse, uv - d * e).b); }
+          void main(){ vec3 c = vec3(0.0);
+            if (vel > 0.0005) { for (int i = 0; i < 14; i++) c += samp(vUv + vec2(vel * (float(i) / 13.0 - 0.5), 0.0)); c /= 14.0; } else c = samp(vUv);
+            c *= mix(0.72, 1.0, smoothstep(0.95, 0.3, length((vUv - 0.5) * vec2(1.0, 0.85))));
+            c += (hash(floor(vUv * vec2(1920.0, 1080.0))) - 0.5) * 0.028;
+            gl_FragColor = vec4(c, 1.0); }`,
+      });
+      composer.addPass(lens);
+
+      const tmp = new THREE.Vector3();
+      function typed(t) { let s = ""; for (const e of TYPE) { if (e.t > t) break; s = e.text; } return s; }
+      function renderAt(t) {
+        t = clamp(t, 0, DUR - 1e-4);
+        // bar rises out of soft focus
+        const bk = E.outCubic(seg(t, 0.0, 0.7)); bar.position.y = -0.35 - (1 - bk) * 0.35; barMesh.material.opacity = 1;
+        bar.rotation.x = 0.06 + (1 - bk) * 0.25; bar.scale.setScalar(0.94 + 0.06 * bk);
+        const txt = typed(t); drawPrompt(txt, t < SEND && Math.floor(t * 2.4) % 2 === 0 || (t > 0.4 && t < 1.85));
+        // send: press, halo, arrow nudges up
+        const pr = seg(t, SEND - 0.08, SEND), rel = seg(t, SEND, SEND + 0.25);
+        btn.scale.setScalar(1 - 0.12 * pr + 0.12 * E.outBack(rel) * (pr >= 1 ? 1 : 0));
+        disc.material.emissiveIntensity = 0.25 + (t > SEND ? 1.6 * Math.exp(-(t - SEND) * 4) : 0) + seg(t, 1.55, SEND) * 0.6;
+        arrow.position.y = t > SEND ? Math.sin(seg(t, SEND, SEND + 0.3) * Math.PI) * 0.08 : 0;
+        const hk = seg(t, SEND, SEND + 0.55); halo.material.opacity = t > SEND ? (1 - hk) * 0.55 : 0; halo.scale.setScalar(1 + E.outCubic(hk) * 1.4);
+        // title: eyebrow decodes in, title rises
+        eyebrow.material.opacity = seg(t, 0.12, 0.4);
+        const ti = E.outExpo(seg(t, 0.18, 0.9)); title.material.opacity = ti; title.position.y = -(1 - ti) * 0.22; title.scale.setScalar(0.97 + 0.03 * ti);
+        // trail: incoming head reaches the button exactly on SEND, then the out-trail fires
+        const pin = E.inOutSine(seg(t, 0.15, SEND)); tIn.material.uniforms.head.value = pin; tIn.material.uniforms.len.value = 0.45;
+        const pout = E.outCubic(seg(t, SEND, SEND + 0.9)); tOut.material.uniforms.head.value = pout; tOut.material.uniforms.len.value = 0.5;
+        tIn.material.uniforms.col.value.setRGB(1.6, 0.62, 0.26).multiplyScalar(t > SEND ? Math.max(0.15, 1 - (t - SEND) * 2) : 1);
+        if (t < SEND) inCurve.getPointAt(clamp(pin), tmp); else outCurve.getPointAt(clamp(pout), tmp);
+        headSprite.position.copy(tmp); headCore.position.copy(tmp); headSprite.visible = headCore.visible = t > 0.15;
+        headSprite.scale.setScalar(0.42 + (t > SEND ? 0.35 * Math.exp(-(t - SEND) * 5) : 0));
+        orbs.forEach((o) => { const u = o.userData; o.position.set(u.x + Math.sin(t * 0.6 + u.ph) * 0.12, u.y + Math.sin(t * 0.8 + u.ph * 1.3) * 0.15, u.z); });
+        dust.position.y = t * 0.08; dust.rotation.y = t * 0.02;
+        // camera: slow push + slight orbit, then an expo whip left following the trail
+        const push = E.inOutSine(seg(t, 0, WHIP)); const wk = Math.pow(seg(t, WHIP, DUR), 2.4);
+        camera.position.set(lerp(0.9, 0.25, push) - wk * 7.5, lerp(0.35, 0.1, push) - wk * 0.6, lerp(8.6, 7.7, push) + wk * 0.4);
+        camera.lookAt(lerp(0.35, 0.05, push) - wk * 9.5, lerp(0.15, 0.05, push) - wk * 0.8, 0);
+        camera.rotation.z += lerp(-0.012, 0.0, push) + wk * 0.04;
+        bokeh.uniforms.focus.value = camera.position.distanceTo(bar.position);
+        lens.uniforms.vel.value = wk * 0.16; lens.uniforms.time.value = Math.floor(t * 60);
+        const hudIn = E.outCubic(seg(t, 0.05, 0.5)); hudItems.forEach((m) => (m.material.opacity = (m === rule ? 0.18 : 1) * hudIn));
+        rule.scale.x = hudIn;
+        composer.render();
+      }
+      let ready = true; resolveBuilt();
+      renderAt(window.__hfThreeTime || 0);
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      window.__renderAt = renderAt;
+    </script>
+  </body>
+</html>
