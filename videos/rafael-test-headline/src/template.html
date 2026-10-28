@@ -11,6 +11,7 @@
       #ctaK { margin-top: 24px; }
       html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
       .rtl { direction: rtl; text-align: right; }
+      #w1b .body, #w4 .body, #w5 .body, #w6 .body, #w13 .body { position: relative; }
       .h-win h4 { margin: 0 0 20px; font-size: 52px; font-weight: 800; letter-spacing: -1.5px; }
 
       /* B1: reels feed (three real edited frames) → the chat with the doubt */
@@ -117,8 +118,7 @@
           <div class="body" id="reels"><div class="reel" style="background-image: url(assets/img/th-night.jpg)"><span class="chip">ערוך עם Claude</span></div><div class="reel" style="background-image: url(assets/img/th-editorial.jpg)"><span class="chip" id="chip1">ערוך עם Claude</span></div><div class="reel" style="background-image: url(assets/img/th-hooks.jpg)"><span class="chip">ערוך עם Claude</span></div></div>
           <div class="h-ring" id="r1"></div><div class="h-streak" id="sk1" style="left: 0; top: -2px"></div></div>
         <div class="h-win" id="w1b"><div class="bar"><i></i><i></i><i></i><span class="url">claude.ai</span></div>
-          <div class="body rtl"><div class="bub" id="q1"></div><div class="inp"><span>שלחו הודעה…</span><span class="go" id="go1">↑</span></div></div>
-          <div class="h-ring" id="r1b"></div></div>
+          <div class="body rtl"><div class="bub" id="q1"></div><div class="inp"><span>שלחו הודעה…</span><span class="go" id="go1">↑</span></div><div class="h-ring" id="r1b"></div></div></div>
       </div>
 
       <!-- B3 (split): step 1, the camera records -->
@@ -131,8 +131,7 @@
       <div id="s6" class="h-scene" style="z-index: 7">
         <div class="h-win" id="w6"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/refaelleviii</span></div>
           <div class="body rtl"><div class="post"><span class="av"></span><div><b>רפאל לוי</b><br /><span>@refaelleviii · תגובות</span></div><span class="rl"></span></div>
-            <div class="cin" id="cin6"><span class="ph" id="ph6">הוסיפו תגובה…</span><span id="ty6"></span><span class="snd" id="snd6">פרסום</span></div></div>
-          <div class="h-ring" id="r6"></div><div class="h-ring" id="r6b"></div></div>
+            <div class="cin" id="cin6"><span class="ph" id="ph6">הוסיפו תגובה…</span><span id="ty6"></span><span class="snd" id="snd6">פרסום</span></div><div class="h-ring" id="r6"></div><div class="h-ring" id="r6b"></div></div></div>
       </div>
 
       <!-- B9 (split): the views before / after, the stat card lands on "אלפים" -->
@@ -156,8 +155,8 @@
       <div id="s13" class="h-scene" style="z-index: 7">
         <div class="h-win" id="w13"><div class="bar"><i></i><i></i><i></i><span class="url" id="url13"></span></div>
           <div class="body rtl"><div class="prof"><span class="av"></span><div><h5>רפאל לוי</h5><div class="ro">מומחה AI ושיווק דיגיטלי</div><div class="hd">refael-ai.com · @refaelleviii</div></div></div>
-            <div class="cbtn" id="btn13"><span class="sel" id="sel13">לקורסים באתר</span></div></div>
-          <div class="h-ring" id="r13"></div><div class="h-streak" id="sk13" style="left: 0; top: -2px"></div></div>
+            <div class="cbtn" id="btn13"><span class="sel" id="sel13">לקורסים באתר</span></div><div class="h-ring" id="r13"></div></div>
+          <div class="h-streak" id="sk13" style="left: 0; top: -2px"></div></div>
       </div>
 
       <!-- page (B2, B4, B7, B8, B12a) -->
@@ -171,8 +170,7 @@
           <div class="h-sec"><span class="t" id="t4">שלב</span><span class="h-caret" id="c4"></span><span class="h-box" id="b4">שני</span></div>
           <div class="h-win" id="w4"><div class="bar"><i></i><i></i><i></i><span class="url">claude.ai</span></div>
             <div class="body rtl"><div class="file" id="file4"><span class="ic"></span><div style="flex: 1"><div class="nm">IMG_5381.mov</div><div class="st"><span id="st4a">מעלה…</span><span id="st4b" style="position: absolute; opacity: 0">הועלה ✓</span></div><div class="bar2"><i id="fill4"></i></div></div></div>
-              <div class="inp"><span id="ty4"></span><span class="go" id="go4">↑</span></div></div>
-            <div class="h-ring" id="r4"></div></div>
+              <div class="inp"><span id="ty4"></span><span class="go" id="go4">↑</span></div><div class="h-ring" id="r4"></div></div></div>
         </div>
         <div id="g7" class="h-scene">
           <div class="h-sec"><span class="t" id="t7">אותו סרטון</span><span class="h-caret" id="c7"></span><span class="h-box" id="b7">עם הסקיל</span></div>
@@ -206,8 +204,7 @@
       <div id="dark" class="h-dark">
         <div class="h-sec"><span class="t" id="t5" style="color: #fff">שלב שלישי</span><span class="h-caret" id="c5"></span><span class="h-box" id="b5">הכי חשוב</span></div>
         <div class="h-win term" id="w5"><div class="bar"><i></i><i></i><i></i><span class="ttl">claude — my-video</span></div>
-          <div class="body"><div class="dim">~/my-video $ ls</div><div class="dim">IMG_5381.mov</div><div class="dim">~/my-video $ claude</div><div class="dim">╭ Claude Code · cwd: ~/my-video</div><div class="in">&gt; <span id="cmd5"></span></div><div class="o5"><span class="ok">●</span> Installing video-themes</div><div class="o5 dim">└ 9 themes: glass · paper · night</div><div class="o5 dim">  editorial · headline · arcade</div><div class="o5 dim">  neon-studio · hooks · board</div><div class="o5" id="ok5"><span class="ok">✓</span> Installed: <b>video-themes</b></div></div>
-          <div class="h-ring" id="r5"></div></div>
+          <div class="body"><div class="dim">~/my-video $ ls</div><div class="dim">IMG_5381.mov</div><div class="dim">~/my-video $ claude</div><div class="dim">╭ Claude Code · cwd: ~/my-video</div><div class="in">&gt; <span id="cmd5"></span></div><div class="o5"><span class="ok">●</span> Installing video-themes</div><div class="o5 dim">└ 9 themes: glass · paper · night</div><div class="o5 dim">  editorial · headline · arcade</div><div class="o5 dim">  neon-studio · hooks · board</div><div class="o5" id="ok5"><span class="ok">✓</span> Installed: <b>video-themes</b></div><div class="h-ring" id="r5"></div></div></div>
         <div class="h-streak" id="sk5" style="left: 70px; top: 468px"></div>
       </div>
 
@@ -265,8 +262,8 @@
 
         // ---- B2 (page): the 3 steps, step 3 selected on "הסוף" ----
         H.section(tl, "#t2", "#c2", "#b2", 8.95);
-        H.hide(tl, "#w2"); H.win(tl, "#w2", 9.0);
-        H.hide(tl, ".r2"); H.blurIn(tl, ".r2", [9.72, 10.12, 10.6], 0, 0.24);
+        H.hide(tl, "#w2"); H.win(tl, "#w2", 9.25);
+        H.hide(tl, ".r2"); H.blurIn(tl, ".r2", [9.4, 9.72, 10.12], 0, 0.24);
         H.select(tl, "#sel2", 11.04);
         H.push(tl, "#w2", 9.55, 2.55, 1.05);
 
@@ -395,7 +392,7 @@
         H.punch(tl, "#p7b", 31.18, 1.1, [380, 60]);
         H.punch(tl, "#grid8", 33.56, 1.08, [395, 400]); H.unpunch(tl, "#grid8", 34.3);
         tl.to("#grid8", { scale: 1.06, duration: 2.5, ease: "none" }, 34.35);
-        H.punch(tl, "#grid8", 36.92, 1.3, [395, 400]); tl.to("#grid8", { scale: 1.4, duration: 2.6, ease: "none" }, 37.25); H.streak(tl, "#sk8", 38.72, 700); H.unpunch(tl, "#grid8", 39.9);
+        H.punch(tl, "#grid8", 36.92, 1.3, [395, 400]); tl.to("#grid8", { scale: 1.34, duration: 2.6, ease: "none" }, 37.25); H.streak(tl, "#sk8", 38.72, 700); H.unpunch(tl, "#grid8", 39.9);
         pp("#w9", 42.72, 43.75, 1.12, 400, 260);
         H.streak(tl, "#sk9", 44.6, 700);
         hold("#w12", 59.44, 1.06, 1.12, 61.0, 700, 80);

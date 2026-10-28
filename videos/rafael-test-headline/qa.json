@@ -5,18 +5,18 @@
  "ready": false,
  "checks": {
   "motion": {
-   "value": 0.71,
+   "value": 0.77,
    "target": ">= 1.19",
    "pass": false,
-   "footage": "camera jitter 0.08 px/frame, 10 punches, 10 drifts (anchor: jitter 0.22 px/frame, 26.3 camera moves/min)"
+   "footage": "camera jitter 0.11 px/frame, 12 punches, 10 drifts (anchor: jitter 0.22 px/frame, 26.3 camera moves/min)"
   },
   "flat": {
-   "value": "37.3%",
+   "value": "30.8%",
    "target": "<= 16.0%",
    "pass": false
   },
   "actions": {
-   "value": "0.58 events/s (GSAP 2.75 tweens/s)",
+   "value": "0.59 events/s (GSAP 2.96 tweens/s)",
    "target": "0.45–0.83",
    "pass": true
   },
@@ -36,18 +36,18 @@
    "pass": false
   },
   "collide": {
-   "value": "0 collisions",
+   "value": "6 collisions",
    "target": "0",
-   "pass": true,
+   "pass": false,
    "faces_detected": 283
   },
   "overlap": {
-   "value": "2 overlaps",
+   "value": "0 overlaps",
    "target": "0 (unless in one data-qa-stack)",
-   "pass": false
+   "pass": true
   },
   "placeholder": {
-   "value": "2 found",
+   "value": "1 found",
    "target": "0",
    "pass": false
   },
@@ -59,72 +59,76 @@
  },
  "metrics": {
   "duration": 70.87,
-  "motion": 1.83,
-  "flat_pct": 37.3,
-  "events_per_s": 0.47,
+  "motion": 1.9,
+  "flat_pct": 30.8,
+  "events_per_s": 0.48,
   "graphics": {
-   "gfx_motion": 0.71,
-   "gfx_raw": 0.71,
+   "gfx_motion": 0.77,
+   "gfx_raw": 0.77,
    "baseline": 0.0,
    "baseline_s": 7,
    "baseline_from": "none (graphics-only render)",
    "gfx_share": 0.9,
    "footage": {
-    "jitter_px": 0.08,
+    "jitter_px": 0.11,
     "punches": [
-     18.9,
+     11.57,
+     18.93,
      19.93,
-     24.13,
+     23.97,
+     29.4,
      31.1,
      33.53,
-     36.8,
+     36.83,
      39.9,
      48.53,
      50.2,
      52.0
     ],
     "drifts": [
-     18.0,
-     31.0,
-     33.0,
+     18.33,
+     28.67,
+     32.67,
      36.67,
-     39.33,
-     49.0,
-     51.0,
+     40.0,
+     49.67,
      53.67,
      55.67,
+     59.0,
      68.67
     ]
    }
   },
   "footage": {
-   "jitter_px": 0.08,
+   "jitter_px": 0.11,
    "punches": [
-    18.9,
+    11.57,
+    18.93,
     19.93,
-    24.13,
+    23.97,
+    29.4,
     31.1,
     33.53,
-    36.8,
+    36.83,
     39.9,
     48.53,
     50.2,
     52.0
    ],
    "drifts": [
-    18.0,
-    31.0,
-    33.0,
+    18.33,
+    28.67,
+    32.67,
     36.67,
-    39.33,
-    49.0,
-    51.0,
+    40.0,
+    49.67,
     53.67,
     55.67,
+    59.0,
     68.67
    ]
   },
-  "actions_per_s": 0.58
+  "actions_per_s": 0.59
  },
  "targets": {
   "gfx_motion_min": 1.19,
@@ -142,16 +146,9 @@
    "fix": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)"
   },
   {
-   "t": "7.9–8.8s",
+   "t": "7.9–8.6s",
    "t0": 7.87,
    "words": "קלוד?",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "8.9–9.7s",
-   "t0": 8.9,
-   "words": "אז אני עכשיו הולך",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
@@ -163,25 +160,32 @@
    "fix": "fill 28%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
-   "t": "10.5–11.9s",
-   "t0": 10.5,
-   "words": "תישארו עד הסוף.",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+   "t": "9.5–10.2s",
+   "t0": 9.5,
+   "words": "הולך לספר לכם,",
+   "check": "no placeholders",
+   "fix": "w2: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
   },
   {
    "t": "17.8–18.2s",
    "t0": 17.75,
    "words": "שלב שני",
    "check": "hero fill",
-   "fix": "fill 48%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+   "fix": "fill 50%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
-   "t": "21.5–22.0s",
-   "t0": 21.5,
-   "words": "וזה השלב הכי",
-   "check": "no placeholders",
-   "fix": "w5: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
+   "t": "17.8–18.9s",
+   "t0": 17.83,
+   "words": "שלב שני תעלו את",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "20.8–21.2s",
+   "t0": 20.75,
+   "words": "שלב שלישי",
+   "check": "hero fill",
+   "fix": "fill 37%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
    "t": "21.6–22.5s",
@@ -191,67 +195,81 @@
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "22.2–23.5s",
-   "t0": 22.25,
-   "words": "חשוב תתקינו בקלוד",
-   "check": "no placeholders",
-   "fix": "w5: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
-  },
-  {
-   "t": "22.6–23.8s",
-   "t0": 22.6,
-   "words": "תתקינו בקלוד את",
+   "t": "22.5–23.7s",
+   "t0": 22.53,
+   "words": "תתקינו בקלוד",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "24.3–25.1s",
-   "t0": 24.33,
-   "words": "שלי.",
+   "t": "27.0–27.7s",
+   "t0": 26.97,
+   "words": "את המילה סקיל.",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "28.5–29.0s",
-   "t0": 28.5,
-   "words": "הסקיל הזה",
-   "check": "hero fill",
-   "fix": "fill 57%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
-  },
-  {
-   "t": "29.8–30.2s",
-   "t0": 29.75,
-   "words": "לקלוד לערוך",
-   "check": "graphic overlaps",
-   "fix": "#b7 overlaps #p7a (22% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "31.2–32.0s",
-   "t0": 31.25,
-   "words": "ברמה מטורפת. בתוך",
-   "check": "graphic overlaps",
-   "fix": "#b7 overlaps #p7b (29% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "35.3–36.9s",
-   "t0": 35.33,
-   "words": "ולפי העיצובים האלה",
+   "t": "28.7–29.4s",
+   "t0": 28.67,
+   "words": "הסקיל הזה מאפשר",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "37.1–39.0s",
-   "t0": 37.13,
-   "words": "יודע איך לערוך לכם את זה ברמה שעורכי",
+   "t": "33.7–35.3s",
+   "t0": 33.73,
+   "words": "עשרות סוגי עיצובים",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "39.0–39.8s",
-   "t0": 39.03,
-   "words": "התוכן הכי גדולים",
+   "t": "38.1–39.0s",
+   "t0": 38.1,
+   "words": "זה ברמה שעורכי",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "39.0–39.2s",
+   "t0": 39,
+   "words": "התוכן",
+   "check": "collisions",
+   "fix": "caption 'זה' on nm: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "39.0–39.2s",
+   "t0": 39,
+   "words": "התוכן",
+   "check": "collisions",
+   "fix": "caption 'ברמה' on nm: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "39.0–39.2s",
+   "t0": 39,
+   "words": "התוכן",
+   "check": "collisions",
+   "fix": "caption 'שעורכי' on nm: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "39.2–40.0s",
+   "t0": 39.25,
+   "words": "התוכן הכי גדולים משתמשים.",
+   "check": "collisions",
+   "fix": "caption 'התוכן' on nm: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "39.5–40.0s",
+   "t0": 39.5,
+   "words": "הכי גדולים משתמשים.",
+   "check": "collisions",
+   "fix": "caption 'הכי' on nm: move the caption off the card (card bottom >= 60px above the caption) or move the card"
+  },
+  {
+   "t": "39.8–40.0s",
+   "t0": 39.75,
+   "words": "גדולים משתמשים.",
+   "check": "collisions",
+   "fix": "caption 'גדולים' on nm: move the caption off the card (card bottom >= 60px above the caption) or move the card"
   },
   {
    "t": "57.8–58.2s",
@@ -261,23 +279,30 @@
    "fix": "fill 54%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
-   "t": "58.5–59.4s",
-   "t0": 58.5,
+   "t": "58.4–59.4s",
+   "t0": 58.4,
    "words": "רוצים ללמוד איך",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
    "t": "59.5–60.6s",
-   "t0": 59.47,
+   "t0": 59.53,
    "words": "לערוך וידאו בצורה",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "62.8–65.0s",
-   "t0": 62.83,
-   "words": "להשתמש ב-Higgsfield ועוד,",
+   "t": "61.7–62.5s",
+   "t0": 61.7,
+   "words": "graphics, להשתמש",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "63.1–64.8s",
+   "t0": 63.07,
+   "words": "ב-Higgsfield ועוד,",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   }

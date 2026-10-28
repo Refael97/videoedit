@@ -78,6 +78,7 @@ One accent: blue. No red, no green except inside a real screenshot.
 | `type` | a command / a comment | 20–24 letters per second | `key` |
 | `push` | a window is being explained | slow continuous scale 1 → 1.05 over the hold (never on the footage in split) | — |
 | `punch` / `unpunch` | the voice names a part of the window | quick zoom ×1.2–1.3 into that part (.3 s power3.out), holds, returns | `air` |
+| `hold` | a window is explained for 1.5 s+ | punch the window's `.body` ×1.06–1.1 into the named part, creep on to ×1.12–1.2, return at the end of the sentence (the frame stays still, the screenshot zooms); keeps a held receipt from going flat | `air` |
 | `cta` | "comment X" | the serif lead blurs in, the keyword lands big with its glow | `pop` |
 | captions | speech | each word blurs in on its start; up to 3 words, then clear | — |
 Forbidden: slides, rotations, bounces, camera moves on the footage in split, slow fades. (The full-face layout may
@@ -126,7 +127,7 @@ b. **Real, readable content.** Windows show the real post, the real repo page, t
    numbers (≥26px as shown). If the user has no screenshot, build the window with the real words — never skeleton lines.
 c. **The thing itself first.** "A guy on Twitter" → his tweet; "it has 23k stars" → the repo page with the Star button
    ringed, then the stat card. No stat card without a real number from the script or the source.
-d. **Action density ≈ 2 actions per second** *(anchor: opening 4 words + box + 3 serif words + window in 1.2 s; repo
+d. **Action density ≈ 2 actions per second** (on long talking-head scripts: swap the receipt every 1.5–3 s, a cursor works the UI, `hold` on every window held longer than ~1.2 s; selections are gradient-backed so `select` really sweeps) *(anchor: opening 4 words + box + 3 serif words + window in 1.2 s; repo
    beat: ring, dim, card, roll in 1.6 s; caption words on top of that)*. A receipt never holds still for more than ~1.2 s.
 e. **The opening has a visual.** The headline + box with a real image/screenshot under it, all inside the first second
    (anchor: title at 0.1 s, box 0.3 s, image card 0.4 s). Never the headline alone.

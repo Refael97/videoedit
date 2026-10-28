@@ -1,22 +1,22 @@
 {
  "project": "rafael-test-paper",
  "theme": "paper",
- "score": "5/10",
+ "score": "7/10",
  "ready": false,
  "checks": {
   "motion": {
-   "value": 0.52,
+   "value": 0.56,
    "target": ">= 0.69",
    "pass": false,
-   "footage": "camera jitter 0.09 px/frame, 2 punches, 7 drifts (anchor: jitter 0.16 px/frame, 9.4 camera moves/min)"
+   "footage": "camera jitter 0.1 px/frame, 3 punches, 7 drifts (anchor: jitter 0.16 px/frame, 9.4 camera moves/min)"
   },
   "flat": {
-   "value": "46.7%",
+   "value": "44.4%",
    "target": "<= 19.0%",
    "pass": false
   },
   "actions": {
-   "value": "0.45 events/s (GSAP 1.66 tweens/s)",
+   "value": "0.47 events/s (GSAP 1.92 tweens/s)",
    "target": "0.36–0.66",
    "pass": true
   },
@@ -31,7 +31,7 @@
    "pass": true
   },
   "hero": {
-   "value": "median 100%, 1 weak ranges",
+   "value": "median 98%, 1 weak ranges",
    "target": ">= 60%",
    "pass": false
   },
@@ -42,14 +42,14 @@
    "faces_detected": 283
   },
   "overlap": {
-   "value": "1 overlaps",
+   "value": "0 overlaps",
    "target": "0 (unless in one data-qa-stack)",
-   "pass": false
+   "pass": true
   },
   "placeholder": {
-   "value": "5 found",
+   "value": "0 found",
    "target": "0",
-   "pass": false
+   "pass": true
   },
   "hook": {
    "value": "visual on screen 2.5s of the first 3s",
@@ -59,19 +59,20 @@
  },
  "metrics": {
   "duration": 70.93,
-  "motion": 1.55,
-  "flat_pct": 46.7,
-  "events_per_s": 0.39,
+  "motion": 1.59,
+  "flat_pct": 44.4,
+  "events_per_s": 0.42,
   "graphics": {
-   "gfx_motion": 0.52,
-   "gfx_raw": 0.52,
+   "gfx_motion": 0.56,
+   "gfx_raw": 0.56,
    "baseline": 0.0,
    "baseline_s": 8,
    "baseline_from": "none (graphics-only render)",
    "gfx_share": 0.89,
    "footage": {
-    "jitter_px": 0.09,
+    "jitter_px": 0.1,
     "punches": [
+     57.7,
      68.5,
      68.77
     ],
@@ -82,13 +83,14 @@
      49.0,
      54.0,
      56.0,
-     67.67
+     68.67
     ]
    }
   },
   "footage": {
-   "jitter_px": 0.09,
+   "jitter_px": 0.1,
    "punches": [
+    57.7,
     68.5,
     68.77
    ],
@@ -99,10 +101,10 @@
     49.0,
     54.0,
     56.0,
-    67.67
+    68.67
    ]
   },
-  "actions_per_s": 0.45
+  "actions_per_s": 0.47
  },
  "targets": {
   "gfx_motion_min": 0.69,
@@ -120,20 +122,6 @@
    "fix": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)"
   },
   {
-   "t": "0.8–4.8s",
-   "t0": 0.75,
-   "words": "אתם מכירים את זה שאתם רואים סרטונים ברשתות ואומרים לכם שערוך את זה עם קלוד? אבל אתם",
-   "check": "graphic overlaps",
-   "fix": "#hook overlaps #reel0 (8% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
-  },
-  {
-   "t": "1.0–2.0s",
-   "t0": 1,
-   "words": "מכירים את זה שאתם רואים סרטונים",
-   "check": "no placeholders",
-   "fix": "reel0: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
-  },
-  {
    "t": "13.3–14.5s",
    "t0": 13.27,
    "words": "את עצמכם מדברים",
@@ -146,20 +134,6 @@
    "words": "למצלמה",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "18.2–19.0s",
-   "t0": 18.25,
-   "words": "שני תעלו את הסרטון",
-   "check": "no placeholders",
-   "fix": "chat4: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
-  },
-  {
-   "t": "21.2–22.0s",
-   "t0": 21.25,
-   "words": "שלישי וזה השלב הכי",
-   "check": "no placeholders",
-   "fix": "term5: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
   },
   {
    "t": "22.5–23.8s",
@@ -176,25 +150,11 @@
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
-   "t": "32.1–33.5s",
-   "t0": 32.1,
-   "words": "בתוך הסקיל יצרתי",
+   "t": "34.0–35.3s",
+   "t0": 33.97,
+   "words": "עשרות סוגי עיצובים",
    "check": "flat stretches",
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "38.0–38.5s",
-   "t0": 38,
-   "words": "את זה ברמה",
-   "check": "no placeholders",
-   "fix": "t88: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
-  },
-  {
-   "t": "38.0–38.5s",
-   "t0": 38,
-   "words": "את זה ברמה",
-   "check": "no placeholders",
-   "fix": "v88: image with almost no detail (grey box?): use a real frame / screenshot"
   },
   {
    "t": "58.4–59.4s",
@@ -250,7 +210,7 @@
    "t0": 70.5,
    "words": "",
    "check": "hero fill",
-   "fix": "fill 48%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+   "fix": "fill 60%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   }
  ]
 }

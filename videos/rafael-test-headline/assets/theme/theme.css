@@ -56,7 +56,10 @@
 .h-win .body { padding: 26px 34px; }
 .h-win .body[dir="rtl"] { direction: rtl; text-align: right; }
 .h-win p { margin: 0 0 22px; line-height: 1.35; }
-.h-win .sel { background: var(--h-sel); border-radius: 3px; background-repeat: no-repeat; background-size: 100% 100%; }
+/* selection: a gradient (not a background-color) so HEADLINE.select can sweep it with background-size; RTL sweeps from the right */
+.h-win .sel { background-image: linear-gradient(var(--h-sel), var(--h-sel)); border-radius: 3px; background-repeat: no-repeat; background-size: 100% 100%; background-position: left center; }
+.h-win [dir="rtl"] .sel, .h-win .rtl .sel, .h-win .sel:lang(he) { background-position: right center; }
+.h-win [dir="rtl"] .sel[dir="ltr"], .h-win .rtl .sel[dir="ltr"] { background-position: left center; }
 /* dark variant: a terminal */
 .h-win.term { background: #0f1115; color: #e8e8ea; border-color: #2f6fd6; box-shadow: 0 0 0 1px rgba(80, 140, 255, 0.35), 0 0 34px rgba(50, 120, 255, 0.35); }
 .h-win.term .bar { background: #16181d; border-bottom-color: #23262d; color: #9aa0a8; font-size: 26px; justify-content: center; }
