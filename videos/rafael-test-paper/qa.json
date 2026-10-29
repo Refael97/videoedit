@@ -1,7 +1,7 @@
 {
  "project": "rafael-test-paper",
  "theme": "paper",
- "score": "7/11",
+ "score": "7/12",
  "ready": false,
  "checks": {
   "motion": {
@@ -55,6 +55,11 @@
    "value": "0 found",
    "target": "0",
    "pass": true
+  },
+  "facts": {
+   "value": "2 unsourced",
+   "target": "0",
+   "pass": false
   },
   "hook": {
    "value": "visual on screen 2.5s of the first 3s",
@@ -341,6 +346,20 @@
    "words": "קלוד?",
    "check": "max static hold",
    "fix": "held still 1.0 s (anchor never holds > 0.9 s): add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "17.0–17.8s",
+   "t0": 17,
+   "words": "רוצים. שלב",
+   "check": "facts on screen",
+   "fix": "'00:04' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  },
+  {
+   "t": "18.5–20.8s",
+   "t0": 18.5,
+   "words": "תעלו את הסרטון הזה לקלוד. שלב",
+   "check": "facts on screen",
+   "fix": "'70' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
   },
   {
    "t": "21.1–22.5s",

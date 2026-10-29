@@ -1,6 +1,6 @@
 # QA · rafael-test-paper · theme `paper`
 
-**7/11 checks passed — NOT READY**
+**7/12 checks passed — NOT READY**
 
 | | check | value | target |
 |---|---|---|---|
@@ -14,6 +14,7 @@
 | ✓ | collisions | 0 collisions | 0 |
 | ✓ | graphic overlaps | 0 overlaps | 0 (unless in one data-qa-stack) |
 | ✓ | no placeholders | 0 found | 0 |
+| ✗ | facts on screen | 2 unsourced | 0 |
 | ✓ | hook visual | visual on screen 2.5s of the first 3s | >= 0.5s |
 
 footage motion (info, not scored): camera jitter 0.1 px/frame, 3 punches, 7 drifts (anchor: jitter 0.16 px/frame, 9.4 camera moves/min)
@@ -28,6 +29,8 @@ footage motion (info, not scored): camera jitter 0.1 px/frame, 3 punches, 7 drif
 | 6.2–7.2s | עורך סרטון ברמה | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 6.2–7.2s | עורך סרטון ברמה | max static hold | held still 1.1 s (anchor never holds > 0.9 s): add a build-up event, secondary motion or a camera move (push / punch) here |
 | 7.9–8.9s | קלוד? | max static hold | held still 1.0 s (anchor never holds > 0.9 s): add a build-up event, secondary motion or a camera move (push / punch) here |
+| 17.0–17.8s | רוצים. שלב | facts on screen | '00:04' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it |
+| 18.5–20.8s | תעלו את הסרטון הזה לקלוד. שלב | facts on screen | '70' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it |
 | 21.1–22.5s | שלישי וזה השלב הכי חשוב | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |
 | 21.1–22.5s | שלישי וזה השלב הכי חשוב | max static hold | held still 1.4 s (anchor never holds > 0.9 s): add a build-up event, secondary motion or a camera move (push / punch) here |
 | 22.5–23.8s | תתקינו בקלוד את | flat stretches | add a build-up event, secondary motion or a camera move (push / punch) here |

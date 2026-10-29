@@ -129,8 +129,8 @@ const { chromium } = require("playwright");
           if (n.nodeType !== 3 || !n.textContent.trim()) continue;
           const rg = document.createRange(); rg.selectNodeContents(n); const tr = rg.getBoundingClientRect(); if (!onScreen(tr)) continue;
           const fsz = parseFloat(cs.fontSize) * scaleOf(el);
-          const txt = n.textContent.trim().slice(0, 40);
-          S.texts.push({ r: R(tr), fs: +fsz.toFixed(1), op: +o.toFixed(2), cap, tx: txt, id: el.id || "" });
+          const txt = n.textContent.trim().slice(0, 160);
+          S.texts.push({ r: R(tr), fs: +fsz.toFixed(1), op: +o.toFixed(2), cap, tx: txt, id: el.id || "", k: keyOf(el) });
           if (/\d/.test(txt) && !cap && !el.closest("[data-qa-payoff]")) { const key = keyOf(el); (digitTexts[key] = digitTexts[key] || new Set()).add(txt); }
         }
         if (cap || ancestorsOfCaption.has(el)) continue;

@@ -22,7 +22,7 @@ PAYOFF_TOL, PAYOFF_HOLD = 0.15, 0.8
 
 CHECKS = [
     ("motion", "graphics motion"), ("flat", "flat stretches"), ("hold", "max static hold"), ("actions", "actions / s"), ("payoff", "payoff lands"),
-    ("text", "min text"), ("hero", "hero fill"), ("collide", "collisions"), ("overlap", "graphic overlaps"), ("placeholder", "no placeholders"), ("hook", "hook visual"),
+    ("text", "min text"), ("hero", "hero fill"), ("collide", "collisions"), ("overlap", "graphic overlaps"), ("placeholder", "no placeholders"), ("facts", "facts on screen"), ("hook", "hook visual"),
 ]
 FIX = {
     "motion": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)",
@@ -42,6 +42,7 @@ FIX = {
     "flat_img": "image with almost no detail (grey box?): use a real frame / screenshot",
     "chart": "a chart needs real numbers: add axis values / the measured figures, or drop the chart",
     "overlap": "move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container",
+    "facts": "take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it",
     "hook": "open on a visual (the result, the thing itself, real thumbnails), not text alone",
 }
 
@@ -376,7 +377,52 @@ def main():
                 npl += 1; fix(x, y, "no placeholders", f"{k}: " + FIX[msgk])
     res["placeholder"] = {"value": f"{npl} found", "target": "0", "pass": npl == 0}
 
-    # C10 hook visual
+    # C11 facts on screen: every number / URL / price shown (and held >= 0.5 s) must come from data/facts.yaml or the
+    # transcript. Enumerations (a lone 1-12 as a step / row number) are free. Counters' in-between values are not held.
+    import yaml
+    fpath = proj / "data/facts.yaml"
+    facts = yaml.safe_load(fpath.read_text()) if fpath.exists() else None
+    def flat_vals(o):
+        if isinstance(o, dict):
+            return [v for x in o.values() for v in flat_vals(x)]
+        if isinstance(o, list):
+            return [v for x in o for v in flat_vals(x)]
+        return [] if o is None else [str(o)]
+    norm = lambda x: re.sub(r"[\s,]", "", x.lower()).strip(".:;!?()\"'״׳")
+    allowed = {norm(v) for v in flat_vals(facts)} | {norm(w["text"]) for w in words}
+    TOK = re.compile(r"(?:https?://)?(?:[a-z0-9-]+\.)+(?:com|co\.il|io|ai|net|org|dev|app|me)(?:/[\w./-]*)?|[₪$€]\s?\d[\d,.]*[kKmM]?|\d[\d,.:]*\s?(?:[kKmM]\b|%|₪)?", re.I)
+    # a counter (an element whose number changes >= 3 times: a timer, a count-up) is judged by its final value only
+    vals = {}
+    for s in S:
+        for tx in s["texts"]:
+            if not tx["cap"] and re.search(r"\d", tx["tx"]):
+                vals.setdefault(tx.get("k"), []).append((s["t"], tx["tx"]))
+    final = {k: v[-1][1] for k, v in vals.items() if len({x for _, x in v}) >= 3}
+    seen = {}
+    for s in S:
+        for tx in s["texts"]:
+            if tx["cap"] or tx["op"] <= 0.5:
+                continue
+            if tx.get("k") in final and tx["tx"] != final[tx.get("k")]:
+                continue  # a counter on its way
+            for m in TOK.finditer(tx["tx"]):
+                tok = m.group(0).strip()
+                if re.fullmatch(r"0?\d|1[0-2]", tok.rstrip(".)")) and (len(tx["tx"].strip()) <= 4 or re.search(r"שלב|step|level|רמה|#\s?\d|^\s*\d{1,2}[.)]", tx["tx"], re.I)):
+                    continue  # an enumeration: "1", "02", "שלב 3.", "2) ..."
+                n_ = norm(tok)
+                if n_ in allowed or any(n_ and n_ in a_ for a_ in allowed if len(n_) >= 3):
+                    continue
+                seen.setdefault(tok, []).append(s["t"])
+    nf = 0
+    for tok, ts in seen.items():
+        for x, y in group_times(ts, step, 2):
+            nf += 1
+            fix(x, y, "facts on screen", f"'{tok}' is not in data/facts.yaml or the transcript: " + FIX["facts"])
+    if facts is None and nf:
+        fix(0, dur, "facts on screen", "no data/facts.yaml: list every number, name, URL and price the video shows")
+    res["facts"] = {"value": f"{nf} unsourced" + ("" if facts is not None else " (no facts.yaml)"), "target": "0", "pass": nf == 0}
+
+    # C12 hook visual
     vis = [s["t"] for s in S if s["t"] < 3 and (any(m_["op"] > 0.5 and m_["r"][2] >= 120 and m_["r"][3] >= 120 for m_ in s["media"]) or any(b["op"] > 0.5 and b["r"][2] >= 150 and b["r"][3] >= 150 for b in s["boxes"]))]
     ok = len(vis) * step >= 0.5
     res["hook"] = {"value": f"visual on screen {len(vis) * step:.1f}s of the first 3s", "target": ">= 0.5s", "pass": ok}

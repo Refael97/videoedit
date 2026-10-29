@@ -1,7 +1,7 @@
 {
  "project": "rafael-test-headline",
  "theme": "headline",
- "score": "7/11",
+ "score": "7/12",
  "ready": false,
  "checks": {
   "motion": {
@@ -55,6 +55,11 @@
    "value": "0 found",
    "target": "0",
    "pass": true
+  },
+  "facts": {
+   "value": "8 unsourced",
+   "target": "0",
+   "pass": false
   },
   "hook": {
    "value": "visual on screen 2.5s of the first 3s",
@@ -256,6 +261,20 @@
    "fix": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)"
   },
   {
+   "t": "0.5–4.8s",
+   "t0": 0.5,
+   "words": "אתם מכירים את זה שאתם רואים סרטונים ברשתות ואומרים לכם שערוך את זה עם קלוד? אבל אתם",
+   "check": "facts on screen",
+   "fix": "'instagram.com/reels' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  },
+  {
+   "t": "4.8–9.0s",
+   "t0": 4.75,
+   "words": "אתם אומרים איך לעזאזל אני עורך סרטון ברמה כזאת עם קלוד? אז",
+   "check": "facts on screen",
+   "fix": "'claude.ai' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  },
+  {
    "t": "5.4–6.8s",
    "t0": 5.37,
    "words": "איך לעזאזל אני עורך סרטון",
@@ -312,6 +331,13 @@
    "fix": "fill 50%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
   },
   {
+   "t": "18.0–20.8s",
+   "t0": 18,
+   "words": "שני תעלו את הסרטון הזה לקלוד. שלב",
+   "check": "facts on screen",
+   "fix": "'claude.ai' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  },
+  {
    "t": "18.2–18.8s",
    "t0": 18.2,
    "words": "שני תעלו",
@@ -324,6 +350,20 @@
    "words": "שלב שלישי",
    "check": "hero fill",
    "fix": "fill 37%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "25.5–28.5s",
+   "t0": 25.5,
+   "words": "שרוצה את הסקיל תגיבו פה את המילה סקיל. הסקיל",
+   "check": "facts on screen",
+   "fix": "'instagram.com/refaelleviii' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  },
+  {
+   "t": "30.2–32.0s",
+   "t0": 30.25,
+   "words": "לערוך לכם את הסרטון ברמה מטורפת. בתוך",
+   "check": "facts on screen",
+   "fix": "'claude.ai' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
   },
   {
    "t": "30.5–31.2s",
@@ -359,6 +399,13 @@
    "words": "יודע איך לערוך לכם את זה ברמה שעורכי התוכן הכי גדולים משתמשים.",
    "check": "max static hold",
    "fix": "held still 2.8 s (anchor never holds > 0.9 s): add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "41.0–48.8s",
+   "t0": 41,
+   "words": "משתמש בס- בסקיל הזה וזה הקפיץ לי את הצפיות משלוש מאות ארבע מאות צפיות לסרטון לעשרות אלפים. חבר'ה",
+   "check": "facts on screen",
+   "fix": "'instagram.com/insights' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
   },
   {
    "t": "41.1–42.4s",
@@ -403,6 +450,13 @@
    "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
   },
   {
+   "t": "56.5–57.8s",
+   "t0": 56.5,
+   "words": "בדרך אליכם. וכמובן",
+   "check": "facts on screen",
+   "fix": "'instagram.com/direct' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  },
+  {
    "t": "56.6–57.5s",
    "t0": 56.57,
    "words": "בדרך אליכם.",
@@ -422,6 +476,13 @@
    "words": "וכמובן אם אתם",
    "check": "hero fill",
    "fix": "fill 54%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "58.0–65.2s",
+   "t0": 58,
+   "words": "וכמובן אם אתם רוצים ללמוד איך לערוך וידאו בצורה מקצועית עם motion graphics, להשתמש ב-Higgsfield ועוד, כנסו",
+   "check": "facts on screen",
+   "fix": "'refael-ai.com/courses' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
   }
  ]
 }

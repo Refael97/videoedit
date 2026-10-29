@@ -1,8 +1,8 @@
 {
  "project": "rafael-test-night",
  "theme": "night",
- "score": "11/11",
- "ready": true,
+ "score": "11/12",
+ "ready": false,
  "checks": {
   "motion": {
    "value": 1.03,
@@ -55,6 +55,11 @@
    "value": "0 found",
    "target": "0",
    "pass": true
+  },
+  "facts": {
+   "value": "3 unsourced",
+   "target": "0",
+   "pass": false
   },
   "hook": {
    "value": "visual on screen 3.0s of the first 3s",
@@ -183,5 +188,27 @@
   "events_max": 0.81,
   "footage_info": "jitter 0.16 px/frame, 16.1 camera moves/min"
  },
- "fix_list": []
+ "fix_list": [
+  {
+   "t": "18.8–20.8s",
+   "t0": 18.75,
+   "words": "תעלו את הסרטון הזה לקלוד. שלב",
+   "check": "facts on screen",
+   "fix": "'70' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  },
+  {
+   "t": "24.0–25.2s",
+   "t0": 24,
+   "words": "הסקיל שלי. מי",
+   "check": "facts on screen",
+   "fix": "'10' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  },
+  {
+   "t": "43.2–48.8s",
+   "t0": 43.25,
+   "words": "הצפיות משלוש מאות ארבע מאות צפיות לסרטון לעשרות אלפים. חבר'ה",
+   "check": "facts on screen",
+   "fix": "'5K' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  }
+ ]
 }
