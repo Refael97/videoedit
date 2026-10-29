@@ -21,7 +21,7 @@ HERO_MIN = 0.60
 PAYOFF_TOL, PAYOFF_HOLD = 0.15, 0.8
 
 CHECKS = [
-    ("motion", "graphics motion"), ("flat", "flat stretches"), ("actions", "actions / s"), ("payoff", "payoff lands"),
+    ("motion", "graphics motion"), ("flat", "flat stretches"), ("hold", "max static hold"), ("actions", "actions / s"), ("payoff", "payoff lands"),
     ("text", "min text"), ("hero", "hero fill"), ("collide", "collisions"), ("overlap", "graphic overlaps"), ("placeholder", "no placeholders"), ("hook", "hook visual"),
 ]
 FIX = {
@@ -192,12 +192,21 @@ def main():
                      "footage": f"camera jitter {Lfoot['jitter_px']} px/frame, {len(Lfoot['punches'])} punches, {len(Lfoot['drifts'])} drifts (anchor: {T.get('footage_info', 'n/a')})"}
     if not ok:
         fix(0, dur, "motion", FIX["motion"])
-    # C2 flat
-    ok = M["flat_pct"] <= T["flat_max"]
-    res["flat"] = {"value": f"{M['flat_pct']}%", "target": f"<= {T['flat_max']}%", "pass": ok}
+    # C2 flat stretches + C2b longest static hold, both on the graphics layer (a marked payoff's hold is exempt)
+    pay_ends = [p_["end"] for p_ in P["payoffs"] if p_.get("end") is not None]
+    exempt = lambda a_, b_: any(e - 0.15 <= a_ <= e + 0.4 for e in pay_ends)
+    gruns = [(a_, b_) for a_, b_ in GL["gfx_flat_runs"] if not exempt(a_, b_)]
+    ok = GL["gfx_flat_pct"] <= T["flat_max"]
+    res["flat"] = {"value": f"{GL['gfx_flat_pct']}% (full frame {M['flat_pct']}%)", "target": f"<= {T['flat_max']}%", "pass": ok}
     if not ok:
-        for x, y in sorted(M["flat_runs"], key=lambda r: r[1] - r[0], reverse=True)[:12]:
+        for x, y in sorted(gruns, key=lambda r: r[1] - r[0], reverse=True)[:12]:
             fix(x, y, "flat stretches", FIX["flat"])
+    longest = max([b_ - a_ for a_, b_ in gruns], default=0.0)
+    ok = longest <= T["max_hold"] + 1e-6
+    res["hold"] = {"value": f"{longest:.2f} s", "target": f"<= {T['max_hold']} s", "pass": ok}
+    for x, y in gruns:
+        if y - x > T["max_hold"]:
+            fix(x, y, "max static hold", f"held still {y - x:.1f} s (anchor never holds > {T['max_hold']} s): " + FIX["flat"])
     # C3 actions / s (video events, same detector as the anchor) + GSAP diagnostics
     ev = round(len(acts) / dur, 2)
     lo, hi = T["events_min"], T["events_max"]

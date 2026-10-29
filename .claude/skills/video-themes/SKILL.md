@@ -123,10 +123,10 @@ brightness, clutter), light, and what to avoid. Measured from the anchor.
 5. `npx --yes hyperframes@0.8.150 check` and snapshots of every scene.
 6. **QA gate (mandatory — no draft reaches the user before it passes):** `scripts/qa/qa <project>`. It renders a
    fast draft (30 fps, draft quality), measures it against the theme's anchor targets (`themes/<name>/qa-targets.json`)
-   and the known-mistake rules, and writes `qa-report.md` + `qa.json`: a score N/10 and a FIX LIST with time, words,
+   and the known-mistake rules, and writes `qa-report.md` + `qa.json`: a score N/11 and a FIX LIST with time, words,
    the failed check and a concrete fix. Mark every payoff number with `data-qa-payoff="<word>"` (+ `data-qa-stamp`).
    Mark groups the language lets overlap (cards on cards) with `data-qa-stack`. Loop: fix → `qa` again, **at most
-   3 rounds**. Only at 10/10 render the final 60 fps. If something still fails after
+   3 rounds**. Only at 11/11 render the final 60 fps. If something still fails after
    3 rounds, tell the user exactly what fails and why — never send it silently. Targets are never edited to make a
    draft pass; they change only by re-measuring the anchor (`scripts/qa/anchor.py <theme>`). See `scripts/qa/README.md`.
 7. Render at 60 fps in the background.

@@ -13,11 +13,12 @@ Footage motion (info only): camera jitter (px/frame at 270 wide) and deliberate 
 import numpy as np
 import cv2
 
-from video_metrics import FPS, W, H, frames
+from video_metrics import FPS, W, H, FLAT_MIN_S, frames
 
 EDGE_THR = 300.0       # Sobel magnitude of a "hard" synthetic edge at 270x480
 EDGE_NOGFX = 0.012     # a 1-s window is "no graphics" when < 1.2% of the pixels outside the speaker are hard edges
 PUNCH, DRIFT = 0.04, 0.03
+FLAT_G = 0.3           # graphics layer is "static" in a frame when its residual is < 0.3 above the footage baseline
 CUT = 12.0             # a frame pair whose whole-frame difference is >= 12 is a cut / jump, not motion
 _face = None
 
@@ -135,7 +136,26 @@ def graphics_motion(diff_src, mask_src=None, compensate=True, footage=True):
     if not footage:
         base = 0.0  # a graphics-only render has no footage, so it has no footage residual to remove
     gm = max(0.0, float(np.mean(g)) - base) if g else 0.0
+    # flat stretches / longest static hold, on the graphics layer only: inside graphics windows, runs >= FLAT_MIN_S
+    # of frames whose residual stays < FLAT_G above the baseline (an unmeasurable pair — a cut — breaks a run)
+    inwin = np.zeros(len(res), bool)
+    for k in range(nw):
+        if gfx_w[k] and usable[k]:
+            inwin[k * FPS:(k + 1) * FPS] = True
+    still = inwin & np.isfinite(res) & (np.nan_to_num(res, nan=1e9) - base < FLAT_G)
+    runs, st = [], None
+    for i, v in enumerate(list(still) + [False]):
+        if v and st is None:
+            st = i
+        elif not v and st is not None:
+            if (i - st) / FPS >= FLAT_MIN_S:
+                runs.append((round(st / FPS, 2), round(i / FPS, 2)))
+            st = None
+    span = inwin.sum() / FPS
+    flat_pct = round(100 * sum(b_ - a_ for a_, b_ in runs) / span, 1) if span else 0.0
+    max_hold = round(max([b_ - a_ for a_, b_ in runs], default=0.0), 2)
     return {"gfx_motion": round(gm, 2), "gfx_raw": round(float(np.mean(g)), 2) if g else 0.0, "baseline": round(base, 2), "baseline_s": len(o), "baseline_from": ("no-graphics windows" if len(o) >= 3 else "quietest 10% of windows") if footage else "none (graphics-only render)", "gfx_share": round(len(g) / max(1, nw), 2),
+            "gfx_flat_pct": flat_pct, "gfx_flat_runs": runs, "max_hold": max_hold,
             "footage": camera_moves(cam)}
 
 

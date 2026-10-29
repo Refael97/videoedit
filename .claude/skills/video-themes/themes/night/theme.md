@@ -73,19 +73,21 @@ ladder build: 5 levels ≈1 s · framework list: 4 rows + 2 unlocks / 3 s = 2.0 
 
 Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
 Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
-graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Flat stretches and the
+longest static hold are read on the same graphics layer (residual < 0.3 above that baseline, runs >= 0.4 s). Footage = info only.
 
-| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
-|---|---|---|---|---|---|
-| Video-50462 | 124.0 s | 1.43 (1.86 − 0.43) | 9.2% | 0.6 | 0.16 px · 8P 19D |
-| Video-19647 | 73.9 s | 1.09 (1.29 − 0.2) | 8.5% | 0.57 | 0.13 px · 9P 11D |
-| Video-33830 | 78.3 s | 1.88 (2.05 − 0.17) | 9.4% | 0.7 | 0.15 px · 17P 9D |
-| Video-41438 | 107.5 s | 0.0 (1.54 − 1.69) | 17.4% | 0.64 | 0.18 px · 9P 21D |
-| **anchor** | 383.7 s | **1.06** | **11.4%** | **0.63** | jitter 0.16 px/frame, 16.1 camera moves/min |
+| video | length | graphics motion (raw − baseline) | graphics flat % | longest static hold | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|---|
+| Video-50462 | 124.0 s | 1.43 (1.86 − 0.43) | 17.7% | 1.5 s | 0.6 | 0.16 px · 8P 19D |
+| Video-19647 | 73.9 s | 1.09 (1.29 − 0.2) | 20.2% | 1.87 s | 0.57 | 0.13 px · 9P 11D |
+| Video-33830 | 78.3 s | 1.88 (2.05 − 0.17) | 18.9% | 1.6 s | 0.7 | 0.15 px · 17P 9D |
+| Video-41438 | 107.5 s | 0.0 (1.54 − 1.69) | 52.5% | 6.93 s | 0.64 | 0.18 px · 9P 21D |
+| **anchor** | 383.7 s | **1.06** | **28.2%** | **7.0 s** (max) | **0.63** | jitter 0.16 px/frame, 16.1 camera moves/min |
 
 | check | target |
 |---|---|
 | graphics motion | >= 0.79 (0.75 x anchor) |
-| flat stretches | <= 12.0% |
+| flat stretches (graphics layer) | <= 29.0% |
+| max static hold (graphics layer) | <= 7.0 s (a marked payoff hold is exempt) |
 | actions / s (events + camera moves) | 0.44–0.81 (anchor ±30%) |
 | footage motion | reported, never failed |

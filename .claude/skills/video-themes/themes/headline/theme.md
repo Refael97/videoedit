@@ -68,20 +68,22 @@ The air veil (`.h-air`) is a theme technique for footage on a darker wall — th
 
 Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
 Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
-graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Flat stretches and the
+longest static hold are read on the same graphics layer (residual < 0.3 above that baseline, runs >= 0.4 s). Footage = info only.
 
-| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
-|---|---|---|---|---|---|
-| Video-97418 | 36.97 s | 1.84 (2.31 − 0.47) | 16.3% | 0.76 | 0.21 px · 8P 10D |
-| Video-75789 | 46.73 s | 1.49 (2.29 − 0.8) | 10.9% | 0.66 | 0.23 px · 13P 15D |
-| Video-81754 | 38.33 s | 1.73 (2.39 − 0.67) | 18.8% | 0.55 | 0.23 px · 4P 11D |
-| Video-89398 | 35.07 s | 1.33 (1.84 − 0.52) | 22.2% | 0.71 | 0.17 px · 3P 4D |
-| Video-98315 | 37.17 s | 1.58 (2.22 − 0.64) | 13.3% | 0.51 | 0.26 px · 8P 9D |
-| **anchor** | 194.3 s | **1.59** | **16.0%** | **0.64** | jitter 0.22 px/frame, 26.3 camera moves/min |
+| video | length | graphics motion (raw − baseline) | graphics flat % | longest static hold | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|---|
+| Video-97418 | 36.97 s | 1.84 (2.31 − 0.47) | 11.6% | 0.86 s | 0.76 | 0.21 px · 8P 10D |
+| Video-75789 | 46.73 s | 1.49 (2.29 − 0.8) | 24.1% | 0.87 s | 0.66 | 0.23 px · 13P 15D |
+| Video-81754 | 38.33 s | 1.73 (2.39 − 0.67) | 14.8% | 1.07 s | 0.55 | 0.23 px · 4P 11D |
+| Video-89398 | 35.07 s | 1.33 (1.84 − 0.52) | 15.1% | 0.67 s | 0.71 | 0.17 px · 3P 4D |
+| Video-98315 | 37.17 s | 1.58 (2.22 − 0.64) | 13.8% | 1.0 s | 0.51 | 0.26 px · 8P 9D |
+| **anchor** | 194.3 s | **1.59** | **16.3%** | **1.1 s** (max) | **0.64** | jitter 0.22 px/frame, 26.3 camera moves/min |
 
 | check | target |
 |---|---|
 | graphics motion | >= 1.19 (0.75 x anchor) |
-| flat stretches | <= 16.0% |
+| flat stretches (graphics layer) | <= 17.0% |
+| max static hold (graphics layer) | <= 1.1 s (a marked payoff hold is exempt) |
 | actions / s (events + camera moves) | 0.45–0.83 (anchor ±30%) |
 | footage motion | reported, never failed |

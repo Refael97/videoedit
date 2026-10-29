@@ -25,7 +25,7 @@ def measure(theme):
         g = layers.graphics_motion(ROOT / v)
         acts = layers.actions(m["events"], g["footage"])
         per[pathlib.Path(v).stem] = {"duration": m["duration"], "gfx_motion": g["gfx_motion"], "gfx_raw": g["gfx_raw"], "baseline": g["baseline"],
-                                     "baseline_from": g["baseline_from"], "gfx_share": g["gfx_share"], "flat_pct": m["flat_pct"],
+                                     "baseline_from": g["baseline_from"], "gfx_share": g["gfx_share"], "flat_pct": g["gfx_flat_pct"], "flat_full_frame": m["flat_pct"], "max_hold": g["max_hold"],
                                      "actions_per_s": round(len(acts) / m["duration"], 2), "motion_all": m["motion"],
                                      "jitter_px": g["footage"]["jitter_px"], "punches": len(g["footage"]["punches"]), "drifts": len(g["footage"]["drifts"])}
         print(theme, v, per[pathlib.Path(v).stem])
@@ -34,28 +34,31 @@ def measure(theme):
     gm, fl, ev, jit = avg("gfx_motion"), avg("flat_pct"), avg("actions_per_s"), avg("jitter_px")
     cam_min = 60 * sum(p["punches"] + p["drifts"] for p in per.values()) / tot
     foot = f"jitter {jit:.2f} px/frame, {cam_min:.1f} camera moves/min"
-    T = {"gfx_motion_min": round(0.75 * gm, 2), "flat_max": float(math.ceil(fl)), "events_min": round(0.7 * ev, 2), "events_max": round(1.3 * ev, 2), "footage_info": foot}
+    hold = math.ceil(10 * max(p["max_hold"] for p in per.values())) / 10  # never hold longer than the anchor ever did
+    T = {"gfx_motion_min": round(0.75 * gm, 2), "flat_max": float(math.ceil(fl)), "max_hold": hold, "events_min": round(0.7 * ev, 2), "events_max": round(1.3 * ev, 2), "footage_info": foot}
     out = {"theme": theme, "anchor_videos": vids, "measured": per,
-           "anchor": {"gfx_motion": round(gm, 2), "flat_pct": round(fl, 1), "actions_per_s": round(ev, 2), "footage": foot},
+           "anchor": {"gfx_motion": round(gm, 2), "flat_pct": round(fl, 1), "max_hold": hold, "actions_per_s": round(ev, 2), "footage": foot},
            "targets": T, "detector": {"fps": vm.FPS, "size": [vm.W, vm.H], "flat_thr": vm.FLAT_THR, "flat_min_s": vm.FLAT_MIN_S, "ev_abs": vm.EV_ABS, "ev_rel": vm.EV_REL,
                                       "ev_gap": vm.EV_GAP, "edge_nogfx": layers.EDGE_NOGFX, "punch": layers.PUNCH, "drift": layers.DRIFT}}
     (THEMES / theme / "qa-targets.json").write_text(json.dumps(out, indent=1))
-    rows = "\n".join(f"| {k} | {p['duration']} s | {p['gfx_motion']} ({p['gfx_raw']} − {p['baseline']}) | {p['flat_pct']}% | {p['actions_per_s']} | {p['jitter_px']} px · {p['punches']}P {p['drifts']}D |" for k, p in per.items())
+    rows = "\n".join(f"| {k} | {p['duration']} s | {p['gfx_motion']} ({p['gfx_raw']} − {p['baseline']}) | {p['flat_pct']}% | {p['max_hold']} s | {p['actions_per_s']} | {p['jitter_px']} px · {p['punches']}P {p['drifts']}D |" for k, p in per.items())
     sec = f"""## QA targets
 
 Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
 Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
-graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Flat stretches and the
+longest static hold are read on the same graphics layer (residual < 0.3 above that baseline, runs >= 0.4 s). Footage = info only.
 
-| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
-|---|---|---|---|---|---|
+| video | length | graphics motion (raw − baseline) | graphics flat % | longest static hold | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|---|
 {rows}
-| **anchor** | {round(tot, 1)} s | **{round(gm, 2)}** | **{round(fl, 1)}%** | **{round(ev, 2)}** | {foot} |
+| **anchor** | {round(tot, 1)} s | **{round(gm, 2)}** | **{round(fl, 1)}%** | **{hold} s** (max) | **{round(ev, 2)}** | {foot} |
 
 | check | target |
 |---|---|
 | graphics motion | >= {T['gfx_motion_min']} (0.75 x anchor) |
-| flat stretches | <= {T['flat_max']}% |
+| flat stretches (graphics layer) | <= {T['flat_max']}% |
+| max static hold (graphics layer) | <= {T['max_hold']} s (a marked payoff hold is exempt) |
 | actions / s (events + camera moves) | {T['events_min']}–{T['events_max']} (anchor ±30%) |
 | footage motion | reported, never failed |
 """

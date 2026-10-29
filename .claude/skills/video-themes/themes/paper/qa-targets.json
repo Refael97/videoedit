@@ -11,7 +11,9 @@
    "baseline": 0.47,
    "baseline_from": "no-graphics windows",
    "gfx_share": 0.93,
-   "flat_pct": 18.5,
+   "flat_pct": 19.5,
+   "flat_full_frame": 18.5,
+   "max_hold": 0.9,
    "actions_per_s": 0.51,
    "motion_all": 2.96,
    "jitter_px": 0.16,
@@ -21,13 +23,15 @@
  },
  "anchor": {
   "gfx_motion": 0.92,
-  "flat_pct": 18.5,
+  "flat_pct": 19.5,
+  "max_hold": 0.9,
   "actions_per_s": 0.51,
   "footage": "jitter 0.16 px/frame, 9.4 camera moves/min"
  },
  "targets": {
   "gfx_motion_min": 0.69,
-  "flat_max": 19.0,
+  "flat_max": 20.0,
+  "max_hold": 0.9,
   "events_min": 0.36,
   "events_max": 0.66,
   "footage_info": "jitter 0.16 px/frame, 9.4 camera moves/min"

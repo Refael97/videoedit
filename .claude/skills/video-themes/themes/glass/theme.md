@@ -90,18 +90,20 @@ v1 projects (`videos/glass-test-kowalski`) keep working: v2 only adds classes an
 
 Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
 Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
-graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Flat stretches and the
+longest static hold are read on the same graphics layer (residual < 0.3 above that baseline, runs >= 0.4 s). Footage = info only.
 
-| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
-|---|---|---|---|---|---|
-| Video-20957 | 37.57 s | 0.5 (1.33 − 0.84) | 2.2% | 0.59 | 0.17 px · 14P 10D |
-| Video-73421 | 55.3 s | 0.47 (2.02 − 1.54) | 2.0% | 0.34 | 0.19 px · 9P 6D |
-| Video-30868 | 49.2 s | 1.78 (4.18 − 2.4) | 0.0% | 0.51 | 0.8 px · 4P 21D |
-| **anchor** | 142.1 s | **0.93** | **1.4%** | **0.46** | jitter 0.40 px/frame, 27.0 camera moves/min |
+| video | length | graphics motion (raw − baseline) | graphics flat % | longest static hold | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|---|
+| Video-20957 | 37.57 s | 0.5 (1.33 − 0.84) | 34.6% | 1.23 s | 0.59 | 0.17 px · 14P 10D |
+| Video-73421 | 55.3 s | 0.47 (2.02 − 1.54) | 46.9% | 3.44 s | 0.34 | 0.19 px · 9P 6D |
+| Video-30868 | 49.2 s | 1.78 (4.18 − 2.4) | 12.3% | 1.3 s | 0.51 | 0.8 px · 4P 21D |
+| **anchor** | 142.1 s | **0.93** | **31.7%** | **3.5 s** (max) | **0.46** | jitter 0.40 px/frame, 27.0 camera moves/min |
 
 | check | target |
 |---|---|
 | graphics motion | >= 0.7 (0.75 x anchor) |
-| flat stretches | <= 2.0% |
+| flat stretches (graphics layer) | <= 32.0% |
+| max static hold (graphics layer) | <= 3.5 s (a marked payoff hold is exempt) |
 | actions / s (events + camera moves) | 0.33–0.6 (anchor ±30%) |
 | footage motion | reported, never failed |
