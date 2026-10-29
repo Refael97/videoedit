@@ -1,0 +1,20 @@
+# Everything factual this video shows. Confirmed by Rafael (2026-10-28) or taken from his own words / files.
+numbers:
+  views_before: "300–400"        # "משלוש מאות ארבע מאות צפיות"
+  views_before_low: "300"
+  views_before_high: "400"
+  views_after: "10K"             # "עשרות אלפים" — Rafael confirmed 10K
+  steps: 3
+  themes: 9                      # the skill's real theme count (glass, paper, night, editorial, headline, arcade, neon-studio, hooks, board)
+urls:
+  - refael-ai.com
+names:
+  person: רפאל לוי
+  title: מומחה AI ושיווק דיגיטלי
+  handle: "@refaelleviii"
+  file: IMG_5381.mov
+  file_duration: "1:11"         # the clip is 70.95 s
+  command: /plugin install video-themes
+  courses: [עריכת וידאו מקצועית, Motion graphics, Higgsfield]
+prices: []
+ui: ["100%"]                     # interface states shown as-is (upload complete), not claims

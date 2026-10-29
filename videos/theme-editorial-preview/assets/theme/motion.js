@@ -58,7 +58,9 @@
     // letters: the display serif sets itself letter by letter; each letter arrives as a ghost (35%) then solid
     letters(tl, sel, t, step = 0.08) {
       const el = $(sel);
-      if (!el.dataset.split) { el.dataset.split = "1"; const txt = el.textContent; el.textContent = ""; Array.from(txt).forEach((ch) => { if (ch === "\n") { el.appendChild(document.createTextNode("\n")); return; } const s = document.createElement("span"); s.className = "l"; s.textContent = ch === " " ? " " : ch; el.appendChild(s); }); }
+      if (!el.dataset.split) { el.dataset.split = "1"; const txt = el.textContent; el.textContent = ""; Array.from(txt).forEach((ch) => { if (ch === "\n") { el.appendChild(document.createTextNode("\n")); return; } const s = document.createElement("span"); s.className = "l"; s.textContent = ch === " " ? " " : ch; if (ch.trim()) s.dataset.fxLetter = ""; el.appendChild(s); }); }
+      // a display word behind the speaker is the shared signature effect "wordBehind": same marking, same QA self-check
+      if (el.closest(".e-behind")) el.dataset.fx = "wordBehind";
       const ls = Array.from(el.querySelectorAll(".l"));
       ls.forEach((l, i) => ft(tl, l, { opacity: 0 }, { keyframes: [{ opacity: 0.35, duration: 0.06 }, { opacity: 0.35, duration: 0.08 }, { opacity: 1, duration: 0.08 }] }, t + i * step));
       return t + ls.length * step;

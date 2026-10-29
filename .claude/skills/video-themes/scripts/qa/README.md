@@ -9,9 +9,9 @@ anchor?") — that stays an eye review. It makes sure the known mistakes don't c
 python3 .claude/skills/video-themes/scripts/qa/anchor.py <theme|all>  # (re)measure a theme's targets on its anchor
 ```
 Needs: ffmpeg, node + Playwright (pre-installed), `numpy`, `opencv-python-headless<5` (face box).
-Output: `<project>/qa-report.md`, `<project>/qa.json` (score N/12, checks, FIX LIST). Exit code 0 only at 12/12.
+Output: `<project>/qa-report.md`, `<project>/qa.json` (score N/13, checks, FIX LIST). Exit code 0 only at 13/13.
 
-## The 12 checks (+ footage motion, reported only)
+## The 13 checks (+ footage motion, reported only)
 
 | # | check | how it is measured | pass |
 |---|---|---|---|
@@ -27,7 +27,8 @@ Output: `<project>/qa-report.md`, `<project>/qa.json` (score N/12, checks, FIX L
 | 9 | graphic overlaps | two major graphics (cards ≥ 160×100, media, svg content, titles ≥ 40 px) overlap by > 4% of the smaller one for ≥ 0.5 s — unless one contains the other or both sit inside the same `[data-qa-stack]` container (stacking the theme's language allows, e.g. cards on cards). Small marks (tags, stamps, cursors, icons < 160×100) may sit on things | 0 |
 | 10 | no placeholders | in the draft frames: a panel with luma std < 5, a ≥ 250×250 panel whose detailed 12px cells span < 40% of it (content bounding box), an image with std < 8; a chart (svg with *axis/chart/curve/graph/plot*) with no digit near it | 0 |
 | 11 | facts on screen | every number, URL and price visible ≥ 0.5 s (not captions) must appear in `data/facts.yaml` or in the transcript; a lone 1–12 used as a step / row number is free. Counters pass through unlisted values only while moving | 0 unsourced |
-| 12 | hook visual | in the first 3 s a non-text visual (media / svg / card ≥ 150 px) on screen ≥ 0.5 s | yes |
+| 12 | signature effects | `effects/README.md`: letters of a word behind the head ≥ 70% visible against the real cut-out (`matte.webm` alpha, decoded with libvpx, mapped through the cut-out's on-screen box) in every sample, one letter may dip ≤ 0.5 s; a risen shoulder card ≤ 50% hidden. Passes trivially when the video uses no effect | all true |
+| 13 | hook visual | in the first 3 s a non-text visual (media / svg / card ≥ 150 px) on screen ≥ 0.5 s | yes |
 
 Conventions the probe relies on: captions have a class containing `cap` (or `data-qa="caption"`); the speaker video is
 `data-qa="face"`, an id containing `face`, or track 0; full-frame backgrounds are ignored (or `data-qa="bg"`);

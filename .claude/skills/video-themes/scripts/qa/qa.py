@@ -22,7 +22,7 @@ PAYOFF_TOL, PAYOFF_HOLD = 0.15, 0.8
 
 CHECKS = [
     ("motion", "graphics motion"), ("flat", "flat stretches"), ("hold", "max static hold"), ("actions", "actions / s"), ("payoff", "payoff lands"),
-    ("text", "min text"), ("hero", "hero fill"), ("collide", "collisions"), ("overlap", "graphic overlaps"), ("placeholder", "no placeholders"), ("facts", "facts on screen"), ("hook", "hook visual"),
+    ("text", "min text"), ("hero", "hero fill"), ("collide", "collisions"), ("overlap", "graphic overlaps"), ("placeholder", "no placeholders"), ("facts", "facts on screen"), ("fx", "signature effects"), ("hook", "hook visual"),
 ]
 FIX = {
     "motion": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)",
@@ -430,7 +430,69 @@ def main():
         fix(0, dur, "facts on screen", "no data/facts.yaml: list every number, name, URL and price the video shows")
     res["facts"] = {"value": f"{nf} unsourced" + ("" if facts is not None else " (no facts.yaml)"), "target": "0", "pass": nf == 0}
 
-    # C12 hook visual
+    # C12 signature effects self-check (effects/README.md): letters of a word behind the head >= 70% visible against
+    # the real cut-out (one letter may dip for <= 0.5 s); a shoulder card, once risen, never more than 50% hidden
+    fxs = [s for s in S if s.get("fx")]
+    fx_bad, worst_letter, worst_card = [], 1.0, 0.0
+    if fxs:
+        mm = re.search(r'<video[^>]*(?:data-fx-matte|id="[^"]*matte[^"]*")[^>]*>', html, re.I)
+        msrc = re.search(r'src="([^"]+)"', mm.group(0)).group(1) if mm else None
+        A_ = None
+        if msrc and (proj / msrc).exists():
+            raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-c:v", "libvpx-vp9", "-i", str(proj / msrc), "-vf", "fps=30,alphaextract,scale=270:480", "-f", "rawvideo", "-pix_fmt", "gray", "-"], capture_output=True).stdout
+            if raw:
+                A_ = np.frombuffer(raw, np.uint8).reshape(-1, 480, 270)
+        def hidden(s, r):
+            m = s.get("matte")
+            if A_ is None or not m or m["op"] <= 0.5:
+                return 0.0
+            i = int(round((s["t"] - m["start"] + m["mstart"]) * 30))
+            if i < 0 or i >= len(A_):
+                return 0.0
+            mx, my, mw, mh = m["r"]; c = m["clip"]
+            x1, y1, x2, y2 = max(r[0], c[0]), max(r[1], c[1]), min(r[0] + r[2], c[2]), min(r[1] + r[3], c[3])
+            if x2 - x1 < 2 or y2 - y1 < 2:
+                return 0.0
+            u1, u2 = int((x1 - mx) / mw * 270), int((x2 - mx) / mw * 270); v1, v2 = int((y1 - my) / mh * 480), int((y2 - my) / mh * 480)
+            u1, u2, v1, v2 = max(0, u1), min(270, u2), max(0, v1), min(480, v2)
+            if u2 - u1 < 1 or v2 - v1 < 1:
+                return 0.0
+            covered = float((A_[i][v1:v2, u1:u2] > 128).mean())
+            return covered * (x2 - x1) * (y2 - y1) / max(1.0, r[2] * r[3])
+        low_run = {}
+        for s in fxs:
+            for e in s["fx"]:
+                key = e["name"] + "#" + (e["id"] or "")
+                if e.get("letters") and e["op"] > 0.5:
+                    lows = []
+                    for j, l in enumerate(e["letters"]):
+                        if l["op"] < 0.9 or l["r"][2] < 4:
+                            continue
+                        v = 1 - hidden(s, l["r"]); worst_letter = min(worst_letter, v)
+                        if v < 0.7:
+                            lows.append(j)
+                    for j in range(len(e["letters"])):
+                        low_run[(key, j)] = low_run.get((key, j), 0) + 1 if j in lows else 0
+                        if low_run[(key, j)] > 2:
+                            fx_bad.append((s["t"], f"{key}: letter {j + 1} under 70% visible for > 0.5 s"))
+                    if len(lows) >= 2:
+                        fx_bad.append((s["t"], f"{key}: {len(lows)} letters under 70% visible at once"))
+                if e["name"] == "shoulderCards" and e["state"] == "up" and e["op"] > 0.5:
+                    hdn = hidden(s, e["r"]); worst_card = max(worst_card, hdn)
+                    if hdn > 0.5:
+                        fx_bad.append((s["t"], f"{key}: risen card {hdn:.0%} hidden"))
+        groups_ = {}
+        for t_, msg in fx_bad:
+            groups_.setdefault(msg.split(":")[0] + ":" + msg.split(":")[1][:12], []).append((t_, msg))
+        for k_, occ in groups_.items():
+            for x, y in group_times([t_ for t_, _ in occ], step, 1):
+                fix(x, y, "signature effects", occ[0][1] + ": lift the word / move the card off the speaker (effects/README.md)")
+        res["fx"] = {"value": f"min letter visible {worst_letter:.0%}, max risen card hidden {worst_card:.0%}" + ("" if A_ is not None else " (no matte to measure)"),
+                     "target": "letters >= 70% (1 may dip <= 0.5 s), cards <= 50% hidden", "pass": not fx_bad}
+    else:
+        res["fx"] = {"value": "no signature effects", "target": "—", "pass": True}
+
+    # C13 hook visual
     vis = [s["t"] for s in S if s["t"] < 3 and (any(m_["op"] > 0.5 and m_["r"][2] >= 120 and m_["r"][3] >= 120 for m_ in s["media"]) or any(b["op"] > 0.5 and b["r"][2] >= 150 and b["r"][3] >= 150 for b in s["boxes"]))]
     ok = len(vis) * step >= 0.5
     res["hook"] = {"value": f"visual on screen {len(vis) * step:.1f}s of the first 3s", "target": ">= 0.5s", "pass": ok}

@@ -1,0 +1,20 @@
+/* glass → signature effects (effects/fx.css reads these). Mapped from this theme's own tokens; no new colors. */
+:root {
+  --fx-accent: var(--g-blue);
+  --fx-ink: #fff;
+  --fx-display: var(--g-font);
+  --fx-display-weight: 900;
+  --fx-body: var(--g-font);
+  --fx-card-bg: var(--g-glass-strong);
+  --fx-card-ink: #fff;
+  --fx-card-ink-soft: rgba(255,255,255,.75);
+  --fx-card-edge: 1.5px solid var(--g-glass-edge);
+  --fx-card-r: var(--g-r-win);
+  --fx-card-shadow: var(--g-glass-shadow);
+  --fx-card-blur: var(--g-glass-blur);
+  --fx-word: rgba(255,255,255,.92);
+  --fx-word-stroke: 0px transparent;
+  --fx-word-glow: 0 6px 30px rgba(0,0,0,.25);
+  --fx-glow: none;
+  --fx-bar-muted: rgba(255,255,255,.45);
+}

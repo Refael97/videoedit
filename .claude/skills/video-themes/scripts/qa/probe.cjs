@@ -203,6 +203,20 @@ const { chromium } = require("playwright");
         if (ia >= 0.9 * small) continue;
         S.overlaps.push({ a: A.label, b: B.label, share: +(ia / small).toFixed(2) });
       }
+      // signature effects (data-fx): rects, state and per-letter boxes, plus the cut-out video's on-screen geometry
+      S.fx = [];
+      document.querySelectorAll("[data-fx]").forEach((el) => {
+        const o = opa(el); if (o < 0.05) return;
+        const r = el.getBoundingClientRect();
+        const e = { name: el.dataset.fx, id: el.id || "", r: R(r), op: +o.toFixed(2), state: el.dataset.fxState || "" };
+        const ls = el.querySelectorAll("[data-fx-letter]");
+        if (ls.length) e.letters = Array.from(ls).map((l) => { const q = l.getBoundingClientRect(); return { r: [q.left, q.top, q.width, q.height].map((v) => +v.toFixed(1)), op: +opa(l).toFixed(2) }; });
+        S.fx.push(e);
+      });
+      if (S.fx.length) {
+        const mv = document.querySelector("video[data-fx-matte]") || Array.from(document.querySelectorAll("video")).find((v) => /matte/i.test(v.id));
+        if (mv) { const q = mv.getBoundingClientRect(); S.matte = { r: [q.left, q.top, q.width, q.height].map((v) => +v.toFixed(1)), op: +opa(mv).toFixed(2), clip: clipBox(mv).map(Math.round), start: parseFloat(mv.getAttribute("data-start") || "0"), mstart: parseFloat(mv.getAttribute("data-media-start") || "0") }; }
+      }
       // digits near charts
       S.charts.forEach((c) => { const [x, y, w, h] = c.r; c.digits = S.texts.some((tx) => /\d/.test(tx.tx) && !tx.cap && tx.r[0] < x + w + 40 && tx.r[0] + tx.r[2] > x - 40 && tx.r[1] < y + h + 40 && tx.r[1] + tx.r[3] > y - 40); });
       samples.push(S);

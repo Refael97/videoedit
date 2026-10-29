@@ -1,0 +1,55 @@
+/* paper theme: design tokens. Canvas 1080x1920 (9:16). Measured on the anchor (15422, 720x1280) and scaled x1.5. */
+@font-face { font-family: "PaperSans"; font-weight: 500; src: url("fonts/heebo-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "PaperSans"; font-weight: 700; src: url("fonts/heebo-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "PaperSans"; font-weight: 800; src: url("fonts/heebo-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "PaperSans"; font-weight: 500; src: url("fonts/heebo-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "PaperSans"; font-weight: 700; src: url("fonts/heebo-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "PaperSans"; font-weight: 800; src: url("fonts/heebo-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "PaperMono"; font-weight: 500; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+
+:root {
+  /* paper */
+  --p-paper: #dfd6c4;          /* measured 223,214,196 */
+  --p-grid: #d5ccb9;           /* grid lines, 9 points darker (measured 214,205,187) */
+  --p-grid-step: 48px;         /* measured 32.3px at 720 */
+  --p-paper-light: #f4efe6;    /* fills inside line illustrations */
+
+  /* ink */
+  --p-ink: #221c12;            /* measured 34,28,18 */
+  --p-ink-soft: #6f675b;       /* secondary labels, tree lines */
+  --p-orange: #c65a3c;         /* step number, active labels, tags, dotted arrows (measured core 193,102,74 incl. AA) */
+  --p-orange-soft: rgba(198, 90, 60, 0.12);
+  --p-blue: #6fcbf6;           /* folders (measured 111,203,246) */
+  --p-blue-dark: #4aa9db;
+  --p-link: #2f6fd6;           /* links inside cards */
+  --p-yellow: #fbe38a;         /* highlight behind fill-in parts of a prompt */
+  --p-green: #2fa860;          /* rare: a check inside a UI */
+  --p-night: #141b2d;          /* a dark document shown as-is (real output only) */
+
+  /* cards */
+  --p-card: #ffffff;
+  --p-card-warm: #fbfaf7;
+  --p-card-edge: rgba(34, 28, 18, 0.08);
+  --p-card-shadow: 0 18px 40px rgba(60, 42, 20, 0.16), 0 2px 6px rgba(60, 42, 20, 0.08);
+  --p-r-card: 16px;
+  --p-r-tile: 28px;
+
+  /* type */
+  --p-font: "PaperSans", sans-serif;
+  --p-mono: "PaperMono", monospace;
+  --p-step: 70px;              /* "שלב 1." label */
+  --p-label: 40px;             /* object labels */
+  --p-cap: 76px;               /* captions */
+  --p-hook: 68px;              /* hook lines */
+  --p-ui: 27px;                /* text inside cards */
+  --p-track: -1.5px;           /* tight tracking everywhere */
+  --p-cap-stroke: 10px;        /* black outline, painted under the fill */
+
+  /* layout (1920 tall) */
+  --p-seam: 960px;             /* split: paper 0-960, face 960-1920 (measured exactly 50%) */
+  --p-step-top: 300px;         /* step label in the paper area (16%) */
+  --p-cap-split: 908px;        /* caption center on the seam (47.3%) */
+  --p-cap-face: 1190px;        /* caption center on full face / full paper (62%) */
+  --p-hook-top: 290px;         /* hook top (15%) */
+  --p-cta-top: 200px;          /* comment pill (10.5%) */
+}

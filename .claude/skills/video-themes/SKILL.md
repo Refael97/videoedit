@@ -111,6 +111,13 @@ Each theme's README ends with **"How to shoot for this theme"**: the shot (wide 
 speaker sits in the frame (and what part of the frame the graphics need free), the background (color,
 brightness, clutter), light, and what to avoid. Measured from the anchor.
 
+## Signature effects (shared by every theme)
+
+`effects/` holds moves built once and dressed by the active theme (`themes/<t>/fx.css`): the **word behind the head**,
+**cards from behind the shoulders** and the **chart on the chest** (numbers only from `data/facts.yaml`). All are
+placed relative to the face (`effects/face.js` + `scripts/face_track.py`) and self-checked by QA every sample
+(letters ≥ 70% visible against the cut-out, risen cards ≤ 50% hidden). See `effects/README.md`; demo `videos/fx-demo/`.
+
 ## Workflow: building a video in a theme
 
 1. Read `themes/<name>/README.md` (character), `language.md` (grammar) and `theme.md` (numbers).
@@ -123,10 +130,10 @@ brightness, clutter), light, and what to avoid. Measured from the anchor.
 5. `npx --yes hyperframes@0.8.150 check` and snapshots of every scene.
 6. **QA gate (mandatory — no draft reaches the user before it passes):** `scripts/qa/qa <project>`. It renders a
    fast draft (30 fps, draft quality), measures it against the theme's anchor targets (`themes/<name>/qa-targets.json`)
-   and the known-mistake rules, and writes `qa-report.md` + `qa.json`: a score N/12 and a FIX LIST with time, words,
+   and the known-mistake rules, and writes `qa-report.md` + `qa.json`: a score N/13 and a FIX LIST with time, words,
    the failed check and a concrete fix. Mark every payoff number with `data-qa-payoff="<word>"` (+ `data-qa-stamp`).
    Mark groups the language lets overlap (cards on cards) with `data-qa-stack`. Loop: fix → `qa` again, **at most
-   3 rounds**. Only at 12/12 render the final 60 fps. If something still fails after
+   3 rounds**. Only at 13/13 render the final 60 fps. If something still fails after
    3 rounds, tell the user exactly what fails and why — never send it silently. Targets are never edited to make a
    draft pass; they change only by re-measuring the anchor (`scripts/qa/anchor.py <theme>`). See `scripts/qa/README.md`.
 7. Render at 60 fps in the background.

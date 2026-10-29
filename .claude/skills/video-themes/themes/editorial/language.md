@@ -150,3 +150,8 @@ d. **Action density ≈ 2 actions per second** while an overlay is up *(anchor 6
    the breath, not a hole.
 e. **The opening has a visual.** The anchor opens on the speaker **cut out on the green page** with the headline
    setting itself around/behind the head and a running timecode — never a title card without the person.
+
+> **Shared effect.** The display word behind the speaker is the signature effect `wordBehind` (`effects/README.md`):
+> `EDITORIAL.letters` on an element inside `.e-behind` marks it the same way, so the QA self-check (every letter >= 70%
+> visible against the cut-out) applies here too. Outside editorial, `FX.wordBehind` gives any theme the same move in
+> its own display font (`themes/<t>/fx.css`).

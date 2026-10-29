@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <link rel="stylesheet" href="assets/theme/fx.css" />
+    <link rel="stylesheet" href="assets/theme/effects/fx.css" />
+    <script src="assets/theme/motion.js"></script>
+    <script src="assets/theme/effects/face.js"></script>
+    <script src="assets/theme/effects/fx.js"></script>
+    <style>html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; } .fx-card { direction: ltr; } .fx-card small { direction: rtl; }</style>
+  </head>
+  <body>
+    <div id="root" class="p-root" data-composition-id="main" data-start="0" data-duration="20" data-width="1080" data-height="1920">
+      <div id="face" class="p-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="20" data-track-index="0" muted playsinline></video></div>
+      <div id="stage" class="p-stage"></div>
+      <div class="fx-matte"><video id="fxMatte" data-fx-matte src="assets/video/matte.webm" data-start="0" data-duration="20" data-track-index="1" muted playsinline></video></div>
+      <div id="w1">מטורף</div>
+      <div id="c1"><span class="fx-dot"></span>glass<small>זכוכית בחדר</small></div>
+      <div id="c2"><span class="fx-dot"></span>paper<small>דף משבצות</small></div>
+      <div id="c3"><span class="fx-dot"></span>night<small>במה בלילה</small></div>
+      <div id="c4"><span class="fx-dot"></span>editorial<small>מגזין ירוק</small></div>
+      <div id="chart"></div>
+      <div id="caps" class="p-caps"></div>
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="20" data-track-index="10" data-volume="1"></audio>
+<!--__SFX__-->
+    </div>
+    <script>
+      const WORDS = __WORDS__; window.FACE_DATA = __FACE__; window.FACTS = __FACTS__;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        FACE.init(window.FACE_DATA, "#faceVid");
+        const P = window.PAPER; P.layout(tl, "face", 0);
+        FX.init(tl, { face: "#faceVid", matte: "#fxMatte" });
+        // 0.2–3.95 "…ברמה מטורפת": the word behind the head
+        FX.wordBehind(tl, "#w1", 0.2, 3.95, { step: 0.07 });
+        // 3.98–12.4 "…עשרות סוגי עיצובים…": the real themes rise from behind the shoulders
+        FX.shoulderCards(tl, ["#c1", "#c2", "#c3", "#c4"], 5.5, 12.35, { step: 0.35, width: 250 });
+        // 12.78–20 "…משלוש מאות ארבע מאות צפיות לסרטון לעשרות אלפים": the chart on the chest, numbers from facts.yaml
+        FX.chestChart(tl, "#chart", 12.9, 20.0, { title: "צפיות לסרטון", bars: [
+          { fact: "numbers.views_before", name: "לפני" },
+          { fact: "numbers.views_after", name: "עם הסקיל", payoff: "אלפים", landAt: 19.42 } ] });
+        P.captions(tl, "#caps", WORDS, { maxWords: 3, yAt: FACE.yAt(tl, { at: "chin", dy: 0.3 }) });
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>
