@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>בנצ'מרק שוט סטודיו</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light dark}
+/* layout: one lab sheet — player first, numbers next, evidence (stills, per-frame chart) last */
+:root{
+  --bg:#e6e6e9; --panel:#f3f3f5; --ink:#121214; --ink2:#55555c; --ink3:#86868e;
+  --rule:rgba(18,18,20,.14); --accent:#e8743b; --accent-ink:#a9481a; --warn-bg:#f6e6dc; --good:#2f7d4f;
+  --stage:#0d0d0f;
+  --f-display:"Heebo", "Arial Hebrew", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0f0f11; --panel:#18181c; --ink:#f2f2f0; --ink2:#b4b4ba; --ink3:#7c7c84; --rule:rgba(242,242,240,.13);
+  --accent:#ee8550; --accent-ink:#f3a37a; --warn-bg:#2a1d16; --good:#5fbf86; --stage:#050506; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#0f0f11; --panel:#18181c; --ink:#f2f2f0; --ink2:#b4b4ba; --ink3:#7c7c84; --rule:rgba(242,242,240,.13);
+  --accent:#ee8550; --accent-ink:#f3a37a; --warn-bg:#2a1d16; --good:#5fbf86; --stage:#050506; color-scheme:dark; }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 var(--f-display);
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); padding-block:0 40px}
+.wrap{max-width:1180px; margin:0 auto; display:flex; flex-direction:column; gap:40px}
+.mono{font-family:var(--f-mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); direction:ltr; unicode-bidi:isolate}
+.num{font-variant-numeric:tabular-nums; direction:ltr; unicode-bidi:isolate}
+h1,h2{text-wrap:balance; margin:0; font-weight:800; line-height:1.15}
+h1{font-size:clamp(30px, 5vw, 48px)} h2{font-size:clamp(22px, 3vw, 28px)}
+p{margin:0}
+.strip{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:14px 0 12px; border-bottom:1px solid var(--rule)}
+.head{display:flex; flex-direction:column; gap:12px}
+.head .lead{color:var(--ink2); max-width:68ch}
+.warn{background:var(--warn-bg); border-inline-start:3px solid var(--accent); padding:14px 16px; border-radius:0 10px 10px 0; color:var(--ink); max-width:80ch}
+.warn b{font-weight:700}
+
+/* player */
+.player{display:flex; flex-direction:column; gap:14px}
+.modes{display:flex; gap:6px; flex-wrap:wrap}
+.modes button, .ctl button, .ctl select{font:600 13px var(--f-display); color:var(--ink); background:var(--panel); border:1px solid var(--rule); border-radius:8px; padding:7px 12px; cursor:pointer}
+.modes button[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+button:focus-visible, select:focus-visible, input:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.stage{background:var(--stage); border-radius:14px; padding:14px; display:flex; justify-content:center}
+.pair{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:14px; width:100%; max-width:820px}
+.cell{display:flex; flex-direction:column; gap:8px; min-width:0}
+.cell .mono{color:#a0a0a8}
+.cell .mono b{color:#f2f2f0; font-weight:600}
+video, .wipe{width:100%; max-width:100%; aspect-ratio:9/16; display:block; background:#000; border-radius:6px}
+.wipe{position:relative; overflow:hidden; max-width:420px; margin:0 auto}
+.wipe video{position:absolute; inset:0; height:100%; border-radius:0}
+.wipe .top{clip-path:inset(0 0 0 var(--cut, 50%))}
+.wipe .line{position:absolute; top:0; bottom:0; left:var(--cut, 50%); width:2px; background:var(--accent); pointer-events:none}
+.wipe .tag{position:absolute; top:8px; font:600 11px var(--f-mono); color:#f2f2f0; background:rgba(13,13,15,.7); padding:2px 7px; border-radius:4px}
+.ctl{display:flex; gap:10px; align-items:center; flex-wrap:wrap; direction:ltr}
+.ctl input[type=range]{flex:1 1 220px; accent-color:var(--accent); min-width:0}
+.ctl .read{font:13px var(--f-mono); color:var(--ink2); min-width:16ch}
+.ctl label{font-size:13px; color:var(--ink2); display:flex; gap:6px; align-items:center}
+.hint{color:var(--ink3); font-size:13px}
+
+/* numbers */
+.sum{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:12px}
+.tile{background:var(--panel); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:4px}
+.tile .big{font:800 clamp(24px, 3.6vw, 34px)/1.1 var(--f-display)}
+.tile .big small{font-size:.5em; color:var(--ink3); font-weight:700}
+.tile p{color:var(--ink2); font-size:14px}
+@media (max-width:700px){ .sum{grid-template-columns:1fr} .pair{gap:8px} }
+section{display:flex; flex-direction:column; gap:14px}
+.tbl{overflow-x:auto; border:1px solid var(--rule); border-radius:12px}
+table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:560px}
+th,td{padding:10px 14px; text-align:start; border-bottom:1px solid var(--rule); vertical-align:top}
+th{font:600 11.5px var(--f-mono); letter-spacing:.06em; text-transform:uppercase; color:var(--ink3); background:var(--panel)}
+tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums; direction:ltr; text-align:right; white-space:nowrap}
+.delta{color:var(--good); font-weight:700}
+.same{color:var(--ink3)}
+.chg{color:var(--accent-ink); font-weight:700}
+.chart{background:var(--panel); border-radius:12px; padding:14px}
+.chart svg{width:100%; height:auto; display:block}
+.stills{display:grid; grid-template-columns:2fr 1fr; gap:12px}
+.stills figure{margin:0; display:flex; flex-direction:column; gap:6px; min-width:0}
+.stills img{width:100%; border-radius:8px; display:block; background:#000}
+figcaption{font-size:13px; color:var(--ink2)}
+@media (max-width:700px){ .stills{grid-template-columns:1fr} }
+ul.notes{margin:0; padding-inline-start:20px; display:flex; flex-direction:column; gap:6px; color:var(--ink2); max-width:80ch}
+ul.notes b{color:var(--ink)}
+</style>
+
+</head>
+<body>
+<div class="wrap" dir="rtl" lang="he">
+  <div class="strip"><span class="mono">STUDIO SHOT BENCH · 1080×1920 · 30 FPS · 60 FRAMES</span><span class="mono" id="host"></span></div>
+
+  <header class="head">
+    <h1>מקורי מול מאופטם</h1>
+    <p class="lead">אותה סצנה, אותה מצלמה, אותה תאורה, אותם חומרים ואותו תזמון. בגרסה המאופטמת השתנו רק שני דברים: שכבת ה-HUD מצוירת כ-HTML מעל ה-canvas במקום בתוך WebGL, ומפת הצל VSM קטנה יותר ומטושטשת בפחות דגימות.</p>
+    <p class="warn"><b>כל הזמנים כאן נמדדו במכונת ענן בלי GPU.</b> Chromium מרנדר בה WebGL על המעבד דרך SwiftShader. אלה לא מדידות של GPU ב-Mac, ועל Apple Silicon היחסים בין השלבים צפויים להיות שונים.</p>
+  </header>
+
+  <section class="player" aria-label="נגן השוואה">
+    <div class="modes" role="group" aria-label="תצוגה">
+      <button id="m-side" aria-pressed="true" type="button">זה לצד זה</button>
+      <button id="m-wipe" aria-pressed="false" type="button">וילון על אותו פריים</button>
+    </div>
+    <div class="stage">
+      <div class="pair" id="side">
+        <div class="cell"><span class="mono"><b>ORIGINAL</b> · base settings</span><video id="vA" src="original.mp4" muted playsinline preload="auto"></video></div>
+        <div class="cell"><span class="mono"><b>OPTIMIZED</b> · htmlHud + vsmLite</span><video id="vB" src="optimized.mp4" muted playsinline preload="auto"></video></div>
+      </div>
+      <div class="wipe" id="wipe" hidden>
+        <video id="wA" src="original.mp4" muted playsinline preload="auto"></video>
+        <video id="wB" class="top" src="optimized.mp4" muted playsinline preload="auto"></video>
+        <span class="tag" style="left:8px">ORIGINAL</span><span class="tag" style="right:8px">OPTIMIZED</span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <div class="ctl">
+      <button id="play" type="button">Play</button>
+      <button id="prev" type="button" aria-label="פריים קודם">−1 fr</button>
+      <button id="next" type="button" aria-label="פריים הבא">+1 fr</button>
+      <input id="scrub" type="range" min="0" max="59" step="1" value="0" aria-label="פריים">
+      <span class="read" id="read">frame 0 · 0.000s</span>
+      <select id="speed" aria-label="מהירות"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option></select>
+      <label for="loop"><input id="loop" type="checkbox" checked> loop</label>
+    </div>
+    <div class="ctl" id="cutrow" hidden><label for="cut">wipe</label><input id="cut" type="range" min="0" max="100" value="50" aria-label="מיקום הוילון"></div>
+    <p class="hint">שני הסרטונים ננעלים על אותו פריים: החיצים זזים פריים אחד, הפס בוחר פריים מדויק. במצב וילון שתי הגרסאות מוצגות על אותו מסך ומחולקות בקו כתום.</p>
+  </section>
+
+  <section>
+    <h2>מה המדידה אומרת</h2>
+    <div class="sum" id="sum"></div>
+  </section>
+
+  <section>
+    <h2>זמני רינדור וזיכרון</h2>
+    <p class="hint">שתי ריצות לכל גרסה, ברצף על אותה מכונה, worker אחד. הזמן "רינדור" הוא WebGL כולל המתנה לסיום ה-GPU (קריאת פיקסל), "צילום" הוא screenshot של האלמנט, "טעינה" כוללת קומפילציית שיידרים בפריים הראשון.</p>
+    <div class="tbl"><table id="t-time"></table></div>
+  </section>
+
+  <section>
+    <h2>הגדרות הרינדור</h2>
+    <div class="tbl"><table id="t-set"></table></div>
+  </section>
+
+  <section>
+    <h2>הבדלי איכות</h2>
+    <p class="hint">SSIM ו-PSNR של כל פריים בגרסה המאופטמת מול המקורית, על הפריימים שצולמו לפני קידוד H.264. SSIM של 1.0 פירושו זהות מלאה.</p>
+    <div class="chart" id="chart"></div>
+    <div class="tbl"><table id="t-q"></table></div>
+    <div class="stills">
+      <figure><img src="comparison.png" alt="פריים 30 מקורי ומאופטם זה לצד זה"><figcaption>comparison.png · פריים 30 (t=1.000s), ברזולוציה מלאה 1080×1920 לכל צד.</figcaption></figure>
+      <figure><img src="diff.png" alt="הפרש מוחלט בין הפריימים, מוגבר פי 4"><figcaption>diff.png · הפרש מוחלט, מוגבר פי 4. בהיר = שונה. רואים את קווי מתאר הטקסט (הזזה של כמה פיקסלים) ואת שולי הצל.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>הערות שיטה</h2>
+    <ul class="notes" id="notes"></ul>
+  </section>
+</div>
+
+<script>
+const D = {"fps": 30, "frames": 60, "host": "4 vCPU · Xeon @ 2.80GHz · SwiftShader (CPU WebGL)", "runs": [{"v": "original", "run": 1, "frames": 60, "render_s": 265.574, "capture_s": 9.411, "load_s": 16.309, "wall_s": 292.1, "cpu": 73, "rss": 995}, {"v": "optimized", "run": 1, "frames": 60, "render_s": 145.861, "capture_s": 9.27, "load_s": 11.726, "wall_s": 167.8, "cpu": 66, "rss": 946}, {"v": "original", "run": 2, "frames": 60, "render_s": 264.261, "capture_s": 10.341, "load_s": 15.744, "wall_s": 291.4, "cpu": 73, "rss": 991}, {"v": "optimized", "run": 2, "frames": 60, "render_s": 157.796, "capture_s": 9.806, "load_s": 10.68, "wall_s": 179.5, "cpu": 66, "rss": 946}], "enc": {"original": {"encode_s": 8.9, "bytes": 8071971}, "optimized": {"encode_s": 8.2, "bytes": 8150329}}, "q": {"ssim": [0.975427, 0.975453, 0.975415, 0.975429, 0.975613, 0.975988, 0.975899, 0.975918, 0.97565, 0.975674, 0.975607, 0.975612, 0.975661, 0.975569, 0.975613, 0.975569, 0.975402, 0.975517, 0.975571, 0.9757, 0.975897, 0.976039, 0.976141, 0.976068, 0.976093, 0.976104, 0.976398, 0.977102, 0.977163, 0.977191, 0.976181, 0.977399, 0.977446, 0.97739, 0.97701, 0.976826, 0.976582, 0.976322, 0.976382, 0.976759, 0.977142, 0.977446, 0.977682, 0.977794, 0.977883, 0.977977, 0.978094, 0.978203, 0.978254, 0.978205, 0.978206, 0.978307, 0.978439, 0.978409, 0.978423, 0.978338, 0.978234, 0.978169, 0.978093, 0.978071], "psnr": [25.88, 25.88, 25.87, 25.87, 25.88, 25.91, 25.87, 25.82, 25.8, 25.81, 25.79, 25.79, 25.8, 25.79, 25.78, 25.76, 25.73, 25.72, 25.73, 25.76, 25.79, 25.89, 26.0, 26.12, 26.24, 26.31, 26.49, 26.58, 26.84, 26.89, 26.9, 27.87, 28.51, 28.43, 28.17, 27.78, 27.6, 27.42, 27.3, 27.23, 27.25, 27.24, 27.22, 27.22, 27.24, 27.26, 27.31, 27.32, 27.35, 27.37, 27.4, 27.44, 27.45, 27.44, 27.44, 27.41, 27.4, 27.37, 27.35, 27.27], "ssim_mean": 0.9767691500000001, "ssim_min": 0.975402, "ssim_min_f": 16, "psnr_mean": 26.7225}, "settings": [["רזולוציה", "1080×1920", "1080×1920"], ["FPS / פריימים", "30 / 60", "30 / 60"], ["מצלמה, תנועה, תזמון", "camera rig expo.inOut", "camera rig expo.inOut"], ["חומרים ותאורה", "lacquer, chrome, ceramic, accent · key + hemi", "lacquer, chrome, ceramic, accent · key + hemi"], ["Anti-aliasing", "MSAA ×4, HalfFloat RT", "MSAA ×4, HalfFloat RT"], ["Bloom / tone map / grain", "0.12 · Neutral · 0.022", "0.12 · Neutral · 0.022"], ["מפת צל VSM", "2048²", "1024²"], ["טשטוש VSM (דגימות, רדיוס)", "24 · r16", "8 · r16"], ["HUD (תווית, מונה, כותרת)", "canvas texture inside WebGL", "HTML overlay above canvas"], ["צילום", "element screenshot #gl, JPEG q95", "element screenshot #root, JPEG q95"], ["קידוד", "libx264 medium CRF16 yuv420p", "libx264 medium CRF16 yuv420p"]], "notes": ["<b>אותה מכונה, ברצף:</b> ארבע ריצות (מקורי, מאופטם, מקורי, מאופטם) על אותו host. מדידה מוקדמת יותר רצה על host אחר (Xeon 2.1GHz) ולכן לא נכללה בהשוואה.", "<b>רעש:</b> ההפרש בין שתי ריצות של אותה גרסה מוצג בטבלה; הבדל קטן ממנו אינו משמעותי.", "<b>מה זהה:</b> אותו קובץ scene.js, אותו seed, אותה פונקציית מצלמה ואותו תזמון. ההבדל היחיד הוא שני המתגים htmlHud ו-vsmLite.", "<b>הבדל ויזואלי צפוי:</b> שורת הכותרת המשנית ב-HTML יושבת כמה פיקסלים אחרת משציור ה-canvas, והצל מעט רך יותר בשוליים. זה מה שמוריד את ה-SSIM.", "<b>איכות מלאה:</b> הפריימים נשמרו כ-JPEG q95 לפני הקידוד, בשתי הגרסאות באותו אופן.", "<b>קידוד:</b> זמן הקידוד הוא ממוצע של שתי ריצות חוזרות (מקורי 10.0 ו-7.8 שניות, מאופטם 8.5 ו-7.8). הריצה הראשונה, \"קרה\", לקחה 17.4 שניות ולא נכללה. ההבדל בין הגרסאות כאן הוא רעש.", "<b>לא GPU של Mac:</b> המספרים מראים כמה כל שלב עולה כשהמעבד מרנדר. על Apple Silicon צריך להריץ את tools/pipeline-bench/macprobe.sh."]};
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const FPS = D.fps, N = D.frames;
+  $('host').textContent = D.host;
+  const r = (x, n = 2) => Number(x).toFixed(n);
+  const mean = (a) => a.reduce((s, x) => s + x, 0) / a.length;
+
+  // summary tiles
+  const o = D.runs.filter((x) => x.v === 'original'), p = D.runs.filter((x) => x.v === 'optimized');
+  const spfO = mean(o.map((x) => x.render_s / x.frames)), spfP = mean(p.map((x) => x.render_s / x.frames));
+  const wallO = mean(o.map((x) => x.wall_s)), wallP = mean(p.map((x) => x.wall_s));
+  const tiles = [
+    [`${r(spfO)} → ${r(spfP)}<small> s/frame</small>`, `רינדור WebGL לפריים, ממוצע של שתי ריצות. ${spfP < spfO ? 'מהיר ב-' + Math.round((1 - spfP / spfO) * 100) + '%' : 'איטי ב-' + Math.round((spfP / spfO - 1) * 100) + '%'}.`],
+    [`${r(wallO, 0)} → ${r(wallP, 0)}<small> s</small>`, `זמן כולל ל-60 פריימים (2 שניות וידאו), כולל טעינה וצילום, בלי קידוד.`],
+    [`${r(D.q.ssim_mean, 3)}<small> SSIM</small>`, `ממוצע על 60 פריימים. הנמוך ביותר ${r(D.q.ssim_min, 3)} בפריים ${D.q.ssim_min_f}.`],
+  ];
+  $('sum').innerHTML = tiles.map(([b, t]) => `<div class="tile"><span class="big num">${b}</span><p>${t}</p></div>`).join('');
+
+  // timing table
+  const rowsT = D.runs.map((x) => `<tr><td>${x.v === 'original' ? 'מקורי' : 'מאופטם'} · ריצה ${x.run}</td><td class="n">${r(x.render_s / x.frames)}</td><td class="n">${r(x.capture_s / x.frames, 3)}</td><td class="n">${r(x.load_s, 1)}</td><td class="n">${r(x.wall_s, 1)}</td><td class="n">${x.cpu}%</td><td class="n">${x.rss} MB</td></tr>`).join('');
+  $('t-time').innerHTML = `<thead><tr><th>ריצה</th><th>רינדור s/frame</th><th>צילום s/frame</th><th>טעינה s</th><th>סה"כ s</th><th>CPU</th><th>זיכרון שיא</th></tr></thead><tbody>${rowsT}
+    <tr><td>קידוד H.264 (libx264 medium, CRF 16)</td><td class="n" colspan="2">original ${r(D.enc.original.encode_s, 1)} s · optimized ${r(D.enc.optimized.encode_s, 1)} s</td><td class="n" colspan="4">${r(D.enc.original.bytes / 1e6, 1)} MB · ${r(D.enc.optimized.bytes / 1e6, 1)} MB</td></tr></tbody>`;
+
+  // settings table
+  $('t-set').innerHTML = '<thead><tr><th>הגדרה</th><th>מקורי</th><th>מאופטם</th><th></th></tr></thead><tbody>' + D.settings.map(([k, a, b]) =>
+    `<tr><td>${k}</td><td class="n">${a}</td><td class="n">${b}</td><td class="${a === b ? 'same' : 'chg'}">${a === b ? 'זהה' : 'שונה'}</td></tr>`).join('') + '</tbody>';
+
+  // quality table + per-frame chart
+  $('t-q').innerHTML = `<thead><tr><th>מדד</th><th>ממוצע</th><th>מינימום</th><th>מקסימום</th></tr></thead><tbody>
+    <tr><td>SSIM (All)</td><td class="n">${r(D.q.ssim_mean, 4)}</td><td class="n">${r(D.q.ssim_min, 4)}</td><td class="n">${r(Math.max(...D.q.ssim), 4)}</td></tr>
+    <tr><td>PSNR (dB)</td><td class="n">${r(D.q.psnr_mean, 1)}</td><td class="n">${r(Math.min(...D.q.psnr), 1)}</td><td class="n">${r(Math.max(...D.q.psnr), 1)}</td></tr></tbody>`;
+  const W = 760, H = 170, L = 46, R = 12, T = 12, Bm = 28, lo = Math.floor(Math.min(...D.q.ssim) * 100) / 100, hi = 1;
+  const x = (i) => L + (i / (N - 1)) * (W - L - R), y = (v) => T + (1 - (v - lo) / (hi - lo)) * (H - T - Bm);
+  const pts = D.q.ssim.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const ticks = [lo, (lo + hi) / 2, hi].map((v) => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--rule)"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--ink3)" font-family="var(--f-mono)">${v.toFixed(3)}</text>`).join('');
+  const xt = [0, 15, 30, 45, 59].map((f) => `<text x="${x(f)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--ink3)" font-family="var(--f-mono)">${f}</text>`).join('');
+  $('chart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="SSIM לכל פריים" direction="ltr">${ticks}${xt}
+    <polygon points="${L},${y(lo)} ${pts} ${W - R},${y(lo)}" fill="var(--accent)" fill-opacity=".14"/>
+    <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <line id="cursor" x1="${x(0)}" x2="${x(0)}" y1="${T}" y2="${H - Bm}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="${W - R}" y="${T + 10}" text-anchor="end" font-size="11" fill="var(--ink2)" font-family="var(--f-mono)">SSIM per frame (x = frame)</text></svg>`;
+
+  $('notes').innerHTML = D.notes.map((n) => `<li>${n}</li>`).join('');
+
+  // synced playback: A drives, B follows; all positions snap to frame centres
+  const vids = { side: [$('vA'), $('vB')], wipe: [$('wA'), $('wB')] };
+  let mode = 'side'; const cur = () => vids[mode];
+  const fOf = (t) => Math.min(N - 1, Math.max(0, Math.floor(t * FPS + 1e-4)));
+  const tOf = (f) => (f + 0.5) / FPS;
+  function show(f) { $('scrub').value = f; $('read').textContent = `frame ${f} · ${(f / FPS).toFixed(3)}s`; const c = document.getElementById('cursor'); if (c) { c.setAttribute('x1', x(f)); c.setAttribute('x2', x(f)); } }
+  function seek(f) { cur().forEach((v) => { v.pause(); v.currentTime = tOf(f); }); $('play').textContent = 'Play'; show(f); }
+  function tick() { const [a, b] = cur(); if (!a.paused) { if (Math.abs(b.currentTime - a.currentTime) > 0.5 / FPS) b.currentTime = a.currentTime; show(fOf(a.currentTime)); } requestAnimationFrame(tick); }
+  requestAnimationFrame(tick);
+  $('play').addEventListener('click', () => { const [a, b] = cur(); if (a.paused) { if (a.ended || a.currentTime >= a.duration - 1 / FPS) { a.currentTime = 0; b.currentTime = 0; } b.currentTime = a.currentTime; Promise.all([a.play(), b.play()]).catch(() => {}); $('play').textContent = 'Pause'; } else { a.pause(); b.pause(); b.currentTime = a.currentTime; $('play').textContent = 'Play'; } });
+  Object.values(vids).flat().forEach((v) => v.addEventListener('ended', () => { const [a, b] = cur(); if (v !== a) return; if ($('loop').checked) { a.currentTime = 0; b.currentTime = 0; a.play().catch(() => {}); b.play().catch(() => {}); } else { b.pause(); $('play').textContent = 'Play'; } }));
+  $('prev').addEventListener('click', () => seek(Math.max(0, +$('scrub').value - 1)));
+  $('next').addEventListener('click', () => seek(Math.min(N - 1, +$('scrub').value + 1)));
+  $('scrub').addEventListener('input', (e) => seek(+e.target.value));
+  $('speed').addEventListener('change', (e) => Object.values(vids).flat().forEach((v) => (v.playbackRate = +e.target.value)));
+  $('cut').addEventListener('input', (e) => $('wipe').style.setProperty('--cut', e.target.value + '%'));
+  function setMode(m) { const f = +$('scrub').value; cur().forEach((v) => v.pause()); mode = m; $('side').hidden = m !== 'side'; $('wipe').hidden = m !== 'wipe'; $('cutrow').hidden = m !== 'wipe';
+    $('m-side').setAttribute('aria-pressed', m === 'side'); $('m-wipe').setAttribute('aria-pressed', m === 'wipe'); seek(f); }
+  $('m-side').addEventListener('click', () => setMode('side')); $('m-wipe').addEventListener('click', () => setMode('wipe'));
+  document.addEventListener('keydown', (e) => { if (e.target.tagName === 'INPUT' && e.target.type !== 'range') return; if (e.key === ' ') { e.preventDefault(); $('play').click(); } if (e.key === 'ArrowRight') $('next').click(); if (e.key === 'ArrowLeft') $('prev').click(); });
+  Object.values(vids).flat().forEach((v) => v.addEventListener('loadeddata', () => { if (v.paused) v.currentTime = tOf(+$('scrub').value); }, { once: true }));
+})();
+</script>
+
+</body>
+</html>
