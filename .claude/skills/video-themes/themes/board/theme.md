@@ -94,17 +94,19 @@ video only. Board needs a third video by this creator to confirm which caption v
 
 Measured on the anchor by `scripts/qa/anchor.py` (the same detectors `qa` runs on drafts). Change only by re-measuring the anchor.
 Graphics motion = frame difference with the camera's global move removed and the speaker masked, in windows with
-graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Footage = info only.
+graphics, minus the footage's own residual (windows without graphics, else the quietest 10%). Flat stretches and the
+longest static hold are read on the same graphics layer (residual < 0.3 above that baseline, runs >= 0.4 s). Footage = info only.
 
-| video | length | graphics motion (raw − baseline) | flat % | actions / s | footage (jitter · punches, drifts) |
-|---|---|---|---|---|---|
-| Video-31455 | 48.67 s | 0.88 (1.08 − 0.2) | 72.1% | 0.45 | 0.05 px · 2P 3D |
-| Video-42755 | 36.97 s | 0.91 (1.87 − 0.97) | 11.2% | 1.11 | 0.12 px · 5P 5D |
-| **anchor** | 85.6 s | **0.89** | **45.8%** | **0.73** | jitter 0.08 px/frame, 10.5 camera moves/min |
+| video | length | graphics motion (raw − baseline) | graphics flat % | longest static hold | actions / s | footage (jitter · punches, drifts) |
+|---|---|---|---|---|---|---|
+| Video-31455 | 48.67 s | 0.88 (1.08 − 0.2) | 37.2% | 1.87 s | 0.45 | 0.05 px · 2P 3D |
+| Video-42755 | 36.97 s | 0.91 (1.87 − 0.97) | 10.7% | 0.63 s | 1.11 | 0.12 px · 5P 5D |
+| **anchor** | 85.6 s | **0.89** | **25.8%** | **1.5 s** (95th pct) | **0.73** | jitter 0.08 px/frame, 10.5 camera moves/min |
 
 | check | target |
 |---|---|
 | graphics motion | >= 0.67 (0.75 x anchor) |
-| flat stretches | <= 46.0% |
+| flat stretches (graphics layer) | <= 26.0% |
+| max static hold (graphics layer) | <= 1.5 s = the anchor's 95th-percentile hold (a marked payoff hold is exempt) |
 | actions / s (events + camera moves) | 0.51–0.96 (anchor ±30%) |
 | footage motion | reported, never failed |

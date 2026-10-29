@@ -1,19 +1,24 @@
 {
  "project": "rafael-test-night",
  "theme": "night",
- "score": "9/10",
- "ready": false,
+ "score": "11/11",
+ "ready": true,
  "checks": {
   "motion": {
    "value": 1.03,
-   "target": ">= 0.79",
+   "target": ">= 0.8",
    "pass": true,
    "footage": "camera jitter 0.14 px/frame, 4 punches, 10 drifts (anchor: jitter 0.16 px/frame, 16.1 camera moves/min)"
   },
   "flat": {
-   "value": "30.9%",
-   "target": "<= 12.0%",
-   "pass": false
+   "value": "10.5% (full frame 30.9%)",
+   "target": "<= 29.0%",
+   "pass": true
+  },
+  "hold": {
+   "value": "0.93 s",
+   "target": "<= 2.6 s",
+   "pass": true
   },
   "actions": {
    "value": "0.59 events/s (GSAP 2.3 tweens/s)",
@@ -69,6 +74,62 @@
    "baseline_s": 11,
    "baseline_from": "none (graphics-only render)",
    "gfx_share": 0.84,
+   "gfx_flat_pct": 10.5,
+   "gfx_flat_runs": [
+    [
+     7.17,
+     7.63
+    ],
+    [
+     15.97,
+     16.4
+    ],
+    [
+     23.87,
+     24.33
+    ],
+    [
+     26.0,
+     26.43
+    ],
+    [
+     37.17,
+     37.7
+    ],
+    [
+     38.47,
+     39.4
+    ],
+    [
+     40.6,
+     41.0
+    ],
+    [
+     48.6,
+     49.0
+    ],
+    [
+     54.57,
+     55.03
+    ],
+    [
+     56.5,
+     56.9
+    ],
+    [
+     57.17,
+     57.57
+    ],
+    [
+     57.6,
+     58.0
+    ],
+    [
+     68.0,
+     68.47
+    ]
+   ],
+   "max_hold": 0.93,
    "footage": {
     "jitter_px": 0.14,
     "punches": [
@@ -115,96 +176,12 @@
   "actions_per_s": 0.59
  },
  "targets": {
-  "gfx_motion_min": 0.79,
-  "flat_max": 12.0,
+  "gfx_motion_min": 0.8,
+  "flat_max": 29.0,
+  "max_hold": 2.6,
   "events_min": 0.44,
   "events_max": 0.81,
   "footage_info": "jitter 0.16 px/frame, 16.1 camera moves/min"
  },
- "fix_list": [
-  {
-   "t": "6.9–7.8s",
-   "t0": 6.9,
-   "words": "ברמה כזאת עם",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "8.0–8.8s",
-   "t0": 8.0,
-   "words": "קלוד?",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "9.6–10.3s",
-   "t0": 9.57,
-   "words": "הולך לספר לכם,",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "19.8–20.6s",
-   "t0": 19.8,
-   "words": "לקלוד.",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "26.9–27.8s",
-   "t0": 26.9,
-   "words": "פה את המילה סקיל.",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "36.9–38.4s",
-   "t0": 36.93,
-   "words": "קלוד יודע איך לערוך לכם את זה ברמה",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "38.4–39.4s",
-   "t0": 38.4,
-   "words": "ברמה שעורכי התוכן הכי",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "43.4–44.2s",
-   "t0": 43.37,
-   "words": "הצפיות משלוש",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "44.4–45.3s",
-   "t0": 44.43,
-   "words": "משלוש מאות ארבע מאות",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "47.6–48.5s",
-   "t0": 47.63,
-   "words": "אלפים.",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "60.2–61.0s",
-   "t0": 60.23,
-   "words": "בצורה מקצועית",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  },
-  {
-   "t": "65.0–66.1s",
-   "t0": 65.03,
-   "words": "כנסו אליי לאתר.",
-   "check": "flat stretches",
-   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
-  }
- ]
+ "fix_list": []
 }

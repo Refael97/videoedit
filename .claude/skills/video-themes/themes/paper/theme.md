@@ -97,12 +97,12 @@ longest static hold are read on the same graphics layer (residual < 0.3 above th
 | video | length | graphics motion (raw − baseline) | graphics flat % | longest static hold | actions / s | footage (jitter · punches, drifts) |
 |---|---|---|---|---|---|---|
 | Video-15422 | 76.83 s | 0.92 (1.38 − 0.47) | 19.5% | 0.9 s | 0.51 | 0.16 px · 5P 7D |
-| **anchor** | 76.8 s | **0.92** | **19.5%** | **0.9 s** (max) | **0.51** | jitter 0.16 px/frame, 9.4 camera moves/min |
+| **anchor** | 76.8 s | **0.92** | **19.5%** | **0.9 s** (95th pct) | **0.51** | jitter 0.16 px/frame, 9.4 camera moves/min |
 
 | check | target |
 |---|---|
 | graphics motion | >= 0.69 (0.75 x anchor) |
 | flat stretches (graphics layer) | <= 20.0% |
-| max static hold (graphics layer) | <= 0.9 s (a marked payoff hold is exempt) |
+| max static hold (graphics layer) | <= 0.9 s = the anchor's 95th-percentile hold (a marked payoff hold is exempt) |
 | actions / s (events + camera moves) | 0.36–0.66 (anchor ±30%) |
 | footage motion | reported, never failed |

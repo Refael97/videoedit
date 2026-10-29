@@ -388,7 +388,7 @@ def main():
     ready = score == len(CHECKS)
     fixes.sort(key=lambda f: f["t0"])
     out = {"project": proj.name, "theme": theme, "score": f"{score}/{len(CHECKS)}", "ready": ready, "checks": res, "metrics": {**{k: M[k] for k in ("duration", "motion", "flat_pct", "events_per_s")}, "graphics": GL, "footage": Lfoot, "actions_per_s": round(len(acts) / dur, 2)}, "targets": T, "fix_list": fixes}
-    (proj / "qa.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
+    (proj / "qa.json").write_text(json.dumps(out, ensure_ascii=False, indent=1, default=lambda o: o.item() if hasattr(o, "item") else str(o)))
     L = [f"# QA · {proj.name} · theme `{theme}`", "", f"**{score}/{len(CHECKS)} checks passed — {'READY' if ready else 'NOT READY'}**", "",
          "| | check | value | target |", "|---|---|---|---|"]
     for k, name in CHECKS:

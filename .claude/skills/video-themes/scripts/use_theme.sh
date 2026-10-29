@@ -6,4 +6,6 @@ src="$here/themes/$1"; dst="$2/assets/theme"
 [ -d "$src" ] || { echo "no theme: $1"; exit 1; }
 rm -rf "$dst"; mkdir -p "$dst"
 cp -r "$src"/{tokens.css,theme.css,motion.js,fonts,sfx,vendor} "$dst"/
+# shared, theme-agnostic runtime (face-relative placement, signature effects)
+[ -d "$here/effects" ] && cp -r "$here/effects" "$dst"/effects
 echo "theme $1 -> $dst"

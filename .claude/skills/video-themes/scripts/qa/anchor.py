@@ -7,6 +7,7 @@ Targets change ONLY by re-measuring the anchor (new anchor videos), never to mak
   events = anchor actions/s (frame events + camera moves) ±30% · footage motion = info only
 """
 import json, math, pathlib, re, sys
+import numpy as np
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
 THEMES = HERE.parent.parent / "themes"
@@ -25,7 +26,7 @@ def measure(theme):
         g = layers.graphics_motion(ROOT / v)
         acts = layers.actions(m["events"], g["footage"])
         per[pathlib.Path(v).stem] = {"duration": m["duration"], "gfx_motion": g["gfx_motion"], "gfx_raw": g["gfx_raw"], "baseline": g["baseline"],
-                                     "baseline_from": g["baseline_from"], "gfx_share": g["gfx_share"], "flat_pct": g["gfx_flat_pct"], "flat_full_frame": m["flat_pct"], "max_hold": g["max_hold"],
+                                     "baseline_from": g["baseline_from"], "gfx_share": g["gfx_share"], "flat_pct": g["gfx_flat_pct"], "flat_full_frame": m["flat_pct"], "max_hold": g["max_hold"], "holds": [round(b - a, 2) for a, b in g["gfx_flat_runs"]],
                                      "actions_per_s": round(len(acts) / m["duration"], 2), "motion_all": m["motion"],
                                      "jitter_px": g["footage"]["jitter_px"], "punches": len(g["footage"]["punches"]), "drifts": len(g["footage"]["drifts"])}
         print(theme, v, per[pathlib.Path(v).stem])
@@ -34,7 +35,9 @@ def measure(theme):
     gm, fl, ev, jit = avg("gfx_motion"), avg("flat_pct"), avg("actions_per_s"), avg("jitter_px")
     cam_min = 60 * sum(p["punches"] + p["drifts"] for p in per.values()) / tot
     foot = f"jitter {jit:.2f} px/frame, {cam_min:.1f} camera moves/min"
-    hold = math.ceil(10 * max(p["max_hold"] for p in per.values())) / 10  # never hold longer than the anchor ever did
+    # longest static hold the language allows: the anchor's own 95th-percentile hold (one exceptional moment doesn't set it)
+    allh = [h for p in per.values() for h in p["holds"]]
+    hold = math.ceil(10 * float(np.percentile(allh, 95))) / 10 if allh else 1.0
     T = {"gfx_motion_min": round(0.75 * gm, 2), "flat_max": float(math.ceil(fl)), "max_hold": hold, "events_min": round(0.7 * ev, 2), "events_max": round(1.3 * ev, 2), "footage_info": foot}
     out = {"theme": theme, "anchor_videos": vids, "measured": per,
            "anchor": {"gfx_motion": round(gm, 2), "flat_pct": round(fl, 1), "max_hold": hold, "actions_per_s": round(ev, 2), "footage": foot},
@@ -52,13 +55,13 @@ longest static hold are read on the same graphics layer (residual < 0.3 above th
 | video | length | graphics motion (raw − baseline) | graphics flat % | longest static hold | actions / s | footage (jitter · punches, drifts) |
 |---|---|---|---|---|---|---|
 {rows}
-| **anchor** | {round(tot, 1)} s | **{round(gm, 2)}** | **{round(fl, 1)}%** | **{hold} s** (max) | **{round(ev, 2)}** | {foot} |
+| **anchor** | {round(tot, 1)} s | **{round(gm, 2)}** | **{round(fl, 1)}%** | **{hold} s** (95th pct) | **{round(ev, 2)}** | {foot} |
 
 | check | target |
 |---|---|
 | graphics motion | >= {T['gfx_motion_min']} (0.75 x anchor) |
 | flat stretches (graphics layer) | <= {T['flat_max']}% |
-| max static hold (graphics layer) | <= {T['max_hold']} s (a marked payoff hold is exempt) |
+| max static hold (graphics layer) | <= {T['max_hold']} s = the anchor's 95th-percentile hold (a marked payoff hold is exempt) |
 | actions / s (events + camera moves) | {T['events_min']}–{T['events_max']} (anchor ±30%) |
 | footage motion | reported, never failed |
 """
