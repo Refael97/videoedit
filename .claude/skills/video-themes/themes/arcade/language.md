@@ -66,6 +66,13 @@ Pixel worlds use their own palettes (`world()` presets) but never pure black bac
   the hair never touches the seam.
 - Nothing closer than 60px to the frame sides except full-bleed worlds.
 
+
+### Face-relative placement (measured, `theme.md` → Face-relative placement)
+Positions near the speaker are measured from the face box in every frame (`scripts/face_track.py` → `data/face.json`, runtime `effects/face.js`), never fixed pixels:
+- **Captions keep the theme's fixed line** (the anchor shows too few full faces to measure); the line must still clear the face: never above chin + 0.2 × face height while a face is on screen.
+- **Cards / objects next to the speaker:** eye level, on the free side, 0.4 × face height from the face (`FACE.follow(tl, wrapper, t0, t1, { at: "eyes", side: "free", gap: 0.4 })`).
+- **Never covered:** eyes to mouth (the checker reads the face box in every sample).
+
 ## 6. Motion verbs (`motion.js` → `ARCADE.<verb>`)
 
 | Verb | Story event | Motion | Sound |

@@ -69,6 +69,13 @@ One meaning per element; red is the default structure color.
   move captions under the chin (`yFace`), never on the mouth.
 - Nothing under 1200 on the stage in split (the head and the caption live there).
 
+
+### Face-relative placement (measured, `theme.md` → Face-relative placement)
+Positions near the speaker are measured from the face box in every frame (`scripts/face_track.py` → `data/face.json`, runtime `effects/face.js`), never fixed pixels:
+- **Captions on the full face follow the face:** centre at **chin + 0.41 × face height** (anchor IQR 0.34…0.51), recomputed every frame: `captions(..., { yAt: FACE.yAt(tl, { at: "chin", dy: 0.41 }) })`. The fixed token is only the fallback when no face is found.
+- **Cards / objects next to the speaker:** eye level, on the free side, 0.4 × face height from the face (`FACE.follow(tl, wrapper, t0, t1, { at: "eyes", side: "free", gap: 0.4 })`).
+- **Never covered:** eyes to mouth (the checker reads the face box in every sample).
+
 ## 6. Motion verbs (`motion.js` → `NIGHT.<verb>`)
 
 | Verb | Story event | Motion | Sound |

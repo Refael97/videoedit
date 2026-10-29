@@ -65,6 +65,13 @@ One gold per composition.
   behind-text; put the word on the page in `cutout`-less `page` layout instead.
 - **Captions never on the mouth:** 71% sits on the chest in a normal framing; check one frame and move with `{ y }`.
 
+
+### Face-relative placement (measured, `theme.md` → Face-relative placement)
+Positions near the speaker are measured from the face box in every frame (`scripts/face_track.py` → `data/face.json`, runtime `effects/face.js`), never fixed pixels:
+- **Captions keep a fixed line** (the anchor's captions do not follow the face: IQR -1.73…0.74 face heights), but the line must clear the face: never above **chin + 0.2 × face height** while a face is on screen (move it under the chin with `yAt: FACE.yAt(tl, { at: "chin", dy: 0.3 })` when the speaker sits lower than the anchor).
+- **Cards / objects next to the speaker:** eye level, on the free side, 0.4 × face height from the face (`FACE.follow(tl, wrapper, t0, t1, { at: "eyes", side: "free", gap: 0.4 })`).
+- **Never covered:** eyes to mouth (the checker reads the face box in every sample).
+
 ## 6. Motion verbs (`motion.js` → `EDITORIAL.<verb>`)
 
 | Verb | Story event | Motion | Sound |

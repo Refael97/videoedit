@@ -78,3 +78,16 @@ longest static hold are read on the same graphics layer (residual < 0.3 above th
 | max static hold (graphics layer) | <= 1.2 s = the anchor's 95th-percentile hold (a marked payoff hold is exempt) |
 | actions / s (events + camera moves) | 0.79–1.48 (anchor ±30%) |
 | footage motion | reported, never failed |
+
+## Face-relative placement
+
+Measured on the anchor by `scripts/face_anchor.py` (face box + caption band at 2 fps). Place things by the
+speaker's face, not at fixed pixels (runtime `effects/face.js`, data `scripts/face_track.py`). dy is in face heights below the chin
+(negative = above the chin); a wide IQR means the anchor's captions do not follow the face.
+
+| framing | samples | anchor face (1080×1920) | caption centre | IQR |
+|---|---|---|---|---|
+| full face | 45 | chin 876, h 399 | **chin + 0.59 × h** | 0.49 … 0.83 |
+| low face | 45 | chin 1533, h 315 | **chin + -2.3 × h** | -3.86 … -1.68 |
+
+Cards next to the speaker: eye level, the free side, 0.4 × h from the face. Never covered: eyes to mouth.

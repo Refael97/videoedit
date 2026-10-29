@@ -65,6 +65,13 @@ One yellow at a time.
 - **Layout respects the shot:** sprites and chest captions need a clear chest; hands in front → split or full for that beat.
 - **Bright footage** (mean luma > ~150): `.s-face.grade` (brightness .8) and expect the captions to fight a light top.
 
+
+### Face-relative placement (measured, `theme.md` → Face-relative placement)
+Positions near the speaker are measured from the face box in every frame (`scripts/face_track.py` → `data/face.json`, runtime `effects/face.js`), never fixed pixels:
+- **Captions on the full face follow the face:** centre at **chin + 0.59 × face height** (anchor IQR 0.49…0.83), recomputed every frame: `captions(..., { yAt: FACE.yAt(tl, { at: "chin", dy: 0.59 }) })`. The fixed token is only the fallback when no face is found.
+- **Cards / objects next to the speaker:** eye level, on the free side, 0.4 × face height from the face (`FACE.follow(tl, wrapper, t0, t1, { at: "eyes", side: "free", gap: 0.4 })`).
+- **Never covered:** eyes to mouth (the checker reads the face box in every sample).
+
 ## 6. Motion verbs (`motion.js` → `NEONSTUDIO.<verb>`)
 
 | Verb | Story event | Motion | Sound |

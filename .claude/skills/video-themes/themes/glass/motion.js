@@ -61,6 +61,7 @@
         const el = document.createElement("div");
         el.className = "g-cap";
         el.textContent = g.map((w) => w.text.replace(/[.,:;]$/, "")).join(" ");
+        if (o.yAt) el.style.top = o.yAt(a) + "px";  // face-relative line (FACE.yAt) when the speaker sits lower than the anchor
         box.appendChild(el);
         tl.set(el, { opacity: 0 }, 0);
         tl.set(el, { opacity: 1 }, a);

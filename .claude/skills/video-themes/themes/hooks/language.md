@@ -68,6 +68,13 @@ One glow color per title. The lead line is always white.
   must read; check one frame.
 - Cuts every 3–6 s *(anchor 68494: 8 cuts in 47.5 s + 1 punch; inside a world, a new element every ≈1.2 s)*.
 
+
+### Face-relative placement (measured, `theme.md` → Face-relative placement)
+Positions near the speaker are measured from the face box in every frame (`scripts/face_track.py` → `data/face.json`, runtime `effects/face.js`), never fixed pixels:
+- **Captions on the full face follow the face:** centre at **chin + 0.61 × face height** (anchor IQR 0.44…0.78), recomputed every frame: `captions(..., { yAt: FACE.yAt(tl, { at: "chin", dy: 0.61 }) })`. The fixed token is only the fallback when no face is found.
+- **Cards / objects next to the speaker:** eye level, on the free side, 0.4 × face height from the face (`FACE.follow(tl, wrapper, t0, t1, { at: "eyes", side: "free", gap: 0.4 })`).
+- **Never covered:** eyes to mouth (the checker reads the face box in every sample).
+
 ## 6. Motion verbs (`motion.js` → `HOOKS.<verb>`)
 
 | Verb | Story event | Motion | Sound |
