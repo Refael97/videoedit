@@ -171,7 +171,15 @@ def main():
     m = re.search(r'<video[^>]*(?:data-qa="face"|id="[^"]*face[^"]*"|data-track-index="0")[^>]*>', html, re.I)
     src = re.search(r'src="([^"]+)"', m.group(0)).group(1) if m else None
     times = [round(i * a.step, 2) for i in range(int(dur / a.step))]
-    faces, fsize = face_boxes(proj / src, times) if src and (proj / src).exists() else ({}, None)
+    fj = proj / "data/face.json"
+    if fj.exists():  # the same per-frame, smoothed face track the edit placed things by (scripts/face_track.py)
+        FJ = json.loads(fj.read_text()); B = FJ["boxes"]; fsize = FJ["size"]; faces = {}
+        for t in times:
+            near = min(B, key=lambda b: abs(b[0] - t)) if B else None
+            if near and abs(near[0] - t) <= 1.0:
+                faces[f"{t:.2f}"] = [int(v) for v in near[1:]]
+    else:
+        faces, fsize = face_boxes(proj / src, times) if src and (proj / src).exists() else ({}, None)
 
     # ---- 3. DOM probe ----
     pin, pout = proj / "renders/qa-probe-in.json", proj / "renders/qa-probe.json"
