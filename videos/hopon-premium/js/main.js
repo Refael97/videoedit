@@ -12,7 +12,7 @@ const END = parseFloat(document.getElementById("root").dataset.duration);
 const OFF = parseFloat(document.getElementById("root").dataset.off || "0");
 const FPS = 60, SUB = 8;
 // shutter opens up to 330° on the whip moves (icon out + phone rise, spin, exit) for a heavier motion-blur feel
-const WHIPS = [[3.0, 3.95], [9.8, 10.55], [16.45, 17.4]];
+const WHIPS = [[4.9, 5.8], [8.0, 9.5], [10.05, 10.7], [16.75, 17.45], [20.15, 20.9]];
 const shutterAt = (t) => { let k = 0; WHIPS.forEach(([a, b]) => { k = Math.max(k, Math.sin(Math.PI * seg(t, a, b))); }); return (0.5 + 0.42 * k) / FPS; };
 
 class AccumPass extends Pass {
@@ -75,9 +75,41 @@ function titles(t) {
     w.style.letterSpacing = `${((1 - tr) * 0.09).toFixed(4)}em`;
     if (w.classList.contains("k")) w.style.setProperty("--u", (E.inOutCubic(seg(t, at + 0.3, at + 0.85)) * (1 - o)).toFixed(4));
   });
+  // the wheel: words roll through a fixed line like an odometer; each step snaps on its beat with a little overshoot
+  const pos = wheelPos(t), vel = (wheelPos(t + 0.01) - wheelPos(t - 0.01)) / 0.02;
+  const wy = lerp(850, 1250, E.inOutCubic(seg(t, 2.0, 2.8))), wo = E.outCubic(seg(t, 4.95, 5.3)), wi = 1;
+  wheel.style.top = `${wy.toFixed(1)}px`; wheel.style.opacity = (wi * (1 - wo)).toFixed(3); wheel.style.filter = `blur(${(wo * 18 + (1 - wi) * 16).toFixed(2)}px)`;
+  wls.forEach((el, i) => { const d = i - pos, a = d * 0.55; const vis = Math.abs(d) < 1.6;
+    el.style.visibility = vis ? "visible" : "hidden"; if (!vis) return;
+    el.style.transform = `translateY(${(Math.sin(a) * 270).toFixed(2)}px) translateZ(${((Math.cos(a) - 1) * 280).toFixed(2)}px) rotateX(${(-a * 57.3).toFixed(2)}deg)`;
+    el.style.opacity = Math.max(0, 1 - Math.abs(d) * 0.72).toFixed(3); el.style.textShadow = Math.abs(d) < 0.5 ? `0 0 ${(40 * (1 - Math.abs(d) * 2)).toFixed(1)}px rgba(26,174,229,0.35)` : 'none'; el.style.filter = `blur(${Math.min(14, Math.abs(vel) * 2.2 + Math.abs(d) * 4).toFixed(2)}px)`; });
+  pills.forEach(({ el, at }, i) => { const e = E.outCubic(seg(t, at - 0.3, at + 0.1)), o = E.outCubic(seg(t, 13.3, 13.65)); const nxt = pills[i + 1];
+    const on = t >= at && (!nxt || t < nxt.at) ? 1 : 0, lit = E.outCubic(seg(t, at, at + 0.15)) * (nxt ? 1 - seg(t, nxt.at, nxt.at + 0.2) : 1);
+    el.style.opacity = (e * (1 - o)).toFixed(3); el.style.filter = `blur(${((1 - e) * 14 + o * 14).toFixed(2)}px)`; el.style.transform = `translateY(${((1 - e) * 30).toFixed(1)}px) scale(${(1 + 0.08 * lit).toFixed(3)})`;
+    el.style.background = lit > 0.01 ? `rgba(11,134,189,${(0.95 * lit).toFixed(3)})` : "rgba(255,255,255,0.55)"; el.style.color = lit > 0.5 ? "#fff" : "#0c0c0e";
+    el.style.borderColor = lit > 0.01 ? "rgba(26,174,229,0.9)" : "rgba(12,12,14,0.18)"; el.style.boxShadow = `0 10px 30px rgba(20,30,45,0.08), 0 0 ${(40 * lit).toFixed(1)}px rgba(26,174,229,${(0.55 * lit).toFixed(3)})`; void on; });
+  rings.forEach(({ el, at }) => el.style.strokeDashoffset = (1 - E.inOutCubic(seg(t, at, at + 0.5))).toFixed(4));
+  // opener route: draws city to city behind the wheel, one dot per landed city; fades as the icon arrives
+  const rk = Math.min(1, pos / 4), ro = 1 - E.outCubic(seg(t, 2.0, 2.7));
+  routeSvg.style.opacity = ro.toFixed(3); routeSvg.style.visibility = ro > 0.001 ? "visible" : "hidden";
+  routeLive.style.strokeDasharray = `${routeLen}`; routeLive.style.strokeDashoffset = ((1 - rk) * routeLen).toFixed(2);
+  const hp = routeLive.getPointAtLength(rk * routeLen); routeHead.setAttribute("cx", hp.x.toFixed(1)); routeHead.setAttribute("cy", hp.y.toFixed(1));
+  routeDots.forEach((c, i) => { const k = clamp(pos - i + 1); c.setAttribute("r", (6 + 8 * E.outCubic(k)).toFixed(2)); c.style.opacity = (0.25 + 0.75 * k).toFixed(3); });
+  const er = E.inOutCubic(seg(t, 21.35, 22.3)); endPath.style.strokeDasharray = `${endLen}`; endPath.style.strokeDashoffset = ((1 - er) * endLen).toFixed(2);
+  const ep = endPath.getPointAtLength(er * endLen); endHead.setAttribute("cx", ep.x.toFixed(1)); endHead.setAttribute("cy", ep.y.toFixed(1)); endHead.style.opacity = er > 0 ? 1 : 0;
   sheens.forEach(({ el, at }) => { const k = seg(t, at, at + 1.0); el.style.opacity = k > 0 && k < 1 ? 1 : 0; el.style.backgroundPosition = `${(lerpN(130, -30, E.inOutSine(k))).toFixed(2)}% 0`; });
 }
-const lerpN = (a, b, k) => a + (b - a) * k;
+const lerpN = (a, b, k) => a + (b - a) * k, lerp = lerpN;
+const wheel = document.getElementById("wheel"), wls = [...wheel.querySelectorAll(".wl")];
+const WT = [0.55, 1.05, 1.55, 2.05, 2.75, 3.75];   // each wheel step lands here
+const backOut = (x) => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const wheelPos = (t) => WT.reduce((s, at, i) => s + backOut(seg(t, at - (i >= 4 ? 0.5 : 0.3), at)), 0);
+const routeSvg = document.getElementById("routeBg"), routeLive = routeSvg.querySelector("path.live"), routeHead = routeSvg.querySelector("circle.head"), routeDots = [...routeSvg.querySelectorAll("circle.c")];
+const routeLen = routeLive.getTotalLength();
+const endPath = document.querySelector("#endRoute path"), endHead = document.querySelector("#endRoute circle"), endLen = endPath.getTotalLength();
+const lblEls = [document.getElementById("lblA"), document.getElementById("lblB")];
+const pills = [...document.querySelectorAll("#pills .pill")].map((el) => ({ el, at: parseFloat(el.dataset.at) }));
+const rings = [...document.querySelectorAll("[data-ring]")].map((w) => ({ el: w.querySelector("ellipse"), at: parseFloat(w.dataset.ring) }));
 
 let shot = null;
 function renderAt(t) {
@@ -86,11 +118,13 @@ function renderAt(t) {
   const po = shot.post(t); bloom.strength = po.bloom[0]; bloom.radius = po.bloom[1]; bloom.threshold = po.bloom[2];
   fx.uniforms.time.value = Math.floor(t * FPS) / FPS; fx.uniforms.grain.value = po.grain; fx.uniforms.vig.value = po.vig;
   composer.render(); titles(t);
+  shot.labels(t).forEach((L, i) => { const el = lblEls[i]; el.style.left = `${L.x.toFixed(1)}px`; el.style.top = `${L.y.toFixed(1)}px`; el.style.opacity = L.k.toFixed(3);
+    el.style.filter = `blur(${((1 - L.k) * 10).toFixed(2)}px)`; el.style.visibility = L.k > 0.001 ? "visible" : "hidden"; });
 }
 
 let ready = false;
 const built = Promise.all([
-  document.fonts.load("800 100px 'Noto Sans Hebrew'", "אבג"), document.fonts.load("500 40px 'Noto Sans Hebrew'", "אבג"),
+  document.fonts.load("800 100px 'Noto Sans Hebrew'", "אבג"), document.fonts.load("500 40px 'Noto Sans Hebrew'", "אבג"), document.fonts.load("300 100px 'Noto Sans Hebrew'", "אבג"),
 ]).then(() => makeFilm()).then((f) => { shot = f; ready = true; });
 window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady["hopon"] = built;
 built.then(() => renderAt(window.__hfThreeTime || 0));

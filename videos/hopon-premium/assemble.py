@@ -1,29 +1,33 @@
-# audio mix + mux for the HopOn film: voiceover ("רפאל מקצועי", eleven_v4), ElevenLabs music bed ducked under
-# the voice, and one SFX per visual hit. Every cue time comes from the same beat grid as js/core.js: B(n) = n * 0.5
+# audio for the PREMIUM HopOn film: music-driven, NO voiceover. m1 is extended on bar boundaries (bars start at
+# 0.47 + 2n s in the file): [0, 16.47) + [8.47, end) → ~29 s, delayed 30 ms so its beats land on B(n) = n * 0.5.
+# One SFX per visual hit; times match js/film.js + index.html.
 import subprocess
 run = lambda *a: subprocess.run(a, check=True)
-END = 20.4
+END = 23.0
 B = lambda n: n * 0.5
 
-# each take is cut to start on its first word (word timings from a Scribe pass): eleven_v4 puts a throat-clear /
-# breath before the line, so trim/ starts 20 ms before the first word with a 25 ms fade-in. Times = first word.
-VO = [("vo/trim/l1b.wav", 0.58), ("vo/trim/lmap.wav", 3.56), ("vo/trim/l2a.wav", 6.81), ("vo/trim/l3b.wav", 10.70),
-      ("vo/trim/lticket.wav", 13.70), ("vo/trim/l4a.wav", 17.38)]
-# m1 extended to ~21s by repeating its groove on bar boundaries (see assets/music); beats at 0.47 + 0.5n → +30 ms
-MUSIC = ("music/m1_long.wav", 0.03, 0.55)
-# (file, time, volume) — whooshes start ~0.25s early so their peak lands on the move
-SFX = [("sfx/whoosh-short.mp3", 0.05, 0.30),
-       *[("sfx/click-soft.mp3", B(n), 0.55) for n in (1, 2, 3, 4)], ("sfx/pop.mp3", 2.12, 0.30),     # parts lock
-       ("sfx/whoosh.mp3", 2.85, 0.35),                                                             # icon out, phone in
-       ("sfx/whoosh-short.mp3", 3.95, 0.28),                                                       # map lifts and tilts
-       ("sfx/click-soft.mp3", B(9), 0.5), ("sfx/click-soft.mp3", B(10), 0.5),                      # pins land
-       ("sfx/whoosh-short.mp3", B(10) + 0.05, 0.18),                                               # route draws
-       *[("sfx/pop.mp3", B(n), 0.32) for n in (14, 15, 16)],                                       # menu rows lift
-       ("sfx/whoosh-short.mp3", 9.9, 0.40),                                                        # spin
-       ("sfx/pop.mp3", B(22), 0.32), ("sfx/pop.mp3", B(23), 0.24),                                 # card, Apple Pay lift
-       ("sfx/click.mp3", B(24), 0.70), ("sfx/ping.mp3", B(24) + 0.04, 0.28),                       # the press
-       ("sfx/pop.mp3", B(27), 0.32), ("sfx/whoosh-short.mp3", B(28) - 0.1, 0.16),                  # ticket lifts, scan line
-       ("sfx/whoosh.mp3", 16.35, 0.32)]                                                            # phone out, icon back
+run("ffmpeg", "-v", "error", "-y", "-i", "assets/music/m1_long.wav", "-filter_complex",
+    "[0]atrim=0:16.47,asetpts=PTS-STARTPTS[a];[0]atrim=8.47,asetpts=PTS-STARTPTS[b];[a][b]acrossfade=d=0.02:c1=tri:c2=tri[o]",
+    "-map", "[o]", "assets/music/m1_premium.wav")
+MUSIC = ("music/m1_premium.wav", 0.03, 0.8)
+SFX = [*[("sfx/click-soft.mp3", t, 0.35) for t in (0.55, 1.05, 1.55, 2.05)],          # wheel ticks: cities
+       ("sfx/pop.mp3", 2.75, 0.32), ("sfx/click-soft.mp3", 3.75, 0.5), ("sfx/ping.mp3", 3.78, 0.22),   # בכל ישראל, brand
+       *[("sfx/click-soft.mp3", 2.0 + B(n), 0.45) for n in (1, 2, 3, 4)],                 # icon parts lock
+       ("sfx/whoosh.mp3", 4.75, 0.34),                                                    # dive to the map
+       ("sfx/click-soft.mp3", 5.75, 0.5), ("sfx/whoosh-short.mp3", 5.9, 0.2),             # pin A, route starts
+       ("sfx/click-soft.mp3", 8.0, 0.5), ("sfx/ping.mp3", 8.03, 0.2),                     # pin B
+       ("sfx/whoosh.mp3", 8.45, 0.3),                                                     # map folds into the phone
+       ("sfx/whoosh-short.mp3", 9.95, 0.32),                                              # to the stop
+       *[("sfx/whoosh-short.mp3", t - 0.35, 0.3) for t in (10.75, 11.75, 12.75)],         # bus, train, light rail pull in
+       *[("sfx/pop.mp3", t, 0.3) for t in (10.75, 11.75, 12.75)],                         # pills light
+       ("sfx/whoosh.mp3", 13.2, 0.3),                                                     # phone back
+       ("sfx/pop.mp3", 14.6, 0.3), ("sfx/pop.mp3", 15.1, 0.24),                           # card, Apple Pay
+       ("sfx/click.mp3", 15.5, 0.7), ("sfx/ping.mp3", 15.54, 0.28),                       # the press
+       ("sfx/whoosh-short.mp3", 16.75, 0.36),                                             # spin to ticket
+       ("sfx/pop.mp3", 17.95, 0.3), ("sfx/whoosh-short.mp3", 18.1, 0.16),                 # ticket, scan
+       ("sfx/ping.mp3", 19.0, 0.3),                                                       # scan OK
+       ("sfx/whoosh.mp3", 19.4, 0.22), ("sfx/whoosh.mp3", 20.05, 0.32),                   # ride leaves, phone out
+       ("sfx/click-soft.mp3", 21.2, 0.45), ("sfx/whoosh-short.mp3", 21.3, 0.16), ("sfx/ping.mp3", 21.9, 0.18)]                  # lockup, sheen
 
 def place(inputs, cues, label):
     flt = []
@@ -33,15 +37,12 @@ def place(inputs, cues, label):
     flt.append("".join(f"[{label}{i}]" for i in range(len(cues))) + f"amix=inputs={len(cues)}:normalize=0:dropout_transition=0[{label}]")
     return flt
 
-args = ["ffmpeg", "-v", "error", "-y"]; inputs = []
-flt = place(inputs, [(v, t, 1.0) for v, t in VO], "v")
-flt += place(inputs, SFX, "s")
+inputs = []
+flt = place(inputs, SFX, "s")
 inputs += ["-i", f"assets/{MUSIC[0]}"]; mi = len(inputs) // 2 - 1; d = int(MUSIC[1] * 1000)
-flt.append(f"[{mi}]volume={MUSIC[2]},aresample=48000,aformat=channel_layouts=stereo,adelay={d}|{d},afade=t=out:st={END - 1.2}:d=1.2[m]")
-flt.append(f"[v]apad=whole_dur={END},asplit=2[v1][vk]")   # pad: the sidechain would otherwise end the music with the last word
-flt.append("[m][vk]sidechaincompress=threshold=0.04:ratio=5:attack=20:release=280:makeup=1[md]")   # duck music under the voice
-flt.append(f"[v1][md][s]amix=inputs=3:normalize=0:dropout_transition=0,atrim=0:{END},loudnorm=I=-14:TP=-1.0:LRA=9[out]")
-run(*args, *inputs, "-filter_complex", ";".join(flt), "-map", "[out]", "-ar", "48000", "-c:a", "pcm_s16le", "renders/audio.wav")
-run("ffmpeg", "-v", "error", "-y", "-i", "renders/video_v2.mp4", "-i", "renders/audio.wav", "-map", "0:v", "-map", "1:a",
-    "-c:v", "copy", "-c:a", "aac", "-b:a", "256k", "-shortest", "-movflags", "+faststart", "renders/hopon-rav-pass.mp4")
+flt.append(f"[{mi}]volume={MUSIC[2]},aresample=48000,aformat=channel_layouts=stereo,adelay={d}|{d},afade=t=out:st={END - 1.6}:d=1.6[m]")
+flt.append(f"[m][s]amix=inputs=2:normalize=0:dropout_transition=0,atrim=0:{END},loudnorm=I=-14:TP=-1.0:LRA=9[out]")
+run("ffmpeg", "-v", "error", "-y", *inputs, "-filter_complex", ";".join(flt), "-map", "[out]", "-ar", "48000", "-c:a", "pcm_s16le", "renders/audio.wav")
+run("ffmpeg", "-v", "error", "-y", "-i", "renders/video.mp4", "-i", "renders/audio.wav", "-map", "0:v", "-map", "1:a",
+    "-c:v", "copy", "-c:a", "aac", "-b:a", "256k", "-shortest", "-movflags", "+faststart", "renders/hopon-premium.mp4")
 print("done")

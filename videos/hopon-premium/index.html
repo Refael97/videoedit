@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
     <style>
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 300; src: url("assets/fonts/noto-sans-hebrew-hebrew-300-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 300; src: url("assets/fonts/noto-sans-hebrew-latin-300-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
       @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/fonts/noto-sans-hebrew-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
       @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/fonts/noto-sans-hebrew-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
       @font-face { font-family: "Noto Sans Hebrew"; font-weight: 500; src: url("assets/fonts/noto-sans-hebrew-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
@@ -14,51 +16,80 @@
       #gl { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; }
       /* titles are part of the motion: each word resolves out of blur on its beat, each block blurs away on data-out */
       .title { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; pointer-events: none; }
-      .title h1 { margin: 0; font: 800 132px/1.12 "Noto Sans Hebrew"; color: var(--ink); white-space: nowrap; }
-      .title h1.m { font-size: 104px; line-height: 1.16; }
-      .title p { margin: 26px 0 0; font: 500 40px/1.45 "Noto Sans Hebrew"; color: var(--mute); }
+      .title h1 { margin: 0; font: 300 124px/1.14 "Noto Sans Hebrew"; color: var(--ink); white-space: nowrap; letter-spacing: -0.01em; }
+      .title h1.m { font-size: 108px; line-height: 1.18; }
+      .title p { margin: 26px 0 0; font: 300 42px/1.45 "Noto Sans Hebrew"; color: var(--mute); }
       .title .w { display: inline-block; position: relative; will-change: filter, opacity, transform; }
       .title h1 { text-shadow: 0 14px 34px rgba(20, 30, 45, 0.10); }
-      .title .w.k { color: #0b86bd; }
+      .title .w.k { color: #0b86bd; font-weight: 800; }
       .title .w.k::after { content: ""; position: absolute; left: 3%; right: 3%; bottom: 0.02em; height: 9px; border-radius: 6px;
         background: linear-gradient(90deg, rgba(26,174,229,0.35), #1AAEE5 60%, #6fd3f7); box-shadow: 0 0 22px rgba(26,174,229,0.55);
         transform: scaleX(var(--u, 0)); transform-origin: 100% 50%; }
       .title h1.sheen { position: absolute; top: 0; left: 0; right: 0; color: transparent; text-shadow: none; opacity: 0;
         background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 60%);
         background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; }
-      #t1, #t4 { top: 1268px; } #tm, #t2, #t3, #tt { top: 1470px; }
+      #t4 { top: 1268px; } #tm, #t3, #tt { top: 1450px; } #t2 { top: 1400px; } #t1s { top: 1440px; }
+      #wheel { position: absolute; left: 0; right: 0; height: 220px; direction: rtl; perspective: 900px; pointer-events: none; }
+      #wheel .wl { position: absolute; left: 0; right: 0; top: 0; text-align: center; font: 300 168px/220px "Noto Sans Hebrew"; color: var(--ink); white-space: nowrap; backface-visibility: hidden; }
+      #wheel .wl b { font-weight: 800; color: #0b86bd; }
+      #wheel .bar { position: absolute; left: 50%; width: 900px; margin-left: -450px; height: 2px; background: linear-gradient(90deg, rgba(26,174,229,0), rgba(26,174,229,0.55), rgba(26,174,229,0)); }
+      #wheel .glowband { position: absolute; left: 50%; top: 10px; width: 980px; margin-left: -490px; height: 200px; border-radius: 100px; background: radial-gradient(ellipse at center, rgba(26,174,229,0.16), rgba(26,174,229,0) 70%); }
+      #routeBg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; overflow: visible; }
+      #routeBg path { fill: none; stroke: #1AAEE5; stroke-width: 5; stroke-linecap: round; filter: drop-shadow(0 0 10px rgba(26,174,229,0.7)); }
+      #routeBg path.ghost { stroke: rgba(12,12,14,0.10); stroke-width: 3; stroke-dasharray: 2 14; filter: none; }
+      #routeBg circle { fill: #fff; stroke: #1AAEE5; stroke-width: 5; filter: drop-shadow(0 0 12px rgba(26,174,229,0.8)); }
+      #routeBg circle.head { fill: #1AAEE5; stroke: none; }
+      .lbl { position: absolute; transform: translate(-50%, -100%); font: 300 38px/1 "Noto Sans Hebrew"; direction: rtl; padding: 16px 28px; border-radius: 999px; background: rgba(255,255,255,0.92); color: var(--ink); box-shadow: 0 12px 34px rgba(20,30,45,0.16); white-space: nowrap; }
+      .lbl b { font-weight: 800; color: #0b86bd; }
+      #endRoute { position: absolute; left: 290px; top: 1525px; width: 500px; height: 40px; overflow: visible; }
+      #endRoute path { fill: none; stroke: #1AAEE5; stroke-width: 4; stroke-linecap: round; filter: drop-shadow(0 0 8px rgba(26,174,229,0.7)); }
+      #endRoute circle { fill: #1AAEE5; filter: drop-shadow(0 0 10px rgba(26,174,229,0.9)); }
+      #pills { position: absolute; left: 0; right: 0; top: 1640px; display: flex; justify-content: center; gap: 22px; direction: rtl; }
+      #pills .pill { font: 300 44px/1 "Noto Sans Hebrew"; padding: 22px 38px; border-radius: 999px; border: 2px solid rgba(12,12,14,0.18); color: var(--ink); background: rgba(255,255,255,0.55); box-shadow: 0 10px 30px rgba(20,30,45,0.08); }
+      .ring { position: absolute; left: -12%; top: -8%; width: 124%; height: 116%; overflow: visible; pointer-events: none; }
+      .ring ellipse { fill: none; stroke: #1AAEE5; stroke-width: 3.2; stroke-dasharray: 1; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 8px rgba(26,174,229,0.6)); }
     </style>
     <script type="importmap">
       { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
     </script>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="20.4" data-width="1080" data-height="1920" data-no-timeline>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="23" data-width="1080" data-height="1920" data-no-timeline>
       <canvas id="gl" width="1080" height="1920"></canvas>
-      <div id="t1" class="title" data-out="3.0">
-        <h1><span class="w" data-at="1.95">הופאון</span> <span class="w k" data-at="2.07">רב&#8209;פס</span></h1>
-        <p><span class="w" data-at="2.25">משלמים על הנסיעה מהטלפון</span></p>
+      <svg id="routeBg" viewBox="0 0 1080 1920" data-layout-allow-occlusion>
+        <path class="ghost" d="M 940 330 C 760 420, 820 600, 600 640 S 260 700, 300 1180 S 620 1420, 820 1560 S 520 1760, 180 1700" />
+        <path class="live" d="M 940 330 C 760 420, 820 600, 600 640 S 260 700, 300 1180 S 620 1420, 820 1560 S 520 1760, 180 1700" />
+        <circle class="c" cx="940" cy="330" r="14"/><circle class="c" cx="600" cy="640" r="14"/><circle class="c" cx="300" cy="1180" r="14"/><circle class="c" cx="820" cy="1560" r="14"/><circle class="c" cx="180" cy="1700" r="14"/>
+        <circle class="head" r="11" cx="940" cy="330"/>
+      </svg>
+      <div class="lbl" id="lblA">תל אביב</div><div class="lbl" id="lblB"><b>ירושלים</b></div>
+      <div id="wheel" data-out="4.95">
+        <div class="glowband"></div><div class="bar" style="top:-4px"></div><div class="bar" style="top:222px"></div>
+        <div class="wl">ירושלים</div><div class="wl">הרצליה</div><div class="wl">תל אביב</div><div class="wl">באר שבע</div><div class="wl">חיפה</div>
+        <div class="wl">בכל <b>ישראל</b></div><div class="wl">הופאון <b>רב&#8209;פס</b></div>
       </div>
-      <div id="tm" class="title" data-out="6.25">
-        <h1 class="m"><span class="w" data-at="3.8">מתכננים</span> <span class="w k" data-at="3.92">מסלול.</span></h1>
-        <p><span class="w" data-at="4.55">מנקודה לנקודה, עם זמני הגעה בזמן אמת</span></p>
+      <div id="t1s" class="title" data-out="4.95"><p><span class="w" data-at="4.15">משלמים על הנסיעה מהטלפון</span></p></div>
+      <div id="tm" class="title" data-out="8.45">
+        <h1 class="m"><span class="w" data-at="6.0">מתכננים</span> <span class="w k" data-at="6.12">מסלול.</span></h1>
+        <p><span class="w" data-at="6.6">מנקודה לנקודה, עם זמני הגעה בזמן אמת</span></p>
       </div>
-      <div id="t2" class="title" data-out="9.65">
-        <h1 class="m"><span class="w" data-at="6.8">אוטובוס.</span> <span class="w" data-at="7.3">רכבת.</span><br /><span class="w" data-at="7.8">רכבת קלה.</span></h1>
-        <p><span class="w" data-at="8.1">איך אתם נוסעים היום?</span></p>
+      <div id="t2" class="title" data-out="13.3">
+        <h1 class="m"><span class="w" data-at="10.35">איך נוסעים</span> <span class="w k" data-at="10.47">היום?</span></h1>
       </div>
-      <div id="t3" class="title" data-out="12.55">
-        <h1 class="m"><span class="w" data-at="10.8">רואים את המחיר.</span><br /><span class="w" data-at="11.8">משלמים</span> <span class="w k" data-at="11.92">בלחיצה.</span></h1>
+      <div id="pills" data-out="13.3"><span class="pill" data-at="10.75">אוטובוס</span><span class="pill" data-at="11.75">רכבת ישראל</span><span class="pill" data-at="12.75">רכבת קלה</span></div>
+      <div id="t3" class="title" data-out="16.7">
+        <h1 class="m"><span class="w" data-at="14.15">רואים את</span> <span class="w k" data-at="14.27">המחיר.</span><br /><span class="w" data-at="15.0">משלמים</span> <span class="w k" data-at="15.12" data-ring="15.5">בלחיצה.<svg class="ring" viewBox="0 0 100 40" preserveAspectRatio="none"><ellipse cx="50" cy="20" rx="48" ry="18" pathLength="1"/></svg></span></h1>
       </div>
-      <div id="tt" class="title" data-out="16.2">
-        <h1 class="m"><span class="w" data-at="13.5">סורקים.</span> <span class="w k" data-at="14.0">נוסעים.</span></h1>
-        <p><span class="w" data-at="14.4">כרטיס נסיעה דיגיטלי לביקורת</span></p>
+      <div id="tt" class="title" data-out="20.1">
+        <h1 class="m"><span class="w" data-at="17.5">סורקים.</span> <span class="w k" data-at="18.0">נוסעים.</span></h1>
+        <p><span class="w" data-at="18.4">כרטיס נסיעה דיגיטלי לביקורת</span></p>
       </div>
       <div id="t4" class="title">
-        <h1><span class="w" data-at="17.45">הופאון</span> <span class="w k" data-at="17.57">רב&#8209;פס</span></h1>
-        <h1 class="sheen" data-layout-allow-occlusion data-at="18.35" aria-hidden="true">הופאון רב&#8209;פס</h1>
-        <p><span class="w" data-at="17.85">פשוט נוסעים.</span></p>
+        <h1><span class="w" data-at="21.2">הופאון</span> <span class="w k" data-at="21.32">רב&#8209;פס</span></h1>
+        <h1 class="sheen" data-layout-allow-occlusion data-at="21.85" aria-hidden="true">הופאון רב&#8209;פס</h1>
+        <p><span class="w" data-at="21.75">פשוט נוסעים.</span></p>
       </div>
+      <svg id="endRoute" viewBox="0 0 500 40" data-layout-allow-occlusion><path d="M 480 20 C 380 2, 300 38, 220 20 S 80 4, 20 20"/><circle r="7" cx="480" cy="20"/></svg>
     </div>
     <script type="module" src="js/main.js"></script>
   </body>
