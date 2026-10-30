@@ -188,8 +188,9 @@ export async function makeFilm() {
     [-0.85, 0.95].forEach((x) => { g.add(wheel(x, -H / 2 - 0.02, 0.2, D + 0.04)); });
     return g;
   }
-  function train() {      // lead single-deck cab + double-deck coach
-    const g = new THREE.Group();
+  const isrBlue = mats.ceramic(0x1f4e9a, { roughness: 0.3, clearcoat: 0.8 });
+  function train() {      // lead single-deck cab + double-deck coach, Israel Railways blue-and-white
+    const g = new THREE.Group(); const stripeM = isrBlue;
     const cab = new THREE.Shape(); cab.moveTo(0.9, -0.62); cab.lineTo(-0.95, -0.62); cab.quadraticCurveTo(-1.35, -0.6, -1.35, -0.2); cab.lineTo(-1.1, 0.42); cab.quadraticCurveTo(-0.95, 0.62, -0.7, 0.62); cab.lineTo(0.9, 0.62); cab.lineTo(0.9, -0.62);
     const cabM = new THREE.Mesh(new THREE.ExtrudeGeometry(cab, { depth: D, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 5, curveSegments: 16 }), white); cabM.position.set(-1.2, 0, -D / 2); g.add(cabM);
     const ws = new THREE.Shape(); ws.moveTo(-1.32, -0.05); ws.lineTo(-1.12, 0.4); ws.quadraticCurveTo(-1.0, 0.55, -0.82, 0.55); ws.lineTo(-0.82, -0.05);
@@ -199,7 +200,7 @@ export async function makeFilm() {
     for (let i = 0; i < 4; i++) { g.add(box(0.5, 0.3, D + 0.12, dark, 0.15 + i * 0.68, 0.6)); g.add(box(0.5, 0.3, D + 0.12, dark, 0.15 + i * 0.68, -0.05)); }   // two decks of windows
     g.add(box(0.07, 0.9, D + 0.09, grey, -0.27, 0.0));                                           // gangway
     g.add(box(4.4, 0.06, D + 0.16, stripeM, 0.25, -0.33));
-    g.add(box(4.4, 0.16, D + 0.1, grey, 0.25, -0.58));
+    g.add(box(4.4, 0.2, D + 0.1, isrBlue, 0.25, -0.56));
     [-1.9, -0.9, 0.3, 2.2].forEach((x) => [-0.2, 0.2].forEach((o) => g.add(wheel(x + o, -0.7, 0.11, D * 0.8))));   // bogies
     return g;
   }
@@ -249,7 +250,7 @@ export async function makeFilm() {
   const SWEEPS = [[8.6, 9.3], [13.95, 14.6], [17.2, 17.9]];
   const PH_HOME = V(0, 0.02, 0.4), ICON_OUT = V(-4.6, 1.3, -1.8), v = new THREE.Vector3(), q = new THREE.Quaternion(), q2 = new THREE.Quaternion();
   const camP = new THREE.Vector3(), camT = new THREE.Vector3(), cP = new THREE.Vector3(), cT = new THREE.Vector3();
-  const PHONE_CAM = [V(0.3, 0.35, 10.6), V(0, -0.35, 0)], STOP_CAM = [V(3.2, 1.1, 19.5), V(0.0, -1.4, -2.0)];
+  const PHONE_CAM = [V(0.3, 0.35, 11.7), V(0, -0.95, 0)], STOP_CAM = [V(3.0, 1.1, 22.5), V(0.35, -2.4, -2.0)];
 
   // camera: one continuous rig blended between shot rigs
   function chase(k) { const kk = clamp(k) * 0.8; const p = route.getPoint(kk), a = route.getPoint(clamp(kk + 0.09)); const sw = Math.sin(k * 9) * 0.03; return [w2(p.x + 0.09 + sw, p.y, 0.36), w2(a.x + sw * 0.5, a.y, 0.16)]; }
@@ -340,7 +341,7 @@ export async function makeFilm() {
       const kin = E.outExpo(seg(t, at - 0.3, at)), last = i === 2;
       const kout = last ? Math.pow(seg(t, out, out + 0.75), 2.2) : Math.pow(seg(t, out - 0.32, out - 0.1), 3);
       g.visible = t > at - 0.3 && kout < 1;
-      g.position.set(lerp(13, 1.0, kin) - 17 * kout, g.userData.y + Math.sin(t * 9 + i) * 0.003, SZ_ - 3.0 * back_);
+      g.position.set(lerp(14, 0.65, kin) - 18 * kout, g.userData.y + Math.sin(t * 9 + i) * 0.003, SZ_ - 3.0 * back_);
       g.rotation.z = (1 - kin) * 0.01;
     });
 
