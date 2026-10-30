@@ -17,6 +17,15 @@ Rules: cards and objects sit on the page or float over the face (cards only). In
 Nothing else exists: no colored panels, no gradients, no glass, no glow. A real dark output (e.g. a generated
 document) may be shown **as-is** inside a card, never as a background.
 
+### Measured material & light (`anchor.py paper --look`)
+
+- **Light inside the hero:** luma span p95−p5 = 173.329 on the anchor → a new element needs ≥ 121: a gradient, a highlight edge or real content with darks and lights. A flat fill of one colour fails.
+- **Glow:** none to speak of on the anchor (-10.079): depth comes from shadow and layering, not halos.
+- **Accent:** median saturation of the hero's most saturated 10% = 137.308 → ≥ 96: the accent is a real, saturated colour, never a greyed tint.
+- **Highlights:** 2.3% of the hero is specular highlight on the anchor (lacquer / neon edges) — check by eye.
+- **Size and fill:** the hero spans 70% of the frame width and 43% of its cells carry detail → ≥ 60% wide, ≥ 32% detailed.
+- **Hebrew emphasis:** Hebrew has no italic. Where the anchor sets a word in serif italic, use weight, the accent colour, the theme's box or a second face that has Hebrew — never a slant or skew.
+
 ## 2. Anatomy
 
 Every page composition = **step label (top) · one hero (center) · labels / ink (around it)**.

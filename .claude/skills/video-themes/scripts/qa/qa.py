@@ -1,7 +1,9 @@
 """Theme QA: checks a draft against the theme's measured anchor targets and the known-mistake rules.
 
 usage: qa <project> [--theme NAME] [--reuse-draft] [--step 0.25]
-writes <project>/qa.json and <project>/qa-report.md, prints "N/9 READY|NOT READY"; exit code 0 only when 9/9.
+writes <project>/qa.json and <project>/qa-report.md, prints "N/20 READY|NOT READY"; exit code 0 only when all pass.
+Checks 1-13 are timing and layout; 14-20 are the look (look.py: footage, hero scale, content density, full-face rhythm,
+material, text contrast, Hebrew typography), measured on the draft with the same code that measured the anchor.
 The draft is rendered at 30 fps, draft quality, to <project>/renders/qa-draft.mp4 (the renderer has no 540p preset;
 analysis runs at 270x480 / 540x960 anyway).
 """
@@ -13,6 +15,7 @@ THEMES = HERE.parent.parent / "themes"
 sys.path.insert(0, str(HERE))
 import video_metrics as vm  # noqa: E402
 import layers  # noqa: E402
+import look as lk  # noqa: E402
 
 HF = ["npx", "--yes", "hyperframes@0.8.150"]
 VW, VH = 1080, 1920
@@ -23,6 +26,8 @@ PAYOFF_TOL, PAYOFF_HOLD = 0.15, 0.8
 CHECKS = [
     ("motion", "graphics motion"), ("flat", "flat stretches"), ("hold", "max static hold"), ("actions", "actions / s"), ("payoff", "payoff lands"),
     ("text", "min text"), ("hero", "hero fill"), ("collide", "collisions"), ("overlap", "graphic overlaps"), ("placeholder", "no placeholders"), ("facts", "facts on screen"), ("fx", "signature effects"), ("hook", "hook visual"),
+    ("footage", "footage match"), ("scale", "hero scale"), ("density", "content density"), ("rhythm", "full-face rhythm"), ("material", "material & light"),
+    ("contrast", "text contrast"), ("type", "Hebrew typography"),
 ]
 FIX = {
     "motion": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)",
@@ -44,6 +49,14 @@ FIX = {
     "overlap": "move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container",
     "facts": "take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it",
     "hook": "open on a visual (the result, the thing itself, real thumbnails), not text alone",
+    "footage": "the footage is a different world from the anchor: run scripts/footage_prep.py <project> (grade, background, crop to the anchor's face size) and use its output; if it reports RESHOOT, send the user the theme README's 'How to shoot for this theme' before editing",
+    "scale": "the hero is smaller than the anchor's: grow it to the anchor's width (theme.md → Look targets), or drop the side margins / move to a layout that gives it the zone",
+    "density": "the hero is mostly empty: fill it with the real content (the actual chat, file, page, numbers, several lines), or make the element hug its content and grow the content",
+    "rhythm": "the face never gets the frame: cut to a full-face beat (caption on the chest) on the next emotional / punch line, as often as the anchor does",
+    "material": "flat fills: give the hero the theme's material (language.md → Material & light: gradient span, highlight, glow, accent saturation)",
+    "contrast": "the text is too close to its background: use the theme's ink on its surface (>= 4.5:1, >= 3:1 from 48px), or mark deliberate decoration with data-qa-decor",
+    "slant": "Hebrew has no italic: a slanted or skewed Hebrew word reads cheap. Emphasise with weight, colour, the theme's box or a second face that has Hebrew, never a slant",
+    "mix": "a Latin / digit run set in another face (or slanted) inside a Hebrew line: set the digits in the line's own Hebrew face",
 }
 
 
@@ -184,7 +197,8 @@ def main():
     # ---- 3. DOM probe ----
     pin, pout = proj / "renders/qa-probe-in.json", proj / "renders/qa-probe.json"
     pin.write_text(json.dumps({"step": a.step, "faces": faces, "faceSize": fsize, "words": words}))
-    r = subprocess.run(["node", str(HERE / "probe.cjs"), str(proj / "index.html"), str(pin), str(pout)], capture_output=True, text=True)
+    import nodeenv
+    r = subprocess.run(["node", str(HERE / "probe.cjs"), str(proj / "index.html"), str(pin), str(pout)], capture_output=True, text=True, env=nodeenv.env())
     if r.returncode:
         sys.exit("probe failed:\n" + r.stderr[-3000:])
     P = json.loads(pout.read_text())
@@ -499,11 +513,131 @@ def main():
     if not ok:
         fix(0, 3, "hook visual", FIX["hook"])
 
+    # ---- look checks (14-20): look.py on the draft, against the anchor's look targets ----
+    LJ = json.loads(tpath.read_text()).get("look")
+    LK = lk.analyse(draft)
+    LS, LR = LK["summary"], LK["records"]
+    if not LJ:
+        for k in ("footage", "scale", "density", "rhythm", "material"):
+            res[k] = {"value": "no look targets", "target": f"run anchor.py {theme} --look", "pass": False}
+        fix(0, dur, "look", f"this theme has no look targets yet: python3 {HERE}/anchor.py {theme} --look")
+    else:
+        LT = LJ["targets"]
+        inband = lambda v, b: b is None or v is None or b[0] <= v <= b[1]
+        # C14 footage match
+        bad = []
+        for k, lab in (("face_h", "face height"), ("face_luma", "face luma"), ("warmth", "skin warmth"), ("bg_luma", "background luma"), ("bg_sat", "background saturation")):
+            if not inband(LS.get(k), LT.get(k)):
+                bad.append(f"{lab} {LS.get(k)} (anchor {LT[k][0]}–{LT[k][1]})")
+        if LT.get("contrast_min") and (LS.get("contrast") or 0) < LT["contrast_min"]:
+            bad.append(f"contrast {LS.get('contrast')} (>= {LT['contrast_min']})")
+        if LS.get("garment_vs_bg") is not None and LS["garment_vs_bg"] < LT.get("garment_vs_bg_min", 25):
+            bad.append(f"garment vs background {LS['garment_vs_bg']} (>= {LT.get('garment_vs_bg_min', 25)}: the clothes melt into the wall)")
+        res["footage"] = {"value": "; ".join(bad) if bad else "in the anchor's world", "target": "theme.md → Look targets", "pass": not bad}
+        if bad:
+            fix(0, dur, "footage match", "; ".join(bad) + ": " + FIX["footage"])
+        # C15 hero scale + C16 content density: median against the target, plus weak stretches >= 1 s
+        hs = [r for r in LR if r.get("hero") and r["hero"].get("box")]
+        for key, ck, mn, wk, msg in (("width", "scale", "hero_width_min", "hero_width_weak", FIX["scale"]), ("density", "density", "hero_density_min", "hero_density_weak", FIX["density"])):
+            if not LT.get(mn):
+                res[ck] = {"value": "anchor has no graphics zone", "target": "—", "pass": True}; continue
+            med = float(np.median([r["hero"][key] for r in hs])) if hs else 0.0
+            weak = [r["t"] for r in hs if r["hero"][key] < LT[wk]]
+            runs = group_times(weak, 1 / lk.SAMPLE_FPS, 2)
+            ok = med >= LT[mn] and not runs
+            res[ck] = {"value": f"median {med:.2f}, {len(runs)} weak stretches", "target": f"median >= {LT[mn]}, never < {LT[wk]} for 1 s", "pass": ok}
+            if med < LT[mn]:
+                fix(0, dur, ck.replace("scale", "hero scale").replace("density", "content density"), f"median {med:.2f} < {LT[mn]}: " + msg)
+            for x, y in runs:
+                fix(x, y, "hero scale" if ck == "scale" else "content density", f"{key} {min(r['hero'][key] for r in hs if x <= r['t'] < y):.2f} (< {LT[wk]}): " + msg)
+        # C17 full-face rhythm
+        if LT.get("full_face_share_min") is None:
+            res["rhythm"] = {"value": f"{LS['full_face_share']:.0%} full face", "target": "anchor keeps the speaker in a box (no target)", "pass": True}
+        else:
+            ok = LS["full_face_share"] >= LT["full_face_share_min"] and LS["full_face_max_gap"] <= LT["full_face_max_gap"]
+            res["rhythm"] = {"value": f"{LS['full_face_share']:.0%} full face, longest gap {LS['full_face_max_gap']} s", "target": f">= {LT['full_face_share_min']:.0%}, gap <= {LT['full_face_max_gap']} s", "pass": ok}
+            if not ok:
+                lay = [(r["t"], r["layout"]) for r in LR]; run0 = None
+                for t_, l_ in lay + [(dur, "face")]:
+                    if l_ != "face" and run0 is None:
+                        run0 = t_
+                    elif l_ == "face" and run0 is not None:
+                        if t_ - run0 > LT["full_face_max_gap"]:
+                            fix(run0, t_, "full-face rhythm", f"{t_ - run0:.1f} s without a full-face beat: " + FIX["rhythm"])
+                        run0 = None
+        # C18 material & light
+        bad = []
+        if LT.get("span_min") and (LS.get("span") or 0) < LT["span_min"]:
+            bad.append(f"luma span {LS.get('span')} (>= {LT['span_min']})")
+        if LT.get("glow_min") and (LS.get("glow") or 0) < LT["glow_min"]:
+            bad.append(f"glow {LS.get('glow')} (>= {LT['glow_min']})")
+        if LT.get("accent_sat_min") and (LS.get("accent_sat") or 0) < LT["accent_sat_min"]:
+            bad.append(f"accent saturation {LS.get('accent_sat')} (>= {LT['accent_sat_min']})")
+        res["material"] = {"value": "; ".join(bad) if bad else f"span {LS.get('span')}, glow {LS.get('glow')}, accent {LS.get('accent_sat')}", "target": "theme.md → Look targets", "pass": not bad}
+        if bad:
+            fix(0, dur, "material & light", "; ".join(bad) + ": " + FIX["material"])
+
+    # C19 text contrast: glyph vs surface inside every readable text box, on the draft pixels (decor / blur / fading excluded)
+    CW, CH = 720, 1280
+    rawc = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(draft), "-vf", f"fps={1 / step},scale={CW}:{CH},format=gray", "-f", "rawvideo", "-"], capture_output=True, check=True).stdout
+    FC = np.frombuffer(rawc, np.uint8).reshape(-1, CH, CW)
+    lin = lambda v: ((v / 255) / 12.92) if v / 255 <= 0.04045 else (((v / 255) + 0.055) / 1.055) ** 2.4
+    lowc, worst = {}, {}
+    for s in S:
+        i = int(round(s["t"] / step))
+        if i >= len(FC):
+            continue
+        for tx in s["texts"]:
+            if tx["op"] < 0.9 or tx["fs"] < MIN_TEXT or tx.get("decor") or tx.get("blur") or tx.get("covered") or len(tx["tx"].strip()) < 2:
+                continue
+            x, y, w, h = [int(v * CW / VW) for v in tx["r"]]
+            # the DOM probe and the renderer can disagree by a few dozen px mid-tween: read the text box at the
+            # vertical offset (±32 px at 1080 wide) where it shows the most structure, i.e. where the glyphs are
+            ratio = 0.0
+            for dy in range(-21, 22, 7):
+                x1, y1, x2, y2 = max(0, x), max(0, y + dy), min(CW, x + w), min(CH, y + h + dy)
+                if x2 - x1 < 6 or y2 - y1 < 6:
+                    continue
+                px = FC[i][y1:y2, x1:x2]
+                lo, hi = np.percentile(px, 8), np.percentile(px, 92)
+                ratio = max(ratio, (lin(hi) + 0.05) / (lin(lo) + 0.05))
+            if ratio == 0.0:
+                continue
+            need = 3.0 if tx["fs"] >= 48 else 4.5
+            key = (tx["k"], tx["tx"][:30])
+            worst[key] = min(worst.get(key, 99), ratio)
+            if ratio < need:
+                lowc.setdefault(key, []).append(s["t"])
+    ncon = 0
+    for (k_, txt), ts in lowc.items():
+        for x, y in group_times(ts, step, 2):
+            ncon += 1; fix(x, y, "text contrast", f"'{txt}' {worst[(k_, txt)]:.1f}:1: " + FIX["contrast"])
+    res["contrast"] = {"value": f"{ncon} low-contrast texts", "target": ">= 4.5:1 (>= 3:1 from 48px)", "pass": ncon == 0}
+
+    # C20 Hebrew typography: no slanted Hebrew, no Latin/digit run in another face inside a Hebrew line
+    sl, mx = {}, {}
+    for s in S:
+        for tx in s["texts"]:
+            if tx["op"] <= 0.5:
+                continue
+            if tx.get("slant"):
+                sl.setdefault((tx["tx"][:30], tx["slant"]), []).append(s["t"])
+            if tx.get("mix"):
+                mx.setdefault((tx["tx"][:30], tx.get("ff")), []).append(s["t"])
+    nty = 0
+    for (txt, how), ts in sl.items():
+        for x, y in group_times(ts, step, 1):
+            nty += 1; fix(x, y, "Hebrew typography", f"'{txt}' is {how}: " + FIX["slant"])
+    for (txt, ff), ts in mx.items():
+        for x, y in group_times(ts, step, 1):
+            nty += 1; fix(x, y, "Hebrew typography", f"'{txt}' in {ff}: " + FIX["mix"])
+    res["type"] = {"value": f"{len(sl)} slanted Hebrew, {len(mx)} mixed faces", "target": "0", "pass": nty == 0}
+
     # ---- report ----
     score = sum(1 for k, _ in CHECKS if res[k]["pass"])
     ready = score == len(CHECKS)
     fixes.sort(key=lambda f: f["t0"])
-    out = {"project": proj.name, "theme": theme, "score": f"{score}/{len(CHECKS)}", "ready": ready, "checks": res, "metrics": {**{k: M[k] for k in ("duration", "motion", "flat_pct", "events_per_s")}, "graphics": GL, "footage": Lfoot, "actions_per_s": round(len(acts) / dur, 2)}, "targets": T, "fix_list": fixes}
+    out = {"project": proj.name, "theme": theme, "score": f"{score}/{len(CHECKS)}", "ready": ready, "checks": res, "metrics": {**{k: M[k] for k in ("duration", "motion", "flat_pct", "events_per_s")}, "graphics": GL, "footage": Lfoot, "actions_per_s": round(len(acts) / dur, 2)}, "targets": T, "look": LS, "fix_list": fixes}
     (proj / "qa.json").write_text(json.dumps(out, ensure_ascii=False, indent=1, default=lambda o: o.item() if hasattr(o, "item") else str(o)))
     L = [f"# QA · {proj.name} · theme `{theme}`", "", f"**{score}/{len(CHECKS)} checks passed — {'READY' if ready else 'NOT READY'}**", "",
          "| | check | value | target |", "|---|---|---|---|"]

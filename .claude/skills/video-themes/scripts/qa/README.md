@@ -1,17 +1,21 @@
 # Theme QA (`qa <project>`)
 
-A draft is checked by code before anyone looks at it. The checker does not judge taste ("does it look like the
-anchor?") — that stays an eye review. It makes sure the known mistakes don't come back.
+A draft is checked by code before the film pass. Checks 1-13 cover timing and layout; 14-20 cover the look, measured with
+`look.py` — the same code that measured the anchor (footage, hero scale, content density, full-face rhythm, material,
+contrast, Hebrew typography). The checker still does not replace the eye: every scene also goes through the review loop
+(`scripts/review/README.md`), where Claude looks at the draft next to the anchor's frame.
 
 ```
 .claude/skills/video-themes/scripts/qa/qa videos/<project>            # renders renders/qa-draft.mp4, then checks
 .claude/skills/video-themes/scripts/qa/qa videos/<project> --reuse-draft
 python3 .claude/skills/video-themes/scripts/qa/anchor.py <theme|all>  # (re)measure a theme's targets on its anchor
+python3 .claude/skills/video-themes/scripts/qa/anchor.py <theme> --look # only the look targets (+ language.md material block)
 ```
 Needs: ffmpeg, node + Playwright (pre-installed), `numpy`, `opencv-python-headless<5` (face box).
-Output: `<project>/qa-report.md`, `<project>/qa.json` (score N/13, checks, FIX LIST). Exit code 0 only at 13/13.
+Output: `<project>/qa-report.md`, `<project>/qa.json` (score N/20, checks, FIX LIST). Exit code 0 only at 20/20.
+Node helpers find Playwright through `nodeenv.py` (global npm root, a `node_modules` in the repo, or `~/.cache/video-themes-node`).
 
-## The 13 checks (+ footage motion, reported only)
+## The 20 checks (+ footage motion, reported only)
 
 | # | check | how it is measured | pass |
 |---|---|---|---|
@@ -29,13 +33,21 @@ Output: `<project>/qa-report.md`, `<project>/qa.json` (score N/13, checks, FIX L
 | 11 | facts on screen | every number, URL and price visible ≥ 0.5 s (not captions) must appear in `data/facts.yaml` or in the transcript; a lone 1–12 used as a step / row number is free. Counters pass through unlisted values only while moving | 0 unsourced |
 | 12 | signature effects | `effects/README.md`: letters of a word behind the head ≥ 70% visible against the real cut-out (`matte.webm` alpha, decoded with libvpx, mapped through the cut-out's on-screen box) in every sample, one letter may dip ≤ 0.5 s; a risen shoulder card ≤ 50% hidden. Passes trivially when the video uses no effect | all true |
 | 13 | hook visual | in the first 3 s a non-text visual (media / svg / card ≥ 150 px) on screen ≥ 0.5 s | yes |
+| 14 | footage match | `look.py` around the face, every 0.5 s of the draft: face height, face luma, skin warmth (R−B), background luma and saturation (a ring around the head), contrast (p95−p5), garment vs background. Bands from the anchor (`theme.md` → Look targets) | all inside |
+| 15 | hero scale | the graphics zone (above the head in a split, the whole frame without a face): 9px cells with luma std > 6; hero box = their 5th–95th percentile extent; width share of the frame | median ≥ 0.85 × anchor, never < 0.7 × for 1 s |
+| 16 | content density | detailed cells ÷ cells inside the hero box (an empty window with one bubble fails) | median ≥ 0.75 × anchor, never < 0.55 × for 1 s |
+| 17 | full-face rhythm | share of samples where the speaker owns the frame (face centre above 60% of the height) and the longest stretch without one | ≥ 0.6 × anchor share, gap ≤ 1.5 × anchor (no target when the anchor keeps the speaker boxed) |
+| 18 | material & light | inside the hero box: luma span (p95−p5), glow (a 4% ring outside the box vs the far background), accent saturation (top 10%) | ≥ 0.7 × / 0.5 × / 0.7 × anchor (glow and accent only when the anchor has them) |
+| 19 | text contrast | every readable text (≥ 26 px, opacity ≥ 0.9, not `data-qa-decor`, not blurred, not covered at its centre by a veil / card / clip): p92 vs p8 luma inside its box on the draft, as a WCAG ratio | ≥ 4.5:1 (≥ 3:1 from 48 px) |
+| 20 | Hebrew typography | DOM: Hebrew text with `font-style: italic/oblique` or a skew in its transform chain; a digit run (≤ 8 chars) inside a Hebrew line set in another face or style (a Latin word in a display face is allowed) | 0 |
 
 Conventions the probe relies on: captions have a class containing `cap` (or `data-qa="caption"`); the speaker video is
 `data-qa="face"`, an id containing `face`, or track 0; full-frame backgrounds are ignored (or `data-qa="bg"`);
-`data-qa="chart"` / `"not-chart"` override chart detection; `data-qa-stack` marks a group whose members may overlap (only where the theme's language.md allows stacking).
+`data-qa="chart"` / `"not-chart"` override chart detection; `data-qa-ui` marks a running UI counter (a recording timer, a
+progress percentage) that is interface, not a payoff; `data-qa-stack` marks a group whose members may overlap (only where the theme's language.md allows stacking).
 
 ## Targets
-`themes/<theme>/qa-targets.json` + the "QA targets" table in `theme.md`, written by `anchor.py` from the anchor
+`themes/<theme>/qa-targets.json` (+ `["look"]`) and the "QA targets" / "Look targets" tables in `theme.md`, written by `anchor.py` from the anchor
 creator's videos (`anchors.json`). Detector constants live in `video_metrics.py`; changing them means re-running
 `anchor.py all`. **A target never changes to let a draft pass.**
 

@@ -18,6 +18,15 @@
 Rules: pixel things are pixel (stepped motion, crisp edges); UI is UI (smooth). The pen only on UI cards and the page.
 The HUD only over a pixel world or the page.
 
+### Measured material & light (`anchor.py arcade --look`)
+
+- **Light inside the hero:** luma span p95−p5 = 184.421 on the anchor → a new element needs ≥ 129: a gradient, a highlight edge or real content with darks and lights. A flat fill of one colour fails.
+- **Glow:** none to speak of on the anchor (-19.468): depth comes from shadow and layering, not halos.
+- **Accent:** median saturation of the hero's most saturated 10% = 78.061 → ≥ 55: the accent is a real, saturated colour, never a greyed tint.
+- **Highlights:** 2.3% of the hero is specular highlight on the anchor (white edges, paper sheen, selection fills) — check by eye.
+- **Size and fill:** the hero spans 85% of the frame width and 53% of its cells carry detail → ≥ 72% wide, ≥ 40% detailed.
+- **Hebrew emphasis:** Hebrew has no italic. Where the anchor sets a word in serif italic, use weight, the accent colour, the theme's box or a second face that has Hebrew — never a slant or skew.
+
 ## 2. Anatomy
 
 Every page composition = **one window (a world card / a UI card / a row of 3 small cards) · the pen or sprites acting on it**.

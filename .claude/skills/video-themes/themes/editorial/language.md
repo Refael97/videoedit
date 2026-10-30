@@ -17,6 +17,15 @@
 Rules: type and slips live on the footage's top 40% or on the page; cards at the top; nothing over the face.
 No glow, no gradients, no shadows on text (cards may have a soft drop shadow).
 
+### Measured material & light (`anchor.py editorial --look`)
+
+- **Light inside the hero:** luma span p95−p5 = 198.842 on the anchor → a new element needs ≥ 139: a gradient, a highlight edge or real content with darks and lights. A flat fill of one colour fails.
+- **Glow:** none to speak of on the anchor (-67.919): depth comes from shadow and layering, not halos.
+- **Accent:** median saturation of the hero's most saturated 10% = 177.333 → ≥ 124: the accent is a real, saturated colour, never a greyed tint.
+- **Highlights:** 0.1% of the hero is specular highlight on the anchor (lacquer / neon edges) — check by eye.
+- **Size and fill:** the hero spans 90% of the frame width and 58% of its cells carry detail → ≥ 76% wide, ≥ 44% detailed.
+- **Hebrew emphasis:** Hebrew has no italic. Where the anchor sets a word in serif italic, use weight, the accent colour, the theme's box or a second face that has Hebrew — never a slant or skew.
+
 ## 2. Anatomy
 
 Every composition = **one headline voice + at most one accent + one object**.

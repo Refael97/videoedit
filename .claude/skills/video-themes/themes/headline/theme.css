@@ -66,7 +66,7 @@
 .h-win.term .bar i { position: relative; } .h-win.term .bar .ttl { flex: 1; text-align: center; margin-right: 60px; }
 .h-win.term .body { font-family: var(--h-mono); font-size: 32px; line-height: 1.5; white-space: pre; }
 .h-win.term .in { border: 1px solid #2c3038; border-radius: 10px; padding: 10px 18px; margin-bottom: 20px; color: #fff; }
-.h-win.term .ok { color: #3fbf6a; } .h-win.term .dim { color: #8a9099; }
+.h-win.term .ok { color: #3fbf6a; } .h-win.term .dim { color: #aab0b8; }  /* >= 4.5:1 on #0f1115 at reel size (QA 19) */
 /* the moving light along a window edge (HEADLINE.streak) */
 .h-streak { position: absolute; height: 4px; width: 160px; border-radius: 2px; background: linear-gradient(90deg, rgba(80, 160, 255, 0), #7cc0ff, rgba(80, 160, 255, 0)); box-shadow: 0 0 12px #4fa2ff; z-index: 9; }
 /* a button / element focused inside a window */
@@ -97,3 +97,15 @@
 /* the blue box line under a title (its own element, so the title's words and the box's words animate separately) */
 .h-boxline { position: absolute; left: 0; right: 0; text-align: center; z-index: 6; }
 .h-boxline .h-box { margin-top: 0; }
+
+/* Air: soft leaf shadows on the wall (anchor 97418's set: palm shadow from a window). Generic blurred ovals, drawn here,
+   drifted slowly by the edit (seek-safe tween on #leaves). Keep subtle: it is light on a wall, not a pattern. */
+.h-leaves { position: absolute; inset: -120px; pointer-events: none; filter: blur(18px); opacity: 0.9;
+  background:
+    radial-gradient(120px 26px at 18% 12%, rgba(90, 110, 130, 0.16), transparent 70%),
+    radial-gradient(150px 30px at 27% 18%, rgba(90, 110, 130, 0.13), transparent 70%),
+    radial-gradient(110px 22px at 12% 22%, rgba(90, 110, 130, 0.12), transparent 70%),
+    radial-gradient(160px 28px at 78% 9%, rgba(90, 110, 130, 0.14), transparent 70%),
+    radial-gradient(130px 24px at 86% 17%, rgba(90, 110, 130, 0.12), transparent 70%),
+    radial-gradient(140px 26px at 70% 26%, rgba(90, 110, 130, 0.11), transparent 70%),
+    radial-gradient(170px 30px at 40% 6%, rgba(90, 110, 130, 0.10), transparent 70%); }

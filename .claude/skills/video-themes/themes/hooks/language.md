@@ -17,6 +17,15 @@
 Rules: glow type only in the room (on the chest). Gloss objects mostly on the void; chips and view pills also in the
 room. No boxes around the speaker, no paper, no neon line art.
 
+### Measured material & light (`anchor.py hooks --look`)
+
+- **Light inside the hero:** luma span p95−p5 = 158.94 on the anchor → a new element needs ≥ 111: a gradient, a highlight edge or real content with darks and lights. A flat fill of one colour fails.
+- **Glow:** none to speak of on the anchor (2.72): depth comes from shadow and layering, not halos.
+- **Accent:** median saturation of the hero's most saturated 10% = 185.64 → ≥ 130: the accent is a real, saturated colour, never a greyed tint.
+- **Highlights:** 2.2% of the hero is specular highlight on the anchor (white edges, paper sheen, selection fills) — check by eye.
+- **Size and fill:** the hero spans 70% of the frame width and 46% of its cells carry detail → ≥ 60% wide, ≥ 34% detailed.
+- **Hebrew emphasis:** Hebrew has no italic. Where the anchor sets a word in serif italic, use weight, the accent colour, the theme's box or a second face that has Hebrew — never a slant or skew.
+
 ## 2. Anatomy
 
 - **Room beat** = speaker · (one glow title **or** captions) · optionally one chip + one template line, or a row of

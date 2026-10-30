@@ -139,6 +139,14 @@
     // punch: a quick zoom into the part the voice names (origin in the element's px), holds; unpunch returns
     punch(tl, sel, t, scale = 1.25, origin = [450, 300], dur = 0.3) { tl.set(sel, { transformOrigin: origin[0] + "px " + origin[1] + "px" }, 0); tl.to(sel, { scale, duration: dur, ease: "power3.out" }, t); },
     unpunch(tl, sel, t, dur = 0.3) { tl.to(sel, { scale: 1, duration: dur, ease: "power3.inOut" }, t); },
+    // hold: punch into the part the voice names, keep creeping in while it is explained, return at t2
+    // (use on the window's .body so the frame stays put and the content zooms, like zooming a screenshot)
+    hold(tl, sel, t1, s1, s2, t2, origin = [450, 300]) {
+      tl.set(sel, { transformOrigin: origin[0] + "px " + origin[1] + "px" }, Math.max(0, t1 - 0.01));
+      tl.to(sel, { scale: s1, duration: 0.3, ease: "power3.out" }, t1);
+      tl.to(sel, { scale: s2, duration: Math.max(0.2, t2 - t1 - 0.6), ease: "none" }, t1 + 0.3);
+      tl.to(sel, { scale: 1, duration: 0.3, ease: "power3.inOut" }, t2 - 0.3);
+    },
     pulse(tl, sel, t, s = 1.06) { tl.fromTo(sel, { scale: 1 }, { scale: s, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", ...IR }, t); },
     // cta: the serif lead blurs in, the keyword lands big with its glow
     cta(tl, leadSel, kwSel, t) { H.blurIn(tl, words(leadSel), t, 0.1); ft(tl, kwSel, { opacity: 0, scale: 1.35, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "back.out(1.6)" }, t + 0.3); },

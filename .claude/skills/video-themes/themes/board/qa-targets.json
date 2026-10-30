@@ -100,5 +100,56 @@
   "edge_nogfx": 0.012,
   "punch": 0.04,
   "drift": 0.03
+ },
+ "look": {
+  "anchor": {
+   "samples": 171,
+   "full_face_share": 0.0,
+   "full_face_max_gap": 85.5,
+   "face_h": null,
+   "face_h_full": null,
+   "face_luma": null,
+   "warmth": null,
+   "bg_luma": null,
+   "bg_sat": null,
+   "contrast": null,
+   "garment_vs_bg": null,
+   "hero_width": 0.825,
+   "hero_density": 0.398,
+   "span": 145.0,
+   "highlight": 0.036,
+   "glow": -0.996,
+   "accent_sat": 108.65
+  },
+  "targets": {
+   "face_h": null,
+   "face_h_full": null,
+   "face_luma": null,
+   "warmth": null,
+   "bg_luma": null,
+   "bg_sat": null,
+   "contrast_min": null,
+   "garment_vs_bg_min": 25,
+   "hero_width_min": 0.701,
+   "hero_width_weak": 0.577,
+   "hero_density_min": 0.298,
+   "hero_density_weak": 0.219,
+   "full_face_share_min": null,
+   "full_face_max_gap": null,
+   "span_min": 102,
+   "glow_min": null,
+   "accent_sat_min": 76
+  },
+  "detector": {
+   "fps": 2,
+   "size": [
+    360,
+    640
+   ],
+   "face_split_y": 0.6,
+   "min_face_h": 0.07,
+   "cell": 9,
+   "detail_std": 6.0
+  }
  }
 }

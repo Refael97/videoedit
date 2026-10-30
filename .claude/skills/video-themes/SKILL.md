@@ -120,23 +120,55 @@ placed relative to the face (`effects/face.js` + `scripts/face_track.py`) and se
 
 ## Workflow: building a video in a theme
 
-1. Read `themes/<name>/README.md` (character), `language.md` (grammar) and `theme.md` (numbers).
-2. Write the storyboard as a scene list. No colors, fonts or pixel values in it — only components and text.
-3. For every beat, run the sentence → element recipe (`language.md` §7). `use_theme.sh`, then build
-   `index.html` from the blocks + verbs (copy the preview project's structure). A new element that will recur
-   gets added to the theme's blocks (so the next video gets it); it must pass the self-check (§9).
-4. Check the theme's rules (`theme.md` → Rules) against the storyboard: caption words, max time on one
-   layout, forbidden moves.
-5. `npx --yes hyperframes@0.8.150 check` and snapshots of every scene.
-6. **QA gate (mandatory — no draft reaches the user before it passes):** `scripts/qa/qa <project>`. It renders a
-   fast draft (30 fps, draft quality), measures it against the theme's anchor targets (`themes/<name>/qa-targets.json`)
-   and the known-mistake rules, and writes `qa-report.md` + `qa.json`: a score N/13 and a FIX LIST with time, words,
-   the failed check and a concrete fix. Mark every payoff number with `data-qa-payoff="<word>"` (+ `data-qa-stamp`).
-   Mark groups the language lets overlap (cards on cards) with `data-qa-stack`. Loop: fix → `qa` again, **at most
-   3 rounds**. Only at 13/13 render the final 60 fps. If something still fails after
-   3 rounds, tell the user exactly what fails and why — never send it silently. Targets are never edited to make a
-   draft pass; they change only by re-measuring the anchor (`scripts/qa/anchor.py <theme>`). See `scripts/qa/README.md`.
-7. Render at 60 fps in the background.
+Creation is a loop, not a pass: **build → look next to the anchor → fix → look again**, scene by scene, until every
+scene holds up beside the anchor's frame. Code measures what it can; Claude must LOOK at every round sheet. A draft that
+"passes the numbers" but was never looked at side by side is not done. Every round is saved, so the progression is
+visible (`review/<scene>/round-N.jpg`).
+
+### Stage 0 · Footage (once, before any design)
+1. `python3 scripts/footage_prep.py <project> --wire` — brings the voice to the delivery level (-16 LUFS under a music bed, -12 in a voice-led theme: the render mixes ~2 dB under the file), and measures the speaker footage with the same code that measured the
+   anchor (`scripts/qa/look.py`), then grades in a closed loop (grade → measure → correct, up to 4 passes): face and
+   background luma, contrast, saturation, skin warmth, garment vs background. When one curve can't reach the anchor's
+   world (a bright wall on a dark theme, clothes melting into the wall) it grades the background separately through the
+   cut-out matte. Crops to the anchor's full-face size (≤ 1.35×, the matte gets the same crop), re-tracks the face.
+2. Read `footage-report.md`. **RESHOOT** → send the user the theme README's "How to shoot for this theme" *before*
+   editing (the edit may continue on the best grade, but say so). Never design over footage from another world.
+
+### Stage 1 · Scene by scene
+3. Read `themes/<name>/README.md` (character), `language.md` (grammar, incl. §1 *Measured material & light*) and
+   `theme.md` (numbers, incl. *Look targets*).
+4. Storyboard as a scene list: components and text only (no colors, fonts, pixel values). For every beat run the
+   sentence → element recipe (`language.md` §7). `use_theme.sh`, then build `index.html` from the blocks + verbs. A new
+   element that will recur goes into the theme's blocks and must pass the self-check (§9). Every scene is an element
+   with a `scene` class token or `data-qa-scene`.
+5. **The loop, one scene at a time** (`scripts/review/review.py <project> scene next`):
+   - it snapshots the scene's key moments (entrance, middle, end) and 8-frame motion strips around its entrances, puts
+     each moment next to the anchor's moment of the same kind (`references/_analysis/<theme>/moments/`, built by
+     `review/anchor_moments.py`), measures hero width, content density, luma span and glow on the stills, and writes
+     `review/<scene>/round-N.jpg` + `round-N.md`;
+   - **open the sheet and look.** Fill every row of the eye checklist (scale, real dense content, material & light,
+     contrast, typography, footage, framing & safe zones, spacing, motion, activation, payoff, *same level as the
+     anchor*): PASS only when the draft holds up next to the anchor frame; FIX + exactly what and how;
+   - write the fixes, apply them, run the next round. Move to the next scene only when every row is PASS.
+   - No round cap. When the same row fails 3 rounds in a row, stop and tell the user what fails and why.
+6. `npx --yes hyperframes@0.8.150 check`.
+
+### Stage 2 · Polish (after every scene passes)
+7. `review.py <project> polish` — a sheet of the opening frame, every scene's middle and the last frame, and the polish
+   checklist: depth (shadows), edges, easing and overshoot, secondary motion in holds, caption timing, a sound per
+   event, colour consistency, line breaks, transitions, opening thumbnail, last frame. Loop until every row is PASS.
+   Polish is not error fixing: it takes a correct draft to the anchor's finish.
+
+### Stage 3 · The whole film
+8. **QA gate:** `scripts/qa/qa <project>` — a 30 fps draft measured against the anchor: 13 timing / layout checks and
+   7 look checks (footage match, hero scale, content density, full-face rhythm, material & light, text contrast,
+   Hebrew typography). Mark payoffs with `data-qa-payoff="<word>"` (+ `data-qa-stamp`), stacks with `data-qa-stack`,
+   deliberate decoration with `data-qa-decor`. Fix → `qa` again until 20/20. Targets are never edited to make a draft
+   pass; they change only by re-measuring the anchor (`scripts/qa/anchor.py <theme> [--look]`).
+9. `review.py <project> film` — the draft at 1 fps next to the anchor at 1 fps, loudness, and the film checklist
+   (rhythm, consistency, dead air, hook, audio, same level). Loop until PASS.
+10. `review.py <project> gate` must print READY (every scene, the polish and the film passed). Only then render the
+    final 60 fps in the background.
 
 ## Workflow: building a theme from a reference video
 
@@ -170,8 +202,11 @@ Proven on `glass` (one reference). Follow every step; the user checks the previe
 6. **Preview project** `videos/theme-<name>-preview/`: the user's own footage + VO + word timings, a storyboard that
    shows every component once, SFX on every event. `lint` → `snapshot` contact sheet → fix framing → render
    60 fps in the background. Show the user the preview next to reference frames.
-7. Iterate with the user on the preview. Only then extract more themes the same way.
-8. Only what repeats in ≥3 videos **of the anchor creator** becomes a rule; contributors add elements only
+7. Measure the targets on the anchor: `python3 scripts/qa/anchor.py <name>` (timing + look targets, and the
+   *Measured material & light* block in `language.md` §1) and `python3 scripts/review/anchor_moments.py <name>` (the
+   moment library the eye review pairs drafts with).
+8. Iterate with the user on the preview. Only then extract more themes the same way.
+9. Only what repeats in ≥3 videos **of the anchor creator** becomes a rule; contributors add elements only
    through translation.
 
 ## Hard-won rules (apply to every theme)
@@ -183,6 +218,9 @@ Proven on `glass` (one reference). Follow every step; the user checks the previe
   stays on screen **≥0.8 s before any cut**. Order is update → confirm: the stamp / check / ding comes after the
   number has landed, never before. The payoff is the biggest thing in its card.
 
+- **Hebrew has no italic.** Where an anchor uses serif italic for emphasis, a Hebrew theme uses weight, the accent, the
+  theme's box or a second face with Hebrew — never `font-style: italic` or a skew (QA check 20). Digits inside a Hebrew
+  line take the line's own face.
 - Hebrew/RTL: check every font in Hebrew before choosing it (Geist, Manrope, Poppins, SF have no Hebrew).
   Gradient and arrow directions flip in RTL. Typed text uses `white-space: pre`.
 - Fonts that ship with a distributed theme must be free to redistribute (OFL). No SF Pro, no Ploni.

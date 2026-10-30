@@ -132,5 +132,71 @@
   "edge_nogfx": 0.012,
   "punch": 0.04,
   "drift": 0.03
+ },
+ "look": {
+  "anchor": {
+   "samples": 233,
+   "full_face_share": 0.206,
+   "full_face_max_gap": 22.0,
+   "face_h": 0.177,
+   "face_h_full": 0.2,
+   "face_luma": 133.476,
+   "warmth": 53.882,
+   "bg_luma": 45.654,
+   "bg_sat": 157.285,
+   "contrast": 174.076,
+   "garment_vs_bg": 16.416,
+   "hero_width": 0.9,
+   "hero_density": 0.455,
+   "span": 164.286,
+   "highlight": 0.017,
+   "glow": 3.989,
+   "accent_sat": 188.74
+  },
+  "targets": {
+   "face_h": [
+    0.15,
+    0.204
+   ],
+   "face_h_full": 0.2,
+   "face_luma": [
+    108,
+    158
+   ],
+   "warmth": [
+    42,
+    66
+   ],
+   "bg_luma": [
+    18,
+    74
+   ],
+   "bg_sat": [
+    132,
+    182
+   ],
+   "contrast_min": 139,
+   "garment_vs_bg_min": 25,
+   "hero_width_min": 0.765,
+   "hero_width_weak": 0.63,
+   "hero_density_min": 0.341,
+   "hero_density_weak": 0.25,
+   "full_face_share_min": 0.124,
+   "full_face_max_gap": 33.0,
+   "span_min": 115,
+   "glow_min": null,
+   "accent_sat_min": 132
+  },
+  "detector": {
+   "fps": 2,
+   "size": [
+    360,
+    640
+   ],
+   "face_split_y": 0.6,
+   "min_face_h": 0.07,
+   "cell": 9,
+   "detail_std": 6.0
+  }
  }
 }

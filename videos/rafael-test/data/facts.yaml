@@ -8,6 +8,11 @@ numbers:
   themes: 9                      # the skill's real theme count (glass, paper, night, editorial, headline, arcade, neon-studio, hooks, board)
 urls:
   - refael-ai.com
+  # window chrome: the real addresses of the real products shown (not claims)
+  - claude.ai
+  - instagram.com/reels
+  - instagram.com/direct
+  - instagram.com/refaelleviii
 names:
   person: רפאל לוי
   title: מומחה AI ושיווק דיגיטלי
@@ -17,4 +22,4 @@ names:
   command: /plugin install video-themes
   courses: [עריכת וידאו מקצועית, Motion graphics, Higgsfield]
 prices: []
-ui: ["100%"]                     # interface states shown as-is (upload complete), not claims
+ui: ["100%", "9:16"]             # interface states shown as-is (upload complete, the reel format), not claims

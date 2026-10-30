@@ -119,3 +119,26 @@ speaker's face, not at fixed pixels (runtime `effects/face.js`, data `scripts/fa
 | low face | 56 | chin 1623, h 423 | **chin + -2.63 × h** | -3.0 … -1.69 |
 
 Cards next to the speaker: eye level, the free side, 0.4 × h from the face. Never covered: eyes to mouth.
+
+## Look targets
+
+Measured on the anchor by `scripts/qa/anchor.py paper --look` (`look.py`, the same code `qa` runs on drafts, 2 fps, 360x640).
+Footage is read around the face; the hero is the graphics zone (above the head in a split, the whole frame without a face).
+
+| | anchor | target |
+|---|---|---|
+| face height (share of frame) | 0.22 | 0.187–0.253 |
+| face luma | 178.699 | 154–204 |
+| skin warmth (R − B) | 74.791 | 63–87 |
+| background luma | 67.338 | 39–95 |
+| background saturation | 59.576 | 35–85 |
+| footage contrast (p95 − p5) | 188.556 | >= 151 |
+| garment vs background (luma) | 44.652 | >= 26.8 |
+| hero width (share of frame) | 0.7 | median >= 0.595, never < 0.49 for 1 s |
+| hero content density | 0.426 | median >= 0.32, never < 0.234 for 1 s |
+| full-face share of time | 0.175 | >= 0.105 |
+| longest stretch without a full-face beat | 31.5 s | <= 47.2 s |
+| material: luma span inside the hero | 173.329 | >= 121 |
+| material: highlight share | 0.023 | (eye review) |
+| material: glow around the hero | -10.079 | >= — |
+| material: accent saturation | 137.308 | >= 96 |

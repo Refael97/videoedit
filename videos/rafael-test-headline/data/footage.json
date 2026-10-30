@@ -1,0 +1,175 @@
+{
+ "theme": "headline",
+ "verdict": "RESHOOT",
+ "zoom": 1.35,
+ "split_grade": false,
+ "before": {
+  "face_h": 0.159,
+  "face_luma": 104.902,
+  "warmth": 56.755,
+  "bg_luma": 190.928,
+  "bg_sat": 15.496,
+  "contrast": 175.39,
+  "garment_vs_bg": 17.972,
+  "garment_luma": 173.135,
+  "box": [
+   131.0,
+   303.0,
+   102.0,
+   102.0
+  ]
+ },
+ "after": {
+  "face_h": 0.22,
+  "face_luma": 150.323,
+  "warmth": 55.197,
+  "bg_luma": 215.922,
+  "bg_sat": 22.381,
+  "contrast": 168.177,
+  "garment_vs_bg": 5.768,
+  "garment_luma": 210.804,
+  "box": [
+   112.0,
+   286.0,
+   141.0,
+   141.0
+  ]
+ },
+ "targets": {
+  "face_h": [
+   0.196,
+   0.266
+  ],
+  "face_h_full": 0.42,
+  "face_luma": [
+   128,
+   178
+  ],
+  "warmth": [
+   34,
+   58
+  ],
+  "bg_luma": [
+   165,
+   221
+  ],
+  "bg_sat": [
+   0,
+   44
+  ],
+  "contrast_min": 174,
+  "garment_vs_bg_min": 106.4,
+  "hero_width_min": 0.68,
+  "hero_width_weak": 0.56,
+  "hero_density_min": 0.371,
+  "hero_density_weak": 0.272,
+  "full_face_share_min": 0.089,
+  "full_face_max_gap": 50.2,
+  "span_min": 126,
+  "glow_min": null,
+  "accent_sat_min": 89
+ },
+ "left": [
+  "contrast 168 (>= 174)",
+  "garment vs background 6 (>= 106.4)"
+ ],
+ "notes": [
+  "the face fills 16% of the frame, the anchor 42%: shoot closer (crop capped at 1.35x)",
+  "the top (173 luma) and the theme's wall (165–221) can't be 106 apart: wear a top of the opposite brightness (see How to shoot)"
+ ],
+ "passes": [
+  {
+   "pass": 1,
+   "params": {
+    "fg": {
+     "curve": "0.000/0.047 0.411/0.600 0.749/0.757 1.000/1.000",
+     "contrast": 1.0,
+     "saturation": 1.0,
+     "gamma": 1.0,
+     "warm": 0.0
+    },
+    "bg": null
+   },
+   "measured": {
+    "face_luma": 136.015,
+    "bg_luma": 192.814,
+    "bg_sat": 11.136,
+    "warmth": 47.873,
+    "contrast": 144.712,
+    "garment_vs_bg": 4.554
+   }
+  },
+  {
+   "pass": 2,
+   "params": {
+    "fg": {
+     "curve": "0.000/0.047 0.411/0.600 0.749/0.757 1.000/1.000",
+     "contrast": 1.08,
+     "saturation": 1.3766582258489677,
+     "gamma": 1.1151789790351154,
+     "warm": -0.004682499999999994
+    },
+    "bg": null
+   },
+   "measured": {
+    "face_luma": 146.4,
+    "bg_luma": 205.078,
+    "bg_sat": 18.752,
+    "warmth": 66.468,
+    "contrast": 150.092,
+    "garment_vs_bg": 4.632
+   }
+  },
+  {
+   "pass": 3,
+   "params": {
+    "fg": {
+     "curve": "0.000/0.047 0.411/0.600 0.749/0.757 1.000/1.000",
+     "contrast": 1.1664,
+     "saturation": 1.4855405591068152,
+     "gamma": 1.1633110337909027,
+     "warm": -0.0558525
+    },
+    "bg": null
+   },
+   "measured": {
+    "face_luma": 149.598,
+    "bg_luma": 211.385,
+    "bg_sat": 20.469,
+    "warmth": 60.064,
+    "contrast": 159.082,
+    "garment_vs_bg": 5.446
+   }
+  },
+  {
+   "pass": 4,
+   "params": {
+    "fg": {
+     "curve": "0.000/0.047 0.411/0.600 0.749/0.757 1.000/1.000",
+     "contrast": 1.1664,
+     "saturation": 1.4855405591068152,
+     "gamma": 1.1633110337909027,
+     "warm": -0.0558525
+    },
+    "bg": null
+   },
+   "measured": {
+    "face_luma": 150.323,
+    "bg_luma": 215.922,
+    "bg_sat": 22.381,
+    "warmth": 55.197,
+    "contrast": 168.177,
+    "garment_vs_bg": 5.768
+   }
+  }
+ ],
+ "outputs": {
+  "video": "assets/video/face_prep.mp4",
+  "matte": "assets/video/matte_prep.webm"
+ },
+ "voice": {
+  "before_lufs": -31.0,
+  "after_lufs": -16,
+  "file": "assets/audio/vo_prep.wav"
+ }
+}

@@ -29,6 +29,15 @@ Rules:
   to 80% so it stays black instead of muddy grey, light glass gets a 30% fill, an 85% edge and a soft drop
   shadow so it still reads as glass on white. Check one frame of each material against the real background.
 
+### Measured material & light (`anchor.py glass --look`)
+
+- **Light inside the hero:** luma span p95−p5 = 210.683 on the anchor → a new element needs ≥ 147: a gradient, a highlight edge or real content with darks and lights. A flat fill of one colour fails.
+- **Glow:** the anchor's hero lifts the stage around it by 26.969 luma → ≥ 13.5: a soft halo / bloom of the accent behind the hero, not a hard outline only.
+- **Accent:** median saturation of the hero's most saturated 10% = 158.883 → ≥ 111: the accent is a real, saturated colour, never a greyed tint.
+- **Highlights:** 0.7% of the hero is specular highlight on the anchor (white edges, paper sheen, selection fills) — check by eye.
+- **Size and fill:** the hero spans 92% of the frame width and 62% of its cells carry detail → ≥ 79% wide, ≥ 46% detailed.
+- **Hebrew emphasis:** Hebrew has no italic. Where the anchor sets a word in serif italic, use weight, the accent colour, the theme's box or a second face that has Hebrew — never a slant or skew.
+
 ## 2. Anatomy: every element = header · body · (state)
 
 ```

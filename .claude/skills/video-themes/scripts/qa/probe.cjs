@@ -31,6 +31,29 @@ const { chromium } = require("playwright");
     const opa = (el) => { let o = 1; for (let e = el; e && e.nodeType === 1; e = e.parentElement) { const cs = getComputedStyle(e); if (cs.display === "none" || cs.visibility === "hidden") return 0; o *= parseFloat(cs.opacity); } return o; };
     const scaleOf = (el) => { let s = 1; for (let e = el; e && e.nodeType === 1; e = e.parentElement) { const t = getComputedStyle(e).transform; if (t && t !== "none") { const m = new DOMMatrix(t); s *= Math.hypot(m.a, m.b); } const sc = getComputedStyle(e).scale; if (sc && sc !== "none") s *= parseFloat(sc); } return s; };
     const R = (r) => [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)];
+    // typography facts for the look checks: Hebrew, slanted (font-style italic/oblique or a skew in the transform chain),
+    // first font family, decorative (opted out of the contrast check) and blurred text
+    const HEB = /[\u0590-\u05FF]/;
+    const fam = (cs) => cs.fontFamily.split(",")[0].replace(/["']/g, "").trim().toLowerCase();
+    const slanted = (el) => { for (let e = el, k = 0; e && e.nodeType === 1 && k < 6; e = e.parentElement, k++) { const cs = getComputedStyle(e); if (k === 0 && /italic|oblique/.test(cs.fontStyle)) return "italic"; const t = cs.transform; if (t && t !== "none") { const m = new DOMMatrix(t); const ax = Math.atan2(m.b, m.a), ay = Math.atan2(-m.c, m.d); if (Math.abs(ax - ay) > 0.05) return "skew"; } } return ""; };
+    const blurred = (el) => { for (let e = el; e && e.nodeType === 1; e = e.parentElement) { const m = getComputedStyle(e).filter.match(/blur\(([\d.]+)px\)/); if (m && parseFloat(m[1]) > 1) return true; } return false; };
+    // a text whose centre shows another element (a dim veil, a card on top, an overflow clip) is not what the viewer
+    // reads there: the contrast check skips it
+    const coveredAt = (el, r) => { const x = r.left + r.width / 2, y = r.top + r.height / 2; if (x < 0 || y < 0 || x >= VW || y >= VH) return true;
+      for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {  // clipped (even partly: a label cut by a pan) by an overflow ancestor
+        const cs = getComputedStyle(p); if (cs.overflow !== "visible" || cs.overflowX !== "visible" || cs.overflowY !== "visible") { const q = p.getBoundingClientRect();
+          const iw = Math.max(0, Math.min(r.right, q.right) - Math.max(r.left, q.left)), ih = Math.max(0, Math.min(r.bottom, q.bottom) - Math.max(r.top, q.top));
+          if (iw * ih < 0.85 * r.width * r.height) return true; } }
+      const top = document.elementFromPoint(x, y); if (!top) return true; if (top === el || el.contains(top)) return false;
+      // anything above it with a surface of its own (a card, a veil, an image), up to the first common ancestor
+      for (let q = top; q && !q.contains(el); q = q.parentElement) { const cs = getComputedStyle(q);
+        if (opa(q) > 0.3 && (cs.backgroundColor !== "rgba(0, 0, 0, 0)" || cs.backgroundImage !== "none" || /^(IMG|VIDEO|svg|path|CANVAS)$/i.test(q.tagName) || /dim|veil|cursor/i.test(String(q.className.baseVal ?? q.className)))) return true; }
+      return false; };
+    const blockOfText = (e) => { for (let x = e; x && x !== document.body; x = x.parentElement) { const d = getComputedStyle(x).display; if (d === "block" || d === "flex" || d === "grid") return x; } return null; };
+    // a Latin / digit run set in another face (or slanted) inside a Hebrew line: "3 שלבים" with a serif-italic 3
+    const mixedFace = (el, txt) => { if (HEB.test(txt) || !/^[\d\s.,:%₪+\-–/]+$/.test(txt) || !/\d/.test(txt) || txt.length > 8) return false; const blk = blockOfText(el); if (!blk || !HEB.test(blk.textContent)) return false;
+      const me = getComputedStyle(el); let heb = null; const w = document.createTreeWalker(blk, NodeFilter.SHOW_TEXT); for (let n = w.nextNode(); n; n = w.nextNode()) if (HEB.test(n.textContent)) { heb = getComputedStyle(n.parentElement); break; }
+      return !!heb && (fam(heb) !== fam(me) || heb.fontStyle !== me.fontStyle); };
     const onScreen = (r) => r.width > 2 && r.height > 2 && r.right > 0 && r.bottom > 0 && r.left < VW && r.top < VH;
     const clipBox = (el) => { // visible region after inset() clip-paths of el and its ancestors
       let box = [0, 0, VW, VH];
@@ -130,8 +153,10 @@ const { chromium } = require("playwright");
           const rg = document.createRange(); rg.selectNodeContents(n); const tr = rg.getBoundingClientRect(); if (!onScreen(tr)) continue;
           const fsz = parseFloat(cs.fontSize) * scaleOf(el);
           const txt = n.textContent.trim().slice(0, 160);
-          S.texts.push({ r: R(tr), fs: +fsz.toFixed(1), op: +o.toFixed(2), cap, tx: txt, id: el.id || "", k: keyOf(el) });
-          if (/\d/.test(txt) && !cap && !el.closest("[data-qa-payoff]")) { const key = keyOf(el); (digitTexts[key] = digitTexts[key] || new Set()).add(txt); }
+          S.texts.push({ r: R(tr), fs: +fsz.toFixed(1), op: +o.toFixed(2), cap, tx: txt, id: el.id || "", k: keyOf(el),
+            heb: HEB.test(txt), slant: HEB.test(txt) ? slanted(el) : "", ff: fam(cs), mix: mixedFace(el, txt),
+            decor: !!el.closest("[data-qa-decor]"), blur: blurred(el), covered: coveredAt(el, tr) });
+          if (/\d/.test(txt) && !cap && !el.closest("[data-qa-payoff]") && !el.closest("[data-qa-ui]")) { const key = keyOf(el); (digitTexts[key] = digitTexts[key] || new Set()).add(txt); }
         }
         if (cap || ancestorsOfCaption.has(el)) continue;
         const full = r.width * r.height > 0.85 * VW * VH;

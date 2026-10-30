@@ -17,6 +17,15 @@
 Rules: cards sit on the board, never on each other except a deliberate stack (before / after). Pixels only for the
 mascot, reactions and the dissolve — never for content. No blur shadows, no gradients on cards, no glass.
 
+### Measured material & light (`anchor.py board --look`)
+
+- **Light inside the hero:** luma span p95−p5 = 145.0 on the anchor → a new element needs ≥ 102: a gradient, a highlight edge or real content with darks and lights. A flat fill of one colour fails.
+- **Glow:** none to speak of on the anchor (-0.996): depth comes from shadow and layering, not halos.
+- **Accent:** median saturation of the hero's most saturated 10% = 108.65 → ≥ 76: the accent is a real, saturated colour, never a greyed tint.
+- **Highlights:** 3.6% of the hero is specular highlight on the anchor (white edges, paper sheen, selection fills) — check by eye.
+- **Size and fill:** the hero spans 82% of the frame width and 40% of its cells carry detail → ≥ 70% wide, ≥ 30% detailed.
+- **Hebrew emphasis:** Hebrew has no italic. Where the anchor sets a word in serif italic, use weight, the accent colour, the theme's box or a second face that has Hebrew — never a slant or skew.
+
 ## 2. Anatomy
 
 Every composition = **header strip (always) · title (top) · one hero card (middle) · caption (73.6%) · the crab

@@ -1,11 +1,13 @@
 /* headline theme: design tokens. Canvas 1080x1920 (9:16). Measured on the anchor (97418 + 75789, 81754, 89398, 98315; 720x1280) and scaled x1.5. */
-/* sans: Heebo (Hebrew) + Inter (Latin) | accent serif: Frank Ruhl Libre 900 slanted (Hebrew) + Playfair Display 700 italic (Latin) */
+/* sans: Heebo (Hebrew) + Inter (Latin) | accent serif: Frank Ruhl Libre 900 upright (Hebrew — Hebrew has no italic) + Playfair Display 700 italic (Latin) */
 @font-face { font-family: "HeadSans"; font-weight: 700; src: url("fonts/heebo-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "HeadSans"; font-weight: 800; src: url("fonts/heebo-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "HeadSans"; font-weight: 700; src: url("fonts/inter-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
 @font-face { font-family: "HeadSans"; font-weight: 800; src: url("fonts/inter-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
 @font-face { font-family: "HeadSerif"; font-weight: 700; src: url("fonts/frank-ruhl-libre-hebrew-900-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
-@font-face { font-family: "HeadSerif"; font-weight: 700; src: url("fonts/playfair-display-latin-700-italic.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "HeadSerif"; font-weight: 700; src: url("fonts/playfair-display-latin-700-italic.woff2") format("woff2"); unicode-range: U+0000-002F, U+003A-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+/* digits in the serif accent are Frank Ruhl upright: "ב־3 שלבים" must not mix an italic Latin 3 into Hebrew (QA 20) */
+@font-face { font-family: "HeadSerif"; font-weight: 700; src: url("fonts/frank-ruhl-libre-latin-900-normal.woff2") format("woff2"); unicode-range: U+0030-0039; }
 @font-face { font-family: "HeadMono"; font-weight: 500; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
 
 :root {
@@ -50,7 +52,7 @@
   --h-cap: 72px;               /* captions (measured ≈48px), up to 3 words */
   --h-stat: 190px;             /* stat number (measured ≈125px) */
   --h-track: -2.4px;
-  --h-serif-slant: -12deg;     /* Hebrew serif slanted with skewX (Frank Ruhl has no italic) */
+  --h-serif-slant: 0deg;       /* Hebrew is never slanted (QA check 20): the serif face itself is the emphasis */
 
   /* layout (1920 tall) */
   --h-title-top: 205px;        /* title top (11%) */

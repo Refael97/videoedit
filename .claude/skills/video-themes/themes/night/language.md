@@ -16,6 +16,15 @@
 Rules: light only on the night stage; panels on the stage or over the face; the proof page only for evidence and
 mostly in the first 3 s. No colored panels other than the meaning colors below; no gradients except glow.
 
+### Measured material & light (`anchor.py night --look`)
+
+- **Light inside the hero:** luma span p95−p5 = 176.346 on the anchor → a new element needs ≥ 123: a gradient, a highlight edge or real content with darks and lights. A flat fill of one colour fails.
+- **Glow:** the anchor's hero lifts the stage around it by 10.773 luma → ≥ 5.4: a soft halo / bloom of the accent behind the hero, not a hard outline only.
+- **Accent:** median saturation of the hero's most saturated 10% = 189.194 → ≥ 132: the accent is a real, saturated colour, never a greyed tint.
+- **Highlights:** 2.8% of the hero is specular highlight on the anchor (lacquer / neon edges) — check by eye.
+- **Size and fill:** the hero spans 65% of the frame width and 48% of its cells carry detail → ≥ 55% wide, ≥ 36% detailed.
+- **Hebrew emphasis:** Hebrew has no italic. Where the anchor sets a word in serif italic, use weight, the accent colour, the theme's box or a second face that has Hebrew — never a slant or skew.
+
 ## 2. Anatomy
 
 Every stage composition = **title (top, 10%) · one structure (center) · labels / tags (beside it)**.

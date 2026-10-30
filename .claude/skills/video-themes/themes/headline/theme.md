@@ -35,7 +35,7 @@ Plugins That Run Your Agency"), 81754, 89398, 98315. All 720×1280, 30 fps; valu
 | Role | Measured (720) | Theme (1080) | Font |
 |---|---|---|---|
 | Headline | cap glyphs 152–193, 580px wide for 20 chars | 80px, top 205 | Inter 700 tight (anchor: SF-like grotesk) / Heebo 700 |
-| Box | 85px tall, x 88–612, serif ≈60px | 92px serif | **Playfair Display 700 italic** (matched against the crop: DM Serif too light, Source Serif too wide) / Frank Ruhl Libre 900 slanted −12° |
+| Box | 85px tall, x 88–612, serif ≈60px | 92px serif | **Playfair Display 700 italic** (matched against the crop: DM Serif too light, Source Serif too wide) / Frank Ruhl Libre 900 upright (Hebrew has no italic: the face change is the emphasis) −12° |
 | Captions | glyph height ≈40 (≈48px), center 670 | 72px, center 1005 | Inter / Heebo 700; accent = the box serif in blue |
 | Stat number | ≈125px | 190px | 800 |
 | CTA | "comment" ≈48px serif, keyword ≈110px | 96 / 190px | serif / sans 800 |
@@ -100,3 +100,26 @@ speaker's face, not at fixed pixels (runtime `effects/face.js`, data `scripts/fa
 | low face | 165 | chin 1653, h 438 | **chin + -2.55 × h** | -3.11 … -1.77 |
 
 Cards next to the speaker: eye level, the free side, 0.4 × h from the face. Never covered: eyes to mouth.
+
+## Look targets
+
+Measured on the anchor by `scripts/qa/anchor.py headline --look` (`look.py`, the same code `qa` runs on drafts, 2 fps, 360x640).
+Footage is read around the face; the hero is the graphics zone (above the head in a split, the whole frame without a face).
+
+| | anchor | target |
+|---|---|---|
+| face height (share of frame) | 0.231 | 0.196–0.266 |
+| face luma | 152.584 | 128–178 |
+| skin warmth (R − B) | 45.761 | 34–58 |
+| background luma | 193.441 | 165–221 |
+| background saturation | 18.551 | 0–44 |
+| footage contrast (p95 − p5) | 217.81 | >= 174 |
+| garment vs background (luma) | 177.314 | >= 106.4 |
+| hero width (share of frame) | 0.8 | median >= 0.68, never < 0.56 for 1 s |
+| hero content density | 0.495 | median >= 0.371, never < 0.272 for 1 s |
+| full-face share of time | 0.149 | >= 0.089 |
+| longest stretch without a full-face beat | 33.5 s | <= 50.2 s |
+| material: luma span inside the hero | 179.292 | >= 126 |
+| material: highlight share | 0.207 | (eye review) |
+| material: glow around the hero | -3.196 | >= — |
+| material: accent saturation | 127.5 | >= 89 |

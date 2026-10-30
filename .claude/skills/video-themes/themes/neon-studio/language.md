@@ -17,6 +17,15 @@
 Rules: page and ambient never mix in one composition. Sprites only over the studio footage. No drawn dark stage, no neon
 lines, no gradients except the ambient blur.
 
+### Measured material & light (`anchor.py neon-studio --look`)
+
+- **Light inside the hero:** luma span p95−p5 = 164.286 on the anchor → a new element needs ≥ 115: a gradient, a highlight edge or real content with darks and lights. A flat fill of one colour fails.
+- **Glow:** none to speak of on the anchor (3.989): depth comes from shadow and layering, not halos.
+- **Accent:** median saturation of the hero's most saturated 10% = 188.74 → ≥ 132: the accent is a real, saturated colour, never a greyed tint.
+- **Highlights:** 1.7% of the hero is specular highlight on the anchor (lacquer / neon edges) — check by eye.
+- **Size and fill:** the hero spans 90% of the frame width and 46% of its cells carry detail → ≥ 76% wide, ≥ 34% detailed.
+- **Hebrew emphasis:** Hebrew has no italic. Where the anchor sets a word in serif italic, use weight, the accent colour, the theme's box or a second face that has Hebrew — never a slant or skew.
+
 ## 2. Anatomy
 
 - **Page composition** = title or header (top, 14%) · **one card** (center, 75–85% wide) · a state pill under it ·

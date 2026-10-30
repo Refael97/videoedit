@@ -17,6 +17,15 @@
 Rules: windows and stat cards float on air, on the page or on dark; the blue box only in a headline or a section header;
 nothing covers the face in split.
 
+### Measured material & light (`anchor.py headline --look`)
+
+- **Light inside the hero:** luma span p95−p5 = 179.292 on the anchor → a new element needs ≥ 126: a gradient, a highlight edge or real content with darks and lights. A flat fill of one colour fails.
+- **Glow:** none to speak of on the anchor (-3.196): depth comes from shadow and layering, not halos.
+- **Accent:** median saturation of the hero's most saturated 10% = 127.5 → ≥ 89: the accent is a real, saturated colour, never a greyed tint.
+- **Highlights:** 20.7% of the hero is specular highlight on the anchor (white edges, paper sheen, selection fills) — check by eye.
+- **Size and fill:** the hero spans 80% of the frame width and 50% of its cells carry detail → ≥ 68% wide, ≥ 37% detailed.
+- **Hebrew emphasis:** Hebrew has no italic. Where the anchor sets a word in serif italic, use weight, the accent colour, the theme's box or a second face that has Hebrew — never a slant or skew.
+
 ## 2. Anatomy
 
 Every composition = **(headline or section header, top) · one receipt (window) · one overlay act (ring, selection, stat card)**.
@@ -29,7 +38,7 @@ Every composition = **(headline or section header, top) · one receipt (window) 
 | Thing | Size |
 |---|---|
 | Headline | 80px sans 700 ink (Heebo / Inter), tracking −2.4, top 205 (11%) |
-| Blue box | serif 92px (Frank Ruhl 900 slanted −12° / Playfair Display 700 italic), padding 4/30/12, right under the headline |
+| Blue box | serif 92px (Frank Ruhl 900 upright for Hebrew / Playfair Display 700 italic for Latin), padding 4/30/12, right under the headline |
 | Section header | 84px sans 700 on the white page, top 160, the box under it |
 | Window | 850 wide (78–83%), top 470 under a headline / 300 without; text inside ≥26px as shown (body 32–40px, titles 52–62px) |
 | Stat card | number 190px 800, label 54px 700, padding 26/44/32 |
