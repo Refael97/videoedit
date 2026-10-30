@@ -20,13 +20,13 @@ SFX = [*[("sfx/click-soft.mp3", t, 0.35) for t in (0.55, 1.05, 1.55, 2.05)],    
        ("sfx/whoosh-short.mp3", 9.95, 0.32),                                              # to the stop
        *[("sfx/whoosh-short.mp3", t - 0.35, 0.3) for t in (10.75, 11.75, 12.75)],         # bus, train, light rail pull in
        *[("sfx/pop.mp3", t, 0.3) for t in (10.75, 11.75, 12.75)],                         # pills light
-       ("sfx/whoosh.mp3", 13.2, 0.3),                                                     # phone back
+       ("sfx/whoosh.mp3", 13.0, 0.3),                                                     # phone back
        ("sfx/pop.mp3", 14.6, 0.3), ("sfx/pop.mp3", 15.1, 0.24),                           # card, Apple Pay
        ("sfx/click.mp3", 15.5, 0.7), ("sfx/ping.mp3", 15.54, 0.28),                       # the press
        ("sfx/whoosh-short.mp3", 16.75, 0.36),                                             # spin to ticket
        ("sfx/pop.mp3", 17.95, 0.3), ("sfx/whoosh-short.mp3", 18.1, 0.16),                 # ticket, scan
        ("sfx/ping.mp3", 19.0, 0.3),                                                       # scan OK
-       ("sfx/whoosh.mp3", 19.4, 0.22), ("sfx/whoosh.mp3", 20.05, 0.32),                   # ride leaves, phone out
+       ("sfx/whoosh.mp3", 20.05, 0.32),                   # ride leaves, phone out
        ("sfx/click-soft.mp3", 21.2, 0.45), ("sfx/whoosh-short.mp3", 21.3, 0.16), ("sfx/ping.mp3", 21.9, 0.18)]                  # lockup, sheen
 
 def place(inputs, cues, label):

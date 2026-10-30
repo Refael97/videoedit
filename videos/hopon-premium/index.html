@@ -22,16 +22,13 @@
       .title .w { display: inline-block; position: relative; will-change: filter, opacity, transform; }
       .title h1 { text-shadow: 0 14px 34px rgba(20, 30, 45, 0.10); }
       .title .w.k { color: #0b86bd; font-weight: 800; }
-      .title .w.k::after { content: ""; position: absolute; left: 3%; right: 3%; bottom: 0.02em; height: 9px; border-radius: 6px;
-        background: linear-gradient(90deg, rgba(26,174,229,0.35), #1AAEE5 60%, #6fd3f7); box-shadow: 0 0 22px rgba(26,174,229,0.55);
-        transform: scaleX(var(--u, 0)); transform-origin: 100% 50%; }
-      .title h1.sheen { position: absolute; top: 0; left: 0; right: 0; color: transparent; text-shadow: none; opacity: 0;
+            .title h1.sheen { position: absolute; top: 0; left: 0; right: 0; color: transparent; text-shadow: none; opacity: 0;
         background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 60%);
         background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; }
       #t4 { top: 1330px; } #tm h1, #tm p { text-shadow: 0 0 28px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9); } #t3, #tt { top: 1450px; } #tm { top: 330px; } #t2 { top: 1400px; } #t1s { top: 1440px; }
       #wheel { position: absolute; left: 0; right: 0; height: 220px; direction: rtl; perspective: 900px; pointer-events: none; }
-      #wheel .wl { position: absolute; left: 0; right: 0; top: 0; text-align: center; font: 300 168px/220px "Noto Sans Hebrew"; color: var(--ink); white-space: nowrap; backface-visibility: hidden; }
-      #wheel .wl b { font-weight: 800; color: #0b86bd; }
+      #wheel .wl { position: absolute; left: 0; right: 0; top: 0; text-align: center; font: 800 120px/220px "Noto Sans Hebrew"; color: #2b2b30; white-space: nowrap; backface-visibility: hidden; }
+      #wheel .wl b { font-weight: 800; color: inherit; }
       #wheel .bar { position: absolute; left: 50%; width: 900px; margin-left: -450px; height: 2px; background: linear-gradient(90deg, rgba(26,174,229,0), rgba(26,174,229,0.55), rgba(26,174,229,0)); }
       #wheel .glowband { position: absolute; left: 50%; top: 10px; width: 980px; margin-left: -490px; height: 200px; border-radius: 100px; background: radial-gradient(ellipse at center, rgba(26,174,229,0.16), rgba(26,174,229,0) 70%); }
       #routeBg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; overflow: visible; }
@@ -58,7 +55,7 @@
       <canvas id="gl" width="1080" height="1920"></canvas>
       <div class="lbl" id="lblA" style="display:none"></div><div class="lbl" id="lblB" style="display:none"></div>
       <div id="wheel" data-out="4.95">
-        <div class="glowband"></div><div class="bar" style="top:-4px"></div><div class="bar" style="top:222px"></div>
+        
         <div class="wl">ירושלים</div><div class="wl">הרצליה</div><div class="wl">תל אביב</div><div class="wl">באר שבע</div><div class="wl">חיפה</div>
         <div class="wl">בכל <b>ישראל</b></div><div class="wl">הופאון <b>רב&#8209;פס</b></div>
       </div>
@@ -72,7 +69,7 @@
       </div>
       <div id="pills" data-out="13.3"><span class="pill" data-at="10.75">אוטובוס</span><span class="pill" data-at="11.75">רכבת ישראל</span><span class="pill" data-at="12.75">רכבת קלה</span></div>
       <div id="t3" class="title" data-out="16.7">
-        <h1 class="m"><span class="w" data-at="14.15">רואים את</span> <span class="w k" data-at="14.27">המחיר.</span><br /><span class="w" data-at="15.0">משלמים</span> <span class="w k" data-at="15.12" data-ring="15.5">בלחיצה.<svg class="ring" viewBox="0 0 100 40" preserveAspectRatio="none"><ellipse cx="50" cy="20" rx="48" ry="18" pathLength="1"/></svg></span></h1>
+        <h1 class="m"><span class="w" data-at="14.15">רואים את</span> <span class="w k" data-at="14.27">המחיר.</span><br /><span class="w" data-at="15.0">משלמים</span> <span class="w k" data-at="15.12" data-pulse="15.5">בלחיצה.</span></h1>
       </div>
       <div id="tt" class="title" data-out="20.1">
         <h1 class="m"><span class="w" data-at="17.5">סורקים.</span> <span class="w k" data-at="18.0">נוסעים.</span></h1>

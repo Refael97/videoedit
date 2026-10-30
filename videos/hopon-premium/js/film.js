@@ -85,9 +85,11 @@ export async function makeFilm() {
   const show = (g, k) => { g.visible = g.userData.slot.visible = k > 0.001; };
 
   const BGc = scene.background;
-  const gC = document.createElement("canvas"); gC.width = 64; gC.height = 256; const gg = gC.getContext("2d");
-  const gl_ = gg.createLinearGradient(0, 0, 0, 256); gl_.addColorStop(0, "#e9eef3"); gl_.addColorStop(0.55, "#f4f5f7"); gl_.addColorStop(1, "#e4e6ea"); gg.fillStyle = gl_; gg.fillRect(0, 0, 64, 256);
-  const gradBg = tex(gC);
+  const gC = document.createElement("canvas"); gC.width = 540; gC.height = 960; const gg = gC.getContext("2d");
+  const lin = gg.createLinearGradient(0, 0, 0, 960); lin.addColorStop(0, "#f6f8fb"); lin.addColorStop(1, "#eef3f8"); gg.fillStyle = lin; gg.fillRect(0, 0, 540, 960);
+  const bloom = (x, y, r, a) => { const g2 = gg.createRadialGradient(x, y, 0, x, y, r); g2.addColorStop(0, `rgba(26,174,229,${a})`); g2.addColorStop(0.45, `rgba(26,174,229,${a * 0.45})`); g2.addColorStop(1, "rgba(26,174,229,0)"); gg.fillStyle = g2; gg.fillRect(0, 0, 540, 960); };
+  bloom(40, 960, 620, 0.34); bloom(560, 40, 420, 0.10);
+  const gradBg = tex(gC); gradBg.generateMipmaps = false;
   const dress = premiumDress(scene, mkRnd(9137));
   const rC = document.createElement("canvas"); rC.width = 1200; rC.height = 2608; const rg = rC.getContext("2d"); rg.scale(2, 2);
   const RP = [[298, 413], [318, 360], [352, 322], [420, 300], [452, 250], [476, 205], [480, 190]];
@@ -218,15 +220,15 @@ export async function makeFilm() {
     return g;
   }
   const veh = (g, y) => { g.userData.y = y; shadowed(g); g.visible = false; stage.add(g); return g; };
-  const VEH = [[veh(bus(), FLOOR + 0.9), 10.75, 11.75], [veh(train(), FLOOR + 0.88), 11.75, 12.75], [veh(tram(), FLOOR + 0.62), 12.75, 19.3]];
+  const VEH = [[veh(bus(), FLOOR + 0.9), 10.75, 11.75], [veh(train(), FLOOR + 0.88), 11.75, 12.75], [veh(tram(), FLOOR + 0.62), 12.75, 13.05]];
 
   // ══ SCENES 4–5 · pay at the vehicle, show the ticket to the scanner ══
   const card = slab(station, [33, 547, 566, 748], 14, 0.05, 0xfdfdfd);
   const pay = slab(station, [51, 875, 549, 958], 10, 0.05, 0xfdfdfd);
   const ringShape = roundedRect(498 / 600 * SW + 0.06, 83 / 1304 * SH + 0.06, 0.1); ringShape.holes.push(roundedRect(498 / 600 * SW + 0.03, 83 / 1304 * SH + 0.03, 0.085));
   const ring = new THREE.Mesh(new THREE.ShapeGeometry(ringShape, 16), new THREE.MeshBasicMaterial({ color: CY.clone().multiplyScalar(2.2), transparent: true, depthWrite: false }));
-  pay.add(ring); ring.position.z = 0.003;
-  const payGlow = glow(1.6, 2.2); pay.add(payGlow); payGlow.position.z = 0.02;
+  ring.visible = false;
+  const payGlow = new THREE.Mesh(new THREE.PlaneGeometry(498 / 600 * SW * 1.25, 83 / 1304 * SH * 2.6), new THREE.MeshBasicMaterial({ map: glowTex, color: CY.clone().multiplyScalar(1.8), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false })); payGlow.position.z = -0.06; pay.add(payGlow); payGlow.visible = false;
   const tk = slab(ticket, [17, 358, 583, 1008], 16, 0.05, 0x494949);
   const qrC = tk.userData.local(300, 765.5), qrH = 284 / 1304 * SH, qrW = 283 / 600 * SW;
   const beamC = document.createElement("canvas"); beamC.width = 8; beamC.height = 128; const bg = beamC.getContext("2d");
@@ -336,7 +338,7 @@ export async function makeFilm() {
     const back_ = E.inOutCubic(seg(t, 13.3, 14.1));
     VEH.forEach(([g, at, out], i) => {
       const kin = E.outExpo(seg(t, at - 0.3, at)), last = i === 2;
-      const kout = last ? E.inOutCubic(seg(t, out, out + 1.1)) : Math.pow(seg(t, out - 0.32, out - 0.1), 3);
+      const kout = last ? Math.pow(seg(t, out, out + 0.75), 2.2) : Math.pow(seg(t, out - 0.32, out - 0.1), 3);
       g.visible = t > at - 0.3 && kout < 1;
       g.position.set(lerp(13, 1.0, kin) - 17 * kout, g.userData.y + Math.sin(t * 9 + i) * 0.003, SZ_ - 3.0 * back_);
       g.rotation.z = (1 - kin) * 0.01;
@@ -348,16 +350,17 @@ export async function makeFilm() {
     const kp = E.outQuint(seg(t, 14.6, 15.1)) * (1 - E.inOutCubic(seg(t, 16.45, 16.8)));
     const PRESS = 15.5, press = t >= PRESS ? Math.exp(-(t - PRESS) * 14) * Math.min(1, (t - PRESS) * 40) : 0;
     show(pay, kp); pay.position.copy(pay.userData.home).add(v.set(-0.06 * kp, -0.05 * kp, 0.45 * kp - press * 0.12)); pay.rotation.set(0.08 * kp, -0.1 * kp, 0); pay.scale.setScalar((1 + 0.08 * kp) * (1 - press * 0.06));
-    const kg = seg(t, PRESS, PRESS + 0.7); ring.visible = kg > 0 && kg < 1; ring.scale.set(1 + kg * 0.22, 1 + kg * 0.9, 1); ring.material.opacity = (1 - E.outCubic(kg)) * 0.95;
-    const pg = seg(t, PRESS - 0.05, PRESS + 0.55); payGlow.visible = pg > 0 && pg < 1 && kp > 0.01; payGlow.material.opacity = Math.sin(Math.PI * pg) * 0.8; payGlow.scale.set(1.9 + pg * 0.8, 0.5 + pg * 0.2, 1);
+    
+    const pg = seg(t, PRESS - 0.05, PRESS + 0.55); payGlow.visible = pg > 0 && pg < 1 && kp > 0.01; payGlow.material.opacity = Math.sin(Math.PI * pg) * 0.7;
 
     // ── ticket + scanner ──
     const kt = E.outQuint(seg(t, 17.45, 17.95)) * (1 - E.inOutCubic(seg(t, 19.9, 20.25)));
     show(tk, kt); tk.position.copy(tk.userData.home).add(v.set(-0.08 * kt, 0.12 * kt, 0.62 * kt)); tk.rotation.set(-0.08 * kt, -0.12 * kt, 0); tk.scale.setScalar(1 + 0.1 * kt);
-    const SCAN = 18.15, ks = seg(t, SCAN, SCAN + 0.85); beam.visible = ks > 0 && ks < 1;
-    beam.position.set(qrC.x, qrC.y + lerp(qrH * 0.55, -qrH * 0.5, E.inOutSine(ks)), 0.004); beam.material.opacity = Math.sin(Math.PI * ks);
-    scanGlow.visible = beam.visible; scanGlow.position.set(qrC.x, beam.position.y + qrH * 0.17, 0.01); scanGlow.material.opacity = beam.material.opacity * 0.9; scanGlow.scale.set(qrW * 1.6, 0.18, 1);
-    const ko = seg(t, 19.0, 19.7); okRing.visible = ko > 0 && ko < 1; okRing.scale.setScalar(1 + E.outCubic(ko) * 2.2); okRing.material.opacity = (1 - ko);
+    const SCAN = 18.1, ks = seg(t, SCAN, SCAN + 1.0); beam.visible = ks > 0 && ks < 1;
+    const yLine = qrC.y + lerp(qrH * 0.54, -qrH * 0.54, E.inOutSine(ks));
+    beam.position.set(qrC.x, yLine - qrH * 0.17, 0.004); beam.material.opacity = Math.min(1, Math.sin(Math.PI * ks) * 2.5);
+    scanGlow.visible = beam.visible; scanGlow.position.set(qrC.x, yLine, 0.01); scanGlow.material.opacity = beam.material.opacity * 0.9; scanGlow.scale.set(qrW * 1.35, 0.14, 1);
+    const ko = seg(t, 19.0, 19.7); okRing.visible = ko > 0 && ko < 1; okRing.scale.setScalar(0.9 + E.outCubic(ko) * 0.35); okRing.material.opacity = (1 - ko);
     const kS = E.outQuint(seg(t, 17.6, 18.15)), kSo = E.inOutCubic(seg(t, 19.6, 20.2));
     scanner.visible = kS > 0 && kSo < 1;
     scanner.position.set(lerp(4.2, 0.95, kS) + 3.5 * kSo * kSo, lerp(-2.2, -0.75, kS), 1.1); scanner.scale.setScalar(0.72); scanner.rotation.set(0.1, lerp(-1.0, -0.42, kS), lerp(-0.5, 0.12, kS));
