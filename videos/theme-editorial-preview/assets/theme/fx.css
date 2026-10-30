@@ -1,0 +1,20 @@
+/* editorial → signature effects (effects/fx.css reads these). Mapped from this theme's own tokens; no new colors. */
+:root {
+  --fx-accent: var(--e-gold);
+  --fx-ink: var(--e-cream);
+  --fx-display: var(--e-serif);
+  --fx-display-weight: 300;
+  --fx-body: var(--e-sans);
+  --fx-card-bg: var(--e-green-2);
+  --fx-card-ink: var(--e-cream);
+  --fx-card-ink-soft: var(--e-gold);
+  --fx-card-edge: 2px solid var(--e-gold);
+  --fx-card-r: 0px;
+  --fx-card-shadow: 0 18px 40px rgba(0,0,0,.35);
+  --fx-card-blur: none;
+  --fx-word: var(--e-cream);
+  --fx-word-stroke: 0px transparent;
+  --fx-word-glow: none;
+  --fx-glow: none;
+  --fx-bar-muted: var(--e-green-3);
+}

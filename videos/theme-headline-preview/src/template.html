@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+
+      /* a real mini site inside a window (only big, readable parts) */
+      .site { position: relative; height: 380px; direction: rtl; text-align: right; overflow: hidden; }
+      .site h3 { position: absolute; right: 40px; top: 34px; margin: 0; font-size: 62px; line-height: 1.02; font-weight: 800; letter-spacing: -2px; white-space: pre; }
+      .site p { position: absolute; right: 40px; top: 190px; margin: 0; font-size: 30px; color: #6a6a6a; white-space: pre; }
+      .site .btn { position: absolute; right: 40px; bottom: 36px; height: 70px; padding: 0 36px; border-radius: 35px; background: #1d1d1f; color: #fff; font-size: 32px; font-weight: 700; display: flex; align-items: center; }
+      .site .img { position: absolute; left: 36px; top: 36px; width: 290px; height: 308px; border-radius: 22px; overflow: hidden; background: linear-gradient(#efe4d6 0 62%, #b98b63 62% 100%); }
+      /* the hero photo of the studio's site: a drawn living room (wall, window with sky, lamp, sofa, plant, rug, frame) */
+      .room i { position: absolute; display: block; }
+      .room .win { left: 26px; top: 26px; width: 104px; height: 128px; border-radius: 6px; background: linear-gradient(#8ec5f0, #d8ecfa); box-shadow: inset 0 0 0 6px #fff; }
+      .room .win::after { content: ""; position: absolute; left: 49px; top: 0; bottom: 0; width: 6px; background: #fff; }
+      .room .sun { left: 46px; top: 44px; width: 30px; height: 30px; border-radius: 50%; background: #ffd25e; }
+      .room .frame { left: 170px; top: 36px; width: 86px; height: 64px; border: 5px solid #3a2a1e; background: linear-gradient(135deg, #e07a4f, #f2c14e 55%, #4f8a6e); }
+      .room .lamp { left: 236px; top: 112px; width: 6px; height: 104px; background: #3a2a1e; }
+      .room .shade { left: 214px; top: 96px; width: 50px; height: 30px; border-radius: 6px 6px 2px 2px; background: #f7d58a; box-shadow: 0 10px 22px rgba(255, 210, 120, 0.8); }
+      .room .sofa { left: 30px; top: 170px; width: 190px; height: 64px; border-radius: 18px 18px 8px 8px; background: #2f5d62; }
+      .room .seat { left: 22px; top: 210px; width: 206px; height: 36px; border-radius: 10px; background: #24494d; }
+      .room .cush { top: 180px; width: 46px; height: 36px; border-radius: 10px; background: #e9c46a; } .room .ca { left: 52px; } .room .cb { left: 150px; background: #e76f51; }
+      .room .rug { left: 40px; top: 262px; width: 210px; height: 30px; border-radius: 50%; background: #d9a066; box-shadow: inset 0 0 0 6px #c2864d; }
+      .room .pot { left: 246px; top: 222px; width: 30px; height: 34px; border-radius: 0 0 8px 8px; background: #c05a3c; }
+      .room .leaf { width: 26px; height: 52px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: #3f8a4a; } .room .l1 { left: 238px; top: 176px; transform: rotate(-25deg); } .room .l2 { left: 256px; top: 170px; transform: rotate(20deg); background: #4fa35a; }
+      .site.plain { font-family: "Times New Roman", serif; letter-spacing: 0; background: #fff; }
+      .site.plain h3 { font-weight: 400; font-size: 58px; letter-spacing: 0; }
+      .site.plain .btn { background: #d8d8d8; color: #333; border-radius: 0; font-weight: 400; }
+      .site.plain .img { border-radius: 0; filter: grayscale(1) contrast(0.8); }   /* the same photo, unstyled */
+      .site .txt { position: absolute; right: 40px; top: 320px; margin: 0; font-size: 30px; line-height: 1.3; color: #555; white-space: pre; }
+      .site.plain .txt { top: 300px; }
+      .site .nav { position: absolute; right: 40px; top: 250px; margin: 0; font-size: 28px; color: #8a8a8a; white-space: pre; }
+
+      /* opening */
+      #w0 { left: 115px; top: 470px; }
+      #ring0 { left: 666px; top: 798px; width: 268px; height: 92px; }
+
+      /* S1: docs window, three features get selected */
+      #w1 { left: 115px; top: 300px; }
+      #w1 .body { padding: 34px 40px 10px; }
+      #w1 h4 { margin: 0 0 22px; font-size: 52px; font-weight: 800; letter-spacing: -1.5px; }
+      #w1 p { font-size: 36px; margin: 0 0 26px; }
+      #w1 .sel { padding: 0 6px; }
+      #ring1 { left: 130px; top: 880px; width: 270px; height: 84px; }
+      #pill1 { position: absolute; left: 140px; top: 890px; height: 64px; padding: 0 26px; border-radius: 32px; background: var(--h-blue); color: #fff; font-size: 34px; font-weight: 800; display: flex; align-items: center; gap: 10px; z-index: 9; direction: rtl; }
+      #pill1 svg { width: 34px; height: 34px; color: #fff; }
+
+      /* S2 (dark): the install */
+      #w2 { left: 60px; top: 250px; width: 960px; } #w2 .body { font-size: 38px; line-height: 2.0; }
+      #grp0, #grp3 { position: absolute; inset: 0; }
+      
+
+      /* S3 (page): the section + before / after */
+      #w3a, #w3b { left: 60px; top: 470px; width: 960px; }
+      #w3a .site, #w3b .site { height: 470px; } #w3a .site .img, #w3b .site .img { width: 340px; height: 398px; }
+      #lab3a, #lab3b { top: 1080px !important; }
+      #lab3a, #lab3b { position: absolute; left: 0; right: 0; top: 1030px; text-align: center; font-size: 60px; font-weight: 700; z-index: 7; }
+      #lab3b { color: var(--h-blue-text); }
+      #ring3 { left: 646px; top: 1005px; width: 288px; height: 92px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="h-root" data-composition-id="main" data-start="0" data-duration="17.2" data-width="1080" data-height="1920">
+      <div id="face" class="h-face"><video id="faceVid" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video></div>
+      <div id="air" class="h-air"></div>
+
+      <!-- opening (split): headline + blue box, a real site in a window, its button gets the focus ring -->
+      <div id="s0" class="h-scene" style="z-index: 7">
+        <div class="h-title" id="t0">אתרים שנראים טוב</div>
+        <div class="h-boxline" style="top: 300px"><span class="h-box" id="b0">עם סקיל אחד</span></div>
+        <div id="grp0"><div class="h-win" id="w0"><div class="bar"><i></i><i></i><i></i><span class="url">studio-bait.co.il</span></div>
+          <div class="site"><h3>עיצוב פנים
+שמרגיש בית</h3><p>40 פרויקטים בשנה</p><span class="btn" id="btn0">לתיאום פגישה</span><div class="img room"><i class="win"></i><i class="sun"></i><i class="frame"></i><i class="lamp"></i><i class="shade"></i><i class="sofa"></i><i class="seat"></i><i class="cush ca"></i><i class="cush cb"></i><i class="rug"></i><i class="pot"></i><i class="leaf l1"></i><i class="leaf l2"></i></div></div>
+          <div class="h-streak" id="sk0" style="left: 0; top: -2px"></div></div>
+        <div class="h-ring" id="ring0"></div></div>
+      </div>
+
+      <!-- S1 (split): the skill's page, each feature gets selected on its word -->
+      <div id="s1" class="h-scene" style="z-index: 7">
+        <div class="h-win" id="w1"><div class="bar"><i></i><i></i><i></i><span class="url">kowalski.dev</span><span class="cnt">1/3</span></div>
+          <div class="body" dir="rtl"><h4>מה הסקיל עושה</h4>
+            <p><span class="sel" id="sel1a">Motion</span> לכל רכיב שנכנס למסך</p>
+            <p><span class="sel" id="sel1b">מעברים</span> בין עמודים, בלי קפיצות</p>
+            <p><span class="sel" id="sel1c">מבנה</span> גריד ומרווחים קבועים</p></div></div>
+        <div id="pill1"><span class="ck"></span>3 מתוך 3</div>
+      </div>
+
+      <!-- S2 (dark): the install in a glowing terminal -->
+      <div id="dark" class="h-dark">
+        <div class="h-win term" id="w2"><div class="bar"><i></i><i></i><i></i><span class="ttl">claude — my-site</span></div>
+          <div class="body"><div class="dim">~/my-site $ ls</div><div class="dim">index.html  styles.css  app.js</div><div class="in">&gt; <span id="cmd2"></span></div><div class="o2"><span class="ok">●</span> Resolving kowalski@1.4.0</div><div class="o2"><span class="ok">●</span> Fetching kowalski</div><div class="o2 dim">└ motion presets · 24 eases ✓</div><div class="o2 dim">└ page transitions · 12 types ✓</div><div class="o2 dim">└ layout system · 12-col grid ✓</div><div class="o2 dim">└ added to .claude/skills/</div><div class="o2"><span class="ok">✓</span> Installed: <b>kowalski</b></div><div class="o2 dim">Done in 3.2s</div></div></div>
+        <div class="h-streak" id="sk2" style="left: 70px; top: 248px"></div><div class="h-streak" id="sk2b" style="left: 70px; top: 248px"></div>
+      </div>
+
+      <!-- S3 (page): section header, the same site before → after -->
+      <div id="page" class="h-page">
+        <div class="h-sec"><span class="t" id="t3">מה הוא עושה</span><span class="h-caret" id="c3"></span><span class="h-box" id="b3" dir="ltr">Kowalski</span></div>
+        <div id="grp3"><div class="h-win" id="w3a"><div class="bar"><i></i><i></i><i></i><span class="url">studio-bait.co.il</span></div>
+          <div class="site plain"><h3>עיצוב פנים</h3><p>צרו קשר</p><p class="nav">בית · עבודות · אודות</p><p class="txt">סטודיו לעיצוב פנים
+בתל אביב, מאז 2012</p><span class="btn" id="btn3a">שליחה</span><div class="img room"><i class="win"></i><i class="sun"></i><i class="frame"></i><i class="lamp"></i><i class="shade"></i><i class="sofa"></i><i class="seat"></i><i class="cush ca"></i><i class="cush cb"></i><i class="rug"></i><i class="pot"></i><i class="leaf l1"></i><i class="leaf l2"></i></div></div></div>
+        <div class="h-win" id="w3b"><div class="bar"><i></i><i></i><i></i><span class="url">studio-bait.co.il</span></div>
+          <div class="site"><h3>עיצוב פנים
+שמרגיש בית</h3><p>40 פרויקטים בשנה</p><span class="btn" id="btn3">לתיאום פגישה</span><div class="img room"><i class="win"></i><i class="sun"></i><i class="frame"></i><i class="lamp"></i><i class="shade"></i><i class="sofa"></i><i class="seat"></i><i class="cush ca"></i><i class="cush cb"></i><i class="rug"></i><i class="pot"></i><i class="leaf l1"></i><i class="leaf l2"></i></div></div></div>
+        <div class="h-ring" id="ring3"></div><div class="h-ring" id="ring3a"></div></div>
+        <div id="lab3a">לפני</div><div id="lab3b">אחרי</div>
+      </div>
+
+      <div id="caps" class="h-caps"></div>
+
+      <!-- CTA (face) -->
+      <div id="cta" class="h-cta" style="top: 1330px"><span class="lead" id="ctaL">תגיבו</span><span class="kw" id="ctaK"><span class="q">“</span>Kowalski<span class="q">”</span></span></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="17.2" data-track-index="10" data-volume="1"></audio>
+<!--__SFX__-->
+    </div>
+    <script>
+      const WORDS = __WORDS__;
+      const H = window.HEADLINE;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        document.querySelector("#pill1 .ck").innerHTML = H.ART.check;
+        H.place("#ring0", "#btn0", 10); H.place("#ring3", "#btn3", 10); H.place("#ring3a", "#btn3a", 10);
+        WORDS.forEach((w) => { if (/^(Kowalski|למטורף|טוב|skill)/.test(w.text)) w.em = true; });
+
+        // ---- layouts (head drops to ~55%: drop 300) ----
+        H.layout(tl, "split", 0, { drop: 300 });
+        H.layout(tl, "dark", 6.62);
+        H.layout(tl, "page", 9.92);
+        H.layout(tl, "face", 12.9);
+        H.scene(tl, "#s0", 0, 2.92); H.scene(tl, "#s1", 2.92, 6.62);
+        H.hide(tl, "#cta");
+
+        H.captions(tl, "#caps", WORDS, { until: 14.5, yPage: 1240, yFace: 1490 });
+
+        // ---- opening: headline, box, the site, its button focused on "טוב" ----
+        H.headline(tl, "#t0", "#b0", 0.15);
+        H.win(tl, "#w0", 1.0);
+        H.streak(tl, "#sk0", 1.3, 700);
+        H.hide(tl, "#ring0"); H.ring(tl, "#ring0", 2.2);
+        H.push(tl, "#grp0", 1.0, 1.9, 1.05); H.pulse(tl, "#btn0", 2.25, 1.1);
+
+        // ---- S1: the skill's page, each feature selected on its word, 3/3 on "כמו שצריך" ----
+        H.win(tl, "#w1", 2.95);
+        H.select(tl, ["#sel1a", "#sel1b", "#sel1c"], [3.2, 4.5, 5.4]);
+        H.push(tl, "#w1", 2.95, 3.0, 1.05);
+        ["#sel1a", "#sel1b", "#sel1c"].forEach((s, i) => H.pulse(tl, document.querySelector(s).parentElement, [3.25, 4.55, 5.45][i], 1.08));
+        H.hide(tl, "#pill1"); H.win(tl, "#pill1", 6.0); H.pulse(tl, "#pill1", 6.3);
+
+        // ---- S2 (dark): typed command, output, the light runs along the window ----
+        H.win(tl, "#w2", 6.66);
+        H.type(tl, "#cmd2", "npx skills add kowalski", 6.95, 24);
+        H.hide(tl, ".o2"); H.blurIn(tl, ".o2", 7.95, 0.14, 0.2);
+        H.streak(tl, "#sk2b", 6.75, 720, 0.9);
+        H.streak(tl, "#sk2", 8.7, 720, 0.9);
+        H.push(tl, "#w2", 6.7, 2.05, 1.12);
+        H.punch(tl, "#w2", 8.8, 1.3, [300, 640]); tl.to("#w2", { scale: 1.38, duration: 0.6, ease: "none" }, 9.1); H.unpunch(tl, "#w2", 9.62);
+
+        // ---- S3 (page): section header, before → after on "הופך", focus on "למטורף" ----
+        H.section(tl, "#t3", "#c3", "#b3", 9.95);
+        H.hide(tl, ["#w3a", "#w3b", "#lab3a", "#lab3b", "#ring3"]);
+        H.win(tl, ["#w3a", "#lab3a"], 10.05, 0.05);
+        tl.to("#lab3a", { opacity: 0, filter: "blur(10px)", duration: 0.18 }, 11.1);
+        H.swap(tl, "#w3a", ["#w3b", "#lab3b"], 11.1);
+        H.push(tl, "#grp3", 10.05, 2.0, 1.07);
+        H.hide(tl, "#ring3a"); H.ring(tl, "#ring3a", 10.7); tl.to("#ring3a", { opacity: 0, duration: 0.15 }, 11.1);
+        H.ring(tl, "#ring3", 12.1); H.punch(tl, "#grp3", 12.1, 1.2, [700, 1000]); tl.to("#grp3", { scale: 1.28, duration: 0.5, ease: "none" }, 12.4);
+
+        // ---- CTA (face) ----
+        H.cta(tl, "#ctaL", "#ctaK", 14.55);
+        tl.set("#cta", { opacity: 1 }, 14.55);
+        // the "second camera" keeps creeping in while the speaker talks; the keyword pulses on "את זה"
+        tl.fromTo("#faceVid", { scale: 1.18 }, { scale: 1.3, duration: 4.3, ease: "none", immediateRender: false }, 12.9);
+        H.pulse(tl, "#ctaK", 16.0, 1.08);
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

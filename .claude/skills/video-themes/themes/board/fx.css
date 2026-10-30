@@ -1,0 +1,20 @@
+/* board → signature effects (effects/fx.css reads these). Mapped from this theme's own tokens; no new colors. */
+:root {
+  --fx-accent: var(--b-coral);
+  --fx-ink: var(--b-ink);
+  --fx-display: var(--b-font);
+  --fx-display-weight: 800;
+  --fx-body: var(--b-font);
+  --fx-card-bg: var(--b-card);
+  --fx-card-ink: var(--b-ink);
+  --fx-card-ink-soft: var(--b-ink-soft);
+  --fx-card-edge: 4px solid var(--b-ink);
+  --fx-card-r: 18px;
+  --fx-card-shadow: var(--b-shadow);
+  --fx-card-blur: none;
+  --fx-word: var(--b-coral);
+  --fx-word-stroke: 5px var(--b-ink);
+  --fx-word-glow: none;
+  --fx-glow: none;
+  --fx-bar-muted: var(--b-coral-soft);
+}

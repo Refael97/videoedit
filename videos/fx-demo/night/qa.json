@@ -1,0 +1,184 @@
+{
+ "project": "night",
+ "theme": "night",
+ "score": "9/13",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 0.44,
+   "target": ">= 0.8",
+   "pass": false,
+   "footage": "camera jitter 0.51 px/frame, 0 punches, 4 drifts (anchor: jitter 0.16 px/frame, 16.1 camera moves/min)"
+  },
+  "flat": {
+   "value": "13.3% (full frame 0.0%)",
+   "target": "<= 29.0%",
+   "pass": true
+  },
+  "hold": {
+   "value": "0.40 s",
+   "target": "<= 2.6 s",
+   "pass": true
+  },
+  "actions": {
+   "value": "0.4 events/s (GSAP 0.7 tweens/s)",
+   "target": "0.44–0.81",
+   "pass": false
+  },
+  "payoff": {
+   "value": "1 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "full face, 1 weak ranges",
+   "target": ">= 60%",
+   "pass": false
+  },
+  "collide": {
+   "value": "0 collisions",
+   "target": "0",
+   "pass": true,
+   "faces_detected": 79
+  },
+  "overlap": {
+   "value": "0 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": true
+  },
+  "placeholder": {
+   "value": "0 found",
+   "target": "0",
+   "pass": true
+  },
+  "facts": {
+   "value": "0 unsourced",
+   "target": "0",
+   "pass": true
+  },
+  "fx": {
+   "value": "min letter visible 70%, max risen card hidden 50%",
+   "target": "letters >= 70% (1 may dip <= 0.5 s), cards <= 50% hidden",
+   "pass": true
+  },
+  "hook": {
+   "value": "visual on screen 0.0s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": false
+  }
+ },
+ "metrics": {
+  "duration": 19.97,
+  "motion": 2.47,
+  "flat_pct": 0.0,
+  "events_per_s": 0.25,
+  "graphics": {
+   "gfx_motion": 0.44,
+   "gfx_raw": 0.44,
+   "baseline": 0.0,
+   "baseline_s": 16,
+   "baseline_from": "none (graphics-only render)",
+   "gfx_share": 0.16,
+   "gfx_flat_pct": 13.3,
+   "gfx_flat_runs": [
+    [
+     2.93,
+     3.33
+    ]
+   ],
+   "max_hold": 0.4,
+   "footage": {
+    "jitter_px": 0.51,
+    "punches": [],
+    "drifts": [
+     4.0,
+     6.0,
+     14.67,
+     17.0
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.51,
+   "punches": [],
+   "drifts": [
+    4.0,
+    6.0,
+    14.67,
+    17.0
+   ]
+  },
+  "actions_per_s": 0.4
+ },
+ "targets": {
+  "gfx_motion_min": 0.8,
+  "flat_max": 29.0,
+  "max_hold": 2.6,
+  "events_min": 0.44,
+  "events_max": 0.81,
+  "footage_info": "jitter 0.16 px/frame, 16.1 camera moves/min"
+ },
+ "fix_list": [
+  {
+   "t": "0.0–20.0s",
+   "t0": 0,
+   "words": "הסקיל הזה מאפשר לקלוד לערוך לכם את הסרטון ברמה מטורפת. בתוך הסקיל יצרתי עשרות סוגי עיצובים ולפי העיצובים האלה קלוד יודע איך לערוך לכם את זה ברמה שעורכי התוכן הכי גדולים משתמשים. אני משתמש בס- בסקיל הזה וזה הקפיץ לי את הצפיות משלוש מאות ארבע מאות צפיות לסרטון לעשרות אלפים.",
+   "check": "motion",
+   "fix": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)"
+  },
+  {
+   "t": "0.0–3.0s",
+   "t0": 0,
+   "words": "הסקיל הזה מאפשר לקלוד לערוך לכם את הסרטון",
+   "check": "hook visual",
+   "fix": "open on a visual (the result, the thing itself, real thumbnails), not text alone"
+  },
+  {
+   "t": "0.3–4.0s",
+   "t0": 0.33,
+   "words": "הסקיל הזה מאפשר לקלוד לערוך לכם את הסרטון ברמה מטורפת. בתוך",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "4.0–6.4s",
+   "t0": 4.0,
+   "words": "בתוך הסקיל יצרתי עשרות סוגי עיצובים",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "5.5–12.2s",
+   "t0": 5.5,
+   "words": "יצרתי עשרות סוגי עיצובים ולפי העיצובים האלה קלוד יודע איך לערוך לכם את זה ברמה שעורכי התוכן הכי גדולים משתמשים.",
+   "check": "hero fill",
+   "fix": "fill 21%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "6.4–11.7s",
+   "t0": 6.37,
+   "words": "עיצובים ולפי העיצובים האלה קלוד יודע איך לערוך לכם את זה ברמה שעורכי התוכן הכי גדולים",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "14.7–17.0s",
+   "t0": 14.67,
+   "words": "וזה הקפיץ לי את הצפיות משלוש מאות ארבע",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  },
+  {
+   "t": "17.0–20.0s",
+   "t0": 17.0,
+   "words": "ארבע מאות צפיות לסרטון לעשרות אלפים.",
+   "check": "actions / s",
+   "fix": "nothing happens here: act on the hero (mark, tick, fill, count, cursor, punch) at least every ~0.7 s"
+  }
+ ]
+}

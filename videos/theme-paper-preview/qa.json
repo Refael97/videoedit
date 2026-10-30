@@ -1,0 +1,119 @@
+{
+ "project": "theme-paper-preview",
+ "theme": "paper",
+ "score": "8/10",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 0.78,
+   "target": ">= 0.69",
+   "pass": true,
+   "footage": "camera jitter 0.17 px/frame, 0 punches, 1 drifts (anchor: jitter 0.16 px/frame, 9.4 camera moves/min)"
+  },
+  "flat": {
+   "value": "17.1%",
+   "target": "<= 19.0%",
+   "pass": true
+  },
+  "actions": {
+   "value": "0.52 events/s (GSAP 2.97 tweens/s)",
+   "target": "0.36–0.66",
+   "pass": true
+  },
+  "payoff": {
+   "value": "0 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "median 80%, 0 weak ranges",
+   "target": ">= 60%",
+   "pass": true
+  },
+  "collide": {
+   "value": "0 collisions",
+   "target": "0",
+   "pass": true,
+   "faces_detected": 68
+  },
+  "overlap": {
+   "value": "2 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": false
+  },
+  "placeholder": {
+   "value": "1 found",
+   "target": "0",
+   "pass": false
+  },
+  "hook": {
+   "value": "visual on screen 2.5s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 17.17,
+  "motion": 1.92,
+  "flat_pct": 17.1,
+  "events_per_s": 0.47,
+  "graphics": {
+   "gfx_motion": 0.78,
+   "gfx_raw": 0.78,
+   "baseline": 0.0,
+   "baseline_s": 0,
+   "baseline_from": "none (graphics-only render)",
+   "gfx_share": 1.0,
+   "footage": {
+    "jitter_px": 0.17,
+    "punches": [],
+    "drifts": [
+     16.0
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.17,
+   "punches": [],
+   "drifts": [
+    16.0
+   ]
+  },
+  "actions_per_s": 0.52
+ },
+ "targets": {
+  "gfx_motion_min": 0.69,
+  "flat_max": 19.0,
+  "events_min": 0.36,
+  "events_max": 0.66,
+  "footage_info": "jitter 0.16 px/frame, 9.4 camera moves/min"
+ },
+ "fix_list": [
+  {
+   "t": "7.2–8.2s",
+   "t0": 7.25,
+   "words": "להתקין skill",
+   "check": "no placeholders",
+   "fix": "term2: uniform / mostly empty panel (content covers < 40% of it): fill it with the real content, or make the panel hug its content"
+  },
+  {
+   "t": "11.5–13.5s",
+   "t0": 11.5,
+   "words": "האתר שלכם למטורף. כל מה",
+   "check": "graphic overlaps",
+   "fix": "svg. overlaps svg. (25% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "11.8–13.5s",
+   "t0": 11.75,
+   "words": "שלכם למטורף. כל מה",
+   "check": "graphic overlaps",
+   "fix": "#sc2 overlaps svg. (26% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  }
+ ]
+}

@@ -1,0 +1,150 @@
+{
+ "project": "theme-night-preview",
+ "theme": "night",
+ "score": "8/10",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 1.44,
+   "target": ">= 0.79",
+   "pass": true,
+   "footage": "camera jitter 0.2 px/frame, 2 punches, 3 drifts (anchor: jitter 0.16 px/frame, 16.1 camera moves/min)"
+  },
+  "flat": {
+   "value": "21.9%",
+   "target": "<= 12.0%",
+   "pass": false
+  },
+  "actions": {
+   "value": "0.64 events/s (GSAP 4.02 tweens/s)",
+   "target": "0.44–0.81",
+   "pass": true
+  },
+  "payoff": {
+   "value": "4 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "median 74%, 1 weak ranges",
+   "target": ">= 60%",
+   "pass": false
+  },
+  "collide": {
+   "value": "0 collisions",
+   "target": "0",
+   "pass": true,
+   "faces_detected": 68
+  },
+  "overlap": {
+   "value": "0 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": true
+  },
+  "placeholder": {
+   "value": "0 found",
+   "target": "0",
+   "pass": true
+  },
+  "hook": {
+   "value": "visual on screen 3.0s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 17.17,
+  "motion": 2.28,
+  "flat_pct": 21.9,
+  "events_per_s": 0.58,
+  "graphics": {
+   "gfx_motion": 1.44,
+   "gfx_raw": 1.44,
+   "baseline": 0.0,
+   "baseline_s": 2,
+   "baseline_from": "none (graphics-only render)",
+   "gfx_share": 0.88,
+   "footage": {
+    "jitter_px": 0.2,
+    "punches": [
+     8.77,
+     9.6
+    ],
+    "drifts": [
+     5.67,
+     8.0,
+     13.67
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.2,
+   "punches": [
+    8.77,
+    9.6
+   ],
+   "drifts": [
+    5.67,
+    8.0,
+    13.67
+   ]
+  },
+  "actions_per_s": 0.64
+ },
+ "targets": {
+  "gfx_motion_min": 0.79,
+  "flat_max": 12.0,
+  "events_min": 0.44,
+  "events_max": 0.81,
+  "footage_info": "jitter 0.16 px/frame, 16.1 camera moves/min"
+ },
+ "fix_list": [
+  {
+   "t": "2.0–2.8s",
+   "t0": 2.0,
+   "words": "שנראים טוב",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "4.1–4.7s",
+   "t0": 4.07,
+   "words": "מעברים",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "6.9–7.4s",
+   "t0": 6.93,
+   "words": "צריכים להתקין",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "9.2–9.8s",
+   "t0": 9.25,
+   "words": "Kowalski.",
+   "check": "hero fill",
+   "fix": "fill 5%: make the hero bigger (>= 60% of the free area between title and caption/face) or move to a layout with less empty space (over the full face: the hero >= 35% of the width)"
+  },
+  {
+   "t": "10.0–11.1s",
+   "t0": 9.97,
+   "words": "הסקיל הזה בעצם",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  },
+  {
+   "t": "12.2–12.9s",
+   "t0": 12.17,
+   "words": "למטורף.",
+   "check": "flat stretches",
+   "fix": "add a build-up event, secondary motion or a camera move (push / punch) here"
+  }
+ ]
+}

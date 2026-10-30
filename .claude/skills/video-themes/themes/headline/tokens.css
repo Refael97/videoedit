@@ -1,0 +1,64 @@
+/* headline theme: design tokens. Canvas 1080x1920 (9:16). Measured on the anchor (97418 + 75789, 81754, 89398, 98315; 720x1280) and scaled x1.5. */
+/* sans: Heebo (Hebrew) + Inter (Latin) | accent serif: Frank Ruhl Libre 900 upright (Hebrew — Hebrew has no italic) + Playfair Display 700 italic (Latin) */
+@font-face { font-family: "HeadSans"; font-weight: 700; src: url("fonts/heebo-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HeadSans"; font-weight: 800; src: url("fonts/heebo-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HeadSans"; font-weight: 700; src: url("fonts/inter-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "HeadSans"; font-weight: 800; src: url("fonts/inter-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "HeadSerif"; font-weight: 700; src: url("fonts/frank-ruhl-libre-hebrew-900-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HeadSerif"; font-weight: 700; src: url("fonts/playfair-display-latin-700-italic.woff2") format("woff2"); unicode-range: U+0000-002F, U+003A-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+/* digits in the serif accent are Frank Ruhl upright: "ב־3 שלבים" must not mix an italic Latin 3 into Hebrew (QA 20) */
+@font-face { font-family: "HeadSerif"; font-weight: 700; src: url("fonts/frank-ruhl-libre-latin-900-normal.woff2") format("woff2"); unicode-range: U+0030-0039; }
+@font-face { font-family: "HeadMono"; font-weight: 500; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+
+:root {
+  /* light (the default world) */
+  --h-air: #eef2f5;            /* the bright wall the graphics float on (measured 214,228,241 → 243,245,240) */
+  --h-air-top: #dfe9f3;        /* a cool tint at the top */
+  --h-page: #ffffff;           /* the white page for section headers */
+  --h-ink: #151515;            /* titles and captions on light */
+  --h-ink-soft: #9a9fa6;       /* a word that is still blurring in */
+
+  /* the one accent */
+  --h-blue: #0283fd;           /* the headline box, accent words, focus rings (measured 2,131,253) */
+  --h-blue-text: #2f7fe0;      /* accent words in captions (measured 55,131,223) */
+  --h-blue-soft: rgba(2, 131, 253, 0.16);   /* a text selection inside a screenshot */
+  --h-sel: #b5d5ff;            /* selection highlight behind real text */
+
+  /* dark world (a cut to a screen) */
+  --h-night: #0b0c11;          /* measured 6,5,10 .. 11,12,17 */
+  --h-night-glow: rgba(40, 90, 200, 0.35);
+
+  /* windows (real screenshots / real UI) */
+  --h-win-edge: #1a4f9a;       /* 2px border core (measured 14,58,119) */
+  --h-win-halo: rgba(150, 190, 245, 0.55);  /* outer halo (measured 192,211,241) */
+  --h-r-win: 21px;
+  --h-win-shadow: 0 22px 50px rgba(20, 40, 80, 0.18);
+
+  /* stat card */
+  --h-card: #08111f;           /* measured 6,11,22 */
+  --h-r-card: 36px;
+  --h-stat-from: #ffffff;
+  --h-stat-to: #8cc2ff;        /* number gradient, white → blue */
+
+  /* CTA keyword */
+  --h-cta: #f4fb5a;            /* measured 251,253,98 */
+
+  /* type */
+  --h-font: "HeadSans", sans-serif;
+  --h-serif: "HeadSerif", serif;
+  --h-mono: "HeadMono", monospace;
+  --h-title: 80px;             /* measured 54px at 720 */
+  --h-box: 92px;               /* serif inside the blue box (measured ≈60px) */
+  --h-cap: 72px;               /* captions (measured ≈48px), up to 3 words */
+  --h-stat: 190px;             /* stat number (measured ≈125px) */
+  --h-track: -2.4px;
+  --h-serif-slant: 0deg;       /* Hebrew is never slanted (QA check 20): the serif face itself is the emphasis */
+
+  /* layout (1920 tall) */
+  --h-title-top: 205px;        /* title top (11%) */
+  --h-win-top: 470px;          /* first window under a title (measured 315 at 720) */
+  --h-win-w: 850px;            /* window width 78–83% (measured 564–596 at 720) */
+  --h-cap-split: 1005px;       /* caption center (52%), right above the head */
+  --h-cap-dark: 1420px;        /* caption center on the dark / page layouts (74%) */
+  --h-cap-face: 1390px;        /* caption center on the full face (72%) */
+}

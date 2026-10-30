@@ -1,0 +1,134 @@
+{
+ "project": "theme-editorial-preview",
+ "theme": "editorial",
+ "score": "8/10",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 0.89,
+   "target": ">= 1.26",
+   "pass": false,
+   "footage": "camera jitter 0.26 px/frame, 3 punches, 1 drifts (anchor: jitter 0.24 px/frame, 29.4 camera moves/min)"
+  },
+  "flat": {
+   "value": "0.0%",
+   "target": "<= 2.0%",
+   "pass": true
+  },
+  "actions": {
+   "value": "0.52 events/s (GSAP 2.62 tweens/s)",
+   "target": "0.47–0.88",
+   "pass": true
+  },
+  "payoff": {
+   "value": "1 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "full face, 0 weak ranges",
+   "target": ">= 60%",
+   "pass": true
+  },
+  "collide": {
+   "value": "0 collisions",
+   "target": "0",
+   "pass": true,
+   "faces_detected": 68
+  },
+  "overlap": {
+   "value": "3 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": false
+  },
+  "placeholder": {
+   "value": "0 found",
+   "target": "0",
+   "pass": true
+  },
+  "hook": {
+   "value": "visual on screen 2.2s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 17.17,
+  "motion": 2.65,
+  "flat_pct": 0.0,
+  "events_per_s": 0.52,
+  "graphics": {
+   "gfx_motion": 0.89,
+   "gfx_raw": 0.89,
+   "baseline": 0.0,
+   "baseline_s": 2,
+   "baseline_from": "none (graphics-only render)",
+   "gfx_share": 0.88,
+   "footage": {
+    "jitter_px": 0.26,
+    "punches": [
+     4.37,
+     12.77,
+     13.17
+    ],
+    "drifts": [
+     6.0
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.26,
+   "punches": [
+    4.37,
+    12.77,
+    13.17
+   ],
+   "drifts": [
+    6.0
+   ]
+  },
+  "actions_per_s": 0.52
+ },
+ "targets": {
+  "gfx_motion_min": 1.26,
+  "flat_max": 2.0,
+  "events_min": 0.47,
+  "events_max": 0.88,
+  "footage_info": "jitter 0.24 px/frame, 29.4 camera moves/min"
+ },
+ "fix_list": [
+  {
+   "t": "0.0–17.2s",
+   "t0": 0,
+   "words": "אם אתם רוצים לבנות אתרים שנראים טוב עם motion, מעברים ומבנה כמו שצריך, אתם צריכים להתקין skill שנקרא Kowalski. הסקיל הזה בעצם הופך את האתר שלכם למטורף. כל מה שאתם צריכים לעשות זה להגיב לי פה ואני שולח לכם את זה.",
+   "check": "motion",
+   "fix": "more movement in the graphics layer: secondary motion on the hero (dots, sweeps, counters, glow), elements that act on each other, more acts per beat (a push of the whole stage counts as camera, not graphics)"
+  },
+  {
+   "t": "0.8–3.0s",
+   "t0": 0.75,
+   "words": "רוצים לבנות אתרים שנראים טוב עם",
+   "check": "graphic overlaps",
+   "fix": "span. overlaps span. (26% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "1.5–3.0s",
+   "t0": 1.5,
+   "words": "אתרים שנראים טוב עם",
+   "check": "graphic overlaps",
+   "fix": "#th0 overlaps span.l (59% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "2.0–3.0s",
+   "t0": 2,
+   "words": "שנראים טוב עם",
+   "check": "graphic overlaps",
+   "fix": "span. overlaps span.e-it (12% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  }
+ ]
+}

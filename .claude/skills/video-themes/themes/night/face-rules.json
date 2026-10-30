@@ -1,0 +1,40 @@
+{
+ "theme": "night",
+ "samples": 738,
+ "full_face": {
+  "samples": 244,
+  "chin_y": 994,
+  "face_h": 573,
+  "center_x": 542,
+  "caption": {
+   "at": "chin",
+   "dy": 0.41,
+   "iqr": [
+    0.34,
+    0.51
+   ],
+   "n": 203
+  }
+ },
+ "low_face": {
+  "samples": 494,
+  "chin_y": 1608,
+  "face_h": 219,
+  "center_x": 522,
+  "caption": {
+   "at": "chin",
+   "dy": -5.39,
+   "iqr": [
+    -6.15,
+    -3.45
+   ],
+   "n": 482
+  }
+ },
+ "card_beside_face": {
+  "at": "eyes",
+  "side": "free",
+  "gap": 0.4
+ },
+ "safe_core": "eyes to mouth (x 18-82%, y 22-92% of the face box) is never covered"
+}

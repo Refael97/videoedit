@@ -1,0 +1,7 @@
+snapshots/
+renders/
+.hyperframes/
+node_modules/
+assets/video/
+assets/audio/
+paper-test-scope.mp4
