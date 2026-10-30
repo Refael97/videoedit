@@ -28,7 +28,7 @@ const PARTS = [
 const FLY = 0.55;                       // seconds of flight before each lock
 
 export function makeLogo() {
-  const { scene, key } = makeStudio({ floorY: -2.8, reach: 4, keyPos: [0.8, 14, 2.5], keyI: 1.3, hemiI: 2.75 });
+  const { scene, key, floor } = makeStudio({ floorY: -2.8, reach: 4, keyPos: [0.8, 14, 2.5], keyI: 1.3, hemiI: 2.75 });
   const camera = new THREE.PerspectiveCamera(30, 1080 / 1920, 0.1, 100);
   const M = { ink: mats.lacquer(), grey: mats.ceramic(0x8f8f94, { roughness: 0.34, clearcoat: 0.6 }), cyan: mats.accent({ emissive: ACCENT, emissiveIntensity: 0.28 }) };
 
@@ -78,5 +78,5 @@ export function makeLogo() {
     camera.lookAt(target);
     key.target.position.set(0, 0, 0);
   }
-  return { scene, camera, update, icon, key, post: () => ({ bloom: [0.08, 0.3, 0.98], grain: 0.022, vig: 0.32 }) };
+  return { scene, camera, update, icon, key, floor, post: () => ({ bloom: [0.08, 0.3, 0.98], grain: 0.022, vig: 0.32 }) };
 }

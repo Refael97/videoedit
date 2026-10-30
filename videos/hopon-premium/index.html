@@ -28,7 +28,7 @@
       .title h1.sheen { position: absolute; top: 0; left: 0; right: 0; color: transparent; text-shadow: none; opacity: 0;
         background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 60%);
         background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; }
-      #t4 { top: 1268px; } #tm, #t3, #tt { top: 1450px; } #t2 { top: 1400px; } #t1s { top: 1440px; }
+      #t4 { top: 1330px; } #tm h1, #tm p { text-shadow: 0 0 28px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9); } #t3, #tt { top: 1450px; } #tm { top: 330px; } #t2 { top: 1400px; } #t1s { top: 1440px; }
       #wheel { position: absolute; left: 0; right: 0; height: 220px; direction: rtl; perspective: 900px; pointer-events: none; }
       #wheel .wl { position: absolute; left: 0; right: 0; top: 0; text-align: center; font: 300 168px/220px "Noto Sans Hebrew"; color: var(--ink); white-space: nowrap; backface-visibility: hidden; }
       #wheel .wl b { font-weight: 800; color: #0b86bd; }
@@ -56,20 +56,14 @@
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="23" data-width="1080" data-height="1920" data-no-timeline>
       <canvas id="gl" width="1080" height="1920"></canvas>
-      <svg id="routeBg" viewBox="0 0 1080 1920" data-layout-allow-occlusion>
-        <path class="ghost" d="M 940 330 C 760 420, 820 600, 600 640 S 260 700, 300 1180 S 620 1420, 820 1560 S 520 1760, 180 1700" />
-        <path class="live" d="M 940 330 C 760 420, 820 600, 600 640 S 260 700, 300 1180 S 620 1420, 820 1560 S 520 1760, 180 1700" />
-        <circle class="c" cx="940" cy="330" r="14"/><circle class="c" cx="600" cy="640" r="14"/><circle class="c" cx="300" cy="1180" r="14"/><circle class="c" cx="820" cy="1560" r="14"/><circle class="c" cx="180" cy="1700" r="14"/>
-        <circle class="head" r="11" cx="940" cy="330"/>
-      </svg>
-      <div class="lbl" id="lblA">תל אביב</div><div class="lbl" id="lblB"><b>ירושלים</b></div>
+      <div class="lbl" id="lblA" style="display:none"></div><div class="lbl" id="lblB" style="display:none"></div>
       <div id="wheel" data-out="4.95">
         <div class="glowband"></div><div class="bar" style="top:-4px"></div><div class="bar" style="top:222px"></div>
         <div class="wl">ירושלים</div><div class="wl">הרצליה</div><div class="wl">תל אביב</div><div class="wl">באר שבע</div><div class="wl">חיפה</div>
         <div class="wl">בכל <b>ישראל</b></div><div class="wl">הופאון <b>רב&#8209;פס</b></div>
       </div>
       <div id="t1s" class="title" data-out="4.95"><p><span class="w" data-at="4.15">משלמים על הנסיעה מהטלפון</span></p></div>
-      <div id="tm" class="title" data-out="8.45">
+      <div id="tm" class="title" data-out="7.45">
         <h1 class="m"><span class="w" data-at="6.0">מתכננים</span> <span class="w k" data-at="6.12">מסלול.</span></h1>
         <p><span class="w" data-at="6.6">מנקודה לנקודה, עם זמני הגעה בזמן אמת</span></p>
       </div>
@@ -89,7 +83,6 @@
         <h1 class="sheen" data-layout-allow-occlusion data-at="21.85" aria-hidden="true">הופאון רב&#8209;פס</h1>
         <p><span class="w" data-at="21.75">פשוט נוסעים.</span></p>
       </div>
-      <svg id="endRoute" viewBox="0 0 500 40" data-layout-allow-occlusion><path d="M 480 20 C 380 2, 300 38, 220 20 S 80 4, 20 20"/><circle r="7" cx="480" cy="20"/></svg>
     </div>
     <script type="module" src="js/main.js"></script>
   </body>

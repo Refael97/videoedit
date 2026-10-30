@@ -92,8 +92,9 @@ export function premiumDress(scene, rnd) {
     s.renderOrder = near ? 20 : 1; scene.add(s);
     motes.push({ s, base, ph: rnd() * 6.28, w: 0.25 + rnd() * 0.35, a: near ? 0.35 : 0.25, rise: near ? 0.025 : 0.05 + rnd() * 0.08 });
   }
-  return (t) => {
+  const fn = (t) => {
     motes.forEach((m) => m.s.position.set(m.base.x + Math.sin(t * m.w + m.ph) * m.a, m.base.y + Math.cos(t * m.w * 0.8 + m.ph) * m.a * 0.6 + t * m.rise, m.base.z));
     pool.material.opacity = 0.9 + Math.sin(t * 0.6) * 0.1;
   };
+  fn.pool = pool; fn.halo = halo; return fn;
 }

@@ -77,26 +77,18 @@ function titles(t) {
   });
   // the wheel: words roll through a fixed line like an odometer; each step snaps on its beat with a little overshoot
   const pos = wheelPos(t), vel = (wheelPos(t + 0.01) - wheelPos(t - 0.01)) / 0.02;
-  const wy = lerp(850, 1250, E.inOutCubic(seg(t, 2.0, 2.8))), wo = E.outCubic(seg(t, 4.95, 5.3)), wi = 1;
-  wheel.style.top = `${wy.toFixed(1)}px`; wheel.style.opacity = (wi * (1 - wo)).toFixed(3); wheel.style.filter = `blur(${(wo * 18 + (1 - wi) * 16).toFixed(2)}px)`;
+  const wy = lerp(850, 1250, E.inOutCubic(seg(t, 1.35, 2.05))), wo = E.outCubic(seg(t, 4.95, 5.3)), wi = 1;
+  wheel.style.top = `${wy.toFixed(1)}px`; const cl = E.inOutCubic(seg(t, 1.3, 1.9)); wheel.style.clipPath = `inset(${(-320 * (1 - cl)).toFixed(1)}px -300px ${(-320 * (1 - cl)).toFixed(1)}px -300px)`; wheel.style.opacity = (wi * (1 - wo)).toFixed(3); wheel.style.filter = `blur(${(wo * 18 + (1 - wi) * 16).toFixed(2)}px)`;
   wls.forEach((el, i) => { const d = i - pos, a = d * 0.55; const vis = Math.abs(d) < 1.6;
     el.style.visibility = vis ? "visible" : "hidden"; if (!vis) return;
     el.style.transform = `translateY(${(Math.sin(a) * 270).toFixed(2)}px) translateZ(${((Math.cos(a) - 1) * 280).toFixed(2)}px) rotateX(${(-a * 57.3).toFixed(2)}deg)`;
-    el.style.opacity = Math.max(0, 1 - Math.abs(d) * 0.72).toFixed(3); el.style.textShadow = Math.abs(d) < 0.5 ? `0 0 ${(40 * (1 - Math.abs(d) * 2)).toFixed(1)}px rgba(26,174,229,0.35)` : 'none'; el.style.filter = `blur(${Math.min(14, Math.abs(vel) * 2.2 + Math.abs(d) * 4).toFixed(2)}px)`; });
+    el.style.opacity = (Math.max(0, 1 - Math.abs(d) * 0.72) * (Math.abs(d) > 0.5 ? 1 - cl : 1)).toFixed(3); el.style.textShadow = Math.abs(d) < 0.5 ? `0 0 ${(40 * (1 - Math.abs(d) * 2)).toFixed(1)}px rgba(26,174,229,0.35)` : 'none'; el.style.filter = `blur(${Math.min(14, Math.abs(vel) * 2.2 + Math.abs(d) * 4).toFixed(2)}px)`; });
   pills.forEach(({ el, at }, i) => { const e = E.outCubic(seg(t, at - 0.3, at + 0.1)), o = E.outCubic(seg(t, 13.3, 13.65)); const nxt = pills[i + 1];
     const on = t >= at && (!nxt || t < nxt.at) ? 1 : 0, lit = E.outCubic(seg(t, at, at + 0.15)) * (nxt ? 1 - seg(t, nxt.at, nxt.at + 0.2) : 1);
     el.style.opacity = (e * (1 - o)).toFixed(3); el.style.filter = `blur(${((1 - e) * 14 + o * 14).toFixed(2)}px)`; el.style.transform = `translateY(${((1 - e) * 30).toFixed(1)}px) scale(${(1 + 0.08 * lit).toFixed(3)})`;
     el.style.background = lit > 0.01 ? `rgba(11,134,189,${(0.95 * lit).toFixed(3)})` : "rgba(255,255,255,0.55)"; el.style.color = lit > 0.5 ? "#fff" : "#0c0c0e";
     el.style.borderColor = lit > 0.01 ? "rgba(26,174,229,0.9)" : "rgba(12,12,14,0.18)"; el.style.boxShadow = `0 10px 30px rgba(20,30,45,0.08), 0 0 ${(40 * lit).toFixed(1)}px rgba(26,174,229,${(0.55 * lit).toFixed(3)})`; void on; });
   rings.forEach(({ el, at }) => el.style.strokeDashoffset = (1 - E.inOutCubic(seg(t, at, at + 0.5))).toFixed(4));
-  // opener route: draws city to city behind the wheel, one dot per landed city; fades as the icon arrives
-  const rk = Math.min(1, pos / 4), ro = 1 - E.outCubic(seg(t, 2.0, 2.7));
-  routeSvg.style.opacity = ro.toFixed(3); routeSvg.style.visibility = ro > 0.001 ? "visible" : "hidden";
-  routeLive.style.strokeDasharray = `${routeLen}`; routeLive.style.strokeDashoffset = ((1 - rk) * routeLen).toFixed(2);
-  const hp = routeLive.getPointAtLength(rk * routeLen); routeHead.setAttribute("cx", hp.x.toFixed(1)); routeHead.setAttribute("cy", hp.y.toFixed(1));
-  routeDots.forEach((c, i) => { const k = clamp(pos - i + 1); c.setAttribute("r", (6 + 8 * E.outCubic(k)).toFixed(2)); c.style.opacity = (0.25 + 0.75 * k).toFixed(3); });
-  const er = E.inOutCubic(seg(t, 21.35, 22.3)); endPath.style.strokeDasharray = `${endLen}`; endPath.style.strokeDashoffset = ((1 - er) * endLen).toFixed(2);
-  const ep = endPath.getPointAtLength(er * endLen); endHead.setAttribute("cx", ep.x.toFixed(1)); endHead.setAttribute("cy", ep.y.toFixed(1)); endHead.style.opacity = er > 0 ? 1 : 0;
   sheens.forEach(({ el, at }) => { const k = seg(t, at, at + 1.0); el.style.opacity = k > 0 && k < 1 ? 1 : 0; el.style.backgroundPosition = `${(lerpN(130, -30, E.inOutSine(k))).toFixed(2)}% 0`; });
 }
 const lerpN = (a, b, k) => a + (b - a) * k, lerp = lerpN;
@@ -104,10 +96,7 @@ const wheel = document.getElementById("wheel"), wls = [...wheel.querySelectorAll
 const WT = [0.55, 1.05, 1.55, 2.05, 2.75, 3.75];   // each wheel step lands here
 const backOut = (x) => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
 const wheelPos = (t) => WT.reduce((s, at, i) => s + backOut(seg(t, at - (i >= 4 ? 0.5 : 0.3), at)), 0);
-const routeSvg = document.getElementById("routeBg"), routeLive = routeSvg.querySelector("path.live"), routeHead = routeSvg.querySelector("circle.head"), routeDots = [...routeSvg.querySelectorAll("circle.c")];
-const routeLen = routeLive.getTotalLength();
-const endPath = document.querySelector("#endRoute path"), endHead = document.querySelector("#endRoute circle"), endLen = endPath.getTotalLength();
-const lblEls = [document.getElementById("lblA"), document.getElementById("lblB")];
+const lblEls = [document.getElementById("lblB")];
 const pills = [...document.querySelectorAll("#pills .pill")].map((el) => ({ el, at: parseFloat(el.dataset.at) }));
 const rings = [...document.querySelectorAll("[data-ring]")].map((w) => ({ el: w.querySelector("ellipse"), at: parseFloat(w.dataset.ring) }));
 
