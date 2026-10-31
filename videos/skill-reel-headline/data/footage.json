@@ -1,0 +1,201 @@
+{
+ "theme": "headline",
+ "verdict": "RESHOOT",
+ "zoom": 1.35,
+ "split_grade": true,
+ "before": {
+  "face_h": 0.184,
+  "face_luma": 126.544,
+  "warmth": 58.206,
+  "bg_luma": 184.483,
+  "bg_sat": 10.104,
+  "contrast": 184.791,
+  "garment_vs_bg": 94.105,
+  "garment_luma": 90.027,
+  "box": [
+   121.0,
+   256.0,
+   117.5,
+   117.5
+  ]
+ },
+ "after": {
+  "face_h": 0.247,
+  "face_luma": 152.202,
+  "warmth": 48.134,
+  "bg_luma": 196.459,
+  "bg_sat": 17.849,
+  "contrast": 181.058,
+  "garment_vs_bg": 85.3,
+  "garment_luma": 111.34,
+  "box": [
+   102.5,
+   236.0,
+   158.0,
+   158.0
+  ]
+ },
+ "targets": {
+  "face_h": [
+   0.196,
+   0.266
+  ],
+  "face_h_full": 0.42,
+  "face_luma": [
+   128,
+   178
+  ],
+  "warmth": [
+   34,
+   58
+  ],
+  "bg_luma": [
+   165,
+   221
+  ],
+  "bg_sat": [
+   0,
+   44
+  ],
+  "contrast_min": 174,
+  "garment_vs_bg_min": 106.4,
+  "hero_width_min": 0.68,
+  "hero_width_weak": 0.56,
+  "hero_density_min": 0.371,
+  "hero_density_weak": 0.272,
+  "full_face_share_min": 0.089,
+  "full_face_max_gap": 50.2,
+  "span_min": 126,
+  "glow_min": null,
+  "accent_sat_min": 89
+ },
+ "left": [
+  "garment vs background 85 (>= 106.4)"
+ ],
+ "notes": [
+  "the face fills 18% of the frame, the anchor 42%: shoot closer (crop capped at 1.35x)"
+ ],
+ "passes": [
+  {
+   "pass": 1,
+   "params": {
+    "fg": {
+     "curve": "0.000/0.047 0.496/0.600 0.500/0.604 1.000/1.000",
+     "contrast": 1.0,
+     "saturation": 1.0,
+     "gamma": 1.0,
+     "warm": 0.0
+    },
+    "bg": {
+     "curve": null,
+     "contrast": 1.0,
+     "saturation": 1.0,
+     "gamma": 1.1620143117702582,
+     "warm": 0.0,
+     "blur": 2.0
+    }
+   },
+   "measured": {
+    "face_luma": 148.107,
+    "bg_luma": 190.133,
+    "bg_sat": 10.729,
+    "warmth": 54.025,
+    "contrast": 187.007,
+    "garment_vs_bg": 81.595
+   }
+  },
+  {
+   "pass": 2,
+   "params": {
+    "fg": {
+     "curve": "0.000/0.047 0.496/0.600 0.500/0.604 1.000/1.000",
+     "contrast": 1.0,
+     "saturation": 1.0,
+     "gamma": 1.031814120476953,
+     "warm": -0.020062499999999997
+    },
+    "bg": {
+     "curve": null,
+     "contrast": 1.0,
+     "saturation": 1.4003397758277696,
+     "gamma": 1.1932289380418162,
+     "warm": 0.0,
+     "blur": 2.0
+    }
+   },
+   "measured": {
+    "face_luma": 151.07,
+    "bg_luma": 191.156,
+    "bg_sat": 17.323,
+    "warmth": 49.985,
+    "contrast": 185.498,
+    "garment_vs_bg": 79.961
+   }
+  },
+  {
+   "pass": 3,
+   "params": {
+    "fg": {
+     "curve": "0.000/0.047 0.496/0.600 0.500/0.604 1.000/1.000",
+     "contrast": 1.0,
+     "saturation": 1.0,
+     "gamma": 1.0446350159695048,
+     "warm": -0.030024999999999996
+    },
+    "bg": {
+     "curve": null,
+     "contrast": 1.0,
+     "saturation": 1.5689136881688612,
+     "gamma": 1.2137897770383366,
+     "warm": 0.0,
+     "blur": 2.0
+    }
+   },
+   "measured": {
+    "face_luma": 151.882,
+    "bg_luma": 192.168,
+    "bg_sat": 16.784,
+    "warmth": 47.856,
+    "contrast": 184.662,
+    "garment_vs_bg": 80.299
+   }
+  },
+  {
+   "pass": 4,
+   "params": {
+    "fg": {
+     "curve": "0.000/0.047 0.496/0.600 0.500/0.604 1.000/1.000",
+     "contrast": 1.0,
+     "saturation": 1.0,
+     "gamma": 1.0,
+     "warm": 0.0
+    },
+    "bg": {
+     "curve": null,
+     "contrast": 1.0,
+     "saturation": 1.0,
+     "gamma": 1.1620143117702582,
+     "warm": 0.0,
+     "blur": 2.0
+    }
+   },
+   "measured": {
+    "face_luma": 152.202,
+    "bg_luma": 196.459,
+    "bg_sat": 17.849,
+    "warmth": 48.134,
+    "contrast": 181.058,
+    "garment_vs_bg": 85.3
+   }
+  }
+ ],
+ "outputs": {
+  "video": "assets/video/face_prep.mp4",
+  "matte": "assets/video/matte_prep.webm"
+ },
+ "voice": {
+  "before_lufs": -31.2,
+  "after_lufs": -12,
+  "file": "assets/audio/vo_prep.wav"
+ }
+}
