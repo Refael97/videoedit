@@ -3,3 +3,6 @@
 - library.jpg — The National Library of Israel, new building · Davidbena · CC BY 4.0
 - sacher.jpg — Sacher Park, Jerusalem (panoramio 15) · Anatoli Axelrod · CC BY 3.0
 - kotel.jpg — Western Wall Plaza, Jerusalem · David King from Haifa · CC BY 2.0
+- market.jpg — Mahane Yehuda Market, spice stall · -jkb- · CC BY-SA 3.0
+- tomb.jpg — King David's Tomb, Mount Zion · Berthold Werner · Public domain
+- mamilla.jpg — Mamilla, Jerusalem · Manuel Schneider · CC BY 3.0

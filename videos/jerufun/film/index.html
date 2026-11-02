@@ -33,17 +33,38 @@
       #title b { font-weight: 800; }
       #title .w { display: inline-block; }
 
-      /* ---------- destinations ---------- */
-      .line { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; z-index: 8; color: var(--ink); white-space: nowrap; }
-      #ask { top: 250px; font: 300 92px/1.1 "Noto Sans Hebrew"; letter-spacing: -1px; }
-      #dwheel { position: absolute; left: 0; right: 0; top: 0; height: 0; z-index: 8; }
-      .drow { position: absolute; left: 0; right: 0; height: 130px; text-align: center; direction: rtl; white-space: nowrap;
-        font: 800 104px/130px "Noto Sans Hebrew"; color: var(--ink); letter-spacing: -2px; opacity: 0; }
+      /* ---------- the board: every place in Jerusalem, app pieces and a chat, laid out like a big moving moodboard ---------- */
+      #boardWrap { position: absolute; inset: 0; z-index: 7; overflow: hidden; pointer-events: none; }
+      #board { position: absolute; left: 0; top: 0; width: 2200px; height: 2700px; transform-origin: 0 0; }
+      .bi { position: absolute; opacity: 0; }
+      .bcard { width: 440px; height: 500px; border-radius: 34px; background: #fff; box-sizing: border-box; padding: 18px;
+        box-shadow: 0 24px 50px rgba(15, 58, 82, 0.14), 0 3px 10px rgba(15, 58, 82, 0.08); direction: rtl; }
+      .bcard .ph { width: 404px; height: 300px; border-radius: 22px; overflow: hidden; }
+      .bcard .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .bcard .nm { margin: 22px 8px 0; font: 800 40px/1.15 "Noto Sans Hebrew"; color: var(--ink); white-space: nowrap; }
+      .bcard .tags { margin: 18px 8px 0; display: flex; gap: 12px; }
+      .bcard .tag { height: 50px; padding: 0 22px; border-radius: 25px; background: #eef3f5; font: 300 28px/50px "Noto Sans Hebrew"; color: #3d5a6a; white-space: nowrap; }
+      .tile { width: 230px; height: 230px; border-radius: 52px; overflow: hidden; box-shadow: 0 24px 50px rgba(15, 58, 82, 0.2); }
+      .tile img { width: 100%; height: 100%; display: block; }
+      .shot { width: 440px; border-radius: 34px; overflow: hidden; background: #fff; box-shadow: 0 24px 50px rgba(15, 58, 82, 0.14); }
+      .shot img { width: 100%; display: block; }
+      .dash { width: 470px; height: 130px; border-radius: 65px; border: 5px dashed #b9c8cf; box-sizing: border-box; direction: rtl;
+        font: 300 42px/120px "Noto Sans Hebrew"; color: #4d6572; text-align: center; white-space: nowrap; }
+      .cpill { height: 110px; padding: 0 46px; border-radius: 55px; background: var(--cyan); color: #fff; font: 800 52px/110px "Noto Sans Hebrew"; letter-spacing: 2px;
+        box-shadow: 0 18px 40px rgba(0, 170, 206, 0.35); white-space: nowrap; }
+      .bpass { width: 400px; }
+      .bpass img { width: 100%; display: block; filter: drop-shadow(0 22px 26px rgba(15, 58, 82, 0.25)); }
+      /* screen-space type over the board, on a soft white veil */
+      #veil { position: absolute; left: -100px; right: -100px; top: 760px; height: 780px; z-index: 8; opacity: 0;
+        background: radial-gradient(50% 50% at 50% 50%, rgba(249, 252, 253, 0.97) 0%, rgba(249, 252, 253, 0.9) 45%, rgba(249, 252, 253, 0) 100%); }
+      .big { position: absolute; left: 0; right: 0; top: 890px; text-align: center; direction: rtl; z-index: 9; white-space: nowrap;
+        font: 800 128px/1.1 "Noto Sans Hebrew"; color: var(--ink); letter-spacing: -3px; opacity: 0; }
       .em { color: var(--cyan); display: inline-block; }
-      .pcard { position: absolute; left: 130px; top: 880px; width: 820px; height: 600px; border-radius: 44px; overflow: hidden; z-index: 7;
-        box-shadow: 0 30px 70px rgba(15, 58, 82, 0.22), 0 6px 18px rgba(15, 58, 82, 0.12); opacity: 0; }
-      .pcard img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
+      /* a chat, iPhone style: sent (blue, right) and received (grey, left) */
+      .bub { position: absolute; z-index: 9; max-width: 760px; padding: 26px 40px; border-radius: 48px; direction: rtl; white-space: nowrap;
+        font: 300 50px/1.25 "Noto Sans Hebrew"; opacity: 0; box-shadow: 0 16px 36px rgba(15, 58, 82, 0.16); }
+      #bubOut { right: 60px; top: 1190px; background: #0a84ff; color: #fff; border-bottom-right-radius: 14px; }
+      #bubIn { left: 60px; top: 1330px; background: #e9e9eb; color: #111; border-bottom-left-radius: 14px; }
       /* ---------- app ---------- */
       #label { position: absolute; left: 0; right: 0; top: 200px; height: 130px; z-index: 10; }
       .lab { position: absolute; left: 0; right: 0; top: 0; text-align: center; direction: rtl; white-space: nowrap;
@@ -83,7 +104,6 @@
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="30.5" data-width="1080" data-height="1920">
-      <audio id="music" src="assets/music.mp3" data-start="0" data-duration="30.5" data-track-index="4" data-volume="0.9"></audio>
       <div id="sky2"></div>
       <div id="world"></div>
       <div id="shotFrame">
@@ -106,19 +126,14 @@
       </svg>
       <div id="title"><span class="w">ירושלים</span><span class="w"><b>.</b></span></div>
 
-      <!-- destinations: the question, a text wheel of places, and a real photo of each place in a frame -->
-      <div class="line" id="ask">צריכים להגיע ל…</div>
-      <div id="dwheel">
-        <div class="drow">האוניברסיטה?</div>
-        <div class="drow">הספרייה הלאומית?</div>
-        <div class="drow">גן סאקר?</div>
-        <div class="drow">הכותל?</div>
-        <div class="drow">באופניים <span class="em" id="emE">חשמליים</span>.</div>
-      </div>
-      <div class="pcard"><img src="assets/university.jpg" alt="" style="object-position: 50% 40%" /></div>
-      <div class="pcard"><img src="assets/library.jpg" alt="" style="object-position: 50% 45%" /></div>
-      <div class="pcard"><img src="assets/sacher.jpg" alt="" /></div>
-      <div class="pcard"><img src="assets/kotel.jpg" alt="" /></div>
+      <!-- the board: places in Jerusalem (real photos), real app pieces and a chat -->
+      <div id="boardWrap"><div id="board"></div></div>
+      <div id="veil"></div>
+      <div id="veil2" style="position:absolute;left:-100px;right:-100px;top:820px;height:340px;z-index:8;opacity:0;background:radial-gradient(50% 50% at 50% 50%, rgba(249,252,253,0.96) 0%, rgba(249,252,253,0.85) 50%, rgba(249,252,253,0) 100%)"></div>
+      <div class="big" id="bigA">כל ירושלים.</div>
+      <div class="big" id="bigB" style="font-size: 108px; top: 900px">באופניים <span class="em" id="emE">חשמליים</span>.</div>
+      <div class="bub" id="bubOut">בוא נשב על בירה בשוק?</div>
+      <div class="bub" id="bubIn">15 דקות ואני אצלך</div>
 
       <!-- the app: the real screens in their real mockups -->
       <div id="phone">
@@ -213,30 +228,74 @@
         // the card leaves to the left as the first place arrives from the right
         tl.to("#shotFrame", { x: -1000, rotation: -9, duration: 0.5, ease: "power3.in" }, 4.3);
 
-        /* ================= 3. DESTINATIONS (4.3 - 10.4) ================= */
-        tl.fromTo("#ask", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 4.25);
-        const rows = gsap.utils.toArray(".drow"), cards = gsap.utils.toArray(".pcard");
-        const RY = 130, CY = 640;  // wheel: active row centred at y 640
-        const T = [4.75, 5.75, 6.75, 7.75, 9.0];  // each place lands on a beat (one per two beats), the answer a little later
-        // row state: active = sharp ink, neighbours = small, blurred, grey
-        const place = (idx, t, d) => rows.forEach((el, i) => {
-          const k = i - idx, a = Math.abs(k);
-          tl.to(el, { y: CY - RY / 2 + k * RY, opacity: a === 0 ? 1 : a === 1 ? 0.28 : 0, scale: a === 0 ? 1 : 0.78,
-            filter: `blur(${a === 0 ? 0 : 7}px)`, duration: d, ease: "power3.inOut" }, t);
+        /* ================= 3. THE BOARD (4.3 - 10.2) ================= */
+        const B = document.getElementById("board");
+        const card = (name, tag1, tag2, img) =>
+          `<div class="ph"><img src="assets/${img}" alt="" /></div><div class="nm">${name}</div><div class="tags"><div class="tag">${tag1}</div><div class="tag">${tag2}</div></div>`;
+        // a 4-column board with a clear band through the middle (y 1140-1560) where the type sits
+        const items = [
+          { id: "uni", x: 60, y: 80, cls: "bcard", html: card("האוניברסיטה העברית", "הר הצופים", "סטודנטים", "university.jpg") },
+          { id: "srch", x: 590, y: 270, cls: "dash", html: "לאן רוכבים היום?" },
+          { id: "map", x: 1140, y: 40, cls: "shot", html: '<img src="assets/crop_map.png" alt="" />' },
+          { id: "lib", x: 1690, y: 120, cls: "bcard", html: card("הספרייה הלאומית", "גבעת רם", "תרבות", "library.jpg") },
+          { id: "icon", x: 700, y: 560, cls: "tile", html: '<img src="assets/app_icon.png" alt="" />' },
+          { id: "sacher", x: 60, y: 640, cls: "bcard", html: card("גן סאקר", "פיקניק", "דשא", "sacher.jpg") },
+          { id: "pass", x: 1150, y: 560, cls: "bpass", html: '<img src="assets/pass_daily.png" alt="" />', rot: -8 },
+          { id: "kotel", x: 1690, y: 660, cls: "bcard", html: card("הכותל", "העיר העתיקה", "מורשת", "kotel.jpg") },
+          { id: "market", x: 60, y: 1580, cls: "bcard", html: card("שוק מחנה יהודה", "אוכל", "בירה", "market.jpg") },
+          { id: "bike", x: 600, y: 1600, cls: "shot", html: '<img src="assets/crop_bike.png" alt="" />' },
+          { id: "tomb", x: 1140, y: 1580, cls: "bcard", html: card("קבר דוד", "הר ציון", "מורשת", "tomb.jpg") },
+          { id: "code", x: 1720, y: 1640, cls: "cpill", html: "START30" },
+          { id: "mamilla", x: 1690, y: 1960, cls: "bcard", html: card("ממילא", "שופינג", "בתי קפה", "mamilla.jpg") },
+          { id: "pass2", x: 640, y: 2120, cls: "bpass", html: '<img src="assets/pass_weekly.png" alt="" />', rot: 6 },
+          { id: "srch2", x: 1120, y: 2230, cls: "dash", html: "תחנה קרובה ←" },
+        ];
+        items.forEach((it) => {
+          const d = document.createElement("div");
+          d.className = "bi " + it.cls; d.id = "b_" + it.id; d.innerHTML = it.html;
+          d.style.left = it.x + "px"; d.style.top = it.y + "px";
+          B.appendChild(d); it.el = d;
         });
-        rows.forEach((el, i) => tl.set(el, { y: CY - RY / 2 + (i + 1) * RY, opacity: 0, scale: 0.78, filter: "blur(7px)" }, 0));
-        T.forEach((t, i) => place(i, t - 0.35, 0.42));
-        cards.forEach((el, i) => {
-          tl.fromTo(el, { opacity: 1, x: 1100, rotation: 8 }, { x: 0, rotation: i % 2 ? 1.5 : -1.5, duration: 0.55, ease: "power3.out" }, T[i] - 0.4);
-          tl.fromTo(el.querySelector("img"), { scale: 1.12 }, { scale: 1, duration: 1.4, ease: "power1.out" }, T[i] - 0.4);
-          tl.to(el, { x: -1100, rotation: -8, duration: 0.45, ease: "power3.in" }, T[i + 1] - 0.45);
+        // camera: puts board point (cx, cy) at the frame centre at scale s
+        const cam = (cx, cy, s, t, d, ease) => tl.to("#board", { x: 540 - cx * s, y: 960 - cy * s, scale: s, duration: d, ease }, t);
+        tl.set("#board", { x: 540 - 1100 * 0.8, y: 960 - 1350 * 0.8, scale: 0.8 }, 0);
+        // the board builds itself on the beats, from the centre out, while the camera drifts
+        const order = [...items].sort((a, b) => Math.hypot(a.x - 1100, a.y - 1350) - Math.hypot(b.x - 1100, b.y - 1350));
+        order.forEach((it, i) => {
+          const t = 4.3 + i * 0.07;
+          tl.fromTo(it.el, { opacity: 0, scale: 0.55, rotation: (it.rot || 0) + (i % 2 ? 10 : -10), y: 60 },
+            { opacity: 1, scale: 1, rotation: it.rot || 0, y: 0, duration: 0.5, ease: "back.out(1.6)" }, t);
+          // every piece keeps floating a little, like the reference board
+          tl.to(it.el, { y: i % 2 ? -12 : 12, duration: 1.4, yoyo: true, repeat: 3, ease: "sine.inOut" }, t + 0.5);
         });
-        // the answer: the question leaves and the last row reads alone, its key word breathing once
-        tl.to("#ask", { opacity: 0, y: -40, filter: "blur(10px)", duration: 0.35, ease: "power2.in" }, 8.55);
-        breathe("#emE", 9.1);
+        cam(1000, 1250, 0.85, 4.3, 2.0, "power2.out");
+        tl.fromTo("#veil", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.5);
+        tl.fromTo("#bigA", { opacity: 0, scale: 1.25, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 4.75);
+        // the chat: a friend asks for a beer at the market, the answer comes back
+        tl.fromTo("#bubOut", { opacity: 0, y: 50, scale: 0.8, transformOrigin: "100% 100%" }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, 5.25);
+        tl.fromTo("#bubIn", { opacity: 0, y: 50, scale: 0.8, transformOrigin: "0% 100%" }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, 5.75);
+        cam(1080, 1200, 0.8, 6.3, 0.1, "none");
+        tl.to(["#bigA", "#bubOut", "#bubIn"], { opacity: 0, y: -40, filter: "blur(10px)", duration: 0.25, ease: "power2.in", stagger: 0.03 }, 6.3);
+        tl.to("#veil", { opacity: 0, duration: 0.25 }, 6.3);
+        // whip onto the market card
+        tl.to("#board", { filter: "blur(8px)", duration: 0.18, yoyo: true, repeat: 1, ease: "power1.in" }, 6.45);
+        cam(280, 1830, 1.35, 6.45, 0.45, "power3.inOut");
+        tl.to("#b_market", { scale: 1.06, duration: 0.25, yoyo: true, repeat: 1, ease: "power2.out" }, 6.9);
+        // and on to the wall, then wide: the whole board, and the answer in the band
+        tl.to("#board", { filter: "blur(8px)", duration: 0.15, yoyo: true, repeat: 1, ease: "power1.in" }, 7.0);
+        cam(1910, 910, 1.35, 7.0, 0.4, "power3.inOut");
+        tl.to("#board", { filter: "blur(8px)", duration: 0.18, yoyo: true, repeat: 1, ease: "power1.in" }, 7.55);
+        cam(1120, 1350, 0.47, 7.55, 0.55, "power3.inOut");
+        cam(1120, 1350, 0.52, 8.1, 2.0, "none");
+        tl.fromTo("#veil2", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 7.9);
+        tl.fromTo("#bigB", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 8.0);
+        breathe("#emE", 8.5);
 
         /* ================= 4. APP (10.2 - 13.9) ================= */
-        tl.to(rows, { y: "-=160", opacity: 0, filter: "blur(12px)", duration: 0.4, ease: "power2.in" }, 10.2);
+        // the board drops away under the phone
+        tl.to("#bigB", { opacity: 0, y: -60, filter: "blur(12px)", duration: 0.35, ease: "power2.in" }, 10.1);
+        tl.to("#veil2", { opacity: 0, duration: 0.3 }, 10.1);
+        tl.to("#boardWrap", { y: -500, opacity: 0, filter: "blur(10px)", duration: 0.5, ease: "power2.in" }, 10.1);
         const PS = 0.56, PX = (1080 - 1019 * PS) / 2, PY = 360;
         tl.set("#phone", { scale: PS, x: PX, y: 1950, opacity: 1, rotationX: 0 }, 0);
         tl.set("#phone", { opacity: 0 }, 0);
@@ -301,7 +360,7 @@
         tl.to("#cafeFrame", { y: 0, duration: 0.55, ease: "power3.out" }, 21.5);
         lab("#l6", 21.85, 23.3);
 
-        /* ================= 8. CLOSE (23.4 - 30.5): the frame becomes a wheel, the logo rebuilds on the music's final hit at 26 ================= */
+        /* ================= 8. CLOSE (23.4 - 30.5): the frame becomes a wheel, the logo rebuilds on the music's final hit at 25.75 ================= */
         const ES = 0.6, EX = (1080 - 1386 * ES) / 2, EY = 520;  // the end logo, 832 wide
         const eL = [EX + 273 * ES, EY + 507 * ES], eR = [EX + 1134 * ES, EY + 504 * ES], ER = 77 * 3 * ES;
         // the cafe frame closes into a circle (the cup's moment), then it is the left wheel
@@ -313,10 +372,10 @@
         // the right wheel rolls in from the edge of the frame and lands on the beat
         tl.set("#eR", { transformOrigin: "120px 120px", x: 1180, y: eR[1] - 120, scale: ER / 100, rotation: 0, opacity: 1 }, 0);
         tl.set("#eR", { opacity: 0 }, 0);
-        tl.set("#eR", { opacity: 1 }, 25.0);
-        tl.to("#eR", { x: eR[0] - 120, rotation: -360, duration: 0.95, ease: "power3.out" }, 25.0);
+        tl.set("#eR", { opacity: 1 }, 24.8);
+        tl.to("#eR", { x: eR[0] - 120, rotation: -360, duration: 0.95, ease: "power3.out" }, 24.8);
         tl.set("#endLogo", { x: EX, y: EY, scale: ES }, 0);
-        tl.fromTo("#endLogo", { opacity: 0, filter: "brightness(0) blur(14px)" }, { opacity: 0.94, filter: "brightness(0) blur(0px)", duration: 0.5, ease: "power2.out" }, 25.55);
+        tl.fromTo("#endLogo", { opacity: 0, filter: "brightness(0) blur(14px)" }, { opacity: 0.94, filter: "brightness(0) blur(0px)", duration: 0.5, ease: "power2.out" }, 25.35);
         tl.fromTo("#promo1", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 26.2);
         tl.fromTo("#promo2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 26.55);
         tl.fromTo("#code", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 26.9);
