@@ -1,0 +1,41 @@
+# audio for the Instagram reel: intro (3.45 s) + film with outro (35.5 s); same music track runs through the intro into the film
+import subprocess
+F = "/Users/refaellevi/videoedit/videos/jerufun/film"
+P = "/Users/refaellevi/videoedit/videos/jerufun/promo"
+IN = 3.45
+peak = {"whoosh": 0.50, "pop": 0.18, "send": 0.0, "wheel": 0.65, "bell": 0.08, "tap": 0.48}
+film = [
+  ("wheel", 1.40, 0.55), ("whoosh", 3.75, 0.45), ("whoosh", 4.50, 0.55),
+  ("pop", 4.45, 0.35), ("pop", 4.70, 0.3), ("pop", 4.95, 0.3),
+  ("send", 5.30, 0.6), ("pop", 5.85, 0.6),
+  ("whoosh", 6.62, 0.6), ("pop", 6.95, 0.45), ("whoosh", 7.18, 0.55), ("whoosh", 7.78, 0.6),
+  ("whoosh", 10.30, 0.5), ("pop", 12.10, 0.35), ("tap", 12.97, 0.8),
+  ("whoosh", 13.65, 0.5), ("whoosh", 15.85, 0.6), ("whoosh", 17.85, 0.55),
+  ("pop", 18.70, 0.45), ("pop", 19.20, 0.45), ("pop", 19.70, 0.45),
+  ("whoosh", 21.00, 0.55), ("whoosh", 21.70, 0.4), ("whoosh", 23.70, 0.5),
+  ("wheel", 25.40, 0.6), ("bell", 25.80, 0.55), ("pop", 26.95, 0.4),
+  # outro
+  ("whoosh", 28.45, 0.5), ("pop", 28.6, 0.4), ("pop", 31.75, 0.45), ("tap", 32.05, 0.8), ("pop", 33.55, 0.4), ("pop", 34.3, 0.4),
+]
+intro = [("pop", 0.1, 0.25), ("pop", 0.98, 0.25), ("pop", 1.92, 0.3), ("whoosh", 2.52, 0.6), ("tap", 2.62, 0.7), ("tap", 3.02, 0.7)]
+cues = intro + [(n, t + IN, g) for n, t, g in film]
+args = ["ffmpeg", "-v", "error", "-y",
+        "-ss", "11.05", "-t", str(IN + 28.4 + 0.6), "-i", f"{F}/assets/music2_b.mp3",
+        "-ss", "20.0", "-t", "7.6", "-i", f"{F}/assets/music2_b.mp3",
+        "-i", f"{P}/assets/vo_in_b.mp3", "-i", f"{P}/assets/vo_out2.mp3"]
+fil = [f"[0]afade=t=out:st={IN + 28.4}:d=0.6[m1]",
+       f"[1]volume=0.32,afade=t=in:d=0.4,afade=t=out:st=6.6:d=1.0,adelay={int((IN + 28.35) * 1000)}|{int((IN + 28.35) * 1000)}[m2]",
+       "[2]volume=1.6[v1]",
+       f"[3]volume=1.6,adelay={int((IN + 28.6) * 1000)}|{int((IN + 28.6) * 1000)}[v2]",
+       # duck the music under the intro voice
+       "[m1]volume='if(lt(t,3.3),0.55,1)':eval=frame[m1d]"]
+for i, (n, t, g) in enumerate(cues):
+    args += ["-i", f"{F}/sfx/{n}.wav"]
+    d = max(0, int((t - peak[n]) * 1000))
+    fil.append(f"[{i + 4}]adelay={d}|{d},volume={g}[s{i}]")
+mix = "".join(f"[s{i}]" for i in range(len(cues)))
+fil.append(f"{mix}amix=inputs={len(cues)}:normalize=0,volume=0.8[fx]")
+fil.append("[m1d][m2][v1][v2][fx]amix=inputs=5:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=11[out]")
+args += ["-filter_complex", ";".join(fil), "-map", "[out]", "-t", str(IN + 35.5), "-ar", "48000", f"{P}/reel_mix.wav"]
+subprocess.run(args, check=True)
+print("ok", len(cues))

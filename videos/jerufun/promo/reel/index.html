@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 300; src: url("assets/noto-sans-hebrew-hebrew-300-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/noto-sans-hebrew-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 300; src: url("assets/noto-sans-hebrew-latin-300-normal.woff2") format("woff2"); unicode-range: U+0000-00FF; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/noto-sans-hebrew-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF; }
+      :root { --ink: #0f3a52; --cyan: #00aace; }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Noto Sans Hebrew"; }
+      .abs { position: absolute; }
+
+      /* ---------- hook ---------- */
+      #sky { position: absolute; left: 0; right: 0; top: -1920px; height: 1920px; background: linear-gradient(180deg, #3f9fcb 0%, #5bb6d6 55%, #86d2e0 85%, #b3d1e0 100%); z-index: 0; }
+      #sky2 { position: absolute; inset: 0; background: linear-gradient(180deg, #b3d1e0 0px, #c4dae5 111px, #cbdee6 311px, #cbdee6 1593px, #b7a591 1593px, #a8977f 100%); z-index: 0; }
+      /* the brand's white world with a soft cyan bloom: everything after the hook lives here */
+      #world { position: absolute; inset: 0; z-index: 1; opacity: 0;
+        background: radial-gradient(55% 32% at 85% 10%, rgba(0, 170, 206, 0.20), rgba(0, 170, 206, 0) 70%),
+                    radial-gradient(50% 30% at 8% 92%, rgba(0, 170, 206, 0.14), rgba(0, 170, 206, 0) 70%), #f9fcfd; }
+      #shotFrame { position: absolute; left: 0; top: 311px; width: 1080px; height: 1282px; overflow: hidden; z-index: 2; transform-origin: 0 0; }
+      #shotFrame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 54.1% 0; transform: scaleX(-1); }
+      #feather { position: absolute; left: 0; right: 0; top: 303px; height: 220px; background: linear-gradient(180deg, #cbdee6 0%, rgba(203, 222, 230, 0) 100%); z-index: 2; }
+      .logo { position: absolute; left: 0; top: 0; width: 1386px; height: 738px; z-index: 5; }
+      .logo img { width: 100%; height: 100%; display: block; }
+      .arc { position: absolute; left: 0; top: 0; z-index: 5; overflow: visible; }
+      .ring { position: absolute; left: 0; top: 0; z-index: 6; overflow: visible; }
+      #title { position: absolute; left: 0; right: 0; top: 300px; text-align: center; direction: rtl; z-index: 8;
+        font: 300 176px/1 "Noto Sans Hebrew"; color: var(--ink); letter-spacing: -2px; }
+      #title b { font-weight: 800; }
+      #title .w { display: inline-block; }
+
+      /* ---------- the board: every place in Jerusalem, app pieces and a chat, laid out like a big moving moodboard ---------- */
+      #boardWrap { position: absolute; inset: 0; z-index: 7; overflow: hidden; pointer-events: none; }
+      #board { position: absolute; left: 0; top: 0; width: 2200px; height: 2700px; transform-origin: 0 0; }
+      .bi { position: absolute; opacity: 0; }
+      .bcard { width: 440px; height: 500px; border-radius: 34px; background: #fff; box-sizing: border-box; padding: 18px;
+        box-shadow: 0 24px 50px rgba(15, 58, 82, 0.14), 0 3px 10px rgba(15, 58, 82, 0.08); direction: rtl; }
+      .bcard .ph { width: 404px; height: 300px; border-radius: 22px; overflow: hidden; }
+      .bcard .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .bcard .nm { margin: 22px 8px 0; font: 800 40px/1.15 "Noto Sans Hebrew"; color: var(--ink); white-space: nowrap; }
+      .bcard .tags { margin: 18px 8px 0; display: flex; gap: 12px; }
+      .bcard .tag { height: 50px; padding: 0 22px; border-radius: 25px; background: #eef3f5; font: 300 28px/50px "Noto Sans Hebrew"; color: #3d5a6a; white-space: nowrap; }
+      .tile { width: 230px; height: 230px; border-radius: 52px; overflow: hidden; box-shadow: 0 24px 50px rgba(15, 58, 82, 0.2); }
+      .tile img { width: 100%; height: 100%; display: block; }
+      .shot { width: 440px; border-radius: 34px; overflow: hidden; background: #fff; box-shadow: 0 24px 50px rgba(15, 58, 82, 0.14); }
+      .shot img { width: 100%; display: block; }
+      .dash { width: 470px; height: 130px; border-radius: 65px; border: 5px dashed #b9c8cf; box-sizing: border-box; direction: rtl;
+        font: 300 42px/120px "Noto Sans Hebrew"; color: #4d6572; text-align: center; white-space: nowrap; }
+      .cpill { height: 110px; padding: 0 46px; border-radius: 55px; background: var(--cyan); color: #fff; font: 800 52px/110px "Noto Sans Hebrew"; letter-spacing: 2px;
+        box-shadow: 0 18px 40px rgba(0, 170, 206, 0.35); white-space: nowrap; }
+      .bpass { width: 400px; }
+      .bpass img { width: 100%; display: block; filter: drop-shadow(0 22px 26px rgba(15, 58, 82, 0.25)); }
+      /* colour that drifts behind everything in the white world (violet, pink, cyan, the bike's orange) */
+      #blobs { position: absolute; inset: 0; z-index: 1; opacity: 0; overflow: hidden; }
+      .blob { position: absolute; width: 900px; height: 900px; border-radius: 50%; filter: blur(110px); }
+      .ptile { width: 440px; height: 520px; border-radius: 34px; overflow: hidden; box-shadow: 0 24px 50px rgba(15, 58, 82, 0.18); }
+      .ptile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .gtile { width: 460px; height: 320px; border-radius: 34px; overflow: hidden; box-shadow: 0 24px 50px rgba(60, 30, 110, 0.22); direction: rtl;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; text-align: center; }
+      .gtile .g1 { font: 800 76px/1 "Noto Sans Hebrew"; letter-spacing: -1px; }
+      .gtile .g2 { margin-top: 14px; font: 300 36px/1 "Noto Sans Hebrew"; opacity: 0.92; }
+      .chip2 { height: 96px; padding: 0 40px; border-radius: 48px; background: #fff; direction: rtl; white-space: nowrap; font: 800 44px/96px "Noto Sans Hebrew"; color: var(--ink);
+        box-shadow: 0 16px 34px rgba(15, 58, 82, 0.16); }
+      .chip2 i { font-style: normal; color: #f39a2b; }
+      /* screen-space type over the board, on a soft white veil */
+      #veil { position: absolute; left: -100px; right: -100px; top: 760px; height: 780px; z-index: 8; opacity: 0;
+        background: radial-gradient(50% 50% at 50% 50%, rgba(249, 252, 253, 0.97) 0%, rgba(249, 252, 253, 0.9) 45%, rgba(249, 252, 253, 0) 100%); }
+      .big { position: absolute; left: 0; right: 0; top: 890px; text-align: center; direction: rtl; z-index: 9; white-space: nowrap;
+        font: 800 128px/1.1 "Noto Sans Hebrew"; color: var(--ink); letter-spacing: -3px; opacity: 0; }
+      .em { color: var(--cyan); display: inline-block; }
+      /* on the colour blobs the key word reads in white, lifted by a soft shadow */
+      #emE { color: #fff; text-shadow: 0 6px 18px rgba(15, 58, 82, 0.35), 0 2px 4px rgba(15, 58, 82, 0.25); }
+      /* a chat, iPhone style: sent (blue, right) and received (grey, left) */
+      .bub { position: absolute; z-index: 9; max-width: 760px; padding: 26px 40px; border-radius: 48px; direction: rtl; white-space: nowrap;
+        font: 300 50px/1.25 "Noto Sans Hebrew"; opacity: 0; box-shadow: 0 16px 36px rgba(15, 58, 82, 0.16); }
+      #bubOut { right: 60px; top: 1030px; background: #0a84ff; color: #fff; border-bottom-right-radius: 14px; }
+      #bubIn { left: 60px; top: 1160px; background: #e9e9eb; color: #111; border-bottom-left-radius: 14px; }
+      /* ---------- app ---------- */
+      #label { position: absolute; left: 0; right: 0; top: 200px; height: 130px; z-index: 10; }
+      .lab { position: absolute; left: 0; right: 0; top: 0; text-align: center; direction: rtl; white-space: nowrap;
+        font: 800 96px/1.2 "Noto Sans Hebrew"; color: var(--ink); letter-spacing: -2px; opacity: 0; }
+      #phone { position: absolute; left: 0; top: 0; width: 1019px; height: 2112px; transform-origin: 0 0; z-index: 7; opacity: 0;
+        filter: drop-shadow(0 40px 50px rgba(15, 58, 82, 0.25)); }
+      #phone img { position: absolute; inset: 0; width: 100%; height: 100%; }
+      #press { position: absolute; left: 61px; top: 1864px; width: 890px; height: 106px; border-radius: 53px; background: #fff; opacity: 0; }
+
+      /* ---------- footage frames ---------- */
+      .frame { position: absolute; overflow: hidden; z-index: 8; opacity: 0; box-shadow: 0 30px 70px rgba(15, 58, 82, 0.22); }
+      .frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+
+      /* ---------- passes ---------- */
+      /* the site's own passes photo: the cards float over a soft-focus Jerusalem street */
+      #street { position: absolute; inset: 0; z-index: 8; overflow: hidden; opacity: 0; }
+      #street img { position: absolute; left: 50%; top: 0; height: 1920px; width: auto; transform: translateX(-50%); filter: blur(7px) saturate(1.05); }
+      #passes { position: absolute; inset: 0; z-index: 9; }
+      .pass { position: absolute; left: 0; top: 0; width: 520px; height: 336px; opacity: 0; }
+      .pass img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 30px 34px rgba(40, 30, 10, 0.35)); }
+      .chip { position: absolute; left: calc(100% + 22px); top: 130px; height: 76px; padding: 0 30px; border-radius: 38px; background: #fff; direction: rtl; white-space: nowrap;
+        font: 300 42px/76px "Noto Sans Hebrew"; color: var(--ink); box-shadow: 0 12px 26px rgba(15, 58, 82, 0.22); }
+      .chip b { font-weight: 800; }
+      #floorShadow { position: absolute; left: 290px; top: 1500px; width: 520px; height: 60px; border-radius: 50%; z-index: 9; opacity: 0;
+        background: radial-gradient(50% 50% at 50% 50%, rgba(30, 20, 5, 0.35), rgba(30, 20, 5, 0) 100%); }
+
+      /* ---------- outro (reel version): who made it, and why to follow ---------- */
+      #oAv { position: absolute; left: 390px; top: 300px; width: 300px; height: 300px; border-radius: 50%; overflow: hidden; z-index: 11; opacity: 0;
+        border: 8px solid #fff; box-shadow: 0 0 0 6px #00aace, 0 26px 50px rgba(15, 58, 82, 0.25); }
+      #oAv img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .oT { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; white-space: nowrap; z-index: 11; color: var(--ink); }
+      .oT span { display: inline-block; opacity: 0; }
+      #oFollow { position: absolute; left: 50%; top: 1290px; width: 340px; margin-left: -170px; height: 104px; border-radius: 22px; z-index: 11; opacity: 0;
+        background: #0a84ff; color: #fff; text-align: center; font: 800 52px/104px "Noto Sans Hebrew"; box-shadow: 0 18px 40px rgba(10, 132, 255, 0.35); }
+      #oFollow .b { position: absolute; inset: 0; opacity: 0; background: #e9e9eb; color: #111; border-radius: 22px; }
+      .oChip { position: absolute; top: 1420px; height: 86px; padding: 0 36px; border-radius: 43px; background: #fff; z-index: 11; opacity: 0; direction: rtl; white-space: nowrap;
+        font: 800 40px/86px "Noto Sans Hebrew"; color: var(--ink); box-shadow: 0 14px 30px rgba(15, 58, 82, 0.16); }
+      /* ---------- close ---------- */
+      .line { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; z-index: 8; color: var(--ink); white-space: nowrap; }
+      #endLogo { position: absolute; left: 0; top: 0; width: 1386px; height: 738px; z-index: 9; transform-origin: 0 0; opacity: 0; filter: brightness(0); }
+      #endLogo img { width: 100%; height: 100%; display: block; }
+      .earc { position: absolute; left: 0; top: 0; z-index: 9; overflow: visible; opacity: 0; }
+      #promo1 { top: 1100px; font: 800 88px/1.1 "Noto Sans Hebrew"; letter-spacing: -2px; opacity: 0; }
+      #promo2 { top: 1222px; font: 300 52px/1.1 "Noto Sans Hebrew"; opacity: 0; }
+      #code { position: absolute; left: 50%; top: 1318px; width: 380px; margin-left: -190px; height: 104px; border-radius: 52px; z-index: 8;
+        background: var(--cyan); color: #fff; text-align: center; font: 800 58px/104px "Noto Sans Hebrew"; letter-spacing: 2px; opacity: 0;
+        box-shadow: 0 18px 40px rgba(0, 170, 206, 0.35); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="35.5" data-width="1080" data-height="1920">
+      <div id="sky2"></div>
+      <div id="world"></div>
+      <div id="blobs">
+        <div class="blob" id="bl1" style="left:-300px;top:-200px;background:rgba(139,108,255,0.55)"></div>
+        <div class="blob" id="bl2" style="left:520px;top:300px;background:rgba(0,170,206,0.5)"></div>
+        <div class="blob" id="bl3" style="left:-250px;top:1100px;background:rgba(255,111,177,0.45)"></div>
+        <div class="blob" id="bl4" style="left:480px;top:1400px;background:rgba(243,154,43,0.40)"></div>
+      </div>
+      <div id="shotFrame">
+        <video id="shot" src="assets/ride.mp4" data-start="0.8" data-duration="4.1" data-track-index="0" muted playsinline></video>
+      </div>
+      <div id="feather"></div>
+      <div id="roadEdge" style="position:absolute;left:0;right:0;top:1533px;height:120px;z-index:2;background:linear-gradient(180deg, rgba(183,165,144,0) 0%, rgba(183,165,144,1) 50%, rgba(183,165,144,0.0) 100%)"></div>
+      <div id="sky"></div>
+      <!-- the logo as one group in its own art coordinates (3x px); the wheels are whole vector crescents (radius 231) -->
+      <div id="logoG" style="position: absolute; left: 0; top: 0; width: 1386px; height: 738px; transform-origin: 0 0; z-index: 5">
+        <img id="letters" src="assets/letters.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%" />
+        <svg class="wheel" id="wL" width="554" height="554" viewBox="-120 -120 240 240" style="position: absolute; left: -4px; top: 230px; overflow: visible">
+          <defs><mask id="mL"><circle r="100" fill="#fff" /><circle cx="14" r="92" fill="#000" /></mask></defs>
+          <circle r="100" fill="#fff" mask="url(#mL)" />
+        </svg>
+        <svg class="wheel" id="wR" width="554" height="554" viewBox="-120 -120 240 240" style="position: absolute; left: 857px; top: 227px; overflow: visible">
+          <defs><mask id="mR"><circle r="100" fill="#fff" /><circle cx="-14" r="92" fill="#000" /></mask></defs>
+          <circle r="100" fill="#fff" mask="url(#mR)" />
+        </svg>
+      </div>
+      <div id="title"><span class="w">ירושלים</span><span class="w"><b>.</b></span></div>
+
+      <!-- the board: places in Jerusalem (real photos), real app pieces and a chat -->
+      <div id="boardWrap"><div id="board"></div></div>
+      <div id="veil"></div>
+      <div id="veil2" style="position:absolute;left:-100px;right:-100px;top:820px;height:340px;z-index:8;opacity:0;background:radial-gradient(50% 50% at 50% 50%, rgba(249,252,253,0.96) 0%, rgba(249,252,253,0.85) 50%, rgba(249,252,253,0) 100%)"></div>
+      <div class="big" id="bigA" style="top: 850px">כל ירושלים.</div>
+      <div class="big" id="bigB" style="font-size: 108px; top: 905px">באופניים <span class="em" id="emE">חשמליים</span>.</div>
+      <div class="bub" id="bubOut">בוא נשב על בירה בשוק?</div>
+      <div class="bub" id="bubIn">15 דקות ואני אצלך</div>
+
+      <!-- the app: the real screens in their real mockups -->
+      <div id="phone">
+        <img id="scr1" src="assets/screen1.png" alt="" />
+        <img id="scr2" src="assets/screen2.png" alt="" />
+        <div id="press"></div>
+      </div>
+
+      <!-- the real campaign footage, in frames that grow out of the phone -->
+      <div class="frame" id="scanFrame">
+        <video id="scan" src="assets/scan.mp4" data-start="13.4" data-duration="2.6" data-track-index="1" muted playsinline style="object-position: 46% 50%"></video>
+      </div>
+      <div class="frame" id="barsFrame">
+        <video id="bars" src="assets/bars.mp4" data-start="15.7" data-duration="2.6" data-track-index="2" muted playsinline style="object-position: 58% 50%"></video>
+      </div>
+
+      <div id="street"><img src="assets/street_plate.png" alt="" /></div>
+      <div id="passes">
+        <div id="floorShadow"></div>
+        <div class="pass" id="pFriend"><img src="assets/pass_friend.png" alt="" /></div>
+        <div class="pass" id="pWeekly"><img src="assets/pass_weekly.png" alt="" /><div class="chip"><b>₪119</b> לשבוע</div></div>
+        <div class="pass" id="pDaily"><img src="assets/pass_daily.png" alt="" /><div class="chip"><b>₪39</b> ליום</div></div>
+      </div>
+
+      <div class="frame" id="cafeFrame">
+        <video id="cafe" src="assets/cafe.mp4" data-start="21.5" data-duration="4.04" data-track-index="3" muted playsinline style="object-position: 50% 50%"></video>
+      </div>
+
+      <!-- labels for the app / footage / passes / cafe beats -->
+      <div id="label">
+        <div class="lab" id="l1">מוצאים תחנה.</div>
+        <div class="lab" id="l2">בוחרים אופניים.</div>
+        <div class="lab" id="l3">סורקים.</div>
+        <div class="lab" id="l4">ויוצאים לדרך.</div>
+        <div class="lab" id="l5">רוכבים <span class="em" id="emU">בלי הגבלה</span>.</div>
+        <div class="lab" id="l6">ועוצרים מתי שבא.</div>
+      </div>
+
+      <!-- close: the logo comes back together, then the offer -->
+      <div id="endLogo"><img src="assets/letters.png" alt="" /></div>
+      <svg class="earc" id="eL" width="240" height="240" viewBox="-120 -120 240 240">
+        <defs><mask id="emL"><circle r="100" fill="#fff" /><circle cx="14" r="92" fill="#000" /></mask></defs>
+        <circle r="100" fill="#0f0f0f" mask="url(#emL)" />
+      </svg>
+      <svg class="earc" id="eR" width="240" height="240" viewBox="-120 -120 240 240">
+        <defs><mask id="emR"><circle r="100" fill="#fff" /><circle cx="-14" r="92" fill="#000" /></mask></defs>
+        <circle r="100" fill="#0f0f0f" mask="url(#emR)" />
+      </svg>
+      <div class="line" id="promo1">הנסיעה הראשונה עלינו.</div>
+      <div class="line" id="promo2">30 דקות חינם עם הקוד</div>
+      <div id="code">START30</div>
+      <!-- outro (reel version) -->
+      <div id="oAv"><img src="assets/avatar.jpg" alt="" /></div>
+      <div class="oT" id="oHandle" style="top: 640px; font: 800 58px/1.1 'Noto Sans Hebrew'"><span dir="ltr" style="unicode-bidi: isolate">@refaelleviii</span></div>
+      <div class="oT" id="oRole" style="top: 716px; font: 300 40px/1.1 'Noto Sans Hebrew'"><span>רפאל לוי · מומחה AI ושיווק דיגיטלי</span></div>
+      <div class="oT" id="oQ1" style="top: 850px; font: 800 80px/1.1 'Noto Sans Hebrew'; letter-spacing: -2px"><span>רוצים</span> <span>ללמוד</span> <span>איך</span> <span>לערוך</span></div>
+      <div class="oT" id="oQ2" style="top: 960px; font: 800 116px/1.1 'Noto Sans Hebrew'; letter-spacing: -3px"><span>ברמה</span> <span>הכי</span> <span>גבוהה</span></div>
+      <div class="oT" id="oQ3" style="top: 1110px; font: 800 80px/1.1 'Noto Sans Hebrew'; letter-spacing: -2px"><span>עם</span> <span>קלוד?</span></div>
+      <div id="oFollow">עקבו<div class="b">במעקב ✓</div></div>
+      <div class="oChip" id="oC1" style="right: 560px">בעמוד שלי</div>
+      <div class="oChip" id="oC2" style="left: 560px">ובאתר</div>
+    </div>
+    <script>
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        const breathe = (el, t) => tl.to(el, { scale: 1.07, duration: 0.45, yoyo: true, repeat: 3, ease: "sine.inOut", transformOrigin: "50% 55%" }, t);
+
+        /* ================= 1. HOOK (0 - 3.4): the logo holds still with its wheels spinning; the camera tilts down the sky and finds the rider exactly under it ================= */
+        // the logo is fixed where the rider's bike will be: its wheel centres (273,507) and (1134,504) in the 3x art
+        // land on the mirrored bike's wheels at (241,1250) and (822,1245) at 1.5 s (0.7 s into the shot)
+        const S1 = 581 / 861, X1 = 241 - 273 * S1, Y1 = 1248 - 505.5 * S1;
+        tl.set("#logoG", { x: X1, y: Y1, scale: S1 }, 0);
+        tl.fromTo("#logoG", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power2.out" }, 0.05);
+        // the wheels start turning (riding left: counter-clockwise) and keep turning through the move
+        tl.set(".wheel", { transformOrigin: "50% 50%" }, 0);
+        tl.to(".wheel", { rotation: -90, duration: 0.6, ease: "power2.in" }, 0.2);
+        tl.to(".wheel", { rotation: -900, duration: 1.6, ease: "power1.out" }, 0.8);
+        // camera move: the whole street rises into frame from below (sky first), landing on the drop at 1.5
+        const camEls = ["#sky", "#sky2", "#shotFrame", "#feather", "#roadEdge"];
+        tl.set(camEls, { y: 1920 }, 0);
+        tl.to(camEls, { y: 0, duration: 0.95, ease: "power3.inOut" }, 0.55);
+        // landing: the letters dissolve, the white wheels keep spinning on the real wheels for a beat, then let them through
+        tl.to("#letters", { opacity: 0, filter: "blur(10px)", duration: 0.35, ease: "power2.in" }, 1.55);
+        tl.to(".wheel", { opacity: 0, duration: 0.3, ease: "power1.in" }, 1.9);
+        tl.fromTo("#title .w", { opacity: 0, y: 40, filter: "blur(16px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, stagger: 0.12, ease: "power3.out" }, 1.8);
+        tl.to("#title", { scale: 1.04, duration: 1.6, ease: "none" }, 2.3);
+
+        /* ================= 2. BRIDGE (3.4 - 4.6): the street folds into a framed photo in the white world ================= */
+        const CS = 760 / 1080;  // the shot becomes a 760-wide card, centred
+        tl.to("#world", { opacity: 1, duration: 0.45, ease: "power1.inOut" }, 3.45);
+        tl.to(["#feather", "#roadEdge"], { opacity: 0, duration: 0.3 }, 3.45);
+        tl.to("#shotFrame", { x: (1080 - 760) / 2, y: 960 - (1282 * CS) / 2 + 120 - 311, scale: CS, borderRadius: 44 / CS,
+          boxShadow: "0 40px 90px rgba(15,58,82,0.30)", duration: 0.6, ease: "power3.inOut" }, 3.45);
+        tl.to("#title", { y: -90, opacity: 0, filter: "blur(14px)", duration: 0.35, ease: "power2.in" }, 4.0);
+        // the card leaves to the left as the first place arrives from the right
+        tl.to("#shotFrame", { x: -1000, rotation: -9, duration: 0.38, ease: "power3.in" }, 4.05);
+
+        /* ================= 3. THE BOARD (4.3 - 10.2) ================= */
+        const B = document.getElementById("board");
+        const card = (name, tag1, tag2, img) =>
+          `<div class="ph"><img src="assets/${img}" alt="" /></div><div class="nm">${name}</div><div class="tags"><div class="tag">${tag1}</div><div class="tag">${tag2}</div></div>`;
+        // a 4-column board with a clear band through the middle (y 1140-1560) where the type sits
+        const grad = (bg, a, b) => ({ cls: "gtile", style: `background:${bg}`, html: `<div class="g1">${a}</div><div class="g2">${b}</div>` });
+        const items = [
+          // row -1
+          { id: "stations", x: 40, y: -600, cls: "ptile", html: '<img src="assets/ph_stations.jpg" alt="" />' },
+          { id: "g1", x: 590, y: -470, ...grad("radial-gradient(120% 120% at 0% 0%, #ff8ac2 0%, #9a6bff 55%, #5b4dff 100%)", "ירופאן", "אופניים שיתופיים") },
+          { id: "blocal", x: 1150, y: -520, cls: "bpass", html: '<img src="assets/pass_blocal.png" alt="" />', rot: 7 },
+          { id: "hero", x: 1690, y: -580, cls: "ptile", html: '<img src="assets/ph_hero.jpg" alt="" />' },
+          // row 0
+          { id: "uni", x: 60, y: 80, cls: "bcard", html: card("האוניברסיטה העברית", "הר הצופים", "סטודנטים", "university.jpg") },
+          { id: "srch", x: 590, y: 200, cls: "dash", html: "לאן רוכבים היום?" },
+          { id: "map", x: 1140, y: 20, cls: "shot", html: '<img src="assets/crop_map.png" alt="" />' },
+          { id: "lib", x: 1690, y: 120, cls: "bcard", html: card("הספרייה הלאומית", "גבעת רם", "תרבות", "library.jpg") },
+          // row 1
+          { id: "sacher", x: 60, y: 640, cls: "bcard", html: card("גן סאקר", "פיקניק", "דשא", "sacher.jpg") },
+          { id: "icon", x: 680, y: 450, cls: "tile", html: '<img src="assets/app_icon.png" alt="" />' },
+          { id: "chipA", x: 590, y: 790, cls: "chip2", html: "<i>⚡</i> 24km" },
+          { id: "pass", x: 1150, y: 540, cls: "bpass", html: '<img src="assets/pass_daily.png" alt="" />', rot: -8 },
+          { id: "g2", x: 1130, y: 800, ...grad("radial-gradient(120% 120% at 100% 0%, #6ff0ff 0%, #00aace 45%, #2f6bff 100%)", "₪0 פתיחה", "₪0.70 לדקה"), },
+          { id: "kotel", x: 1690, y: 660, cls: "bcard", html: card("הכותל", "העיר העתיקה", "מורשת", "kotel.jpg") },
+          // (band: 1121-1700)
+          // row 2
+          { id: "market", x: 60, y: 1760, cls: "bcard", html: card("שוק מחנה יהודה", "אוכל", "בירה", "market.jpg") },
+          { id: "bike", x: 600, y: 1780, cls: "shot", html: '<img src="assets/crop_bike.png" alt="" />' },
+          { id: "tomb", x: 1140, y: 1760, cls: "bcard", html: card("קבר דוד", "הר ציון", "מורשת", "tomb.jpg") },
+          { id: "code", x: 1720, y: 1790, cls: "cpill", html: "START30" },
+          { id: "g3", x: 1680, y: 1960, ...grad("radial-gradient(120% 120% at 0% 100%, #ffb36b 0%, #ff6f91 50%, #b05cff 100%)", "30 דקות", "הנסיעה הראשונה עלינו") },
+          // row 3
+          { id: "bikes", x: 40, y: 2320, cls: "ptile", html: '<img src="assets/ph_bikes.jpg" alt="" />' },
+          { id: "pass2", x: 600, y: 2360, cls: "bpass", html: '<img src="assets/pass_weekly.png" alt="" />', rot: 6 },
+          { id: "rides", x: 1140, y: 2330, cls: "shot", html: '<img src="assets/crop_rides.png" alt="" />' },
+          { id: "mamilla", x: 1690, y: 2340, cls: "bcard", html: card("ממילא", "שופינג", "בתי קפה", "mamilla.jpg") },
+          // row 4
+          { id: "nfriend", x: 60, y: 2930, cls: "bpass", html: '<img src="assets/pass_nfriend.png" alt="" />', rot: -6 },
+          { id: "srch2", x: 590, y: 2700, cls: "dash", html: "תחנה קרובה ←" },
+          { id: "app", x: 1140, y: 2790, cls: "ptile", html: '<img src="assets/ph_app.jpg" alt="" />' },
+          { id: "g4", x: 1690, y: 2900, ...grad("radial-gradient(120% 120% at 50% 0%, #9be15d 0%, #00c2a8 50%, #0a84ff 100%)", "סורקים", "ונוסעים") },
+        ];
+        items.forEach((it) => {
+          const d = document.createElement("div");
+          d.className = "bi " + it.cls; d.id = "b_" + it.id; d.innerHTML = it.html;
+          d.style.left = it.x + "px"; d.style.top = it.y + "px";
+          if (it.style) d.style.cssText += it.style;
+          B.appendChild(d); it.el = d;
+        });
+        // camera: puts board point (cx, cy) at the frame centre at scale s
+        const cam = (cx, cy, s, t, d, ease) => tl.to("#board", { x: 540 - cx * s, y: 960 - cy * s, scale: s, duration: d, ease }, t);
+        tl.set("#board", { x: 540 - 940 * 0.95, y: 960 - 1260 * 0.95, scale: 0.95 }, 0);
+        // the board builds itself on the beats, from the centre out, while the camera drifts
+        const order = [...items].sort((a, b) => Math.hypot(a.x - 1000, a.y - 1260) - Math.hypot(b.x - 1000, b.y - 1260));
+        order.forEach((it, i) => {
+          const t = 4.3 + Math.min(i, 14) * 0.06;
+          tl.fromTo(it.el, { opacity: 0, scale: 0.55, rotation: (it.rot || 0) + (i % 2 ? 10 : -10), y: 60 },
+            { opacity: 1, scale: 1, rotation: it.rot || 0, y: 0, duration: 0.5, ease: "back.out(1.6)" }, t);
+          // every piece keeps floating a little, like the reference board
+          tl.to(it.el, { y: i % 2 ? -12 : 12, duration: 1.4, yoyo: true, repeat: 3, ease: "sine.inOut" }, t + 0.5);
+        });
+        cam(1090, 1260, 0.85, 4.3, 2.0, "power2.out");
+                tl.fromTo("#bigA", { opacity: 0, scale: 1.25, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 4.75);
+        // the chat: a friend asks for a beer at the market, the answer comes back
+        tl.fromTo("#bubOut", { opacity: 0, y: 50, scale: 0.8, transformOrigin: "100% 100%" }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, 5.25);
+        tl.fromTo("#bubIn", { opacity: 0, y: 50, scale: 0.8, transformOrigin: "0% 100%" }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, 5.75);
+        cam(1120, 1260, 0.83, 6.3, 0.1, "none");
+        tl.to(["#bigA", "#bubOut", "#bubIn"], { opacity: 0, y: -40, filter: "blur(10px)", duration: 0.25, ease: "power2.in", stagger: 0.03 }, 6.3);
+                // whip onto the market card
+        tl.to("#board", { filter: "blur(8px)", duration: 0.18, yoyo: true, repeat: 1, ease: "power1.in" }, 6.45);
+        cam(280, 2010, 1.35, 6.45, 0.45, "power3.inOut");
+        tl.to("#b_market", { scale: 1.06, duration: 0.25, yoyo: true, repeat: 1, ease: "power2.out" }, 6.9);
+        // and on to the wall, then wide: the whole board, and the answer in the band
+        tl.to("#board", { filter: "blur(8px)", duration: 0.15, yoyo: true, repeat: 1, ease: "power1.in" }, 7.0);
+        cam(1910, 910, 1.35, 7.0, 0.4, "power3.inOut");
+        tl.to("#board", { filter: "blur(8px)", duration: 0.18, yoyo: true, repeat: 1, ease: "power1.in" }, 7.55);
+        cam(1085, 1430, 0.56, 7.55, 0.55, "power3.inOut");
+        cam(1085, 1430, 0.5, 8.1, 2.0, "none");
+                tl.fromTo("#bigB", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 8.0);
+        breathe("#emE", 8.5);
+
+        tl.to("#blobs", { opacity: 1, duration: 0.6 }, 4.1);
+        [["#bl1", 260, 380], ["#bl2", -320, 240], ["#bl3", 340, -300], ["#bl4", -280, -260]].forEach(([el, dx, dy], i) => {
+          tl.to(el, { x: dx, y: dy, scale: 1.25, duration: 6.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, 4.1 + i * 0.4);
+        });
+        // softer behind the app, footage and close, so the real material leads
+        tl.to("#blobs", { opacity: 0.55, duration: 0.6 }, 10.1);
+
+        /* ================= 4. APP (10.2 - 13.9) ================= */
+        // the board drops away under the phone
+        tl.to("#bigB", { opacity: 0, y: -60, filter: "blur(12px)", duration: 0.35, ease: "power2.in" }, 10.1);
+                tl.to("#boardWrap", { y: -500, opacity: 0, filter: "blur(10px)", duration: 0.5, ease: "power2.in" }, 10.1);
+        const PS = 0.56, PX = (1080 - 1019 * PS) / 2, PY = 360;
+        tl.set("#phone", { scale: PS, x: PX, y: 1950, opacity: 1, rotationX: 0 }, 0);
+        tl.set("#phone", { opacity: 0 }, 0);
+        tl.set("#phone", { opacity: 1 }, 10.2);
+        tl.to("#phone", { y: PY, duration: 0.75, ease: "power3.out" }, 10.25);
+        const lab = (id, t, out) => {
+          tl.fromTo(id, { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, t);
+          tl.to(id, { opacity: 0, y: -40, filter: "blur(12px)", duration: 0.3, ease: "power2.in" }, out);
+        };
+        lab("#l1", 10.55, 11.95);
+        // map -> the bike screen (same mockup, so only the screen changes)
+        tl.to("#scr2", { opacity: 0, duration: 0.3, ease: "power1.inOut" }, 12.0);
+        tl.fromTo("#scr1", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 0);
+        lab("#l2", 12.1, 13.3);
+        // the press covers the whole Start Ride button
+        tl.to("#press", { opacity: 0.45, duration: 0.08 }, 12.95);
+        tl.to("#press", { opacity: 0, duration: 0.25 }, 13.05);
+        tl.to("#phone", { scale: PS * 0.985, x: PX + 1019 * PS * 0.0075, y: PY + 2112 * PS * 0.0075, duration: 0.08, yoyo: true, repeat: 1 }, 12.95);
+
+        /* ================= 5. FOOTAGE (13.4 - 18.0): the scan grows out of the phone's screen ================= */
+        const scr = { x: PX + 44 * PS, y: PY + 44 * PS, w: 931 * PS, h: 2024 * PS, r: 120 * PS };
+        const FR = { x: 40, y: 400, w: 1000, h: 1420, r: 48 };
+        tl.set("#scanFrame", { left: scr.x, top: scr.y, width: scr.w, height: scr.h, borderRadius: scr.r, opacity: 0 }, 0);
+        tl.to("#scanFrame", { opacity: 1, duration: 0.2 }, 13.4);
+        tl.to("#scanFrame", { left: FR.x, top: FR.y, width: FR.w, height: FR.h, borderRadius: FR.r, duration: 0.55, ease: "power3.inOut" }, 13.45);
+        tl.to("#phone", { opacity: 0, duration: 0.2 }, 13.7);
+        lab("#l3", 13.9, 15.55);
+        // whip: the scan leaves left, the handlebar arrives from the right, on the beat
+        tl.set("#barsFrame", { left: FR.x, top: FR.y, width: FR.w, height: FR.h, borderRadius: FR.r, x: 1100, opacity: 1 }, 0);
+        tl.to("#scanFrame", { x: -1100, filter: "blur(6px)", duration: 0.35, ease: "power3.in" }, 15.65);
+        tl.to("#barsFrame", { x: 0, duration: 0.45, ease: "power3.out" }, 15.75);
+        lab("#l4", 15.95, 17.65);
+
+        /* ================= 6. PASSES (17.6 - 21.5): the handlebar frame opens onto the street, and the passes float in like on the site ================= */
+        tl.to("#barsFrame", { left: 0, top: 0, width: 1080, height: 1920, borderRadius: 0, duration: 0.5, ease: "power3.inOut" }, 17.6);
+        tl.to("#barsFrame", { filter: "blur(18px)", opacity: 0, duration: 0.4, ease: "power1.in" }, 18.0);
+        tl.fromTo("#street", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.inOut" }, 18.0);
+        tl.fromTo("#street img", { scale: 1.12 }, { scale: 1.0, duration: 3.5, ease: "power1.out" }, 18.0);
+        // the three cards stacked and tilted as in the site's photo, dropping in one per beat
+        const passes = [
+          { el: "#pDaily", c: [470, 590], r: -9, t: 18.45 },
+          { el: "#pWeekly", c: [478, 960], r: -7, t: 18.95 },
+          { el: "#pFriend", c: [500, 1320], r: 4, t: 19.45 },
+        ];
+        passes.forEach(({ el, c, r, t }, i) => {
+          const x = c[0] - 260, y = c[1] - 168;
+          tl.set(el, { x, y: y + 1300, rotation: r + 20, opacity: 1 }, t - 0.01);
+          tl.to(el, { y, rotation: r, duration: 0.6, ease: "back.out(1.4)" }, t);
+          // weightless float until they leave
+          tl.to(el, { y: y - 14, rotation: r + (i % 2 ? -1.2 : 1.2), duration: 0.9, yoyo: true, repeat: 2, ease: "sine.inOut" }, t + 0.6);
+          tl.to(el, { x: i % 2 ? 1300 : -1300, rotation: r + (i % 2 ? 15 : -15), duration: 0.45, ease: "power3.in" }, 20.85 + i * 0.06);
+        });
+        tl.to("#floorShadow", { opacity: 1, duration: 0.5 }, 19.6);
+        tl.to("#floorShadow", { opacity: 0, duration: 0.3 }, 20.9);
+        lab("#l5", 18.3, 20.9);
+        breathe("#emU", 19.9);
+        // back to the white world for the cafe
+        tl.to("#street", { opacity: 0, duration: 0.35, ease: "power1.inOut" }, 21.2);
+
+        /* ================= 7. CAFE (21.5 - 23.4) ================= */
+        tl.set("#cafeFrame", { left: FR.x, top: FR.y, width: FR.w, height: FR.h, borderRadius: FR.r, y: 1500, opacity: 1 }, 0);
+        tl.to("#cafeFrame", { y: 0, duration: 0.55, ease: "power3.out" }, 21.5);
+        lab("#l6", 21.85, 23.3);
+
+        /* ================= 8. CLOSE (23.4 - 30.5): the frame becomes a wheel, the logo rebuilds on the music's final hit at 25.75 ================= */
+        const ES = 0.6, EX = (1080 - 1386 * ES) / 2, EY = 520;  // the end logo, 832 wide
+        const eL = [EX + 273 * ES, EY + 507 * ES], eR = [EX + 1134 * ES, EY + 504 * ES], ER = 77 * 3 * ES;
+        // the cafe frame closes into a circle (the cup's moment), then it is the left wheel
+        tl.to("#cafeFrame", { left: 540 - 210, top: 900 - 210, width: 420, height: 420, borderRadius: 210, duration: 0.7, ease: "power3.inOut" }, 23.4);
+        tl.to("#cafeFrame", { left: eL[0] - ER, top: eL[1] - ER, width: ER * 2, height: ER * 2, borderRadius: ER, duration: 0.6, ease: "power3.inOut" }, 24.2);
+        tl.set("#eL", { transformOrigin: "120px 120px", x: eL[0] - 120, y: eL[1] - 120, scale: ER / 100, rotation: -120 }, 0);
+        tl.to("#eL", { opacity: 1, rotation: 0, duration: 0.5, ease: "power3.out" }, 24.75);
+        tl.to("#cafeFrame", { opacity: 0, scale: 0.6, duration: 0.3, ease: "power2.in" }, 24.75);
+        // the right wheel rolls in from the edge of the frame and lands on the beat
+        tl.set("#eR", { transformOrigin: "120px 120px", x: 1180, y: eR[1] - 120, scale: ER / 100, rotation: 0, opacity: 1 }, 0);
+        tl.set("#eR", { opacity: 0 }, 0);
+        tl.set("#eR", { opacity: 1 }, 24.8);
+        tl.to("#eR", { x: eR[0] - 120, rotation: -360, duration: 0.95, ease: "power3.out" }, 24.8);
+        tl.set("#endLogo", { x: EX, y: EY, scale: ES }, 0);
+        tl.fromTo("#endLogo", { opacity: 0, filter: "brightness(0) blur(14px)" }, { opacity: 0.94, filter: "brightness(0) blur(0px)", duration: 0.5, ease: "power2.out" }, 25.35);
+        tl.fromTo("#promo1", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 26.2);
+        tl.fromTo("#promo2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 26.55);
+        tl.fromTo("#code", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 26.9);
+        tl.to("#code", { scale: 1.06, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, 27.5);
+        /* ================= 9. OUTRO (28.4 - 35.5, reel version only) ================= */
+        tl.to(["#endLogo", "#eL", "#eR"], { y: "-=220", opacity: 0, filter: "blur(14px)", duration: 0.35, ease: "power2.in" }, 28.35);
+        tl.to(["#promo1", "#promo2", "#code"], { y: -160, opacity: 0, filter: "blur(12px)", duration: 0.3, ease: "power2.in", stagger: 0.04 }, 28.35);
+        const O = 28.6;  // the voice-over starts here; each word lands on its word
+        tl.fromTo("#oAv", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, O - 0.1);
+        tl.fromTo(["#oHandle span", "#oRole span"], { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out", stagger: 0.1 }, O + 0.1);
+        const qw = [0.04, 0.34, 0.66, 0.82, 1.18, 1.54, 1.98, 2.24, 2.38];
+        gsap.utils.toArray("#oQ1 span, #oQ2 span, #oQ3 span").forEach((el, i) =>
+          tl.fromTo(el, { opacity: 0, y: 40, scale: 0.85, filter: "blur(8px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.24, ease: "back.out(2)" }, O + qw[i] - 0.03));
+        // "שימו לי עוקב": the follow button pops, gets tapped, and turns to "following"
+        tl.fromTo("#oFollow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, O + 3.05);
+        tl.to("#oFollow", { scale: 0.93, duration: 0.08, yoyo: true, repeat: 1 }, O + 3.45);
+        tl.to("#oFollow .b", { opacity: 1, duration: 0.12 }, O + 3.55);
+        tl.fromTo("#oC1", { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2)" }, O + 4.92);
+        tl.fromTo("#oC2", { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2)" }, O + 5.68);
+        tl.to({}, { duration: 0.01 }, 35.49);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>
