@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 300; src: url("assets/noto-sans-hebrew-hebrew-300-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/noto-sans-hebrew-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 300; src: url("assets/noto-sans-hebrew-latin-300-normal.woff2") format("woff2"); unicode-range: U+0000-00FF; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/noto-sans-hebrew-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF; }
+      :root { --ink: #0f3a52; --cyan: #00aace; }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Noto Sans Hebrew"; }
+      .abs { position: absolute; }
+
+      /* ---------- hook ---------- */
+      #sky { position: absolute; inset: 0; background: linear-gradient(180deg, #3f9fcb 0%, #5bb6d6 55%, #86d2e0 100%); z-index: 3; }
+      #sky2 { position: absolute; inset: 0; background: linear-gradient(180deg, #b3d1e0 0px, #c4dae5 420px, #cbdee6 640px, #cbdee6 100%); z-index: 0; }
+      /* the brand's white world with a soft cyan bloom: everything after the hook lives here */
+      #world { position: absolute; inset: 0; z-index: 1; opacity: 0;
+        background: radial-gradient(55% 32% at 85% 10%, rgba(0, 170, 206, 0.20), rgba(0, 170, 206, 0) 70%),
+                    radial-gradient(50% 30% at 8% 92%, rgba(0, 170, 206, 0.14), rgba(0, 170, 206, 0) 70%), #f9fcfd; }
+      #shotFrame { position: absolute; left: 0; top: 638px; width: 1080px; height: 1282px; overflow: hidden; z-index: 2; transform-origin: 0 0; }
+      #shotFrame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 54.1% 0; }
+      #feather { position: absolute; left: 0; right: 0; top: 630px; height: 220px; background: linear-gradient(180deg, #cbdee6 0%, rgba(203, 222, 230, 0) 100%); z-index: 2; }
+      .logo { position: absolute; left: 0; top: 0; width: 1386px; height: 738px; z-index: 5; }
+      .logo img { width: 100%; height: 100%; display: block; }
+      .arc { position: absolute; left: 0; top: 0; z-index: 5; overflow: visible; }
+      .ring { position: absolute; left: 0; top: 0; z-index: 6; overflow: visible; }
+      #title { position: absolute; left: 0; right: 0; top: 300px; text-align: center; direction: rtl; z-index: 8;
+        font: 300 176px/1 "Noto Sans Hebrew"; color: var(--ink); letter-spacing: -2px; }
+      #title b { font-weight: 800; }
+      #title .w { display: inline-block; }
+
+      /* ---------- destinations ---------- */
+      .line { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; z-index: 8; color: var(--ink); white-space: nowrap; }
+      #ask { top: 250px; font: 300 92px/1.1 "Noto Sans Hebrew"; letter-spacing: -1px; }
+      #dwheel { position: absolute; left: 0; right: 0; top: 0; height: 0; z-index: 8; }
+      .drow { position: absolute; left: 0; right: 0; height: 130px; text-align: center; direction: rtl; white-space: nowrap;
+        font: 800 104px/130px "Noto Sans Hebrew"; color: var(--ink); letter-spacing: -2px; opacity: 0; }
+      .em { color: var(--cyan); display: inline-block; }
+      .pcard { position: absolute; left: 130px; top: 880px; width: 820px; height: 600px; border-radius: 44px; overflow: hidden; z-index: 7;
+        box-shadow: 0 30px 70px rgba(15, 58, 82, 0.22), 0 6px 18px rgba(15, 58, 82, 0.12); opacity: 0; }
+      .pcard img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+      /* ---------- app ---------- */
+      #label { position: absolute; left: 0; right: 0; top: 200px; height: 130px; z-index: 9; }
+      .lab { position: absolute; left: 0; right: 0; top: 0; text-align: center; direction: rtl; white-space: nowrap;
+        font: 800 96px/1.2 "Noto Sans Hebrew"; color: var(--ink); letter-spacing: -2px; opacity: 0; }
+      #phone { position: absolute; left: 0; top: 0; width: 1019px; height: 2112px; transform-origin: 0 0; z-index: 7; opacity: 0;
+        filter: drop-shadow(0 40px 50px rgba(15, 58, 82, 0.25)); }
+      #phone img { position: absolute; inset: 0; width: 100%; height: 100%; }
+      #press { position: absolute; left: 61px; top: 1864px; width: 890px; height: 106px; border-radius: 53px; background: #fff; opacity: 0; }
+
+      /* ---------- footage frames ---------- */
+      .frame { position: absolute; overflow: hidden; z-index: 8; opacity: 0; box-shadow: 0 30px 70px rgba(15, 58, 82, 0.22); }
+      .frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      /* ---------- passes ---------- */
+      #passes { position: absolute; inset: 0; z-index: 8; perspective: 1600px; }
+      .pass { position: absolute; left: 220px; width: 640px; height: 414px; opacity: 0; backface-visibility: hidden; }
+      .pass img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 24px 30px rgba(15, 58, 82, 0.25)); }
+      .price { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; z-index: 8; white-space: nowrap;
+        font: 300 64px/1 "Noto Sans Hebrew"; color: var(--ink); opacity: 0; }
+      .price b { font-weight: 800; }
+
+      /* ---------- close ---------- */
+      #endLogo { position: absolute; left: 0; top: 0; width: 1386px; height: 738px; z-index: 9; transform-origin: 0 0; opacity: 0; filter: brightness(0); }
+      #endLogo img { width: 100%; height: 100%; display: block; }
+      .earc { position: absolute; left: 0; top: 0; z-index: 9; overflow: visible; opacity: 0; }
+      #promo1 { top: 1100px; font: 800 88px/1.1 "Noto Sans Hebrew"; letter-spacing: -2px; opacity: 0; }
+      #promo2 { top: 1222px; font: 300 52px/1.1 "Noto Sans Hebrew"; opacity: 0; }
+      #code { position: absolute; left: 50%; top: 1318px; width: 380px; margin-left: -190px; height: 104px; border-radius: 52px; z-index: 8;
+        background: var(--cyan); color: #fff; text-align: center; font: 800 58px/104px "Noto Sans Hebrew"; letter-spacing: 2px; opacity: 0;
+        box-shadow: 0 18px 40px rgba(0, 170, 206, 0.35); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="30.5" data-width="1080" data-height="1920">
+      <audio id="music" src="assets/music.mp3" data-start="0" data-duration="30.5" data-track-index="4" data-volume="0.9"></audio>
+      <div id="sky2"></div>
+      <div id="world"></div>
+      <div id="shotFrame">
+        <video id="shot" src="assets/ride.mp4" data-start="1.3" data-duration="3.6" data-track-index="0" muted playsinline></video>
+      </div>
+      <div id="feather"></div>
+      <div id="sky"></div>
+      <div class="logo" id="letters"><img src="assets/letters.png" alt="" /></div>
+      <svg class="arc" id="arcL" width="240" height="240" viewBox="-120 -120 240 240">
+        <defs><mask id="mL"><circle r="100" fill="#fff" /><circle cx="14" r="92" fill="#000" /></mask></defs>
+        <circle r="100" fill="#fff" mask="url(#mL)" />
+      </svg>
+      <svg class="arc" id="arcR" width="240" height="240" viewBox="-120 -120 240 240">
+        <defs><mask id="mR"><circle r="100" fill="#fff" /><circle cx="-14" r="92" fill="#000" /></mask></defs>
+        <circle r="100" fill="#fff" mask="url(#mR)" />
+      </svg>
+      <svg class="ring" width="1080" height="1920" viewBox="0 0 1080 1920">
+        <circle id="ringL" cx="250" cy="1588" r="142" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" />
+        <circle id="ringR" cx="806" cy="1576" r="146" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" />
+      </svg>
+      <div id="title"><span class="w">ירושלים</span><span class="w"><b>.</b></span></div>
+
+      <!-- destinations: the question, a text wheel of places, and a real photo of each place in a frame -->
+      <div class="line" id="ask">צריכים להגיע ל…</div>
+      <div id="dwheel">
+        <div class="drow">האוניברסיטה?</div>
+        <div class="drow">הספרייה הלאומית?</div>
+        <div class="drow">גן סאקר?</div>
+        <div class="drow">הכותל?</div>
+        <div class="drow">באופניים <span class="em" id="emE">חשמליים</span>.</div>
+      </div>
+      <div class="pcard"><img src="assets/university.jpg" alt="" style="object-position: 50% 40%" /></div>
+      <div class="pcard"><img src="assets/library.jpg" alt="" style="object-position: 50% 45%" /></div>
+      <div class="pcard"><img src="assets/sacher.jpg" alt="" /></div>
+      <div class="pcard"><img src="assets/kotel.jpg" alt="" /></div>
+
+      <!-- the app: the real screens in their real mockups -->
+      <div id="phone">
+        <img id="scr1" src="assets/screen1.png" alt="" />
+        <img id="scr2" src="assets/screen2.png" alt="" />
+        <div id="press"></div>
+      </div>
+
+      <!-- the real campaign footage, in frames that grow out of the phone -->
+      <div class="frame" id="scanFrame">
+        <video id="scan" src="assets/scan.mp4" data-start="13.4" data-duration="2.6" data-track-index="1" muted playsinline style="object-position: 46% 50%"></video>
+      </div>
+      <div class="frame" id="barsFrame">
+        <video id="bars" src="assets/bars.mp4" data-start="15.7" data-duration="2.6" data-track-index="2" muted playsinline style="object-position: 58% 50%"></video>
+      </div>
+
+      <div id="passes">
+        <div class="pass" id="pDaily" style="top: 420px"><img src="assets/pass_daily.png" alt="" /></div>
+        <div class="pass" id="pWeekly" style="top: 960px"><img src="assets/pass_weekly.png" alt="" /></div>
+      </div>
+      <div class="price" id="prDaily" style="top: 862px"><b>₪39</b> ליום</div>
+      <div class="price" id="prWeekly" style="top: 1402px"><b>₪119</b> לשבוע</div>
+
+      <div class="frame" id="cafeFrame">
+        <video id="cafe" src="assets/cafe.mp4" data-start="21.5" data-duration="4.04" data-track-index="3" muted playsinline style="object-position: 50% 50%"></video>
+      </div>
+
+      <!-- labels for the app / footage / passes / cafe beats -->
+      <div id="label">
+        <div class="lab" id="l1">מוצאים תחנה.</div>
+        <div class="lab" id="l2">בוחרים אופניים.</div>
+        <div class="lab" id="l3">סורקים.</div>
+        <div class="lab" id="l4">ויוצאים לדרך.</div>
+        <div class="lab" id="l5">רוכבים <span class="em" id="emU">בלי הגבלה</span>.</div>
+        <div class="lab" id="l6">ועוצרים מתי שבא.</div>
+      </div>
+
+      <!-- close: the logo comes back together, then the offer -->
+      <div id="endLogo"><img src="assets/letters.png" alt="" /></div>
+      <svg class="earc" id="eL" width="240" height="240" viewBox="-120 -120 240 240">
+        <defs><mask id="emL"><circle r="100" fill="#fff" /><circle cx="14" r="92" fill="#000" /></mask></defs>
+        <circle r="100" fill="#0f0f0f" mask="url(#emL)" />
+      </svg>
+      <svg class="earc" id="eR" width="240" height="240" viewBox="-120 -120 240 240">
+        <defs><mask id="emR"><circle r="100" fill="#fff" /><circle cx="-14" r="92" fill="#000" /></mask></defs>
+        <circle r="100" fill="#0f0f0f" mask="url(#emR)" />
+      </svg>
+      <div class="line" id="promo1">הנסיעה הראשונה עלינו.</div>
+      <div class="line" id="promo2">30 דקות חינם עם הקוד</div>
+      <div id="code">START30</div>
+    </div>
+    <script>
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        const breathe = (el, t) => tl.to(el, { scale: 1.07, duration: 0.45, yoyo: true, repeat: 3, ease: "sine.inOut", transformOrigin: "50% 55%" }, t);
+
+        /* ================= 1. HOOK (0 - 3.4) ================= */
+        const S0 = 0.649, X0 = 90, Y0 = 700;
+        const arcs = [
+          { el: "#arcL", cx: 273, cy: 507, to: [250, 1588], ring: "#ringL", r: 142 },
+          { el: "#arcR", cx: 1134, cy: 504, to: [806, 1576], ring: "#ringR", r: 146 },
+        ];
+        const R0 = 77 * 3 * S0;
+        tl.set("#letters", { x: X0, y: Y0, scale: S0, transformOrigin: "0 0" }, 0);
+        tl.fromTo("#letters", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power2.out" }, 0.05);
+        tl.to("#letters", { y: Y0 - 140, opacity: 0, filter: "blur(12px)", duration: 0.45, ease: "power2.in" }, 0.85);
+        arcs.forEach(({ el, cx, cy, to, ring, r }, i) => {
+          const sx = X0 + cx * S0, sy = Y0 + cy * S0, s0 = R0 / 100, s = r / 100;
+          tl.set(el, { transformOrigin: "120px 120px", x: sx - 120, y: sy - 120, scale: s0, rotation: 0 }, 0);
+          tl.fromTo(el, { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power2.out" }, 0.05);
+          tl.to(el, { rotation: -14, y: sy - 120 - 22, duration: 0.22, ease: "power2.out" }, 0.6 + i * 0.04);
+          tl.to(el, { x: to[0] - 120, y: to[1] - 120, scale: s, rotation: 360, duration: 0.62, ease: "power3.inOut" }, 0.82 + i * 0.04);
+          const C = 2 * Math.PI * r;
+          tl.set(ring, { strokeDasharray: C, strokeDashoffset: C, opacity: 0, rotation: 90, transformOrigin: "50% 50%" }, 0);
+          tl.set(ring, { opacity: 1 }, 1.38 + i * 0.04);
+          tl.to(ring, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 1.38 + i * 0.04);
+          tl.to(el, { opacity: 0, duration: 0.12 }, 1.44 + i * 0.04);
+          tl.to(ring, { opacity: 0, strokeWidth: 2, duration: 0.35, ease: "power2.in" }, 1.62 + i * 0.04);
+        });
+        tl.to("#sky", { opacity: 0, duration: 0.2, ease: "power1.inOut" }, 1.3);
+        tl.fromTo("#title .w", { opacity: 0, y: 40, filter: "blur(16px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, stagger: 0.12, ease: "power3.out" }, 1.8);
+        tl.to("#title", { scale: 1.04, duration: 1.6, ease: "none" }, 2.3);
+
+        /* ================= 2. BRIDGE (3.4 - 4.6): the street folds into a framed photo in the white world ================= */
+        const CS = 760 / 1080;  // the shot becomes a 760-wide card, centred
+        tl.to("#world", { opacity: 1, duration: 0.45, ease: "power1.inOut" }, 3.45);
+        tl.to("#feather", { opacity: 0, duration: 0.3 }, 3.45);
+        tl.to("#shotFrame", { x: (1080 - 760) / 2, y: 960 - (1282 * CS) / 2 + 120 - 638, scale: CS, borderRadius: 44 / CS,
+          boxShadow: "0 40px 90px rgba(15,58,82,0.30)", duration: 0.6, ease: "power3.inOut" }, 3.45);
+        tl.to("#title", { y: -90, opacity: 0, filter: "blur(14px)", duration: 0.35, ease: "power2.in" }, 4.0);
+        // the card leaves to the left as the first place arrives from the right
+        tl.to("#shotFrame", { x: -1000, rotation: -9, duration: 0.5, ease: "power3.in" }, 4.3);
+
+        /* ================= 3. DESTINATIONS (4.3 - 10.4) ================= */
+        tl.fromTo("#ask", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 4.25);
+        const rows = gsap.utils.toArray(".drow"), cards = gsap.utils.toArray(".pcard");
+        const RY = 130, CY = 640;  // wheel: active row centred at y 640
+        const T = [4.75, 5.75, 6.75, 7.75, 9.0];  // each place lands on a beat (one per two beats), the answer a little later
+        // row state: active = sharp ink, neighbours = small, blurred, grey
+        const place = (idx, t, d) => rows.forEach((el, i) => {
+          const k = i - idx, a = Math.abs(k);
+          tl.to(el, { y: CY - RY / 2 + k * RY, opacity: a === 0 ? 1 : a === 1 ? 0.28 : 0, scale: a === 0 ? 1 : 0.78,
+            filter: `blur(${a === 0 ? 0 : 7}px)`, duration: d, ease: "power3.inOut" }, t);
+        });
+        rows.forEach((el, i) => tl.set(el, { y: CY - RY / 2 + (i + 1) * RY, opacity: 0, scale: 0.78, filter: "blur(7px)" }, 0));
+        T.forEach((t, i) => place(i, t - 0.35, 0.42));
+        cards.forEach((el, i) => {
+          tl.fromTo(el, { opacity: 1, x: 1100, rotation: 8 }, { x: 0, rotation: i % 2 ? 1.5 : -1.5, duration: 0.55, ease: "power3.out" }, T[i] - 0.4);
+          tl.fromTo(el.querySelector("img"), { scale: 1.12 }, { scale: 1, duration: 1.4, ease: "power1.out" }, T[i] - 0.4);
+          tl.to(el, { x: -1100, rotation: -8, duration: 0.45, ease: "power3.in" }, T[i + 1] - 0.45);
+        });
+        // the answer: the question leaves and the last row reads alone, its key word breathing once
+        tl.to("#ask", { opacity: 0, y: -40, filter: "blur(10px)", duration: 0.35, ease: "power2.in" }, 8.55);
+        breathe("#emE", 9.1);
+
+        /* ================= 4. APP (10.2 - 13.9) ================= */
+        tl.to(rows, { y: "-=160", opacity: 0, filter: "blur(12px)", duration: 0.4, ease: "power2.in" }, 10.2);
+        const PS = 0.56, PX = (1080 - 1019 * PS) / 2, PY = 360;
+        tl.set("#phone", { scale: PS, x: PX, y: 1950, opacity: 1, rotationX: 0 }, 0);
+        tl.set("#phone", { opacity: 0 }, 0);
+        tl.set("#phone", { opacity: 1 }, 10.2);
+        tl.to("#phone", { y: PY, duration: 0.75, ease: "power3.out" }, 10.25);
+        const lab = (id, t, out) => {
+          tl.fromTo(id, { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, t);
+          tl.to(id, { opacity: 0, y: -40, filter: "blur(12px)", duration: 0.3, ease: "power2.in" }, out);
+        };
+        lab("#l1", 10.55, 11.95);
+        // map -> the bike screen (same mockup, so only the screen changes)
+        tl.to("#scr2", { opacity: 0, duration: 0.3, ease: "power1.inOut" }, 12.0);
+        tl.fromTo("#scr1", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 0);
+        lab("#l2", 12.1, 13.3);
+        // the press covers the whole Start Ride button
+        tl.to("#press", { opacity: 0.45, duration: 0.08 }, 12.95);
+        tl.to("#press", { opacity: 0, duration: 0.25 }, 13.05);
+        tl.to("#phone", { scale: PS * 0.985, x: PX + 1019 * PS * 0.0075, y: PY + 2112 * PS * 0.0075, duration: 0.08, yoyo: true, repeat: 1 }, 12.95);
+
+        /* ================= 5. FOOTAGE (13.4 - 18.0): the scan grows out of the phone's screen ================= */
+        const scr = { x: PX + 44 * PS, y: PY + 44 * PS, w: 931 * PS, h: 2024 * PS, r: 120 * PS };
+        const FR = { x: 40, y: 400, w: 1000, h: 1420, r: 48 };
+        tl.set("#scanFrame", { left: scr.x, top: scr.y, width: scr.w, height: scr.h, borderRadius: scr.r, opacity: 0 }, 0);
+        tl.to("#scanFrame", { opacity: 1, duration: 0.2 }, 13.4);
+        tl.to("#scanFrame", { left: FR.x, top: FR.y, width: FR.w, height: FR.h, borderRadius: FR.r, duration: 0.55, ease: "power3.inOut" }, 13.45);
+        tl.to("#phone", { opacity: 0, duration: 0.2 }, 13.7);
+        lab("#l3", 13.9, 15.55);
+        // whip: the scan leaves left, the handlebar arrives from the right, on the beat
+        tl.set("#barsFrame", { left: FR.x, top: FR.y, width: FR.w, height: FR.h, borderRadius: FR.r, x: 1100, opacity: 1 }, 0);
+        tl.to("#scanFrame", { x: -1100, filter: "blur(6px)", duration: 0.35, ease: "power3.in" }, 15.65);
+        tl.to("#barsFrame", { x: 0, duration: 0.45, ease: "power3.out" }, 15.75);
+        lab("#l4", 15.95, 17.65);
+
+        /* ================= 6. PASSES (17.7 - 21.4): the handlebar frame shrinks to a card and flips into the Daily pass ================= */
+        tl.to("#barsFrame", { left: 220, top: 420, width: 640, height: 414, borderRadius: 40, duration: 0.5, ease: "power3.inOut" }, 17.6);
+        tl.to("#barsFrame", { rotationY: 90, duration: 0.2, ease: "power2.in", transformPerspective: 1600 }, 18.1);
+        tl.set("#barsFrame", { opacity: 0 }, 18.3);
+        tl.set("#pDaily", { opacity: 1, rotationY: -90, transformPerspective: 1600 }, 18.3);
+        tl.to("#pDaily", { rotationY: 0, duration: 0.3, ease: "power2.out" }, 18.3);
+        tl.set("#pWeekly", { opacity: 1, y: -540, scale: 0.9 }, 18.75);
+        tl.to("#pWeekly", { y: 0, scale: 1, duration: 0.55, ease: "power3.out" }, 18.75);
+        lab("#l5", 18.3, 21.2);
+        breathe("#emU", 18.8);
+        tl.fromTo("#prDaily", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 18.6);
+        tl.fromTo("#prWeekly", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 19.15);
+        tl.to(["#pDaily", "#prDaily"], { x: -1100, rotation: -8, duration: 0.45, ease: "power3.in" }, 21.1);
+        tl.to(["#pWeekly", "#prWeekly"], { x: 1100, rotation: 8, duration: 0.45, ease: "power3.in" }, 21.15);
+
+        /* ================= 7. CAFE (21.5 - 23.4) ================= */
+        tl.set("#cafeFrame", { left: FR.x, top: FR.y, width: FR.w, height: FR.h, borderRadius: FR.r, y: 1500, opacity: 1 }, 0);
+        tl.to("#cafeFrame", { y: 0, duration: 0.55, ease: "power3.out" }, 21.5);
+        lab("#l6", 21.85, 23.3);
+
+        /* ================= 8. CLOSE (23.4 - 30.5): the frame becomes a wheel, the logo rebuilds on the music's final hit at 26 ================= */
+        const ES = 0.6, EX = (1080 - 1386 * ES) / 2, EY = 520;  // the end logo, 832 wide
+        const eL = [EX + 273 * ES, EY + 507 * ES], eR = [EX + 1134 * ES, EY + 504 * ES], ER = 77 * 3 * ES;
+        // the cafe frame closes into a circle (the cup's moment), then it is the left wheel
+        tl.to("#cafeFrame", { left: 540 - 210, top: 900 - 210, width: 420, height: 420, borderRadius: 210, duration: 0.7, ease: "power3.inOut" }, 23.4);
+        tl.to("#cafeFrame", { left: eL[0] - ER, top: eL[1] - ER, width: ER * 2, height: ER * 2, borderRadius: ER, duration: 0.6, ease: "power3.inOut" }, 24.2);
+        tl.set("#eL", { transformOrigin: "120px 120px", x: eL[0] - 120, y: eL[1] - 120, scale: ER / 100, rotation: -120 }, 0);
+        tl.to("#eL", { opacity: 1, rotation: 0, duration: 0.5, ease: "power3.out" }, 24.75);
+        tl.to("#cafeFrame", { opacity: 0, scale: 0.6, duration: 0.3, ease: "power2.in" }, 24.75);
+        // the right wheel rolls in from the edge of the frame and lands on the beat
+        tl.set("#eR", { transformOrigin: "120px 120px", x: 1180, y: eR[1] - 120, scale: ER / 100, rotation: 0, opacity: 1 }, 0);
+        tl.set("#eR", { opacity: 0 }, 0);
+        tl.set("#eR", { opacity: 1 }, 25.0);
+        tl.to("#eR", { x: eR[0] - 120, rotation: -360, duration: 0.95, ease: "power3.out" }, 25.0);
+        tl.set("#endLogo", { x: EX, y: EY, scale: ES }, 0);
+        tl.fromTo("#endLogo", { opacity: 0, filter: "brightness(0) blur(14px)" }, { opacity: 0.94, filter: "brightness(0) blur(0px)", duration: 0.5, ease: "power2.out" }, 25.55);
+        tl.fromTo("#promo1", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 26.2);
+        tl.fromTo("#promo2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 26.55);
+        tl.fromTo("#code", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 26.9);
+        tl.to("#code", { scale: 1.06, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, 27.5);
+        tl.to({}, { duration: 0.01 }, 30.49);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>
