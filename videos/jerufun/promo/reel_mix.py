@@ -2,7 +2,7 @@
 import subprocess
 F = "/Users/refaellevi/videoedit/videos/jerufun/film"
 P = "/Users/refaellevi/videoedit/videos/jerufun/promo"
-IN = 3.45
+IN = 8.75
 peak = {"whoosh": 0.50, "pop": 0.18, "send": 0.0, "wheel": 0.65, "bell": 0.08, "tap": 0.48}
 film = [
   ("wheel", 1.40, 0.55), ("whoosh", 3.75, 0.45), ("whoosh", 4.50, 0.55),
@@ -17,18 +17,18 @@ film = [
   # outro
   ("whoosh", 28.45, 0.5), ("pop", 28.6, 0.4), ("pop", 31.75, 0.45), ("tap", 32.05, 0.8), ("pop", 33.55, 0.4), ("pop", 34.3, 0.4),
 ]
-intro = [("pop", 0.1, 0.25), ("pop", 0.98, 0.25), ("pop", 1.92, 0.3), ("whoosh", 2.52, 0.6), ("tap", 2.62, 0.7), ("tap", 3.02, 0.7)]
+intro = [("pop", 0.05, 0.25), ("pop", 0.97, 0.25), ("whoosh", 2.3, 0.5), ("whoosh", 3.6, 0.35), ("tap", 3.78, 0.8), ("pop", 4.4, 0.25), ("pop", 6.05, 0.25), ("pop", 7.47, 0.3), ("whoosh", 8.55, 0.6)]
 cues = intro + [(n, t + IN, g) for n, t, g in film]
 args = ["ffmpeg", "-v", "error", "-y",
-        "-ss", "11.05", "-t", str(IN + 28.4 + 0.6), "-i", f"{F}/assets/music2_b.mp3",
+        "-ss", str(14.5 - IN), "-t", str(IN + 28.4 + 0.6), "-i", f"{F}/assets/music2_b.mp3",
         "-ss", "20.0", "-t", "7.6", "-i", f"{F}/assets/music2_b.mp3",
-        "-i", f"{P}/assets/vo_in_b.mp3", "-i", f"{P}/assets/vo_out2.mp3"]
+        "-i", f"{P}/assets/vo_hook2.mp3", "-i", f"{P}/assets/vo_out2.mp3"]
 fil = [f"[0]afade=t=out:st={IN + 28.4}:d=0.6[m1]",
        f"[1]volume=0.32,afade=t=in:d=0.4,afade=t=out:st=6.6:d=1.0,adelay={int((IN + 28.35) * 1000)}|{int((IN + 28.35) * 1000)}[m2]",
        "[2]volume=1.6[v1]",
        f"[3]volume=1.6,adelay={int((IN + 28.6) * 1000)}|{int((IN + 28.6) * 1000)}[v2]",
        # duck the music under the intro voice
-       "[m1]volume='if(lt(t,3.3),0.55,1)':eval=frame[m1d]"]
+       "[m1]volume='if(lt(t,8.5),0.5,1)':eval=frame[m1d]"]
 for i, (n, t, g) in enumerate(cues):
     args += ["-i", f"{F}/sfx/{n}.wav"]
     d = max(0, int((t - peak[n]) * 1000))
