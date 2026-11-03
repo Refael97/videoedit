@@ -114,6 +114,10 @@
       #oFollow { position: absolute; left: 50%; top: 1290px; width: 340px; margin-left: -170px; height: 104px; border-radius: 22px; z-index: 11; opacity: 0;
         background: #0a84ff; color: #fff; text-align: center; font: 800 52px/104px "Noto Sans Hebrew"; box-shadow: 0 18px 40px rgba(10, 132, 255, 0.35); }
       #oFollow .b { position: absolute; inset: 0; opacity: 0; background: #e9e9eb; color: #111; border-radius: 22px; }
+      #oEmo { position: absolute; left: 0; right: 0; top: 1190px; text-align: center; z-index: 11; font-size: 92px; line-height: 1.2; }
+      #oEmo span { display: inline-block; margin: 0 14px; opacity: 0; }
+      #oLink { position: absolute; right: 120px; top: 1350px; padding: 26px 44px; border-radius: 48px; border-bottom-right-radius: 14px; z-index: 11; opacity: 0;
+        background: #0a84ff; color: #fff; direction: rtl; white-space: nowrap; font: 300 50px/1.25 "Noto Sans Hebrew"; box-shadow: 0 16px 36px rgba(10, 132, 255, 0.3); }
       .oChip { position: absolute; top: 1420px; height: 86px; padding: 0 36px; border-radius: 43px; background: #fff; z-index: 11; opacity: 0; direction: rtl; white-space: nowrap;
         font: 800 40px/86px "Noto Sans Hebrew"; color: var(--ink); box-shadow: 0 14px 30px rgba(15, 58, 82, 0.16); }
       /* ---------- close ---------- */
@@ -129,7 +133,7 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="35.5" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="34.6" data-width="1080" data-height="1920">
       <div id="sky2"></div>
       <div id="world"></div>
       <div id="blobs">
@@ -221,12 +225,11 @@
       <div id="oAv"><img src="assets/avatar.jpg" alt="" /></div>
       <div class="oT" id="oHandle" style="top: 640px; font: 800 58px/1.1 'Noto Sans Hebrew'"><span dir="ltr" style="unicode-bidi: isolate">@refaelleviii</span></div>
       <div class="oT" id="oRole" style="top: 716px; font: 300 40px/1.1 'Noto Sans Hebrew'"><span>רפאל לוי · מומחה AI ושיווק דיגיטלי</span></div>
-      <div class="oT" id="oQ1" style="top: 850px; font: 800 80px/1.1 'Noto Sans Hebrew'; letter-spacing: -2px"><span>רוצים</span> <span>ללמוד</span> <span>איך</span> <span>לערוך</span></div>
-      <div class="oT" id="oQ2" style="top: 960px; font: 800 116px/1.1 'Noto Sans Hebrew'; letter-spacing: -3px"><span>ברמה</span> <span>הכי</span> <span>גבוהה</span></div>
-      <div class="oT" id="oQ3" style="top: 1110px; font: 800 80px/1.1 'Noto Sans Hebrew'; letter-spacing: -2px"><span>עם</span> <span>קלוד?</span></div>
-      <div id="oFollow">עקבו<div class="b">במעקב ✓</div></div>
-      <div class="oChip" id="oC1" style="left: 560px">בעמוד שלי</div>
-      <div class="oChip" id="oC2" style="right: 560px">ובאתר</div>
+      <div class="oT" id="oQ1" style="top: 850px; font: 800 92px/1.1 'Noto Sans Hebrew'; letter-spacing: -2px"><span>רוצים</span> <span>לדעת</span> <span>איך</span></div>
+      <div class="oT" id="oQ2" style="top: 960px; font: 800 92px/1.1 'Noto Sans Hebrew'; letter-spacing: -2px"><span>עשיתי</span> <span>את</span> <span>זה?</span></div>
+      <div class="oT" id="oQ3" style="top: 1095px; font: 300 58px/1.1 'Noto Sans Hebrew'"><span>תגיבו</span> <span>את</span> <span>האימוג׳י</span> <span>האהוב</span> <span>עליכם</span></div>
+      <div id="oEmo"><span>😍</span><span>🔥</span><span>🤯</span><span>🚲</span><span>💙</span></div>
+      <div id="oLink">ואשלח לכם לינק למדריך 🔗</div>
     </div>
     <script>
       document.fonts.ready.then(() => {
@@ -445,16 +448,18 @@
         const O = 28.6;  // the voice-over starts here; each word lands on its word
         tl.fromTo("#oAv", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, O - 0.1);
         tl.fromTo(["#oHandle span", "#oRole span"], { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out", stagger: 0.1 }, O + 0.1);
-        const qw = [0.04, 0.34, 0.66, 0.82, 1.18, 1.54, 1.98, 2.24, 2.38];
+        const qw = [0.04, 0.32, 0.6, 0.74, 1.08, 1.2, 1.7, 2.0, 2.12, 2.54, 2.84];
         gsap.utils.toArray("#oQ1 span, #oQ2 span, #oQ3 span").forEach((el, i) =>
           tl.fromTo(el, { opacity: 0, y: 40, scale: 0.85, filter: "blur(8px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.24, ease: "back.out(2)" }, O + qw[i] - 0.03));
-        // "שימו לי עוקב": the follow button pops, gets tapped, and turns to "following"
-        tl.fromTo("#oFollow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, O + 3.05);
-        tl.to("#oFollow", { scale: 0.93, duration: 0.08, yoyo: true, repeat: 1 }, O + 3.45);
-        tl.to("#oFollow .b", { opacity: 1, duration: 0.12 }, O + 3.55);
-        tl.fromTo("#oC1", { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2)" }, O + 4.92);
-        tl.fromTo("#oC2", { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2)" }, O + 5.68);
-        tl.to({}, { duration: 0.01 }, 35.49);
+        // the emojis pop on "האימוג׳י", then keep bouncing like reactions
+        gsap.utils.toArray("#oEmo span").forEach((el, i) => {
+          tl.fromTo(el, { opacity: 0, y: 60, scale: 0.3, rotation: i % 2 ? 20 : -20 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2.6)" }, O + 2.12 + i * 0.12);
+          tl.to(el, { y: -16, duration: 0.35, yoyo: true, repeat: 4, ease: "sine.inOut" }, O + 2.6 + i * 0.12);
+        });
+        // "ואשלח לכם לינק למדריך": a sent message with the link
+        tl.fromTo("#oLink", { opacity: 0, y: 50, scale: 0.8, transformOrigin: "100% 100%" }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, O + 3.4);
+        tl.to({}, { duration: 0.01 }, 34.59);
+
 
         window.__timelines = window.__timelines || {};
         window.__timelines["main"] = tl;

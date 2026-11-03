@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/noto-sans-hebrew-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/noto-sans-hebrew-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF; }
+      :root { --ink: #0f3a52; }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #f9fcfd; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #f9fcfd; font-family: "Noto Sans Hebrew"; }
+      .blob { position: absolute; width: 900px; height: 900px; border-radius: 50%; filter: blur(110px); }
+      .ln { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; white-space: nowrap; z-index: 4;
+        font: 800 96px/1.1 "Noto Sans Hebrew"; color: var(--ink); letter-spacing: -2px; }
+      .ln span { display: inline-block; opacity: 0; }
+      /* the film's own code, scrolling in an editor card: the proof */
+      #code { position: absolute; left: 70px; top: 800px; width: 940px; height: 700px; border-radius: 40px; overflow: hidden; z-index: 3; opacity: 0;
+        background: #0e1621; box-shadow: 0 40px 90px rgba(15, 30, 60, 0.35); transform-origin: 50% 50%; }
+      #code .bar { height: 64px; display: flex; align-items: center; gap: 14px; padding: 0 30px; background: #131d2b; }
+      #code .bar i { width: 18px; height: 18px; border-radius: 50%; display: block; }
+      #code .bar span { margin-left: 16px; font: 24px/1 Menlo, monospace; color: #6c7f95; }
+      #scroll { padding: 26px 34px; font: 25px/40px Menlo, monospace; color: #c9d6e3; direction: ltr; white-space: pre; }
+      #scroll b { color: #5fd3ff; font-weight: 400; } #scroll i { color: #ffb86b; font-style: normal; } #scroll u { color: #ff7eb6; text-decoration: none; }
+      #fade { position: absolute; left: 0; right: 0; bottom: 0; height: 200px; background: linear-gradient(180deg, rgba(14,22,33,0), #0e1621); }
+      /* the hook: the film's best shots, full bleed, from the very first frame */
+      #tz { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; z-index: 3; }
+      #tz video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      #tzDim { position: absolute; inset: 0; background: rgba(8, 18, 30, 0.5); }
+      #wow { position: absolute; left: 0; right: 0; top: 760px; text-align: center; direction: rtl; white-space: nowrap; z-index: 5;
+        font: 800 124px/1.1 "Noto Sans Hebrew"; color: #fff; letter-spacing: -3px; text-shadow: 0 10px 34px rgba(0, 0, 0, 0.45); }
+      #wow span { display: inline-block; opacity: 0; }
+      #sky { position: absolute; inset: 0; z-index: 6; opacity: 0; background: linear-gradient(180deg, #3f9fcb 0%, #5bb6d6 55%, #86d2e0 85%, #b3d1e0 100%); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="10.1" data-width="1080" data-height="1920">
+      <div class="blob" id="b1" style="left:-300px;top:-200px;background:rgba(139,108,255,0.55)"></div>
+      <div class="blob" id="b2" style="left:520px;top:300px;background:rgba(0,170,206,0.5)"></div>
+      <div class="blob" id="b3" style="left:-250px;top:1100px;background:rgba(255,111,177,0.45)"></div>
+      <div class="blob" id="b4" style="left:480px;top:1400px;background:rgba(243,154,43,0.40)"></div>
+      <div id="tz"><video src="assets/teaser.mp4" data-start="0" data-duration="3.66" data-track-index="0" muted playsinline></video><div id="tzDim"></div></div>
+      <div id="wow"><span>אתם</span> <span>לא</span> <span>תאמינו!</span></div>
+      <div class="ln p1" style="top: 290px"><span>אבל</span> <span>את</span> <span>הסרטון</span> <span>הבא</span></div>
+      <div class="ln p1" style="top: 410px"><span>יצרתי</span> <span>בקלוד</span></div>
+      <div class="ln p1" style="top: 530px"><span>בעזרת</span> <span>קוד</span> <span>בלבד.</span></div>
+      <div class="ln p2" style="top: 330px; font-size: 240px; letter-spacing: -6px"><span>כן.</span></div>
+      <div class="ln p3" style="top: 330px; font-size: 86px"><span>בלי</span> <span>לשלם</span> <span>על</span> <span>סרטוני</span> <span>AI</span></div>
+      <div class="ln p3" style="top: 450px; font-size: 86px"><span>ובלי</span> <span>תוכנות</span> <span>עריכה.</span></div>
+      <div class="ln p4" style="top: 330px; font-size: 116px; letter-spacing: -3px"><span>מה</span> <span>דעתכם</span></div>
+      <div class="ln p4" style="top: 470px; font-size: 116px; letter-spacing: -3px"><span>על</span> <span>התוצאה?</span></div>
+      <div id="code">
+        <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span>jerufun / index.html</span></div>
+        <div id="scroll"><div style="padding-left:0px">/* ================= <u>1</u>. HOOK (<u>0</u> - <u>3.4</u>): the logo holds sti</div>
+<div style="padding-left:0px"><b>const</b> S1 = <u>581</u> / <u>861</u>, X1 = <u>241</u> - <u>273</u> * S1, Y1 = <u>1248</u> - <u>505</u></div>
+<div style="padding-left:0px"><b>tl</b>.set(<i>&quot;#logoG&quot;</i>, { x: X1, y: Y1, scale: S1 }, <u>0</u>);</div>
+<div style="padding-left:0px"><b>tl</b>.fromTo(<i>&quot;#logoG&quot;</i>, { opacity: <u>0</u>, filter: <i>&quot;blur(<u>14</u>px)&quot;</i> }, </div>
+<div style="padding-left:0px"><b>tl</b>.set(<i>&quot;.wheel&quot;</i>, { transformOrigin: <i>&quot;<u>50</u>% <u>50</u>%&quot;</i> }, <u>0</u>);</div>
+<div style="padding-left:0px"><b>tl</b>.to(<i>&quot;.wheel&quot;</i>, { rotation: -<u>90</u>, <b>duration</b>: <u>0.6</u>, <b>ease</b>: &quot;pow</div>
+<div style="padding-left:0px"><b>tl</b>.to(<i>&quot;.wheel&quot;</i>, { rotation: -<u>900</u>, <b>duration</b>: <u>1.6</u>, <b>ease</b>: &quot;po</div>
+<div style="padding-left:0px"><b>const</b> camEls = [<i>&quot;#sky&quot;</i>, <i>&quot;#sky2&quot;</i>, <i>&quot;#shotFrame&quot;</i>, <i>&quot;#feather&quot;</i>,</div>
+<div style="padding-left:0px"><b>tl</b>.set(camEls, { y: <u>1920</u> }, <u>0</u>);</div>
+<div style="padding-left:0px"><b>tl</b>.to(camEls, { y: <u>0</u>, <b>duration</b>: <u>0.95</u>, <b>ease</b>: <i>&quot;power3.inOut&quot;</i></div>
+<div style="padding-left:0px"><b>tl</b>.to(<i>&quot;#letters&quot;</i>, { opacity: <u>0</u>, filter: <i>&quot;blur(<u>10</u>px)&quot;</i>, dura</div>
+<div style="padding-left:0px"><b>tl</b>.to(<i>&quot;.wheel&quot;</i>, { opacity: <u>0</u>, <b>duration</b>: <u>0.3</u>, <b>ease</b>: &quot;power1</div>
+<div style="padding-left:0px"><b>tl</b>.fromTo(<i>&quot;#title .w&quot;</i>, { opacity: <u>0</u>, y: <u>40</u>, filter: &quot;blur(</div>
+<div style="padding-left:0px"><b>tl</b>.to(<i>&quot;#title&quot;</i>, { scale: <u>1.04</u>, <b>duration</b>: <u>1.6</u>, <b>ease</b>: <i>&quot;none&quot;</i></div>
+<div style="padding-left:0px">/* ================= <u>2</u>. BRIDGE (<u>3.4</u> - <u>4.6</u>): the street fol</div>
+<div style="padding-left:0px"><b>const</b> CS = <u>760</u> / <u>1080</u>;  // the shot becomes a <u>760</u>-wide car</div>
+<div style="padding-left:0px"><b>tl</b>.to(<i>&quot;#world&quot;</i>, { opacity: <u>1</u>, <b>duration</b>: <u>0.45</u>, <b>ease</b>: &quot;power</div>
+<div style="padding-left:0px"><b>tl</b>.to([<i>&quot;#feather&quot;</i>, <i>&quot;#roadEdge&quot;</i>], { opacity: <u>0</u>, <b>duration</b>: <u>0</u></div>
+<div style="padding-left:0px"><b>tl</b>.to(<i>&quot;#shotFrame&quot;</i>, { x: (<u>1080</u> - <u>760</u>) / <u>2</u>, y: <u>960</u> - (<u>1282</u> </div>
+<div style="padding-left:18px">boxShadow: <i>&quot;<u>0</u> <u>40</u>px <u>90</u>px rgba(<u>15</u>,<u>58</u>,<u>82</u>,<u>0.30</u>)&quot;</i>, <b>duration</b>: <u>0</u>.</div>
+<div style="padding-left:0px"><b>tl</b>.to(<i>&quot;#title&quot;</i>, { y: -<u>90</u>, opacity: <u>0</u>, filter: <i>&quot;blur(<u>14</u>px)&quot;</i></div>
+<div style="padding-left:0px"><b>tl</b>.to(<i>&quot;#shotFrame&quot;</i>, { x: -<u>1000</u>, rotation: -<u>9</u>, <b>duration</b>: <u>0</u>.</div>
+<div style="padding-left:0px">/* ================= <u>3</u>. THE BOARD (<u>4.3</u> - <u>10.2</u>) ===========</div>
+<div style="padding-left:0px"><b>const</b> B = document.getElementById(<i>&quot;board&quot;</i>);</div>
+<div style="padding-left:0px"><b>const</b> card = (name, tag1, tag2, img) =&gt;</div>
+<div style="padding-left:18px">`&lt;div class=<i>&quot;ph&quot;</i>&gt;&lt;img src=<i>&quot;assets/${img}&quot;</i> alt=<i>&quot;&quot;</i> /&gt;&lt;/div&gt;&lt;</div>
+<div style="padding-left:0px"><b>const</b> grad = (bg, a, b) =&gt; ({ cls: <i>&quot;gtile&quot;</i>, style: `backgr</div>
+<div style="padding-left:0px"><b>const</b> items = [</div>
+<div style="padding-left:18px">{ id: <i>&quot;stations&quot;</i>, x: <u>40</u>, y: -<u>600</u>, cls: <i>&quot;ptile&quot;</i>, html: &#x27;&lt;im</div>
+<div style="padding-left:18px">{ id: <i>&quot;g1&quot;</i>, x: <u>590</u>, y: -<u>470</u>, ...grad(&quot;radial-gradient(<u>120</u>%</div>
+<div style="padding-left:18px">{ id: <i>&quot;blocal&quot;</i>, x: <u>1150</u>, y: -<u>520</u>, cls: <i>&quot;bpass&quot;</i>, html: &#x27;&lt;im</div>
+<div style="padding-left:18px">{ id: <i>&quot;hero&quot;</i>, x: <u>1690</u>, y: -<u>580</u>, cls: <i>&quot;ptile&quot;</i>, html: &#x27;&lt;img </div>
+<div style="padding-left:18px">{ id: <i>&quot;uni&quot;</i>, x: <u>60</u>, y: <u>80</u>, cls: <i>&quot;bcard&quot;</i>, html: card(&quot;האוני</div>
+<div style="padding-left:18px">{ id: <i>&quot;srch&quot;</i>, x: <u>590</u>, y: <u>200</u>, cls: <i>&quot;dash&quot;</i>, html: &quot;לאן רוכב</div>
+<div style="padding-left:18px">{ id: <i>&quot;map&quot;</i>, x: <u>1140</u>, y: <u>20</u>, cls: <i>&quot;shot&quot;</i>, html: &#x27;&lt;img src=</div>
+<div style="padding-left:18px">{ id: <i>&quot;lib&quot;</i>, x: <u>1690</u>, y: <u>120</u>, cls: <i>&quot;bcard&quot;</i>, html: card(&quot;הס</div>
+<div style="padding-left:18px">{ id: <i>&quot;sacher&quot;</i>, x: <u>60</u>, y: <u>640</u>, cls: <i>&quot;bcard&quot;</i>, html: card(&quot;ג</div>
+<div style="padding-left:18px">{ id: <i>&quot;icon&quot;</i>, x: <u>680</u>, y: <u>450</u>, cls: <i>&quot;tile&quot;</i>, html: &#x27;&lt;img src</div>
+<div style="padding-left:18px">{ id: <i>&quot;chipA&quot;</i>, x: <u>590</u>, y: <u>790</u>, cls: <i>&quot;chip2&quot;</i>, html: &quot;&lt;i&gt;⚡&lt;/</div>
+<div style="padding-left:18px">{ id: <i>&quot;pass&quot;</i>, x: <u>1150</u>, y: <u>540</u>, cls: <i>&quot;bpass&quot;</i>, html: &#x27;&lt;img s</div>
+<div style="padding-left:18px">{ id: <i>&quot;g2&quot;</i>, x: <u>1130</u>, y: <u>800</u>, ...grad(&quot;radial-gradient(<u>120</u>%</div>
+<div style="padding-left:18px">{ id: <i>&quot;kotel&quot;</i>, x: <u>1690</u>, y: <u>660</u>, cls: <i>&quot;bcard&quot;</i>, html: card(&quot;</div>
+<div style="padding-left:18px">{ id: <i>&quot;market&quot;</i>, x: <u>60</u>, y: <u>1760</u>, cls: <i>&quot;bcard&quot;</i>, html: card(&quot;</div>
+<div style="padding-left:18px">{ id: <i>&quot;bike&quot;</i>, x: <u>600</u>, y: <u>1780</u>, cls: <i>&quot;shot&quot;</i>, html: &#x27;&lt;img sr</div>
+<div style="padding-left:18px">{ id: <i>&quot;tomb&quot;</i>, x: <u>1140</u>, y: <u>1760</u>, cls: <i>&quot;bcard&quot;</i>, html: card(&quot;</div>
+<div style="padding-left:18px">{ id: <i>&quot;code&quot;</i>, x: <u>1720</u>, y: <u>1790</u>, cls: <i>&quot;cpill&quot;</i>, html: &quot;START</div>
+<div style="padding-left:18px">{ id: <i>&quot;g3&quot;</i>, x: <u>1680</u>, y: <u>1960</u>, ...grad(&quot;radial-gradient(<u>120</u></div>
+<div style="padding-left:18px">{ id: <i>&quot;bikes&quot;</i>, x: <u>40</u>, y: <u>2320</u>, cls: <i>&quot;ptile&quot;</i>, html: &#x27;&lt;img s</div>
+<div style="padding-left:18px">{ id: <i>&quot;pass2&quot;</i>, x: <u>600</u>, y: <u>2360</u>, cls: <i>&quot;bpass&quot;</i>, html: &#x27;&lt;img </div>
+<div style="padding-left:18px">{ id: <i>&quot;rides&quot;</i>, x: <u>1140</u>, y: <u>2330</u>, cls: <i>&quot;shot&quot;</i>, html: &#x27;&lt;img </div>
+<div style="padding-left:18px">{ id: <i>&quot;mamilla&quot;</i>, x: <u>1690</u>, y: <u>2340</u>, cls: <i>&quot;bcard&quot;</i>, html: car</div>
+<div style="padding-left:18px">{ id: <i>&quot;nfriend&quot;</i>, x: <u>60</u>, y: <u>2930</u>, cls: <i>&quot;bpass&quot;</i>, html: &#x27;&lt;img</div>
+<div style="padding-left:18px">{ id: <i>&quot;srch2&quot;</i>, x: <u>590</u>, y: <u>2700</u>, cls: <i>&quot;dash&quot;</i>, html: &quot;תחנה ק</div>
+<div style="padding-left:18px">{ id: <i>&quot;app&quot;</i>, x: <u>1140</u>, y: <u>2790</u>, cls: <i>&quot;ptile&quot;</i>, html: &#x27;&lt;img s</div>
+<div style="padding-left:18px">{ id: <i>&quot;g4&quot;</i>, x: <u>1690</u>, y: <u>2900</u>, ...grad(&quot;radial-gradient(<u>120</u></div>
+<div style="padding-left:0px">];</div>
+<div style="padding-left:0px">items.<b>forEach</b>((it) =&gt; {</div>
+<div style="padding-left:18px"><b>const</b> d = document.createElement(<i>&quot;div&quot;</i>);</div>
+<div style="padding-left:18px">d.className = <i>&quot;bi &quot;</i> + it.cls; d.id = <i>&quot;b_&quot;</i> + it.id; d.inner</div>
+<div style="padding-left:18px">d.style.left = it.x + <i>&quot;px&quot;</i>; d.style.top = it.y + <i>&quot;px&quot;</i>;</div>
+<div style="padding-left:18px">if (it.style) d.style.cssText += it.style;</div>
+<div style="padding-left:18px">B.appendChild(d); it.el = d;</div>
+<div style="padding-left:0px">});</div>
+<div style="padding-left:0px"><b>const</b> cam = (cx, cy, s, t, d, <b>ease</b>) =&gt; <b>tl</b>.to(<i>&quot;#board&quot;</i>, { x</div>
+<div style="padding-left:0px"><b>tl</b>.set(<i>&quot;#board&quot;</i>, { x: <u>540</u> - <u>940</u> * <u>0.95</u>, y: <u>960</u> - <u>1260</u> * <u>0</u>.</div>
+<div style="padding-left:0px"><b>const</b> order = [...items].sort((a, b) =&gt; Math.hypot(a.x - <u>1</u></div>
+<div style="padding-left:0px">order.<b>forEach</b>((it, i) =&gt; {</div>
+<div style="padding-left:18px"><b>const</b> t = <u>4.3</u> + Math.min(i, <u>14</u>) * <u>0.06</u>;</div>
+<div style="padding-left:18px"><b>tl</b>.fromTo(it.el, { opacity: <u>0</u>, scale: <u>0.55</u>, rotation: (it.</div>
+<div style="padding-left:36px">{ opacity: <u>1</u>, scale: <u>1</u>, rotation: it.rot || <u>0</u>, y: <u>0</u>, durat</div></div>
+        <div id="fade"></div>
+      </div>
+      <div id="sky"></div>
+    </div>
+    <script>
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        const word = (sel, starts) => gsap.utils.toArray(sel).forEach((el, i) =>
+          tl.fromTo(el, { opacity: 0, y: 46, scale: 0.85, filter: "blur(10px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.24, ease: "back.out(2.2)" }, starts[i] - 0.03));
+        const out = (sel, t) => tl.to(sel, { opacity: 0, y: -50, filter: "blur(12px)", duration: 0.2, ease: "power2.in", stagger: 0.03 }, t);
+        [["#b1", 220, 300], ["#b2", -260, 200], ["#b3", 300, -260], ["#b4", -240, -220]].forEach(([el, dx, dy]) => tl.to(el, { x: dx, y: dy, duration: 10.1, ease: "sine.inOut" }, 0));
+        // 0. "אתם לא תאמינו!" over the film's best shots, full bleed
+        [0.04, 0.44, 0.62].forEach((t, i) => tl.fromTo(gsap.utils.toArray("#wow span")[i], { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.18, ease: "power4.out" }, t));
+        tl.to("#root", { x: 10, y: -6, duration: 0.04, yoyo: true, repeat: 3, ease: "none" }, 0.72);
+        tl.to("#wow", { opacity: 0, scale: 1.2, filter: "blur(14px)", duration: 0.2, ease: "power2.in" }, 1.38);
+        // the shots fold into a card under the type (where the code will appear), still playing
+        tl.to("#tzDim", { opacity: 0, duration: 0.3 }, 1.4);
+        tl.to("#tz", { left: 70, top: 800, width: 940, height: 700, borderRadius: 40, boxShadow: "0 40px 90px rgba(15,30,60,0.35)", duration: 0.5, ease: "power3.inOut" }, 1.4);
+        // 1. "אבל את הסרטון הבא יצרתי בקלוד בעזרת קוד בלבד."
+        word(".p1 span", [1.6, 1.76, 1.84, 2.24, 2.62, 3.04, 3.72, 4.26, 4.46]);
+        // on "בעזרת קוד" the card flips over: behind the film is its code
+        tl.to("#tz", { rotationY: 90, duration: 0.22, ease: "power2.in", transformPerspective: 1600 }, 3.5);
+        tl.set("#tz", { opacity: 0 }, 3.72);
+        tl.fromTo("#code", { opacity: 1, rotationY: -90, transformPerspective: 1600 }, { rotationY: 0, duration: 0.25, ease: "power2.out" }, 3.72);
+        tl.fromTo("#scroll", { y: 0 }, { y: -1900, duration: 6.4, ease: "none" }, 3.72);
+        out(".p1", 4.95);
+        // 2. "כן."
+        tl.fromTo(".p2 span", { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: 0.16, ease: "power4.out" }, 5.16);
+        tl.to("#root", { x: 10, y: -6, duration: 0.04, yoyo: true, repeat: 3, ease: "none" }, 5.28);
+        out(".p2", 5.62);
+        // 3. "בלי לשלם על סרטוני AI ובלי תוכנות עריכה."
+        word(".p3 span", [5.8, 5.98, 6.3, 6.42, 6.92, 7.38, 7.74, 8.06]);
+        out(".p3", 8.55);
+        // 4. "מה דעתכם על התוצאה?"
+        word(".p4 span", [8.78, 8.88, 9.2, 9.3]);
+        // the code opens up into the film's first frame (the brand sky)
+        tl.to("#code", { scale: 2.6, y: -80, duration: 0.45, ease: "power3.in" }, 9.65);
+        tl.to(".p4", { opacity: 0, filter: "blur(12px)", duration: 0.15 }, 9.8);
+        tl.to("#sky", { opacity: 1, duration: 0.18, ease: "power1.in" }, 9.85);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>
