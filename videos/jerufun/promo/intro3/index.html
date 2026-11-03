@@ -31,10 +31,19 @@
         font: 800 124px/1.1 "Noto Sans Hebrew"; color: #fff; letter-spacing: -3px; text-shadow: 0 10px 34px rgba(0, 0, 0, 0.45); }
       #wow span { display: inline-block; opacity: 0; }
       #sky { position: absolute; inset: 0; z-index: 6; opacity: 0; background: linear-gradient(180deg, #3f9fcb 0%, #5bb6d6 55%, #86d2e0 85%, #b3d1e0 100%); }
+      /* no pastel: the film itself, blurred and dimmed, behind the type */
+      .blob { display: none; }
+      #bgf { position: absolute; inset: -60px; z-index: 1; filter: blur(26px) brightness(0.5) saturate(1.15); }
+      #bgf video { width: 100%; height: 100%; object-fit: cover; }
+      .ln { color: #fff !important; text-shadow: 0 6px 24px rgba(0, 0, 0, 0.45); }
+      #code .bar { position: relative; z-index: 2; }
+      #scroll { position: relative; z-index: 1; }
+      #code { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12), 0 40px 90px rgba(0, 0, 0, 0.5) !important; }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="10.1" data-width="1080" data-height="1920">
+      <div id="bgf"><video src="assets/bgfilm.mp4" data-start="0" data-duration="10.1" data-track-index="1" muted playsinline></video></div>
       <div class="blob" id="b1" style="left:-300px;top:-200px;background:rgba(139,108,255,0.55)"></div>
       <div class="blob" id="b2" style="left:520px;top:300px;background:rgba(0,170,206,0.5)"></div>
       <div class="blob" id="b3" style="left:-250px;top:1100px;background:rgba(255,111,177,0.45)"></div>

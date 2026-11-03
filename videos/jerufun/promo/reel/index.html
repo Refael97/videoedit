@@ -109,7 +109,9 @@
       #oAv { position: absolute; left: 390px; top: 300px; width: 300px; height: 300px; border-radius: 50%; overflow: hidden; z-index: 11; opacity: 0;
         border: 8px solid #fff; box-shadow: 0 0 0 6px #00aace, 0 26px 50px rgba(15, 58, 82, 0.25); }
       #oAv img { width: 100%; height: 100%; object-fit: cover; display: block; }
-      .oT { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; white-space: nowrap; z-index: 11; color: var(--ink); }
+      #oBg { position: absolute; inset: -60px; z-index: 10; opacity: 0; filter: blur(26px) brightness(0.5) saturate(1.15); }
+      #oBg video { width: 100%; height: 100%; object-fit: cover; }
+      .oT { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; white-space: nowrap; z-index: 11; color: #fff; text-shadow: 0 6px 24px rgba(0, 0, 0, 0.45); }
       .oT span { display: inline-block; opacity: 0; }
       #oFollow { position: absolute; left: 50%; top: 1290px; width: 340px; margin-left: -170px; height: 104px; border-radius: 22px; z-index: 11; opacity: 0;
         background: #0a84ff; color: #fff; text-align: center; font: 800 52px/104px "Noto Sans Hebrew"; box-shadow: 0 18px 40px rgba(10, 132, 255, 0.35); }
@@ -222,6 +224,7 @@
       <div class="line" id="promo2">30 דקות חינם עם הקוד</div>
       <div id="code">START30</div>
       <!-- outro (reel version) -->
+      <div id="oBg"><video src="assets/bgfilm.mp4" data-start="28.35" data-duration="6.25" data-media-start="2" data-track-index="5" muted playsinline></video></div>
       <div id="oAv"><img src="assets/avatar.jpg" alt="" /></div>
       <div class="oT" id="oHandle" style="top: 640px; font: 800 58px/1.1 'Noto Sans Hebrew'"><span dir="ltr" style="unicode-bidi: isolate">@refaelleviii</span></div>
       <div class="oT" id="oRole" style="top: 716px; font: 300 40px/1.1 'Noto Sans Hebrew'"><span>רפאל לוי · מומחה AI ושיווק דיגיטלי</span></div>
@@ -445,6 +448,7 @@
         /* ================= 9. OUTRO (28.4 - 35.5, reel version only) ================= */
         tl.to(["#endLogo", "#eL", "#eR"], { y: "-=220", opacity: 0, filter: "blur(14px)", duration: 0.35, ease: "power2.in" }, 28.35);
         tl.to(["#promo1", "#promo2", "#code"], { y: -160, opacity: 0, filter: "blur(12px)", duration: 0.3, ease: "power2.in", stagger: 0.04 }, 28.35);
+        tl.to("#oBg", { opacity: 1, duration: 0.35, ease: "power1.inOut" }, 28.35);
         const O = 28.6;  // the voice-over starts here; each word lands on its word
         tl.fromTo("#oAv", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, O - 0.1);
         tl.fromTo(["#oHandle span", "#oRole span"], { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out", stagger: 0.1 }, O + 0.1);
