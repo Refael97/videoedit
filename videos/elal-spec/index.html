@@ -113,9 +113,9 @@
       #win5 { position: absolute; left: 795px; top: 300px; width: 330px; height: 472px; border-radius: 165px; overflow: hidden; background: #8fb3d6;
         box-shadow: 0 34px 70px rgba(20, 30, 80, 0.2), 0 0 0 7px #fff; }
       #win5 img { width: 100%; height: 100%; display: block; transform-origin: 40% 45%; }
-      .side { position: absolute; top: 470px; width: 560px; font-size: 96px; font-weight: 800; line-height: 1.1; color: var(--ink); }
+      .side { position: absolute; top: 470px; width: 600px; font-size: 96px; font-weight: 800; line-height: 1.1; color: var(--ink); }
       .side em { font-style: normal; color: var(--navy); }
-      #t5a { right: 150px; text-align: right; } #t5b { left: 150px; text-align: left; }
+      #t5a { right: 120px; text-align: right; } #t5b { left: 120px; text-align: left; }
       /* end card: same light studio, opaque, outside the world */
       #end { position: absolute; inset: 0; z-index: 45; background: radial-gradient(ellipse 70% 75% at 50% 42%, var(--bg0) 0, #f1f2f6 45%, var(--bg1) 100%); }
       #endLogo { position: absolute; left: 630px; top: 250px; width: 660px; height: auto; }
@@ -131,7 +131,7 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="23.3" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="21.4" data-width="1920" data-height="1080">
       <div id="floor"></div>
       <div id="grain"></div>
       <div id="cam">
@@ -145,18 +145,18 @@
           <div class="pn" id="P2">
             <div class="halo" id="halo2" style="left: 90px; top: 40px; width: 820px; height: 1000px"></div>
             <div class="phone" id="ph2"><div class="scr" style="background:#fff"><img src="assets/crops/scr_booking.png" /></div><div class="shine"><i></i></div><div class="isl"></div></div>
-            <div class="hl" id="h2"><span class="w">מזמינים</span><br /><em class="w">כרטיס,</em></div>
+            <div class="hl" id="h2" style="font-size: 92px; width: 820px"><span class="w">מזמינים</span> <span class="w">כרטיסים</span><br /><em class="w">באפליקציה,</em><br /><span class="w">וזהו.</span></div>
             <img class="pop" id="popSearch" src="assets/crops/btn_search.png" style="left: 790px; top: 640px; width: 518px; height: 62px" />
           </div>
           <div class="pn" id="P3">
             <div class="halo" id="halo3" style="left: 90px; top: 40px; width: 820px; height: 1000px"></div>
             <div class="phone" id="ph3"><div class="scr" style="background:#3d73a7"><img src="assets/crops/scr_welcome2.png" style="top: 0" /></div><div class="shine"><i></i></div><div class="isl"></div></div>
-            <div class="hl" id="h3"><span class="w">ונכנסים</span><br /><em class="w">למצב נסיעה.</em></div>
+            <div class="hl" id="h3"><span class="w">אפשר</span> <span class="w">להיכנס</span><br /><em class="w">למצב</em> <em class="w">נסיעה.</em></div>
             <div id="trip"><img src="assets/crops/card_trip.png" /></div>
           </div>
           <div class="pn" id="P4">
-            <div id="t4a"><span class="w">לא</span> <span class="w">דואגים</span> <span class="w">לכלום,</span></div>
-            <div id="t4b"><span class="w">כי</span> <span class="w">הכל</span> <em class="w">במקום</em> <em class="w">אחד.</em></div>
+            <div id="t4a"><span class="w">הכרטיס,</span> <span class="w">המושב,</span></div>
+            <div id="t4b"><span class="w">וכל</span> <span class="w">הפרטים</span> <em class="w">במקום</em> <em class="w">אחד.</em></div>
             <div class="halo" id="halo4" style="left: 620px; top: 200px; width: 680px; height: 790px"></div>
             <div class="wc bp card" id="cBoard">
               <div class="hd"><span>כרטיסי עלייה למטוס &nbsp;<span style="color:var(--muted)">✕</span></span><svg viewBox="0 0 24 24" stroke="#1b2a8c" stroke-width="2" fill="none" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></div>
@@ -172,18 +172,19 @@
             <div class="wc info card" id="cCheck" style="top: 318px"><small>דלפקי הצ'ק אין</small><b>דלפקים <i>D90 - 95</i></b><span>נא להגיע כ-3 שעות לפני שעת היציאה</span></div>
             <div class="wc info card" id="cGate" style="top: 509px"><small>גש לשער העליה למטוס</small><b>שער עליה <i>E4</i></b><span>נפתח בשעה 20:45</span></div>
             <div class="wc info card" id="cBag" style="top: 700px"><small>איסוף מזוודות</small><b>מסוע <i>6</i></b><span>גש לאיסוף המזוודות</span></div>
+            <div class="halo" id="halo6" style="left: 230px; top: 300px; width: 550px; height: 600px"></div>
             <div class="card" id="cBook" style="left: 300px; top: 385px; width: 410px; height: 434px; filter: drop-shadow(0 30px 40px rgba(20, 30, 80, 0.14))"><img src="assets/crops/card_pax.png" /></div>
           </div>
           <div class="pn" id="P5">
-            <div class="side" id="t5a"><span class="w">תרגישו</span> <span class="w">בנוח.</span></div>
+            <div class="side" id="t5a"><span class="w">מרגישים</span> <span class="w">בנוח.</span></div>
             <div class="halo" id="halo5" style="left: 660px; top: 150px; width: 600px; height: 780px"></div>
             <div id="win5"><img src="assets/crops/win_plane.png" /></div>
-            <div class="side" id="t5b"><span class="w">תרגישו</span> <em class="w">בבית.</em></div>
+            <div class="side" id="t5b"><span class="w">מרגישים</span> <em class="w">בבית.</em></div>
           </div>
         </div>
       </div>
       <div id="vig"></div>
-      <div id="end" class="clip" data-start="17.55" data-duration="5.75" data-track-index="4">
+      <div id="end" class="clip" data-start="16.15" data-duration="5.25" data-track-index="4">
         <img id="endLogo" src="assets/crops/logo_elal_hq.png" />
         <div id="motto"><span class="w">הכי</span> <em class="w">בבית</em> <span class="w">בעולם</span></div>
         <svg id="endSvg" viewBox="0 0 1920 1080"><g id="eH"></g><g id="eT"></g></svg>
@@ -208,13 +209,14 @@
       const X = (p, x) => (N - 1 - p) * PW + x; // panels run right-to-left
       $$(".pn").forEach((el, i) => { el.style.left = X(i, 0) + "px"; });
 
-      // ---------- camera ----------
+      // ---------- camera: cut on the narration (every screen moves on as its sentence ends) ----------
+      // narration (take A) sits as one clip at film 1.65 s; all times below are film times
       const camAt = (p) => -X(p, 0);
-      const PANS = [[1, 3.45], [2, 5.85], [3, 8.55], [4, 11.2], [5, 14.3]];
+      const PANS = [[1, 2.62], [2, 5.68], [3, 8.08], [4, 9.88], [5, 13.2]];
       tl.set("#world", { x: camAt(0) }, 0);
-      PANS.forEach(([b, t]) => tl.to("#world", { x: camAt(b), duration: 0.55, ease: "power3.inOut" }, t));
-      const beats = [1.6, ...PANS.map((p) => p[1]), 17.05];
-      beats.slice(0, -1).forEach((a, i) => tl.fromTo("#cam", { scale: 1.0 }, { scale: 1.03, duration: beats[i + 1] - a, ease: "none", ...IR }, a));
+      PANS.forEach(([b, t]) => tl.to("#world", { x: camAt(b), duration: 0.42, ease: "power3.inOut" }, t));
+      const beats = [1.6, ...PANS.map((p) => p[1]), 15.8];
+      beats.slice(0, -1).forEach((a, i) => tl.fromTo("#cam", { scale: 1.0 }, { scale: 1.035, duration: beats[i + 1] - a, ease: "none", ...IR }, a));
       tl.set("#cam", { scale: 1 }, 0);
 
       // ---------- flight path: a line drawn by a small plane (the app's own launch animation does the same) ----------
@@ -256,106 +258,115 @@
         ft(w, { opacity: 0, y: 40, scale: 1.12, filter: "blur(18px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, times[Math.min(i, times.length - 1)]));
 
       // ---------- P0: hook ----------
-      words("#t0", [1.72, 2.1]);
-      piece(P(0, "M1990,880 C1500,884 700,860 -40,872"), 1.65, 3.62, { ease: "sine.inOut", chain: true });
-      tl.to("#t0", { opacity: 0, y: -30, duration: 0.3, ease: "power2.in" }, 3.4);
+      words("#t0", [1.68, 2.12]);
+      piece(P(0, "M1990,880 C1500,884 700,860 -40,872"), 1.65, 2.75, { ease: "sine.inOut", chain: true });
+      tl.to("#t0", { opacity: 0, y: -30, duration: 0.25, ease: "power2.in" }, 2.55);
 
-      // ---------- P1: "no matter where": the line reaches a hub and fans out to six windows ----------
-      words("#t1", [3.78, 3.98, 4.22]);
-      piece(P(1, "M1920,872 C1500,876 1160,1000 960,1000"), 3.62, 4.12, { ease: "sine.out" });
+      // ---------- P1: "no matter where - Thailand, France or Japan": windows fan out, each named one grows ----------
+      words("#t1", [2.93, 3.13, 3.42]);
+      piece(P(1, "M1920,872 C1500,876 1160,1000 960,1000"), 2.75, 3.05, { ease: "sine.out" });
       const DEST = [["bangkok", "בנגקוק"], ["newyork", "ניו יורק"], ["vienna", "וינה"], ["tokyo", "טוקיו"], ["milan", "מילאנו"], ["paris", "פריז"]];
       const XS = [1645, 1375, 1100, 820, 545, 275], TOPS = [455, 395, 368, 368, 395, 455], HUB = [960, 1000];
+      const WIN = [], CITY = [];
       DEST.forEach(([k, name], i) => {
-        const cx = XS[i], top = TOPS[i], bx = cx, by = top + 277 + 12, t = 4.12 + i * 0.13;
+        const cx = XS[i], top = TOPS[i], bx = cx, by = top + 277 + 12, t = 3.05 + i * 0.07;
         const c1y = HUB[1] - 30, c2y = by + 110;
-        piece(P(1, "M" + HUB[0] + "," + HUB[1] + " C" + (HUB[0] + (bx - HUB[0]) * 0.15) + "," + c1y + " " + bx + "," + c2y + " " + bx + "," + by), t, t + 0.34, { ease: "power2.out", noHead: true });
+        piece(P(1, "M" + HUB[0] + "," + HUB[1] + " C" + (HUB[0] + (bx - HUB[0]) * 0.15) + "," + c1y + " " + bx + "," + c2y + " " + bx + "," + by), t, t + 0.26, { ease: "power2.out", noHead: true });
+        const hw = document.createElement("div"); hw.className = "halo"; hw.style.cssText = "left:" + (cx - 230) + "px;top:" + (top - 120) + "px;width:460px;height:520px;z-index:4;opacity:0"; $("#wins").appendChild(hw);
         const w = document.createElement("div"); w.className = "win"; w.style.left = cx - 100 + "px"; w.style.top = top + "px";
         w.innerHTML = '<img src="assets/crops/win_' + k + '.png" />'; $("#wins").appendChild(w);
-        ft(w, { opacity: 0, scale: 0.4, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" }, t + 0.24);
+        ft(w, { opacity: 0, scale: 0.4, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "back.out(1.7)" }, t + 0.18);
         const c = document.createElement("div"); c.className = "city"; c.textContent = name; c.style.left = cx + "px"; c.style.top = top - 54 + "px"; $("#wins").appendChild(c);
-        ft(c, { opacity: 0, y: 14, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, t + 0.38);
-        tl.fromTo(c, { y: 0 }, { y: -8, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.83);
-        tl.fromTo(w, { y: 0 }, { y: -8, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.8);
+        ft(c, { opacity: 0, y: 14, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, t + 0.3);
+        WIN.push([w, c, hw]);
+      });
+      // Thailand -> Bangkok, France -> Paris, Japan -> Tokyo: the named window grows over a halo, the previous one settles
+      const GROW = [[0, 3.98], [5, 4.53], [3, 5.28]];
+      GROW.forEach(([i, t], n) => {
+        const [w, c, hw] = WIN[i];
+        tl.set([w, c], { zIndex: 6 }, t);
+        tl.to(w, { scale: 1.3, duration: 0.42, ease: "back.out(1.8)" }, t);
+        tl.to(c, { scale: 1.3, transformOrigin: "50% 192px", duration: 0.42, ease: "back.out(1.8)" }, t);
+        ft(hw, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1.05, duration: 0.3, ease: "power2.out" }, t);
+        const nx = GROW[n + 1];
+        if (nx) {
+          tl.to([w, c], { scale: 1, duration: 0.35, ease: "power2.inOut" }, nx[1]);
+          tl.to(hw, { opacity: 0, duration: 0.35 }, nx[1]);
+          tl.set([w, c], { zIndex: 1 }, nx[1] + 0.35);
+        }
       });
 
-
-      // ---------- phones: enter with a turn, a light sweep across the glass, and a window-shaped loop of the line ----------
+      // ---------- phones ----------
       const phoneIn = (sel, t) => {
-        ft(sel, { rotationY: 26, z: -240, opacity: 0, transformPerspective: 2000 }, { rotationY: -8, z: 0, opacity: 1, duration: 0.85, ease: "expo.out" }, t);
-        tl.to(sel, { rotationY: -2, duration: 2.2, ease: "sine.inOut" }, t + 0.85);
-        ft(sel + " .shine i", { x: 0 }, { x: 760, duration: 0.9, ease: "power2.inOut" }, t + 0.35);
+        ft(sel, { rotationY: 26, z: -240, opacity: 0, transformPerspective: 2000 }, { rotationY: -8, z: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, t);
+        tl.to(sel, { rotationY: -2, duration: 1.6, ease: "sine.inOut" }, t + 0.7);
+        ft(sel + " .shine i", { x: 0 }, { x: 760, duration: 0.8, ease: "power2.inOut" }, t + 0.3);
       };
-      const LOOP = "M724,840 L724,250 Q724,106 580,106 L420,106 Q276,106 276,250 L276,830 Q276,974 420,974 L580,974 Q724,974 724,830 L724,840";
-      // the line arrives -> the element grows a touch, over a short dark-sky-blue halo (replaces the loop/frames)
+      // the line arrives -> the element grows a touch, over a short dark-sky-blue halo
       const arrive = (sel, halo, t, k = 1.05) => {
-        tl.to(sel, { scale: k, duration: 0.55, ease: "power2.out", transformOrigin: "50% 50%" }, t);
-        ft(halo, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1.06, duration: 0.3, ease: "power2.out" }, t);
-        tl.to(halo, { opacity: 0, duration: 0.75, ease: "power1.in" }, t + 0.35);
+        tl.to(sel, { scale: k, duration: 0.5, ease: "power2.out", transformOrigin: "50% 50%" }, t);
+        ft(halo, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1.06, duration: 0.28, ease: "power2.out" }, t);
+        tl.to(halo, { opacity: 0, duration: 0.7, ease: "power1.in" }, t + 0.32);
       };
       const hl = (sel, times, out) => { words(sel, times); if (out != null) tl.to(sel, { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, out); };
 
-      // ---------- P2: book a ticket ----------
-      tl.to("#t1, #wins", { opacity: 0, duration: 0.3 }, 5.75);
-      piece(P(1, "M960,1000 C760,1000 400,1030 -40,1030"), 5.2, 6.0, { ease: "sine.in", chain: true });
-      phoneIn("#ph2", 5.95);
-      hl("#h2", [6.15, 6.72]);
-      piece(P(2, "M1960,1030 C1200,1034 600,1030 500,962"), 6.0, 6.45, { ease: "sine.inOut" });
-      arrive("#ph2", "#halo2", 6.45);
-      // the search button lifts out of its exact place on the screen
+      // ---------- P2: "book tickets in the app, and that's it" ----------
+      tl.to("#t1, #wins", { opacity: 0, duration: 0.25 }, 5.6);
+      piece(P(1, "M960,1000 C760,1000 400,1030 -40,1030"), 5.3, 5.78, { ease: "sine.in", chain: true });
+      phoneIn("#ph2", 5.62);
+      hl("#h2", [5.97, 6.4, 6.95, 7.7]);
+      piece(P(2, "M1960,1030 C1200,1034 600,1030 500,962"), 5.78, 6.15, { ease: "sine.inOut" });
+      arrive("#ph2", "#halo2", 6.15);
       const s2 = 376 / 582, bx = 300 + 12 + 30 * s2, by = 130 + 12 + 793 * s2;
-      ft("#popSearch", { x: bx - 790, y: by - 640, scale: s2, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.4)" }, 7.1);
-      tl.to("#popSearch", { scale: 0.94, duration: 0.07, yoyo: true, repeat: 1, transformOrigin: "50% 50%" }, 7.75);
-      piece(P(2, "M500,962 C420,968 360,1040 240,1040 L-40,1040"), 8.05, 8.6, { ease: "sine.in", chain: true });
-      tl.to("#popSearch", { opacity: 0, x: -80, duration: 0.3, ease: "power2.in" }, 8.4);
+      ft("#popSearch", { x: bx - 790, y: by - 640, scale: s2, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.4)" }, 6.95);
+      tl.to("#popSearch", { scale: 0.92, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "50% 50%" }, 7.7);
+      piece(P(2, "M500,962 C420,968 360,1040 240,1040 L-40,1040"), 7.75, 8.18, { ease: "sine.in", chain: true });
+      tl.to("#popSearch", { opacity: 0, x: -80, duration: 0.25, ease: "power2.in" }, 8.0);
 
-      // ---------- P3: trip status, with the real countdown ----------
-      phoneIn("#ph3", 8.6);
-      hl("#h3", [8.8, 9.28]);
-      piece(P(3, "M1960,1040 C1200,1040 600,1030 500,962"), 8.6, 9.05, { ease: "sine.inOut" });
-      arrive("#ph3", "#halo3", 9.05);
-      ft("#trip", { opacity: 0, scale: 0.55, x: -300, y: 40 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.6, ease: "back.out(1.4)" }, 9.6);
-      tl.fromTo("#trip", { y: 0 }, { y: -8, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, 10.2);
-      piece(P(3, "M500,962 C420,968 360,1040 240,1040 L-40,1040"), 10.6, 11.25, { ease: "sine.in", chain: true });
+      // ---------- P3: "you can enter trip mode" ----------
+      phoneIn("#ph3", 8.05);
+      hl("#h3", [8.38, 8.78, 9.12, 9.42]);
+      piece(P(3, "M1960,1040 C1200,1040 600,1030 500,962"), 8.18, 8.52, { ease: "sine.inOut" });
+      arrive("#ph3", "#halo3", 8.52);
+      ft("#trip", { opacity: 0, scale: 0.55, x: -300, y: 40 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.5, ease: "back.out(1.4)" }, 8.95);
+      piece(P(3, "M500,962 C420,968 360,1040 240,1040 L-40,1040"), 9.55, 9.98, { ease: "sine.in", chain: true });
 
-      // ---------- P4: everything in one place: the line fans out to the real trip-status cards ----------
-      hl("#t4a", [11.4, 11.51, 11.91]);
-      hl("#t4b", [12.65, 12.89, 13.49, 13.76]);
-      piece(P(4, "M1960,1040 C1500,1040 1180,874 960,874"), 11.25, 11.98, { ease: "sine.inOut", chain: true });
-      // the line reaches only the boarding pass; the rest pop in around it
-      arrive("#cBoard", "#halo4", 11.98, 1.04);
-      const CARDS = [["#cBoard", 11.4, 0], ["#cCheck", 12.1, 1], ["#cGate", 12.24, 1], ["#cBag", 12.38, 1], ["#cBook", 12.55, -1]];
-      CARDS.forEach(([sel, t, dir]) => {
-        ft(sel, { opacity: 0, scale: 0.7, x: dir * 70, y: dir ? 0 : 50 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.5)" }, t);
-        tl.fromTo(sel, { y: 0 }, { y: -7, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.6);
-      });
+      // ---------- P4: "the ticket, the seat and all the details - in one place" ----------
+      hl("#t4a", [10.25, 10.9]);
+      hl("#t4b", [11.5, 11.85, 12.55, 12.85]);
+      piece(P(4, "M1960,1040 C1500,1040 1180,874 960,874"), 9.98, 10.38, { ease: "sine.inOut", chain: true });
+      ft("#cBoard", { opacity: 0, scale: 0.7, y: 50 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "back.out(1.5)" }, 10.1);
+      arrive("#cBoard", "#halo4", 10.38, 1.04);
+      ft("#cBook", { opacity: 0, scale: 0.7, x: -70 }, { opacity: 1, scale: 1, x: 0, duration: 0.45, ease: "back.out(1.5)" }, 10.85);
+      arrive("#cBook", "#halo6", 11.05, 1.05);
+      [["#cCheck", 11.5], ["#cGate", 11.62], ["#cBag", 11.74]].forEach(([sel, t]) =>
+        ft(sel, { opacity: 0, scale: 0.7, x: 70 }, { opacity: 1, scale: 1, x: 0, duration: 0.45, ease: "back.out(1.5)" }, t));
+      piece(P(4, "M960,874 C740,874 420,1040 -40,1040"), 12.95, 13.32, { ease: "sine.in", chain: true });
+      tl.to("#t4a, #t4b", { opacity: 0, y: -20, duration: 0.22, ease: "power2.in" }, 13.15);
 
-      // P4 exit: the line leaves low to the left
-      piece(P(4, "M960,874 C740,874 420,1040 -40,1040"), 13.8, 14.35, { ease: "sine.in", chain: true });
-      tl.to("#t4a, #t4b", { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, 14.28);
+      // ---------- P5: "feel comfortable. feel at home." ----------
+      ft("#win5", { opacity: 0, scale: 0.5, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "back.out(1.5)" }, 13.32);
+      piece(P(5, "M1960,1040 C1400,1040 960,1010 960,786"), 13.32, 13.7, { ease: "sine.inOut" });
+      arrive("#win5", "#halo5", 13.7, 1.04);
+      ft("#win5 img", { scale: 1.12, x: 18 }, { scale: 1, x: 0, duration: 2.0, ease: "sine.out" }, 13.4);
+      words("#t5a", [13.69, 14.25]);
+      words("#t5b", [15.01, 15.5]);
+      tl.to("#t5a, #t5b", { opacity: 0, filter: "blur(10px)", duration: 0.25, ease: "power2.in" }, 15.8);
+      // push into the window, the sky fills the frame, then the end card
+      tl.to("#cam", { scale: 7, duration: 0.55, ease: "power2.in" }, 15.82);
+      tl.to("#win5 img", { scale: 1.35, x: -30, y: 20, duration: 0.55, ease: "power2.in" }, 15.82);
+      tl.fromTo("#win5 img", { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.3, ease: "power2.in", immediateRender: false }, 16.08);
 
-      // ---------- P5: "feel comfortable, feel at home": one big window, the line wraps it, then we fly in ----------
-      piece(P(5, "M1960,1040 C1400,1040 960,1010 960,786"), 14.35, 15.0, { ease: "sine.inOut" });
-      arrive("#win5", "#halo5", 15.0, 1.04);
-      ft("#win5", { opacity: 0, scale: 0.5, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "back.out(1.5)" }, 14.45);
-      ft("#win5 img", { scale: 1.12, x: 18 }, { scale: 1, x: 0, duration: 2.0, ease: "sine.out" }, 14.8);
-      words("#t5a", [14.95, 15.38]);
-      words("#t5b", [16.2, 16.6]);
-      tl.to("#t5a, #t5b", { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power2.in" }, 17.0);
-      // push into the window: the plane comes at the lens, the sky fills the frame, then dissolves into the end card
-      tl.to("#cam", { scale: 7, duration: 0.7, ease: "power2.in" }, 17.05);
-      tl.to("#win5 img", { scale: 1.35, x: -30, y: 20, duration: 0.7, ease: "power2.in" }, 17.05);
-      tl.fromTo("#win5 img", { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.35, ease: "power2.in", immediateRender: false }, 17.4);
-
-      // ---------- end card: logo, motto underlined by the flight path, then the credit ----------
-      ft("#end", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.inOut" }, 17.67);
-      ft("#endLogo", { opacity: 0, scale: 0.9, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 17.9);
-      words("#motto", [18.83, 19.11, 19.51]);
-      const uL = piece("M1180,770 C1060,792 860,792 740,770", 19.6, 20.4, { ease: "sine.inOut", gH: "#eH", gT: "#eT", hp: "#endHeads", hold: true });
-      tl.to(uL.head, { x: "-=420", y: "-=210", rotation: "+=28", scale: 1.7, opacity: 0, duration: 0.7, ease: "power2.in" }, 20.4);
-      tl.to("#endLogo, #motto, #endSvg", { opacity: 0, y: -24, duration: 0.35, ease: "power2.in" }, 21.2);
-      ft("#cred small", { opacity: 0, scaleX: 1.4 }, { opacity: 1, scaleX: 1, duration: 0.7, ease: "expo.out" }, 21.5);
-      ft("#cred b", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.65, ease: "expo.out" }, 21.7);
-      ft("#credl", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.out" }, 22.0);
+      // ---------- end card: "El Al. Most at home in the world." ----------
+      ft("#end", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.inOut" }, 16.2);
+      ft("#endLogo", { opacity: 0, scale: 0.9, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.7, ease: "expo.out" }, 16.3);
+      words("#motto", [17.14, 17.45, 17.85]);
+      const uL = piece("M1180,770 C1060,792 860,792 740,770", 17.95, 18.6, { ease: "sine.inOut", gH: "#eH", gT: "#eT", hp: "#endHeads", hold: true });
+      tl.to(uL.head, { x: "-=420", y: "-=210", rotation: "+=28", scale: 1.7, opacity: 0, duration: 0.6, ease: "power2.in" }, 18.6);
+      tl.to("#endLogo, #motto, #endSvg", { opacity: 0, y: -24, duration: 0.3, ease: "power2.in" }, 19.35);
+      ft("#cred small", { opacity: 0, scaleX: 1.4 }, { opacity: 1, scaleX: 1, duration: 0.6, ease: "expo.out" }, 19.6);
+      ft("#cred b", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 19.8);
+      ft("#credl", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, 20.1);
 
       // ---------- opener: the app's real launch animation (line-drawn tail in a window), then hand over ----------
       tl.set("#logoEnd", { opacity: 0 }, 0);
