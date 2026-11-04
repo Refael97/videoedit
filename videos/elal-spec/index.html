@@ -110,6 +110,30 @@
       .bk .ps { margin-top: 6px; text-align: center; font-size: 24px; font-weight: 600; color: var(--navy); direction: ltr; }
       .bk .gd { text-align: center; font-size: 15px; font-weight: 700; color: #c9a227; letter-spacing: 1px; }
       .bk .ok { margin-top: 4px; text-align: center; font-size: 18px; font-weight: 400; color: #1f9d55; }
+
+      /* ---- background variants (?bg=sky|navy|map|mesh) ---- */
+      #bgx { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+      #bgx > * { position: absolute; display: none; }
+      .bg-sky #root { background: linear-gradient(180deg, #f4f9ff 0%, #d6e7f9 40%, #a9c9ee 100%); }
+      .bg-sky #floor { display: none; }
+      .bg-sky #cl0, .bg-sky #cl1 { display: block; left: -480px; width: 2880px; }
+      #cl0 { top: 470px; height: 820px; opacity: 1; filter: drop-shadow(0 18px 30px rgba(60, 100, 160, 0.18)); } #cl1 { top: -180px; height: 620px; opacity: 0.8; transform: scaleY(-1); }
+      .bg-navy #root { background: radial-gradient(ellipse 75% 80% at 50% 40%, #2a3fae 0, #1b2a8c 45%, #0f185a 100%); color: #fff; }
+      .bg-navy #floor { display: none; }
+      .bg-navy #grain { opacity: 0.05; background-image: radial-gradient(rgba(255, 255, 255, 0.9) 0.6px, transparent 0.7px); }
+      .bg-navy #vig { background: radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0) 60%, rgba(5, 8, 35, 0.35) 100%); }
+      .bg-navy #t0, .bg-navy #t1, .bg-navy .hl, .bg-navy #t4a, .bg-navy #t4b, .bg-navy .side, .bg-navy .city { color: #fff; }
+      .bg-navy #t0 em, .bg-navy #t1 em, .bg-navy .hl em, .bg-navy #t4a em, .bg-navy #t4b em, .bg-navy .side em { color: #9cc4ff; }
+      .bg-navy .sT { stroke: #fff; } .bg-navy .sH { stroke: #9cc4ff; } .bg-navy #gHalo { opacity: 0.35; }
+      .bg-navy .head path { fill: #fff; }
+      .bg-navy .wc, .bg-navy .card { box-shadow: 0 30px 70px rgba(0, 0, 20, 0.45); }
+      .bg-map #wd { display: block; left: -40px; top: -20px; width: 2000px; height: 1120px; opacity: 0.16; }
+      .bg-map #routes { display: block; inset: 0; width: 1920px; height: 1080px; opacity: 0.4; }
+      .bg-mesh #root { background: #eef1f8; }
+      .bg-mesh #b1, .bg-mesh #b2, .bg-mesh #b3 { display: block; border-radius: 50%; filter: blur(90px); }
+      #b1 { left: -200px; top: -260px; width: 1100px; height: 800px; background: rgba(120, 170, 235, 0.55); }
+      #b2 { right: -260px; top: 380px; width: 1200px; height: 900px; background: rgba(27, 42, 140, 0.22); }
+      #b3 { left: 600px; top: 640px; width: 900px; height: 600px; background: rgba(160, 205, 250, 0.5); }
       #win5 { position: absolute; left: 795px; top: 300px; width: 330px; height: 472px; border-radius: 165px; overflow: hidden; background: #8fb3d6;
         box-shadow: 0 34px 70px rgba(20, 30, 80, 0.2), 0 0 0 7px #fff; }
       #win5 img { width: 100%; height: 100%; display: block; transform-origin: 40% 45%; }
@@ -132,6 +156,12 @@
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="21.4" data-width="1920" data-height="1080">
+      <div id="bgx">
+        <img id="cl1" src="assets/bg/clouds1.png" /><img id="cl0" src="assets/bg/clouds0.png" />
+        <img id="wd" src="assets/bg/worlddots.png" />
+        <svg id="routes" viewBox="0 0 1920 1080" fill="none" stroke="#1b2a8c" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round"><path d="M1130,330 Q1400,120 1660,380" /><path d="M1130,330 Q760,140 470,320" /><path d="M1130,330 Q1250,520 1420,520" /></svg>
+        <i id="b1"></i><i id="b2"></i><i id="b3"></i>
+      </div>
       <div id="floor"></div>
       <div id="grain"></div>
       <div id="cam">
@@ -200,6 +230,7 @@
     </div>
 
     <script>
+      { const m = /[?&]bg=(\w+)/.exec(location.search); if (m) document.documentElement.classList.add("bg-" + m[1]); }
       const tl = gsap.timeline({ paused: true });
       const IR = { immediateRender: false };
       const $ = (s) => document.querySelector(s);
