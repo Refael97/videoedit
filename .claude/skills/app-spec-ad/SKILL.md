@@ -14,10 +14,11 @@ description: >
 
 # app-spec-ad
 
-Three projects proved this format:
+Four projects proved this format:
 - **The Duolingo reference** (`reference/duolingo-ref-sheet.jpg`).
 - **Yellow** (`videos/yellow-spec/`, about 21 s, yellow on black). It brought 500 followers.
 - **Bit** (`videos/bit-spec/`, about 26 s, turquoise on graphite).
+- **El Al** (`videos/elal-spec/`, about 21 s, navy on a light cloud sky). The light variant; see §2b.
 
 Bit is the most complete and most corrected build. **Start from it, not from scratch.**
 
@@ -85,6 +86,14 @@ Put them in `videos/<name>/assets/raw/` (gitignored). Then **list every fact the
     - an Instagram caption;
     - ManyChat DMs for the comment word (template: `videos/instagram-dm.md`);
     - a making-of guide page with a ready prompt per element. The models are `videos/yellow-guide/` and `videos/bit-guide/`.
+
+## 2b. Light variant (El Al, `videos/elal-spec/`)
+Use it when the brand is calm or premium (an airline, a bank), or when the user asks for a light background.
+- **Backdrop:** a cloud-sea photo with a white haze, parallax per pan (`#bgx`, `?bg=sky`). Background variants are behind `?bg=sky|navy|map|mesh`, and `render_bg.sh <variant>` renders one.
+- **The line:** a crisp navy tube (4.2 px) with a faint halo and **no glow**. The head is a small plane that rotates to the tangent.
+- **Framing:** none. Use `arrive()`: the element grows over a short dark-sky-blue halo.
+- **Cards:** white, rebuilt in HTML in the app's own font.
+- **Timing:** the narration is one clip, and the timeline is cut on its sentence ends (lessons, El Al §11).
 
 ## 3. Non-negotiables (from the user)
 

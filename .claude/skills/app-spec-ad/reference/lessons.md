@@ -35,6 +35,20 @@
 4. **Opener vs closer:** "זה ביט" didn't have time to appear before the closer, and the closer was identical to the opener. **Opener = the app (like Yellow). Closer = slogan, then bloom, then the real logo animation, then the credit.**
 5. **Results:** the Yellow post brought about 500 followers, so this format is worth repeating for more brands.
 
+## El Al, 04/11/2026 (light look; feedback rounds in order)
+1. **Destinations need names.** Every destination window gets its city name above it, as in the app.
+2. **On a light background, don't frame elements.** No loops around phones and no outline frames around pop-outs. When the line reaches an element, the element **grows a little (×1.04–1.05) over a short dark-sky-blue halo** behind it (`arrive()`). A popped button behaves like Yellow's Apple Pay: pop out of its place on the screen, a small press, no frame and no tap ring.
+3. **Clean the phone screen.** Remove the app's own top bar, skip buttons, progress bars and black edges. The screen image fills the phone from the very top.
+4. **Cards that show private data get rebuilt.** The trip card came from a screenshot the user sent: remove the share and menu buttons, the iPhone status bar, the route and the booking number (inpaint the sky with OpenCV, never blur).
+5. **Glass cards from the app look dirty out of context.** Rebuild them in HTML, crisp, in a column.
+6. **Rebuilt cards must use the app's font.** Compare candidates on the real text first. For El Al it was Rubik light for Hebrew plus Montserrat bold for codes.
+7. **Replace a name by splicing the app's own glyphs.** "MR NATAN LEVI" was assembled from letters cut out of the original name line, so the font matches exactly.
+8. **The line rises to the element and runs on.** It does not end with a vertical stub. It arrives in a soft rising curve at the bottom of the card and continues from there.
+9. **"Sleepy" narration loses the viewer.** The fix was the Yellow/Bit formula: a question hook, concrete names (Thailand, France, Japan, each with its own window growing), app actions in short verbs ("מזמינים כרטיסים באפליקציה, וזהו"), and the slogan at the end.
+10. **Rhythmic music first.** About 120 BPM, kick and claps from the first second, checked for vocals (transcribe it; empty text means no vocals).
+11. **Cut on the narration.** The narration plays as one continuous clip, and each screen moves on the moment its sentence ends (0.42 s pans). Headline words and pops land on the measured word times (silencedetect + energy envelope on the real take, not the alignment of the prompt).
+12. **A plain light backdrop is "boring to the eye".** The winner: a real cloud-sea photo (generated, 16:9), a white haze over it for legibility, slow drift and parallax on every pan, and a zoom on the push-in. Keyed cloud cut-outs looked grey and repetitive; drop them.
+
 ## Pre-render checklist (contact sheet at 4–6 fps over the whole film)
 - [ ] No neon crosses any text, card or face. No right-angle corner anywhere.
 - [ ] The spark fades exactly where each piece stops. The final spark stays lit into the bloom.

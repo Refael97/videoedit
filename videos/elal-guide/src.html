@@ -1,0 +1,294 @@
+<title>מדריך סרטון אל על</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Rubik:wght@300;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: one reading column on a pale sky; each element is a stop on a navy flight path down the right edge, marked by a small plane, like the line in the film. Deliberately single (light) look. */
+  :root {
+    --sky: #eaf2fb;
+    --sky-deep: #cfe1f5;
+    --paper: #ffffff;
+    --ink: #141a3c;
+    --muted: #5b6488;
+    --navy: #1b2a8c;
+    --halo: rgba(30, 104, 190, 0.16);
+    --rule: #d5dfee;
+    --code: #f5f8fd;
+    --f-display: "Assistant", "Rubik", system-ui, sans-serif;
+    --f-body: "Assistant", system-ui, sans-serif;
+    --f-app: "Rubik", "Assistant", system-ui, sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sky);
+    background-image: linear-gradient(180deg, #d3e5f8 0px, var(--sky) 520px);
+    background-repeat: no-repeat;
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 18px;
+    line-height: 1.65;
+    direction: rtl;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0 64px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  header { padding-block: 52px 26px; display: grid; gap: 18px; }
+  .eyebrow { font-family: var(--f-app); font-weight: 500; font-size: 14px; letter-spacing: 0.08em; color: var(--navy); }
+  h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(40px, 8vw, 74px); line-height: 1.02; margin: 0; text-wrap: balance; }
+  h1 em { font-style: normal; color: var(--navy); }
+  .lead { color: var(--muted); font-size: 20px; max-width: 60ch; margin: 0; }
+  .shot { border-radius: 18px; overflow: hidden; aspect-ratio: 16 / 9; max-width: 100%; background: var(--sky-deep); box-shadow: 0 30px 60px rgba(20, 30, 80, 0.14); }
+  .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .tools > span:first-child { color: var(--muted); margin-left: 4px; }
+  .chip { font-family: var(--f-app); font-weight: 500; font-size: 14px; padding: 6px 12px; border-radius: 999px; background: var(--paper); color: var(--ink); box-shadow: 0 1px 0 var(--rule); }
+
+  /* the skill: the main gift, set apart */
+  .gift { margin-top: 30px; border-radius: 22px; background: var(--paper); box-shadow: 0 30px 60px rgba(20, 30, 80, 0.12); padding: 26px; display: grid; gap: 16px; }
+  .gift .tag { font-family: var(--f-app); font-weight: 500; font-size: 13px; color: var(--navy); letter-spacing: 0.08em; }
+  .gift h2 { font-size: clamp(28px, 5vw, 38px); }
+  .steps { margin: 0; padding: 0 22px 0 0; display: grid; gap: 8px; }
+  .steps li::marker { font-family: var(--f-app); color: var(--navy); font-weight: 500; }
+  code { font-family: var(--f-mono); font-size: 0.86em; background: var(--code); padding: 1px 6px; border-radius: 6px; direction: ltr; unicode-bidi: isolate; }
+
+  /* the flight path */
+  .route { position: relative; display: grid; gap: 56px; padding-right: 38px; margin-top: 52px; }
+  .route::before { content: ""; position: absolute; right: 10px; top: 8px; bottom: 8px; width: 3px; border-radius: 3px; background: var(--navy); box-shadow: 0 0 0 5px var(--halo); transform-origin: top; animation: draw 1.6s cubic-bezier(.6, 0, .2, 1) both; }
+  @keyframes draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  .st { position: relative; display: grid; gap: 14px; min-width: 0; }
+  .st::before { content: ""; position: absolute; right: -39px; top: 2px; width: 26px; height: 26px; background: var(--sky) no-repeat center / 22px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231b2a8c' transform='rotate(180 12 12)' d='M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z'/%3E%3C/svg%3E"); border-radius: 50%; }
+  .num { font-family: var(--f-app); font-weight: 500; font-size: 13px; color: var(--navy); letter-spacing: 0.06em; }
+  h2 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 4.4vw, 34px); line-height: 1.15; margin: 0; text-wrap: balance; }
+  .st p, .gift p { margin: 0; max-width: 64ch; }
+  .how { color: var(--muted); }
+  .how b { color: var(--ink); font-weight: 700; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .prompt { border-radius: 14px; background: var(--paper); box-shadow: 0 1px 0 var(--rule), 0 12px 30px rgba(20, 30, 80, 0.06); min-width: 0; }
+  .prompt-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--rule); }
+  .prompt-top span { font-family: var(--f-app); font-weight: 500; font-size: 14px; color: var(--muted); }
+  .copy { font-family: var(--f-display); font-weight: 800; font-size: 15px; color: #fff; background: var(--navy); border: 0; border-radius: 999px; padding: 7px 18px; cursor: pointer; }
+  .copy:hover { filter: brightness(1.15); }
+  .copy:focus-visible { outline: 3px solid var(--sky-deep); outline-offset: 2px; }
+  .copy.done { background: var(--ink); }
+  pre { margin: 0; padding: 14px 16px; white-space: pre-wrap; word-break: break-word; font-family: var(--f-mono); font-size: 14px; line-height: 1.7; color: var(--ink); direction: rtl; text-align: right; overflow-x: auto; }
+  .install pre { direction: ltr; text-align: left; max-height: 340px; overflow-y: auto; font-size: 12.5px; background: var(--code); border-radius: 0 0 14px 14px; }
+
+  .master { border-radius: 18px; padding: 22px; background: linear-gradient(180deg, rgba(27, 42, 140, 0.06), rgba(27, 42, 140, 0) 70%), var(--paper); box-shadow: 0 1px 0 var(--rule); display: grid; gap: 14px; margin-top: 40px; }
+  .master h2 { font-size: 28px; }
+
+  footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--rule); display: grid; gap: 6px; }
+  footer b { font-family: var(--f-display); font-weight: 800; font-size: 22px; }
+  footer span { color: var(--muted); }
+  footer a { color: var(--navy); font-weight: 700; text-decoration: none; border-bottom: 1px solid currentColor; }
+  footer a:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) { .route::before { animation: none; } }
+  @media (max-width: 520px) { body { font-size: 17px; } .route { padding-right: 32px; } .st::before { right: -33px; } .route::before { right: 8px; } pre { font-size: 13px; } .pair { grid-template-columns: 1fr; } .gift { padding: 18px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">מדריך מאחורי הקלעים · רפאל לוי</div>
+    <h1>ככה עשינו את סרטון<br /><em>אל על</em> עם Claude</h1>
+    <p class="lead">פרסומת של 21 שניות מהקלטות מסך אמיתיות: ים עננים ברקע, קו טיסה כחול עם מטוס קטן שמחבר בין המסכים, קריין, מוזיקה קצבית ומעבר מסך בדיוק כשכל משפט נגמר. בלי תוכנת עריכה. בסוף הדף מחכה לך הסקיל המלא, שעושה את כל זה בשבילך לכל אפליקציה.</p>
+    <div class="shot"><img src="{{P3}}" alt="חלונות מטוס עם יעדים מעל ים עננים, הכותרת לא משנה לאן" /></div>
+    <div class="tools"><span>מה צריך:</span><span class="chip">Claude Code</span><span class="chip">HyperFrames</span><span class="chip">ElevenLabs</span><span class="chip">הקלטות מסך מהאפליקציה</span></div>
+  </header>
+
+  <section class="gift" aria-labelledby="skill-h">
+    <div class="tag">הסקיל · app-spec-ad</div>
+    <h2 id="skill-h">סקיל אחד, פרסומת לכל אפליקציה</h2>
+    <p>סקיל הוא קובץ הוראות ש-Claude Code טוען לבד כשהוא מזהה את המשימה. בתוכו כל מה שלמדנו בשלוש פרסומות (Yellow, ביט ואל על): המבנה, המנוע, הנוסחה של הקריינות, כללי הפרטיות ורשימת בדיקה לפני רינדור. יש בו שני מראות: כהה עם ניאון, ובהיר עם עננים.</p>
+    <ol class="steps">
+      <li>פותחים את Claude Code בתיקייה של הפרויקט.</li>
+      <li>מעתיקים את הבלוק שלמטה ומדביקים. Claude ייצור את הסקיל ב-<code>~/.claude/skills/app-spec-ad/</code>.</li>
+      <li>שמים את ההקלטות בתיקייה <code>assets/raw/</code> וכותבים: <b>"תעשה לי ספק אד לאפליקציה [שם], מראה בהיר"</b>.</li>
+    </ol>
+    <div class="prompt install">
+      <div class="prompt-top"><span>התקנת הסקיל (העתקה אחת)</span><button class="copy" type="button">העתקה</button></div>
+      <pre>{{INSTALL}}</pre>
+    </div>
+  </section>
+
+  <section class="master">
+    <div class="num">שלב 0</div>
+    <h2>בלי הסקיל? הפרומפט שבונה את השלד</h2>
+    <p>מגדיר פורמט, מראה בהיר, מצלמה שזזה בין מסכים, ומה עושים עם מידע פרטי. אחריו משדרגים אלמנט אחרי אלמנט עם הפרומפטים שבהמשך.</p>
+    <div class="prompt">
+      <div class="prompt-top"><span>פרומפט-על</span><button class="copy" type="button">העתקה</button></div>
+      <pre>תבנה לי ב-HyperFrames פרסומת "ספק אד" לאפליקציה [שם], 16:9 (1920x1080), 60fps, בערך 20 שניות.
+מראה בהיר: רקע של תמונת ים עננים אמיתית עם שכבת אובך לבנה מעליה, צבע הדגשה אחד ([צבע המותג]) ובלי זוהר.
+מבנה: רצועה אחת של פאנלים ברוחב 1920px. המצלמה עוברת בין פאנלים ב-0.42 שניות עם power3.inOut, וכל מסך עובר בדיוק כשהמשפט שלו בקריינות נגמר.
+קו דק אחד בצבע המותג מחבר בין כל המסכים, רק עיקולים, ובראשו מטוס קטן שמסתובב לפי כיוון הקו.
+המסכים מ-assets/raw מוצגים בתוך טלפון, ופיצ'רים "קופצים" מהמסך החוצה.
+לפני הכול: תעבור על כל הקלטה ותחליף כל שם, מספר הזמנה, יעד אישי ומספר מושב בנתוני דמה. אל תטשטש.</pre>
+    </div>
+  </section>
+
+  <div class="route">
+
+    <section class="st">
+      <div class="num">01 · פתיחה</div>
+      <h2>אנימציית הלוגו של האפליקציה עצמה</h2>
+      <div class="shot"><img src="{{P1}}" alt="הזנב של אל על מצויר בקו דק בתוך חלון, ומתחתיו הלוגו" loading="lazy" /></div>
+      <p class="how">לא ממציאים פתיח. <b>חותכים מההקלטה את אנימציית הפתיחה של האפליקציה</b>, מגדילים, ושמים על שכבה אטומה משלה כדי שבמעבר לא יציץ כלום מאחור.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תמצא בהקלטה את אנימציית הפתיחה של האפליקציה, תחתוך אותה עם ffmpeg (crop סביב הלוגו, הגדלה פי 2 עם lanczos ו-unsharp, והאצה פי 2), ותשים אותה כפתיח של שנייה וחצי על שכבה אטומה בצבע הרקע.
+אם הרקע של הווידאו לבן, תן לשכבה mix-blend-mode: multiply (על האלמנט שעוטף את הווידאו, לא על הווידאו עצמו).
+בסוף הפתיח הלוגו קטן ונעלם עם back.in, ולפני הכול תריץ tl.seek(0.001) כדי שמצב ההתחלה ייקבע בטעינה.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">02 · הוק</div>
+      <h2>"מתכננים חופשה?" וקו טיסה עם מטוס</h2>
+      <div class="shot"><img src="{{P2}}" alt="הכותרת מתכננים חופשה מעל ים עננים וקו כחול עם מטוס קטן בראשו" loading="lazy" /></div>
+      <p class="how">כל מילה נכנסת מטשטוש <b>בדיוק כשהקריין אומר אותה</b>. הקו הוא צינור כחול חד, בלי זוהר, ובראשו מטוס קטן שמסתובב לפי השיפוע של הקו.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>הוק במרכז: "[שאלת הפתיחה]", כשהמילה האחרונה בצבע המותג. כל מילה נכנסת מ-blur(18px), y 40 ו-scale 1.12 עם expo.out, בזמן המילה בקריינות.
+הקו: שני path-ים, הילה מטושטשת בשקיפות 0.14 וצינור ברוחב 4.2px, שמצטיירים עם strokeDashoffset. תסתיר כל path עד שהוא מתחיל, כדי שלא יישארו נקודות.
+בראש הקו מטוס SVG קטן שזז לפי getPointAtLength ומסתובב לפי atan2 של המשיק.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">03 · יעדים</div>
+      <h2>"תאילנד, צרפת או יפן": העיר שנאמרת גדלה</h2>
+      <div class="shot"><img src="{{P3}}" alt="שישה חלונות מטוס עם ערים, החלון של בנגקוק גדל עם הילה" loading="lazy" /></div>
+      <p class="how">הקו מגיע לנקודה אחת ומתפצל לשש קרניים, ובקצה כל אחת קופץ חלון מטוס עם יעד <b>ושם העיר מעליו</b>. על כל מדינה שהקריין אומר, החלון שלה גדל מעל הילה, והקודם חוזר למקום.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תחתוך מהקרוסלה של היעדים באפליקציה 6 תמונות בצורת חלון מטוס (מלבן עם רדיוס של חצי רוחב, מסכה פי 4 ו-LANCZOS).
+הקו מגיע לנקודה במרכז למטה ומתפצל לשש קרניים מעוקלות, ובקצה כל קרן קופץ חלון 200x277 עם back.out ושם העיר מעליו.
+על כל שם מדינה בקריינות: החלון של העיר שלה גדל ל-1.3 עם הילה כחולה מטושטשת מאחוריו, והחלון הקודם חוזר ל-1.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">04 · טלפון</div>
+      <h2>הקו מגיע, הטלפון גדל מעל הילה</h2>
+      <div class="shot"><img src="{{P4}}" alt="טלפון עם מסך הזמנת טיסה מעל ים עננים, עם הילה כחולה מאחוריו" loading="lazy" /></div>
+      <p class="how">על רקע בהיר מסגרות סביב אלמנטים נראות זולות. <b>במקום מסגרת: האלמנט גדל קצת, ומאחוריו נדלקת לרגע הילה תכלת כהה</b>. אותו אפקט על כל דבר שהקו מגיע אליו.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>טלפון ב-CSS (400x820, פינות 64, Dynamic Island) עם צילום המסך בגודל פי 2 מגודל התצוגה. תחתוך מהצילום את שורת הסטטוס ואת הכפתורים העליוניים, כדי שהמסך ימלא את הטלפון מלמעלה.
+כניסה: rotationY 26 → -8 עם expo.out ופס ברק שעובר על המסך.
+כשהקו מגיע לתחתית הטלפון: הטלפון גדל ל-1.05 בחצי שנייה, ומאחוריו div עם radial-gradient כחול מטושטש שנדלק ב-0.28 שניות ודועך ב-0.7. בלי מסגרת ובלי לולאה.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">05 · כפתור</div>
+      <h2>"וזהו." והכפתור נלחץ</h2>
+      <div class="shot"><img src="{{P5}}" alt="כפתור חיפוש טיסה יוצא מהמסך של הטלפון לצידו" loading="lazy" /></div>
+      <p class="how">הכפתור יוצא <b>בדיוק מהמקום שלו על המסך</b>, ולכן נראה שהוא באמת קופץ ממנו. על המילה "וזהו" הוא נלחץ פעם אחת.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תחתוך את כפתור [שם הכפתור] מצילום המסך, ותחשב את המיקום שלו על מסך הטלפון לפי קנה המידה של המסך.
+על המילה "[המילה]" הכפתור יוצא מהמיקום הזה, גדל לגודל המלא וזז לצד הטלפון עם back.out(1.4).
+על המילה "[וזהו]" לחיצה: scale 0.92 הלוך-חזור ב-0.08 שניות. בלי מסגרת ובלי עיגול טאפ.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">06 · מצב נסיעה</div>
+      <h2>מסך נקי וכרטיס הטיסה</h2>
+      <div class="shot"><img src="{{P6}}" alt="טלפון עם מסך ברוכים הבאים למצב נסיעה, ולצידו כרטיס ספירה לאחור עם חוף תל אביב" loading="lazy" /></div>
+      <p class="how">מצילום מסך של הטיסה שלי <b>הורדתי את כפתורי השיתוף והתפריט, את שורת הסטטוס של האייפון, את היעד ואת מספר ההזמנה</b>. את השמיים מתחתם השלמתי עם inpaint, בלי טשטוש.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>מהצילום [שם הקובץ]: תסמן מלבנים סביב שורת הסטטוס, כפתור השיתוף, כפתור התפריט, המסלול ומספר ההזמנה, ותמלא אותם עם cv2.inpaint (TELEA, רדיוס 25) ועוד טשטוש עדין רק על האזור שתוקן.
+תחתוך את הכרטיס עם פינות מעוגלות (מסכה פי 4) ותציג אותו ליד הטלפון בגודל 376x480. הוא קופץ פנימה מכיוון הטלפון עם back.out.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">07 · הכל במקום אחד</div>
+      <h2>כרטיסים שנבנו מחדש, בפונט של האפליקציה</h2>
+      <div class="shot"><img src="{{P7}}" alt="כרטיס עלייה למטוס במרכז, כרטיס נוסע משמאל ושלושה כרטיסי מידע מימין מעל עננים" loading="lazy" /></div>
+      <p class="how">כרטיסי הזכוכית מהאפליקציה נראו מלוכלכים מחוץ להקשר, אז <b>בנינו אותם מחדש ב-HTML</b>. אחרי השוואה, Rubik דק לעברית ו-Montserrat מודגש לקודים היו הכי קרובים לפונט של אל על. את השם בכרטיס הנוסע הרכבנו מאותיות שנגזרו מהשם המקורי, כך שהפונט זהה.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תשווה 5 פונטים על הטקסט האמיתי של הכרטיסים מול צילום המסך, ותבחר את הקרוב ביותר לעברית ולאנגלית.
+תבנה מחדש ב-HTML את כרטיסי [צ'ק אין / שער / מסוע]: כרטיס לבן, פינות 30, צל רך, כותרת קטנה אפורה, ערך גדול שבו הקוד מודגש בצבע המותג, ושורת הסבר.
+הקו מגיע רק לכרטיס המרכזי בקשת שעולה לתחתית שלו וממשיך משם. הכרטיסים האחרים קופצים כל אחד על המילה שלו בקריינות.
+אם יש שם אמיתי: תגזור אותיות מהשורה המקורית ותרכיב מהן שם דמה.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">08 · מרגישים בבית</div>
+      <h2>חלון אחד, ונכנסים לתוכו</h2>
+      <div class="pair">
+        <div class="shot"><img src="{{P8}}" alt="חלון מטוס עם מטוס אל על והכותרת מרגישים בנוח" loading="lazy" /></div>
+        <div class="shot"><img src="{{P9}}" alt="המצלמה נכנסת לתוך החלון" loading="lazy" /></div>
+      </div>
+      <p class="how">"מרגישים בנוח" מימין לחלון, "מרגישים בבית" משמאל. בסוף המשפט <b>המצלמה נכנסת לתוך החלון</b>, העננים מתקרבים איתה, והמסך נפתח לסיום.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>חלון מטוס גדול (330x472, רדיוס של חצי רוחב, טבעת לבנה) עם [תמונת המותג] במרכז, וכותרת אחת מכל צד.
+בסוף המשפט: #cam עושה scale 7 ב-0.55 שניות עם power2.in, התמונה בחלון גדלה ומקבלת blur קצר, ותמונת העננים ברקע עושה scale 1.25. מיד אחרי זה מסך הסיום נכנס ב-fade.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">09 · סיום</div>
+      <h2>לוגו, מוטו ומטוס שממריא</h2>
+      <div class="pair">
+        <div class="shot"><img src="{{P10}}" alt="לוגו אל על והמוטו הכי בבית בעולם עם קו ומטוס מתחת" loading="lazy" /></div>
+        <div class="shot"><img src="{{P11}}" alt="קרדיט created by Refael Levi מעל עננים" loading="lazy" /></div>
+      </div>
+      <p class="how">הלוגו נכנס על "אל על", המוטו מילה אחרי מילה. מתחתיו מטוס קטן מצייר קו <b>ואז ממריא החוצה</b>. אחרי שנייה של שקט מגיע הקרדיט.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>מסך סיום על אותו רקע: [הלוגו] נכנס מ-blur(16px) ו-scale 0.9 על המילה "[שם המותג]", והסלוגן מילה אחרי מילה לפי הקריינות.
+מתחת לסלוגן קו קשת עדין שמצטייר עם המטוס בראשו, ובסוף המטוס ממשיך למעלה ושמאלה, גדל ונעלם.
+הכול מחזיק שנייה, ואז "created by [השם שלך]" עם קו בצבע המותג שמתמתח מתחתיו.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">10 · רקע</div>
+      <h2>ים עננים במקום רקע לבן</h2>
+      <div class="shot"><img src="{{P8}}" alt="ים עננים מגובה טיסה מאחורי התוכן" loading="lazy" /></div>
+      <p class="how">רקע לבן חלק היה "משעמם לעין". ניסינו עננים גזורים, והם יצאו אפורים וחוזרים על עצמם. מה שעבד: <b>תמונה אחת אמיתית של ים עננים</b>, אובך לבן מעליה כדי שהטקסט יישאר קריא, ותזוזה קטנה שלה בכל מעבר בין מסכים.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תיצור תמונה 16:9 של ים עננים לבנים מגובה טיסה, שמיים כחולים נקיים בחצי העליון.
+תשים אותה מאחורי כל הפאנלים, גדולה מהמסך (בערך 2656x1500) כדי שהקצה לא ייראה בתזוזה, עם blur קל של 1.2px.
+מעליה gradient לבן: 0.5 למעלה, 0.22 באמצע, 0.3 למטה.
+בכל מעבר מצלמה התמונה זזה 60px בכיוון המעבר (פרלקסה), ולאורך כל הסרטון נסחפת לאט.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">11 · קצב</div>
+      <h2>קריינות, מוזיקה, ומעבר על סוף כל משפט</h2>
+      <p class="how">הגרסה הראשונה הייתה יפה אבל רדומה. מה שהעיר אותה: <b>תסריט עם שמות ופעולות</b> במקום משפטים כלליים, מוזיקה של 122 BPM מהשנייה הראשונה, וחוק אחד: <b>כשהמשפט נגמר, המסך עובר</b>.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תסריט: שאלה כהוק, שמות קונקרטיים (ערים, סכומים), פעולות קצרות באפליקציה ("מזמינים כרטיסים באפליקציה, וזהו"), משפט תועלת אחד וסלוגן.
+קריינות ב-ElevenLabs, eleven_v4, עם התג [energetic, upbeat, confident commercial tone]. מילים שנקראות לא נכון כותבים בניקוד.
+מוזיקה אינסטרומנטלית, 120 BPM, עם קיק ומחיאות כפיים מההתחלה. תבדוק שאין בה שירה (תתמלל אותה: טקסט ריק אומר שאין).
+את זמני המילים תמדוד מההקלטה עצמה (silencedetect ומעטפת עוצמה), ותזיז כל מעבר מצלמה לסוף המשפט שלו.
+מיקס: מוזיקה 0.42 עם sidechain מתחת לקול, whoosh על כל מעבר, pop על כל קפיצה, ובסוף בערך -14 LUFS.</pre></div>
+    </section>
+
+    <section class="st">
+      <div class="num">12 · פרטיות</div>
+      <h2>מה הוחלף ולמה</h2>
+      <p class="how">ההקלטות היו של הטיסה האמיתית שלי. <b>כלל אחד: מוחקים ומציירים נתוני דמה באותו פונט, לא מטשטשים.</b> השם, מספר ההזמנה, היעד והמושב הוחלפו. נתוני הדמו של אל על עצמה (Mr. Israel Israeli, LY020) מותר להשאיר.</p>
+      <div class="prompt"><div class="prompt-top"><span>פרומפט</span><button class="copy" type="button">העתקה</button></div>
+<pre>תעבור על כל צילום והקלטה ותרשום לי טבלה של כל מידע פרטי: שמות, מספרי הזמנה ומספרי חשבון, יעדים ותאריכים אישיים, מספרי מושב, תמונות פרופיל והתראות של אפליקציות אחרות.
+לכל אחד: תמחק בצבע הרקע המדויק (או inpaint על תמונה) ותצייר נתוני דמה באותו גודל ופונט. אל תטשטש.
+את המקורות תשמור בתיקייה שנמצאת ב-.gitignore.</pre></div>
+    </section>
+
+  </div>
+
+  <footer>
+    <b>רפאל לוי</b>
+    <span>מומחה AI ושיווק דיגיטלי · ‎@refaelleviii</span>
+    <span>השירותים שלי באתר: <a href="https://refael-ai.com/" target="_blank" rel="noopener">refael-ai.com</a></span>
+    <span>פרסומת ספק שיצרתי באופן עצמאי. אין לי קשר רשמי לאל על. יצרת פרסומת עם הסקיל? תייג אותי ואני אשתף.</span>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll(".copy").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const pre = btn.closest(".prompt").querySelector("pre");
+      const ok = () => { btn.textContent = "הועתק"; btn.classList.add("done"); setTimeout(() => { btn.textContent = "העתקה"; btn.classList.remove("done"); }, 1600); };
+      const fallback = () => { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "מסומן, העתק ידנית"; };
+      try { navigator.clipboard.writeText(pre.innerText).then(ok, fallback); } catch (e) { fallback(); }
+    });
+  });
+</script>
