@@ -10,7 +10,7 @@ ffmpeg -nostdin -y -v error -i "$VO" -af "asetrate=44100*0.95,aresample=44100,at
 # sentence clips: film start | offset in vo | length   (from silencedetect on the raw take; first word lands on its headline)
 CLIPS="1.66 0 1.15|3.72 1.33 0.95|6.08 2.6 1.15|8.75 3.75 1.4|11.34 5.55 2.7|14.89 8.71 0.95|16.13 10.0 0.85|17.88 11.5 0.55|18.78 12.4 1.35"
 # SFX: file | film time | volume   (whoosh = camera pans and push-in, pop = pop-outs, impact = logo)
-SFX="whoosh 3.35 0.35|pop 4.36 0.25|pop 4.75 0.22|whoosh 5.75 0.35|pop 7.1 0.3|pop 7.75 0.2|whoosh 8.45 0.35|pop 9.75 0.3|whoosh 11.1 0.35|pop 11.97 0.22|pop 12.3 0.22|whoosh 14.2 0.35|pop 14.8 0.3|whoosh 17.0 0.55|impact 17.9 0.3|whoosh 20.4 0.22"
+SFX="whoosh 3.35 0.35|pop 4.36 0.25|pop 4.75 0.22|whoosh 5.75 0.35|pop 7.1 0.3|pop 7.75 0.2|whoosh 8.45 0.35|pop 9.75 0.3|whoosh 11.1 0.35|pop 11.42 0.22|pop 12.15 0.2|whoosh 14.2 0.35|pop 14.5 0.3|whoosh 17.0 0.55|impact 17.9 0.3|whoosh 20.4 0.22"
 
 in=(-i "$V" -i assets/vo.wav -i "$MU"); f=""; vo=""; sx=""; n=3; k=0
 IFS='|' read -ra C <<< "$CLIPS"

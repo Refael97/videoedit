@@ -149,6 +149,7 @@
             <img class="pop" id="popSearch" src="assets/crops/btn_search.png" style="left: 790px; top: 640px; width: 518px; height: 62px" />
           </div>
           <div class="pn" id="P3">
+            <div class="halo" id="halo3" style="left: 90px; top: 40px; width: 820px; height: 1000px"></div>
             <div class="phone" id="ph3"><div class="scr" style="background:#3d73a7"><img src="assets/crops/scr_welcome2.png" style="top: 0" /></div><div class="shine"><i></i></div><div class="isl"></div></div>
             <div class="hl" id="h3"><span class="w">ונכנסים</span><br /><em class="w">למצב נסיעה.</em></div>
             <div id="trip"><img src="assets/crops/card_trip.png" /></div>
@@ -156,6 +157,7 @@
           <div class="pn" id="P4">
             <div id="t4a"><span class="w">לא</span> <span class="w">דואגים</span> <span class="w">לכלום,</span></div>
             <div id="t4b"><span class="w">כי</span> <span class="w">הכל</span> <em class="w">במקום</em> <em class="w">אחד.</em></div>
+            <div class="halo" id="halo4" style="left: 620px; top: 200px; width: 680px; height: 790px"></div>
             <div class="wc bp card" id="cBoard">
               <div class="hd"><span>כרטיסי עלייה למטוס &nbsp;<span style="color:var(--muted)">✕</span></span><svg viewBox="0 0 24 24" stroke="#1b2a8c" stroke-width="2" fill="none" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></div>
               <div class="tk">
@@ -174,6 +176,7 @@
           </div>
           <div class="pn" id="P5">
             <div class="side" id="t5a"><span class="w">תרגישו</span> <span class="w">בנוח.</span></div>
+            <div class="halo" id="halo5" style="left: 660px; top: 150px; width: 600px; height: 780px"></div>
             <div id="win5"><img src="assets/crops/win_plane.png" /></div>
             <div class="side" id="t5b"><span class="w">תרגישו</span> <em class="w">בבית.</em></div>
           </div>
@@ -302,36 +305,38 @@
       const s2 = 376 / 582, bx = 300 + 12 + 30 * s2, by = 130 + 12 + 793 * s2;
       ft("#popSearch", { x: bx - 790, y: by - 640, scale: s2, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.4)" }, 7.1);
       tl.to("#popSearch", { scale: 0.94, duration: 0.07, yoyo: true, repeat: 1, transformOrigin: "50% 50%" }, 7.75);
-      piece(P(2, "M500,974 C400,974 370,1040 240,1040 L-40,1040"), 8.05, 8.6, { ease: "sine.in", chain: true });
+      piece(P(2, "M500,962 C420,968 360,1040 240,1040 L-40,1040"), 8.05, 8.6, { ease: "sine.in", chain: true });
       tl.to("#popSearch", { opacity: 0, x: -80, duration: 0.3, ease: "power2.in" }, 8.4);
 
       // ---------- P3: trip status, with the real countdown ----------
       phoneIn("#ph3", 8.6);
       hl("#h3", [8.8, 9.28]);
       piece(P(3, "M1960,1040 C1200,1040 600,1030 500,962"), 8.6, 9.05, { ease: "sine.inOut" });
+      arrive("#ph3", "#halo3", 9.05);
       ft("#trip", { opacity: 0, scale: 0.55, x: -300, y: 40 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.6, ease: "back.out(1.4)" }, 9.6);
       tl.fromTo("#trip", { y: 0 }, { y: -8, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, 10.2);
-      piece(P(3, "M500,974 C400,974 370,1040 240,1040 L-40,1040"), 10.6, 11.25, { ease: "sine.in", chain: true });
+      piece(P(3, "M500,962 C420,968 360,1040 240,1040 L-40,1040"), 10.6, 11.25, { ease: "sine.in", chain: true });
 
       // ---------- P4: everything in one place: the line fans out to the real trip-status cards ----------
       hl("#t4a", [11.4, 11.51, 11.91]);
       hl("#t4b", [12.65, 12.89, 13.49, 13.76]);
-      piece(P(4, "M1960,1040 C1500,1040 1200,960 960,960"), 11.25, 11.75, { ease: "sine.out" });
+      piece(P(4, "M1960,1040 C1500,1040 1180,874 960,874"), 11.25, 11.98, { ease: "sine.inOut", chain: true });
       // the line reaches only the boarding pass; the rest pop in around it
-      piece(P(4, "M960,960 L960,875"), 11.75, 11.98, { ease: "power2.out", noHead: true });
-      const CARDS = [["#cBoard", 11.86, 0], ["#cCheck", 12.1, 1], ["#cGate", 12.24, 1], ["#cBag", 12.38, 1], ["#cBook", 12.55, -1]];
+      arrive("#cBoard", "#halo4", 11.98, 1.04);
+      const CARDS = [["#cBoard", 11.4, 0], ["#cCheck", 12.1, 1], ["#cGate", 12.24, 1], ["#cBag", 12.38, 1], ["#cBook", 12.55, -1]];
       CARDS.forEach(([sel, t, dir]) => {
         ft(sel, { opacity: 0, scale: 0.7, x: dir * 70, y: dir ? 0 : 50 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.5)" }, t);
         tl.fromTo(sel, { y: 0 }, { y: -7, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.6);
       });
 
       // P4 exit: the line leaves low to the left
-      piece(P(4, "M960,960 C700,962 420,1040 -40,1040"), 13.8, 14.35, { ease: "sine.in", chain: true });
+      piece(P(4, "M960,874 C740,874 420,1040 -40,1040"), 13.8, 14.35, { ease: "sine.in", chain: true });
       tl.to("#t4a, #t4b", { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, 14.28);
 
       // ---------- P5: "feel comfortable, feel at home": one big window, the line wraps it, then we fly in ----------
-      piece(P(5, "M1960,1040 C1400,1040 960,1010 960,786"), 14.35, 14.85, { ease: "sine.inOut" });
-      ft("#win5", { opacity: 0, scale: 0.5, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" }, 14.8);
+      piece(P(5, "M1960,1040 C1400,1040 960,1010 960,786"), 14.35, 15.0, { ease: "sine.inOut" });
+      arrive("#win5", "#halo5", 15.0, 1.04);
+      ft("#win5", { opacity: 0, scale: 0.5, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "back.out(1.5)" }, 14.45);
       ft("#win5 img", { scale: 1.12, x: 18 }, { scale: 1, x: 0, duration: 2.0, ease: "sine.out" }, 14.8);
       words("#t5a", [14.95, 15.38]);
       words("#t5b", [16.2, 16.6]);
