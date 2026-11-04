@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/kit/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Assistant"; font-weight: 800; src: url("assets/kit/fonts/assistant-hebrew-800-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Assistant"; font-weight: 500; src: url("assets/kit/fonts/assistant-hebrew-500-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Assistant"; font-weight: 700; src: url("assets/kit/fonts/assistant-hebrew-700-normal.woff2") format("woff2"); }
+      :root { --navy: #1b2a8c; --ink: #141a3c; --muted: #6b7089; --bg0: #fbfbfd; --bg1: #e7e9f0; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: var(--bg1); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: "Assistant", sans-serif; color: var(--navy); direction: rtl;
+        background: radial-gradient(ellipse 70% 75% at 50% 42%, var(--bg0) 0, #f1f2f6 45%, var(--bg1) 100%); }
+      /* light studio: soft floor shade, fine grain, very light vignette */
+      #floor { position: absolute; left: 0; right: 0; bottom: 0; height: 360px; background: linear-gradient(180deg, rgba(27, 42, 140, 0) 0, rgba(27, 42, 140, 0.035) 100%); }
+      #grain { position: absolute; inset: 0; opacity: 0.035; background-image: radial-gradient(rgba(20, 26, 60, 0.9) 0.6px, transparent 0.7px); background-size: 5px 5px; }
+      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0) 62%, rgba(20, 26, 60, 0.09) 100%); z-index: 20; pointer-events: none; }
+      #cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 50% 50%; }
+      #world { position: absolute; left: 0; top: 0; width: 3840px; height: 1080px; }
+      .pn { position: absolute; top: 0; width: 1920px; height: 1080px; z-index: 2; }
+
+      /* the flight path: one crisp navy line with a faint soft shadow, no glow (CLAUDE.md: no neon) */
+      #trail { position: absolute; left: 0; top: 0; width: 3840px; height: 1080px; overflow: visible; z-index: 1; pointer-events: none; }
+      #gHalo { filter: blur(7px); opacity: 0.14; }
+      .sH { fill: none; stroke: var(--navy); stroke-width: 14; stroke-linecap: round; stroke-linejoin: round; }
+      .sT { fill: none; stroke: var(--navy); stroke-width: 4.2; stroke-linecap: round; stroke-linejoin: round; }
+      .head { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 3; }
+      .head svg { position: absolute; left: -22px; top: -22px; width: 44px; height: 44px; filter: drop-shadow(0 4px 6px rgba(27, 42, 140, 0.25)); }
+      .wf { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; z-index: 6; pointer-events: none; }
+
+      .w { display: inline-block; }
+      #t0 { position: absolute; left: 0; right: 0; top: 330px; text-align: center; font-size: 190px; font-weight: 800; line-height: 1.05; color: var(--ink); }
+      #t0 em { font-style: normal; color: var(--navy); }
+      #t1 { position: absolute; left: 0; right: 0; top: 110px; text-align: center; font-size: 104px; font-weight: 800; line-height: 1.1; color: var(--ink); }
+      #t1 em { font-style: normal; color: var(--navy); }
+
+      .win { position: absolute; width: 200px; height: 277px; border-radius: 100px; overflow: hidden; background: #dfe3ee;
+        box-shadow: 0 26px 50px rgba(20, 30, 80, 0.16), 0 0 0 5px #fff; }
+      .win img { width: 100%; height: 100%; display: block; }
+      .city { position: absolute; width: 240px; margin-left: -120px; text-align: center; font-size: 34px; font-weight: 700; color: var(--navy); }
+
+      #intro { position: absolute; inset: 0; z-index: 40; background: radial-gradient(ellipse 70% 75% at 50% 42%, var(--bg0) 0, #f1f2f6 45%, var(--bg1) 100%); }
+      #introLogo { position: absolute; left: 810px; top: 132px; width: 300px; height: 562px; mix-blend-mode: multiply; }
+      #introLogo video, #introLogo img { position: absolute; inset: 0; width: 100%; height: 100%; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="1920" data-height="1080">
+      <div id="floor"></div>
+      <div id="grain"></div>
+      <div id="cam">
+        <div id="world">
+          <svg id="trail" viewBox="0 0 3840 1080"><g id="gHalo"></g><g id="gTube"></g></svg>
+          <div class="pn" id="P0"><div id="t0"><span class="w">מתכננים</span> <em class="w">חופשה?</em></div></div>
+          <div class="pn" id="P1">
+            <div id="t1"><span class="w">לא</span> <span class="w">משנה</span> <em class="w">לאן.</em></div>
+            <div id="wins"></div>
+          </div>
+        </div>
+      </div>
+      <div id="vig"></div>
+      <div id="intro" class="clip" data-start="0" data-duration="1.85" data-track-index="4">
+        <div id="introLogo">
+          <video id="vLogo" class="clip" src="assets/video/logo_draw.mp4" data-start="0.1" data-duration="1.32" data-track-index="5" muted playsinline></video>
+          <img id="logoEnd" src="assets/crops/logo_draw_end.png" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const IR = { immediateRender: false };
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const ft = (sel, from, to, at) => { tl.set(sel, from, 0); tl.fromTo(sel, from, { ...to, ...IR }, at); };
+      const N = 2, PW = 1920;
+      const X = (p, x) => (N - 1 - p) * PW + x; // panels run right-to-left
+      $$(".pn").forEach((el, i) => { el.style.left = X(i, 0) + "px"; });
+
+      // ---------- camera ----------
+      const camAt = (p) => -X(p, 0);
+      const PANS = [[1, 3.45]];
+      tl.set("#world", { x: camAt(0) }, 0);
+      PANS.forEach(([b, t]) => tl.to("#world", { x: camAt(b), duration: 0.55, ease: "power3.inOut" }, t));
+      const beats = [1.6, ...PANS.map((p) => p[1]), 6];
+      beats.slice(0, -1).forEach((a, i) => tl.fromTo("#cam", { scale: 1.0 }, { scale: 1.03, duration: beats[i + 1] - a, ease: "none", ...IR }, a));
+      tl.set("#cam", { scale: 1 }, 0);
+
+      // ---------- flight path: a line drawn by a small plane (the app's own launch animation does the same) ----------
+      const NS = "http://www.w3.org/2000/svg";
+      const PLANE = '<svg viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><path fill="#1b2a8c" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g></svg>';
+      const P = (p, pts) => pts.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, (m, x, y) => X(p, +x) + "," + y);
+      const piece = (d, a, b, o = {}) => {
+        const mk = (g, cls) => { const q = document.createElementNS(NS, "path"); q.setAttribute("d", d); q.setAttribute("class", cls); $(g).appendChild(q); return q; };
+        const ps = [mk("#gHalo", "sH"), mk("#gTube", "sT")], p = ps[1], L = p.getTotalLength(), dur = b - a, ease = o.ease || "sine.inOut";
+        ft(ps, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease }, a);
+        if (!o.noHead) {
+          const h = document.createElement("div"); h.className = "head"; h.innerHTML = PLANE; $("#world").appendChild(h);
+          const e = gsap.parseEase(ease), n = Math.max(8, Math.round(dur * 30)), kf = [];
+          for (let i = 1; i <= n; i++) { const pt = p.getPointAtLength(L * e(i / n)), q = p.getPointAtLength(Math.min(L, L * e(i / n) + 3)); kf.push({ x: pt.x, y: pt.y, rotation: (Math.atan2(q.y - pt.y, q.x - pt.x) * 180) / Math.PI, duration: dur / n }); }
+          const p0 = p.getPointAtLength(0), p1 = p.getPointAtLength(1);
+          tl.set(h, { x: p0.x, y: p0.y, rotation: (Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180) / Math.PI, opacity: 0, scale: 1 }, 0);
+          tl.set(h, { opacity: 1 }, a);
+          tl.to(h, { keyframes: kf, ease: "none" }, a);
+          if (o.chain) tl.set(h, { opacity: 0 }, b);
+          else if (o.hold == null) tl.to(h, { opacity: 0, scale: 0.4, duration: 0.25, ease: "power2.in" }, b);
+        }
+        return p;
+      };
+      // window-shaped selection frame (stadium), drawn around an element
+      const stadium = (x, y, w, h) => { const r = w / 2; return "M" + (x + r) + "," + (y + h) + " A" + r + "," + r + " 0 0 1 " + x + "," + (y + h - r) + " L" + x + "," + (y + r) + " A" + r + "," + r + " 0 0 1 " + (x + w) + "," + (y + r) + " L" + (x + w) + "," + (y + h - r) + " A" + r + "," + r + " 0 0 1 " + (x + r) + "," + (y + h); };
+      const frameAround = (pn, d, a, out) => {
+        const svg = document.createElementNS(NS, "svg"); svg.setAttribute("class", "wf"); svg.setAttribute("viewBox", "0 0 1920 1080"); $(pn).appendChild(svg);
+        const q = document.createElementNS(NS, "path"); q.setAttribute("d", d); q.setAttribute("fill", "none"); q.setAttribute("stroke", "#1b2a8c"); q.setAttribute("stroke-width", 3); q.setAttribute("stroke-linecap", "round"); svg.appendChild(q);
+        const L = q.getTotalLength();
+        ft(q, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.42, ease: "power2.inOut" }, a);
+        if (out != null) tl.to(svg, { opacity: 0, duration: 0.2 }, out);
+      };
+
+      // ---------- headline words land out of a soft blur ----------
+      const words = (sel, times, o = {}) => $$(sel + " .w").forEach((w, i) =>
+        ft(w, { opacity: 0, y: 40, scale: 1.12, filter: "blur(18px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, times[Math.min(i, times.length - 1)]));
+
+      // ---------- P0: hook ----------
+      words("#t0", [1.72, 2.1]);
+      piece(P(0, "M1990,880 C1500,884 700,860 -40,872"), 1.65, 3.62, { ease: "sine.inOut", chain: true });
+      tl.to("#t0", { opacity: 0, y: -30, duration: 0.3, ease: "power2.in" }, 3.4);
+
+      // ---------- P1: "no matter where": the line reaches a hub and fans out to six windows ----------
+      words("#t1", [3.78, 3.98, 4.22]);
+      piece(P(1, "M1920,872 C1500,876 1160,1000 960,1000"), 3.62, 4.12, { ease: "sine.out" });
+      const DEST = [["bangkok", "בנגקוק"], ["newyork", "ניו יורק"], ["vienna", "וינה"], ["tokyo", "טוקיו"], ["milan", "מילאנו"], ["paris", "פריז"]];
+      const XS = [1645, 1375, 1100, 820, 545, 275], TOPS = [455, 395, 368, 368, 395, 455], HUB = [960, 1000];
+      DEST.forEach(([k, name], i) => {
+        const cx = XS[i], top = TOPS[i], bx = cx, by = top + 277 + 12, t = 4.12 + i * 0.13;
+        const c1y = HUB[1] - 30, c2y = by + 110;
+        piece(P(1, "M" + HUB[0] + "," + HUB[1] + " C" + (HUB[0] + (bx - HUB[0]) * 0.15) + "," + c1y + " " + bx + "," + c2y + " " + bx + "," + by), t, t + 0.34, { ease: "power2.out", noHead: true });
+        const w = document.createElement("div"); w.className = "win"; w.style.left = cx - 100 + "px"; w.style.top = top + "px";
+        w.innerHTML = '<img src="assets/crops/win_' + k + '.png" />'; $("#wins").appendChild(w);
+        ft(w, { opacity: 0, scale: 0.4, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" }, t + 0.24);
+        frameAround("#P1", stadium(cx - 112, top - 12, 224, 301), t + 0.3, null);
+        tl.fromTo(w, { y: 0 }, { y: -8, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.8);
+      });
+
+      // ---------- opener: the app's real launch animation (line-drawn tail in a window), then hand over ----------
+      tl.set("#logoEnd", { opacity: 0 }, 0);
+      tl.set("#logoEnd", { opacity: 1 }, 1.4);
+      tl.fromTo("#introLogo", { scale: 0.92 }, { scale: 1, duration: 1.4, ease: "sine.out", ...IR }, 0);
+      tl.to("#introLogo", { scale: 0.8, opacity: 0, duration: 0.32, ease: "back.in(1.6)" }, 1.48);
+      tl.to("#intro", { opacity: 0, duration: 0.25, ease: "power1.in" }, 1.62);
+
+      tl.seek(0.001, false);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      // still-frame preview helper (outside HyperFrames)
+      window.__previewFrame = "snapshots/logo_t07.png";
+      window.__seek = async (t) => { tl.seek(t, false); const v = $("#vLogo"); if (t >= 0.1 && t < 1.42) { v.currentTime = t - 0.1; await new Promise((r) => (v.readyState >= 2 && !v.seeking ? r() : v.addEventListener("seeked", r, { once: true }))); v.style.opacity = 1; } else v.style.opacity = 0; };
+    </script>
+  </body>
+</html>
