@@ -114,10 +114,22 @@
       /* ---- background variants (?bg=sky|navy|map|mesh) ---- */
       #bgx { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
       #bgx > * { position: absolute; display: none; }
-      .bg-sky #root { background: linear-gradient(180deg, #f4f9ff 0%, #d6e7f9 40%, #a9c9ee 100%); }
+      .bg-sky #root { background: linear-gradient(180deg, #b9d6f4 0%, #dcebfa 38%, #eef5fd 62%, #d3e5f7 100%); }
       .bg-sky #floor { display: none; }
-      .bg-sky #cl0, .bg-sky #cl1 { display: block; left: -480px; width: 2880px; }
-      #cl0 { top: 470px; height: 820px; opacity: 1; filter: drop-shadow(0 18px 30px rgba(60, 100, 160, 0.18)); } #cl1 { top: -180px; height: 620px; opacity: 0.8; transform: scaleY(-1); }
+      /* three cloud layers, panned at different speeds (parallax) */
+      .bg-navy #csea, .bg-sky #photo, .bg-sky #haze { display: block; }
+      #photo { left: -640px; top: -230px; height: 1500px; width: 2656px; filter: blur(1.2px) saturate(0.95); }
+      #haze { inset: 0; background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.38) 35%, rgba(255, 255, 255, 0.22) 62%, rgba(255, 255, 255, 0.3) 100%); }
+                  #csea { left: -3000px; top: 700px; width: 7200px; height: 460px; }
+      #cfar img, #cmid img, #csea img { position: absolute; top: 0; height: 100%; width: auto; }
+      .bg-navy #csea { opacity: 0.16; mix-blend-mode: screen; }
+      .bg-sky #end { background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0.22) 62%, rgba(255,255,255,0.3)), url("assets/bg/skyphoto.jpg") -300px -230px / 2656px 1500px; }
+      #endSea { position: absolute; left: -400px; top: 700px; width: 3067px; height: 460px; display: none; }
+      .bg-navy #endSea { display: block; opacity: 0.12; mix-blend-mode: screen; }
+      .bg-navy #end { background: radial-gradient(ellipse 75% 80% at 50% 40%, #2a3fae 0, #1b2a8c 45%, #0f185a 100%); }
+      .bg-navy #motto, .bg-navy #cred b { color: #fff; } .bg-navy #motto em { color: #9cc4ff; }
+      .bg-navy #cred small { color: #b9c4ee; } .bg-navy #credl { background: #9cc4ff; }
+      .bg-navy #endSvg .sT { stroke: #fff; } .bg-navy #eH .sH { stroke: #9cc4ff; }
       .bg-navy #root { background: radial-gradient(ellipse 75% 80% at 50% 40%, #2a3fae 0, #1b2a8c 45%, #0f185a 100%); color: #fff; }
       .bg-navy #floor { display: none; }
       .bg-navy #grain { opacity: 0.05; background-image: radial-gradient(rgba(255, 255, 255, 0.9) 0.6px, transparent 0.7px); }
@@ -157,7 +169,7 @@
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="21.4" data-width="1920" data-height="1080">
       <div id="bgx">
-        <img id="cl1" src="assets/bg/clouds1.png" /><img id="cl0" src="assets/bg/clouds0.png" />
+        <img id="photo" src="assets/bg/skyphoto.jpg" /><i id="haze"></i><div id="csea"></div>
         <img id="wd" src="assets/bg/worlddots.png" />
         <svg id="routes" viewBox="0 0 1920 1080" fill="none" stroke="#1b2a8c" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round"><path d="M1130,330 Q1400,120 1660,380" /><path d="M1130,330 Q760,140 470,320" /><path d="M1130,330 Q1250,520 1420,520" /></svg>
         <i id="b1"></i><i id="b2"></i><i id="b3"></i>
@@ -215,6 +227,7 @@
       </div>
       <div id="vig"></div>
       <div id="end" class="clip" data-start="16.15" data-duration="5.25" data-track-index="4">
+        <img id="endSea" src="assets/bg/sea.png" />
         <img id="endLogo" src="assets/crops/logo_elal_hq.png" />
         <div id="motto"><span class="w">הכי</span> <em class="w">בבית</em> <span class="w">בעולם</span></div>
         <svg id="endSvg" viewBox="0 0 1920 1080"><g id="eH"></g><g id="eT"></g></svg>
@@ -230,7 +243,8 @@
     </div>
 
     <script>
-      { const m = /[?&]bg=(\w+)/.exec(location.search); if (m) document.documentElement.classList.add("bg-" + m[1]); }
+      const BG_DEFAULT = "";
+      { const q = /[?&]bg=(\w+)/.exec(location.search), m = q || (BG_DEFAULT && [0, BG_DEFAULT]); if (m) document.documentElement.classList.add("bg-" + m[1]); if (m && m[1] === "navy") document.getElementById("endLogo").src = "assets/crops/logo_elal_white.png"; }
       const tl = gsap.timeline({ paused: true });
       const IR = { immediateRender: false };
       const $ = (s) => document.querySelector(s);
@@ -249,6 +263,13 @@
       const beats = [1.6, ...PANS.map((p) => p[1]), 15.8];
       beats.slice(0, -1).forEach((a, i) => tl.fromTo("#cam", { scale: 1.0 }, { scale: 1.035, duration: beats[i + 1] - a, ease: "none", ...IR }, a));
       tl.set("#cam", { scale: 1 }, 0);
+      // clouds: tile the keyed layers, drift slowly, and move with every pan at their own depth
+      const tile = (sel, src, w, n) => { for (let i = 0; i < n; i++) { const im = document.createElement("img"); im.src = src; im.style.left = i * w + "px"; $(sel).appendChild(im); } };
+      tile("#csea", "assets/bg/sea.png", 3258, 3);
+      [["#photo", 60, 30], ["#csea", 380, 80]].forEach(([sel, step, drift]) => {
+        tl.fromTo(sel, { x: 0 }, { x: drift * 2, duration: 21.4, ease: "none", ...IR }, 0);
+        PANS.forEach(([b, t]) => tl.to(sel, { xPercent: 0, left: "+=" + step, duration: 0.42, ease: "power3.inOut" }, t));
+      });
 
       // ---------- flight path: a line drawn by a small plane (the app's own launch animation does the same) ----------
       const NS = "http://www.w3.org/2000/svg";
@@ -386,6 +407,7 @@
       // push into the window, the sky fills the frame, then the end card
       tl.to("#cam", { scale: 7, duration: 0.55, ease: "power2.in" }, 15.82);
       tl.to("#win5 img", { scale: 1.35, x: -30, y: 20, duration: 0.55, ease: "power2.in" }, 15.82);
+      tl.to("#photo, #csea", { scale: 1.25, transformOrigin: "50% 60%", duration: 0.55, ease: "power2.in" }, 15.82);
       tl.fromTo("#win5 img", { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.3, ease: "power2.in", immediateRender: false }, 16.08);
 
       // ---------- end card: "El Al. Most at home in the world." ----------
