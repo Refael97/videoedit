@@ -17,11 +17,11 @@
       #grain { position: absolute; inset: 0; opacity: 0.035; background-image: radial-gradient(rgba(20, 26, 60, 0.9) 0.6px, transparent 0.7px); background-size: 5px 5px; }
       #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0) 62%, rgba(20, 26, 60, 0.09) 100%); z-index: 20; pointer-events: none; }
       #cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 50% 50%; }
-      #world { position: absolute; left: 0; top: 0; width: 3840px; height: 1080px; }
+      #world { position: absolute; left: 0; top: 0; width: 9600px; height: 1080px; }
       .pn { position: absolute; top: 0; width: 1920px; height: 1080px; z-index: 2; }
 
       /* the flight path: one crisp navy line with a faint soft shadow, no glow (CLAUDE.md: no neon) */
-      #trail { position: absolute; left: 0; top: 0; width: 3840px; height: 1080px; overflow: visible; z-index: 1; pointer-events: none; }
+      #trail { position: absolute; left: 0; top: 0; width: 9600px; height: 1080px; overflow: visible; z-index: 1; pointer-events: none; }
       #gHalo { filter: blur(7px); opacity: 0.14; }
       .sH { fill: none; stroke: var(--navy); stroke-width: 14; stroke-linecap: round; stroke-linejoin: round; }
       .sT { fill: none; stroke: var(--navy); stroke-width: 4.2; stroke-linecap: round; stroke-linejoin: round; }
@@ -43,19 +43,57 @@
       #intro { position: absolute; inset: 0; z-index: 40; background: radial-gradient(ellipse 70% 75% at 50% 42%, var(--bg0) 0, #f1f2f6 45%, var(--bg1) 100%); }
       #introLogo { position: absolute; left: 810px; top: 132px; width: 300px; height: 562px; mix-blend-mode: multiply; }
       #introLogo video, #introLogo img { position: absolute; inset: 0; width: 100%; height: 100%; }
+      /* phone: black lacquer body on the light studio, soft studio shadow */
+      .phone { position: absolute; left: 300px; top: 130px; width: 400px; height: 820px; border-radius: 64px; background: #0b0d14; box-shadow: 0 0 0 2px #2a2f3d, 0 50px 90px rgba(20, 30, 80, 0.28); }
+      .scr { position: absolute; left: 12px; top: 12px; width: 376px; height: 796px; border-radius: 52px; overflow: hidden; background: #fff; }
+      .scr img { position: absolute; left: 0; top: 62px; width: 376px; height: auto; }
+      .isl { position: absolute; left: 148px; top: 24px; width: 104px; height: 30px; border-radius: 15px; background: #000; z-index: 3; }
+      .shine { position: absolute; left: 12px; top: 12px; width: 376px; height: 796px; border-radius: 52px; overflow: hidden; z-index: 4; }
+      .shine i { position: absolute; top: -150px; left: -240px; width: 110px; height: 1200px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.35), rgba(255,255,255,0)); transform: rotate(18deg); }
+      .hl { position: absolute; right: 140px; top: 280px; width: 700px; text-align: right; font-size: 104px; font-weight: 800; line-height: 1.08; color: var(--ink); }
+      .hl em { font-style: normal; color: var(--navy); }
+      .pop { position: absolute; transform-origin: 0 0; filter: drop-shadow(0 26px 34px rgba(20, 30, 80, 0.22)); }
+      .card { position: absolute; transform-origin: 50% 50%; filter: drop-shadow(0 26px 34px rgba(20, 30, 80, 0.2)); }
+      .card img { display: block; width: 100%; height: 100%; }
+      .glass img { filter: brightness(1.16) contrast(1.04) saturate(0.85); }
+      .tap { position: absolute; width: 84px; height: 84px; margin: -42px 0 0 -42px; border-radius: 50%; border: 4px solid var(--navy); background: rgba(27, 42, 140, 0.12); z-index: 7; }
+      #cd { position: absolute; left: 790px; top: 600px; width: 560px; height: 260px; border-radius: 34px; overflow: hidden; box-shadow: 0 30px 60px rgba(20, 30, 80, 0.22), 0 0 0 5px #fff; }
+      #cd img { width: 100%; height: 100%; display: block; }
+      #t4a, #t4b { position: absolute; left: 0; right: 0; text-align: center; font-size: 88px; font-weight: 800; line-height: 1.1; color: var(--ink); }
+      #t4a { top: 70px; } #t4b { top: 170px; } #t4a em, #t4b em { font-style: normal; color: var(--navy); }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="1920" data-height="1080">
       <div id="floor"></div>
       <div id="grain"></div>
       <div id="cam">
         <div id="world">
-          <svg id="trail" viewBox="0 0 3840 1080"><g id="gHalo"></g><g id="gTube"></g></svg>
+          <svg id="trail" viewBox="0 0 9600 1080"><g id="gHalo"></g><g id="gTube"></g></svg>
           <div class="pn" id="P0"><div id="t0"><span class="w">מתכננים</span> <em class="w">חופשה?</em></div></div>
           <div class="pn" id="P1">
             <div id="t1"><span class="w">לא</span> <span class="w">משנה</span> <em class="w">לאן.</em></div>
             <div id="wins"></div>
+          </div>
+          <div class="pn" id="P2">
+            <div class="phone" id="ph2"><div class="scr" style="background:#fff"><img src="assets/crops/scr_booking.png" /></div><div class="shine"><i></i></div><div class="isl"></div></div>
+            <div class="hl" id="h2"><span class="w">מזמינים</span><br /><em class="w">כרטיס,</em></div>
+            <img class="pop" id="popSearch" src="assets/crops/btn_search.png" style="left: 790px; top: 640px; width: 518px; height: 62px" />
+            <div class="tap" id="tap2" style="left: 1049px; top: 671px"></div>
+          </div>
+          <div class="pn" id="P3">
+            <div class="phone" id="ph3"><div class="scr" style="background:linear-gradient(#3a6aa0,#3d73a7)"><img src="assets/crops/scr_welcome.png" /></div><div class="shine"><i></i></div><div class="isl"></div></div>
+            <div class="hl" id="h3"><span class="w">ונכנסים</span><br /><em class="w">למצב נסיעה.</em></div>
+            <div id="cd"><img src="assets/crops/card_countdown.png" /></div>
+          </div>
+          <div class="pn" id="P4">
+            <div id="t4a"><span class="w">לא</span> <span class="w">דואגים</span> <span class="w">לכלום,</span></div>
+            <div id="t4b"><span class="w">כי</span> <span class="w">הכל</span> <em class="w">במקום</em> <em class="w">אחד.</em></div>
+            <div class="card" id="cBoard" style="left: 780px; top: 330px; width: 360px; height: 467px"><img src="assets/crops/card_boarding.png" /></div>
+            <div class="card glass" id="cCheck" style="left: 1240px; top: 360px; width: 460px; height: 133px"><img src="assets/crops/card_checkin.png" /></div>
+            <div class="card glass" id="cGate" style="left: 1240px; top: 560px; width: 460px; height: 129px"><img src="assets/crops/card_gate.png" /></div>
+            <div class="card glass" id="cBag" style="left: 220px; top: 360px; width: 460px; height: 133px"><img src="assets/crops/card_bag.png" /></div>
+            <div class="card" id="cBook" style="left: 245px; top: 560px; width: 410px; height: 301px"><img src="assets/crops/card_booking.png" /></div>
           </div>
         </div>
       </div>
@@ -74,16 +112,16 @@
       const $ = (s) => document.querySelector(s);
       const $$ = (s) => Array.from(document.querySelectorAll(s));
       const ft = (sel, from, to, at) => { tl.set(sel, from, 0); tl.fromTo(sel, from, { ...to, ...IR }, at); };
-      const N = 2, PW = 1920;
+      const N = 5, PW = 1920;
       const X = (p, x) => (N - 1 - p) * PW + x; // panels run right-to-left
       $$(".pn").forEach((el, i) => { el.style.left = X(i, 0) + "px"; });
 
       // ---------- camera ----------
       const camAt = (p) => -X(p, 0);
-      const PANS = [[1, 3.45]];
+      const PANS = [[1, 3.45], [2, 5.85], [3, 8.55], [4, 11.2]];
       tl.set("#world", { x: camAt(0) }, 0);
       PANS.forEach(([b, t]) => tl.to("#world", { x: camAt(b), duration: 0.55, ease: "power3.inOut" }, t));
-      const beats = [1.6, ...PANS.map((p) => p[1]), 6];
+      const beats = [1.6, ...PANS.map((p) => p[1]), 15];
       beats.slice(0, -1).forEach((a, i) => tl.fromTo("#cam", { scale: 1.0 }, { scale: 1.03, duration: beats[i + 1] - a, ease: "none", ...IR }, a));
       tl.set("#cam", { scale: 1 }, 0);
 
@@ -95,6 +133,7 @@
         const mk = (g, cls) => { const q = document.createElementNS(NS, "path"); q.setAttribute("d", d); q.setAttribute("class", cls); $(g).appendChild(q); return q; };
         const ps = [mk("#gHalo", "sH"), mk("#gTube", "sT")], p = ps[1], L = p.getTotalLength(), dur = b - a, ease = o.ease || "sine.inOut";
         ft(ps, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease }, a);
+        tl.set(ps, { opacity: 0 }, 0); tl.set(ps, { opacity: 1 }, a);
         if (!o.noHead) {
           const h = document.createElement("div"); h.className = "head"; h.innerHTML = PLANE; $("#world").appendChild(h);
           const e = gsap.parseEase(ease), n = Math.max(8, Math.round(dur * 30)), kf = [];
@@ -110,11 +149,13 @@
       };
       // window-shaped selection frame (stadium), drawn around an element
       const stadium = (x, y, w, h) => { const r = w / 2; return "M" + (x + r) + "," + (y + h) + " A" + r + "," + r + " 0 0 1 " + x + "," + (y + h - r) + " L" + x + "," + (y + r) + " A" + r + "," + r + " 0 0 1 " + (x + w) + "," + (y + r) + " L" + (x + w) + "," + (y + h - r) + " A" + r + "," + r + " 0 0 1 " + (x + r) + "," + (y + h); };
+      const rrect = (x, y, w, h, r) => "M" + (x + w / 2) + "," + (y + h) + " L" + (x + r) + "," + (y + h) + " Q" + x + "," + (y + h) + " " + x + "," + (y + h - r) + " L" + x + "," + (y + r) + " Q" + x + "," + y + " " + (x + r) + "," + y + " L" + (x + w - r) + "," + y + " Q" + (x + w) + "," + y + " " + (x + w) + "," + (y + r) + " L" + (x + w) + "," + (y + h - r) + " Q" + (x + w) + "," + (y + h) + " " + (x + w - r) + "," + (y + h) + " Z";
       const frameAround = (pn, d, a, out) => {
         const svg = document.createElementNS(NS, "svg"); svg.setAttribute("class", "wf"); svg.setAttribute("viewBox", "0 0 1920 1080"); $(pn).appendChild(svg);
         const q = document.createElementNS(NS, "path"); q.setAttribute("d", d); q.setAttribute("fill", "none"); q.setAttribute("stroke", "#1b2a8c"); q.setAttribute("stroke-width", 3); q.setAttribute("stroke-linecap", "round"); svg.appendChild(q);
         const L = q.getTotalLength();
         ft(q, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.42, ease: "power2.inOut" }, a);
+        tl.set(q, { opacity: 0 }, 0); tl.set(q, { opacity: 1 }, a);
         if (out != null) tl.to(svg, { opacity: 0, duration: 0.2 }, out);
       };
 
@@ -141,6 +182,56 @@
         ft(w, { opacity: 0, scale: 0.4, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" }, t + 0.24);
         frameAround("#P1", stadium(cx - 112, top - 12, 224, 301), t + 0.3, null);
         tl.fromTo(w, { y: 0 }, { y: -8, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.8);
+      });
+
+
+      // ---------- phones: enter with a turn, a light sweep across the glass, and a window-shaped loop of the line ----------
+      const phoneIn = (sel, t) => {
+        ft(sel, { rotationY: 26, z: -240, opacity: 0, transformPerspective: 2000 }, { rotationY: -8, z: 0, opacity: 1, duration: 0.85, ease: "expo.out" }, t);
+        tl.to(sel, { rotationY: -2, duration: 2.2, ease: "sine.inOut" }, t + 0.85);
+        ft(sel + " .shine i", { x: 0 }, { x: 760, duration: 0.9, ease: "power2.inOut" }, t + 0.35);
+      };
+      const LOOP = "M724,840 L724,250 Q724,106 580,106 L420,106 Q276,106 276,250 L276,830 Q276,974 420,974 L580,974 Q724,974 724,830 L724,840";
+      const tapAt = (sel, t) => ft(sel, { scale: 0.3, opacity: 0.9 }, { scale: 1.8, opacity: 0, duration: 0.45, ease: "power2.out" }, t);
+      const hl = (sel, times, out) => { words(sel, times); if (out != null) tl.to(sel, { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, out); };
+
+      // ---------- P2: book a ticket ----------
+      tl.to("#t1, #wins", { opacity: 0, duration: 0.3 }, 5.75);
+      piece(P(1, "M960,1000 C760,1000 400,1030 -40,1030"), 5.2, 6.0, { ease: "sine.in", chain: true });
+      phoneIn("#ph2", 5.95);
+      hl("#h2", [6.15, 6.5]);
+      piece(P(2, "M1960,1030 C1300,1034 724,1030 724,840"), 6.0, 6.45, { ease: "sine.inOut", chain: true });
+      piece(P(2, LOOP), 6.45, 7.15, { ease: "none" });
+      // the search button lifts out of its exact place on the screen
+      const s2 = 376 / 582, bx = 300 + 12 + 30 * s2, by = 130 + 12 + 793 * s2;
+      ft("#popSearch", { x: bx - 790, y: by - 640, scale: s2, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.4)" }, 7.1);
+      frameAround("#P2", "M1049,712 L820,712 Q780,712 780,671 Q780,630 820,630 L1278,630 Q1318,630 1318,671 Q1318,712 1278,712 L1049,712", 7.45, 8.4);
+      tapAt("#tap2", 7.75);
+      tl.to("#popSearch", { scale: 0.96, duration: 0.07, yoyo: true, repeat: 1, transformOrigin: "50% 50%" }, 7.75);
+      piece(P(2, "M500,974 C400,974 370,1040 240,1040 L-40,1040"), 8.05, 8.6, { ease: "sine.in", chain: true });
+      tl.to("#popSearch", { opacity: 0, x: -80, duration: 0.3, ease: "power2.in" }, 8.4);
+
+      // ---------- P3: trip status, with the real countdown ----------
+      phoneIn("#ph3", 8.6);
+      hl("#h3", [8.8, 9.2]);
+      piece(P(3, "M1960,1040 C1300,1040 724,1030 724,840"), 8.6, 9.05, { ease: "sine.inOut", chain: true });
+      piece(P(3, LOOP), 9.05, 9.75, { ease: "none" });
+      ft("#cd", { opacity: 0, scale: 0.55, x: -320, y: 40 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.6, ease: "back.out(1.4)" }, 9.75);
+      frameAround("#P3", rrect(776, 586, 588, 288, 46), 10.05, 11.0);
+      piece(P(3, "M500,974 C400,974 370,1040 240,1040 L-40,1040"), 10.6, 11.25, { ease: "sine.in", chain: true });
+
+      // ---------- P4: everything in one place: the line fans out to the real trip-status cards ----------
+      hl("#t4a", [11.4, 11.6, 11.85]);
+      hl("#t4b", [12.55, 12.75, 12.95, 13.15]);
+      piece(P(4, "M1960,1040 C1500,1040 1200,960 960,960"), 11.25, 11.75, { ease: "sine.out" });
+      const CARDS = [["#cBoard", 960, 810, 0], ["#cCheck", 1236, 426, 1], ["#cGate", 1236, 624, 1], ["#cBag", 684, 426, -1], ["#cBook", 659, 710, -1]];
+      CARDS.forEach(([sel, ex, ey, dir], i) => {
+        const t = 11.75 + i * 0.16;
+        const gx = dir > 0 ? 1190 : 730;
+        const d = dir === 0 ? "M960,960 L960,812" : "M960,960 C" + (960 + (gx - 960) * 0.6) + ",955 " + gx + ",940 " + gx + "," + (ey + 90) + " Q" + gx + "," + ey + " " + ex + "," + ey;
+        piece(P(4, d), t, t + 0.32, { ease: "power2.out", noHead: true });
+        ft(sel, { opacity: 0, scale: 0.6, y: 50 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.6)" }, t + 0.22);
+        tl.fromTo(sel, { y: 0 }, { y: -7, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.8);
       });
 
       // ---------- opener: the app's real launch animation (line-drawn tail in a window), then hand over ----------
