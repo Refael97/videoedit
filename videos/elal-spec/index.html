@@ -61,10 +61,28 @@
       #cd img { width: 100%; height: 100%; display: block; }
       #t4a, #t4b { position: absolute; left: 0; right: 0; text-align: center; font-size: 88px; font-weight: 800; line-height: 1.1; color: var(--ink); }
       #t4a { top: 70px; } #t4b { top: 170px; } #t4a em, #t4b em { font-style: normal; color: var(--navy); }
+      #win5 { position: absolute; left: 795px; top: 300px; width: 330px; height: 472px; border-radius: 165px; overflow: hidden; background: #8fb3d6;
+        box-shadow: 0 34px 70px rgba(20, 30, 80, 0.2), 0 0 0 7px #fff; }
+      #win5 img { width: 100%; height: 100%; display: block; transform-origin: 40% 45%; }
+      .side { position: absolute; top: 470px; width: 560px; font-size: 96px; font-weight: 800; line-height: 1.1; color: var(--ink); }
+      .side em { font-style: normal; color: var(--navy); }
+      #t5a { right: 150px; text-align: right; } #t5b { left: 150px; text-align: left; }
+      /* end card: same light studio, opaque, outside the world */
+      #end { position: absolute; inset: 0; z-index: 45; background: radial-gradient(ellipse 70% 75% at 50% 42%, var(--bg0) 0, #f1f2f6 45%, var(--bg1) 100%); }
+      #endLogo { position: absolute; left: 630px; top: 250px; width: 660px; height: auto; }
+      #motto { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-size: 92px; font-weight: 800; color: var(--ink); }
+      #motto em { font-style: normal; color: var(--navy); }
+      #endSvg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      #eH { filter: blur(7px); opacity: 0.14; }
+      #endHeads { position: absolute; inset: 0; }
+      #cred { position: absolute; left: 0; right: 0; top: 390px; text-align: center; direction: ltr; }
+      #cred small { display: block; font-size: 34px; font-weight: 500; letter-spacing: 9px; color: var(--muted); text-transform: uppercase; }
+      #cred b { display: block; font-size: 104px; font-weight: 700; color: var(--ink); margin-top: 10px; }
+      #credl { display: block; width: 320px; height: 4px; margin: 28px auto 0; border-radius: 2px; background: var(--navy); }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="22.6" data-width="1920" data-height="1080">
       <div id="floor"></div>
       <div id="grain"></div>
       <div id="cam">
@@ -95,9 +113,21 @@
             <div class="card glass" id="cBag" style="left: 220px; top: 360px; width: 460px; height: 133px"><img src="assets/crops/card_bag.png" /></div>
             <div class="card" id="cBook" style="left: 245px; top: 560px; width: 410px; height: 301px"><img src="assets/crops/card_booking.png" /></div>
           </div>
+          <div class="pn" id="P5">
+            <div class="side" id="t5a"><span class="w">תרגישו</span> <span class="w">בנוח.</span></div>
+            <div id="win5"><img src="assets/crops/win_plane.png" /></div>
+            <div class="side" id="t5b"><span class="w">תרגישו</span> <em class="w">בבית.</em></div>
+          </div>
         </div>
       </div>
       <div id="vig"></div>
+      <div id="end" class="clip" data-start="17.1" data-duration="5.5" data-track-index="4">
+        <img id="endLogo" src="assets/crops/logo_elal_hq.png" />
+        <div id="motto"><span class="w">הכי</span> <em class="w">בבית</em> <span class="w">בעולם</span></div>
+        <svg id="endSvg" viewBox="0 0 1920 1080"><g id="eH"></g><g id="eT"></g></svg>
+        <div id="endHeads"></div>
+        <div id="cred"><small>created by</small><b>Refael Levi</b><i id="credl"></i></div>
+      </div>
       <div id="intro" class="clip" data-start="0" data-duration="1.85" data-track-index="4">
         <div id="introLogo">
           <video id="vLogo" class="clip" src="assets/video/logo_draw.mp4" data-start="0.1" data-duration="1.32" data-track-index="5" muted playsinline></video>
@@ -112,16 +142,16 @@
       const $ = (s) => document.querySelector(s);
       const $$ = (s) => Array.from(document.querySelectorAll(s));
       const ft = (sel, from, to, at) => { tl.set(sel, from, 0); tl.fromTo(sel, from, { ...to, ...IR }, at); };
-      const N = 5, PW = 1920;
+      const N = 6, PW = 1920;
       const X = (p, x) => (N - 1 - p) * PW + x; // panels run right-to-left
       $$(".pn").forEach((el, i) => { el.style.left = X(i, 0) + "px"; });
 
       // ---------- camera ----------
       const camAt = (p) => -X(p, 0);
-      const PANS = [[1, 3.45], [2, 5.85], [3, 8.55], [4, 11.2]];
+      const PANS = [[1, 3.45], [2, 5.85], [3, 8.55], [4, 11.2], [5, 14.3]];
       tl.set("#world", { x: camAt(0) }, 0);
       PANS.forEach(([b, t]) => tl.to("#world", { x: camAt(b), duration: 0.55, ease: "power3.inOut" }, t));
-      const beats = [1.6, ...PANS.map((p) => p[1]), 15];
+      const beats = [1.6, ...PANS.map((p) => p[1]), 16.6];
       beats.slice(0, -1).forEach((a, i) => tl.fromTo("#cam", { scale: 1.0 }, { scale: 1.03, duration: beats[i + 1] - a, ease: "none", ...IR }, a));
       tl.set("#cam", { scale: 1 }, 0);
 
@@ -131,11 +161,11 @@
       const P = (p, pts) => pts.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, (m, x, y) => X(p, +x) + "," + y);
       const piece = (d, a, b, o = {}) => {
         const mk = (g, cls) => { const q = document.createElementNS(NS, "path"); q.setAttribute("d", d); q.setAttribute("class", cls); $(g).appendChild(q); return q; };
-        const ps = [mk("#gHalo", "sH"), mk("#gTube", "sT")], p = ps[1], L = p.getTotalLength(), dur = b - a, ease = o.ease || "sine.inOut";
+        const ps = [mk(o.gH || "#gHalo", "sH"), mk(o.gT || "#gTube", "sT")], p = ps[1], L = p.getTotalLength(), dur = b - a, ease = o.ease || "sine.inOut";
         ft(ps, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease }, a);
         tl.set(ps, { opacity: 0 }, 0); tl.set(ps, { opacity: 1 }, a);
         if (!o.noHead) {
-          const h = document.createElement("div"); h.className = "head"; h.innerHTML = PLANE; $("#world").appendChild(h);
+          const h = document.createElement("div"); h.className = "head"; h.innerHTML = PLANE; $(o.hp || "#world").appendChild(h); p.head = h;
           const e = gsap.parseEase(ease), n = Math.max(8, Math.round(dur * 30)), kf = [];
           for (let i = 1; i <= n; i++) { const pt = p.getPointAtLength(L * e(i / n)), q = p.getPointAtLength(Math.min(L, L * e(i / n) + 3)); kf.push({ x: pt.x, y: pt.y, rotation: (Math.atan2(q.y - pt.y, q.x - pt.x) * 180) / Math.PI, duration: dur / n }); }
           const p0 = p.getPointAtLength(0), p1 = p.getPointAtLength(1);
@@ -233,6 +263,34 @@
         ft(sel, { opacity: 0, scale: 0.6, y: 50 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.6)" }, t + 0.22);
         tl.fromTo(sel, { y: 0 }, { y: -7, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.8);
       });
+
+      // P4 exit: the line leaves low to the left
+      piece(P(4, "M960,960 C700,962 420,1040 -40,1040"), 13.8, 14.35, { ease: "sine.in", chain: true });
+      tl.to("#t4a, #t4b", { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, 14.1);
+
+      // ---------- P5: "feel comfortable, feel at home": one big window, the line wraps it, then we fly in ----------
+      piece(P(5, "M1960,1040 C1400,1040 960,1010 960,786"), 14.35, 14.85, { ease: "sine.inOut", chain: true });
+      piece(P(5, stadium(781, 286, 358, 500)), 14.85, 15.55, { ease: "none" });
+      ft("#win5", { opacity: 0, scale: 0.5, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" }, 14.8);
+      ft("#win5 img", { scale: 1.12, x: 18 }, { scale: 1, x: 0, duration: 2.0, ease: "sine.out" }, 14.8);
+      words("#t5a", [15.0, 15.25]);
+      words("#t5b", [15.9, 16.15]);
+      tl.to("#t5a, #t5b", { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power2.in" }, 16.55);
+      // push into the window: the plane comes at the lens, the sky fills the frame, then dissolves into the end card
+      tl.to("#cam", { scale: 7, duration: 0.7, ease: "power2.in" }, 16.6);
+      tl.to("#win5 img", { scale: 1.35, x: -30, y: 20, duration: 0.7, ease: "power2.in" }, 16.6);
+      tl.fromTo("#win5 img", { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.35, ease: "power2.in", immediateRender: false }, 16.95);
+
+      // ---------- end card: logo, motto underlined by the flight path, then the credit ----------
+      ft("#end", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.inOut" }, 17.22);
+      ft("#endLogo", { opacity: 0, scale: 0.9, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 17.4);
+      words("#motto", [18.05, 18.25, 18.45]);
+      const uL = piece("M1180,770 C1060,792 860,792 740,770", 18.6, 19.4, { ease: "sine.inOut", gH: "#eH", gT: "#eT", hp: "#endHeads", hold: true });
+      tl.to(uL.head, { x: "-=420", y: "-=210", rotation: "+=28", scale: 1.7, opacity: 0, duration: 0.7, ease: "power2.in" }, 19.4);
+      tl.to("#endLogo, #motto, #endSvg", { opacity: 0, y: -24, duration: 0.35, ease: "power2.in" }, 20.45);
+      ft("#cred small", { opacity: 0, scaleX: 1.4 }, { opacity: 1, scaleX: 1, duration: 0.7, ease: "expo.out" }, 20.8);
+      ft("#cred b", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.65, ease: "expo.out" }, 21.0);
+      ft("#credl", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.out" }, 21.3);
 
       // ---------- opener: the app's real launch animation (line-drawn tail in a window), then hand over ----------
       tl.set("#logoEnd", { opacity: 0 }, 0);
