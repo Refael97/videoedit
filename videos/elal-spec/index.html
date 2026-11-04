@@ -11,6 +11,14 @@
       @font-face { font-family: "Assistant"; font-weight: 800; src: url("assets/kit/fonts/assistant-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
       @font-face { font-family: "Assistant"; font-weight: 700; src: url("assets/kit/fonts/assistant-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
       @font-face { font-family: "Assistant"; font-weight: 500; src: url("assets/kit/fonts/assistant-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
+      @font-face { font-family: "ElalApp"; font-weight: 300; src: url("assets/fonts/rubik-hebrew-300-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "ElalApp"; font-weight: 400; src: url("assets/fonts/rubik-hebrew-400-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "ElalApp"; font-weight: 500; src: url("assets/fonts/rubik-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "ElalApp"; font-weight: 500; src: url("assets/fonts/montserrat-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF, U+2713; }
+      @font-face { font-family: "ElalApp"; font-weight: 600; src: url("assets/fonts/montserrat-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF, U+2713; }
+      @font-face { font-family: "ElalApp"; font-weight: 700; src: url("assets/fonts/montserrat-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF, U+2713; }
+      @font-face { font-family: "ElalApp"; font-weight: 300; src: url("assets/fonts/montserrat-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF, U+2713; }
+      @font-face { font-family: "ElalApp"; font-weight: 400; src: url("assets/fonts/montserrat-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF, U+2713; }
       :root { --navy: #1b2a8c; --ink: #141a3c; --muted: #6b7089; --bg0: #fbfbfd; --bg1: #e7e9f0; }
       html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: var(--bg1); }
       #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: "Assistant", sans-serif; color: var(--navy); direction: rtl;
@@ -71,36 +79,37 @@
       #trip { position: absolute; left: 790px; top: 300px; width: 376px; height: 480px; filter: drop-shadow(0 30px 40px rgba(20, 30, 80, 0.22)); }
       #trip img { width: 100%; height: 100%; display: block; }
       /* rebuilt trip-status cards: crisp HTML, El Al's own demo data */
-      .wc { position: absolute; filter: none; background: #fff; border-radius: 30px; box-shadow: 0 30px 60px rgba(20, 30, 80, 0.14), 0 2px 0 rgba(20, 30, 80, 0.04); color: var(--ink); }
+      .wc { position: absolute; filter: none; font-family: "ElalApp", sans-serif; background: #fff; border-radius: 30px; box-shadow: 0 30px 60px rgba(20, 30, 80, 0.14), 0 2px 0 rgba(20, 30, 80, 0.04); color: var(--ink); }
       .info { left: 1240px; width: 470px; height: 138px; text-align: center; direction: rtl; }
-      .info small { display: block; margin-top: 18px; font-size: 25px; font-weight: 700; color: var(--muted); }
-      .info b { display: block; margin-top: 2px; font-size: 46px; font-weight: 800; line-height: 1.1; color: var(--ink); }
-      .info b i { font-style: normal; color: var(--navy); }
-      .info span { display: block; margin-top: 2px; font-size: 21px; font-weight: 500; color: var(--muted); }
-      .bp { left: 770px; top: 318px; width: 380px; height: 520px; padding: 0; }
-      .bp .hd { position: absolute; left: 26px; right: 26px; top: 22px; display: flex; justify-content: space-between; align-items: center; direction: rtl; font-size: 25px; font-weight: 700; }
+      .info small { display: block; margin-top: 18px; font-size: 25px; font-weight: 400; color: var(--muted); }
+      .info b { display: block; margin-top: 2px; font-size: 46px; font-weight: 300; line-height: 1.1; color: var(--ink); }
+      .info b i { font-style: normal; font-weight: 700; color: var(--navy); }
+      .info span { display: block; margin-top: 2px; font-size: 21px; font-weight: 300; color: var(--muted); }
+      .bp { left: 755px; top: 312px; width: 410px; height: 560px; padding: 0; }
+      .bp .hd { position: absolute; left: 26px; right: 26px; top: 22px; display: flex; justify-content: space-between; align-items: center; direction: rtl; font-size: 24px; font-weight: 500; }
       .bp .hd svg { width: 26px; height: 26px; }
-      .bp .tk { position: absolute; left: 22px; right: 22px; top: 76px; bottom: 22px; border-radius: 20px; background: #f6f7fb; direction: ltr; font-family: "Assistant", sans-serif; }
+      .bp .tk { position: absolute; left: 22px; right: 22px; top: 76px; bottom: 22px; border-radius: 20px; background: #f6f7fb; direction: ltr; }
       .bp .lg { position: absolute; left: 50%; top: 16px; width: 88px; height: auto; margin-left: -44px; }
       .bp .ft { position: absolute; left: 22px; right: 22px; top: 76px; display: flex; justify-content: space-between; align-items: flex-end; }
-      .bp .ft div { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
+      .bp .ft div { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 1px; }
       .bp .ft div b { display: block; font-size: 40px; font-weight: 700; color: var(--ink); letter-spacing: 0; line-height: 1; margin-top: 2px; }
       .bp .ft svg { width: 92px; height: 36px; margin-bottom: 4px; }
       .bp .cut { position: absolute; left: 14px; right: 14px; top: 150px; border-top: 2px dashed #d6d9e4; }
-      .bp .nm { position: absolute; left: 22px; top: 166px; font-size: 19px; font-weight: 800; color: var(--ink); }
-      .bp .gr { position: absolute; left: 22px; right: 22px; top: 204px; display: grid; grid-template-columns: 1.1fr 1.6fr 0.8fr; row-gap: 12px; }
-      .bp .gr div { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.8px; }
-      .bp .gr div b { display: block; font-size: 17px; font-weight: 700; color: var(--ink); letter-spacing: 0; }
-      .bp .qr { position: absolute; left: 50%; bottom: 18px; width: 92px; height: 92px; margin-left: -46px; }
+      .bp .nm { position: absolute; left: 22px; top: 166px; font-size: 18px; font-weight: 700; color: var(--ink); }
+      .bp .gr { position: absolute; left: 22px; right: 22px; top: 204px; display: grid; grid-template-columns: 1fr 1.9fr 0.75fr; row-gap: 12px; }
+      .bp .gr div { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 0.8px; }
+      .bp .gr div b { display: block; font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: 0; }
+      .bp .qr { position: absolute; left: 50%; bottom: 20px; width: 86px; height: 86px; margin-left: -43px; }
       .bk { left: 225px; top: 430px; width: 430px; height: 300px; direction: rtl; }
-      .bk h4 { margin: 24px 28px 0; font-size: 27px; font-weight: 800; }
+      .bk h4 { margin: 24px 28px 0; font-size: 27px; font-weight: 500; color: var(--navy); }
       .bk .ic { display: flex; justify-content: space-around; margin: 22px 14px 0; }
-      .bk .ic div { text-align: center; font-size: 19px; font-weight: 700; color: var(--ink); }
+      .bk .ic div { text-align: center; font-size: 19px; font-weight: 400; color: var(--ink); }
       .bk .ic svg { display: block; width: 40px; height: 40px; margin: 0 auto 6px; }
       .bk hr { border: 0; border-top: 1px solid #e6e8f0; margin: 18px 26px 0; }
-      .bk .px { margin-top: 14px; text-align: center; font-size: 20px; font-weight: 700; color: var(--navy); }
-      .bk .ps { margin-top: 6px; text-align: center; font-size: 24px; font-weight: 800; color: var(--ink); direction: ltr; }
-      .bk .ok { margin-top: 4px; text-align: center; font-size: 18px; font-weight: 700; color: #1f9d55; }
+      .bk .px { margin-top: 14px; text-align: center; font-size: 20px; font-weight: 600; color: var(--navy); }
+      .bk .ps { margin-top: 6px; text-align: center; font-size: 24px; font-weight: 600; color: var(--navy); direction: ltr; }
+      .bk .gd { text-align: center; font-size: 15px; font-weight: 700; color: #c9a227; letter-spacing: 1px; }
+      .bk .ok { margin-top: 4px; text-align: center; font-size: 18px; font-weight: 400; color: #1f9d55; }
       #win5 { position: absolute; left: 795px; top: 300px; width: 330px; height: 472px; border-radius: 165px; overflow: hidden; background: #8fb3d6;
         box-shadow: 0 34px 70px rgba(20, 30, 80, 0.2), 0 0 0 7px #fff; }
       #win5 img { width: 100%; height: 100%; display: block; transform-origin: 40% 45%; }
@@ -159,12 +168,12 @@
               </div>
             </div>
             <div class="wc info card" id="cCheck" style="top: 318px"><small>דלפקי הצ'ק אין</small><b>דלפקים <i>D90 - 95</i></b><span>נא להגיע כ-3 שעות לפני שעת היציאה</span></div>
-            <div class="wc info card" id="cGate" style="top: 509px"><small>גש לשער העלייה למטוס</small><b>שער עלייה <i>E4</i></b><span>נפתח בשעה 20:45</span></div>
+            <div class="wc info card" id="cGate" style="top: 509px"><small>גש לשער העליה למטוס</small><b>שער עליה <i>E4</i></b><span>נפתח בשעה 20:45</span></div>
             <div class="wc info card" id="cBag" style="top: 700px"><small>איסוף מזוודות</small><b>מסוע <i>6</i></b><span>גש לאיסוף המזוודות</span></div>
             <div class="wc bk card" id="cBook">
               <h4>ההזמנה שלי</h4>
               <div class="ic"><div><svg viewBox="0 0 24 24" stroke="#8a90a8" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.6 7-5.6s6.2 2 7 5.6"/></svg>3 נוסעים</div><div><svg viewBox="0 0 24 24" stroke="#8a90a8" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="12" height="13" rx="2.5"/><path d="M9.5 7V4.5h5V7M10 11v5M14 11v5"/></svg>3 מזוודות</div><div><svg viewBox="0 0 24 24" stroke="#8a90a8" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h5a2 2 0 0 1 2 2v7H8.5A1.5 1.5 0 0 1 7 11.5V5a1 1 0 0 1 1-1z"/><path d="M6 13h11a1 1 0 0 1 1 1v2H7M8 16v4M16 16v4"/></svg>3/3 מושבים</div><div><svg viewBox="0 0 24 24" stroke="#8a90a8" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>3/3 צ'ק אין</div></div>
-              <hr /><div class="px" style="direction: ltr">1 / 3</div><div class="ps">Mr. Israel Israeli</div><div class="ok">✓ צ'ק אין בוצע</div>
+              <hr /><div class="px" style="direction: ltr">1 / 3</div><div class="ps">Mr. Israel Israeli</div><div class="gd">GOLD</div><div class="ok">✓ צ'ק אין בוצע</div>
             </div>
           </div>
           <div class="pn" id="P5">
@@ -313,7 +322,7 @@
       hl("#t4b", [12.65, 12.89, 13.49, 13.76]);
       piece(P(4, "M1960,1040 C1500,1040 1200,960 960,960"), 11.25, 11.75, { ease: "sine.out" });
       // the line reaches only the boarding pass; the rest pop in around it
-      piece(P(4, "M960,960 L960,846"), 11.75, 11.98, { ease: "power2.out", noHead: true });
+      piece(P(4, "M960,960 L960,875"), 11.75, 11.98, { ease: "power2.out", noHead: true });
       const CARDS = [["#cBoard", 11.86, 0], ["#cCheck", 12.1, 1], ["#cGate", 12.24, 1], ["#cBag", 12.38, 1], ["#cBook", 12.55, -1]];
       CARDS.forEach(([sel, t, dir]) => {
         ft(sel, { opacity: 0, scale: 0.7, x: dir * 70, y: dir ? 0 : 50 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.5)" }, t);
