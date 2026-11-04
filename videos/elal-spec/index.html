@@ -8,6 +8,9 @@
       @font-face { font-family: "Assistant"; font-weight: 800; src: url("assets/kit/fonts/assistant-hebrew-800-normal.woff2") format("woff2"); }
       @font-face { font-family: "Assistant"; font-weight: 500; src: url("assets/kit/fonts/assistant-hebrew-500-normal.woff2") format("woff2"); }
       @font-face { font-family: "Assistant"; font-weight: 700; src: url("assets/kit/fonts/assistant-hebrew-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Assistant"; font-weight: 800; src: url("assets/kit/fonts/assistant-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
+      @font-face { font-family: "Assistant"; font-weight: 700; src: url("assets/kit/fonts/assistant-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
+      @font-face { font-family: "Assistant"; font-weight: 500; src: url("assets/kit/fonts/assistant-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
       :root { --navy: #1b2a8c; --ink: #141a3c; --muted: #6b7089; --bg0: #fbfbfd; --bg1: #e7e9f0; }
       html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: var(--bg1); }
       #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: "Assistant", sans-serif; color: var(--navy); direction: rtl;
@@ -61,6 +64,43 @@
       #cd img { width: 100%; height: 100%; display: block; }
       #t4a, #t4b { position: absolute; left: 0; right: 0; text-align: center; font-size: 88px; font-weight: 800; line-height: 1.1; color: var(--ink); }
       #t4a { top: 70px; } #t4b { top: 170px; } #t4a em, #t4b em { font-style: normal; color: var(--navy); }
+
+      .city { position: absolute; width: 240px; margin-left: -120px; text-align: center; font-size: 34px; font-weight: 800; color: var(--ink); }
+      /* the line arrives: the element grows a touch over a short dark-sky-blue halo */
+      .halo { position: absolute; border-radius: 50%; background: radial-gradient(closest-side, rgba(30, 104, 190, 0.85), rgba(30, 104, 190, 0.38) 50%, rgba(30, 104, 190, 0) 100%); filter: blur(22px); pointer-events: none; }
+      #trip { position: absolute; left: 790px; top: 300px; width: 376px; height: 480px; filter: drop-shadow(0 30px 40px rgba(20, 30, 80, 0.22)); }
+      #trip img { width: 100%; height: 100%; display: block; }
+      /* rebuilt trip-status cards: crisp HTML, El Al's own demo data */
+      .wc { position: absolute; filter: none; background: #fff; border-radius: 30px; box-shadow: 0 30px 60px rgba(20, 30, 80, 0.14), 0 2px 0 rgba(20, 30, 80, 0.04); color: var(--ink); }
+      .info { left: 1240px; width: 470px; height: 138px; text-align: center; direction: rtl; }
+      .info small { display: block; margin-top: 18px; font-size: 25px; font-weight: 700; color: var(--muted); }
+      .info b { display: block; margin-top: 2px; font-size: 46px; font-weight: 800; line-height: 1.1; color: var(--ink); }
+      .info b i { font-style: normal; color: var(--navy); }
+      .info span { display: block; margin-top: 2px; font-size: 21px; font-weight: 500; color: var(--muted); }
+      .bp { left: 770px; top: 318px; width: 380px; height: 520px; padding: 0; }
+      .bp .hd { position: absolute; left: 26px; right: 26px; top: 22px; display: flex; justify-content: space-between; align-items: center; direction: rtl; font-size: 25px; font-weight: 700; }
+      .bp .hd svg { width: 26px; height: 26px; }
+      .bp .tk { position: absolute; left: 22px; right: 22px; top: 76px; bottom: 22px; border-radius: 20px; background: #f6f7fb; direction: ltr; font-family: "Assistant", sans-serif; }
+      .bp .lg { position: absolute; left: 50%; top: 16px; width: 88px; height: auto; margin-left: -44px; }
+      .bp .ft { position: absolute; left: 22px; right: 22px; top: 76px; display: flex; justify-content: space-between; align-items: flex-end; }
+      .bp .ft div { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
+      .bp .ft div b { display: block; font-size: 40px; font-weight: 700; color: var(--ink); letter-spacing: 0; line-height: 1; margin-top: 2px; }
+      .bp .ft svg { width: 92px; height: 36px; margin-bottom: 4px; }
+      .bp .cut { position: absolute; left: 14px; right: 14px; top: 150px; border-top: 2px dashed #d6d9e4; }
+      .bp .nm { position: absolute; left: 22px; top: 166px; font-size: 19px; font-weight: 800; color: var(--ink); }
+      .bp .gr { position: absolute; left: 22px; right: 22px; top: 204px; display: grid; grid-template-columns: 1.1fr 1.6fr 0.8fr; row-gap: 12px; }
+      .bp .gr div { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.8px; }
+      .bp .gr div b { display: block; font-size: 17px; font-weight: 700; color: var(--ink); letter-spacing: 0; }
+      .bp .qr { position: absolute; left: 50%; bottom: 18px; width: 92px; height: 92px; margin-left: -46px; }
+      .bk { left: 225px; top: 430px; width: 430px; height: 300px; direction: rtl; }
+      .bk h4 { margin: 24px 28px 0; font-size: 27px; font-weight: 800; }
+      .bk .ic { display: flex; justify-content: space-around; margin: 22px 14px 0; }
+      .bk .ic div { text-align: center; font-size: 19px; font-weight: 700; color: var(--ink); }
+      .bk .ic svg { display: block; width: 40px; height: 40px; margin: 0 auto 6px; }
+      .bk hr { border: 0; border-top: 1px solid #e6e8f0; margin: 18px 26px 0; }
+      .bk .px { margin-top: 14px; text-align: center; font-size: 20px; font-weight: 700; color: var(--navy); }
+      .bk .ps { margin-top: 6px; text-align: center; font-size: 24px; font-weight: 800; color: var(--ink); direction: ltr; }
+      .bk .ok { margin-top: 4px; text-align: center; font-size: 18px; font-weight: 700; color: #1f9d55; }
       #win5 { position: absolute; left: 795px; top: 300px; width: 330px; height: 472px; border-radius: 165px; overflow: hidden; background: #8fb3d6;
         box-shadow: 0 34px 70px rgba(20, 30, 80, 0.2), 0 0 0 7px #fff; }
       #win5 img { width: 100%; height: 100%; display: block; transform-origin: 40% 45%; }
@@ -94,24 +134,38 @@
             <div id="wins"></div>
           </div>
           <div class="pn" id="P2">
+            <div class="halo" id="halo2" style="left: 90px; top: 40px; width: 820px; height: 1000px"></div>
             <div class="phone" id="ph2"><div class="scr" style="background:#fff"><img src="assets/crops/scr_booking.png" /></div><div class="shine"><i></i></div><div class="isl"></div></div>
             <div class="hl" id="h2"><span class="w">מזמינים</span><br /><em class="w">כרטיס,</em></div>
             <img class="pop" id="popSearch" src="assets/crops/btn_search.png" style="left: 790px; top: 640px; width: 518px; height: 62px" />
-            <div class="tap" id="tap2" style="left: 1049px; top: 671px"></div>
           </div>
           <div class="pn" id="P3">
-            <div class="phone" id="ph3"><div class="scr" style="background:linear-gradient(#3a6aa0,#3d73a7)"><img src="assets/crops/scr_welcome.png" /></div><div class="shine"><i></i></div><div class="isl"></div></div>
+            <div class="phone" id="ph3"><div class="scr" style="background:#3d73a7"><img src="assets/crops/scr_welcome2.png" style="top: 0" /></div><div class="shine"><i></i></div><div class="isl"></div></div>
             <div class="hl" id="h3"><span class="w">ונכנסים</span><br /><em class="w">למצב נסיעה.</em></div>
-            <div id="cd"><img src="assets/crops/card_countdown.png" /></div>
+            <div id="trip"><img src="assets/crops/card_trip.png" /></div>
           </div>
           <div class="pn" id="P4">
             <div id="t4a"><span class="w">לא</span> <span class="w">דואגים</span> <span class="w">לכלום,</span></div>
             <div id="t4b"><span class="w">כי</span> <span class="w">הכל</span> <em class="w">במקום</em> <em class="w">אחד.</em></div>
-            <div class="card" id="cBoard" style="left: 780px; top: 330px; width: 360px; height: 467px"><img src="assets/crops/card_boarding.png" /></div>
-            <div class="card glass" id="cCheck" style="left: 1240px; top: 360px; width: 460px; height: 133px"><img src="assets/crops/card_checkin.png" /></div>
-            <div class="card glass" id="cGate" style="left: 1240px; top: 560px; width: 460px; height: 129px"><img src="assets/crops/card_gate.png" /></div>
-            <div class="card glass" id="cBag" style="left: 220px; top: 360px; width: 460px; height: 133px"><img src="assets/crops/card_bag.png" /></div>
-            <div class="card" id="cBook" style="left: 245px; top: 560px; width: 410px; height: 301px"><img src="assets/crops/card_booking.png" /></div>
+            <div class="wc bp card" id="cBoard">
+              <div class="hd"><span>כרטיסי עלייה למטוס &nbsp;<span style="color:var(--muted)">✕</span></span><svg viewBox="0 0 24 24" stroke="#1b2a8c" stroke-width="2" fill="none" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></div>
+              <div class="tk">
+                <img class="lg" src="assets/crops/logo_elal_hq.png" />
+                <div class="ft"><div>FROM<b>TLV</b></div><svg viewBox="0 0 92 36"><path d="M2 18h22M68 18h22" stroke="#b8bdd0" stroke-width="2" stroke-dasharray="4 4"/><circle cx="46" cy="18" r="16" fill="#fff" stroke="#1b2a8c" stroke-width="2"/><g transform="translate(34 6) scale(1)"><path fill="#1b2a8c" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" transform="rotate(90 12 12)"/></g></svg><div style="text-align:right">TO<b>JFK</b></div></div>
+                <div class="cut"></div>
+                <div class="nm">MR ISRAEL ISRAELI</div>
+                <div class="gr"><div>FLIGHT<b>LY020</b></div><div>DATE<b>21 Feb 2026 23:20</b></div><div>CLASS<b>CLSC</b></div><div>BOARDING<b>22:50</b></div><div>GATE<b>C14</b></div><div>ZONE<b>C</b></div><div>SEAT<b>036H</b></div><div>FQTV<b>TL10913863</b></div><div>SEQ<b>0028</b></div></div>
+                <img class="qr" src="assets/crops/qr_demo.png" />
+              </div>
+            </div>
+            <div class="wc info card" id="cCheck" style="top: 318px"><small>דלפקי הצ'ק אין</small><b>דלפקים <i>D90 - 95</i></b><span>נא להגיע כ-3 שעות לפני שעת היציאה</span></div>
+            <div class="wc info card" id="cGate" style="top: 509px"><small>גש לשער העלייה למטוס</small><b>שער עלייה <i>E4</i></b><span>נפתח בשעה 20:45</span></div>
+            <div class="wc info card" id="cBag" style="top: 700px"><small>איסוף מזוודות</small><b>מסוע <i>6</i></b><span>גש לאיסוף המזוודות</span></div>
+            <div class="wc bk card" id="cBook">
+              <h4>ההזמנה שלי</h4>
+              <div class="ic"><div><svg viewBox="0 0 24 24" stroke="#8a90a8" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.6 7-5.6s6.2 2 7 5.6"/></svg>3 נוסעים</div><div><svg viewBox="0 0 24 24" stroke="#8a90a8" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="12" height="13" rx="2.5"/><path d="M9.5 7V4.5h5V7M10 11v5M14 11v5"/></svg>3 מזוודות</div><div><svg viewBox="0 0 24 24" stroke="#8a90a8" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h5a2 2 0 0 1 2 2v7H8.5A1.5 1.5 0 0 1 7 11.5V5a1 1 0 0 1 1-1z"/><path d="M6 13h11a1 1 0 0 1 1 1v2H7M8 16v4M16 16v4"/></svg>3/3 מושבים</div><div><svg viewBox="0 0 24 24" stroke="#8a90a8" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>3/3 צ'ק אין</div></div>
+              <hr /><div class="px" style="direction: ltr">1 / 3</div><div class="ps">Mr. Israel Israeli</div><div class="ok">✓ צ'ק אין בוצע</div>
+            </div>
           </div>
           <div class="pn" id="P5">
             <div class="side" id="t5a"><span class="w">תרגישו</span> <span class="w">בנוח.</span></div>
@@ -210,7 +264,9 @@
         const w = document.createElement("div"); w.className = "win"; w.style.left = cx - 100 + "px"; w.style.top = top + "px";
         w.innerHTML = '<img src="assets/crops/win_' + k + '.png" />'; $("#wins").appendChild(w);
         ft(w, { opacity: 0, scale: 0.4, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" }, t + 0.24);
-        frameAround("#P1", stadium(cx - 112, top - 12, 224, 301), t + 0.3, null);
+        const c = document.createElement("div"); c.className = "city"; c.textContent = name; c.style.left = cx + "px"; c.style.top = top - 54 + "px"; $("#wins").appendChild(c);
+        ft(c, { opacity: 0, y: 14, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, t + 0.38);
+        tl.fromTo(c, { y: 0 }, { y: -8, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.83);
         tl.fromTo(w, { y: 0 }, { y: -8, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.8);
       });
 
@@ -222,7 +278,12 @@
         ft(sel + " .shine i", { x: 0 }, { x: 760, duration: 0.9, ease: "power2.inOut" }, t + 0.35);
       };
       const LOOP = "M724,840 L724,250 Q724,106 580,106 L420,106 Q276,106 276,250 L276,830 Q276,974 420,974 L580,974 Q724,974 724,830 L724,840";
-      const tapAt = (sel, t) => ft(sel, { scale: 0.3, opacity: 0.9 }, { scale: 1.8, opacity: 0, duration: 0.45, ease: "power2.out" }, t);
+      // the line arrives -> the element grows a touch, over a short dark-sky-blue halo (replaces the loop/frames)
+      const arrive = (sel, halo, t, k = 1.05) => {
+        tl.to(sel, { scale: k, duration: 0.55, ease: "power2.out", transformOrigin: "50% 50%" }, t);
+        ft(halo, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1.06, duration: 0.3, ease: "power2.out" }, t);
+        tl.to(halo, { opacity: 0, duration: 0.75, ease: "power1.in" }, t + 0.35);
+      };
       const hl = (sel, times, out) => { words(sel, times); if (out != null) tl.to(sel, { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, out); };
 
       // ---------- P2: book a ticket ----------
@@ -230,38 +291,33 @@
       piece(P(1, "M960,1000 C760,1000 400,1030 -40,1030"), 5.2, 6.0, { ease: "sine.in", chain: true });
       phoneIn("#ph2", 5.95);
       hl("#h2", [6.15, 6.72]);
-      piece(P(2, "M1960,1030 C1300,1034 724,1030 724,840"), 6.0, 6.45, { ease: "sine.inOut", chain: true });
-      piece(P(2, LOOP), 6.45, 7.15, { ease: "none" });
+      piece(P(2, "M1960,1030 C1200,1034 600,1030 500,962"), 6.0, 6.45, { ease: "sine.inOut" });
+      arrive("#ph2", "#halo2", 6.45);
       // the search button lifts out of its exact place on the screen
       const s2 = 376 / 582, bx = 300 + 12 + 30 * s2, by = 130 + 12 + 793 * s2;
       ft("#popSearch", { x: bx - 790, y: by - 640, scale: s2, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.4)" }, 7.1);
-      frameAround("#P2", "M1049,712 L820,712 Q780,712 780,671 Q780,630 820,630 L1278,630 Q1318,630 1318,671 Q1318,712 1278,712 L1049,712", 7.45, 8.4);
-      tapAt("#tap2", 7.75);
-      tl.to("#popSearch", { scale: 0.96, duration: 0.07, yoyo: true, repeat: 1, transformOrigin: "50% 50%" }, 7.75);
+      tl.to("#popSearch", { scale: 0.94, duration: 0.07, yoyo: true, repeat: 1, transformOrigin: "50% 50%" }, 7.75);
       piece(P(2, "M500,974 C400,974 370,1040 240,1040 L-40,1040"), 8.05, 8.6, { ease: "sine.in", chain: true });
       tl.to("#popSearch", { opacity: 0, x: -80, duration: 0.3, ease: "power2.in" }, 8.4);
 
       // ---------- P3: trip status, with the real countdown ----------
       phoneIn("#ph3", 8.6);
       hl("#h3", [8.8, 9.28]);
-      piece(P(3, "M1960,1040 C1300,1040 724,1030 724,840"), 8.6, 9.05, { ease: "sine.inOut", chain: true });
-      piece(P(3, LOOP), 9.05, 9.75, { ease: "none" });
-      ft("#cd", { opacity: 0, scale: 0.55, x: -320, y: 40 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.6, ease: "back.out(1.4)" }, 9.75);
-      frameAround("#P3", rrect(776, 586, 588, 288, 46), 10.05, 11.0);
+      piece(P(3, "M1960,1040 C1200,1040 600,1030 500,962"), 8.6, 9.05, { ease: "sine.inOut" });
+      ft("#trip", { opacity: 0, scale: 0.55, x: -300, y: 40 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.6, ease: "back.out(1.4)" }, 9.6);
+      tl.fromTo("#trip", { y: 0 }, { y: -8, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, 10.2);
       piece(P(3, "M500,974 C400,974 370,1040 240,1040 L-40,1040"), 10.6, 11.25, { ease: "sine.in", chain: true });
 
       // ---------- P4: everything in one place: the line fans out to the real trip-status cards ----------
       hl("#t4a", [11.4, 11.51, 11.91]);
-      hl("#t4b", [12.63, 12.79, 13.19, 13.79]);
+      hl("#t4b", [12.65, 12.89, 13.49, 13.76]);
       piece(P(4, "M1960,1040 C1500,1040 1200,960 960,960"), 11.25, 11.75, { ease: "sine.out" });
-      const CARDS = [["#cBoard", 960, 810, 0], ["#cCheck", 1236, 426, 1], ["#cGate", 1236, 624, 1], ["#cBag", 684, 426, -1], ["#cBook", 659, 710, -1]];
-      CARDS.forEach(([sel, ex, ey, dir], i) => {
-        const t = 11.75 + i * 0.16;
-        const gx = dir > 0 ? 1190 : 730;
-        const d = dir === 0 ? "M960,960 L960,812" : "M960,960 C" + (960 + (gx - 960) * 0.6) + ",955 " + gx + ",940 " + gx + "," + (ey + 90) + " Q" + gx + "," + ey + " " + ex + "," + ey;
-        piece(P(4, d), t, t + 0.32, { ease: "power2.out", noHead: true });
-        ft(sel, { opacity: 0, scale: 0.6, y: 50 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.6)" }, t + 0.22);
-        tl.fromTo(sel, { y: 0 }, { y: -7, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.8);
+      // the line reaches only the boarding pass; the rest pop in around it
+      piece(P(4, "M960,960 L960,846"), 11.75, 11.98, { ease: "power2.out", noHead: true });
+      const CARDS = [["#cBoard", 11.86, 0], ["#cCheck", 12.1, 1], ["#cGate", 12.24, 1], ["#cBag", 12.38, 1], ["#cBook", 12.55, -1]];
+      CARDS.forEach(([sel, t, dir]) => {
+        ft(sel, { opacity: 0, scale: 0.7, x: dir * 70, y: dir ? 0 : 50 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.5)" }, t);
+        tl.fromTo(sel, { y: 0 }, { y: -7, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1, ...IR }, t + 0.6);
       });
 
       // P4 exit: the line leaves low to the left
@@ -269,11 +325,10 @@
       tl.to("#t4a, #t4b", { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, 14.28);
 
       // ---------- P5: "feel comfortable, feel at home": one big window, the line wraps it, then we fly in ----------
-      piece(P(5, "M1960,1040 C1400,1040 960,1010 960,786"), 14.35, 14.85, { ease: "sine.inOut", chain: true });
-      piece(P(5, stadium(781, 286, 358, 500)), 14.85, 15.55, { ease: "none" });
+      piece(P(5, "M1960,1040 C1400,1040 960,1010 960,786"), 14.35, 14.85, { ease: "sine.inOut" });
       ft("#win5", { opacity: 0, scale: 0.5, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" }, 14.8);
       ft("#win5 img", { scale: 1.12, x: 18 }, { scale: 1, x: 0, duration: 2.0, ease: "sine.out" }, 14.8);
-      words("#t5a", [14.95, 15.26]);
+      words("#t5a", [14.95, 15.38]);
       words("#t5b", [16.2, 16.6]);
       tl.to("#t5a, #t5b", { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power2.in" }, 17.0);
       // push into the window: the plane comes at the lens, the sky fills the frame, then dissolves into the end card
