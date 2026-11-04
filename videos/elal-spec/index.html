@@ -82,7 +82,7 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="22.6" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="23.3" data-width="1920" data-height="1080">
       <div id="floor"></div>
       <div id="grain"></div>
       <div id="cam">
@@ -121,7 +121,7 @@
         </div>
       </div>
       <div id="vig"></div>
-      <div id="end" class="clip" data-start="17.1" data-duration="5.5" data-track-index="4">
+      <div id="end" class="clip" data-start="17.55" data-duration="5.75" data-track-index="4">
         <img id="endLogo" src="assets/crops/logo_elal_hq.png" />
         <div id="motto"><span class="w">הכי</span> <em class="w">בבית</em> <span class="w">בעולם</span></div>
         <svg id="endSvg" viewBox="0 0 1920 1080"><g id="eH"></g><g id="eT"></g></svg>
@@ -151,7 +151,7 @@
       const PANS = [[1, 3.45], [2, 5.85], [3, 8.55], [4, 11.2], [5, 14.3]];
       tl.set("#world", { x: camAt(0) }, 0);
       PANS.forEach(([b, t]) => tl.to("#world", { x: camAt(b), duration: 0.55, ease: "power3.inOut" }, t));
-      const beats = [1.6, ...PANS.map((p) => p[1]), 16.6];
+      const beats = [1.6, ...PANS.map((p) => p[1]), 17.05];
       beats.slice(0, -1).forEach((a, i) => tl.fromTo("#cam", { scale: 1.0 }, { scale: 1.03, duration: beats[i + 1] - a, ease: "none", ...IR }, a));
       tl.set("#cam", { scale: 1 }, 0);
 
@@ -229,7 +229,7 @@
       tl.to("#t1, #wins", { opacity: 0, duration: 0.3 }, 5.75);
       piece(P(1, "M960,1000 C760,1000 400,1030 -40,1030"), 5.2, 6.0, { ease: "sine.in", chain: true });
       phoneIn("#ph2", 5.95);
-      hl("#h2", [6.15, 6.5]);
+      hl("#h2", [6.15, 6.72]);
       piece(P(2, "M1960,1030 C1300,1034 724,1030 724,840"), 6.0, 6.45, { ease: "sine.inOut", chain: true });
       piece(P(2, LOOP), 6.45, 7.15, { ease: "none" });
       // the search button lifts out of its exact place on the screen
@@ -243,7 +243,7 @@
 
       // ---------- P3: trip status, with the real countdown ----------
       phoneIn("#ph3", 8.6);
-      hl("#h3", [8.8, 9.2]);
+      hl("#h3", [8.8, 9.28]);
       piece(P(3, "M1960,1040 C1300,1040 724,1030 724,840"), 8.6, 9.05, { ease: "sine.inOut", chain: true });
       piece(P(3, LOOP), 9.05, 9.75, { ease: "none" });
       ft("#cd", { opacity: 0, scale: 0.55, x: -320, y: 40 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.6, ease: "back.out(1.4)" }, 9.75);
@@ -251,8 +251,8 @@
       piece(P(3, "M500,974 C400,974 370,1040 240,1040 L-40,1040"), 10.6, 11.25, { ease: "sine.in", chain: true });
 
       // ---------- P4: everything in one place: the line fans out to the real trip-status cards ----------
-      hl("#t4a", [11.4, 11.6, 11.85]);
-      hl("#t4b", [12.55, 12.75, 12.95, 13.15]);
+      hl("#t4a", [11.4, 11.51, 11.91]);
+      hl("#t4b", [12.63, 12.79, 13.19, 13.79]);
       piece(P(4, "M1960,1040 C1500,1040 1200,960 960,960"), 11.25, 11.75, { ease: "sine.out" });
       const CARDS = [["#cBoard", 960, 810, 0], ["#cCheck", 1236, 426, 1], ["#cGate", 1236, 624, 1], ["#cBag", 684, 426, -1], ["#cBook", 659, 710, -1]];
       CARDS.forEach(([sel, ex, ey, dir], i) => {
@@ -266,31 +266,31 @@
 
       // P4 exit: the line leaves low to the left
       piece(P(4, "M960,960 C700,962 420,1040 -40,1040"), 13.8, 14.35, { ease: "sine.in", chain: true });
-      tl.to("#t4a, #t4b", { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, 14.1);
+      tl.to("#t4a, #t4b", { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, 14.28);
 
       // ---------- P5: "feel comfortable, feel at home": one big window, the line wraps it, then we fly in ----------
       piece(P(5, "M1960,1040 C1400,1040 960,1010 960,786"), 14.35, 14.85, { ease: "sine.inOut", chain: true });
       piece(P(5, stadium(781, 286, 358, 500)), 14.85, 15.55, { ease: "none" });
       ft("#win5", { opacity: 0, scale: 0.5, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" }, 14.8);
       ft("#win5 img", { scale: 1.12, x: 18 }, { scale: 1, x: 0, duration: 2.0, ease: "sine.out" }, 14.8);
-      words("#t5a", [15.0, 15.25]);
-      words("#t5b", [15.9, 16.15]);
-      tl.to("#t5a, #t5b", { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power2.in" }, 16.55);
+      words("#t5a", [14.95, 15.26]);
+      words("#t5b", [16.2, 16.6]);
+      tl.to("#t5a, #t5b", { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power2.in" }, 17.0);
       // push into the window: the plane comes at the lens, the sky fills the frame, then dissolves into the end card
-      tl.to("#cam", { scale: 7, duration: 0.7, ease: "power2.in" }, 16.6);
-      tl.to("#win5 img", { scale: 1.35, x: -30, y: 20, duration: 0.7, ease: "power2.in" }, 16.6);
-      tl.fromTo("#win5 img", { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.35, ease: "power2.in", immediateRender: false }, 16.95);
+      tl.to("#cam", { scale: 7, duration: 0.7, ease: "power2.in" }, 17.05);
+      tl.to("#win5 img", { scale: 1.35, x: -30, y: 20, duration: 0.7, ease: "power2.in" }, 17.05);
+      tl.fromTo("#win5 img", { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.35, ease: "power2.in", immediateRender: false }, 17.4);
 
       // ---------- end card: logo, motto underlined by the flight path, then the credit ----------
-      ft("#end", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.inOut" }, 17.22);
-      ft("#endLogo", { opacity: 0, scale: 0.9, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 17.4);
-      words("#motto", [18.05, 18.25, 18.45]);
-      const uL = piece("M1180,770 C1060,792 860,792 740,770", 18.6, 19.4, { ease: "sine.inOut", gH: "#eH", gT: "#eT", hp: "#endHeads", hold: true });
-      tl.to(uL.head, { x: "-=420", y: "-=210", rotation: "+=28", scale: 1.7, opacity: 0, duration: 0.7, ease: "power2.in" }, 19.4);
-      tl.to("#endLogo, #motto, #endSvg", { opacity: 0, y: -24, duration: 0.35, ease: "power2.in" }, 20.45);
-      ft("#cred small", { opacity: 0, scaleX: 1.4 }, { opacity: 1, scaleX: 1, duration: 0.7, ease: "expo.out" }, 20.8);
-      ft("#cred b", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.65, ease: "expo.out" }, 21.0);
-      ft("#credl", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.out" }, 21.3);
+      ft("#end", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.inOut" }, 17.67);
+      ft("#endLogo", { opacity: 0, scale: 0.9, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 17.9);
+      words("#motto", [18.83, 19.11, 19.51]);
+      const uL = piece("M1180,770 C1060,792 860,792 740,770", 19.6, 20.4, { ease: "sine.inOut", gH: "#eH", gT: "#eT", hp: "#endHeads", hold: true });
+      tl.to(uL.head, { x: "-=420", y: "-=210", rotation: "+=28", scale: 1.7, opacity: 0, duration: 0.7, ease: "power2.in" }, 20.4);
+      tl.to("#endLogo, #motto, #endSvg", { opacity: 0, y: -24, duration: 0.35, ease: "power2.in" }, 21.2);
+      ft("#cred small", { opacity: 0, scaleX: 1.4 }, { opacity: 1, scaleX: 1, duration: 0.7, ease: "expo.out" }, 21.5);
+      ft("#cred b", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.65, ease: "expo.out" }, 21.7);
+      ft("#credl", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.out" }, 22.0);
 
       // ---------- opener: the app's real launch animation (line-drawn tail in a window), then hand over ----------
       tl.set("#logoEnd", { opacity: 0 }, 0);
