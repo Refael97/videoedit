@@ -1,0 +1,79 @@
+# time name [volume]
+0.7 pop
+1.84 pop
+3.16 pop
+3.62 pop
+4.56 whoosh 0.22
+5.4 key 0.25
+5.9 key 0.25
+6.4 key 0.25
+6.9 key 0.25
+7.5 click 0.4
+7.62 pop
+9.12 pop
+9.5 pop
+9.72 pop
+9.9 tick 0.25
+10.2 tick 0.25
+11.04 ding 0.2
+12.12 swish 0.3
+12.3 pop
+12.86 click 0.45
+16.22 pop
+17.75 whoosh 0.22
+18.58 pop
+18.98 tick 0.25
+19.68 ding 0.2
+20.62 swish 0.3
+20.75 whoosh 0.22
+21.88 pop
+22.6 key 0.25
+22.85 key 0.25
+23.1 key 0.25
+23.35 key 0.25
+23.66 tick 0.25
+24.0 tick 0.25
+24.34 tick 0.25
+24.6 ding 0.2
+26.95 pop
+27.45 key 0.25
+27.7 key 0.25
+27.86 click 0.4
+28.4 pop
+29.04 pop
+30.08 pop
+31.52 ding 0.22
+31.94 swish 0.3
+32.0 pop
+33.56 pop
+33.9 pop
+34.24 pop
+34.58 pop
+34.92 pop
+35.9 click 0.4
+36.9 click 0.4
+37.7 click 0.4
+38.6 click 0.4
+38.72 pop
+40.85 whoosh 0.22
+43.88 tick 0.25
+45.58 tick 0.25
+47.42 ding 0.25
+47.62 pop
+54.9 pop
+55.4 key 0.25
+55.65 key 0.25
+56.2 click 0.45
+56.5 pop
+57.6 swish 0.3
+57.7 whoosh 0.22
+59.44 tick 0.25
+61.3 tick 0.25
+62.96 tick 0.25
+64.6 pop
+65.2 key 0.25
+65.5 key 0.25
+65.8 key 0.25
+66.1 click 0.45
+66.82 pop
+68.6 ding 0.2

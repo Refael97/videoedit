@@ -1,0 +1,247 @@
+{
+ "project": "skill-reel-headline",
+ "theme": "headline",
+ "score": "17/20",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 1.26,
+   "target": ">= 1.19",
+   "pass": true,
+   "footage": "camera jitter 0.2 px/frame, 9 punches, 12 drifts (anchor: jitter 0.22 px/frame, 26.3 camera moves/min)"
+  },
+  "flat": {
+   "value": "2.9% (full frame 9.3%)",
+   "target": "<= 17.0%",
+   "pass": true
+  },
+  "hold": {
+   "value": "0.43 s",
+   "target": "<= 0.9 s",
+   "pass": true
+  },
+  "actions": {
+   "value": "0.54 events/s (GSAP 6.08 tweens/s)",
+   "target": "0.45–0.83",
+   "pass": true
+  },
+  "payoff": {
+   "value": "2 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "median 84%, 0 weak ranges",
+   "target": ">= 60%",
+   "pass": true
+  },
+  "collide": {
+   "value": "0 collisions",
+   "target": "0",
+   "pass": true,
+   "faces_detected": 221
+  },
+  "overlap": {
+   "value": "0 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": true
+  },
+  "placeholder": {
+   "value": "0 found",
+   "target": "0",
+   "pass": true
+  },
+  "facts": {
+   "value": "0 unsourced",
+   "target": "0",
+   "pass": true
+  },
+  "fx": {
+   "value": "no signature effects",
+   "target": "—",
+   "pass": true
+  },
+  "hook": {
+   "value": "visual on screen 3.0s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  },
+  "footage": {
+   "value": "garment vs background 97.818 (>= 106.4: the clothes melt into the wall)",
+   "target": "theme.md → Look targets",
+   "pass": false
+  },
+  "scale": {
+   "value": "median 0.90, 0 weak stretches",
+   "target": "median >= 0.68, never < 0.56 for 1 s",
+   "pass": true
+  },
+  "density": {
+   "value": "median 0.39, 0 weak stretches",
+   "target": "median >= 0.371, never < 0.272 for 1 s",
+   "pass": true
+  },
+  "rhythm": {
+   "value": "35% full face, longest gap 13.5 s",
+   "target": ">= 9%, gap <= 50.2 s",
+   "pass": true
+  },
+  "material": {
+   "value": "accent saturation 88.806 (>= 89)",
+   "target": "theme.md → Look targets",
+   "pass": false
+  },
+  "contrast": {
+   "value": "1 low-contrast texts",
+   "target": ">= 4.5:1 (>= 3:1 from 48px)",
+   "pass": false
+  },
+  "type": {
+   "value": "0 slanted Hebrew, 0 mixed faces",
+   "target": "0",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 55.47,
+  "motion": 2.4,
+  "flat_pct": 9.3,
+  "events_per_s": 0.41,
+  "graphics": {
+   "gfx_motion": 1.26,
+   "gfx_raw": 1.26,
+   "baseline": 0.0,
+   "baseline_s": 5,
+   "baseline_from": "none (graphics-only render)",
+   "gfx_share": 0.91,
+   "gfx_flat_pct": 2.9,
+   "gfx_flat_runs": [
+    [
+     13.57,
+     14.0
+    ],
+    [
+     42.43,
+     43.03
+    ],
+    [
+     47.6,
+     48.0
+    ]
+   ],
+   "max_hold": 0.6,
+   "footage": {
+    "jitter_px": 0.2,
+    "punches": [
+     5.3,
+     13.43,
+     22.27,
+     24.33,
+     26.33,
+     28.3,
+     36.93,
+     41.13,
+     47.47
+    ],
+    "drifts": [
+     4.67,
+     6.67,
+     12.67,
+     15.0,
+     19.0,
+     21.67,
+     26.33,
+     28.33,
+     36.33,
+     39.0,
+     46.67,
+     53.67
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.2,
+   "punches": [
+    5.3,
+    13.43,
+    22.27,
+    24.33,
+    26.33,
+    28.3,
+    36.93,
+    41.13,
+    47.47
+   ],
+   "drifts": [
+    4.67,
+    6.67,
+    12.67,
+    15.0,
+    19.0,
+    21.67,
+    26.33,
+    28.33,
+    36.33,
+    39.0,
+    46.67,
+    53.67
+   ]
+  },
+  "actions_per_s": 0.54
+ },
+ "targets": {
+  "gfx_motion_min": 1.19,
+  "flat_max": 17.0,
+  "max_hold": 0.9,
+  "events_min": 0.45,
+  "events_max": 0.83,
+  "footage_info": "jitter 0.22 px/frame, 26.3 camera moves/min"
+ },
+ "look": {
+  "samples": 111,
+  "full_face_share": 0.351,
+  "full_face_max_gap": 13.5,
+  "face_h": 0.25,
+  "face_h_full": 0.295,
+  "face_luma": 150.557,
+  "warmth": 47.808,
+  "bg_luma": 196.716,
+  "bg_sat": 18.906,
+  "contrast": 185.269,
+  "garment_vs_bg": 97.818,
+  "hero_width": 0.9,
+  "hero_density": 0.391,
+  "span": 139.923,
+  "highlight": 0.522,
+  "glow": -5.833,
+  "accent_sat": 88.806
+ },
+ "fix_list": [
+  {
+   "t": "0.0–55.5s",
+   "t0": 0,
+   "words": "לערוך סרטונים עם קלוד יכול להיות מאוד מתסכל וארוך וגם יכול להיות מאוד מאוד פשוט. למשל הסרטון הזה נערך בעזרת קלוד, אבל לא ביקשתי ממנו שום דבר. פשוט הבאתי לו את הסרטון ואת כל השאר הוא עשה לבד. אז איך הגעתי לתוצאה הזאתי? אחרי עשרות ומאות סרטונים שערכתי עם קלוד הבנתי שיש דרך פשוטה יותר. בניתי skill שהופך את קלוד לעורך וידאו מקצועי מקצה לקצה. הוא לא רק נותן לכם סגנון עריכה שמתאים לסרטון, הוא גם עובד בלופ. הוא בודק כל frame, כל אלמנט, כל דבר שהוא עשה בלופ עד שהוא מביא לכם את התוצאה המושלמת בלי שאתם תבקשו ממנו שום דבר. אתם סך הכל צריכים להביא לו את הסרטון. את ה skill הזה בניתי במשך שבועות. עבדתי עליו מאוד קשה ואני מוכן לתת אותו עכשיו לכל מי שמגיב פה את המילה skill בסרטון. אז אם אתם רוצים גם תגיבו skill אבל רק החמישים הראשונים מקבלים אותו. אחרי זה זה כבר בתשלום. אז קדימה תגיבו פה skill.",
+   "check": "footage match",
+   "fix": "garment vs background 97.818 (>= 106.4: the clothes melt into the wall): the footage is a different world from the anchor: run scripts/footage_prep.py <project> (grade, background, crop to the anchor's face size) and use its output; if it reports RESHOOT, send the user the theme README's 'How to shoot for this theme' before editing"
+  },
+  {
+   "t": "0.0–55.5s",
+   "t0": 0,
+   "words": "לערוך סרטונים עם קלוד יכול להיות מאוד מתסכל וארוך וגם יכול להיות מאוד מאוד פשוט. למשל הסרטון הזה נערך בעזרת קלוד, אבל לא ביקשתי ממנו שום דבר. פשוט הבאתי לו את הסרטון ואת כל השאר הוא עשה לבד. אז איך הגעתי לתוצאה הזאתי? אחרי עשרות ומאות סרטונים שערכתי עם קלוד הבנתי שיש דרך פשוטה יותר. בניתי skill שהופך את קלוד לעורך וידאו מקצועי מקצה לקצה. הוא לא רק נותן לכם סגנון עריכה שמתאים לסרטון, הוא גם עובד בלופ. הוא בודק כל frame, כל אלמנט, כל דבר שהוא עשה בלופ עד שהוא מביא לכם את התוצאה המושלמת בלי שאתם תבקשו ממנו שום דבר. אתם סך הכל צריכים להביא לו את הסרטון. את ה skill הזה בניתי במשך שבועות. עבדתי עליו מאוד קשה ואני מוכן לתת אותו עכשיו לכל מי שמגיב פה את המילה skill בסרטון. אז אם אתם רוצים גם תגיבו skill אבל רק החמישים הראשונים מקבלים אותו. אחרי זה זה כבר בתשלום. אז קדימה תגיבו פה skill.",
+   "check": "material & light",
+   "fix": "accent saturation 88.806 (>= 89): flat fills: give the hero the theme's material (language.md → Material & light: gradient span, highlight, glow, accent saturation)"
+  },
+  {
+   "t": "34.0–35.8s",
+   "t0": 34,
+   "words": "התוצאה המושלמת בלי שאתם",
+   "check": "text contrast",
+   "fix": "'כל אלמנט' 1.0:1: the text is too close to its background: use the theme's ink on its surface (>= 4.5:1, >= 3:1 from 48px), or mark deliberate decoration with data-qa-decor"
+  }
+ ]
+}

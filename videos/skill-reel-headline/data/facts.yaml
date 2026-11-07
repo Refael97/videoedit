@@ -1,0 +1,22 @@
+# Everything factual this video shows. From Rafael's own words (this clip) or the repo itself.
+numbers:
+  first_free: 50                 # "רק החמישים הראשונים מקבלים אותו"
+  checks: 20                     # qa: 13 timing/layout + 7 look checks (scripts/qa/qa.py)
+  themes: 9                      # glass, paper, night, editorial, headline, arcade, neon-studio, hooks, board
+  commits: 121                   # git log --oneline | wc -l on claude/great-allen-1f4zef (2026-10-30)
+  started: "11.10"               # first commit 2026-10-11
+urls:
+  - claude.ai
+  - instagram.com/refaelleviii
+  - instagram.com/direct
+names:
+  person: רפאל לוי
+  title: מומחה AI ושיווק דיגיטלי
+  handle: "@refaelleviii"
+  file: IMG_5600.MOV
+  output_file: final.mov
+  skill: video-themes
+  command: /plugin install video-themes
+prices: []                       # "אחרי זה זה כבר בתשלום" — no price is said, none is shown
+ui: ["9:16", "100%", "60fps", "1080×1920", "סבב 1", "סבב 2", "1", "2", "60"]   # render format (CLAUDE.md: 60fps, 1080×1920) and the QA round counter shown as UI state
+commit_dates: ["30.10", "29.10", "28.10", "11.10"]   # real dates from git log of the skill's branch

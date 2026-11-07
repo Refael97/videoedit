@@ -1,0 +1,40 @@
+{
+ "theme": "neon-studio",
+ "samples": 92,
+ "full_face": {
+  "samples": 45,
+  "chin_y": 876,
+  "face_h": 399,
+  "center_x": 514,
+  "caption": {
+   "at": "chin",
+   "dy": 0.59,
+   "iqr": [
+    0.49,
+    0.83
+   ],
+   "n": 44
+  }
+ },
+ "low_face": {
+  "samples": 45,
+  "chin_y": 1533,
+  "face_h": 315,
+  "center_x": 530,
+  "caption": {
+   "at": "chin",
+   "dy": -2.3,
+   "iqr": [
+    -3.86,
+    -1.68
+   ],
+   "n": 45
+  }
+ },
+ "card_beside_face": {
+  "at": "eyes",
+  "side": "free",
+  "gap": 0.4
+ },
+ "safe_core": "eyes to mouth (x 18-82%, y 22-92% of the face box) is never covered"
+}

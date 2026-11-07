@@ -1,0 +1,64 @@
+/* arcade theme: design tokens. Canvas 1080x1920 (9:16). Measured on the anchor (5777 + 208, 58260, 95186; 720x1280) and scaled x1.5. */
+/* label: JetBrains Mono (Latin) + IBM Plex Sans Hebrew 600 | sans: Inter (Latin) + Plex Sans Hebrew 700 | serif (real text in cards): Frank Ruhl Libre
+   marker: Caveat (Latin) + Gveret Levin (Hebrew) | pixel HUD: Silkscreen (Latin only; Hebrew HUD text falls back to Plex 700) */
+@font-face { font-family: "ArcLabel"; font-weight: 500; src: url("fonts/ibm-plex-sans-hebrew-hebrew-600-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "ArcLabel"; font-weight: 500; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "ArcLabel"; font-weight: 700; src: url("fonts/ibm-plex-sans-hebrew-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "ArcLabel"; font-weight: 700; src: url("fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "ArcSans"; font-weight: 500; src: url("fonts/ibm-plex-sans-hebrew-hebrew-600-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "ArcSans"; font-weight: 500; src: url("fonts/inter-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "ArcSans"; font-weight: 700; src: url("fonts/ibm-plex-sans-hebrew-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "ArcSans"; font-weight: 700; src: url("fonts/inter-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "ArcSerif"; font-weight: 400; src: url("fonts/frank-ruhl-libre-hebrew-400-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "ArcSerif"; font-weight: 400; src: url("fonts/frank-ruhl-libre-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "ArcMarker"; font-weight: 400; src: url("fonts/gveret-levin-hebrew-400-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "ArcMarker"; font-weight: 400; src: url("fonts/caveat-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "ArcPixel"; font-weight: 400; src: url("fonts/silkscreen-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+@font-face { font-family: "ArcPixel"; font-weight: 400; src: url("fonts/ibm-plex-sans-hebrew-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+
+:root {
+  /* page */
+  --a-page: #efedeb;           /* measured 239,237,235 */
+  --a-grid: #e7e5e2;           /* 1.5px lines, barely there */
+  --a-grid-step: 90px;         /* measured 60px at 720 */
+
+  /* ink + accents (language.md §4) */
+  --a-ink: #1c1c1c;
+  --a-ink-soft: #77736d;
+  --a-pill: #353a36;           /* caption pill (measured 53,58,54) */
+  --a-coral: #d77656;          /* the mascot, numbered steps, the comment box (measured 215,118,86) */
+  --a-marker: #d03440;         /* the hand-drawn red pen: strikes, circles, scrawls (measured 208,52,64) */
+  --a-green: #2fa860;          /* check marks */
+  --a-card: #fcfbfa;
+  --a-card-edge: rgba(28, 28, 28, 0.07);
+  --a-card-shadow: 0 16px 36px rgba(40, 30, 20, 0.14), 0 2px 6px rgba(40, 30, 20, 0.07);
+  --a-r-card: 22px;            /* measured ~15 at 720 */
+
+  /* HUD (game UI panels) */
+  --a-hud: #1e2246;
+  --a-hud-edge: #c9cffb;
+  --a-hud-text: #ffffff;
+  --a-hud-ok: #5ef08a;
+  --a-hud-warn: #ffd23f;
+
+  /* pixel palette (sprites, scenes): 8 creature colors seen in the anchor's crowds */
+  --a-px-1: #d77656; --a-px-2: #3fbf5b; --a-px-3: #4f74e8; --a-px-4: #c64fc9;
+  --a-px-5: #e8c03a; --a-px-6: #39c3c9; --a-px-7: #e5534b; --a-px-8: #8a5be8;
+
+  /* type */
+  --a-label: "ArcLabel", monospace;
+  --a-sans: "ArcSans", sans-serif;
+  --a-serif: "ArcSerif", serif;
+  --a-marker-font: "ArcMarker", cursive;
+  --a-pixel: "ArcPixel", monospace;
+  --a-cap: 40px;               /* caption pill text (measured cap height 18-20px at 720) */
+  --a-cap-track: 0.12em;       /* Latin; Hebrew uses 0.04em */
+  --a-cap-h: 84px;             /* pill height (measured 56) */
+
+  /* layout (1920 tall) */
+  --a-seam: 770px;             /* split: page 0-770, face 770-1920 (measured 513/1280 = 40%) */
+  --a-cap-y: 764px;            /* caption pill center: ON the seam, in every layout unless a graphic covers it */
+  --a-card-x: 90px;            /* scene card / UI card: x 90-990 (measured 60-660) */
+  --a-card-top: 255px;         /* measured 170 */
+  --a-card-bottom: 695px;      /* measured 463 */
+}

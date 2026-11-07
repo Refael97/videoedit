@@ -1,0 +1,181 @@
+/* glass theme: components. Needs tokens.css. Every component is position:absolute inside #cam (world space,
+   moves with the punch-in zooms) unless it is screen space text (.g-hook, .g-cap, .g-cta). */
+
+.g-root { font-family: var(--g-font); direction: rtl; color: #fff; }
+.aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+/* ---------- camera + footage ---------- */
+.g-cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+.g-footage { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- text: hook (top, two tiers) ---------- */
+.g-hook { position: absolute; left: 40px; right: 40px; top: var(--g-hook-top); text-align: center; color: var(--g-hook-ink); font-weight: 900; line-height: 1.02; text-shadow: var(--g-text-shadow); z-index: 30; }
+.g-hook .l1 { display: block; font-size: var(--g-hook-1); }
+.g-hook .l2 { display: block; font-size: var(--g-hook-2); letter-spacing: -1px; }
+
+/* ---------- text: captions (1-3 words, hard swap) ---------- */
+.g-caps { position: absolute; left: 0; right: 0; top: calc(var(--g-cap-center) - 60px); height: 120px; z-index: 30; }
+.g-cap { position: absolute; left: 60px; right: 60px; top: 0; height: 120px; display: flex; align-items: center; justify-content: center; font-size: var(--g-cap); font-weight: 900; color: var(--g-cap-ink); text-shadow: var(--g-text-shadow); white-space: pre; opacity: 0; }
+
+/* ---------- glass space: the floating "desktop" placed in the room ---------- */
+.g-space { position: absolute; border-radius: var(--g-r-space); background: var(--g-glass); -webkit-backdrop-filter: var(--g-glass-blur); backdrop-filter: var(--g-glass-blur); border: 1.5px solid var(--g-glass-edge); box-shadow: var(--g-glass-shadow); }
+.g-space .menubar { position: absolute; left: 22px; right: 22px; top: 12px; height: 26px; display: flex; direction: ltr; gap: 18px; font-size: 17px; font-weight: 500; color: rgba(255, 255, 255, 0.75); }
+.g-space .menubar b { font-weight: 700; color: #fff; }
+.g-step { position: absolute; top: 46px; right: 22px; height: 46px; padding: 0 20px; border-radius: var(--g-r-pill); background: var(--g-glass-dark); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 8px; font-size: 26px; font-weight: 700; color: #fff; }
+.g-dock { position: absolute; left: 50%; bottom: 16px; height: 64px; padding: 0 10px; border-radius: 20px; background: var(--g-glass-strong); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.35); display: flex; align-items: center; gap: 8px; direction: ltr; }
+.g-dock .ic { width: 44px; height: 44px; flex: none; }
+.g-dock .ic svg { width: 44px; height: 44px; display: block; }
+
+/* ---------- app windows (dark) ---------- */
+.g-win { position: absolute; border-radius: var(--g-r-win); background: var(--g-win); border: 1px solid var(--g-win-edge); box-shadow: 0 22px 50px rgba(0, 0, 0, 0.4); overflow: hidden; color: var(--g-win-ink); }
+.g-win .bar { position: relative; height: 42px; display: flex; align-items: center; padding: 0 16px; gap: 9px; direction: ltr; }
+.g-win .bar i { width: 13px; height: 13px; border-radius: 50%; display: block; }
+.g-win .bar i:nth-child(1) { background: var(--g-light-red); }
+.g-win .bar i:nth-child(2) { background: var(--g-light-yellow); }
+.g-win .bar i:nth-child(3) { background: var(--g-light-green); }
+.g-win .bar span { position: absolute; left: 0; right: 0; text-align: center; font-size: 17px; font-weight: 500; color: var(--g-win-title); }
+.g-win .body { padding: 10px 22px 20px; }
+
+/* terminal rows */
+.g-term .row { display: flex; align-items: center; height: 54px; direction: ltr; font-family: var(--g-mono); font-size: 25px; white-space: pre; }
+.g-term .row .p { color: #7db5ff; margin-right: 12px; }
+.g-term .row .ok { margin-left: auto; width: 32px; height: 32px; }
+.g-badge { display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 10px; border: 2px solid var(--g-green); color: var(--g-green); font-size: 26px; font-weight: 700; background: rgba(47, 205, 88, 0.12); }
+
+/* chat window: thumbnails + prompt */
+.g-chat .thumbs { display: flex; gap: 8px; justify-content: flex-end; }
+.g-chat .thumbs b { width: 62px; height: 96px; border-radius: 10px; display: block; background-size: cover; background-position: center; border: 1px solid rgba(255, 255, 255, 0.15); }
+.g-chat .msg { margin-top: 10px; text-align: right; font-size: 24px; font-weight: 700; white-space: pre; }
+.g-chat .reply { margin-top: 18px; display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; color: #cfcfd4; white-space: pre; }
+.g-chat .chips { margin-top: 14px; display: flex; gap: 6px; flex-wrap: nowrap; }
+.g-chat .chips span { padding: 5px 11px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 18px; font-weight: 700; }
+.g-chat .chips span.on { background: rgba(47, 205, 88, 0.18); color: var(--g-green); }
+.g-chat .input { position: absolute; left: 16px; right: 16px; bottom: 16px; height: 50px; border-radius: 25px; background: rgba(255, 255, 255, 0.08); display: flex; align-items: center; padding: 0 18px; font-size: 20px; color: #8e8e93; white-space: pre; }
+
+/* checklist (reminders) */
+.g-list .head { font-size: 30px; font-weight: 900; color: var(--g-orange); margin-bottom: 4px; }
+.g-list .row { display: flex; align-items: center; gap: 14px; height: 50px; font-size: 25px; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.g-list .box { position: relative; width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid #8e8e93; flex: none; }
+.g-list .box b { position: absolute; inset: -2.5px; border-radius: 50%; background: var(--g-blue); display: block; opacity: 0; }
+.g-list .box b svg { width: 100%; height: 100%; display: block; }
+
+/* ---------- stat card (dark glass, big green number) ---------- */
+.g-stat { position: absolute; border-radius: 30px; background: var(--g-glass-dark); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); border: 1.5px solid rgba(255, 255, 255, 0.32); box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.3), 0 30px 70px rgba(0, 0, 0, 0.3); padding: 26px 34px; }
+.g-stat .label { text-align: center; font-size: 30px; font-weight: 700; color: rgba(255, 255, 255, 0.85); }
+.g-stat .num { text-align: center; font-size: 132px; font-weight: 900; line-height: 1; color: var(--g-green); direction: ltr; text-shadow: 0 0 30px rgba(47, 205, 88, 0.35); }
+.g-stat .sub { display: flex; justify-content: space-between; margin-top: 18px; font-size: 24px; font-weight: 900; }
+.g-stat .sub span:last-child { color: rgba(255, 255, 255, 0.55); font-weight: 700; }
+.g-stat .item { position: relative; display: flex; align-items: center; gap: 14px; height: 76px; }
+.g-stat .item .ico { width: 46px; height: 46px; border-radius: 12px; background: rgba(255, 255, 255, 0.12); flex: none; }
+.g-stat .item .t { font-size: 28px; font-weight: 900; }
+.g-stat .item .t small { display: block; font-size: 19px; font-weight: 700; color: rgba(255, 255, 255, 0.55); }
+.g-stat .item .price { margin-right: auto; font-size: 26px; font-weight: 700; color: var(--g-red); direction: ltr; }
+.g-stat .item .strike { position: absolute; left: -8px; right: -8px; top: 37px; height: 4px; border-radius: 2px; background: var(--g-red); transform-origin: 100% 50%; }
+
+/* ---------- CTA pill with a line arrow down ---------- */
+.g-cta { position: absolute; left: 0; right: 0; top: calc(var(--g-cta-center) - 50px); height: 100px; display: flex; justify-content: center; z-index: 31; }
+.g-cta .pill { height: 100px; padding: 0 46px; border-radius: var(--g-r-pill); background: rgba(255, 255, 255, 0.74); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1.5px solid rgba(255, 255, 255, 0.85); display: flex; align-items: center; font-size: 56px; font-weight: 900; color: #1c1c1e; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25); }
+.g-cta .arrow { position: absolute; left: 50%; top: 104px; width: 0; height: 0; }
+.g-cta .arrow svg { position: absolute; left: -20px; top: 0; width: 40px; height: 110px; }
+
+/* ---------- cursor ---------- */
+.g-cursor { position: absolute; left: 0; top: 0; width: 34px; height: 46px; z-index: 5; }
+.g-cursor svg { width: 34px; height: 46px; display: block; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4)); }
+
+/* =====================================================================================================
+   GENERIC BUILDING BLOCKS (language.md §8). Build any new element from a material + these blocks.
+   ===================================================================================================== */
+
+/* materials: put one on any absolutely positioned .g-card */
+.g-card { position: absolute; color: #fff; }
+.m-light { border-radius: var(--g-r-space); background: var(--g-glass); -webkit-backdrop-filter: var(--g-glass-blur); backdrop-filter: var(--g-glass-blur); border: 1.5px solid var(--g-glass-edge); box-shadow: var(--g-glass-shadow); padding: 22px; }
+.m-dark { border-radius: 30px; background: var(--g-glass-dark); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); border: 1.5px solid rgba(255, 255, 255, 0.32); box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.3), 0 30px 70px rgba(0, 0, 0, 0.3); padding: 26px 34px; }
+.m-win { border-radius: var(--g-r-win); background: var(--g-win); border: 1px solid var(--g-win-edge); box-shadow: 0 22px 50px rgba(0, 0, 0, 0.4); overflow: hidden; color: var(--g-win-ink); }
+.m-win > .body { padding: 10px 22px 20px; }
+
+/* type steps (language.md §3) */
+.t1 { font-size: 132px; font-weight: 900; line-height: 1; }
+.t2 { font-size: 56px; font-weight: 900; line-height: 1.05; }
+.t3 { font-size: 30px; font-weight: 900; }
+.t4 { font-size: 26px; font-weight: 700; }
+.t5 { font-size: 19px; font-weight: 500; color: var(--g-win-title); }
+.mono { font-family: var(--g-mono); font-weight: 500; direction: ltr; }
+.c-green { color: var(--g-green); } .c-red { color: var(--g-red); } .c-blue { color: var(--g-blue); } .c-orange { color: var(--g-orange); } .c-grey { color: var(--g-win-title); }
+
+/* header, rows, separators */
+.g-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.g-row { position: relative; display: flex; align-items: center; gap: 12px; min-height: 52px; font-size: 26px; font-weight: 700; }
+.g-row + .g-row { border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.g-row .end { margin-right: auto; }               /* RTL: trailing value sits on the left */
+.g-sep { height: 1px; background: rgba(255, 255, 255, 0.08); margin: 12px 0; }
+
+/* number fact */
+.g-num { font-size: 132px; font-weight: 900; line-height: 1; direction: ltr; text-align: center; }
+.g-num.c-green { text-shadow: 0 0 30px rgba(47, 205, 88, 0.35); }
+.g-label { font-size: 30px; font-weight: 700; color: rgba(255, 255, 255, 0.85); text-align: center; }
+.g-delta { display: inline-flex; align-items: center; gap: 6px; font-size: 26px; font-weight: 900; direction: ltr; }
+.g-delta.up { color: var(--g-green); } .g-delta.up::before { content: "▲"; font-size: 18px; }
+.g-delta.down { color: var(--g-red); } .g-delta.down::before { content: "▼"; font-size: 18px; }
+
+/* chips and badges */
+.g-chip { display: inline-flex; align-items: center; height: 38px; padding: 0 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 19px; font-weight: 700; white-space: pre; }
+.g-chip.on { background: rgba(47, 205, 88, 0.18); color: var(--g-green); }
+.g-chip.sel { background: var(--g-blue); color: #fff; }
+
+/* input / prompt field */
+.g-input { height: 52px; border-radius: 26px; background: rgba(255, 255, 255, 0.08); display: flex; align-items: center; padding: 0 20px; font-size: 21px; color: #cfcfd4; white-space: pre; }
+
+/* progress meter: <div class="g-meter"><i></i></div>  (animate i scaleX) */
+.g-meter { position: relative; height: 16px; border-radius: 8px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+.g-meter > i { position: absolute; inset: 0; border-radius: 8px; background: var(--g-green); transform-origin: 100% 50%; display: block; }
+
+/* column chart: <div class="g-bars"><div class="bar" style="--h:.6"><i></i><span>Q1</span></div>…</div> */
+.g-bars { display: flex; align-items: flex-end; justify-content: center; gap: 60px; height: 260px; direction: ltr; margin-bottom: 46px; }
+.g-bars .bar { position: relative; width: 120px; flex: none; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+.g-bars .bar i { display: block; width: 100%; height: calc(var(--h, 0.5) * 100%); border-radius: 10px 10px 4px 4px; background: rgba(255, 255, 255, 0.28); transform-origin: 50% 100%; }
+.g-bars .bar.win i { background: var(--g-green); box-shadow: 0 0 24px rgba(47, 205, 88, 0.35); }
+.g-bars .bar.lose i { background: var(--g-red); }
+.g-bars .bar span { position: absolute; bottom: -42px; font-size: 26px; font-weight: 700; color: rgba(255, 255, 255, 0.85); white-space: nowrap; }
+
+/* avatar */
+.g-avatar { width: 56px; height: 56px; border-radius: 50%; flex: none; background: rgba(255, 255, 255, 0.18) center / cover; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; }
+
+/* notification toast (dark glass): <div class="g-card m-dark g-toast"><div class="g-avatar"></div><div><b>שם</b><p>טקסט</p></div><time>עכשיו</time></div> */
+.g-toast { display: flex; align-items: center; gap: 20px; padding: 24px 30px; border-radius: 30px; }
+.g-toast .g-avatar { width: 84px; height: 84px; font-size: 36px; }
+.g-toast b { display: block; font-size: 34px; font-weight: 900; }
+.g-toast p { margin: 4px 0 0; font-size: 30px; font-weight: 700; color: rgba(255, 255, 255, 0.85); white-space: pre; }
+.g-toast time { align-self: flex-start; margin-right: auto; font-size: 20px; color: var(--g-win-title); }
+
+/* chat bubbles: .g-bubble.in (left, grey) / .g-bubble.out (right, blue) */
+.g-bubble { max-width: 78%; padding: 12px 18px; border-radius: 22px; font-size: 24px; font-weight: 700; line-height: 1.25; white-space: pre-wrap; margin-top: 8px; }
+.g-bubble.in { background: rgba(255, 255, 255, 0.14); margin-left: auto; border-bottom-left-radius: 6px; }
+.g-bubble.out { background: var(--g-blue); margin-right: 0; border-bottom-right-radius: 6px; }
+
+/* calendar month grid (light glass): 7 columns of .d; .today blue fill, .mark green ring */
+.g-cal .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; direction: rtl; }
+.g-cal .grid b { font-size: 16px; font-weight: 700; color: rgba(255, 255, 255, 0.6); text-align: center; }
+.g-cal .d { height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; }
+.g-cal .d.today { background: var(--g-blue); }
+.g-cal .d.mark { box-shadow: inset 0 0 0 2.5px var(--g-green); }
+.g-cal .d.off { color: rgba(255, 255, 255, 0.3); }
+
+/* abstract map (light glass): svg streets + pin + route */
+.g-map { position: relative; overflow: hidden; }
+.g-map svg.streets { position: absolute; inset: 0; width: 100%; height: 100%; }
+.g-map svg.streets path { fill: none; stroke: rgba(255, 255, 255, 0.18); stroke-width: 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.g-map svg.streets path.route { stroke: var(--g-blue); stroke-width: 7; }
+.g-map .pin { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; background: var(--g-blue); box-shadow: 0 0 0 7px rgba(10, 132, 255, 0.25); }
+
+/* icon tile */
+.g-tile { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; font-size: 17px; font-weight: 500; color: rgba(255, 255, 255, 0.9); }
+.g-tile svg { width: 72px; height: 72px; display: block; }
+
+/* emphasis ring (for GLASS.emphasize ring mode) */
+.g-ring { position: absolute; inset: -6px; border-radius: inherit; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9); opacity: 0; pointer-events: none; }
+
+/* ---------- bright footage (white wall, daylight): add .bg-bright on .g-root (language.md §1) ---------- */
+.bg-bright .m-dark, .bg-bright .g-stat { background: rgba(22, 22, 24, 0.8); border-color: rgba(255, 255, 255, 0.22); box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.18), 0 30px 70px rgba(0, 0, 0, 0.28); }
+.bg-bright .m-light, .bg-bright .g-space { background: rgba(255, 255, 255, 0.3); border-color: rgba(255, 255, 255, 0.85); box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.9), 0 30px 70px rgba(0, 0, 0, 0.16); }
+.bg-bright .g-dock { background: rgba(255, 255, 255, 0.55); }
+.bg-bright .g-hook { text-shadow: 0 4px 22px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.45); }

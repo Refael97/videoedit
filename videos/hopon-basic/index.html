@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/fonts/noto-sans-hebrew-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/fonts/noto-sans-hebrew-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 500; src: url("assets/fonts/noto-sans-hebrew-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 500; src: url("assets/fonts/noto-sans-hebrew-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #eef1f4; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: linear-gradient(180deg, #f4f6f8 0%, #dde3e9 100%); font-family: "Noto Sans Hebrew", sans-serif; }
+      .scene { position: absolute; inset: 0; opacity: 0; }
+      .scene.brand { background: linear-gradient(180deg, #2bbcf0 0%, #1AAEE5 100%); }
+      .ttl { position: absolute; left: 60px; right: 60px; top: 250px; text-align: center; direction: rtl; }
+      .ttl h1 { margin: 0; font-weight: 800; font-size: 96px; line-height: 1.15; color: #1f2329; }
+      .ttl h1 span, .ttl p { display: block; }
+      .ttl p { margin: 22px 0 0; font-weight: 500; font-size: 44px; line-height: 1.35; color: #5a6270; }
+      .shot { position: absolute; left: 50%; top: 640px; width: 400px; margin-left: -200px; border-radius: 36px; overflow: hidden; background: #fff; border: 6px solid #fff; box-shadow: 0 8px 20px rgba(0,0,0,.18); }
+      .shot img { display: block; width: 100%; }
+      .brand .icon { position: absolute; left: 50%; top: 520px; width: 440px; height: 440px; margin-left: -220px; border-radius: 96px; box-shadow: 0 8px 20px rgba(0,0,0,.18); }
+      .brand .ttl { top: 1060px; }
+      .brand .ttl h1 { font-size: 120px; color: #0d2a3a; }
+      .brand .ttl p { color: #0d2a3a; font-size: 52px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20.4" data-width="1080" data-height="1920">
+      <!-- 1: 0–3 opener -->
+      <div class="scene brand" id="s1">
+        <img class="icon" src="assets/icon.png" alt="" />
+        <div class="ttl"><h1><span class="ln" data-at="1.95">הופאון רב&#8209;פס</span></h1><p class="ln" data-at="2.25">משלמים על הנסיעה מהטלפון</p></div>
+      </div>
+      <!-- 2: 3–6.4 map -->
+      <div class="scene" id="s2">
+        <div class="ttl"><h1><span class="ln" data-at="3.8">מתכננים מסלול.</span></h1><p class="ln" data-at="4.55">מנקודה לנקודה, עם זמני הגעה בזמן אמת</p></div>
+        <div class="shot"><img src="assets/screens/02-map.png" alt="" /></div>
+      </div>
+      <!-- 3: 6.4–9.8 modes -->
+      <div class="scene" id="s3">
+        <div class="ttl"><h1><span class="ln" data-at="6.8">אוטובוס. רכבת.</span><span class="ln" data-at="7.8">רכבת קלה.</span></h1><p class="ln" data-at="8.1">איך אתם נוסעים היום?</p></div>
+        <div class="shot"><img src="assets/screens/03-pay-menu.png" alt="" /></div>
+      </div>
+      <!-- 4: 9.8–12.6 price -->
+      <div class="scene" id="s4">
+        <div class="ttl"><h1><span class="ln" data-at="10.8">רואים את המחיר.</span><span class="ln" data-at="11.8">משלמים בלחיצה.</span></h1></div>
+        <div class="shot"><img src="assets/screens/06-pay-station.png" alt="" /></div>
+      </div>
+      <!-- 5: 12.6–16.4 ticket -->
+      <div class="scene" id="s5">
+        <div class="ttl"><h1><span class="ln" data-at="13.5">סורקים. נוסעים.</span></h1><p class="ln" data-at="14.4">כרטיס נסיעה דיגיטלי לביקורת</p></div>
+        <div class="shot"><img src="assets/screens/10-ticket.png" alt="" /></div>
+      </div>
+      <!-- 6: 16.4–20.4 closer -->
+      <div class="scene brand" id="s6">
+        <img class="icon" src="assets/icon.png" alt="" />
+        <div class="ttl"><h1><span class="ln" data-at="17.45">הופאון רב&#8209;פס</span></h1><p class="ln" data-at="17.85">פשוט נוסעים.</p></div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const scenes = [["#s1", 0, 3], ["#s2", 3, 6.4], ["#s3", 6.4, 9.8], ["#s4", 9.8, 12.6], ["#s5", 12.6, 16.4], ["#s6", 16.4, 20.4]];
+      gsap.set(".ln", { opacity: 0, y: 40 });
+      scenes.forEach(([id, a, b], i) => {
+        const el = document.querySelector(id);
+        // plain cuts, except a basic crossfade into the closer
+        if (i === 5) tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, a);
+        else tl.set(el, { opacity: 1 }, a);
+        if (i < 4) tl.set(el, { opacity: 0 }, b);
+        else if (i === 4) tl.set(el, { opacity: 0 }, b + 0.4);
+        const shot = el.querySelector(".shot");
+        if (shot) {
+          tl.fromTo(shot, { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power1.out" }, a);
+          tl.fromTo(shot, { scale: 1 }, { scale: 1.06, duration: b - a, ease: "none" }, a);
+        }
+        const icon = el.querySelector(".icon");
+        if (icon) tl.fromTo(icon, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, a + 0.3);
+        el.querySelectorAll(".ln").forEach((ln) => {
+          tl.to(ln, { opacity: 1, y: 0, duration: 0.4, ease: "power1.out" }, parseFloat(ln.dataset.at));
+        });
+      });
+      tl.set({}, {}, 20.4);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

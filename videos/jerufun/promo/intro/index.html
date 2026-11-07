@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/noto-sans-hebrew-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/noto-sans-hebrew-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF; }
+      :root { --ink: #0f3a52; }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #f9fcfd; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #f9fcfd; font-family: "Noto Sans Hebrew"; }
+      /* the film's white world with its drifting colour */
+      .blob { position: absolute; width: 900px; height: 900px; border-radius: 50%; filter: blur(110px); }
+      /* the film's first frame: the brand sky */
+      #sky { position: absolute; inset: 0; z-index: 5; opacity: 0; background: linear-gradient(180deg, #3f9fcb 0%, #5bb6d6 55%, #86d2e0 85%, #b3d1e0 100%); }
+      .ln { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; white-space: nowrap; z-index: 3;
+        font: 800 96px/1.1 "Noto Sans Hebrew"; color: var(--ink); letter-spacing: -2px; }
+      .ln span { display: inline-block; opacity: 0; }
+      #slam { position: absolute; left: 0; right: 0; top: 760px; text-align: center; direction: rtl; white-space: nowrap; z-index: 6;
+        font: 800 250px/1.1 "Noto Sans Hebrew"; color: #fff; letter-spacing: -6px; text-shadow: 0 10px 30px rgba(15, 58, 82, 0.35); }
+      #slam span { display: inline-block; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3.45" data-width="1080" data-height="1920">
+      <div class="blob" id="b1" style="left:-300px;top:-200px;background:rgba(139,108,255,0.55)"></div>
+      <div class="blob" id="b2" style="left:520px;top:300px;background:rgba(0,170,206,0.5)"></div>
+      <div class="blob" id="b3" style="left:-250px;top:1100px;background:rgba(255,111,177,0.45)"></div>
+      <div class="blob" id="b4" style="left:480px;top:1400px;background:rgba(243,154,43,0.40)"></div>
+      <div class="ln" style="top: 640px"><span>חושבים</span> <span>שאתם</span> <span>יודעים</span></div>
+      <div class="ln" style="top: 780px"><span>לערוך</span> <span>סרטונים</span></div>
+      <div class="ln" style="top: 920px"><span>עם</span> <span>קלוד?</span></div>
+      <div id="sky"></div>
+      <div id="slam"><span>אתם</span> <span>לא!</span></div>
+    </div>
+    <script>
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        // each word lands on its word in the voice-over
+        const starts = [0.08, 0.44, 0.70, 0.96, 1.28, 1.70, 1.90];
+        gsap.utils.toArray(".ln span").forEach((el, i) => {
+          tl.fromTo(el, { opacity: 0, y: 50, scale: 0.8, filter: "blur(10px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.24, ease: "back.out(2.2)" }, starts[i] - 0.03);
+        });
+        [["#b1", 220, 300], ["#b2", -260, 200], ["#b3", 300, -260], ["#b4", -240, -220]].forEach(([el, dx, dy]) => tl.to(el, { x: dx, y: dy, duration: 3.45, ease: "sine.inOut" }, 0));
+        // the question blows apart, the sky cuts in, and the answer slams, word by word
+        tl.to(".ln", { scale: 1.5, opacity: 0, filter: "blur(14px)", duration: 0.16, ease: "power2.in", stagger: 0.02 }, 2.5);
+        tl.set("#sky", { opacity: 1 }, 2.6);
+        const sl = gsap.utils.toArray("#slam span");
+        tl.fromTo(sl[0], { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.14, ease: "power4.out" }, 2.6);
+        tl.fromTo(sl[1], { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.14, ease: "power4.out" }, 3.0);
+        [2.62, 3.02].forEach((t) => tl.to("#root", { x: 12, y: -8, duration: 0.04, yoyo: true, repeat: 3, ease: "none" }, t + 0.1));
+        tl.to("#slam", { opacity: 0, scale: 1.15, filter: "blur(14px)", duration: 0.16, ease: "power2.in" }, 3.28);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

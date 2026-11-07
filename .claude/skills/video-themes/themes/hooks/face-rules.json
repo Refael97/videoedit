@@ -1,0 +1,40 @@
+{
+ "theme": "hooks",
+ "samples": 245,
+ "full_face": {
+  "samples": 199,
+  "chin_y": 957,
+  "face_h": 426,
+  "center_x": 560,
+  "caption": {
+   "at": "chin",
+   "dy": 0.61,
+   "iqr": [
+    0.44,
+    0.78
+   ],
+   "n": 185
+  }
+ },
+ "low_face": {
+  "samples": 20,
+  "chin_y": 1334,
+  "face_h": 183,
+  "center_x": 545,
+  "caption": {
+   "at": "chin",
+   "dy": -2.87,
+   "iqr": [
+    -4.32,
+    -2.06
+   ],
+   "n": 16
+  }
+ },
+ "card_beside_face": {
+  "at": "eyes",
+  "side": "free",
+  "gap": 0.4
+ },
+ "safe_core": "eyes to mouth (x 18-82%, y 22-92% of the face box) is never covered"
+}

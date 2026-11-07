@@ -1,0 +1,20 @@
+/* paper → signature effects (effects/fx.css reads these). Mapped from this theme's own tokens; no new colors. */
+:root {
+  --fx-accent: var(--p-orange);
+  --fx-ink: var(--p-ink);
+  --fx-display: var(--p-font);
+  --fx-display-weight: 800;
+  --fx-body: var(--p-font);
+  --fx-card-bg: var(--p-card);
+  --fx-card-ink: var(--p-ink);
+  --fx-card-ink-soft: var(--p-ink-soft);
+  --fx-card-edge: 1px solid var(--p-card-edge);
+  --fx-card-r: var(--p-r-card);
+  --fx-card-shadow: var(--p-card-shadow);
+  --fx-card-blur: none;
+  --fx-word: var(--p-paper-light);
+  --fx-word-stroke: 6px var(--p-ink);
+  --fx-word-glow: none;
+  --fx-glow: none;
+  --fx-bar-muted: var(--p-paper);
+}

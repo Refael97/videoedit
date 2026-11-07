@@ -1,0 +1,12 @@
+0.2 swish 0.3
+0.4 pop
+0.75 tick 0.25
+5.5 whoosh 0.25
+5.5 pop
+5.85 pop
+6.2 pop
+6.55 pop
+12.9 swish 0.3
+13.4 tick 0.25
+18.5 tick 0.25
+19.42 pop
