@@ -1,12 +1,13 @@
-# fable-spec: spec ad for the launch of Claude Fable 5.2
+# fable-spec: launch film for Claude Fable 5.2 (v2, story)
 
-- **Format:** 16:9, 1920×1080, 60fps (like Yellow / Bit / El Al). About 26 s with the opener and the credit.
-- **Look:** warm black `#141413`, paper cards `#f5f2ea`, ONE accent: clay `#d97757`. The line is a crisp clay tube with a restrained halo.
-- **Type:** Heebo Black (chosen over Rubik, Noto Sans Hebrew, Secular One, Suez One, Frank Ruhl, Karantina on the real hook). Labels in JetBrains Mono caps. Serif (Frank Ruhl) only inside the Claude window.
-- **Grid:** fixed top bar on the lens: `CLAUDE FABLE 5.2 — LAUNCH`, a hairline, and the step counter `01 / 06 — THE MODEL`.
-- **Voice:** Itamar (`l7Q9rbdCC6j3J5dNlOOg`, eleven_v4), take A + deepening chain. Word times in `data/words.json`.
-- **Music:** `assets/music.mp3` is the El Al track (122 BPM) as a placeholder until the user picks one.
-- **Spec ad:** the user's own work, not an official Anthropic ad. The spark mark is drawn in code (not the official logo file) and the Claude window is rebuilt in HTML (no screen recordings were supplied).
+- **Format:** 9:16 story, 1080×1920, 60fps, 23.2 s. Type and grid stay inside the story safe area (top 250 px, bottom 300 px free).
+- **Look (v2, after the user's notes "story format, light, premium, clean"):** one pale studio in Three.js. Black lacquer, white ceramic and chrome objects, ONE clay accent. Softbox reflections come from an env map given only to the glossy materials; the floor is lit by a key light with a soft VSM shadow.
+- **Structure:** six stations in one 3D space, alternating left and right of a clay line that slaloms into the depth of the studio. The camera moves between them with expo.inOut and ends on a pull-back that reveals the whole route, then a paper end card.
+- **Type:** Heebo Black headlines (DOM overlay, each word on its spoken time), JetBrains Mono eyebrows and counters, hairline + corner brackets.
+- **Files:** `index.html` (overlay, audio, type timeline), `js/film.js` (the 3D film as a pure function of time), `shots.cjs` (stills for the verify loop). The dark 16:9 first pass is kept in `reference/dark-v1.html`.
+- **Voice:** Itamar (`l7Q9rbdCC6j3J5dNlOOg`, eleven_v4), take A + deepening chain. Word times in `data/words.json`. The narration starts at 0.8 s.
+- **Music:** the El Al track (122 BPM), cut to length with a fade. A placeholder until the user picks one.
+- **Spec ad:** the user's own work, not an official Anthropic ad. The mark is modelled in code (not the official logo file) and the Claude window is drawn in code (no screen recordings were supplied).
 
 ## Narration (take A, 19.3 s)
 > חיכיתם למודל הבא? הוא כאן.
@@ -28,14 +29,13 @@
 | "מהיר עד 30%" | "up to 30% faster than Claude Fable 5.1" | ✅ keep "עד" |
 | "במחיר נמוך יותר" | $8 / $40 per million tokens, down from $10 / $50 | ✅ |
 
-## Beats (one panel per sentence; times on the narration clock)
-| # | Sentence | On screen | Pops out / framed | Status |
-|---|---|---|---|---|
-| open | (1 s) | the spark mark pops and spins out | – | built |
-| 0 | חיכיתם למודל הבא? הוא כאן. | hook, each word on its spoken time; the line runs low | – | built |
-| 1 | Fable 5.2. המודל הכי חזק של Claude שפתוח לכולם. | Claude window with the model list; the line loops it | the Fable 5.2 row pops out, framed and tapped; the pill switches Opus → Fable; plan chips pop | built |
-| 2 | הוא כותב קוד ברמה חדשה, | code card typing itself + FrontierCode 2.0 bar counting to 49.1% | the bar card framed | to build |
-| 3 | מנהל יותר מאלף סוכנים במקביל, | the spark in the centre, rays out to a field of 1,000 dots lighting in a wave; counter to 1,000+ | rays (branching beat) | to build |
-| 4 | ועובד על משימה אחת ימים שלמים. | the line itself becomes a timeline: day 1 … day 8 markers pop along it | – | to build |
-| 5 | מהיר עד שלושים אחוז, ובמחיר נמוך יותר. | speed card "עד 30%" + price card rolling $10 → $8 and $50 → $40; the line splits around the card | digits roll | to build |
-| 6 | בקיצור, העתיד כבר כאן. Fable 5.2. | closing line; the line stops in the centre | clay bloom → mark + "Claude Fable 5.2" → credit | to build |
+## Stations (times on the narration clock)
+| # | Sentence | Object | What moves |
+|---|---|---|---|
+| 0 | חיכיתם למודל הבא? הוא כאן. | the clay mark | drops and settles; pulses on "הוא כאן"; the line starts from it |
+| 1 | Fable 5.2. המודל הכי חזק של Claude שפתוח לכולם. | lacquer slab with the model list | turns to the lens; the Fable 5.2 row lifts off the screen; the selection lands |
+| 2 | הוא כותב קוד ברמה חדשה, | three bars, to scale from zero: GPT-6 Astra 42.8, Opus 5.5 45.5, Fable 5.2 49.1 (FrontierCode 2.0) | bars grow, values ride their tops |
+| 3 | מנהל יותר מאלף סוכנים במקביל, | one clay sphere and 1,000 lacquer spheres in a sunflower disc | spheres pop outward in a wave; the headline counts to 1,000 |
+| 4 | ועובד על משימה אחת ימים שלמים. | eight slabs numbered 01–08 | a slab rises per day while the key light swings like a sun |
+| 5 | מהיר עד שלושים אחוז, ובמחיר נמוך יותר. | two beads on two tracks; ten chrome coins | 5.2 runs 30% further in the same time; ten coins become eight |
+| 6 | בקיצור, העתיד כבר כאן. Fable 5.2. | the whole route | pull-back reveal, then the paper end card and the credit |
