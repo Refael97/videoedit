@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/kit/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/kit/kit.css" />
+    <style>
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("assets/fonts/heebo-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("assets/fonts/heebo-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2212; }
+      @font-face { font-family: "Heebo"; font-weight: 700; src: url("assets/fonts/heebo-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 700; src: url("assets/fonts/heebo-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2212; }
+      @font-face { font-family: "Heebo"; font-weight: 900; src: url("assets/fonts/heebo-hebrew-900-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 900; src: url("assets/fonts/heebo-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+2212; }
+      @font-face { font-family: "Mono"; font-weight: 500; src: url("assets/fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Mono"; font-weight: 700; src: url("assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+
+      /* one art direction for the whole film: warm black, paper cards, ONE clay accent */
+      :root { --c: #d97757; --tube: #e8835f; --ink: #f4f1ea; --muted: #8f897c; --g: #141413; --paper: #f5f2ea; --line: #e4dfd3; --dark: #1f1e1c; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: var(--g); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--g); font-family: "Heebo", "Assistant", sans-serif; color: var(--ink); direction: rtl; }
+      #halo { position: absolute; inset: 0; background: radial-gradient(ellipse 55% 60% at 50% 52%, rgba(217, 119, 87, 0.13) 0, rgba(190, 100, 70, 0.05) 45%, rgba(0, 0, 0, 0) 74%); }
+      #grain { position: absolute; inset: 0; opacity: 0.05; background-image: radial-gradient(rgba(255, 255, 255, 0.9) 0.6px, transparent 0.7px); background-size: 5px 5px; }
+      #cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 50% 50%; }
+      #world { position: absolute; left: 0; top: 0; width: 13440px; height: 1080px; }
+      .pn { position: absolute; top: 0; width: 1920px; height: 1080px; perspective: 2000px; z-index: 2; }
+      .aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+      .ltr { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+
+      /* the line: a crisp clay tube with a restrained halo and a warm core (no white-out glow) */
+      #trail { position: absolute; left: 0; top: 0; width: 13440px; height: 1080px; overflow: visible; z-index: 1; pointer-events: none; }
+      #gHalo { filter: blur(14px); opacity: 0.38; }
+      #gTube { filter: drop-shadow(0 0 6px rgba(232, 131, 95, 0.75)); }
+      .sH { fill: none; stroke: #c4633f; stroke-width: 24; stroke-linecap: round; stroke-linejoin: round; }
+      .sT { fill: none; stroke: var(--tube); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+      .sC { fill: none; stroke: #fff1e6; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .head { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 3; }
+      .head b { position: absolute; left: -32px; top: -32px; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle, #fff 0, #ffe6d6 18%, rgba(232, 131, 95, 0.55) 38%, rgba(232, 131, 95, 0) 70%); }
+      .head i { position: absolute; left: -100px; top: -1.5px; width: 200px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, rgba(232, 131, 95, 0), rgba(255, 240, 228, 0.95), rgba(232, 131, 95, 0)); }
+      .nf { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; z-index: 6; pointer-events: none; }
+      .dust { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: rgba(255, 222, 200, 0.8); }
+      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.55) 100%); z-index: 20; pointer-events: none; }
+
+      /* editorial grid: fixed on the lens, never pans */
+      #hud { position: absolute; inset: 0; z-index: 16; pointer-events: none; direction: ltr; font: 500 20px "Mono", monospace; letter-spacing: 3.5px; color: #a8a295; text-transform: uppercase; }
+      #hud .l { position: absolute; left: 72px; top: 54px; }
+      #hud .l b { color: var(--c); font-weight: 700; }
+      #hud .r { position: absolute; right: 72px; top: 54px; width: 300px; height: 26px; }
+      #hud .r span { position: absolute; right: 0; top: 0; white-space: nowrap; }
+      #hud .ln { position: absolute; left: 420px; right: 420px; top: 66px; height: 1px; background: rgba(244, 241, 234, 0.12); }
+      #hud .ck { position: absolute; width: 18px; height: 18px; border: 0 solid rgba(244, 241, 234, 0.3); }
+      #hud .c1 { left: 36px; top: 36px; border-left-width: 1.5px; border-top-width: 1.5px; }
+      #hud .c2 { right: 36px; top: 36px; border-right-width: 1.5px; border-top-width: 1.5px; }
+
+      .hl { position: absolute; right: 140px; top: 300px; width: 580px; text-align: right; font-size: 96px; font-weight: 900; line-height: 1.12; }
+      .hl em { font-style: normal; color: var(--c); }
+      .hl .w { display: inline-block; }
+      .hl small { display: block; font: 500 22px "Mono", monospace; letter-spacing: 4px; color: var(--muted); direction: ltr; text-align: right; margin-bottom: 14px; }
+      #t0 { position: absolute; left: 0; right: 0; top: 330px; text-align: center; font-size: 168px; font-weight: 900; line-height: 1.14; }
+      #t0 em { font-style: normal; color: var(--c); }
+      #t0 .w { display: inline-block; }
+
+      /* P1: the Claude window, rebuilt as a paper card */
+      .win { zoom: 1.12; position: absolute; left: 134px; top: 134px; width: 520px; height: 700px; border-radius: 36px; background: var(--paper); color: var(--dark); overflow: hidden; box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.1), 0 40px 100px rgba(0, 0, 0, 0.7); transform-style: preserve-3d; }
+      .wbar { height: 62px; display: flex; align-items: center; gap: 9px; padding: 0 24px; border-bottom: 1.5px solid var(--line); direction: ltr; font: 500 19px "Mono", monospace; letter-spacing: 1px; color: #8a8578; }
+      .wbar i { width: 13px; height: 13px; border-radius: 50%; background: #d9d3c5; }
+      .wbar span { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+      .wbar svg { width: 22px; height: 22px; }
+      .wq { position: absolute; top: 96px; left: 0; right: 0; text-align: center; font: 700 50px "Serif", serif; color: #2b2925; }
+      .wcomp { position: absolute; left: 30px; top: 196px; width: 460px; height: 124px; border-radius: 26px; background: #fff; border: 1.5px solid var(--line); box-sizing: border-box; }
+      .wcomp > span { position: absolute; right: 26px; top: 20px; font-size: 26px; font-weight: 500; color: #a39e92; }
+      .wpill { position: absolute; left: 16px; bottom: 14px; width: 176px; height: 44px; border-radius: 14px; background: #f0ebe0; overflow: hidden; direction: ltr; }
+      .wpill div { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 21px; font-weight: 700; color: #3a3833; }
+      .wpill svg { width: 18px; height: 18px; }
+      .wlist { position: absolute; left: 30px; top: 338px; width: 460px; border-radius: 26px; background: #fff; border: 1.5px solid var(--line); padding: 10px; box-sizing: border-box; box-shadow: 0 18px 40px rgba(60, 40, 20, 0.14); }
+      .wrow { height: 72px; margin-bottom: 4px; border-radius: 18px; display: flex; align-items: center; gap: 14px; padding: 0 18px; box-sizing: border-box; direction: ltr; font-size: 30px; font-weight: 700; color: #2b2925; }
+      .wrow:last-child { margin-bottom: 0; }
+      .wrow svg.sp { width: 30px; height: 30px; flex: none; }
+      .wrow .dot { width: 30px; height: 30px; flex: none; display: flex; align-items: center; justify-content: center; }
+      .wrow .dot::after { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #cfc8b8; }
+      .wrow u { text-decoration: none; font: 700 16px "Mono", monospace; letter-spacing: 1.5px; color: #fff; background: var(--c); padding: 4px 9px; border-radius: 8px; }
+      .wrow .ck { margin-left: auto; width: 30px; height: 30px; }
+      #rFable { position: relative; }
+      #rFable .bg { position: absolute; inset: 0; border-radius: 18px; background: #f6e7dc; z-index: -1; }
+      .wlist { isolation: isolate; }
+
+      .pop { position: absolute; filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.6)); }
+      #popRow { left: 800px; top: 392px; width: 400px; height: 88px; border-radius: 26px; background: var(--paper); }
+      #popRow .wrow { height: 88px; margin: 0; font-size: 37px; gap: 16px; padding: 0 22px; }
+      #popRow svg.sp { width: 36px; height: 36px; }
+      #popRow u { font-size: 19px; }
+      #chips { position: absolute; left: 800px; top: 536px; width: 420px; display: flex; flex-wrap: wrap; gap: 14px 12px; direction: ltr; }
+      .tap { position: absolute; width: 80px; height: 80px; margin: -40px 0 0 -40px; border-radius: 50%; border: 5px solid var(--c); background: rgba(217, 119, 87, 0.22); z-index: 7; }
+      .chip { height: 62px; padding: 0 26px; border-radius: 31px; box-sizing: border-box; display: flex; align-items: center; direction: ltr; font: 700 29px "Heebo", sans-serif; color: var(--ink); background: rgba(244, 241, 234, 0.07); border: 1.5px solid rgba(244, 241, 234, 0.28); }
+
+      #intro { position: absolute; inset: 0; z-index: 40; background: radial-gradient(ellipse 55% 60% at 50% 52%, rgba(217, 119, 87, 0.13) 0, rgba(190, 100, 70, 0.05) 45%, rgba(0, 0, 0, 0) 74%), var(--g); }
+      #ilogo { position: absolute; left: 810px; top: 390px; width: 300px; height: 300px; }
+      #ilogo svg { width: 300px; height: 300px; display: block; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="7.9" data-width="1920" data-height="1080">
+      <div id="halo"></div>
+      <div id="grain"></div>
+      <div id="cam">
+        <div id="world">
+          <svg id="trail" viewBox="0 0 13440 1080"><g id="gHalo"></g><g id="gTube"></g><g id="gCore"></g></svg>
+
+          <div class="pn" id="P0"><div id="t0"><span class="w">חיכיתם</span> <span class="w">למודל</span> <span class="w">הבא?</span><br /><em class="w">הוא</em> <em class="w">כאן.</em></div></div>
+
+          <div class="pn" id="P1">
+            <div class="win aa" id="w1">
+              <div class="wbar"><i></i><i></i><i></i><span><svg class="spark" viewBox="-50 -50 100 100"></svg>Claude</span></div>
+              <div class="wq">מה בונים היום?</div>
+              <div class="wcomp"><span>כתבו כאן…</span>
+                <div class="wpill"><div id="pillOld">Opus 5.5 <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="#3a3833" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg></div><div id="pillNew">Fable 5.2 <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="#3a3833" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>
+              </div>
+              <div class="wlist">
+                <div class="wrow" id="rFable"><div class="bg" id="rBg"></div><svg class="sp spark" viewBox="-50 -50 100 100"></svg>Fable 5.2<u>NEW</u><svg class="ck" id="rCk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#d97757" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+                <div class="wrow"><div class="dot"></div>Opus 5.5</div>
+                <div class="wrow"><div class="dot"></div>Sonnet 5.5</div>
+                <div class="wrow"><div class="dot"></div>Haiku 5.5</div>
+              </div>
+            </div>
+            <div class="hl" id="h1"><small>NEW MODEL · 09.11.2026</small><span class="ltr" style="font-size: 132px">Fable <em>5.2</em></span></div>
+            <div class="hl" id="h2">המודל<br />הכי <em>חזק</em><br />של <span class="ltr">Claude</span></div>
+            <div class="hl" id="h3"><em>פתוח</em><br />לכולם.</div>
+            <div class="pop aa" id="popRow"><div class="wrow"><svg class="sp spark" viewBox="-50 -50 100 100"></svg>Fable 5.2<u>NEW</u></div></div>
+            <div class="tap" id="tap1" style="left: 1000px; top: 436px"></div>
+            <div id="chips"></div>
+          </div>
+
+          <div class="pn" id="P2"></div>
+          <div class="pn" id="P3"></div>
+          <div class="pn" id="P4"></div>
+          <div class="pn" id="P5"></div>
+          <div class="pn" id="P6"></div>
+        </div>
+      </div>
+
+      <div id="dustL" style="position:absolute;inset:0;z-index:15;pointer-events:none"></div>
+      <div id="hud"><i class="ck c1"></i><i class="ck c2"></i><div class="l">Claude <b>Fable 5.2</b> — Launch</div><div class="ln"></div><div class="r" id="cnt"></div></div>
+      <div id="vig"></div>
+      <div id="intro" class="clip" data-start="0" data-duration="1" data-track-index="4"><div id="ilogo" class="aa"><svg class="spark" viewBox="-50 -50 100 100"></svg></div></div>
+
+      <audio id="vo" src="assets/vo.mp3" data-start="1" data-duration="6.9" data-track-index="10"></audio>
+      <audio id="music" src="assets/music.mp3" data-start="0" data-duration="7.9" data-track-index="11" data-volume="0.34"></audio>
+      <audio id="sx1" src="assets/pop.wav" data-start="0.12" data-duration="0.12" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sx2" src="assets/whoosh.wav" data-start="0.72" data-duration="0.7" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="sx3" src="assets/whoosh.wav" data-start="3.08" data-duration="0.7" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sx4" src="assets/pop.wav" data-start="5.3" data-duration="0.12" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="sx5" src="assets/pop.wav" data-start="6.5" data-duration="0.12" data-track-index="14" data-volume="0.3"></audio>
+      <audio id="sx6" src="assets/pop.wav" data-start="6.7" data-duration="0.12" data-track-index="16" data-volume="0.3"></audio>
+      <audio id="sx7" src="assets/pop.wav" data-start="6.9" data-duration="0.12" data-track-index="14" data-volume="0.3"></audio>
+      <audio id="sx8" src="assets/whoosh.wav" data-start="7.7" data-duration="0.2" data-track-index="13" data-volume="0.45"></audio>
+    </div>
+
+    <script>
+      // the film runs on `tl`, whose clock is the narration's (tl 0 = VO 0); `master` adds the 1s opener in front
+      const tl = gsap.timeline();
+      const IR = { immediateRender: false };
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const ft = (sel, from, to, at) => { tl.set(sel, from, 0); tl.fromTo(sel, from, { ...to, ...IR }, at); };
+      const N = 7, PW = 1920;
+      const X = (p, x) => (N - 1 - p) * PW + x; // panel-local x -> world x (panels run right-to-left)
+      $$(".pn").forEach((el, i) => { el.style.left = X(i, 0) + "px"; });
+      let seed = 7;
+      const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      // the mark: an irregular hand-cut starburst, drawn here (not the official logo file)
+      const RAYS = [[0, 45], [31, 37], [58, 43], [92, 35], [119, 45], [152, 38], [178, 44], [211, 36], [240, 45], [268, 37], [301, 43], [329, 36]];
+      $$("svg.spark").forEach((s) => {
+        s.innerHTML = RAYS.map(([a, r]) => { const t = (a * Math.PI) / 180; return '<line x1="' + (9 * Math.cos(t)).toFixed(2) + '" y1="' + (9 * Math.sin(t)).toFixed(2) + '" x2="' + (r * Math.cos(t)).toFixed(2) + '" y2="' + (r * Math.sin(t)).toFixed(2) + '" stroke="#d97757" stroke-width="8.5" stroke-linecap="round" />'; }).join("");
+      });
+
+      // ---------- camera ----------
+      const camAt = (p) => -X(p, 0);
+      const PANS = [[1, 2.12], [2, 6.74]];
+      tl.set("#world", { x: camAt(0) }, 0);
+      PANS.forEach(([b, t]) => tl.to("#world", { x: camAt(b), duration: 0.5, ease: "power3.inOut" }, t));
+      const beats = [0, ...PANS.map((p) => p[1]), 8.6];
+      beats.slice(0, -1).forEach((a, i) => tl.fromTo("#cam", { scale: 1.0 }, { scale: 1.03, duration: beats[i + 1] - a, ease: "none", ...IR }, a));
+      tl.set("#cam", { scale: 1 }, 0);
+      // step counter in the grid
+      ["00 / 06 — HOOK", "01 / 06 — THE MODEL", "02 / 06 — CODE"].forEach((t, i) => {
+        const s = document.createElement("span"); s.textContent = t; $("#cnt").appendChild(s);
+        tl.set(s, { opacity: i === 0 ? 1 : 0 }, 0);
+        if (i > 0) { tl.set(s, { opacity: 1 }, PANS[i - 1][1] + 0.25); tl.set($("#cnt").children[i - 1], { opacity: 0 }, PANS[i - 1][1] + 0.25); }
+      });
+
+      // ---------- the line: curves only; every spark fades where its piece stops ----------
+      const NS = "http://www.w3.org/2000/svg";
+      const P = (p, pts) => pts.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, (m, x, y) => X(p, +x) + "," + y);
+      const piece = (d, a, b, o = {}) => {
+        const mk = (g, cls) => { const q = document.createElementNS(NS, "path"); q.setAttribute("d", d); q.setAttribute("class", cls); $(g).appendChild(q); return q; };
+        const ps = [mk("#gHalo", "sH"), mk("#gTube", "sT"), mk("#gCore", "sC")], p = ps[1], L = p.getTotalLength(), dur = b - a, ease = o.ease || "sine.inOut";
+        ft(ps, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease }, a);
+        if (!o.noHead) {
+          const h = document.createElement("div"); h.className = "head"; h.innerHTML = "<b></b><i></i>"; $("#world").appendChild(h);
+          const e = gsap.parseEase(ease), n = Math.max(8, Math.round(dur * 30)), kf = [];
+          for (let i = 1; i <= n; i++) { const pt = p.getPointAtLength(L * e(i / n)), q = p.getPointAtLength(Math.min(L, L * e(i / n) + 3)); kf.push({ x: pt.x, y: pt.y, rotation: (Math.atan2(q.y - pt.y, q.x - pt.x) * 180) / Math.PI, duration: dur / n }); }
+          const p0 = p.getPointAtLength(0);
+          tl.set(h, { x: p0.x, y: p0.y, opacity: 0, scale: 1 }, 0);
+          tl.set(h, { opacity: 1 }, a);
+          tl.to(h, { keyframes: kf, ease: "none" }, a);
+          if (o.hold != null) tl.set(h, { opacity: 0 }, o.hold);
+          else if (o.chain) tl.set(h, { opacity: 0 }, b);
+          else tl.to(h, { opacity: 0, scale: 0.3, duration: 0.25, ease: "power2.in" }, b);
+        }
+        return p;
+      };
+      const frameLayers = (pn, d, a, out) => {
+        const svg = document.createElementNS(NS, "svg"); svg.setAttribute("class", "nf"); svg.setAttribute("viewBox", "0 0 1920 1080"); $(pn).appendChild(svg);
+        [["rgba(196,99,63,0.5)", 14, "blur(8px)"], ["#e8835f", 4.5, "drop-shadow(0 0 5px rgba(232,131,95,0.75))"], ["#fff1e6", 1.6, "none"]].forEach(([c, w2, f]) => {
+          const q = document.createElementNS(NS, "path"); q.setAttribute("d", d); q.setAttribute("fill", "none"); q.setAttribute("stroke", c); q.setAttribute("stroke-width", w2); q.setAttribute("stroke-linecap", "round"); q.style.filter = f; svg.appendChild(q);
+          const L = q.getTotalLength();
+          ft(q, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.inOut" }, a);
+        });
+        tl.set(svg, { opacity: 1 }, 0);
+        if (out != null) tl.to(svg, { opacity: 0, duration: 0.2 }, out);
+        return svg;
+      };
+      const rectD = (x, y, w, h, r) => "M" + (x + w / 2) + "," + (y + h) + " L" + (x + r) + "," + (y + h) + " Q" + x + "," + (y + h) + " " + x + "," + (y + h - r) + " L" + x + "," + (y + r) + " Q" + x + "," + y + " " + (x + r) + "," + y + " L" + (x + w - r) + "," + y + " Q" + (x + w) + "," + y + " " + (x + w) + "," + (y + r) + " L" + (x + w) + "," + (y + h - r) + " Q" + (x + w) + "," + (y + h) + " " + (x + w - r) + "," + (y + h) + " Z";
+      // full rounded loop around the window (drawn at 150,150, 582x784), 14px outside, starting and closing on its right edge
+      const LOOP = "M746,800 L746,190 Q746,136 692,136 L190,136 Q136,136 136,190 L136,894 Q136,948 190,948 L692,948 Q746,948 746,894 L746,800";
+
+      // P0: travels low under the hook and out to the left
+      piece(P(0, "M1990,1000 C1500,1004 700,990 0,995"), 0.0, 2.12, { ease: "sine.inOut", chain: true });
+      // P1: in low, up the window's right edge, a closed loop; later out of the bottom
+      piece(P(1, "M1920,995 C1300,1000 746,1010 746,800"), 2.12, 2.6, { ease: "sine.inOut", chain: true });
+      piece(P(1, LOOP), 2.6, 3.5, { ease: "none" });
+      frameLayers("#P1", rectD(790, 382, 420, 108, 36), 4.6, 5.46);
+      piece(P(1, "M460,948 C370,948 340,1035 220,1035 L0,1035"), 6.25, 6.82, { ease: "sine.in", chain: true });
+      tl.fromTo(".head b", { scale: 0.85 }, { scale: 1.15, duration: 0.18, yoyo: true, repeat: 120, ease: "sine.inOut", ...IR }, 0);
+
+      // ---------- dust ----------
+      const dl = $("#dustL");
+      for (let i = 0; i < 40; i++) {
+        const d = document.createElement("div"); d.className = "dust";
+        d.style.cssText = "left:" + (rnd() * 1920).toFixed(0) + "px;top:" + (rnd() * 1080).toFixed(0) + "px;opacity:" + (0.08 + rnd() * 0.26).toFixed(2) + ";transform:scale(" + (0.5 + rnd() * 1.3).toFixed(2) + ")";
+        dl.appendChild(d);
+        tl.fromTo(d, { x: 0, y: 0 }, { x: 60 + rnd() * 120, y: -30 - rnd() * 60, duration: 19.5, ease: "none", ...IR }, 0);
+      }
+      tl.set("#dustL", { opacity: 1 }, 0);
+
+      // ---------- headlines ----------
+      const words = (sel) => {
+        const el = $(sel);
+        Array.from(el.childNodes).forEach((n) => {
+          if (n.nodeType === 3) {
+            const f = document.createDocumentFragment();
+            n.textContent.split(/(\s+)/).forEach((t) => { if (!t) return; if (/^\s+$/.test(t)) { f.appendChild(document.createTextNode(" ")); return; } const sp = document.createElement("span"); sp.className = "w"; sp.textContent = t; f.appendChild(sp); });
+            n.replaceWith(f);
+          } else if (n.nodeName === "EM" || n.nodeName === "SPAN" || n.nodeName === "SMALL") n.classList.add("w");
+        });
+        return $$(sel + " > .w");
+      };
+      const headline = (sel, a, b, stg = 0.07) => {
+        const ws = words(sel);
+        ft(ws, { opacity: 0, y: 60, filter: "blur(14px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", stagger: stg }, a);
+        if (b != null) tl.to(ws, { opacity: 0, y: -36, filter: "blur(12px)", duration: 0.2, ease: "power2.in", stagger: 0.02 }, b - 0.22);
+      };
+      const cardIn = (sel, at) => {
+        ft(sel, { opacity: 0, rotationY: 28, z: -260 }, { opacity: 1, rotationY: -10, z: 0, duration: 0.9, ease: "expo.out" }, at);
+        tl.to(sel, { rotationY: -4, rotationX: 2, duration: 3.4, ease: "sine.inOut" }, at + 0.9);
+      };
+      const tap = (sel, at) => ft(sel, { scale: 0, opacity: 0 }, { keyframes: [{ scale: 1, opacity: 1, duration: 0.12 }, { scale: 1.7, opacity: 0, duration: 0.42 }] }, at);
+
+      // P0 hook: every word lands on its spoken time
+      const t0w = $$("#t0 .w");
+      [0.1, 0.5, 0.82].forEach((t, i) => ft(t0w[i], { opacity: 0, scale: 1.35, filter: "blur(22px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, t));
+      [1.44, 1.64].forEach((t, i) => ft(t0w[3 + i], { opacity: 0, scale: 1.5, filter: "blur(22px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "back.out(1.6)" }, t));
+
+      // P1 the model: Fable 5.2 is picked in the window, pops out, and the plans it is open to follow
+      cardIn("#w1", 2.2);
+      headline("#h1", 2.24, 4.0, 0.14);
+      headline("#h2", 4.0, 5.44);
+      headline("#h3", 5.44, null, 0.3);
+      tl.set(["#rBg", "#rCk"], { opacity: 0 }, 0);
+      tl.set("#pillNew", { opacity: 0, y: 30 }, 0);
+      ft("#popRow", { opacity: 0, scale: 1.232, x: -559, y: 144 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.5, ease: "back.out(1.5)" }, 4.3);
+      tap("#tap1", 4.76);
+      tl.to("#popRow", { scale: 0.94, duration: 0.07, yoyo: true, repeat: 1 }, 4.76);
+      tl.to("#rBg", { opacity: 1, duration: 0.2 }, 4.8);
+      ft("#rCk", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(3)" }, 4.82);
+      tl.to("#pillOld", { opacity: 0, y: -30, duration: 0.25, ease: "power2.in" }, 4.8);
+      tl.to("#pillNew", { opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.6)" }, 4.98);
+      ["Pro", "Max", "Ultra", "Team", "Enterprise"].forEach((t, i) => {
+        const c = document.createElement("div"); c.className = "chip aa"; c.textContent = t; $("#chips").appendChild(c);
+        ft(c, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.4)" }, 5.5 + i * 0.1);
+      });
+
+      // master: 1s opener, then the film on the narration clock
+      const master = gsap.timeline({ paused: true });
+      master.set("#ilogo", { scale: 0, opacity: 0, rotation: -40 }, 0);
+      master.to("#ilogo", { scale: 1, opacity: 1, rotation: 0, duration: 0.42, ease: "back.out(2.4)" }, 0.08);
+      master.to("#ilogo", { scale: 1.06, rotation: 8, duration: 0.25, ease: "sine.inOut" }, 0.5);
+      master.to("#ilogo", { scale: 0, opacity: 0, rotation: 40, duration: 0.22, ease: "back.in(2)" }, 0.76);
+      tl.seek(0.001, false);
+      master.add(tl, 1.0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = master;
+    </script>
+  </body>
+</html>
