@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/kit/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Fredoka"; font-weight: 700; src: url("assets/fonts/fredoka-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "Fredoka"; font-weight: 600; src: url("assets/fonts/fredoka-hebrew-600-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "Fredoka"; font-weight: 700; src: url("assets/fonts/fredoka-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Fredoka"; font-weight: 600; src: url("assets/fonts/fredoka-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      /* Cinema City palette, sampled from the site */
+      :root { --navy: #112369; --deep: #070b24; --yellow: #fdd043; --red: #ea314f; --ice: #c9e6f7; --ink: #ffffff; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: var(--deep); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: "Fredoka", sans-serif; color: var(--ink); direction: rtl;
+        background: radial-gradient(ellipse 75% 70% at 50% 36%, #1c318f 0, #0f1d5c 38%, #080d2c 72%, #04061a 100%); }
+      /* projector beam from the back of the hall: one soft light cone + slow dust */
+      #beam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; mix-blend-mode: screen; }
+      #beam .cone { position: absolute; left: 960px; top: -60px; width: 0; height: 0; }
+      #beam .cone i { position: absolute; left: -700px; top: 0; width: 1400px; height: 1000px; clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+        background: linear-gradient(180deg, rgba(220, 235, 255, 0.34) 0%, rgba(160, 190, 255, 0.12) 45%, rgba(120, 150, 255, 0) 85%); filter: blur(26px); }
+      #dust { position: absolute; inset: 0; }
+      #dust b { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: rgba(230, 240, 255, 0.85); }
+      /* the hall's seat backs in the foreground (two rows, silhouettes) */
+      .rowfg { position: absolute; left: -60px; width: 2100px; height: 190px; display: flex; gap: 18px; }
+      .rowfg span { flex: 0 0 150px; height: 190px; border-radius: 64px 64px 14px 14px; background: linear-gradient(180deg, #16205a 0, #070a22 45%, #02030c 100%); box-shadow: inset 0 4px 0 rgba(160, 190, 255, 0.22), 0 -6px 30px rgba(0, 0, 0, 0.35); }
+      #rowA { bottom: -110px; left: -140px; } #rowB { bottom: -64px; left: -54px; height: 150px; } #rowB span { flex-basis: 120px; height: 150px; border-radius: 52px 52px 12px 12px; } #rowB span { background: linear-gradient(180deg, #0a1036 0, #02030c 70%); }
+      #grain { position: absolute; inset: 0; opacity: 0.06; background-image: radial-gradient(rgba(255, 255, 255, 0.9) 0.6px, transparent 0.7px); background-size: 4px 4px; pointer-events: none; }
+      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 8, 0.55) 100%); pointer-events: none; z-index: 20; }
+
+      #cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 50% 50%; }
+      #world { position: absolute; left: 0; top: 0; width: 3840px; height: 1080px; }
+      .pn { position: absolute; top: 0; width: 1920px; height: 1080px; }
+      #strip { position: absolute; left: 0; top: 0; width: 3840px; height: 1080px; overflow: visible; z-index: 1; pointer-events: none; }
+
+      #logo { position: absolute; left: 960px; top: 470px; width: 0; height: 0; z-index: 30; }
+      #logo img { position: absolute; left: -260px; top: -211px; width: 520px; height: auto; filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.5)); }
+      .w { display: inline-block; }
+      #t0 { position: absolute; left: 0; right: 0; top: 330px; text-align: center; font-size: 190px; font-weight: 700; line-height: 1.05; z-index: 3; text-shadow: 0 20px 60px rgba(0, 0, 20, 0.5); }
+      #t0 em, .ttl em { font-style: normal; color: var(--yellow); }
+
+      /* coverflow of the real posters */
+      #flow { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; perspective: 1600px; perspective-origin: 960px 500px; z-index: 3; }
+      .post { position: absolute; left: 0; top: 0; width: 400px; height: 572px; margin: -286px 0 0 -200px; border-radius: 18px; overflow: visible; transform-style: preserve-3d; }
+      .post img { width: 100%; height: 100%; display: block; border-radius: 18px; box-shadow: 0 40px 70px rgba(0, 0, 10, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.12);
+        -webkit-box-reflect: below 10px linear-gradient(transparent 62%, rgba(255, 255, 255, 0.22)); }
+      #glow { position: absolute; left: 960px; top: 500px; width: 0; height: 0; z-index: 2; }
+      #glow i { position: absolute; left: -330px; top: -380px; width: 660px; height: 760px; border-radius: 50%; background: radial-gradient(closest-side, rgba(253, 208, 67, 0.55), rgba(253, 208, 67, 0.18) 55%, rgba(253, 208, 67, 0) 100%); filter: blur(30px); }
+      .ttl { position: absolute; left: 0; right: 0; top: 72px; text-align: center; font-size: 64px; font-weight: 700; z-index: 4; text-shadow: 0 10px 30px rgba(0, 0, 20, 0.6); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="6.2" data-width="1920" data-height="1080">
+      <div id="beam"><div class="cone"><i></i></div><div id="dust"></div></div>
+      <div id="cam">
+        <div id="world">
+          <svg id="strip" viewBox="0 0 3840 1080"><defs></defs><g id="gStrip"></g></svg>
+          <div class="pn" id="P0">
+            <div id="t0"><span class="w">מה</span> <span class="w">רואים</span> <em class="w">הערב?</em></div>
+          </div>
+          <div class="pn" id="P1">
+            <div id="glow"><i></i></div>
+            <div id="flow"></div>
+            <div class="ttl" id="n1"><span class="w">הנוקמים?</span></div>
+            <div class="ttl" id="n2"><span class="w">משחקי</span> <span class="w">הרעב?</span></div>
+            <div class="ttl" id="n3"><span class="w">או</span> <em class="w">הבדחן?</em></div>
+          </div>
+        </div>
+      </div>
+      <div class="rowfg" id="rowB"></div>
+      <div class="rowfg" id="rowA"></div>
+      <div id="logo"><img src="assets/brand/cc_logo.svg" /></div>
+      <div id="grain"></div>
+      <div id="vig"></div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const IR = { immediateRender: false };
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const ft = (sel, from, to, at) => { tl.set(sel, from, 0); tl.fromTo(sel, from, { ...to, ...IR }, at); };
+      const N = 2, PW = 1920;
+      const X = (p, x) => (N - 1 - p) * PW + x; // panels run right-to-left
+      $$(".pn").forEach((el, i) => { el.style.left = X(i, 0) + "px"; });
+      let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+
+      // ---------- the hall: seat backs + dust in the beam ----------
+      ["#rowA", "#rowB"].forEach((r) => { for (let i = 0; i < 18; i++) $(r).appendChild(document.createElement("span")); });
+      for (let i = 0; i < 70; i++) {
+        const d = document.createElement("b"); const y = 60 + rnd() * 900, spread = 120 + y * 0.62;
+        d.style.left = 960 + (rnd() * 2 - 1) * spread + "px"; d.style.top = y + "px"; d.style.opacity = 0.25 + rnd() * 0.6; d.style.transform = "scale(" + (0.5 + rnd() * 1.2) + ")";
+        $("#dust").appendChild(d);
+        tl.fromTo(d, { x: 0, y: 0 }, { x: (rnd() * 2 - 1) * 40, y: -20 - rnd() * 50, duration: 6.2, ease: "none", ...IR }, 0);
+      }
+      // projector warms up with a short flicker
+      tl.set("#beam", { opacity: 0 }, 0);
+      tl.to("#beam", { keyframes: [{ opacity: 0.7, duration: 0.06 }, { opacity: 0.15, duration: 0.07 }, { opacity: 0.9, duration: 0.06 }, { opacity: 0.4, duration: 0.08 }, { opacity: 1, duration: 0.25 }] }, 0.2);
+      tl.fromTo("#rowA", { y: 20 }, { y: 0, duration: 6.2, ease: "none", ...IR }, 0);
+      tl.fromTo("#rowB", { y: 12 }, { y: 0, duration: 6.2, ease: "none", ...IR }, 0);
+
+      // ---------- camera ----------
+      const camAt = (p) => -X(p, 0);
+      tl.set("#world", { x: camAt(0) }, 0);
+      tl.to("#world", { x: camAt(1), duration: 0.45, ease: "power3.inOut" }, 3.15);
+      tl.fromTo("#cam", { scale: 1 }, { scale: 1.035, duration: 3.1, ease: "none", ...IR }, 0.2);
+      tl.fromTo("#cam", { scale: 1 }, { scale: 1.035, duration: 2.6, ease: "none", ...IR }, 3.6);
+      tl.set("#cam", { scale: 1 }, 0);
+
+      // ---------- the film strip (the logo's own film), drawn by a mask ----------
+      const NS = "http://www.w3.org/2000/svg";
+      const P = (p, pts) => pts.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, (m, x, y) => X(p, +x) + "," + y);
+      let mk = 0;
+      const strip = (d, a, b, ease = "sine.inOut") => {
+        const id = "m" + mk++, g = document.createElementNS(NS, "g");
+        const mask = document.createElementNS(NS, "mask"); mask.setAttribute("id", id); mask.setAttribute("maskUnits", "userSpaceOnUse");
+        mask.setAttribute("x", 0); mask.setAttribute("y", 0); mask.setAttribute("width", 3840); mask.setAttribute("height", 1080);
+        const mp = document.createElementNS(NS, "path"); mp.setAttribute("d", d); mp.setAttribute("fill", "none"); mp.setAttribute("stroke", "#fff"); mp.setAttribute("stroke-width", 80); mp.setAttribute("stroke-linecap", "butt");
+        mask.appendChild(mp); $("#strip defs").appendChild(mask);
+        g.setAttribute("mask", "url(#" + id + ")");
+        // white rim, navy band, two rows of sprocket holes, navy frame lane
+        [["#e9f3ff", 62, null], ["#262959", 54, null], ["#f4f8ff", 42, "9 12"], ["#262959", 26, null]].forEach(([c, w, dash]) => {
+          const q = document.createElementNS(NS, "path"); q.setAttribute("d", d); q.setAttribute("fill", "none"); q.setAttribute("stroke", c); q.setAttribute("stroke-width", w);
+          if (dash) q.setAttribute("stroke-dasharray", dash); g.appendChild(q);
+        });
+        $("#gStrip").appendChild(g);
+        const L = mp.getTotalLength();
+        ft(mp, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: b - a, ease }, a);
+        tl.set(g, { opacity: 0 }, 0); tl.set(g, { opacity: 1 }, a);
+        return mp;
+      };
+
+      // ---------- headline words land out of a soft blur ----------
+      const words = (sel, times) => $$(sel + " .w").forEach((w, i) =>
+        ft(w, { opacity: 0, y: 40, scale: 1.14, filter: "blur(18px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, times[Math.min(i, times.length - 1)]));
+
+      // ---------- opener: the logo lights up in the beam ----------
+      ft("#logo img", { opacity: 0, scale: 0.72, filter: "blur(14px) brightness(1.6)" }, { opacity: 1, scale: 1, filter: "blur(0px) brightness(1)", duration: 0.9, ease: "expo.out" }, 0.42);
+      tl.to("#logo img", { scale: 1.04, duration: 0.6, ease: "sine.inOut" }, 1.1);
+      tl.to("#logo img", { scale: 0.3, y: -420, opacity: 0, duration: 0.5, ease: "power3.in" }, 1.62);
+
+      // ---------- P0: "מה רואים הערב?" ----------
+      words("#t0", [1.95, 2.18, 2.45]);
+      strip(P(0, "M1990,900 C1500,905 700,880 -60,890"), 1.75, 3.45, "sine.inOut");
+      tl.to("#t0", { opacity: 0, y: -30, duration: 0.25, ease: "power2.in" }, 3.05);
+
+      // ---------- P1: the posters roll past; each named movie takes the centre ----------
+      strip(P(1, "M1980,890 C1500,900 1150,985 960,990"), 3.45, 3.95, "sine.out");
+      const POSTERS = ["bank", "avengers", "hunger", "joker", "dune3", "shrek", "scrooge"];
+      const els = POSTERS.map((n) => { const d = document.createElement("div"); d.className = "post"; d.innerHTML = '<img src="assets/crops/p_' + n + '.jpg" />'; $("#flow").appendChild(d); return d; });
+      const F = { f: 0.2 };
+      const layout = () => els.forEach((el, i) => {
+        const k = i - F.f, a = Math.min(1, Math.abs(k));
+        gsap.set(el, { x: 960 - k * 360 - Math.sign(k) * a * 60, y: 500, z: -a * 260 + (1 - a) * 90, rotationY: Math.max(-1, Math.min(1, k)) * -44, opacity: Math.max(0, 1 - Math.abs(k) * 0.28), zIndex: 100 - Math.round(Math.abs(k) * 10), filter: "brightness(" + (1 - a * 0.45) + ")" });
+      });
+      layout();
+      tl.fromTo(F, { f: -2.2 }, { f: 1, duration: 0.95, ease: "power3.out", onUpdate: layout, ...IR }, 3.3);
+      tl.set(F, { f: -2.2, onComplete: layout }, 0);
+      [[1, 3.9, "#n1", [3.9]], [2, 4.6, "#n2", [4.6, 4.8]], [3, 5.3, "#n3", [5.3, 5.5]]].forEach(([idx, t, sel, tw], k, arr) => {
+        if (k > 0) tl.to(F, { f: idx, duration: 0.5, ease: "power3.inOut", onUpdate: layout }, t - 0.12);
+        words(sel, tw);
+        if (k < arr.length - 1) tl.to(sel, { opacity: 0, y: -16, duration: 0.18, ease: "power2.in" }, arr[k + 1][1] - 0.2);
+      });
+      ft("#glow i", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 3.95);
+      tl.to("#glow i", { keyframes: [{ scale: 0.92, duration: 0.18 }, { scale: 1, duration: 0.3 }] }, 4.48);
+      tl.to("#glow i", { keyframes: [{ scale: 0.92, duration: 0.18 }, { scale: 1, duration: 0.3 }] }, 5.18);
+
+      tl.seek(0.001, false);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
