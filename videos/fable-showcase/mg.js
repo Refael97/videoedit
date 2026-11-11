@@ -82,7 +82,7 @@ export function initMG({ gsap, tl, T2, DPR }) {
     #planet { position: absolute; left: 50%; top: 420px; width: 1258px; height: 1258px; margin-left: -629px; border-radius: 50%; background: radial-gradient(circle at 50% 0%, #0a2a78 0%, #041038 5%, #020820 11%, #01030c 22%, #000208 45%);
       box-shadow: 0 -1px 1.5px rgba(225,240,255,.98), 0 -2.5px 9px rgba(110,175,255,.95), 0 -8px 30px rgba(40,110,255,.75), 0 -20px 70px rgba(20,70,220,.45); }
     #lock { position: absolute; left: 0; right: 0; top: 78px; text-align: center; color: #fff; } #lock small { display: block; font-size: 21px; font-weight: 600; opacity: .85; } #lock b { display: block; font-size: 96px; font-weight: 600; letter-spacing: -3px; line-height: 1.05; }
-    .lkb { position: absolute; bottom: 44px; width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,.16); backdrop-filter: blur(10px); box-shadow: inset 0 1px 0 rgba(255,255,255,.5); }
+    .lkb { position: absolute; bottom: 44px; width: 56px; height: 56px; border-radius: 50%; background: rgba(120,140,190,.30); box-shadow: inset 0 1px 0 rgba(255,255,255,.5); } /* no backdrop-filter inside the phone: on hardware GPU it dropped the whole phone */
     /* the liquid-glass area */
     .lq { position: absolute; background: rgba(255,255,255,.20); backdrop-filter: blur(9px) saturate(1.9) brightness(1.06); color: #0b0d14;
       box-shadow: inset 0 2px 1.5px rgba(255,255,255,.95), inset 0 -2px 2px rgba(255,255,255,.4), inset 0 0 0 1.5px rgba(255,255,255,.42), inset 0 0 30px rgba(255,255,255,.22), 0 30px 60px rgba(20,50,130,.22), 0 4px 14px rgba(20,50,130,.12); }
