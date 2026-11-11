@@ -74,7 +74,6 @@ export function initMG({ gsap, tl, T2, DPR }) {
     #pc { position: absolute; left: 2090px; top: 1900px; height: 118px; padding: 0 46px; border-radius: 60px; background: #17131c; color: #fff; font-size: 62px; font-weight: 700; letter-spacing: -2px; display: flex; align-items: center; gap: 18px; } #pc i { width: 26px; height: 26px; border-radius: 50%; background: #1ed760; }
     /* the phone's screen: a lock screen over a planet's limb at dawn. The camera goes into it and VFX rises there. */
     #hzn { position: absolute; inset: 0; background: #000208; overflow: hidden; }
-    #stars { position: absolute; left: 0; top: 0; width: 362px; height: 768px; }
     #atm { position: absolute; inset: 0; background: radial-gradient(ellipse 62% 10% at 50% 55.3%, rgba(90,160,255,.95) 0%, rgba(30,95,235,.55) 34%, rgba(10,40,150,.22) 62%, rgba(0,0,0,0) 80%); }
     #flare { position: absolute; left: 50%; top: 418px; width: 0; height: 0; } #flare i { position: absolute; left: -105px; top: -13px; width: 210px; height: 26px; border-radius: 50%; background: radial-gradient(ellipse, #fff 0%, rgba(190,225,255,.9) 28%, rgba(90,160,255,0) 70%); }
     #flare b { position: absolute; left: -30px; top: -30px; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(#fff 0%, rgba(200,230,255,.85) 30%, rgba(90,160,255,0) 70%); }
@@ -136,7 +135,7 @@ export function initMG({ gsap, tl, T2, DPR }) {
       <div id="r1t"><span class="w">Fluid</span><br /><span class="w">by</span> <span class="w grad">design.</span></div>
       <div class="chip glass" id="c1" style="left:2956px;top:1706px">120 Hz</div><div class="chip glass" id="c2" style="left:3140px;top:1706px">Spring physics</div><div class="chip glass" id="c3" style="left:2956px;top:1794px">Made in code</div>
       <div id="phw" style="position:absolute;left:0;top:0;perspective:2400px;perspective-origin:2662px 1620px"><div id="ph"><div class="scr"><div id="hzn">
-        <canvas id="stars" width="2172" height="4608"></canvas><div id="atm"></div><div id="flare"><i></i><b></b></div><div id="vfx"><span>V</span><span>F</span><span>X</span></div><div id="planet"></div>
+        <div id="atm"></div><div id="flare"><i></i><b></b></div><div id="vfx"><span>V</span><span>F</span><span>X</span></div><div id="planet"></div>
         <div id="lock"><small>Wednesday, November 11</small><b>9:41</b></div><div class="lkb" style="left:38px"></div><div class="lkb" style="right:38px"></div></div>
         <div id="di"></div>
       </div></div></div>
@@ -192,8 +191,6 @@ export function initMG({ gsap, tl, T2, DPR }) {
   tl.to("#ph", { rotationY: 0, rotationX: 0, duration: 0.6, ease: "power2.inOut" }, T.push - 0.1);
   $$("#r1t .w").forEach((w, i) => ft(w, { opacity: 0, y: 60, filter: "blur(18px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, T.s3 + 0.2 + i * 0.1));
   ["#c1", "#c2", "#c3"].forEach((c, i) => ft(c, { opacity: 0, scale: 0.5, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "back.out(2)" }, T.s3 + 0.46 + i * 0.08));
-  { const sc = $("#stars").getContext("2d"); let sd = 11; const r = () => ((sd = (sd * 16807) % 2147483647) / 2147483647);
-    for (let i = 0; i < 420; i++) { const a = 0.25 + r() * 0.7, z = (0.3 + r() * 0.8) * 6; sc.fillStyle = "rgba(210,228,255," + a.toFixed(2) + ")"; sc.beginPath(); sc.arc(r() * 2172, r() * 2520, z, 0, 7); sc.fill(); } }
   $$("#abars div").forEach((d, k) => { for (let i = 0; i < 14; i++) { const b = document.createElement("i"); b.style.background = d.dataset.c; b.style.height = 12 + ((i * 37 + k * 53) % 58) + "px"; d.appendChild(b); ft(b, { scaleY: 0 }, { scaleY: 1, duration: 0.4, ease: "back.out(2)" }, T.s1 + 0.3 + k * 0.08 + i * 0.018); } });
   // dawn over the limb: the lock screen clears, the atmosphere brightens, the flare breaks, and VFX rises from behind the planet
   tl.to("#lock, .lkb, #di", { opacity: 0, duration: 0.3 }, T.push + 0.1);
