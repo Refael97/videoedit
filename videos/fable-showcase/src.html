@@ -12,9 +12,11 @@
       /* the Claude desktop composer, rebuilt from the user's own screenshots (dark theme) */
       :root { --page: #1b1b1a; --box: #30302e; --line: rgba(255, 255, 255, 0.09); --text: #ecebe8; --dim: #8f8e8a; --ph: #5b5a57; --clay: #d97757; --menu: #2a2a28; --blue: #4d8fe8; }
       html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #050505; }
-      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: "UI", sans-serif; color: var(--text); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; perspective: 1700px; perspective-origin: 960px 540px; font-family: "UI", sans-serif; color: var(--text); }
       #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
-      #page { position: absolute; inset: 0; background: var(--page); }
+      #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; will-change: transform; }
+      #page { position: absolute; left: -1920px; top: -1080px; width: 5760px; height: 3240px; background: var(--page); }
+      #dots { position: absolute; inset: 0; width: 1920px; height: 1080px; pointer-events: none; }
       #ui { position: absolute; inset: 0; }
       #greet { position: absolute; left: 0; right: 0; top: 426px; display: flex; justify-content: center; align-items: center; gap: 22px; font-family: "Greeting", serif; font-size: 66px; letter-spacing: -0.5px; }
       #greet svg { width: 68px; height: 68px; }
@@ -48,7 +50,6 @@
       .lab { height: 56px; padding: 0 38px; display: flex; align-items: center; color: var(--dim); font-weight: 400; }
       .tg { width: 76px; height: 42px; border-radius: 21px; background: #4a4a47; position: relative; } .tg i { position: absolute; left: 4px; top: 4px; width: 34px; height: 34px; border-radius: 50%; background: #f2f1ee; }
       #cursor { position: absolute; left: 0; top: 0; width: 34px; height: 34px; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)); }
-      .fly { position: absolute; font-size: 30px; white-space: pre; color: #ffe2b8; }
     </style>
     <script type="importmap">
       { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
@@ -58,6 +59,7 @@
     <div id="root" data-composition-id="main" data-start="0" data-duration="6.4" data-width="1920" data-height="1080" data-no-timeline>
       <canvas id="gl" width="1920" height="1080"></canvas>
       <audio id="voice" src="assets/vo.wav" data-start="__VO_START__" data-duration="__VO_DUR__" data-track-index="1" data-volume="1"></audio>
+      <div id="stage">
       <div id="page"></div>
       <div id="ui">
         <div id="greet"><svg viewBox="0 0 100 100" id="spark"></svg><span>Moonlit chat?</span></div>
@@ -91,7 +93,8 @@
         </div>
         <svg id="cursor" viewBox="0 0 24 24"><path d="M5 3l14 8.5-6.2 1.3L9.5 19z" fill="#fff" stroke="#111" stroke-width="1.2" stroke-linejoin="round" /></svg>
       </div>
-      <div id="flyers"></div>
+      </div>
+      <canvas id="dots" width="1920" height="1080"></canvas>
     </div>
     <script type="application/json" id="audio">__AUDIO__</script>
     <script type="module">
@@ -267,34 +270,77 @@
       chars.forEach((c, i) => tl.set(c, { display: "inline-block" }, T_TYPE + i * CH));
       tl.to("#send", { scale: 0.86, duration: 0.07, yoyo: true, repeat: 1, transformOrigin: "50% 50%" }, T_SEND);
       tl.set("#caret", { opacity: 0 }, T_FLY);
-      // the letters leave the box, and the app falls away under them
+      // the letters crumble into dots where they stand; the dots (not the letters) travel to the orb
       const root = $("#root").getBoundingClientRect();
-      chars.forEach((c, i) => {
-        const r = c.getBoundingClientRect(); if (!c.textContent.trim()) return;
-        const f = document.createElement("div"); f.className = "fly"; f.textContent = c.textContent; f.style.left = r.left - root.left + "px"; f.style.top = r.top - root.top + "px"; $("#flyers").appendChild(f);
-        const t = T_FLY + (chars.length - i) * 0.012, dx = 960 - (r.left - root.left + r.width / 2), dy = 540 - (r.top - root.top + r.height / 2), sd = i % 2 ? 1 : -1;
-        tl.set(f, { opacity: 0, color: "#ecebe8" }, 0); tl.set(f, { opacity: 1 }, t); tl.set(c, { opacity: 0 }, t);
-        tl.fromTo(f, { x: 0, y: 0, rotation: 0, scale: 1, filter: "blur(0px)" }, { keyframes: [
-          { x: dx * 0.18 + sd * 30, y: -150 - (i % 5) * 26, rotation: sd * 22, scale: 1.5, color: "#ffe2b8", duration: 0.42, ease: "power2.out" },
-          { x: dx, y: dy, rotation: sd * -120, scale: 0.12, filter: "blur(3px)", duration: 0.5, ease: "power3.in" }], ...IR }, t);
-        tl.to(f, { opacity: 0, duration: 0.14 }, t + 0.8);
-      });
-      tl.to("#ui", { opacity: 0, y: 46, scale: 0.97, filter: "blur(6px)", duration: 0.5, ease: "power2.in", transformOrigin: "50% 60%" }, T_FLY + 0.12);
-      tl.to("#page", { opacity: 0, duration: 0.7, ease: "power1.inOut" }, T_FLY + 0.2);
+      const DOTS = []; // [x, y (stage px), t0, rnd a, rnd b, rnd c]
+      { const oc = document.createElement("canvas"); oc.width = 80; oc.height = 80; const og = oc.getContext("2d", { willReadFrequently: true });
+        og.font = '400 30px UI'; og.textBaseline = "alphabetic"; const m = og.measureText("אp"), asc = m.fontBoundingBoxAscent, desc = m.fontBoundingBoxDescent, base = (40 - (asc + desc)) / 2 + asc;
+        const vis = chars.filter((c) => c.textContent.trim());
+        vis.forEach((c, n) => {
+          const r = c.getBoundingClientRect(), x0 = r.left - root.left, y0 = r.top - root.top, t0 = T_FLY + n * 0.016;
+          og.clearRect(0, 0, 80, 80); og.fillStyle = "#fff"; og.fillText(c.textContent, 20, 20 + base);
+          const px = og.getImageData(0, 0, 80, 80).data;
+          for (let y = 0; y < 80; y += 1) for (let x = 0; x < 80; x += 1) if (px[(y * 80 + x) * 4 + 3] > 110) { DOTS.push([x0 + x - 20 + 0.5, y0 + y - 20 + 0.5, t0, rnd(), rnd(), rnd()]); }
+          tl.to(c, { opacity: 0, duration: 0.1 }, t0 + 0.02);
+        }); }
+      const dctx = $("#dots").getContext("2d");
+      const ORB_R = 215;
+      function drawDots(t, C) {
+        dctx.clearRect(0, 0, W, H); if (t < T_FLY) return;
+        dctx.globalCompositeOperation = "lighter";
+        for (let i = 0; i < DOTS.length; i++) {
+          const d = DOTS[i], u = t - d[2]; if (u < 0) continue;
+          // where the glyph pixel sits on screen right now (the camera is still moving)
+          let sx = 960 + (d[0] - C.fx) * C.s, sy = 540 + (d[1] - C.fy) * C.s;
+          const crumble = clamp(u / 0.3), go = clamp((u - 0.16 - d[3] * 0.22) / 1.05), e = go * go * (3 - 2 * go);
+          if (go >= 1) continue;
+          // crumble: the letter loosens and drifts up a little
+          sx += (d[4] - 0.5) * 26 * crumble * C.s * 0.6; sy += ((d[5] - 0.5) * 22 - 14 * crumble) * crumble * C.s * 0.6;
+          // target: a point on the orb's silhouette disc, with a swirl on the way in
+          const ang = d[3] * 6.2832 + d[4] * 3.0, rr = ORB_R * Math.sqrt(0.25 + 0.75 * d[5]);
+          const tx = 960 + Math.cos(ang) * rr, ty = 540 + Math.sin(ang) * rr * 0.94;
+          const sw = Math.sin(e * Math.PI) * (140 + 220 * d[4]), sa = ang + 1.9 + e * 2.4;
+          const x = sx + (tx - sx) * e + Math.cos(sa) * sw, y = sy + (ty - sy) * e + Math.sin(sa) * sw * 0.8 - Math.sin(e * Math.PI) * 120;
+          const a = lerp(0.95, 0.8, crumble) * (1 - clamp((go - 0.8) / 0.2)), sz = lerp(C.s * 1.06, 1.6 + 1.3 * d[5], clamp(crumble * 0.6 + e));
+          dctx.fillStyle = "rgba(" + (255) + "," + Math.round(236 - 60 * e) + "," + Math.round(214 - 120 * e) + "," + a.toFixed(3) + ")";
+          dctx.fillRect(x - sz / 2, y - sz / 2, sz, sz);
+        }
+        dctx.globalCompositeOperation = "source-over";
+      }
+      tl.to("#ui", { opacity: 0, y: 60, filter: "blur(6px)", duration: 0.55, ease: "power2.in" }, T_FLY + 0.3);
+      tl.to("#page", { opacity: 0, duration: 0.75, ease: "power1.inOut" }, T_FLY + 0.35);
       tl.set({}, {}, DUR);
 
-      const T_ORB = T_FLY + 0.55;
+      const T_ORB = T_FLY + 0.5;
+      // ---------- the camera over the app: wide -> the model label -> up the menu -> in from the right on the typing -> back with the dots ----------
+      const inOutCubic = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+      const KEYS = [ // t, focus x, focus y (stage px), scale, rotateY, rotateX
+        [0.0, 960, 560, 1.0, 0, 0], [0.35, 960, 560, 1.03, 0, 0],
+        [T_OPEN, 1330, 720, 1.5, -7, 2], [T_PICK - 0.05, 1240, 300, 1.42, -9, 5], [T_CLOSE, 1250, 330, 1.45, -8, 4],
+        [T_TYPE + 0.08, 1500, 610, 2.15, -15, 2], [T_SEND - 0.25, 1255, 606, 2.05, -6, 1], [T_SEND + 0.05, 1240, 604, 2.12, 0, 0],
+        [T_FLY + 0.22, 1235, 590, 2.0, 0, 0], [T_FLY + 1.25, 960, 540, 1.0, 0, 0], [DUR, 960, 540, 1.0, 0, 0]];
+      function camAt(t) {
+        let i = 0; while (i < KEYS.length - 2 && t > KEYS[i + 1][0]) i++;
+        const A = KEYS[i], B = KEYS[i + 1], k = inOutCubic(seg(t, A[0], B[0])), L = (j) => lerp(A[j], B[j], k);
+        // a breath of handheld drift so the frame is never frozen
+        const live = 1 - seg(t, T_FLY, T_FLY + 0.6);
+        return { fx: L(1) + Math.sin(t * 1.7) * 5 * live, fy: L(2) + Math.cos(t * 1.3) * 4 * live, s: L(3), ry: L(4), rx: L(5) };
+      }
+      const stage = $("#stage");
       function renderAt(t) {
         t = clamp(t, 0, DUR - 1e-4);
         tl.seek(t, false);
+        const C = camAt(t);
+        stage.style.transform = "translate(960px,540px) rotateY(" + C.ry.toFixed(3) + "deg) rotateX(" + C.rx.toFixed(3) + "deg) scale(" + C.s.toFixed(4) + ") translate(" + (-C.fx).toFixed(2) + "px," + (-C.fy).toFixed(2) + "px)";
+        drawDots(t, C);
         const u = mat.uniforms, lvl = band("lvl", t);
         u.uTime.value = t; u.uLow.value = band("low", t); u.uMid.value = band("mid", t); u.uHigh.value = band("high", t); u.uLvl.value = lvl;
         u.uWake.value = outCubic(seg(t, T_ORB, T_ORB + 0.7));
         u.uForm.value = outExpo(seg(t, T_ORB, T_ORB + 1.25));
         u.uR.value = 1.5 * (0.9 + 0.1 * outCubic(seg(t, T_ORB, T_ORB + 1.4)));
         orb.rotation.y = t * 0.22 + lvl * 0.08;
-        const k = inOutSine(seg(t, T_ORB, DUR));
-        camera.position.set(Math.sin(lerp(-0.22, 0.16, k)) * 6.6, lerp(0.3, -0.05, k), Math.cos(lerp(-0.22, 0.16, k)) * lerp(7.4, 6.3, k));
+        const k = inOutSine(seg(t, T_ORB, DUR)), punch = lvl * 0.5 + outCubic(seg(t, 4.95, 5.25)) * 0.45, ang = lerp(0.55, -0.2, k), dist = lerp(8.8, 6.6, outCubic(seg(t, T_ORB, T_ORB + 1.5))) - punch;
+        camera.position.set(Math.sin(ang) * dist, lerp(0.75, -0.1, k), Math.cos(ang) * dist);
         camera.lookAt(0, 0, 0);
         u.uFocus.value = camera.position.length() - 0.2;
         bloom.strength = 0.3 + 0.26 * lvl;
