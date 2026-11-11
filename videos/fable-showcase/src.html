@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "UI"; font-weight: 400; src: url("assets/fonts/inter-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "UI"; font-weight: 500; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "UI"; font-weight: 400; src: url("assets/fonts/heebo-hebrew-400-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "Greeting"; font-weight: 400; src: url("assets/fonts/source-serif-4-latin-400-normal.woff2") format("woff2"); }
+      /* the Claude desktop composer, rebuilt from the user's own screenshots (dark theme) */
+      :root { --page: #1b1b1a; --box: #30302e; --line: rgba(255, 255, 255, 0.09); --text: #ecebe8; --dim: #8f8e8a; --ph: #5b5a57; --clay: #d97757; --menu: #2a2a28; --blue: #4d8fe8; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #050505; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: "UI", sans-serif; color: var(--text); }
+      #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+      #page { position: absolute; inset: 0; background: var(--page); }
+      #ui { position: absolute; inset: 0; }
+      #greet { position: absolute; left: 0; right: 0; top: 426px; display: flex; justify-content: center; align-items: center; gap: 22px; font-family: "Greeting", serif; font-size: 66px; letter-spacing: -0.5px; }
+      #greet svg { width: 68px; height: 68px; }
+      #box { position: absolute; left: 329px; top: 552px; width: 1310px; height: 202px; border-radius: 28px; background: var(--box); box-shadow: 0 0 0 1px var(--line), 0 10px 30px rgba(0, 0, 0, 0.25); }
+      #ph { position: absolute; left: 34px; top: 26px; font-size: 28px; color: var(--ph); }
+      #typed { position: absolute; right: 34px; top: 24px; direction: rtl; font-size: 30px; line-height: 40px; white-space: nowrap; }
+      #typed .ch { display: inline-block; white-space: pre; }
+      #caretL { position: absolute; left: 31px; top: 26px; width: 2px; height: 36px; background: var(--text); }
+      #caret { display: inline-block; width: 2px; height: 34px; margin-right: 2px; vertical-align: -6px; background: var(--text); }
+      .ic { position: absolute; top: 140px; width: 40px; height: 40px; }
+      .ic svg { width: 100%; height: 100%; fill: none; stroke: var(--text); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+      #plus { left: 24px; } #mic { right: 128px; } #chev { right: 92px; top: 150px; width: 20px; height: 20px; } #chev svg { stroke: var(--dim); } #wave { right: 24px; }
+      #send { position: absolute; right: 22px; top: 136px; width: 48px; height: 48px; border-radius: 12px; background: var(--clay); }
+      #send svg { position: absolute; left: 11px; top: 11px; width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+      #row { position: absolute; left: 329px; top: 780px; width: 1310px; height: 44px; font-size: 28px; font-weight: 500; }
+      #proj { position: absolute; left: 32px; top: 2px; display: flex; align-items: center; gap: 10px; }
+      #proj svg, .mini { width: 18px; height: 18px; fill: none; stroke: var(--dim); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+      #model { position: absolute; right: 168px; top: -4px; padding: 6px 12px; border-radius: 10px; display: flex; gap: 14px; white-space: nowrap; }
+      #model .m { position: relative; display: inline-block; height: 36px; width: 128px; text-align: right; }
+      #model .m span { position: absolute; right: 0; top: 0; }
+      #model .e { color: var(--dim); font-weight: 400; }
+      #auto { position: absolute; right: 48px; top: 2px; }
+      /* model menu */
+      #menu { position: absolute; left: 1004px; top: 96px; width: 510px; padding: 12px 0 16px; border-radius: 24px; background: var(--menu); box-shadow: 0 0 0 1px var(--line), 0 30px 70px rgba(0, 0, 0, 0.55); font-size: 28px; font-weight: 500; transform-origin: 80% 100%; }
+      .it { position: relative; height: 72px; margin: 0 10px; padding: 0 28px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; }
+      .it .k { color: var(--dim); font-weight: 400; }
+      .it .ck { position: absolute; right: 26px; top: 20px; width: 34px; height: 34px; }
+      .it .ck svg { width: 100%; height: 100%; fill: none; stroke: var(--blue); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+      #hov { position: absolute; left: 10px; top: 12px; width: 490px; height: 72px; border-radius: 14px; background: rgba(255, 255, 255, 0.07); }
+      .sep { height: 1px; margin: 12px 0; background: var(--line); }
+      .lab { height: 56px; padding: 0 38px; display: flex; align-items: center; color: var(--dim); font-weight: 400; }
+      .tg { width: 76px; height: 42px; border-radius: 21px; background: #4a4a47; position: relative; } .tg i { position: absolute; left: 4px; top: 4px; width: 34px; height: 34px; border-radius: 50%; background: #f2f1ee; }
+      #cursor { position: absolute; left: 0; top: 0; width: 34px; height: 34px; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)); }
+      .fly { position: absolute; font-size: 30px; white-space: pre; color: #ffe2b8; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="6.4" data-width="1920" data-height="1080" data-no-timeline>
+      <canvas id="gl" width="1920" height="1080"></canvas>
+      <audio id="voice" src="assets/vo.wav" data-start="__VO_START__" data-duration="__VO_DUR__" data-track-index="1" data-volume="1"></audio>
+      <div id="page"></div>
+      <div id="ui">
+        <div id="greet"><svg viewBox="0 0 100 100" id="spark"></svg><span>Moonlit chat?</span></div>
+        <div id="box">
+          <div id="ph">How can I help you today?</div><div id="caretL"></div>
+          <div id="typed"></div>
+          <div class="ic" id="plus"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg></div>
+          <div class="ic" id="mic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3" /></svg></div>
+          <div class="ic" id="chev"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg></div>
+          <div class="ic" id="wave"><svg viewBox="0 0 24 24"><path d="M4 11v2M8 8v8M12 4v16M16 8v8M20 11v2" /></svg></div>
+          <div id="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" /></svg></div>
+        </div>
+        <div id="row">
+          <div id="proj">Project or folder <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg></div>
+          <div id="model"><span class="m"><span id="mOld">Opus 5.5</span><span id="mNew">Fable 5.2</span></span><span class="e">Medium</span></div>
+          <div id="auto">Auto</div>
+        </div>
+        <div id="menu">
+          <div id="hov"></div>
+          <div class="it"><span>Opus 5.5</span><span class="ck" id="ck1"><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11" /></svg></span></div>
+          <div class="it"><span>Fable 5.2</span><span class="k" id="k2">2</span><span class="ck" id="ck2"><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11" /></svg></span></div>
+          <div class="it"><span>Sonnet 5.5</span><span class="k">3</span></div>
+          <div class="it"><span>Haiku 5.5</span><span class="k">4</span></div>
+          <div class="sep"></div>
+          <div class="it"><span>Effort</span><span class="k" style="display:flex;align-items:center;gap:14px">Medium <svg class="mini" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg></span></div>
+          <div class="sep"></div>
+          <div class="it"><span>More models</span><svg class="mini" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg></div>
+          <div class="sep"></div>
+          <div class="lab">Fast mode</div>
+          <div class="it"><span>Enable fast mode</span><span class="tg"><i></i></span></div>
+        </div>
+        <svg id="cursor" viewBox="0 0 24 24"><path d="M5 3l14 8.5-6.2 1.3L9.5 19z" fill="#fff" stroke="#111" stroke-width="1.2" stroke-linejoin="round" /></svg>
+      </div>
+      <div id="flyers"></div>
+    </div>
+    <script type="application/json" id="audio">__AUDIO__</script>
+    <script type="module">
+      // Scene 1 of the Fable 5.2 showcase. The Claude composer: the model is switched from Opus 5.5 to Fable 5.2, a prompt is typed fast,
+      // and on send its letters lift off, the app falls away, and they gather into a living particle orb that answers out loud.
+      import * as THREE from "three";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
+      let resolveBuilt; window.__hf.buildReady["fable1"] = new Promise((r) => (resolveBuilt = r));
+      await Promise.all(["400 30px UI", "500 28px UI", "400 66px Greeting"].map((f) => document.fonts.load(f, "aא")));
+
+      const W = 1920, H = 1080, DUR = 6.4, FPS = 60;
+      const AUD = JSON.parse(document.getElementById("audio").textContent);
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const inOutSine = (x) => -(Math.cos(Math.PI * x) - 1) / 2;
+      const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+      const outExpo = (x) => (x >= 1 ? 1 : 1 - Math.pow(2, -10 * x));
+      const band = (k, t) => { const f = t * FPS, i = Math.floor(f), a = AUD[k][clamp(i, 0, AUD[k].length - 1)], b = AUD[k][clamp(i + 1, 0, AUD[k].length - 1)]; return lerp(a, b, f - i); };
+      let seed = 3; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+      renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+      const scene = new THREE.Scene(); scene.background = new THREE.Color(0x050505);
+      const FOV = 34; const camera = new THREE.PerspectiveCamera(FOV, W / H, 0.1, 100);
+
+      // ---------- particles (the orb from videos/orb) ----------
+      const NS = 96000, NB = 26000, ND = 7000, N = NS + NB + ND;
+      const aDir = new Float32Array(N * 3), aRnd = new Float32Array(N * 4), aType = new Float32Array(N);
+      const GOLD = Math.PI * (3 - Math.sqrt(5));
+      for (let i = 0; i < N; i++) {
+        let x, y, z, type;
+        if (i < NS) { const k = i + 0.5; y = 1 - (2 * k) / NS; const r = Math.sqrt(1 - y * y); const th = GOLD * k; x = Math.cos(th) * r; z = Math.sin(th) * r; type = 0; }
+        else { const u = rnd() * 2 - 1, a = rnd() * Math.PI * 2; x = Math.sqrt(1 - u * u) * Math.cos(a); y = u; z = Math.sqrt(1 - u * u) * Math.sin(a); type = i < NS + NB ? 1 : 2; }
+        aDir.set([x, y, z], i * 3); aRnd.set([rnd(), rnd(), rnd(), rnd()], i * 4); aType[i] = type;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(aDir, 3)); geo.setAttribute("aRnd", new THREE.BufferAttribute(aRnd, 4)); geo.setAttribute("aType", new THREE.BufferAttribute(aType, 1));
+      geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 30);
+      const SNOISE = `
+        vec3 mod289(vec3 x){ return x - floor(x * (1.0/289.0)) * 289.0; } vec4 mod289(vec4 x){ return x - floor(x * (1.0/289.0)) * 289.0; }
+        vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); } vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
+        float snoise(vec3 v){ const vec2 C = vec2(1.0/6.0, 1.0/3.0); const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+          vec3 i = floor(v + dot(v, C.yyy)); vec3 x0 = v - i + dot(i, C.xxx); vec3 g = step(x0.yzx, x0.xyz); vec3 l = 1.0 - g;
+          vec3 i1 = min(g.xyz, l.zxy); vec3 i2 = max(g.xyz, l.zxy); vec3 x1 = x0 - i1 + C.xxx; vec3 x2 = x0 - i2 + C.yyy; vec3 x3 = x0 - D.yyy;
+          i = mod289(i); vec4 p = permute(permute(permute(i.z + vec4(0.0, i1.z, i2.z, 1.0)) + i.y + vec4(0.0, i1.y, i2.y, 1.0)) + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+          float n_ = 0.142857142857; vec3 ns = n_ * D.wyz - D.xzx; vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+          vec4 x_ = floor(j * ns.z); vec4 y_ = floor(j - 7.0 * x_); vec4 x = x_ * ns.x + ns.yyyy; vec4 y = y_ * ns.x + ns.yyyy; vec4 h = 1.0 - abs(x) - abs(y);
+          vec4 b0 = vec4(x.xy, y.xy); vec4 b1 = vec4(x.zw, y.zw); vec4 s0 = floor(b0)*2.0 + 1.0; vec4 s1 = floor(b1)*2.0 + 1.0; vec4 sh = -step(h, vec4(0.0));
+          vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy; vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+          vec3 p0 = vec3(a0.xy, h.x); vec3 p1 = vec3(a0.zw, h.y); vec3 p2 = vec3(a1.xy, h.z); vec3 p3 = vec3(a1.zw, h.w);
+          vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3))); p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+          vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0); m = m * m;
+          return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3))); }`;
+      const mat = new THREE.ShaderMaterial({
+        transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
+        uniforms: { uTime: { value: 0 }, uLow: { value: 0 }, uMid: { value: 0 }, uHigh: { value: 0 }, uLvl: { value: 0 }, uFocus: { value: 6.5 }, uPx: { value: H / (2 * Math.tan((FOV * Math.PI) / 360)) }, uR: { value: 1.5 }, uWake: { value: 0 }, uForm: { value: 0 } },
+        vertexShader: `uniform float uTime, uLow, uMid, uHigh, uLvl, uFocus, uPx, uR, uWake, uForm; attribute vec4 aRnd; attribute float aType;
+          varying vec3 vCol; varying float vA; ${SNOISE}
+          void main(){
+            vec3 d = position; float t = uTime; vec3 p; float bright; float size;
+            vec3 gold = vec3(1.0, 0.80, 0.42), amber = vec3(1.0, 0.46, 0.14), cream = vec3(1.0, 0.94, 0.82);
+            float n1 = snoise(d * 1.3 + vec3(0.0, t * 0.22, t * 0.07));
+            if (aType < 0.5) {
+              float n2 = snoise(d * 3.4 + vec3(t * 0.45));
+              // latitude waves travel downward; the voice's mids make them bigger and faster
+              float wave = sin(d.y * 10.0 - t * (2.6 + uMid * 2.5) + n1 * 2.2);
+              float swell = uLow * 0.09 * (0.7 + 0.3 * n1);
+              float r = uR * (1.0 + n1 * 0.032 + n2 * 0.012 + wave * (0.006 + 0.03 * uMid) + swell);
+              p = d * r + (aRnd.xyz - 0.5) * 0.010 * (1.0 + uHigh * 3.0);
+              vec3 nv = normalize(normalMatrix * d);
+              float rim = pow(1.0 - abs(nv.z), 2.6);
+              float far = nv.z < 0.0 ? 0.38 : 1.0;
+              float spark = step(0.993, aRnd.w) * uHigh * 2.0;
+              // ripples read as brighter latitude bands sliding over the surface
+              float ripple = pow(max(wave, 0.0), 10.0) * (0.12 + 0.9 * uMid);
+              bright = (0.026 + rim * 1.9 + ripple) * far + spark + uLvl * 0.05;
+              // key light from the upper left: cream on that side, burnt orange on the far side
+              float lit = clamp(dot(normalize(nv.xy + 1e-4), normalize(vec2(-0.75, 0.66))) * 0.5 + 0.5, 0.0, 1.0);
+              vCol = mix(amber, mix(gold, cream, lit), lit);
+              size = 0.0052;
+            } else if (aType < 1.5) {
+              // the inner band: a flattened, slowly turning disc of glowing grit
+              float ang = aRnd.x * 6.2831 + t * (0.28 + aRnd.y * 0.35) + uLvl * 0.6;
+              float rad = uR * (0.10 + 0.82 * sqrt(aRnd.z));
+              float n = snoise(vec3(cos(ang) * rad, sin(ang) * rad, t * 0.35) * 1.4);
+              float thick = 0.07 * uR * (1.0 + uLow * 2.6 + n * 0.8);
+              p = vec3(cos(ang) * rad, (aRnd.w - 0.5) * thick + n * 0.04 * uR, sin(ang) * rad);
+              float edge = smoothstep(0.92, 0.35, rad / uR);
+              bright = (0.12 + 0.45 * uMid + 0.4 * step(0.97, aRnd.y) * (0.4 + uHigh)) * edge;
+              vCol = mix(gold, cream, aRnd.y * 0.6);
+              size = 0.0065;
+            } else {
+              vec3 dd = normalize(d + 0.35 * vec3(snoise(d * 2.0 + t * 0.08), snoise(d * 2.0 + 5.0 + t * 0.08), snoise(d * 2.0 + 9.0)));
+              p = dd * uR * (1.12 + aRnd.z * 0.95 + uLow * 0.25 * aRnd.z);
+              bright = 0.10 + 0.12 * uLvl;
+              vCol = mix(amber, gold, aRnd.x);
+              size = 0.010;
+            }
+            p.y *= 0.94;
+            { float k = 1.0 - uForm; float lag = clamp(k * (1.0 + aRnd.x * 0.9), 0.0, 1.0); vec3 sw = vec3(snoise(d * 1.7 + 3.0), snoise(d * 1.7 + 11.0), snoise(d * 1.7 + 19.0));
+              p = p * (1.0 + lag * lag * (1.6 + 3.2 * aRnd.y)) + sw * lag * 1.3 + vec3(0.0, -2.6 * lag * lag, 0.0); bright *= mix(0.55, 1.0, uForm) + lag * 0.5; }
+            bright *= uWake;
+            vec4 mv = modelViewMatrix * vec4(p, 1.0);
+            float dist = -mv.z; float coc = abs(dist - uFocus) * 0.85;
+            gl_PointSize = max(1.0, uPx * size / dist * (1.0 + coc * 3.0));
+            vA = bright / (1.0 + coc * coc * 6.0);
+            gl_Position = projectionMatrix * mv;
+          }`,
+        fragmentShader: `varying vec3 vCol; varying float vA;
+          void main(){ float d = length(gl_PointCoord - 0.5); float a = smoothstep(0.5, 0.05, d); gl_FragColor = vec4(vCol * vA * a, 1.0); }`,
+      });
+      const orb = new THREE.Points(geo, mat); orb.frustumCulled = false;
+      const tilt = new THREE.Group(); tilt.rotation.set(0.32, 0, -0.08); tilt.add(orb); scene.add(tilt);
+
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 }));
+      composer.setPixelRatio(1); composer.setSize(W, H);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.35, 0.4, 0.55); composer.addPass(bloom);
+      composer.addPass(new OutputPass());
+      const lens = new ShaderPass({ uniforms: { tDiffuse: { value: null }, time: { value: 0 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float time; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time) * 43758.5453); }
+          void main(){ vec3 c = texture2D(tDiffuse, vUv).rgb; c *= mix(0.62, 1.0, smoothstep(0.95, 0.25, length((vUv - 0.5) * vec2(1.0, 0.9))));
+            c += (hash(floor(vUv * vec2(1920.0, 1080.0))) - 0.5) * 0.022; gl_FragColor = vec4(c, 1.0); }` });
+      composer.addPass(lens);
+
+      // ---------- the app (DOM), on one seekable timeline ----------
+      const tl = gsap.timeline({ paused: true });
+      const IR = { immediateRender: false };
+      const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+      const ft = (sel, from, to, at) => { tl.set(sel, from, 0); tl.fromTo(sel, from, { ...to, ...IR }, at); };
+      // Claude's spark: uneven hand-cut rays
+      { const L = [44, 36, 46, 34, 42, 38, 45, 33, 43, 37, 46, 35]; let d = "";
+        L.forEach((l, i) => { const a = (i / 12) * Math.PI * 2 + 0.13, w = 0.085; const p = (r, da) => (50 + Math.cos(a + da) * r).toFixed(1) + "," + (50 + Math.sin(a + da) * r).toFixed(1);
+          d += "M" + p(7, -0.5) + " L" + p(l, -w) + " L" + p(l + 2.5, 0) + " L" + p(l, w) + " L" + p(7, 0.5) + " Z "; });
+        $("#spark").innerHTML = '<path d="' + d + '" fill="#d97757" /><circle cx="50" cy="50" r="9" fill="#d97757" />'; }
+      const T_OPEN = 0.95, T_PICK = 1.55, T_CLOSE = 1.78, T_TYPE = 2.0, CH = 0.034, TEXT = "היי פייבל, צור לי סרטון לפנים!";
+      const T_SEND = T_TYPE + TEXT.length * CH + 0.22, T_FLY = T_SEND + 0.1;
+      [...TEXT].forEach((c) => { const s = document.createElement("span"); s.className = "ch"; s.textContent = c; $("#typed").appendChild(s); });
+      const caret = document.createElement("span"); caret.id = "caret"; $("#typed").appendChild(caret);
+      const chars = $$("#typed .ch");
+      ft("#ui", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.out" }, 0.05);
+      // cursor: travels to the model label, clicks, moves to "Fable 5.2", clicks
+      tl.set("#cursor", { x: 1180, y: 960, opacity: 1 }, 0);
+      tl.to("#cursor", { x: 1420, y: 806, duration: 0.5, ease: "power3.inOut" }, 0.4);
+      tl.to("#cursor", { scale: 0.82, duration: 0.06, yoyo: true, repeat: 1, transformOrigin: "20% 15%" }, T_OPEN - 0.04);
+      tl.set("#model", { backgroundColor: "rgba(255,255,255,0.07)" }, T_OPEN - 0.25);
+      ft("#menu", { opacity: 0, scale: 0.94, y: 14 }, { opacity: 1, scale: 1, y: 0, duration: 0.2, ease: "power3.out" }, T_OPEN);
+      tl.to("#cursor", { x: 1190, y: 216, duration: 0.42, ease: "power3.inOut" }, T_OPEN + 0.12);
+      tl.set("#hov", { y: 0 }, 0); tl.to("#hov", { y: 72, duration: 0.12, ease: "power2.out" }, T_OPEN + 0.4);
+      tl.to("#cursor", { scale: 0.82, duration: 0.06, yoyo: true, repeat: 1, transformOrigin: "20% 15%" }, T_PICK - 0.04);
+      tl.set("#ck2", { opacity: 0 }, 0); tl.set("#ck1", { opacity: 0 }, T_PICK); tl.set("#ck2", { opacity: 1 }, T_PICK); tl.set("#k2", { opacity: 0 }, T_PICK);
+      tl.to("#menu", { opacity: 0, scale: 0.96, y: 10, duration: 0.16, ease: "power2.in" }, T_CLOSE);
+      tl.set("#model", { backgroundColor: "rgba(255,255,255,0)" }, T_CLOSE + 0.1);
+      tl.set("#mNew", { opacity: 0, y: 14 }, 0);
+      tl.to("#mOld", { opacity: 0, y: -14, duration: 0.16, ease: "power2.in" }, T_PICK + 0.02);
+      tl.to("#mNew", { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, T_PICK + 0.14);
+      tl.to("#cursor", { x: 1500, y: 640, opacity: 0, duration: 0.3, ease: "power2.in" }, T_CLOSE);
+      // typing, fast
+      tl.set(chars, { display: "none" }, 0); tl.set("#caret, #send", { opacity: 0 }, 0);
+      tl.set("#ph, #caretL", { opacity: 0 }, T_TYPE); tl.set("#caret", { opacity: 1 }, T_TYPE);
+      tl.set("#wave, #mic, #chev", { opacity: 0 }, T_TYPE + CH); ft("#send", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2)" }, T_TYPE + CH);
+      chars.forEach((c, i) => tl.set(c, { display: "inline-block" }, T_TYPE + i * CH));
+      tl.to("#send", { scale: 0.86, duration: 0.07, yoyo: true, repeat: 1, transformOrigin: "50% 50%" }, T_SEND);
+      tl.set("#caret", { opacity: 0 }, T_FLY);
+      // the letters leave the box, and the app falls away under them
+      const root = $("#root").getBoundingClientRect();
+      chars.forEach((c, i) => {
+        const r = c.getBoundingClientRect(); if (!c.textContent.trim()) return;
+        const f = document.createElement("div"); f.className = "fly"; f.textContent = c.textContent; f.style.left = r.left - root.left + "px"; f.style.top = r.top - root.top + "px"; $("#flyers").appendChild(f);
+        const t = T_FLY + (chars.length - i) * 0.012, dx = 960 - (r.left - root.left + r.width / 2), dy = 540 - (r.top - root.top + r.height / 2), sd = i % 2 ? 1 : -1;
+        tl.set(f, { opacity: 0, color: "#ecebe8" }, 0); tl.set(f, { opacity: 1 }, t); tl.set(c, { opacity: 0 }, t);
+        tl.fromTo(f, { x: 0, y: 0, rotation: 0, scale: 1, filter: "blur(0px)" }, { keyframes: [
+          { x: dx * 0.18 + sd * 30, y: -150 - (i % 5) * 26, rotation: sd * 22, scale: 1.5, color: "#ffe2b8", duration: 0.42, ease: "power2.out" },
+          { x: dx, y: dy, rotation: sd * -120, scale: 0.12, filter: "blur(3px)", duration: 0.5, ease: "power3.in" }], ...IR }, t);
+        tl.to(f, { opacity: 0, duration: 0.14 }, t + 0.8);
+      });
+      tl.to("#ui", { opacity: 0, y: 46, scale: 0.97, filter: "blur(6px)", duration: 0.5, ease: "power2.in", transformOrigin: "50% 60%" }, T_FLY + 0.12);
+      tl.to("#page", { opacity: 0, duration: 0.7, ease: "power1.inOut" }, T_FLY + 0.2);
+      tl.set({}, {}, DUR);
+
+      const T_ORB = T_FLY + 0.55;
+      function renderAt(t) {
+        t = clamp(t, 0, DUR - 1e-4);
+        tl.seek(t, false);
+        const u = mat.uniforms, lvl = band("lvl", t);
+        u.uTime.value = t; u.uLow.value = band("low", t); u.uMid.value = band("mid", t); u.uHigh.value = band("high", t); u.uLvl.value = lvl;
+        u.uWake.value = outCubic(seg(t, T_ORB, T_ORB + 0.7));
+        u.uForm.value = outExpo(seg(t, T_ORB, T_ORB + 1.25));
+        u.uR.value = 1.5 * (0.9 + 0.1 * outCubic(seg(t, T_ORB, T_ORB + 1.4)));
+        orb.rotation.y = t * 0.22 + lvl * 0.08;
+        const k = inOutSine(seg(t, T_ORB, DUR));
+        camera.position.set(Math.sin(lerp(-0.22, 0.16, k)) * 6.6, lerp(0.3, -0.05, k), Math.cos(lerp(-0.22, 0.16, k)) * lerp(7.4, 6.3, k));
+        camera.lookAt(0, 0, 0);
+        u.uFocus.value = camera.position.length() - 0.2;
+        bloom.strength = 0.3 + 0.26 * lvl;
+        lens.uniforms.time.value = Math.floor(t * 60);
+        composer.render();
+      }
+      resolveBuilt();
+      renderAt(window.__hfThreeTime || 0);
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      window.__renderAt = renderAt; window.__T = { T_SEND, T_FLY, T_ORB };
+    </script>
+  </body>
+</html>

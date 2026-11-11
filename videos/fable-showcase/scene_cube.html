@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Assistant"; font-weight: 800; src: url("assets/fonts/assistant-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "Assistant"; font-weight: 700; src: url("assets/fonts/assistant-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "Assistant"; font-weight: 500; src: url("assets/fonts/assistant-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "Assistant"; font-weight: 800; src: url("assets/fonts/assistant-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Assistant"; font-weight: 700; src: url("assets/fonts/assistant-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Assistant"; font-weight: 500; src: url("assets/fonts/assistant-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      /* light grey photo studio, black lacquer objects, one warm accent */
+      :root { --ink: #121214; --muted: #6d6d74; --accent: #e0703a; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #c9c9cd; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: "Assistant", sans-serif; color: var(--ink); }
+      #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+      #ui { position: absolute; inset: 0; pointer-events: none; }
+
+      /* the prompt bar: frosted glass on the studio floor */
+      #bar { position: absolute; left: 470px; top: 600px; width: 980px; height: 124px; border-radius: 62px; direction: rtl;
+        background: rgba(255, 255, 255, 0.62); box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.85) inset, 0 30px 70px rgba(30, 30, 40, 0.18), 0 6px 14px rgba(30, 30, 40, 0.08);
+        backdrop-filter: blur(18px) saturate(1.1); }
+      #typed { position: absolute; right: 56px; top: 30px; font-size: 54px; font-weight: 700; line-height: 64px; white-space: nowrap; letter-spacing: 0; }
+      #typed .ch { display: inline-block; white-space: pre; }
+      #caret { display: inline-block; width: 4px; height: 52px; margin-right: 6px; vertical-align: -8px; background: var(--accent); border-radius: 2px; }
+      #chip { position: absolute; left: 132px; top: 36px; height: 52px; padding: 0 22px 0 20px; border-radius: 26px; background: rgba(18, 18, 20, 0.06);
+        display: flex; align-items: center; gap: 10px; direction: ltr; font-size: 26px; font-weight: 700; color: #2a2a2e; }
+      #chip i { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+      #send { position: absolute; left: 30px; top: 22px; width: 80px; height: 80px; border-radius: 50%; background: #121214; box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25); }
+      #send svg { position: absolute; left: 22px; top: 22px; width: 36px; height: 36px; }
+      .fly { position: absolute; font-size: 54px; font-weight: 700; color: var(--ink); white-space: pre; }
+
+      #title { position: absolute; left: 0; right: 0; top: 760px; text-align: center; }
+      #title b { display: block; direction: ltr; font-size: 118px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+      #title b em { font-style: normal; color: var(--accent); }
+      #title .sub { display: block; margin-top: 18px; direction: rtl; font-size: 40px; font-weight: 500; color: var(--muted); }
+      .w { display: inline-block; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="5.2" data-width="1920" data-height="1080" data-no-timeline>
+      <canvas id="gl" width="1920" height="1080"></canvas>
+      <div id="ui">
+        <div id="bar">
+          <div id="typed"></div>
+          <div id="chip"><i></i>Fable 5.2</div>
+          <div id="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+        </div>
+        <div id="flyers"></div>
+        <div id="title"><b><span class="w">Fable</span> <em class="w">5.2</em></b><div class="sub"><span class="w">מה</span> <span class="w">מודל</span> <span class="w">אחד</span> <span class="w">יכול</span> <span class="w">לבנות?</span></div></div>
+      </div>
+    </div>
+    <script type="module">
+      // Scene 1 of the Fable 5.2 showcase: a prompt is typed in a frosted bar on a light studio floor; on "send" its letters
+      // lift off and fold into a black lacquer cube that spins up, the title lands, then the cube drops out of frame (hand-off to the VFX shot).
+      import * as THREE from "three";
+      import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+      const W = 1920, H = 1080, DUR = 5.2;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const inOutSine = (x) => -(Math.cos(Math.PI * x) - 1) / 2;
+      const inCubic = (x) => x * x * x;
+      const backOut = (x, s = 1.6) => 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
+
+      // ---------- three: studio, softbox reflections, lacquer cube ----------
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+      renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = 0.95;
+      renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
+      const envScene = new THREE.Scene();
+      envScene.add(new THREE.Mesh(new THREE.SphereGeometry(50, 64, 32), new THREE.ShaderMaterial({ side: THREE.BackSide,
+        vertexShader: "varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: "varying vec3 vP; void main(){ float h = vP.y; vec3 c = mix(vec3(0.34), vec3(0.12), smoothstep(0.0, 0.7, h)); c = mix(c, vec3(0.55), smoothstep(-0.05, -0.5, h)); gl_FragColor = vec4(c, 1.0); }" })));
+      const box = (w, h, x, y, z, I) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(I, I, I), side: THREE.DoubleSide })); m.position.set(x, y, z); m.lookAt(0, 0, 0); envScene.add(m); };
+      box(26, 14, 0, 30, 4, 40); box(6, 30, -26, 6, 10, 30); box(4, 26, 24, 5, -8, 16); box(4, 22, 18, 3, -24, 5); box(4, 22, -18, 3, 24, 5);
+      // one warm strip so the accent lives in the reflections too
+      { const m = new THREE.Mesh(new THREE.PlaneGeometry(3, 20), new THREE.MeshBasicMaterial({ color: new THREE.Color(9, 3.6, 1.4), side: THREE.DoubleSide })); m.position.set(22, 4, 14); m.lookAt(0, 0, 0); envScene.add(m); }
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      const envTex = pmrem.fromScene(envScene, 0.035).texture;
+
+      const scene = new THREE.Scene();
+      const BG = new THREE.Color(0xc4c4c8); scene.background = BG; scene.fog = new THREE.Fog(BG, 16, 36);
+      const pts = []; for (let i = 0; i <= 24; i++) { const a = (i / 24) * Math.PI / 2; pts.push(new THREE.Vector2(-6 - Math.sin(a) * 6, -1 + (1 - Math.cos(a)) * 6)); }
+      const prof = [new THREE.Vector2(14, -1), ...pts, new THREE.Vector2(-12, 14)];
+      const cycGeo = new THREE.BufferGeometry(); { const pos = [], idx = []; const X = [-30, 30];
+        prof.forEach((p) => X.forEach((x) => pos.push(x, p.y, p.x)));
+        for (let i = 0; i < prof.length - 1; i++) { const a = i * 2, b = a + 1, c = a + 2, d = a + 3; idx.push(a, c, b, b, c, d); }
+        cycGeo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); cycGeo.setIndex(idx); cycGeo.computeVertexNormals(); }
+      const floor = new THREE.Mesh(cycGeo, new THREE.MeshStandardMaterial({ color: 0xa2a2a8, roughness: 0.6, metalness: 0, envMapIntensity: 0, side: THREE.DoubleSide }));
+      floor.receiveShadow = true; scene.add(floor);
+      const key = new THREE.DirectionalLight(0xffffff, 1.8); key.position.set(-2, 12, 2.5); key.castShadow = true;
+      key.shadow.mapSize.set(2048, 2048); key.shadow.camera.left = key.shadow.camera.bottom = -6; key.shadow.camera.right = key.shadow.camera.top = 6; key.shadow.radius = 18; key.shadow.blurSamples = 24; key.shadow.bias = -0.0004;
+      scene.add(key); scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d8dc, 2.4));
+
+      const lacquer = new THREE.MeshPhysicalMaterial({ envMap: envTex, color: 0x020203, roughness: 0.2, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.03, envMapIntensity: 1.7, ior: 1.5 });
+      const cube = new THREE.Mesh(new RoundedBoxGeometry(1.5, 1.5, 1.5, 8, 0.09), lacquer); cube.castShadow = true; scene.add(cube);
+      // the cube is "drawn" first: accent wire edges that the lacquer then fills
+      const wireMat = new THREE.LineBasicMaterial({ color: 0xe0703a, transparent: true, opacity: 0 });
+      const wire = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.52, 1.52, 1.52)), wireMat); scene.add(wire);
+      const camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 100);
+      const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4 }));
+      composer.setPixelRatio(1); composer.setSize(W, H); composer.addPass(new RenderPass(scene, camera)); composer.addPass(new OutputPass());
+      const lens = new ShaderPass({ uniforms: { tDiffuse: { value: null }, time: { value: 0 } },
+        vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+        fragmentShader: `uniform sampler2D tDiffuse; uniform float time; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + time) * 43758.5453); }
+          void main(){ vec3 c = texture2D(tDiffuse, vUv).rgb; c *= mix(0.87, 1.0, smoothstep(1.0, 0.35, length((vUv - 0.5) * vec2(1.0, 0.9))));
+            c += (hash(floor(vUv * vec2(1920.0, 1080.0))) - 0.5) * 0.02; gl_FragColor = vec4(c, 1.0); }` });
+      composer.addPass(lens);
+
+      // ---------- DOM timeline (seeked by the same clock as the 3D) ----------
+      const tl = gsap.timeline({ paused: true });
+      const IR = { immediateRender: false };
+      const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+      const ft = (sel, from, to, at) => { tl.set(sel, from, 0); tl.fromTo(sel, from, { ...to, ...IR }, at); };
+      const TEXT = "תבנה לי עולם.";
+      [...TEXT].forEach((c) => { const s = document.createElement("span"); s.className = "ch"; s.textContent = c; $("#typed").appendChild(s); });
+      const caret = document.createElement("span"); caret.id = "caret"; $("#typed").appendChild(caret);
+      ft("#bar", { opacity: 0, y: 40, scale: 0.96, filter: "blur(10px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 0.15);
+      const chars = $$("#typed .ch");
+      tl.set(chars, { opacity: 0 }, 0);
+      chars.forEach((c, i) => tl.set(c, { opacity: 1 }, 0.75 + i * 0.085 + (c.textContent === " " ? 0.04 : 0)));
+      // the caret blinks while idle, stays solid while typing
+      [0.2, 0.5].forEach((t) => tl.set(caret, { opacity: 0 }, t + 0.25).set(caret, { opacity: 1 }, t + 0.5));
+      tl.set(caret, { opacity: 0 }, 2.0);
+      tl.to("#send", { scale: 0.88, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "50% 50%" }, 1.95);
+      // letters lift off the bar and fly into the cube's centre (its projection is fixed below)
+      const FLY_T = 2.05; let CX = 960, CY = 395;
+      const flyers = [];
+      tl.call(() => {}, [], 0);
+      document.fonts.ready.then(() => {
+        // aim the letters at where the cube is born (its projected centre at t = 2.5)
+        renderAt(2.5); const v = cube.position.clone().project(camera); CX = (v.x + 1) / 2 * W; CY = (1 - v.y) / 2 * H;
+        chars.forEach((c, i) => {
+          const r = c.getBoundingClientRect(), root = $("#root").getBoundingClientRect();
+          const f = document.createElement("div"); f.className = "fly"; f.textContent = c.textContent;
+          f.style.left = r.left - root.left + "px"; f.style.top = r.top - root.top - 6 + "px"; $("#flyers").appendChild(f); flyers.push(f);
+          const t = FLY_T + i * 0.035, dx = CX - (r.left - root.left + r.width / 2), dy = CY - (r.top - root.top + r.height / 2);
+          tl.set(f, { opacity: 0 }, 0); tl.set(f, { opacity: 1 }, t);
+          tl.fromTo(f, { x: 0, y: 0, rotation: 0, scale: 1, filter: "blur(0px)" }, { keyframes: [
+            { x: dx * 0.35, y: dy * 0.5 - 140, rotation: (i % 2 ? 1 : -1) * 40, scale: 1.25, duration: 0.32, ease: "power2.out" },
+            { x: dx, y: dy, rotation: (i % 2 ? -1 : 1) * 160, scale: 0.15, filter: "blur(4px)", duration: 0.34, ease: "power3.in" }], ...IR }, t);
+          tl.set(f, { opacity: 0 }, t + 0.66);
+          tl.set(c, { opacity: 0 }, t);
+        });
+        tl.seek(window.__hfThreeTime || 0, false); renderAt(window.__hfThreeTime || 0);
+      });
+      tl.to("#bar", { y: 70, opacity: 0, filter: "blur(8px)", duration: 0.35, ease: "power2.in" }, 2.15);
+      // title
+      ft("#title b .w", { opacity: 0, y: 50, filter: "blur(16px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out", stagger: 0.14 }, 3.15);
+      ft("#title .sub .w", { opacity: 0, y: 24, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out", stagger: 0.07 }, 3.6);
+      tl.to("#title", { opacity: 0, y: 30, duration: 0.3, ease: "power2.in" }, 4.55);
+      tl.set({}, {}, DUR);
+
+      // ---------- 3D motion ----------
+      const target = new THREE.Vector3();
+      function renderAt(t) {
+        t = clamp(t, 0, DUR - 1e-4);
+        tl.seek(t, false);
+        // cube is born from the letters at 2.35, springs to size, spins, then drops away
+        const wb = seg(t, 2.3, 2.6), born = seg(t, 2.55, 3.05), s = born <= 0 ? 0.0001 : lerp(0.85, 1, backOut(born, 1.8));
+        wire.scale.setScalar(lerp(0.4, 1, inOutSine(wb)) * (1 + 0.04 * seg(t, 2.6, 3.0))); wireMat.opacity = wb <= 0 ? 0 : Math.min(1, wb * 2) * (1 - seg(t, 2.75, 3.15));
+        lacquer.opacity = 1;
+        const drop = inCubic(seg(t, 4.55, 5.2));
+        cube.scale.setScalar(s);
+        cube.position.set(0, 0.75 + Math.sin(seg(t, 2.9, 4.55) * Math.PI) * 0.12 - drop * 4.2, 0);
+        cube.rotation.set(0.42 + seg(t, 2.38, 5.2) * 0.6, -0.6 + inOutSine(seg(t, 2.38, 5.2)) * 2.4 + drop * 1.2, 0.08);
+        wire.position.copy(cube.position); wire.rotation.copy(cube.rotation);
+        // camera: a slow push in, then it tilts down to follow the drop
+        const k = inOutSine(seg(t, 0, 4.6));
+        camera.position.set(lerp(0.9, 0.35, k), lerp(1.35, 1.05, k) - drop * 1.2, lerp(10.4, 8.6, k));
+        target.set(0, lerp(0.3, 0.4, k) - drop * 2.6, 0); camera.lookAt(target);
+        lens.uniforms.time.value = Math.floor(t * 60);
+        composer.render();
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady["fable1"] = document.fonts.ready;
+      renderAt(window.__hfThreeTime || 0);
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      window.__renderAt = renderAt;
+    </script>
+  </body>
+</html>
