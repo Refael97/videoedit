@@ -56,7 +56,7 @@
     </script>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="6.4" data-width="1920" data-height="1080" data-no-timeline>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="10.6" data-width="1920" data-height="1080" data-no-timeline>
       <canvas id="gl" width="1920" height="1080"></canvas>
       <audio id="voice" src="assets/vo.wav" data-start="__VO_START__" data-duration="__VO_DUR__" data-track-index="1" data-volume="1"></audio>
       <div id="stage">
@@ -97,6 +97,7 @@
       <canvas id="dots" width="1920" height="1080"></canvas>
     </div>
     <script type="application/json" id="audio">__AUDIO__</script>
+    <script type="application/json" id="word">__WORD__</script>
     <script type="module">
       // Scene 1 of the Fable 5.2 showcase. The Claude composer: the model is switched from Opus 5.5 to Fable 5.2, a prompt is typed fast,
       // and on send its letters lift off, the app falls away, and they gather into a living particle orb that answers out loud.
@@ -106,12 +107,14 @@
       import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
       import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
       import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+      import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+      import { initScene2 } from "./scene2.js";
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
       let resolveBuilt; window.__hf.buildReady["fable1"] = new Promise((r) => (resolveBuilt = r));
       await Promise.all(["400 30px UI", "500 28px UI", "400 66px Greeting"].map((f) => document.fonts.load(f, "aא")));
 
-      const W = 1920, H = 1080, DUR = 6.4, FPS = 60;
+      const W = 1920, H = 1080, DUR = 10.6, FPS = 60, T2 = 6.4;
       const DPR = Math.max(1, Math.round(window.devicePixelRatio || 1)); // 2 when rendered with --resolution 4k
       const AUD = JSON.parse(document.getElementById("audio").textContent);
       const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -127,6 +130,7 @@
       const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true });
       renderer.setPixelRatio(DPR); renderer.setSize(W, H, false);
       renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+      renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
       const scene = new THREE.Scene(); scene.background = new THREE.Color(0x050505);
       const FOV = 34; const camera = new THREE.PerspectiveCamera(FOV, W / H, 0.1, 100);
 
@@ -160,8 +164,8 @@
           return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3))); }`;
       const mat = new THREE.ShaderMaterial({
         transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
-        uniforms: { uTime: { value: 0 }, uLow: { value: 0 }, uMid: { value: 0 }, uHigh: { value: 0 }, uLvl: { value: 0 }, uFocus: { value: 6.5 }, uPx: { value: (H * DPR) / (2 * Math.tan((FOV * Math.PI) / 360)) }, uR: { value: 1.5 }, uWake: { value: 0 }, uForm: { value: 0 }, uMinPx: { value: 1 } },
-        vertexShader: `uniform float uTime, uLow, uMid, uHigh, uLvl, uFocus, uPx, uR, uWake, uForm, uMinPx; attribute vec4 aRnd; attribute float aType;
+        uniforms: { uTime: { value: 0 }, uLow: { value: 0 }, uMid: { value: 0 }, uHigh: { value: 0 }, uLvl: { value: 0 }, uFocus: { value: 6.5 }, uPx: { value: (H * DPR) / (2 * Math.tan((FOV * Math.PI) / 360)) }, uR: { value: 1.5 }, uWake: { value: 0 }, uForm: { value: 0 }, uMinPx: { value: 1 }, uBurst: { value: 0 } },
+        vertexShader: `uniform float uTime, uLow, uMid, uHigh, uLvl, uFocus, uPx, uR, uWake, uForm, uMinPx, uBurst; attribute vec4 aRnd; attribute float aType;
           varying vec3 vCol; varying float vA; ${SNOISE}
           void main(){
             vec3 d = position; float t = uTime; vec3 p; float bright; float size;
@@ -206,6 +210,7 @@
             p.y *= 0.94;
             { float k = 1.0 - uForm; float lag = clamp(k * (1.0 + aRnd.x * 0.9), 0.0, 1.0); vec3 sw = vec3(snoise(d * 1.7 + 3.0), snoise(d * 1.7 + 11.0), snoise(d * 1.7 + 19.0));
               p = p * (1.0 + lag * lag * (1.6 + 3.2 * aRnd.y)) + sw * lag * 1.3 + vec3(0.0, -2.6 * lag * lag, 0.0); bright *= mix(0.55, 1.0, uForm) + lag * 0.5; }
+            { float bl = uBurst * uBurst; p += normalize(p + vec3(1e-4)) * bl * (2.0 + 10.0 * aRnd.z); bright *= 1.0 - smoothstep(0.5, 1.0, uBurst); }
             bright *= uWake;
             vec4 mv = modelViewMatrix * vec4(p, 1.0);
             float dist = -mv.z; float coc = abs(dist - uFocus) * 0.85;
@@ -342,6 +347,7 @@
       tl.set({}, {}, DUR);
 
       const T_ORB = T_FLY + 0.5;
+      const S2 = initScene2({ THREE, RoundedBoxGeometry, scene, renderer, rnd, H, DPR, FOV, word: JSON.parse(document.getElementById('word').textContent), T2 });
       // ---------- the camera over the app: wide -> the model label -> up the menu -> in from the right on the typing -> back with the dots ----------
       const inOutCubic = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
       const KEYS = [ // t, focus x, focus y (stage px), scale, rotateY, rotateX
@@ -370,13 +376,18 @@
         u.uR.value = 1.5 * (0.9 + 0.1 * outCubic(seg(t, T_ORB, T_ORB + 1.4)));
         orb.rotation.y = t * 0.22 + lvl * 0.08;
         const k = inOutSine(seg(t, T_ORB, DUR)), punch = lvl * 0.5 + outCubic(seg(t, 4.95, 5.25)) * 0.45, ang = lerp(0.55, -0.2, k), dist = lerp(8.8, 6.6, outCubic(seg(t, T_ORB, T_ORB + 1.5))) - punch;
-        camera.position.set(Math.sin(ang) * dist, lerp(0.75, -0.1, k), Math.cos(ang) * dist);
+        const orbCam = (tt, out) => { const kk = inOutSine(seg(tt, T_ORB, T2)), a2 = lerp(0.55, -0.2, kk), d2 = lerp(8.8, 6.6, outCubic(seg(tt, T_ORB, T_ORB + 1.5))) - (tt === t ? punch : 0); return out.set(Math.sin(a2) * d2, lerp(0.75, -0.1, kk), Math.cos(a2) * d2); };
+        orbCam(Math.min(t, T2), camera.position); camera.up.set(0, 1, 0);
         camera.lookAt(0, 0, 0);
-        u.uFocus.value = camera.position.length() - 0.2;
+        if (t >= T2) { if (!S2.started) { S2.setStart(orbCam(T2, new THREE.Vector3()).toArray()); S2.started = true; } S2.cameraAt(t, camera); }
+        S2.update(t);
+        u.uBurst.value = outCubic(seg(t, T2 + 0.12, T2 + 0.85)); orb.visible = t < T2 + 0.95;
+        u.uR.value *= 1 - 0.12 * Math.sin(Math.PI * seg(t, T2 - 0.1, T2 + 0.2));
+        u.uFocus.value = Math.max(0.6, camera.position.length() - 0.2);
         bgMat.uniforms.uTime.value = t; bgMat.uniforms.uLvl.value = lvl; bgMat.uniforms.uWake.value = u.uWake.value;
         { const v = new THREE.Vector3(0, 0, 0).project(camera); bgMat.uniforms.uC.value.set(v.x * 0.8889, v.y * 0.5); }
         bokehMat.uniforms.uTime.value = t; bokehMat.uniforms.uWake.value = outCubic(seg(t, T_ORB - 0.2, T_ORB + 0.9));
-        bloom.strength = 0.3 + 0.26 * lvl;
+        bloom.strength = (0.3 + 0.26 * lvl) * S2.bloomK(t); bloom.threshold = lerp(0.55, 0.85, 1 - S2.bloomK(t) > 0 ? (1 - S2.bloomK(t)) / 0.6 : 0);
         lens.uniforms.time.value = Math.floor(t * 60);
         composer.render();
       }
