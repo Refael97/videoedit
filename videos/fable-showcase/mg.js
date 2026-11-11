@@ -140,6 +140,7 @@ export function initMG({ gsap, tl, T2, DPR }) {
         <div id="di"></div>
       </div></div></div>
     </div>
+    <div id="mgveil" style="position:absolute;inset:0;pointer-events:none"></div>
     <div id="mggrain"></div>
     <svg id="mgcursor" viewBox="0 0 24 24"><path d="M5 3l14 8.5-6.2 1.3L9.5 19z" fill="#fff" stroke="#17131c" stroke-width="1.3" stroke-linejoin="round" /></svg>`;
 
@@ -158,8 +159,8 @@ export function initMG({ gsap, tl, T2, DPR }) {
   lens("#gm", 250, 250, 125, 90, 56, 2.2, 0.4); lens("#gc1", 132, 132, 66, 34, 60); lens("#gc2", 132, 132, 66, 34, 60); lens("#gtl", 150, 92, 46, 30, 50, 2, 1.5); lens("#gsk", 120, 96, 48, 30, 50, 2, 1.5); lens("#gb", 292, 96, 48, 28, 50); lens("#gs", 620, 84, 42, 24, 40); lens("#gt", 620, 112, 56, 28, 46); lens("#gn", 620, 150, 46, 26, 44);
 
   // ---------- reveal: the burst washes the frame to light ----------
-  tl.set(mg, { opacity: 1, clipPath: "circle(0px at 960px 540px)" }, 0);
-  tl.fromTo(mg, { clipPath: "circle(0px at 960px 540px)" }, { clipPath: "circle(1250px at 960px 540px)", duration: 0.62, ease: "power3.in", ...IR }, T.wash);
+  // driven per frame in update(): a soft-edged disc in the orb's own amber grows from the centre, heats to white as the camera enters it, then clears to the light scene
+  mg.style.opacity = 1;
   // ---------- the button + cursor ----------
   ft("#lg", { opacity: 0, scale: 0.55, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.55, ease: "back.out(1.6)" }, T.btn);
   tl.set("#mgcursor", { x: 1500, y: 1130, opacity: 1 }, 0);
@@ -205,9 +206,13 @@ export function initMG({ gsap, tl, T2, DPR }) {
     [T.s3 + WH, R3, 1.0, 0], [T.push, [R3[0] - 30, R3[1]], 1.04, 2], [T.full, PH, 5.56, 0], [T.end, [PH[0], PH[1] - 2], 5.74, 0]];
   const camAt = (t) => { let i = 0; while (i < KEYS.length - 2 && t > KEYS[i + 1][0]) i++; const A = KEYS[i], B = KEYS[i + 1], k0 = seg(t, A[0], B[0]), k = A[3] === 1 ? inOutExpo(k0) : A[3] === 2 ? inOutCubic(k0) : k0;
     return { x: lerp(A[1][0], B[1][0], k), y: lerp(A[1][1], B[1][1], k), s: lerp(A[2], B[2], k) }; };
-  const board = $("#board"), bg = $("#mgbg");
+  const board = $("#board"), bg = $("#mgbg"), veil = $("#mgveil");
   function update(t) {
     if (t < T.wash - 0.05) { mg.style.visibility = "hidden"; return; } mg.style.visibility = "visible";
+    { const k = seg(t, T.wash, T.wash + 0.62), r = 1500 * k * k * k, h = Math.pow(seg(t, T.wash + 0.1, T.wash + 0.66), 1.5), m = (a, b) => Math.round(lerp(a, b, h));
+      const mk = k >= 1 ? "none" : "radial-gradient(circle at 960px 540px, #000 0px, #000 " + (r * 0.62).toFixed(1) + "px, transparent " + r.toFixed(1) + "px)"; mg.style.maskImage = mk; mg.style.webkitMaskImage = mk;
+      const vo = 1 - inOutCubic(seg(t, T.wash + 0.56, T.wash + 1.05)); veil.style.opacity = vo.toFixed(3); veil.style.display = vo <= 0 ? "none" : "block";
+      veil.style.background = "radial-gradient(circle at 960px 540px, rgb(255," + m(226, 255) + "," + m(170, 255) + ") 0%, rgb(255," + m(150, 255) + "," + m(62, 255) + ") 55%, rgb(255," + m(118, 252) + "," + m(40, 248) + ") 100%)"; }
     const c = camAt(t), p = camAt(t - 1 / 120), v = Math.hypot(c.x - p.x, c.y - p.y) * 120; // px per second on the board
     board.style.transform = "translate(" + (960 - c.x * c.s).toFixed(2) + "px," + (540 - c.y * c.s).toFixed(2) + "px) scale(" + c.s.toFixed(4) + ")";
     const bl = Math.min(16, v * 0.0016); board.style.filter = bl > 0.4 ? "blur(" + bl.toFixed(1) + "px)" : "none";
