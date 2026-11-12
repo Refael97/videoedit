@@ -3,3 +3,4 @@ snapshots/
 .hyperframes/
 node_modules/
 assets/raw/
+.transcode-cache/
