@@ -200,6 +200,10 @@ export function initMG({ gsap, tl, T2, DPR }) {
   tl.to("#flare", { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, T.vfx); tl.to("#flare", { scale: 1.35, duration: 0.9, ease: "sine.inOut" }, T.vfx + 0.7);
   $$("#vfx span").forEach((sp, i) => ft(sp, { y: 108 }, { y: 0, duration: 1.05, ease: "expo.out" }, T.vfx + 0.1 + i * 0.11));
 
+  // ---------- hand-off to the sea: VFX lifts out of frame, the limb flattens into a horizon as the camera flies at it ----------
+  $$("#vfx span").forEach((sp, i) => tl.to(sp, { y: -330, duration: 0.6, ease: "power3.in" }, T.end + i * 0.05));
+  tl.set("#planet", { transformOrigin: "50% 0%" }, 0); tl.to("#planet", { scale: 9, duration: 1.1, ease: "power2.in" }, T.end + 0.05);
+  tl.to("#flare", { scaleX: 3.2, duration: 1.1, ease: "power2.in" }, T.end + 0.05); tl.to("#atm", { scaleX: 2.2, duration: 1.1, ease: "power2.in" }, T.end + 0.05);
   // ---------- camera ----------
   const KEYS = [[T2, H0, 1.0, 0], [T.click, H0, 1.07, 0], [T.s1, H0, 1.07, 1], [T.s1 + WH, R1, 1.0, 0], [T.s2, [R1[0] + 30, R1[1]], 1.05, 1], [T.s2 + WH, R2, 1.0, 0], [T.s3, [R2[0] - 20, R2[1]], 1.05, 1],
     [T.s3 + WH, R3, 1.0, 0], [T.push, [R3[0] - 30, R3[1]], 1.04, 2], [T.full, PH, 5.56, 0], [T.end, [PH[0], PH[1] - 2], 5.74, 0]];

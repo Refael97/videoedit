@@ -59,7 +59,7 @@
     </script>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="13.6" data-width="1920" data-height="1080" data-no-timeline>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="17.8" data-width="1920" data-height="1080" data-no-timeline>
       <canvas id="gl" width="1920" height="1080"></canvas>
       <audio id="voice" src="assets/vo.wav" data-start="__VO_START__" data-duration="__VO_DUR__" data-track-index="1" data-volume="1"></audio>
       <div id="stage">
@@ -111,12 +111,13 @@
       import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
       import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
       import { initMG } from "./mg.js";
+      import { initSea } from "./sea.js";
 
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
       let resolveBuilt; window.__hf.buildReady["fable1"] = new Promise((r) => (resolveBuilt = r));
       await Promise.all(["400 30px UI", "500 28px UI", "600 28px UI", "700 28px UI", "800 60px Display", "400 66px Greeting"].map((f) => document.fonts.load(f, "aא")));
 
-      const W = 1920, H = 1080, DUR = 13.6, FPS = 60, T2 = 6.4;
+      const W = 1920, H = 1080, DUR = 17.8, FPS = 60, T2 = 6.4;
       const DPR = Math.max(1, Math.round(window.devicePixelRatio || 1)); // 2 when rendered with --resolution 4k
       const AUD = JSON.parse(document.getElementById("audio").textContent);
       const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -350,6 +351,7 @@
 
       const T_ORB = T_FLY + 0.5;
       const MG = initMG({ gsap, tl, T2, DPR });
+      const SEA = initSea({ T0: MG.T.end, DPR });
       // ---------- the camera over the app: wide -> the model label -> up the menu -> in from the right on the typing -> back with the dots ----------
       const inOutCubic = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
       const KEYS = [ // t, focus x, focus y (stage px), scale, rotateY, rotateX
@@ -383,7 +385,7 @@
         camera.lookAt(0, 0, 0);
         // the burst: the camera pushes for the centre while the dots fly past it
         if (t >= T2) { const d = camera.position.length(), push = Math.pow(seg(t, T2, T2 + 0.95), 2); camera.position.multiplyScalar(lerp(d, 1.6, push) / d); camera.lookAt(0, 0, 0); }
-        MG.update(t);
+        MG.update(t); SEA.update(t);
         u.uBurst.value = outCubic(seg(t, T2 + 0.14, T2 + 0.95)); orb.visible = t < T2 + 1.0;
         u.uR.value *= 1 - 0.12 * Math.sin(Math.PI * seg(t, T2 - 0.1, T2 + 0.2));
         u.uFocus.value = Math.max(0.6, camera.position.length() - 0.2);
