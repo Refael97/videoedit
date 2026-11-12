@@ -1,0 +1,53 @@
+/* hooks theme: design tokens. Canvas 1080x1920 (9:16). Measured on the anchor (7784 + 28202, 68494, 93864; 720x1280) and scaled x1.5. */
+/* sans: Heebo (Hebrew) + Inter Tight (Latin) | condensed: Karantina (Hebrew) + Oswald (Latin) | hand: Playpen Sans Hebrew + Comic Neue */
+@font-face { font-family: "HooksSans"; font-weight: 800; src: url("fonts/heebo-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HooksSans"; font-weight: 900; src: url("fonts/heebo-hebrew-900-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HooksSans"; font-weight: 800; src: url("fonts/inter-tight-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "HooksSans"; font-weight: 900; src: url("fonts/inter-tight-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "HooksCond"; font-weight: 400; src: url("fonts/karantina-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HooksCond"; font-weight: 400; src: url("fonts/oswald-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "HooksHand"; font-weight: 600; src: url("fonts/playpen-sans-hebrew-hebrew-600-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HooksMono"; font-weight: 500; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "HooksHand"; font-weight: 600; src: url("fonts/comic-neue-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+
+:root {
+  /* the void: black with amber light from two opposite corners (measured: corner 85,61,0 → center 1,0,2) */
+  --h-void: #010002;
+  --h-amber: rgba(255, 183, 0, 0.36);   /* corner glow color at the very corner ≈ #553d00 on black */
+
+  /* glow palettes: [top fill, bottom fill, glow]. The color is chosen by what the word MEANS (language.md §4) */
+  --h-gold-a: #fff6c2;  --h-gold-b: #ffc21a;  --h-gold-g: rgba(255, 190, 20, 0.85);     /* the key idea (default) */
+  --h-fire-a: #ffe36b;  --h-fire-b: #ff6a1a;  --h-fire-g: rgba(255, 110, 20, 0.85);     /* the problem / the stakes */
+  --h-lime-a: #f2ff7a;  --h-lime-b: #b8f000;  --h-lime-g: rgba(190, 240, 0, 0.85);      /* the action / the how */
+  --h-violet-a: #f2a6ff; --h-violet-b: #9a1cf0; --h-violet-g: rgba(170, 40, 255, 0.85); /* the desire / the result you want */
+  --h-red-a: #ff9aa0;   --h-red-b: #ff1f3d;  --h-red-g: rgba(255, 30, 60, 0.9);         /* neon number / the warning */
+
+  /* glossy objects */
+  --h-tile-a: #fdd859; --h-tile-b: #fff985;   /* gold tile: measured 253,216,89 → 255,249,133 left to right */
+  --h-tile-ink: #1c1505;
+  --h-ring: #ffc928;                          /* the numbered chip's ring and the [bracket] color */
+  --h-glass: rgba(18, 18, 22, 0.62);          /* dark translucent pills (chips, view counts, title strips) */
+  --h-glass-edge: rgba(255, 255, 255, 0.16);
+  --h-white: #ffffff;
+
+  /* type */
+  --h-font: "HooksSans", sans-serif;
+  --h-cond: "HooksCond", sans-serif;
+  --h-hand: "HooksHand", sans-serif;
+  --h-lead: 60px;            /* the small line above a glow word (measured ≈40 at 720) */
+  --h-glow-min: 120px;       /* glow word: fitted to 55–75% of the width, 120–230px (measured cap 50–115 at 720) */
+  --h-glow-max: 230px;
+  --h-cap: 58px;             /* captions: white 800, 1–4 words, soft shadow, no outline (measured ≈40 at 720) */
+  --h-chip: 46px;            /* chip label, condensed */
+  --h-hand-size: 76px;       /* template line in the hand font */
+  --h-pill: 64px;            /* view-count number */
+  --h-track: -0.035em;
+
+  /* layout (1920 tall) */
+  --h-glow-y: 1210px;        /* glow word center, on the chest (63%) */
+  --h-cap-y: 1192px;         /* caption center (62%) */
+  --h-chip-y: 1140px;        /* chip center when a template line follows (59%) */
+  --h-hand-y: 1330px;        /* template line center (69%) */
+  --h-pill-y: 1462px;        /* view pill center on a cutaway (76%) */
+  --h-strip-y: 290px;        /* cutaway title strip center (15%) */
+}

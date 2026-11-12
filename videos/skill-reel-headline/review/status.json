@@ -1,0 +1,168 @@
+{
+ "s1": [
+  {
+   "round": 1,
+   "sheet": "review/s1/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/s1/round-2.jpg"
+  },
+  {
+   "round": 3,
+   "sheet": "review/s1/round-3.jpg"
+  }
+ ],
+ "g2": [
+  {
+   "round": 1,
+   "sheet": "review/g2/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/g2/round-2.jpg"
+  }
+ ],
+ "s3": [
+  {
+   "round": 1,
+   "sheet": "review/s3/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/s3/round-2.jpg"
+  },
+  {
+   "round": 3,
+   "sheet": "review/s3/round-3.jpg"
+  }
+ ],
+ "face@13.6": [
+  {
+   "round": 1,
+   "sheet": "review/face@13.6/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/face@13.6/round-2.jpg"
+  }
+ ],
+ "g5": [
+  {
+   "round": 1,
+   "sheet": "review/g5/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/g5/round-2.jpg"
+  }
+ ],
+ "dark": [
+  {
+   "round": 1,
+   "sheet": "review/dark/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/dark/round-2.jpg"
+  },
+  {
+   "round": 3,
+   "sheet": "review/dark/round-3.jpg"
+  }
+ ],
+ "g7": [
+  {
+   "round": 1,
+   "sheet": "review/g7/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/g7/round-2.jpg"
+  }
+ ],
+ "s8": [
+  {
+   "round": 1,
+   "sheet": "review/s8/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/s8/round-2.jpg"
+  },
+  {
+   "round": 3,
+   "sheet": "review/s8/round-3.jpg"
+  }
+ ],
+ "face@37.1": [
+  {
+   "round": 1,
+   "sheet": "review/face@37.1/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/face@37.1/round-2.jpg"
+  }
+ ],
+ "g10": [
+  {
+   "round": 1,
+   "sheet": "review/g10/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/g10/round-2.jpg"
+  }
+ ],
+ "s11": [
+  {
+   "round": 1,
+   "sheet": "review/s11/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/s11/round-2.jpg"
+  },
+  {
+   "round": 3,
+   "sheet": "review/s11/round-3.jpg"
+  }
+ ],
+ "face@47.6": [
+  {
+   "round": 1,
+   "sheet": "review/face@47.6/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/face@47.6/round-2.jpg"
+  }
+ ],
+ "s12": [
+  {
+   "round": 1,
+   "sheet": "review/s12/round-1.jpg"
+  },
+  {
+   "round": 2,
+   "sheet": "review/s12/round-2.jpg"
+  },
+  {
+   "round": 3,
+   "sheet": "review/s12/round-3.jpg"
+  }
+ ],
+ "_polish": [
+  {
+   "round": 1,
+   "sheet": "review/_polish/round-1.jpg"
+  }
+ ],
+ "_film": [
+  {
+   "round": 1,
+   "sheet": "review/_film/round-1.jpg"
+  }
+ ]
+}

@@ -1,0 +1,99 @@
+/* editorial theme: layouts, materials and building blocks. Needs tokens.css. Read language.md first. */
+
+.e-root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--e-sans); direction: rtl; color: var(--e-cream); background: var(--e-green); }
+.aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+/* ===================== LAYERS (EDITORIAL.layout switches them) =====================
+   z: footage 1 · page 2 · behind-text 3 · matte (the cut-out speaker) 4 · cover frame 5 · overlays 10 · captions 30 */
+.e-face { position: absolute; inset: 0; z-index: 1; overflow: hidden; }
+.e-face video, .e-matte video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 0 0; }
+.e-page { position: absolute; inset: 0; z-index: 2; background: var(--e-green); opacity: 0; }
+.e-behind { position: absolute; inset: 0; z-index: 3; pointer-events: none; }           /* text that sits BEHIND the speaker */
+.e-matte { position: absolute; inset: 0; z-index: 4; overflow: hidden; pointer-events: none; opacity: 0; }
+.e-over { position: absolute; inset: 0; z-index: 10; pointer-events: none; }            /* cards, headlines in front */
+.e-scene { position: absolute; inset: 0; }
+
+/* the cover: a thin gold frame + an issue line, like a magazine */
+.e-cover { position: absolute; inset: var(--e-frame); border: 2px solid var(--e-rule); z-index: 5; opacity: 0; pointer-events: none; }
+.e-issue { position: absolute; left: 0; right: 0; top: 150px; text-align: center; font-family: var(--e-mono); font-size: var(--e-kicker); letter-spacing: 0.32em; color: var(--e-cream); opacity: 0.85; white-space: pre; direction: ltr; }
+
+/* ===================== TYPE ===================== */
+/* display serif: huge, condensed, cream; set letter by letter (EDITORIAL.letters) */
+.e-display { position: absolute; left: 0; right: 0; text-align: center; font-family: var(--e-serif); font-stretch: var(--e-he-stretch); font-weight: 300; font-size: var(--e-display); line-height: 0.86; color: var(--e-cream); white-space: pre; letter-spacing: -0.01em; }
+.e-display .l { display: inline-block; }
+/* heavy sans headline: left/right-aligned block, tight; lines rise out of a mask (EDITORIAL.lines) */
+.e-heavy { position: absolute; left: var(--e-margin); right: var(--e-margin); font-family: var(--e-sans); font-weight: 900; font-size: var(--e-heavy); line-height: 0.9; letter-spacing: -0.035em; color: var(--e-cream); }
+.e-heavy .ln { display: block; overflow: hidden; padding-bottom: 0.06em; margin-bottom: -0.06em; white-space: pre; }
+.e-heavy .ln > span { display: inline-block; }
+/* the accent: italic serif, gold on green / ink on cream */
+.e-it { font-family: var(--e-italic); font-weight: 400; font-stretch: var(--e-he-stretch); color: var(--e-gold); letter-spacing: 0; display: inline-block; }
+.e-it.he { transform: skewX(-11deg); }        /* Hebrew has no italic: the condensed serif, slanted */
+/* mono kicker: small caps-like label, wide tracking */
+.e-kicker { font-family: var(--e-mono); font-size: var(--e-kicker); letter-spacing: 0.32em; color: var(--e-gold); white-space: pre; }
+/* timecode: dim digits, the live part cream, the frames gold */
+.e-tc { font-family: var(--e-mono); font-size: 30px; letter-spacing: 0.06em; color: var(--e-sage); direction: ltr; white-space: pre; }
+.e-tc b { color: var(--e-cream); font-weight: 500; } .e-tc i { color: var(--e-gold); font-style: normal; }
+
+/* ===================== LABELS (the cut-paper stack) ===================== */
+/* a word set on its own green slip; slips stack and overlap a little, like pasted clippings */
+.e-stack { position: absolute; left: var(--e-margin); right: var(--e-margin); display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+.e-slip { position: relative; display: inline-block; background: var(--e-green); padding: 6px 26px 14px; white-space: pre; margin-top: -6px; }
+.e-slip.heavy { font-family: var(--e-sans); font-weight: 900; font-size: 116px; line-height: 0.95; letter-spacing: -0.035em; color: var(--e-cream); }
+.e-slip.it { font-family: var(--e-italic); font-stretch: var(--e-he-stretch); font-size: 108px; line-height: 1; color: var(--e-gold); }
+.e-slip.it.he span { display: inline-block; transform: skewX(-11deg); }
+.e-slip.cream { background: var(--e-paper); color: var(--e-ink); }
+.e-slip.small { font-family: var(--e-sans); font-weight: 900; font-size: 46px; padding: 4px 16px 8px; letter-spacing: 0; }
+.e-slip .in { display: inline-block; }   /* the text under the slip's wipe */
+
+/* ===================== CAPTIONS ===================== */
+/* a phrase in the serif on a green slip; the words light up as they are spoken (karaoke) */
+.e-caps { position: absolute; left: 0; right: 0; top: 0; height: 0; z-index: 30; }
+.e-cap { position: absolute; left: 50%; transform: translateX(-50%); height: var(--e-cap-h); margin-top: calc(var(--e-cap-h) / -2); padding: 0 20px; background: rgba(22, 50, 39, 0.94); display: flex; align-items: center; font-family: var(--e-serif); font-stretch: 75%; font-weight: 400; font-size: var(--e-cap); color: var(--e-sage); white-space: pre; opacity: 0; }
+.e-cap .w { color: var(--e-sage); } .e-cap .w.on { color: var(--e-cream); }
+
+/* ===================== CARDS ===================== */
+/* green card: a real tool / product / list, gold hairline under the header */
+.e-card { position: absolute; background: var(--e-green); border: 1px solid rgba(237, 233, 223, 0.10); border-radius: 18px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45); overflow: hidden; color: var(--e-cream); font-size: var(--e-ui); }
+.e-card .hd { height: 74px; display: flex; align-items: center; gap: 14px; padding: 0 28px; border-bottom: 2px solid var(--e-rule); font-family: var(--e-serif); font-size: 40px; white-space: pre; }
+.e-card .hd .ver { font-family: var(--e-mono); font-size: 26px; padding: 2px 10px; border-radius: 6px; background: var(--e-cream); color: var(--e-ink); direction: ltr; }
+.e-card .hd .st { margin-right: auto; font-family: var(--e-mono); font-size: 26px; letter-spacing: 0.2em; color: var(--e-gold); direction: ltr; }
+.e-card .bd { padding: 30px 32px; position: relative; }
+.e-card .ln { display: flex; align-items: center; gap: 18px; min-height: 66px; border-top: 1px solid rgba(237, 233, 223, 0.08); white-space: pre; }
+.e-card .mono { font-family: var(--e-mono); direction: ltr; font-size: 30px; }
+/* cream card: an input the user types into (prompt, comment) */
+.e-input { position: absolute; background: var(--e-paper); color: var(--e-ink); border-radius: 22px; box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35); padding: 18px 26px 22px; }
+.e-input .k { font-family: var(--e-mono); font-size: 26px; letter-spacing: 0.24em; color: #6c6a60; direction: ltr; text-align: left; white-space: pre; }
+.e-input .tx { display: flex; align-items: center; gap: 18px; margin-top: 8px; min-height: 64px; font-family: var(--e-sans); font-weight: 500; font-size: 40px; white-space: pre; direction: ltr; }
+.e-input .tx .t { flex: 1; text-align: left; }
+.e-input .go { width: 64px; height: 64px; border-radius: 50%; background: var(--e-green); display: flex; align-items: center; justify-content: center; flex: none; }
+.e-input .go svg { width: 34px; height: 34px; }
+.e-caret { display: inline-block; width: 3px; height: 1em; background: var(--e-ink); vertical-align: -0.12em; margin-left: 2px; }
+/* thumbnail (a real frame / a real page) with a hairline and an optional timecode chip */
+.e-thumb { position: absolute; border-radius: 10px; overflow: hidden; border: 2px solid var(--e-gold); background: #333 center / cover; }
+.e-thumb .chip { position: absolute; left: 10px; bottom: 10px; font-family: var(--e-mono); font-size: 26px; background: rgba(0, 0, 0, 0.7); color: #fff; padding: 2px 8px; border-radius: 6px; direction: ltr; }
+/* flip counter: digits on green tiles (countdowns, raw-take length, prices) */
+.e-flip { position: absolute; background: var(--e-green); border-radius: 16px; padding: 18px 22px 22px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); }
+.e-flip .kicker { text-align: center; margin-bottom: 12px; }
+.e-flip .row { display: flex; gap: 14px; direction: ltr; align-items: center; }
+.e-flip .tile { width: 150px; height: 200px; border-radius: 10px; background: var(--e-green-3); overflow: hidden; position: relative; }
+.e-flip .tile span { position: absolute; left: 0; right: 0; text-align: center; font-family: var(--e-serif); font-size: 190px; line-height: 200px; color: var(--e-cream); }
+.e-flip .colon { font-family: var(--e-serif); font-size: 150px; color: var(--e-cream); }
+/* a ruled list (names / numbers in the serif, right column numbers) */
+.e-list { position: absolute; left: var(--e-margin); right: var(--e-margin); font-family: var(--e-serif); font-stretch: 75%; font-size: 56px; color: var(--e-cream); }
+.e-list .r { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(237, 233, 223, 0.35); padding: 6px 0; white-space: pre; }
+.e-list .r .n { direction: ltr; }
+/* strike: a gold (or red) line through a word that stops being true */
+.e-strike { position: relative; display: inline-block; }
+.e-strike::after { content: ""; position: absolute; left: -4%; right: -4%; top: 52%; height: 0.08em; background: var(--e-red); transform: scaleX(var(--s, 0)); transform-origin: 100% 50%; }
+/* film strip edges (a flashback, history, "in 1954") */
+.e-film { position: absolute; top: 0; bottom: 0; width: 44px; z-index: 6; background: #0c0c0c; background-image: repeating-linear-gradient(transparent 0 26px, #f2f2f2 26px 46px, transparent 46px 62px); background-size: 20px 62px; background-repeat: repeat-y; background-position: center 0; opacity: 0; }
+.e-film.l { left: 0; } .e-film.r { right: 0; }
+
+/* CTA: the white pill with the instruction + a comment row being typed */
+.e-cta { position: absolute; left: 80px; right: 80px; top: 230px; text-align: center; z-index: 12; }
+.e-cta .pill { display: inline-block; background: #fff; color: var(--e-ink); border-radius: 26px; padding: 14px 30px 18px; font-family: var(--e-sans); font-weight: 900; font-size: 54px; line-height: 1.12; letter-spacing: -0.02em; white-space: pre; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+.e-comment { position: absolute; left: 60px; right: 60px; top: 470px; height: 120px; background: #fff; border-radius: 26px; box-shadow: 0 14px 36px rgba(0, 0, 0, 0.25); display: flex; align-items: center; gap: 22px; padding: 0 30px; color: var(--e-ink); z-index: 12; direction: ltr; }
+.e-comment .av { width: 66px; height: 66px; border-radius: 50%; background: var(--e-green); flex: none; }
+.e-comment .who { font-family: var(--e-sans); font-weight: 500; font-size: 26px; color: #777; }
+.e-comment .t { font-family: var(--e-sans); font-weight: 900; font-size: 44px; }
+.e-comment .hrt { margin-left: auto; width: 46px; height: 46px; }

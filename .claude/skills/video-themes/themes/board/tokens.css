@@ -1,0 +1,59 @@
+/* board theme: design tokens. Canvas 1080x1920 (9:16). Measured on the anchor (31455 + 42755, one creator, 720x1280) and scaled x1.5. */
+/* sans: Assistant (Hebrew) + DM Sans (Latin) | accent serif italic: David Libre slanted (Hebrew) + Lora italic (Latin) | mono: JetBrains Mono */
+@font-face { font-family: "BoardSans"; font-weight: 500; src: url("fonts/assistant-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "BoardSans"; font-weight: 700; src: url("fonts/assistant-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "BoardSans"; font-weight: 800; src: url("fonts/assistant-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "BoardSans"; font-weight: 500; src: url("fonts/dm-sans-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "BoardSans"; font-weight: 700; src: url("fonts/dm-sans-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "BoardSans"; font-weight: 800; src: url("fonts/dm-sans-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "BoardSerif"; font-weight: 700; src: url("fonts/david-libre-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "BoardSerif"; font-weight: 700; font-style: italic; src: url("fonts/lora-latin-600-italic.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "BoardNum"; font-weight: 400; src: url("fonts/lora-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "BoardMono"; font-weight: 700; src: url("fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+
+:root {
+  /* board */
+  --b-paper: #ebe3d5;          /* measured 230,221,203 (42755) .. 240,233,226 (31455); a soft light spot in the middle */
+  --b-grid: rgba(150, 125, 95, 0.13);
+  --b-grid-step: 54px;         /* measured 36px at 720 */
+  --b-dark: #18181e;           /* the "catch" section and dark cards (measured 24,24,30) */
+
+  /* ink + one accent */
+  --b-ink: #1d1a17;
+  --b-ink-soft: #8c8478;       /* unspoken caption words, secondary text */
+  --b-coral: #e46c56;          /* measured 228,108,84: the accent word, the caption pill, the mascot, progress */
+  --b-coral-soft: #f7d6cc;     /* the selection box fill */
+  --b-green: #3c9c6c;          /* done / verified (measured 60,156,108) */
+  --b-hazard: #eaae36;         /* warning stripes + the accent word on the dark section (measured 234,174,54) */
+
+  /* cards: white, ink outline, hard offset shadow (neo-brutalist) */
+  --b-card: #ffffff;
+  --b-card-warm: #fbf8f2;
+  --b-line: 4px;               /* measured 3px at 720 */
+  --b-shadow: 12px 12px 0 var(--b-ink);   /* measured ~9-10px offset at 720 */
+  --b-shadow-coral: 12px 12px 0 var(--b-coral);
+  --b-r: 18px;                 /* measured 12 at 720 */
+
+  /* type */
+  --b-font: "BoardSans", sans-serif;
+  --b-serif: "BoardSerif", serif;
+  --b-num: "BoardNum", serif;
+  --b-mono: "BoardMono", monospace;
+  --b-title: 104px;            /* title: cap height measured 53px at 720 */
+  --b-title-2: 84px;           /* second / smaller title line */
+  --b-cap: 56px;               /* captions (measured ~38px at 720) */
+  --b-ui: 32px;                /* text inside cards; minimum 26 */
+  --b-mono-s: 27px;            /* header strip / step label (measured 13px caps at 720) */
+  --b-track: -1.5px;
+  --b-serif-slant: -11deg;     /* Hebrew serif accent is slanted with skewX (David Libre has no italic) */
+
+  /* layout (1920 tall) */
+  --b-head-top: 264px;         /* mono header strip "• NAME" + progress (measured y 176 at 720) */
+  --b-step-top: 334px;         /* "STEP 1/3" + segment bar (measured y 223) */
+  --b-title-top: 380px;        /* title top (measured 239 → 358; +22 when a step row is shown) */
+  --b-hero-top: 640px;         /* hero card area 640..1300 */
+  --b-hero-bottom: 1300px;
+  --b-cap-y: 1413px;           /* caption center (measured 942/1280 = 73.6%) */
+  --b-line-y: 330px;           /* variant "line" captions at the top (31455: center 221/1280) */
+  --b-pixel: 60px;             /* pixel-dissolve block (measured 40 at 720) */
+}

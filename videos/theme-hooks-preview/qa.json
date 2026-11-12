@@ -1,0 +1,122 @@
+{
+ "project": "theme-hooks-preview",
+ "theme": "hooks",
+ "score": "9/10",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 1.48,
+   "target": ">= 0.53",
+   "pass": true,
+   "footage": "camera jitter 0.32 px/frame, 2 punches, 3 drifts (anchor: jitter 0.30 px/frame, 26.2 camera moves/min)"
+  },
+  "flat": {
+   "value": "23.9%",
+   "target": "<= 34.0%",
+   "pass": true
+  },
+  "actions": {
+   "value": "0.82 events/s (GSAP 2.56 tweens/s)",
+   "target": "0.48–0.9",
+   "pass": true
+  },
+  "payoff": {
+   "value": "1 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "median 83%, 0 weak ranges",
+   "target": ">= 60%",
+   "pass": true
+  },
+  "collide": {
+   "value": "0 collisions",
+   "target": "0",
+   "pass": true,
+   "faces_detected": 68
+  },
+  "overlap": {
+   "value": "2 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": false
+  },
+  "placeholder": {
+   "value": "0 found",
+   "target": "0",
+   "pass": true
+  },
+  "hook": {
+   "value": "visual on screen 2.8s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 17.17,
+  "motion": 2.42,
+  "flat_pct": 23.9,
+  "events_per_s": 0.7,
+  "graphics": {
+   "gfx_motion": 1.48,
+   "gfx_raw": 1.48,
+   "baseline": 0.0,
+   "baseline_s": 7,
+   "baseline_from": "none (graphics-only render)",
+   "gfx_share": 0.59,
+   "footage": {
+    "jitter_px": 0.32,
+    "punches": [
+     12.77,
+     15.27
+    ],
+    "drifts": [
+     7.0,
+     9.33,
+     14.67
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.32,
+   "punches": [
+    12.77,
+    15.27
+   ],
+   "drifts": [
+    7.0,
+    9.33,
+    14.67
+   ]
+  },
+  "actions_per_s": 0.82
+ },
+ "targets": {
+  "gfx_motion_min": 0.53,
+  "flat_max": 34.0,
+  "events_min": 0.48,
+  "events_max": 0.9,
+  "footage_info": "jitter 0.30 px/frame, 26.2 camera moves/min"
+ },
+ "fix_list": [
+  {
+   "t": "0.5–3.0s",
+   "t0": 0.5,
+   "words": "אתם רוצים לבנות אתרים שנראים טוב עם",
+   "check": "graphic overlaps",
+   "fix": "#th1 overlaps #th2 (9% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  },
+  {
+   "t": "0.8–3.0s",
+   "t0": 0.75,
+   "words": "רוצים לבנות אתרים שנראים טוב עם",
+   "check": "graphic overlaps",
+   "fix": "#th2 overlaps #th3 (9% of the smaller): move one of them so they don't overlap; if the language stacks them on purpose (cards on cards), wrap them in one data-qa-stack container"
+  }
+ ]
+}
