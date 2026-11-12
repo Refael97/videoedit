@@ -44,15 +44,23 @@ export function initSea({ T0, DPR }) {
   vec4 letters(vec3 ro, vec3 rd, out float tH) {
     tH = -1.0; if (abs(rd.z) < 1e-4) return vec4(0.0);
     float sunUp = smoothstep(-0.02, 0.03, uElev);
-    for (int k = 0; k < 6; k++) {
-      float t = (uLz + float(k) * 0.45 - ro.z) / rd.z; if (t <= 0.0) continue;
+    for (int k = 0; k < 28; k++) {
+      float t = (uLz + float(k) * 0.1 - ro.z) / rd.z; if (t <= 0.0) continue;
       vec3 p = ro + rd * t; vec2 uv = vec2((p.x - uLx) / LW + 0.5, (p.y - uLy) / LH);
       if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) continue;
       float a = texture(uTex, uv).r; if (a < 0.5) continue;
-      tH = t; vec3 base = mix(vec3(0.004, 0.012, 0.035), vec3(0.012, 0.028, 0.07), uDay), c;
-      if (k == 0) { c = base * (0.7 + 0.9 * uv.y) + mix(vec3(0.02, 0.08, 0.3), vec3(0.25, 0.4, 0.6), uDay) * 0.18; c += vec3(1.0, 0.8, 0.5) * smoothstep(0.78, 0.5, a) * 0.9 * sunUp; }
-      else c = base * 1.3 + vec3(1.0, 0.72, 0.4) * 0.5 * sunUp + vec3(0.1, 0.4, 1.0) * 0.25 * (1.0 - uDay);
-      c = mix(c, sky(vec3(rd.x, 0.01, abs(rd.z))), (1.0 - exp(-t * 0.0035)) * 0.42);
+      tH = t;
+      // polished black lacquer: the soft edge of the glyph gives a bevel normal, the faces mirror the sky, the sun behind catches bevels and the rear of the sides
+      vec2 px = vec2(2.5 / 2048.0, 2.5 / 360.0);
+      vec2 g = vec2(texture(uTex, uv + vec2(px.x, 0.0)).r - texture(uTex, uv - vec2(px.x, 0.0)).r, texture(uTex, uv + vec2(0.0, px.y)).r - texture(uTex, uv - vec2(0.0, px.y)).r);
+      float edge = clamp(length(g) * 1.6, 0.0, 1.0), back = float(k) / 27.0;
+      vec3 n = normalize(k == 0 ? vec3(-g.x * 1.4, -g.y * 1.4, -1.0) : vec3(-g.x * 4.0, -g.y * 4.0, -0.35));
+      vec3 r = reflect(rd, n), env = sky(normalize(vec3(r.x, abs(r.y) + 0.08, -abs(r.z) - 0.3)));
+      float F = 0.05 + 0.95 * pow(1.0 - clamp(dot(-rd, n), 0.0, 1.0), 5.0);
+      vec3 c = vec3(0.002, 0.003, 0.006) + env * (F * 0.8 + 0.006);
+      c += vec3(1.0, 0.78, 0.5) * sunUp * (edge * (k == 0 ? 0.5 : 0.0) + pow(back, 3.0) * 0.55);
+      c += vec3(0.25, 0.55, 1.0) * (1.0 - uDay) * (edge * (k == 0 ? 0.45 : 0.0) + pow(back, 3.0) * 0.35);
+      c = mix(c, sky(vec3(rd.x, 0.01, abs(rd.z))), (1.0 - exp(-t * 0.0035)) * 0.16);
       return vec4(c, 1.0);
     }
     return vec4(0.0); }
