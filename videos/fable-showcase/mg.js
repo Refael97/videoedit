@@ -77,8 +77,8 @@ export function initMG({ gsap, tl, T2, DPR }) {
     #atm { position: absolute; inset: 0; background: radial-gradient(ellipse 62% 10% at 50% 55.3%, rgba(90,160,255,.95) 0%, rgba(30,95,235,.55) 34%, rgba(10,40,150,.22) 62%, rgba(0,0,0,0) 80%); }
     #flare { position: absolute; left: 50%; top: 418px; width: 0; height: 0; } #flare i { position: absolute; left: -105px; top: -13px; width: 210px; height: 26px; border-radius: 50%; background: radial-gradient(ellipse, #fff 0%, rgba(190,225,255,.9) 28%, rgba(90,160,255,0) 70%); }
     #flare b { position: absolute; left: -30px; top: -30px; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(#fff 0%, rgba(200,230,255,.85) 30%, rgba(90,160,255,0) 70%); }
-    #vfx { position: absolute; left: 0; right: 0; top: 334px; text-align: center; font-size: 75px; font-weight: 700; letter-spacing: 7px; padding-left: 7px; line-height: 1; color: #fff; text-shadow: 0 0 15px rgba(150,200,255,.95), 0 0 45px rgba(60,130,255,.85); }
-    #vfx span { display: inline-block; }
+    #vfx, #vfx2 { position: absolute; left: 0; right: 0; top: 334px; text-align: center; font-size: 75px; font-weight: 700; letter-spacing: 7px; padding-left: 7px; line-height: 1; color: #fff; text-shadow: 0 0 15px rgba(150,200,255,.95), 0 0 45px rgba(60,130,255,.85); }
+    #vfx span, #vfx2 span { display: inline-block; }
     #planet { position: absolute; left: 50%; top: 420px; width: 1258px; height: 1258px; margin-left: -629px; border-radius: 50%; background: radial-gradient(circle at 50% 0%, #0a2a78 0%, #041038 5%, #020820 11%, #01030c 22%, #000208 45%);
       box-shadow: 0 -1px 1.5px rgba(225,240,255,.98), 0 -2.5px 9px rgba(110,175,255,.95), 0 -8px 30px rgba(40,110,255,.75), 0 -20px 70px rgba(20,70,220,.45); }
     #lock { position: absolute; left: 0; right: 0; top: 78px; text-align: center; color: #fff; } #lock small { display: block; font-size: 21px; font-weight: 600; opacity: .85; } #lock b { display: block; font-size: 96px; font-weight: 600; letter-spacing: -3px; line-height: 1.05; }
@@ -201,12 +201,13 @@ export function initMG({ gsap, tl, T2, DPR }) {
   $$("#vfx span").forEach((sp, i) => ft(sp, { y: 108 }, { y: 0, duration: 1.05, ease: "expo.out" }, T.vfx + 0.1 + i * 0.11));
 
   // ---------- hand-off to the sea: VFX lifts out of frame, the limb flattens into a horizon as the camera flies at it ----------
-  // the forward flight starts the moment the letters have settled: the limb swells toward the camera, and the letters lift away mid-flight
+  // the forward flight starts the moment the letters have settled: sea.js takes over the picture underneath (the surface is already streaming),
+  // and the letters move to an overlay above it, grow as the camera closes in, then lift away mid-flight
   const FL = T.end - 0.3;
-  tl.set("#planet", { transformOrigin: "50% 0%" }, 0); tl.to("#planet", { scale: 9, duration: 1.4, ease: "power2.in" }, FL);
-  tl.to("#flare", { scaleX: 3.2, duration: 1.4, ease: "power2.in" }, FL); tl.to("#atm", { scaleX: 2.2, duration: 1.4, ease: "power2.in" }, FL);
-  tl.set("#vfx", { transformOrigin: "50% 100%" }, 0); tl.to("#vfx", { scale: 1.5, duration: 1.2, ease: "power2.in" }, FL);
-  $$("#vfx span").forEach((sp, i) => tl.to(sp, { y: -330, duration: 0.65, ease: "power3.in" }, T.end + 0.12 + i * 0.05));
+  const vfo = document.createElement("div"); vfo.id = "vfxo"; vfo.style.cssText = "position:absolute;left:0;top:0;width:362px;height:768px;transform-origin:0 0;z-index:5;pointer-events:none;visibility:hidden;font-family:'UI',sans-serif";
+  vfo.innerHTML = '<div id="vfx2"><span>V</span><span>F</span><span>X</span></div>'; $("#root").appendChild(vfo);
+  tl.set("#vfx2", { transformOrigin: "50% 100%" }, 0); tl.to("#vfx2", { scale: 1.7, duration: 1.25, ease: "power1.in" }, FL);
+  $$("#vfx2 span").forEach((sp, i) => tl.to(sp, { y: -360, duration: 0.7, ease: "power3.in" }, T.end + 0.2 + i * 0.05));
   // ---------- camera ----------
   const KEYS = [[T2, H0, 1.0, 0], [T.click, H0, 1.07, 0], [T.s1, H0, 1.07, 1], [T.s1 + WH, R1, 1.0, 0], [T.s2, [R1[0] + 30, R1[1]], 1.05, 1], [T.s2 + WH, R2, 1.0, 0], [T.s3, [R2[0] - 20, R2[1]], 1.05, 1],
     [T.s3 + WH, R3, 1.0, 0], [T.push, [R3[0] - 30, R3[1]], 1.04, 2], [T.full, PH, 5.56, 0], [T.end, [PH[0], PH[1] - 2], 5.74, 0]];
@@ -222,6 +223,8 @@ export function initMG({ gsap, tl, T2, DPR }) {
     const c = camAt(t), p = camAt(t - 1 / 120), v = Math.hypot(c.x - p.x, c.y - p.y) * 120; // px per second on the board
     board.style.transform = "translate(" + (960 - c.x * c.s).toFixed(2) + "px," + (540 - c.y * c.s).toFixed(2) + "px) scale(" + c.s.toFixed(4) + ")";
     const bl = Math.min(16, v * 0.0016); board.style.filter = bl > 0.4 ? "blur(" + bl.toFixed(1) + "px)" : "none";
+    { const on = t >= FL; vfo.style.visibility = on ? "visible" : "hidden"; $("#vfx").style.visibility = on ? "hidden" : "visible";
+      if (on) vfo.style.transform = "translate(" + ((2481 - c.x) * c.s + 960).toFixed(2) + "px," + ((1236 - c.y) * c.s + 540).toFixed(2) + "px) scale(" + c.s.toFixed(4) + ")"; }
     bg.style.transform = "translate(0px," + (-(c.y - 540) * 0.05).toFixed(1) + "px)";
   }
   return { update, T };
