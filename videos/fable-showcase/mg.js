@@ -42,13 +42,13 @@ export function initMG({ gsap, tl, T2, DPR }) {
     #ripple i { position: absolute; left: -330px; top: -330px; width: 660px; height: 660px; border-radius: 50%; border: 3px solid rgba(255,255,255,.9); box-shadow: 0 0 40px rgba(80,150,255,.6); }
     #mgcursor { position: absolute; left: 0; top: 0; width: 40px; height: 40px; filter: drop-shadow(0 3px 5px rgba(40,20,60,.4)); }
     /* R1: iPhone */
-    #ph { position: absolute; left: 2470px; top: 1225px; width: 384px; height: 790px; border-radius: 66px; background: linear-gradient(145deg, #5a5b60, #2a2b2f 45%, #121214); box-shadow: 0 60px 110px rgba(10,25,70,.38), inset 0 0 0 2px rgba(255,255,255,.22); }
-    #ph .scr { position: absolute; inset: 11px; border-radius: 56px; overflow: hidden; background: #0b0d14; color: #fff; }
-    #ph .art { position: absolute; left: 30px; top: 96px; width: 302px; height: 302px; border-radius: 30px; background: radial-gradient(ellipse 90% 40% at 50% 74%, #6fb2ff 0%, #1f5fe0 34%, #06123a 70%, #02040c 100%); overflow: hidden; }
-    #ph .art b { position: absolute; left: -200px; top: 218px; width: 702px; height: 702px; border-radius: 50%; background: radial-gradient(circle at 50% 0%, #0b2c7c 0%, #030a24 22%, #010309 50%); box-shadow: 0 -2px 4px rgba(210,235,255,.95), 0 -6px 22px rgba(90,160,255,.9); }
-    #ph .art u { display: none; }
-    #ph h5 { position: absolute; left: 32px; top: 428px; margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -0.4px; }
-    #ph h6 { position: absolute; left: 32px; top: 470px; margin: 0; font-size: 21px; font-weight: 500; color: rgba(255,255,255,.55); }
+    #iph { position: absolute; left: 2470px; top: 1225px; width: 384px; height: 790px; border-radius: 66px; background: linear-gradient(145deg, #5a5b60, #2a2b2f 45%, #121214); box-shadow: 0 60px 110px rgba(10,25,70,.38), inset 0 0 0 2px rgba(255,255,255,.22); }
+    #iph .scr { position: absolute; inset: 11px; border-radius: 56px; overflow: hidden; background: #0b0d14; color: #fff; }
+    #iph .art { position: absolute; left: 30px; top: 96px; width: 302px; height: 302px; border-radius: 30px; background: radial-gradient(ellipse 90% 40% at 50% 74%, #6fb2ff 0%, #1f5fe0 34%, #06123a 70%, #02040c 100%); overflow: hidden; }
+    #iph .art b { position: absolute; left: -200px; top: 218px; width: 702px; height: 702px; border-radius: 50%; background: radial-gradient(circle at 50% 0%, #0b2c7c 0%, #030a24 22%, #010309 50%); box-shadow: 0 -2px 4px rgba(210,235,255,.95), 0 -6px 22px rgba(90,160,255,.9); }
+    #iph .art u { display: none; }
+    #iph h5 { position: absolute; left: 32px; top: 428px; margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -0.4px; }
+    #iph h6 { position: absolute; left: 32px; top: 470px; margin: 0; font-size: 21px; font-weight: 500; color: rgba(255,255,255,.55); }
     #eq { position: absolute; right: 34px; top: 440px; width: 46px; height: 40px; display: flex; gap: 5px; align-items: flex-end; }
     #eq i { flex: 1; height: 100%; border-radius: 3px; background: #4f9dff; transform-origin: 50% 100%; }
     #bar { position: absolute; left: 32px; right: 32px; top: 532px; height: 7px; border-radius: 4px; background: rgba(255,255,255,.18); } #bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 4px; background: #fff; transform-origin: 0 50%; }
@@ -82,7 +82,7 @@ export function initMG({ gsap, tl, T2, DPR }) {
     #planet { position: absolute; left: 50%; top: 420px; width: 1258px; height: 1258px; margin-left: -629px; border-radius: 50%; background: radial-gradient(circle at 50% 0%, #0a2a78 0%, #041038 5%, #020820 11%, #01030c 22%, #000208 45%);
       box-shadow: 0 -1px 1.5px rgba(225,240,255,.98), 0 -2.5px 9px rgba(110,175,255,.95), 0 -8px 30px rgba(40,110,255,.75), 0 -20px 70px rgba(20,70,220,.45); }
     #lock { position: absolute; left: 0; right: 0; top: 78px; text-align: center; color: #fff; } #lock small { display: block; font-size: 21px; font-weight: 600; opacity: .85; } #lock b { display: block; font-size: 96px; font-weight: 600; letter-spacing: -3px; line-height: 1.05; }
-    .lkb { position: absolute; bottom: 44px; width: 56px; height: 56px; border-radius: 50%; background: rgba(120,140,190,.30); box-shadow: inset 0 1px 0 rgba(255,255,255,.5); } /* no backdrop-filter inside the phone: on hardware GPU it dropped the whole phone */
+    .lkb { position: absolute; bottom: 44px; width: 56px; height: 56px; border-radius: 50%; background: rgba(120,140,190,.30); box-shadow: inset 0 1px 0 rgba(255,255,255,.5); }
     /* the liquid-glass area */
     .lq { position: absolute; background: rgba(255,255,255,.20); backdrop-filter: blur(9px) saturate(1.9) brightness(1.06); color: #0b0d14;
       box-shadow: inset 0 2px 1.5px rgba(255,255,255,.95), inset 0 -2px 2px rgba(255,255,255,.4), inset 0 0 0 1.5px rgba(255,255,255,.42), inset 0 0 30px rgba(255,255,255,.22), 0 30px 60px rgba(20,50,130,.22), 0 4px 14px rgba(20,50,130,.12); }
@@ -124,7 +124,7 @@ export function initMG({ gsap, tl, T2, DPR }) {
       <div class="orb" id="o1" style="left:4020px;top:1500px;width:380px;height:380px;background:radial-gradient(circle at 32% 28%, #9cc8ff 0%, #2f7bff 55%, #0b3fb5 100%);box-shadow:0 40px 80px #2f7bff55"></div><div class="orb" id="o2" style="left:4700px;top:1380px;width:260px;height:260px;background:radial-gradient(circle at 32% 28%, #ffb3d1 0%, #ff4f93 55%, #b3125a 100%);box-shadow:0 40px 80px #ff4f9355"></div><div class="orb" id="o3" style="left:5200px;top:1560px;width:420px;height:420px;background:radial-gradient(circle at 32% 28%, #c9b8ff 0%, #7a5cff 55%, #3b1fb8 100%);box-shadow:0 40px 80px #7a5cff55"></div><div class="orb" id="o4" style="left:4480px;top:1760px;width:230px;height:230px;background:radial-gradient(circle at 32% 28%, #a8f0ff 0%, #22c8f0 55%, #0a7fa8 100%);box-shadow:0 40px 80px #22c8f055"></div><div class="orb" id="o5" style="left:5080px;top:1250px;width:170px;height:170px;background:radial-gradient(circle at 32% 28%, #ffe1a8 0%, #ffab2e 55%, #c46a00 100%);box-shadow:0 40px 80px #ffab2e55"></div>
       <div id="gh"><span class="w">Liquid</span> <span class="w">Glass</span></div>
       <div class="lq" id="gm" style="left:4050px;top:1150px;width:250px;height:250px;border-radius:50%"></div>
-      <div id="gpw" style="position:absolute;left:0;top:0"><div class="lq" id="gp" style="left:4010px;top:1440px;width:500px;height:500px;border-radius:56px"><h4>Library<small>Everything in motion</small></h4><div class="row"><i style="background:#2f7bff"></i>Motion<small>3 hr</small></div><div class="row"><i style="background:#1ed760"></i>Sound<small>2 hr</small></div><div class="row"><i style="background:#7a5cff"></i>Colour<small>1 hr</small></div><div class="row"><i style="background:#ff4f93"></i>Light<small>40 min</small></div></div></div>
+      <div id="gpw" style="position:absolute;left:0;top:0;perspective:2200px;perspective-origin:4260px 1700px"><div class="lq" id="gp" style="left:4010px;top:1440px;width:500px;height:500px;border-radius:56px"><h4>Library<small>Everything in motion</small></h4><div class="row"><i style="background:#2f7bff"></i>Motion<small>3 hr</small></div><div class="row"><i style="background:#1ed760"></i>Sound<small>2 hr</small></div><div class="row"><i style="background:#7a5cff"></i>Colour<small>1 hr</small></div><div class="row"><i style="background:#ff4f93"></i>Light<small>40 min</small></div></div></div>
       <div class="lq" id="gs" style="left:4590px;top:1470px;width:620px;height:84px;border-radius:42px"><i></i><div class="lq" id="gsk"></div></div>
       <div class="lq" id="gn" style="left:4590px;top:1612px;width:620px;height:150px;border-radius:46px"><i></i><div><b>Render complete</b><span>4K · 60 fps · just now</span></div></div>
       <div class="lq" id="gt" style="left:4590px;top:1820px;width:620px;height:112px;border-radius:56px"><div class="lq" id="gtl"></div><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/></svg><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.6A4 4 0 0 1 12 8a4 4 0 0 1 7 2.4C19 15.6 12 20 12 20z"/></svg><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.9-3.8 3.9-5.6 7.5-5.6s6.600 1.800 7.500 5.600"/></svg></div>
@@ -134,7 +134,7 @@ export function initMG({ gsap, tl, T2, DPR }) {
 
       <div id="r1t"><span class="w">Fluid</span><br /><span class="w">by</span> <span class="w grad">design.</span></div>
       <div class="chip glass" id="c1" style="left:2956px;top:1706px">120 Hz</div><div class="chip glass" id="c2" style="left:3140px;top:1706px">Spring physics</div><div class="chip glass" id="c3" style="left:2956px;top:1794px">Made in code</div>
-      <div id="phw" style="position:absolute;left:0;top:0"><div id="ph"><div class="scr"><div id="hzn">
+      <div id="phw" style="position:absolute;left:0;top:0;perspective:2400px;perspective-origin:2662px 1620px"><div id="iph"><div class="scr"><div id="hzn">
         <div id="atm"></div><div id="flare"><i></i><b></b></div><div id="vfx"><span>V</span><span>F</span><span>X</span></div><div id="planet"></div>
         <div id="lock"><small>Wednesday, November 11</small><b>9:41</b></div><div class="lkb" style="left:38px"></div><div class="lkb" style="right:38px"></div></div>
         <div id="di"></div>
@@ -179,7 +179,7 @@ export function initMG({ gsap, tl, T2, DPR }) {
   // ---------- the liquid-glass area ----------
   $$(".orb").forEach((o, i) => tl.fromTo(o, { x: 0, y: 0 }, { x: [60, -50, -70, 40, -30][i], y: [-40, 50, -30, -50, 40][i], duration: 2.4, ease: "sine.inOut", ...IR }, T.s2 - 0.4));
   $$("#gh .w").forEach((w, i) => ft(w, { opacity: 0, y: 70, filter: "blur(20px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, T.s2 + 0.16 + i * 0.1));
-  ft("#gp", { opacity: 0, y: 120, scaleX: 0.82, skewY: -8 }, { opacity: 1, y: 0, scaleX: 0.96, skewY: -2.6, duration: 0.8, ease: "expo.out" }, T.s2 + 0.12); tl.to("#gp", { scaleX: 0.985, skewY: 1.4, duration: 1.0, ease: "sine.inOut" }, T.s2 + 0.9);
+  ft("#gp", { opacity: 0, y: 120, rotationY: -34, rotationX: 16 }, { opacity: 1, y: 0, rotationY: -12, rotationX: 5, duration: 0.8, ease: "expo.out" }, T.s2 + 0.12); tl.to("#gp", { rotationY: 6, rotationX: 2, duration: 1.0, ease: "sine.inOut" }, T.s2 + 0.9);
   $$("#gp .row").forEach((r, i) => ft(r, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, T.s2 + 0.34 + i * 0.07));
   ["#gs", "#gn", "#gt"].forEach((e, i) => ft(e, { opacity: 0, scale: 0.8, y: 50 }, { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "back.out(1.6)" }, T.s2 + 0.2 + i * 0.09));
   ["#gc1", "#gc2", "#gb"].forEach((e, i) => ft(e, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2.2)" }, T.s2 + 0.3 + i * 0.08));
@@ -188,9 +188,8 @@ export function initMG({ gsap, tl, T2, DPR }) {
   tl.to("#gc1", { scale: 0.88, duration: 0.09, yoyo: true, repeat: 1 }, T.s2 + 0.75);
   ft("#gm", { x: -40, opacity: 0, scale: 0.6 }, { x: 0, opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, T.s2 + 0.22); tl.to("#gm", { x: 1320, duration: 1.0, ease: "sine.inOut" }, T.s2 + 0.38);
   // ---------- the iPhone ----------
-  // 2D only (scaleX + skewY read as a turn): real 3D transforms here drop the element on hardware-GPU renders
-  ft("#ph", { y: 900, scaleX: 0.8, skewY: -9, rotation: 7 }, { y: 0, scaleX: 0.95, skewY: -3.2, rotation: 0, duration: 0.95, ease: "expo.out" }, T.s3 + 0.06);
-  tl.to("#ph", { scaleX: 1, skewY: 0, duration: 0.6, ease: "power2.inOut" }, T.push - 0.1);
+  ft("#iph", { y: 900, rotationY: -34, rotationX: 14, rotationZ: 6 }, { y: 0, rotationY: -14, rotationX: 4, rotationZ: 0, duration: 0.95, ease: "expo.out" }, T.s3 + 0.06);
+  tl.to("#iph", { rotationY: 0, rotationX: 0, duration: 0.6, ease: "power2.inOut" }, T.push - 0.1);
   $$("#r1t .w").forEach((w, i) => ft(w, { opacity: 0, y: 60, filter: "blur(18px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, T.s3 + 0.2 + i * 0.1));
   ["#c1", "#c2", "#c3"].forEach((c, i) => ft(c, { opacity: 0, scale: 0.5, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "back.out(2)" }, T.s3 + 0.46 + i * 0.08));
   $$("#abars div").forEach((d, k) => { for (let i = 0; i < 14; i++) { const b = document.createElement("i"); b.style.background = d.dataset.c; b.style.height = 12 + ((i * 37 + k * 53) % 58) + "px"; d.appendChild(b); ft(b, { scaleY: 0 }, { scaleY: 1, duration: 0.4, ease: "back.out(2)" }, T.s1 + 0.3 + k * 0.08 + i * 0.018); } });
