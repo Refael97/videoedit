@@ -11,7 +11,7 @@ export function initSea({ T0, DPR }) {
   in vec2 p; void main() { gl_Position = vec4(p, 0.0, 1.0); }`;
   const FS = `#version 300 es
   precision highp float;
-  uniform vec2 uRes; uniform float uT, uDay, uFly, uPitch, uH; out vec4 o;
+  uniform vec2 uRes; uniform float uT, uDay, uFly, uPitch, uH, uElev; out vec4 o;
   float hash(vec2 p) { vec3 q = fract(vec3(p.xyx) * 0.1031); q += dot(q, q.yzx + 33.33); return fract((q.x + q.y) * q.z); }
   float noise(vec2 p) { vec2 i = floor(p), f = fract(p), u = f * f * (3.0 - 2.0 * f);
     return mix(mix(hash(i), hash(i + vec2(1, 0)), u.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), u.x), u.y); }
@@ -21,7 +21,7 @@ export function initSea({ T0, DPR }) {
   float sea(vec2 p, int n) { float f = 0.16, a = mix(0.42, 0.6, uDay), ch = 4.0, h = 0.0, tt = 1.0 + uT * 0.8; vec2 uv = p; uv.x *= 0.75;
     for (int i = 0; i < 6; i++) { if (i >= n) break; float d = oct((uv + tt) * f, ch) + oct((uv - tt) * f, ch); h += d * a; uv = mat2(1.6, 1.2, -1.2, 1.6) * uv; f *= 1.9; a *= 0.22; ch = mix(ch, 1.0, 0.2); }
     return h; }
-  vec3 sunDir() { float e = mix(-0.03, 0.115, uDay); return normalize(vec3(0.0, e, 1.0)); }
+  vec3 sunDir() { return normalize(vec3(0.0, uElev, 1.0)); }
   vec3 sky(vec3 d) {
     vec3 s = sunDir(); float y = max(d.y, 0.0), az = d.x / max(d.z, 0.05), sd = max(dot(d, s), 0.0);
     // night: black space, a band of blue light hugging the horizon, hottest at the centre
@@ -33,11 +33,12 @@ export function initSea({ T0, DPR }) {
     // day: deep blue above, pale at the horizon, warm around a low sun, wisps of cloud
     vec3 dcol = mix(vec3(0.36, 0.62, 0.95), vec3(0.016, 0.105, 0.52), pow(y, 0.45));
     dcol = mix(dcol, vec3(1.0, 0.72, 0.34), exp(-y * 22.0) * (0.12 + 0.88 * exp(-az * az * 2.2)) * 0.8);
-    dcol += vec3(1.0, 0.93, 0.78) * (pow(sd, 260.0) * 0.5 + pow(sd, 2200.0) * 2.5 + pow(sd, 16000.0) * 30.0);
+    // the sun shows first, on the still-dark sky; the daylight follows it up
+    vec3 sun = vec3(1.0, 0.93, 0.78) * (pow(sd, 260.0) * 0.5 + pow(sd, 2200.0) * 2.5 + pow(sd, 16000.0) * 30.0) * smoothstep(-0.02, 0.0, uElev);
     vec2 cp = d.xz / (d.y + 0.12); float ci = smoothstep(0.52, 0.86, fbm(cp * vec2(0.9, 2.6) + vec2(3.0, uT * 0.02))) * smoothstep(0.02, 0.16, y) * 0.55;
     float lowc = smoothstep(0.5, 0.78, fbm(vec2(az * 3.4 + 7.0, y * 46.0))) * smoothstep(0.075, 0.02, y) * smoothstep(0.004, 0.02, y) * smoothstep(0.35, 0.9, abs(az));
     dcol = mix(dcol, vec3(1.0, 0.98, 0.95), ci); dcol = mix(dcol, vec3(1.0, 0.95, 0.86), lowc * 0.9);
-    return mix(n, dcol, uDay); }
+    return mix(n, dcol, uDay) + sun * mix(0.8, 1.0, uDay); }
   void main() {
     vec2 q = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
     vec3 ro = vec3(0.0, uH, uFly), rd = normalize(vec3(q.x, q.y + uPitch, 1.25));
@@ -69,14 +70,15 @@ export function initSea({ T0, DPR }) {
   const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
   const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
   const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-  const U = {}; ["uRes", "uT", "uDay", "uFly", "uPitch", "uH"].forEach((n) => (U[n] = gl.getUniformLocation(pr, n)));
+  const U = {}; ["uRes", "uT", "uDay", "uFly", "uPitch", "uH", "uElev"].forEach((n) => (U[n] = gl.getUniformLocation(pr, n)));
   const T = { fade: T0 + 0.45, in: T0 + 1.05, day0: T0 + 1.9, day1: T0 + 3.5, end: T0 + 4.2 };
   function update(t) {
     if (t < T.fade - 0.02) { cv.style.display = "none"; return; }
     cv.style.display = "block"; cv.style.opacity = smooth(seg(t, T.fade, T.in)).toFixed(3);
-    const s = t - T.fade, day = smooth(seg(t, T.day0, T.day1));
+    // the sun climbs first; the light comes only once it is over the horizon and grows as it rises
+    const s = t - T.fade, elev = lerp(-0.035, 0.115, smooth(seg(t, T.day0, T.day1))), day = smooth(clamp((elev - 0.012) / 0.098));
     gl.viewport(0, 0, cv.width, cv.height); gl.uniform2f(U.uRes, cv.width, cv.height);
-    gl.uniform1f(U.uT, s); gl.uniform1f(U.uDay, day);
+    gl.uniform1f(U.uT, s); gl.uniform1f(U.uDay, day); gl.uniform1f(U.uElev, elev);
     gl.uniform1f(U.uFly, 3.0 * s + 2.75 * s * s + 9.0 * Math.max(0, s - 1.2)); // the drone keeps accelerating
     gl.uniform1f(U.uPitch, lerp(0.132, 0.062, inOut(seg(t, T.fade, T.fade + 2.4)))); // starts where the limb sat in the frame
     gl.uniform1f(U.uH, lerp(7.5, 2.3, inOut(seg(t, T.fade, T.fade + 2.6)))); // and comes down to skim the water
