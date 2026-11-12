@@ -12,7 +12,7 @@ export function initSea({ T0, DPR }) {
   const FS = `#version 300 es
   precision highp float;
   uniform vec2 uRes; uniform float uT, uDay, uFly, uPitch, uH, uElev, uCurve, uLz, uLx, uLy; uniform sampler2D uTex; out vec4 o;
-  const float LW = 66.0, LH = 9.67;
+  const float LW = 66.0, LH = 11.6;
   float hash(vec2 p) { vec3 q = fract(vec3(p.xyx) * 0.1031); q += dot(q, q.yzx + 33.33); return fract((q.x + q.y) * q.z); }
   float noise(vec2 p) { vec2 i = floor(p), f = fract(p), u = f * f * (3.0 - 2.0 * f);
     return mix(mix(hash(i), hash(i + vec2(1, 0)), u.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), u.x), u.y); }
@@ -95,16 +95,16 @@ export function initSea({ T0, DPR }) {
   const U = {}; ["uRes", "uT", "uDay", "uFly", "uPitch", "uH", "uElev", "uCurve", "uLz", "uLx", "uLy", "uTex"].forEach((n) => (U[n] = gl.getUniformLocation(pr, n)));
   const T = { fade: T0 - 0.3, in: T0 + 0.1, day0: T0 + 1.9, day1: T0 + 3.5, rise0: T0 + 2.0, rise1: T0 + 3.3, white: T0 + 5.25, end: T0 + 5.7 };
   // the word as a texture; the gap between S and F is centred on the flight path so the drone passes between the letters
-  const LW = 66, LH = 9.67, tc = document.createElement("canvas"); tc.width = 2048; tc.height = 300; let gapX = 1024;
+  const LW = 66, LH = 11.6, tc = document.createElement("canvas"); tc.width = 2048; tc.height = 360; let gapX = 1024;
   const tex = gl.createTexture();
-  const drawWord = () => { const g = tc.getContext("2d"), word = "HIGGSFIELD"; g.clearRect(0, 0, 2048, 300); g.fillStyle = "#000"; g.fillRect(0, 0, 2048, 300);
-    let fs = 250; g.font = "700 " + fs + "px UI, Inter, sans-serif"; const sp = () => fs * 0.13, width = () => [...word].reduce((a, ch) => a + g.measureText(ch).width, 0) + sp() * (word.length - 1);
-    fs *= 1960 / width(); g.font = "700 " + fs + "px UI, Inter, sans-serif"; g.fillStyle = "#fff"; g.textBaseline = "alphabetic"; g.shadowColor = "#fff"; g.shadowBlur = 5;
-    let x = (2048 - width()) / 2; [...word].forEach((ch, i) => { g.fillText(ch, x, 268); x += g.measureText(ch).width; if (i === 4) gapX = x + sp() / 2; x += sp(); });
+  const drawWord = () => { const g = tc.getContext("2d"), word = "Higgsfield"; g.clearRect(0, 0, 2048, 360); g.fillStyle = "#000"; g.fillRect(0, 0, 2048, 360); // the official wordmark: title case, Space Grotesk Bold
+    let fs = 250; g.font = "700 " + fs + "px HF, UI, sans-serif"; const sp = () => fs * 0.05, width = () => [...word].reduce((a, ch) => a + g.measureText(ch).width, 0) + sp() * (word.length - 1);
+    fs *= 1960 / width(); g.font = "700 " + fs + "px HF, UI, sans-serif"; g.fillStyle = "#fff"; g.textBaseline = "alphabetic"; g.shadowColor = "#fff"; g.shadowBlur = 5;
+    let x = (2048 - width()) / 2; [...word].forEach((ch, i) => { g.fillText(ch, x, 270); x += g.measureText(ch).width; if (i === 4) gapX = x + sp() / 2; x += sp(); });
     gl.bindTexture(gl.TEXTURE_2D, tex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tc);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); };
-  drawWord(); if (document.fonts && document.fonts.load) document.fonts.load("700 200px UI").then(drawWord).catch(() => {});
+  drawWord(); if (document.fonts && document.fonts.load) document.fonts.load("700 200px HF").then(drawWord).catch(() => {});
   const fly = (s) => 13.0 * s + 2.6 * s * s, LZ = fly(T.end - T.fade + 0.25); // the letters stand where the drone will be a moment after the white-out
   // white-out into the sun, and the label for the filmed shots
   const root = document.getElementById("root"), white = document.createElement("div"), label = document.createElement("div");
@@ -123,7 +123,7 @@ export function initSea({ T0, DPR }) {
     gl.uniform1f(U.uT, s); gl.uniform1f(U.uDay, day); gl.uniform1f(U.uElev, elev);
     // a drone cruising forward from the first frame: constant low altitude, the surface streaming underneath, gently accelerating
     gl.uniform1f(U.uFly, fly(s));
-    gl.uniform1f(U.uLz, LZ); gl.uniform1f(U.uLx, -(gapX / 2048 - 0.5) * LW); gl.uniform1f(U.uLy, lerp(-LH - 0.6, -0.95, 1 - Math.pow(1 - seg(t, T.rise0, T.rise1), 3)));
+    gl.uniform1f(U.uLz, LZ); gl.uniform1f(U.uLx, -(gapX / 2048 - 0.5) * LW); gl.uniform1f(U.uLy, lerp(-LH - 0.6, -0.5, 1 - Math.pow(1 - seg(t, T.rise0, T.rise1), 3)));
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex); gl.uniform1i(U.uTex, 0);
     gl.uniform1f(U.uPitch, lerp(0.132, 0.085, inOut(seg(t, T.fade, T.fade + 3.2)))); // starts where the limb sat in the frame
     gl.uniform1f(U.uH, 2.6);
