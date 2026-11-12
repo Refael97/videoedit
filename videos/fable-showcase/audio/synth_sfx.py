@@ -59,7 +59,14 @@ def sub_swell(t, d=2.0, gain=0.35, f=46):
 T2 = 6.4
 # scene 1: the prompt window
 click(0.95, 1700, 0.35); click(1.55, 2300, 0.4)
-for i in range(37): click(2.0 + i * 0.034, 2600 + rng.uniform(-500, 500), 0.16 + rng.uniform(0, 0.08), rng.uniform(-0.25, 0.25), 0.022)
+def key(t, gain=0.5, pan=0.0):  # a mechanical key: a hard bright tick on the way down, a wooden body, a lighter tick on release
+    n = int(SR * 0.03); tt = np.arange(n) / SR; x = rng.standard_normal(n)
+    tickd = (x - lowpass(x, np.full(n, 3500.0))) * np.exp(-tt * 1400)
+    body = np.sin(2 * np.pi * rng.uniform(190, 260) * tt) * np.exp(-tt * 150) * 0.55
+    place(tickd * 1.3 + body, t, gain, pan)
+    m = int(SR * 0.012); t2 = np.arange(m) / SR; y = rng.standard_normal(m)
+    place((y - lowpass(y, np.full(m, 4500.0))) * np.exp(-t2 * 1700), t + 0.016, gain * 0.5, pan)
+for i in range(37): key(2.0 + i * 0.034 + rng.uniform(-0.004, 0.004), 0.42 + rng.uniform(0, 0.16), rng.uniform(-0.3, 0.3))
 click(3.24, 1500, 0.5); tick(3.26, 0.4)
 whoosh(3.3, 0.7, 500, 7000, 0.4, 0.3, -0.2); shimmer(3.45, 1.6, 0.3, 1568); sub_swell(3.7, 2.2, 0.28, 52)
 # the burst into scene 2
@@ -83,7 +90,7 @@ def flight(t0, t1):
         x = np.random.default_rng(seed).standard_normal(n)
         sea = lowpass(x, 500 + 250 * np.sin(2 * np.pi * 0.45 * tt + seed)) * (0.7 + 0.3 * np.sin(2 * np.pi * 0.31 * tt + seed * 2)) * 2.2
         wind = (lowpass(x, 2600 + 1800 * k) - lowpass(x, 900 + 400 * k)) * (0.35 + 0.65 * k)
-        place((sea + wind) * np.clip(k / 0.12, 0, 1) * np.clip((1 - k) / 0.04, 0, 1) * (0.5 + 0.5 * k), t0, 0.3, pan)
+        place((sea + wind) * np.clip(k / 0.12, 0, 1) * np.clip((1 - k) / 0.04, 0, 1) * (0.5 + 0.5 * k), t0, 0.5, pan)
 flight(13.2, 19.4)
 # the filmed shots: cut accents and the slow-motion beat
 whoosh(21.22, 0.22, 800, 6000, 0.25, -0.3, 0.3); whoosh(21.7, 0.5, 900, 200, 0.4, 0.0, 0.0); sub_swell(21.75, 1.2, 0.4, 42)
