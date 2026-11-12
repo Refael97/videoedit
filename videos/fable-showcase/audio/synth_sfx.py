@@ -100,6 +100,19 @@ click(25.5, 900, 0.5, 0, 0.06); impact(25.5, 0.45, 80, 0.5); whoosh(25.72, 0.95,
 for i, t in enumerate([25.85, 26.05, 26.25, 26.37]): tick(t, 0.25, [-0.3, 0.3, -0.2, 0.2][i])
 whoosh(27.7, 0.9, 250, 4000, 0.4, 0.0, 0.0); shimmer(28.1, 2.0, 0.32, 1320); sub_swell(27.9, 2.2, 0.35, 49)
 
+# the last chord, on the credit: D-flat lydian stacked wide (Db - Ab - F - C - Eb - G), a bright unresolved colour instead of a plain major ending
+def chord(t, d=2.6, gain=0.5):
+    n = int(SR * d); tt = np.arange(n) / SR; L = np.zeros(n); R = np.zeros(n)
+    for j, f in enumerate([69.30, 103.83, 174.61, 261.63, 311.13, 392.00, 783.99]):
+        st = int(j * 0.022 * SR); x = tt[: n - st]; a = 1.0 / (1 + j * 0.35)
+        pluck = sum(np.sin(2 * np.pi * f * h * x) * np.exp(-x * (1.6 + h * 1.1)) / h ** 1.4 for h in range(1, 7))      # felt-piano strike
+        pad = (np.sin(2 * np.pi * f * 1.003 * x) + np.sin(2 * np.pi * f * 0.997 * x)) * np.clip(x / 0.5, 0, 1) * 0.35  # slow string bloom
+        v = (pluck + pad) * a; pan = [-0.1, 0.1, -0.5, 0.5, -0.3, 0.35, 0.0][j]
+        L[st:] += v * np.sqrt((1 - pan) / 2); R[st:] += v * np.sqrt((1 + pan) / 2)
+    e = np.clip((d - tt) / 1.3, 0, 1) ** 1.5; i = int(t * SR)
+    out[i:i + n, 0] += L * e * gain * 0.5; out[i:i + n, 1] += R * e * gain * 0.5
+chord(28.2)
+
 out = out[: int(SR * DUR)]; out /= max(1.0, np.abs(out).max() / 0.95)
 with wave.open(sys.argv[1], "wb") as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((out * 32767).astype("<i2").tobytes())
