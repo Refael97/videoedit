@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/kit/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/kit/kit.css" />
+    <style>
+      /* Sonol: one red accent on the app's own deep navy */
+      :root { --c: #ff4750; --red: #e21f26; --ink: #f4f6fb; --muted: #93a0c2; --g: #081233; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: var(--g); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--g); font-family: "Rubik", "Assistant", sans-serif; color: var(--ink); direction: rtl; }
+      /* studio backdrop: navy with a soft blue halo (the app's blue), a faint red breath low in the frame, and grain */
+      #halo { position: absolute; inset: 0; background: radial-gradient(ellipse 58% 62% at 50% 50%, rgba(52, 110, 235, 0.36) 0, rgba(30, 70, 180, 0.14) 46%, rgba(0, 0, 0, 0) 76%), radial-gradient(ellipse 70% 30% at 50% 104%, rgba(226, 31, 38, 0.16) 0, rgba(226, 31, 38, 0) 70%); }
+      #grain { position: absolute; inset: 0; opacity: 0.05; background-image: radial-gradient(rgba(255, 255, 255, 0.9) 0.6px, transparent 0.7px); background-size: 5px 5px; }
+      #cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 50% 50%; }
+      #world { position: absolute; left: 0; top: 0; width: 9600px; height: 1080px; }
+      .pn { position: absolute; top: 0; width: 1920px; height: 1080px; perspective: 2000px; z-index: 2; }
+      .aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+      /* neon trail: soft halo + saturated tube + white-hot core */
+      #trail { position: absolute; left: 0; top: 0; width: 9600px; height: 1080px; overflow: visible; z-index: 1; pointer-events: none; }
+      #gHalo { filter: blur(16px); opacity: 0.55; }
+      #gTube { filter: drop-shadow(0 0 5px rgba(255, 71, 80, 1)) drop-shadow(0 0 16px rgba(226, 31, 38, 0.8)); }
+      .sH { fill: none; stroke: #e21f26; stroke-width: 28; stroke-linecap: round; stroke-linejoin: round; }
+      .sT { fill: none; stroke: #ff4750; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+      .sC { fill: none; stroke: #fff3f1; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+      .head { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 3; }
+      .head b { position: absolute; left: -36px; top: -36px; width: 72px; height: 72px; border-radius: 50%; background: radial-gradient(circle, #fff 0, #ffe9e6 18%, rgba(255, 71, 80, 0.55) 38%, rgba(255, 71, 80, 0) 70%); }
+      .head i { position: absolute; left: -110px; top: -2px; width: 220px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, rgba(255, 71, 80, 0), rgba(255, 240, 238, 0.95), rgba(255, 71, 80, 0)); }
+      .nf { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; z-index: 6; pointer-events: none; }
+
+      .dust { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: rgba(190, 215, 255, 0.8); }
+      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 60%, rgba(0, 4, 20, 0.6) 100%); z-index: 20; pointer-events: none; }
+
+      .hl { position: absolute; right: 140px; top: 300px; width: 620px; text-align: right; font-size: 92px; font-weight: 800; line-height: 1.08; }
+      .hl em { font-style: normal; color: var(--c); text-shadow: 0 0 34px rgba(255, 71, 80, 0.5); }
+      .hl .w { display: inline-block; }
+      #t0 { position: absolute; left: 0; right: 0; top: 300px; text-align: center; font-size: 150px; font-weight: 800; line-height: 1.12; }
+      #t0 em { font-style: normal; color: var(--c); text-shadow: 0 0 60px rgba(255, 71, 80, 0.5); }
+      #t0 .w { display: inline-block; }
+
+      .phone { position: absolute; left: 300px; top: 130px; width: 400px; height: 820px; border-radius: 64px; background: #05070f; box-shadow: 0 0 0 2px #2a3558, 0 40px 100px rgba(0, 0, 0, 0.7); transform-style: preserve-3d; }
+      .scr { position: absolute; left: 12px; top: 12px; width: 376px; height: 796px; border-radius: 52px; overflow: hidden; background: #f2f2f4; }
+      .scr img { position: absolute; left: 0; top: 0; width: 376px; height: auto; }
+      .isl { position: absolute; left: 140px; top: 24px; width: 120px; height: 34px; border-radius: 17px; background: #000; z-index: 3; }
+      .shine { position: absolute; left: 12px; top: 12px; width: 376px; height: 796px; border-radius: 52px; overflow: hidden; z-index: 4; }
+      .shine i { position: absolute; top: -150px; left: -240px; width: 110px; height: 1200px; background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0)); transform: rotate(18deg); }
+      .pop { position: absolute; filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.55)); }
+      .tap { position: absolute; width: 80px; height: 80px; margin: -40px 0 0 -40px; border-radius: 50%; border: 5px solid #fff; background: rgba(255, 255, 255, 0.25); z-index: 7; }
+
+      /* pop-outs rebuilt crisp in the app's look (the recording is too small to enlarge) */
+      #popSt { left: 770px; top: 236px; width: 380px; height: 64px; border-radius: 18px; background: linear-gradient(180deg, #86aaf0, #9dbbf5); display: flex; align-items: center; justify-content: center; font-family: "Assistant", sans-serif; font-weight: 700; font-size: 32px; color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45); }
+      #popPump { left: 838px; top: 344px; width: 244px; height: 164px; border-radius: 30px; background: linear-gradient(180deg, #ffffff, #eef1f8); font-family: "Assistant", sans-serif; color: #23262f; text-align: center; }
+      #popPump span { position: absolute; left: 0; right: 0; top: 24px; font-size: 28px; font-weight: 700; }
+      #popPump b { position: absolute; left: 0; right: 0; top: 66px; font-family: "Rubik", sans-serif; font-size: 50px; font-weight: 700; }
+      #popPump i { position: absolute; left: 62px; right: 62px; top: 132px; height: 2.5px; background: #23262f; }
+      .rbtn { border-radius: 50%; background: radial-gradient(circle at 34% 26%, #ff6a5c 0, #ee2b2c 34%, #d9151d 72%, #b90f17 100%); box-shadow: inset 0 3px 2px rgba(255, 255, 255, 0.5), inset 0 -14px 26px rgba(120, 0, 8, 0.35), 0 18px 34px rgba(190, 20, 30, 0.35); color: #fff; font-weight: 900; text-align: center; }
+      .rbtn::after { content: ""; position: absolute; left: 14%; top: 7%; width: 46%; height: 20%; border-radius: 50%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0)); transform: rotate(-24deg); }
+      .rbtn div { position: absolute; left: 0; right: 0; top: 27%; transform: skewX(-9deg); font-size: 54px; line-height: 0.98; letter-spacing: -1px; text-shadow: 0 2px 0 rgba(140, 0, 10, 0.35); }
+      .rbtn u { position: absolute; right: 22px; top: 37%; width: 22px; height: 20px; text-decoration: none; background: linear-gradient(#fff, #fff) 0 0 / 100% 3.5px no-repeat, linear-gradient(#fff, #fff) 4px 8px / 80% 3.5px no-repeat, linear-gradient(#fff, #fff) 8px 16px / 60% 3.5px no-repeat; transform: skewX(-9deg); opacity: 0.95; }
+      #popBtn { left: 830px; top: 566px; width: 250px; height: 250px; }
+
+      #intro { position: absolute; inset: 0; z-index: 40; background: radial-gradient(ellipse 58% 62% at 50% 50%, rgba(52, 110, 235, 0.36) 0, rgba(30, 70, 180, 0.14) 46%, rgba(0, 0, 0, 0) 76%), var(--g); }
+      #ilogo { position: absolute; left: 810px; top: 390px; width: 300px; height: 300px; border-radius: 68px; filter: drop-shadow(0 0 44px rgba(255, 71, 80, 0.5)); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="7.4" data-width="1920" data-height="1080">
+      <div id="halo"></div>
+      <div id="grain"></div>
+      <div id="cam">
+        <div id="world">
+          <svg id="trail" viewBox="0 0 9600 1080"><g id="gHalo"></g><g id="gTube"></g><g id="gCore"></g></svg>
+
+          <div class="pn" id="P0"><div id="t0"><span class="w">הגעתם</span> <span class="w">לתחנה?</span><br /><em class="w">אל</em> <em class="w">תצאו</em> <em class="w">מהאוטו.</em></div></div>
+
+          <div class="pn" id="P1">
+            <div class="phone aa" id="ph1"><div class="scr"><img src="assets/crops/fuel.png" /></div><div class="shine"><i></i></div><div class="isl"></div></div>
+            <div class="hl" id="h1">בוחרים<br /><em>תחנה</em></div>
+            <div class="hl" id="h2">ומספר<br /><em>משאבה,</em></div>
+            <div class="hl" id="h3">ותדלוק<br /><em>בקליק.</em></div>
+            <div class="pop aa" id="popSt">הר נוף - שומרת שבת</div>
+            <div class="pop aa" id="popPump"><span>מספר משאבה</span><b>1</b><i></i></div>
+            <div class="pop aa rbtn" id="popBtn"><div>תדלוק<br />בקליק</div><u></u></div>
+            <div class="tap" id="tap1" style="left: 955px; top: 691px"></div>
+          </div>
+
+          <div class="pn" id="P2"></div>
+          <div class="pn" id="P3"></div>
+          <div class="pn" id="P4"></div>
+        </div>
+      </div>
+
+      <div id="dustL" style="position:absolute;inset:0;z-index:15;pointer-events:none"></div>
+      <div id="vig"></div>
+      <div id="intro" class="clip" data-start="0" data-duration="1" data-track-index="4"><img id="ilogo" class="aa" src="assets/crops/app_icon.png" /></div>
+
+      <audio id="vo" src="assets/audio/vo_take2.mp3" data-start="1" data-duration="16.7" data-track-index="10"></audio>
+      <audio id="sx1" src="assets/pop.wav" data-start="0.12" data-duration="0.12" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sx2" src="assets/whoosh.wav" data-start="0.72" data-duration="0.7" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="sx3" src="assets/whoosh.wav" data-start="3.36" data-duration="0.7" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sx4" src="assets/pop.wav" data-start="4.06" data-duration="0.12" data-track-index="14" data-volume="0.4"></audio>
+      <audio id="sx5" src="assets/pop.wav" data-start="4.72" data-duration="0.12" data-track-index="14" data-volume="0.4"></audio>
+      <audio id="sx6" src="assets/pop.wav" data-start="5.86" data-duration="0.12" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sx7" src="assets/impact.wav" data-start="6.5" data-duration="0.8" data-track-index="15" data-volume="0.4"></audio>
+    </div>
+
+    <script>
+      // the film runs on `tl`, whose clock is the narration's (tl 0 = VO 0); `master` adds the 1s app-icon opener in front
+      const tl = gsap.timeline();
+      const IR = { immediateRender: false };
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const ft = (sel, from, to, at) => { tl.set(sel, from, 0); tl.fromTo(sel, from, { ...to, ...IR }, at); };
+      const N = 5, PW = 1920;
+      const X = (p, x) => (N - 1 - p) * PW + x; // panel-local x -> world x (panels run right-to-left)
+      $$(".pn").forEach((el, i) => { el.style.left = X(i, 0) + "px"; });
+      let seed = 7;
+      const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      // ---------- camera: every pan starts the moment its sentence ends ----------
+      const camAt = (p) => -X(p, 0);
+      const PANS = [[1, 2.36]];
+      tl.set("#world", { x: camAt(0) }, 0);
+      PANS.forEach(([b, t]) => tl.to("#world", { x: camAt(b), duration: 0.46, ease: "power3.inOut" }, t));
+      const beats = [0, ...PANS.map((p) => p[1]), 6.4];
+      beats.slice(0, -1).forEach((a, i) => tl.fromTo("#cam", { scale: 1.0 }, { scale: 1.03, duration: beats[i + 1] - a, ease: "none", ...IR }, a));
+      tl.set("#cam", { scale: 1 }, 0);
+
+      // ---------- neon trail: curves only; every spark fades where its piece stops ----------
+      const NS = "http://www.w3.org/2000/svg";
+      const P = (p, pts) => pts.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, (m, x, y) => X(p, +x) + "," + y);
+      const piece = (d, a, b, o = {}) => {
+        const mk = (g, cls) => { const q = document.createElementNS(NS, "path"); q.setAttribute("d", d); q.setAttribute("class", cls); $(g).appendChild(q); return q; };
+        const ps = [mk("#gHalo", "sH"), mk("#gTube", "sT"), mk("#gCore", "sC")], p = ps[1], L = p.getTotalLength(), dur = b - a, ease = o.ease || "sine.inOut";
+        ft(ps, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease }, a);
+        if (!o.noHead) {
+          const h = document.createElement("div"); h.className = "head"; h.innerHTML = "<b></b><i></i>"; $("#world").appendChild(h);
+          const e = gsap.parseEase(ease), n = Math.max(8, Math.round(dur * 30)), kf = [];
+          for (let i = 1; i <= n; i++) { const pt = p.getPointAtLength(L * e(i / n)), q = p.getPointAtLength(Math.min(L, L * e(i / n) + 3)); kf.push({ x: pt.x, y: pt.y, rotation: (Math.atan2(q.y - pt.y, q.x - pt.x) * 180) / Math.PI, duration: dur / n }); }
+          const p0 = p.getPointAtLength(0);
+          tl.set(h, { x: p0.x, y: p0.y, opacity: 0, scale: 1 }, 0);
+          tl.set(h, { opacity: 1 }, a);
+          tl.to(h, { keyframes: kf, ease: "none" }, a);
+          if (o.hold != null) tl.set(h, { opacity: 0 }, o.hold);
+          else if (o.chain) tl.set(h, { opacity: 0 }, b);
+          else tl.to(h, { opacity: 0, scale: 0.3, duration: 0.25, ease: "power2.in" }, b);
+        }
+        return p;
+      };
+      // neon selection frames drawn above an element: rounded rect or circle
+      const frameLayers = (pn, d, a, out) => {
+        const svg = document.createElementNS(NS, "svg"); svg.setAttribute("class", "nf"); svg.setAttribute("viewBox", "0 0 1920 1080"); $(pn).appendChild(svg);
+        [["rgba(226,31,38,0.6)", 16, "blur(9px)"], ["#ff4750", 5, "drop-shadow(0 0 5px #ff4750) drop-shadow(0 0 14px rgba(255,60,70,0.8))"], ["#fff3f1", 1.8, "none"]].forEach(([c, w2, f]) => {
+          const q = document.createElementNS(NS, "path"); q.setAttribute("d", d); q.setAttribute("fill", "none"); q.setAttribute("stroke", c); q.setAttribute("stroke-width", w2); q.setAttribute("stroke-linecap", "round"); q.style.filter = f; svg.appendChild(q);
+          const L = q.getTotalLength();
+          ft(q, { strokeDasharray: L + " " + L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.inOut" }, a);
+        });
+        tl.set(svg, { opacity: 1 }, 0);
+        if (out != null) tl.to(svg, { opacity: 0, duration: 0.2 }, out);
+        return svg;
+      };
+      const rectD = (x, y, w, h, r) => "M" + (x + w / 2) + "," + (y + h) + " L" + (x + r) + "," + (y + h) + " Q" + x + "," + (y + h) + " " + x + "," + (y + h - r) + " L" + x + "," + (y + r) + " Q" + x + "," + y + " " + (x + r) + "," + y + " L" + (x + w - r) + "," + y + " Q" + (x + w) + "," + y + " " + (x + w) + "," + (y + r) + " L" + (x + w) + "," + (y + h - r) + " Q" + (x + w) + "," + (y + h) + " " + (x + w - r) + "," + (y + h) + " Z";
+      const circD = (cx, cy, r) => "M" + cx + "," + (cy + r) + " A" + r + "," + r + " 0 1 1 " + cx + "," + (cy - r) + " A" + r + "," + r + " 0 1 1 " + cx + "," + (cy + r);
+      // full rounded loop around a phone (left 300, top 130, 400x820), starting and closing on its right edge
+      const LOOP = "M714,830 L714,186 Q714,116 644,116 L356,116 Q286,116 286,186 L286,894 Q286,964 356,964 L644,964 Q714,964 714,894 L714,830";
+
+      // P0: travels low under the hook and out to the left
+      piece(P(0, "M1990,1000 C1500,1004 700,990 0,995"), 0.0, 2.38, { ease: "sine.inOut", chain: true });
+      // P1: in low, up the phone's right edge, a closed loop; the three picks are framed, then the line leaves from the bottom
+      piece(P(1, "M1920,995 C1300,1000 714,1010 714,830"), 2.38, 2.8, { ease: "sine.inOut", chain: true });
+      piece(P(1, LOOP), 2.8, 3.5, { ease: "none" });
+      frameLayers("#P1", rectD(758, 224, 404, 88, 26), 3.3, 3.95);
+      frameLayers("#P1", rectD(824, 330, 272, 192, 36), 4.0, 4.7);
+      frameLayers("#P1", circD(955, 691, 140), 5.05, 5.9);
+      piece(P(1, "M500,964 C410,964 380,1035 260,1035 L0,1035"), 5.95, 6.45, { ease: "sine.in", chain: true });
+      tl.fromTo(".head b", { scale: 0.85 }, { scale: 1.15, duration: 0.18, yoyo: true, repeat: 60, ease: "sine.inOut", ...IR }, 0);
+
+      // ---------- dust ----------
+      const dl = $("#dustL");
+      for (let i = 0; i < 40; i++) {
+        const d = document.createElement("div"); d.className = "dust";
+        d.style.cssText = "left:" + (rnd() * 1920).toFixed(0) + "px;top:" + (rnd() * 1080).toFixed(0) + "px;opacity:" + (0.1 + rnd() * 0.32).toFixed(2) + ";transform:scale(" + (0.5 + rnd() * 1.3).toFixed(2) + ")";
+        dl.appendChild(d);
+        tl.fromTo(d, { x: 0, y: 0 }, { x: 60 + rnd() * 120, y: -30 - rnd() * 60, duration: 19.5, ease: "none", ...IR }, 0);
+      }
+      tl.set("#dustL", { opacity: 1 }, 0);
+
+      // ---------- headlines ----------
+      const words = (sel) => {
+        const el = $(sel);
+        Array.from(el.childNodes).forEach((n) => {
+          if (n.nodeType === 3) {
+            const f = document.createDocumentFragment();
+            n.textContent.split(/(\s+)/).forEach((t) => { if (!t) return; if (/^\s+$/.test(t)) { f.appendChild(document.createTextNode(" ")); return; } const sp = document.createElement("span"); sp.className = "w"; sp.textContent = t; f.appendChild(sp); });
+            n.replaceWith(f);
+          } else if (n.nodeName === "EM") n.classList.add("w");
+        });
+        return $$(sel + " .w");
+      };
+      const headline = (sel, a, b) => {
+        const ws = words(sel);
+        ft(ws, { opacity: 0, y: 60, filter: "blur(14px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", stagger: 0.07 }, a);
+        if (b != null) tl.to(ws, { opacity: 0, y: -36, filter: "blur(12px)", duration: 0.2, ease: "power2.in", stagger: 0.02 }, b - 0.22);
+      };
+      const phoneIn = (sel, at) => {
+        ft(sel, { opacity: 0, rotationY: 28, z: -260 }, { opacity: 1, rotationY: -10, z: 0, duration: 0.9, ease: "expo.out" }, at);
+        tl.to(sel, { rotationY: -4, rotationX: 2, duration: 2.6, ease: "sine.inOut" }, at + 0.9);
+        ft(sel + " .shine i", { x: 0 }, { x: 760, duration: 1.2, ease: "power2.inOut" }, at + 0.35);
+      };
+      const tap = (sel, at) => ft(sel, { scale: 0, opacity: 0 }, { keyframes: [{ scale: 1, opacity: 1, duration: 0.12 }, { scale: 1.7, opacity: 0, duration: 0.42 }] }, at);
+
+      // P0 hook: the question, then the answer in red on its own words
+      const t0w = $$("#t0 .w");
+      [0.0, 0.44].forEach((t, i) => ft(t0w[i], { opacity: 0, scale: 1.35, filter: "blur(22px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, t + 0.04));
+      [1.36, 1.52, 1.84].forEach((t, i) => ft(t0w[2 + i], { opacity: 0, y: 50, scale: 1.3, filter: "blur(20px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "back.out(1.6)" }, t));
+
+      // P1 station, pump number, one tap on the red button. The three picks leave their places on the screen and stack beside the phone.
+      phoneIn("#ph1", 2.4);
+      headline("#h1", 2.66, 3.62);
+      headline("#h2", 3.62, 4.82);
+      headline("#h3", 4.82, null);
+      ft("#popSt", { opacity: 0, scale: 0.72, x: -411, y: -8 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.5, ease: "back.out(1.4)" }, 3.06);
+      ft("#popPump", { opacity: 0, scale: 0.6, x: -461, y: 19 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.5, ease: "back.out(1.4)" }, 3.72);
+      ft("#popBtn", { opacity: 0, scale: 0.66, x: -455, y: 102 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.5)" }, 4.84);
+      tap("#tap1", 5.5);
+      tl.to("#popBtn", { scale: 0.92, duration: 0.08, yoyo: true, repeat: 1 }, 5.5);
+      tl.set("#popBtn", { boxShadow: "inset 0 3px 2px rgba(255,255,255,0.5), inset 0 -14px 26px rgba(120,0,8,0.35), 0 18px 34px rgba(190,20,30,0.35), 0 0 0px 0px rgba(255,71,80,0)" }, 0);
+      tl.to("#popBtn", { boxShadow: "inset 0 3px 2px rgba(255,255,255,0.5), inset 0 -14px 26px rgba(120,0,8,0.35), 0 18px 34px rgba(190,20,30,0.35), 0 0 70px 10px rgba(255,71,80,0.6)", duration: 0.3 }, 5.56);
+
+      // master: 1s app-icon opener, then the film on the narration clock
+      const master = gsap.timeline({ paused: true });
+      master.set("#ilogo", { scale: 0, opacity: 0, rotation: -12 }, 0);
+      master.to("#ilogo", { scale: 1, opacity: 1, rotation: 0, duration: 0.42, ease: "back.out(2.4)" }, 0.08);
+      master.to("#ilogo", { scale: 1.06, duration: 0.25, ease: "sine.inOut" }, 0.5);
+      master.to("#ilogo", { scale: 0, opacity: 0, rotation: 10, duration: 0.22, ease: "back.in(2)" }, 0.76);
+      // put every element in its film-start state at load, so the frame where the opener hands over can never show a default layout
+      tl.seek(0.001, false);
+      master.add(tl, 1.0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = master;
+    </script>
+  </body>
+</html>
