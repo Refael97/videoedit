@@ -14,7 +14,9 @@ for old, new in [("rgba(22,196,210,0.6)", "rgba(226,31,38,0.6)"), ("#39edf6", "#
     trail = trail.replace(old, new)
 
 src = open("src.html", encoding="utf8").read()
-for key, val in [("/*__TRAIL__*/", trail), ("/*__DUST__*/", dust), ("/*__HEADLINES__*/", heads)]:
+m = re.search(r'      <audio id="music"[^\n]*\n', bit).group(0)   # the proven music line: volume 0.34, carved by the voice, not ducked away
+music = m.replace('src="assets/music.mp3"', 'src="assets/audio/music.mp3"').replace('data-duration="26.6"', 'data-duration="23.5"')
+for key, val in [("/*__TRAIL__*/", trail), ("/*__DUST__*/", dust), ("/*__HEADLINES__*/", heads), ("/*__MUSIC__*/\n", music)]:
     assert src.count(key) == 1, key
     src = src.replace(key, val)
 open("index.html", "w", encoding="utf8").write(src)
