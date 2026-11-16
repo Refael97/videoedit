@@ -5,7 +5,7 @@
 - Backdrop: deep navy (the app's own dark blue), not black
 - Format: 16:9 1920x1080 @60fps
 - Voice: Itamar (eleven_v4) + deepening chain
-- Comment word for ManyChat: (to decide)
+- Comment word for ManyChat: סונול (caption only, never in the video)
 - Source: `assets/raw/screen.mp4` (iPhone mirrored on a Mac, 506x1080, 159.5 s, a mouse cursor is visible in places)
 
 ## Privacy (erase and redraw as dummy data, never blur)
