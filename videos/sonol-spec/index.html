@@ -69,6 +69,7 @@
       #goods span { font-size: 60px; font-weight: 800; } #goods u { text-decoration: none; font-size: 50px; font-weight: 700; color: #1f2a44; margin-left: 6px; }
       .pt { position: absolute; width: 220px; filter: drop-shadow(0 22px 36px rgba(0, 0, 0, 0.55)); }
       /* P3: three more reasons, one tile per phrase */
+      .phalo { position: absolute; border-radius: 50%; background: radial-gradient(ellipse at 50% 50%, rgba(215, 230, 255, 0.85) 0, rgba(140, 180, 255, 0.45) 38%, rgba(90, 140, 255, 0) 70%); filter: blur(18px); }
       .pc { position: absolute; filter: drop-shadow(0 26px 44px rgba(0, 0, 0, 0.6)); }
       .cap { position: absolute; top: 744px; width: 560px; text-align: center; font-size: 58px; font-weight: 800; line-height: 1.1; }
       .cap em { font-style: normal; color: var(--c); text-shadow: 0 0 30px rgba(255, 71, 80, 0.5); }
@@ -120,9 +121,9 @@
           </div>
 
           <div class="pn" id="P3">
-            <img class="pc aa" id="pc1" src="assets/crops/gold.png" style="left: 1240px; top: 235px; width: 520px" />
-            <img class="pc aa" id="pc2" src="assets/crops/game.png" style="left: 770px; top: 198px; width: 380px" />
-            <img class="pc aa" id="pc3" src="assets/crops/refer.png" style="left: 260px; top: 192px; width: 340px" />
+            <img class="pc aa" id="pc1" data-w="902" data-h="710" src="assets/crops/gold.png" style="left: 1240px; top: 235px; width: 520px" />
+            <img class="pc aa" id="pc2" data-w="994" data-h="1232" src="assets/crops/game.png" style="left: 770px; top: 198px; width: 380px" />
+            <img class="pc aa" id="pc3" data-w="992" data-h="1446" src="assets/crops/refer.png" style="left: 260px; top: 192px; width: 340px" />
             <div class="cap" id="cp1" style="left: 1220px">הטבת <em>זהב,</em></div>
             <div class="cap" id="cp2" style="left: 680px">משחק ששווה <em>נקודות,</em></div>
             <div class="cap" id="cp3" style="left: 150px">וחבר מביא <em>חבר.</em></div>
@@ -237,7 +238,8 @@
       // P2: in low under the tiles, up to the goods balance; the balance is framed, three rays reach what the points buy; out from its left side
       piece(P(2, "M1920,1035 C1300,1040 760,1040 570,650"), 6.16, 6.72, { ease: "sine.out" });
       frameLayers("#P2", rectD(234, 454, 652, 212, 104), 7.24, 8.56);
-      [[1078, 296], [1398, 560], [1078, 804]].forEach(([x, y], i) => piece(P(2, "M874,560 L" + x + "," + y), 8.62 + i * 0.22, 8.8 + i * 0.22, { ease: "power2.out", noHead: true }));
+      ["M874,560 C1000,560 950,296 1078,296", "M874,560 C1040,560 1100,636 1190,612 S1310,520 1398,560", "M874,560 C1000,560 950,804 1078,804"]
+        .forEach((d, i) => piece(P(2, d), 8.6 + i * 0.22, 8.86 + i * 0.22, { ease: "sine.inOut" }));
       piece(P(2, "M250,560 C150,560 130,1000 0,1000"), 9.42, 9.84, { ease: "sine.in", chain: true });
       // P3: the line runs under the three tiles and reaches each one on its phrase
       piece(P(3, "M1920,1000 C1800,1000 1700,930 1500,930"), 9.84, 10.3, { ease: "sine.out" });
@@ -312,9 +314,14 @@
       ["#pt1", "#pt2", "#pt3"].forEach((t, i) => ft(t, { opacity: 0, scale: 0.4, x: -120 }, { opacity: 1, scale: 1, x: 0, duration: 0.42, ease: "back.out(1.8)" }, 8.72 + i * 0.22));
 
       // P3 gold benefit, the memory game, bring-a-friend: each tile lands and lifts when the line reaches it
-      [["#pc1", "#cp1", 10.1, 10.3], ["#pc2", "#cp2", 11.32, 11.5], ["#pc3", "#cp3", 12.6, 12.76]].forEach(([c, cap, at, hit]) => {
-        ft(c, { opacity: 0, y: 90, rotationX: 16, scale: 0.86 }, { opacity: 1, y: 0, rotationX: 0, scale: 1, duration: 0.6, ease: "expo.out" }, at);
-        tl.to(c, { scale: 1.05, duration: 0.16, yoyo: true, repeat: 1, ease: "sine.inOut" }, hit);
+      [["#pc1", "#cp1", 10.1, 11.2], ["#pc2", "#cp2", 11.32, 12.56], ["#pc3", "#cp3", 12.6, 13.76]].forEach(([c, cap, at, end]) => {
+        const el = $(c), w = parseFloat(el.style.width), h = (w * +el.getAttribute("data-h")) / +el.getAttribute("data-w"), cx = parseFloat(el.style.left) + w / 2, cy = parseFloat(el.style.top) + h / 2;
+        const halo = document.createElement("div"); halo.className = "phalo"; halo.style.cssText = "left:" + (cx - w * 0.85) + "px;top:" + (cy - h * 0.8) + "px;width:" + w * 1.7 + "px;height:" + h * 1.6 + "px"; el.parentNode.insertBefore(halo, el);
+        ft(c, { opacity: 0, y: 90, rotationX: 16, scale: 0.86 }, { opacity: 1, y: 0, rotationX: 0, scale: 1, duration: 0.4, ease: "expo.out" }, at);
+        tl.to(c, { scale: 1.13, duration: 0.32, ease: "back.out(1.7)" }, at + 0.26);
+        tl.to(c, { scale: 1, duration: 0.34, ease: "power2.inOut" }, end - 0.02);
+        ft(halo, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.36, ease: "power2.out" }, at + 0.24);
+        tl.to(halo, { opacity: 0, scale: 0.85, duration: 0.38, ease: "power2.in" }, end - 0.04);
         const ws = words(cap); ft(ws, { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out", stagger: 0.09 }, at + 0.06);
       });
 
