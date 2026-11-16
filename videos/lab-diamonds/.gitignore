@@ -1,0 +1,5 @@
+renders/
+assets/img/raw_*.png
+assets/audio/music_full.mp3
+node_modules/
+.transcode-cache/

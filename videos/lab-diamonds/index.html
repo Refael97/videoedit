@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("assets/fonts/heebo-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("assets/fonts/heebo-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AA; }
+      @font-face { font-family: "Heebo"; font-weight: 800; src: url("assets/fonts/heebo-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 800; src: url("assets/fonts/heebo-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AA; }
+      @font-face { font-family: "Heebo"; font-weight: 900; src: url("assets/fonts/heebo-hebrew-900-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+      @font-face { font-family: "Heebo"; font-weight: 900; src: url("assets/fonts/heebo-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AA; }
+      @font-face { font-family: "Mono"; font-weight: 500; src: url("assets/fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Mono"; font-weight: 700; src: url("assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+      /* one art direction: dark laboratory, one icy-cyan accent, an editorial grid on every frame */
+      :root { --c: #6fe3ff; --ink: #f4f8fb; --bg: #05080c; }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); font-family: "Heebo", sans-serif; color: var(--ink); direction: rtl; }
+      .sc { position: absolute; inset: 0; overflow: hidden; opacity: 0; }
+      .sc img { position: absolute; left: 0; top: -1px; width: 1080px; height: 1922px; object-fit: cover; }
+      #shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3, 6, 10, 0.78) 0, rgba(3, 6, 10, 0.25) 16%, rgba(3, 6, 10, 0) 30%, rgba(3, 6, 10, 0) 58%, rgba(3, 6, 10, 0.5) 72%, rgba(3, 6, 10, 0.82) 100%); }
+      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 70% at 50% 46%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.5) 100%); }
+      #grain { position: absolute; inset: 0; opacity: 0.06; background-image: radial-gradient(rgba(255, 255, 255, 0.9) 0.6px, transparent 0.7px); background-size: 4px 4px; }
+      #flash { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 46%, rgba(220, 247, 255, 0.95), rgba(111, 227, 255, 0.55) 45%, rgba(111, 227, 255, 0.2) 100%); opacity: 0; }
+      .dust { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: rgba(190, 240, 255, 0.85); }
+
+      /* editorial grid: mono label, step counter, hairline, corner marks, progress */
+      #top { position: absolute; left: 64px; right: 64px; top: 236px; height: 40px; direction: ltr; font-family: "Mono", monospace; font-size: 25px; font-weight: 500; letter-spacing: 3.5px; color: rgba(244, 248, 251, 0.82); }
+      #top b { position: absolute; left: 0; top: 0; font-weight: 500; } #top i { position: absolute; right: 0; top: 0; font-style: normal; font-weight: 700; color: var(--c); }
+      #rule { position: absolute; left: 64px; right: 64px; top: 286px; height: 2px; background: rgba(244, 248, 251, 0.22); }
+      #prog { position: absolute; left: 0; top: 0; height: 2px; width: 100%; background: var(--c); transform-origin: 0 50%; box-shadow: 0 0 10px rgba(111, 227, 255, 0.7); }
+      .cm { position: absolute; width: 26px; height: 26px; border: 2px solid rgba(244, 248, 251, 0.4); }
+      .st { position: absolute; right: 64px; top: 308px; font-size: 44px; font-weight: 800; line-height: 1.1; white-space: nowrap; opacity: 0; }
+      .st span { color: var(--c); font-family: "Mono", monospace; font-weight: 700; font-size: 34px; letter-spacing: 2px; margin-left: 16px; direction: ltr; display: inline-block; }
+
+      /* captions: built word by word on the narrator's voice */
+      .cap { position: absolute; left: 60px; right: 60px; top: 1236px; text-align: center; font-size: 92px; font-weight: 900; line-height: 1.14; display: none; text-shadow: 0 4px 0 rgba(0, 0, 0, 0.55), 0 0 34px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.8); }
+      .cap .w { display: inline-block; margin: 0 15px; }
+      .cap .a { color: var(--c); text-shadow: 0 4px 0 rgba(0, 0, 0, 0.55), 0 0 34px rgba(0, 0, 0, 0.9), 0 0 26px rgba(111, 227, 255, 0.55); }
+
+      /* data call-outs */
+      .num { position: absolute; left: 0; right: 0; text-align: center; direction: ltr; opacity: 0; }
+      .num b { display: block; font-family: "Mono", monospace; font-weight: 700; font-size: 150px; letter-spacing: -4px; line-height: 1; color: #fff; text-shadow: 0 0 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(111, 227, 255, 0.45); }
+      .num span { display: block; margin-top: 14px; direction: rtl; font-size: 46px; font-weight: 800; color: var(--c); text-shadow: 0 0 24px rgba(0, 0, 0, 0.95); }
+      .chip { position: absolute; padding: 16px 30px; border-radius: 999px; background: rgba(8, 16, 24, 0.62); box-shadow: inset 0 0 0 2px rgba(111, 227, 255, 0.75), 0 10px 30px rgba(0, 0, 0, 0.5); font-size: 42px; font-weight: 800; white-space: nowrap; opacity: 0; }
+      .chip u { text-decoration: none; font-family: "Mono", monospace; font-weight: 700; color: var(--c); margin-left: 14px; direction: ltr; display: inline-block; }
+      .chip svg { width: 40px; height: 40px; vertical-align: -7px; margin-left: 14px; }
+      .arw { position: absolute; width: 0; height: 0; border-style: solid; opacity: 0; }
+      .ly { position: absolute; right: 96px; width: 220px; height: 10px; border-radius: 5px; background: var(--c); box-shadow: 0 0 16px rgba(111, 227, 255, 0.8); transform-origin: 100% 50%; }
+      #lyt { position: absolute; right: 96px; top: 688px; width: 220px; text-align: center; font-family: "Mono", monospace; font-size: 24px; letter-spacing: 3px; color: rgba(244, 248, 251, 0.8); direction: ltr; opacity: 0; }
+      .atom { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle, #fff 0, #9eecff 45%, rgba(111, 227, 255, 0) 72%); opacity: 0; }
+      .vs { position: absolute; top: 440px; white-space: nowrap; width: 420px; text-align: center; opacity: 0; }
+      .vs small { display: block; font-family: "Mono", monospace; font-size: 26px; letter-spacing: 4px; color: rgba(244, 248, 251, 0.75); direction: ltr; }
+      .vs b { display: block; font-size: 58px; font-weight: 900; line-height: 1.1; margin-top: 6px; text-shadow: 0 0 30px rgba(0, 0, 0, 0.9); }
+      .vs i { display: block; width: 2px; height: 150px; margin: 18px auto 0; background: linear-gradient(180deg, var(--c), rgba(111, 227, 255, 0)); }
+      #hand { position: absolute; left: 0; right: 0; top: 1560px; text-align: center; direction: ltr; font-family: "Mono", monospace; font-size: 30px; letter-spacing: 3px; color: rgba(244, 248, 251, 0.85); opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="48.8" data-width="1080" data-height="1920">
+      <div id="scenes"><div class="sc" id="sc0"><img src="assets/img/01.jpg" style="transform-origin:50% 48%" /></div><div class="sc" id="sc1"><img src="assets/img/02.jpg" style="transform-origin:50% 46%" /></div><div class="sc" id="sc2"><img src="assets/img/03.jpg" style="transform-origin:50% 44%" /></div><div class="sc" id="sc3"><img src="assets/img/04.jpg" style="transform-origin:50% 47%" /></div><div class="sc" id="sc4"><img src="assets/img/11.jpg" style="transform-origin:50% 74%" /></div><div class="sc" id="sc5"><img src="assets/img/05.jpg" style="transform-origin:50% 45%" /></div><div class="sc" id="sc6"><img src="assets/img/06.jpg" style="transform-origin:50% 55%" /></div><div class="sc" id="sc7"><img src="assets/img/07.jpg" style="transform-origin:50% 68%" /></div><div class="sc" id="sc8"><img src="assets/img/08.jpg" style="transform-origin:50% 66%" /></div><div class="sc" id="sc9"><img src="assets/img/09.jpg" style="transform-origin:50% 50%" /></div><div class="sc" id="sc10"><img src="assets/img/12.jpg" style="transform-origin:50% 50%" /></div><div class="sc" id="sc11"><img src="assets/img/10.jpg" style="transform-origin:50% 62%" /></div></div>
+      <div id="shade"></div>
+      <div id="vig"></div>
+      <div id="dustL" style="position:absolute;inset:0"></div>
+      <div id="flash"></div>
+      <div id="grain"></div>
+
+      <!-- call-outs -->
+      <div class="arw" id="a1" style="left:90px;top:900px;border-width:34px 0 34px 54px;border-color:transparent transparent transparent var(--c)"></div>
+      <div class="arw" id="a2" style="left:936px;top:900px;border-width:34px 54px 34px 0;border-color:transparent var(--c) transparent transparent"></div>
+      <div class="num" id="n1" style="top:420px"><b id="n1v">0</b><span>אטמוספרות של לחץ</span></div>
+      <div class="num" id="n2" style="top:420px"><b id="n2v">0°C</b><span>יותר מאלף שלוש מאות מעלות</span></div>
+      <div class="chip" id="k0" style="left:96px;top:1050px">כמו 150 ק״מ בעומק האדמה</div>
+      <div class="chip" id="k1" style="right:96px;top:420px">גז מתאן<u>CH₄</u></div>
+      <div class="chip" id="k2" style="right:96px;top:524px">פלזמה זוהרת</div>
+      <div id="lyt">LAYER BY LAYER</div>
+      <div id="layers"></div>
+      <div id="atoms"></div>
+      <div class="chip" id="r1" style="right:96px;top:420px"><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L20 7" fill="none" stroke="#6fe3ff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg>אותו פחמן</div>
+      <div class="chip" id="r2" style="right:96px;top:524px"><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L20 7" fill="none" stroke="#6fe3ff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg>אותו מבנה</div>
+      <div class="chip" id="r3" style="right:96px;top:628px"><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L20 7" fill="none" stroke="#6fe3ff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg>אותה קשיות</div>
+      <div class="vs" id="v1" style="left:596px"><small>NATURE</small><b>מיליארדי שנים</b><i></i></div>
+      <div class="vs" id="v2" style="left:64px"><small>LAB</small><b style="color:var(--c)">כמה שבועות</b><i></i></div>
+      <div id="hand">@refaelleviii</div>
+
+      <!-- editorial grid -->
+      <div id="top"><b>LAB-GROWN DIAMONDS</b><i id="cnt">00 / 05</i></div>
+      <div id="rule"><div id="prog"></div></div>
+      <div class="cm" style="left:36px;top:150px;border-right:0;border-bottom:0"></div>
+      <div class="cm" style="right:36px;top:150px;border-left:0;border-bottom:0"></div>
+      <div class="cm" style="left:36px;top:1744px;border-right:0;border-top:0"></div>
+      <div class="cm" style="right:36px;top:1744px;border-left:0;border-top:0"></div>
+      <div id="steps"></div>
+
+      <div id="caps"><div class="cap" id="cp0"><span class="w">היהלום</span> <span class="w">הזה</span> <span class="w">לא</span></div><div class="cap" id="cp1"><span class="w">נכרה</span> <span class="w">מהאדמה.</span></div><div class="cap" id="cp2"><span class="w">הוא</span> <span class="w">גדל</span> <span class="w">במעבדה</span></div><div class="cap" id="cp3"><span class="w">בתוך</span> <span class="w">כמה</span> <span class="w a">שבועות.</span></div><div class="cap" id="cp4"><span class="w">איך?</span></div><div class="cap" id="cp5"><span class="w">מתחילים</span> <span class="w a">בזרע</span></div><div class="cap" id="cp6"><span class="w">פרוסה</span> <span class="w">דקיקה</span> <span class="w">של</span></div><div class="cap" id="cp7"><span class="w">יהלום</span> <span class="w">אמיתי.</span></div><div class="cap" id="cp8"><span class="w">שיטה</span> <span class="w">ראשונה</span></div><div class="cap" id="cp9"><span class="w">לחץ</span> <span class="w a">וחום.</span></div><div class="cap" id="cp10"><span class="w">מכבש</span> <span class="w">ענק</span> <span class="w">לוחץ</span></div><div class="cap" id="cp11"><span class="w">על</span> <span class="w">פחמן</span> <span class="w">בעוצמה</span></div><div class="cap" id="cp12"><span class="w">של</span> <span class="w">חמישים</span> <span class="w">אלף</span></div><div class="cap" id="cp13"><span class="w a">אטמוספרות</span></div><div class="cap" id="cp14"><span class="w">ביותר</span> <span class="w">מאלף</span> <span class="w">שלוש</span></div><div class="cap" id="cp15"><span class="w">מאות</span> <span class="w a">מעלות</span></div><div class="cap" id="cp16"><span class="w">בדיוק</span> <span class="w">כמו</span> <span class="w">בעומק</span></div><div class="cap" id="cp17"><span class="w">האדמה.</span></div><div class="cap" id="cp18"><span class="w">שיטה</span> <span class="w">שנייה</span></div><div class="cap" id="cp19"><span class="w a">גז.</span></div><div class="cap" id="cp20"><span class="w">בתא</span> <span class="w">ואקום</span></div><div class="cap" id="cp21"><span class="w">גז</span> <span class="w">מתאן</span> <span class="w">הופך</span></div><div class="cap" id="cp22"><span class="w a">לפלזמה</span> <span class="w">זוהרת</span></div><div class="cap" id="cp23"><span class="w">ואטומי</span> <span class="w">פחמן</span> <span class="w">נוחתים</span></div><div class="cap" id="cp24"><span class="w">על</span> <span class="w">הזרע</span></div><div class="cap" id="cp25"><span class="w">שכבה</span> <span class="w">אחרי</span> <span class="w a">שכבה.</span></div><div class="cap" id="cp26"><span class="w">אחרי</span> <span class="w">כמה</span> <span class="w">שבועות</span></div><div class="cap" id="cp27"><span class="w">יוצא</span> <span class="w">גביש</span> <span class="w a">גולמי.</span></div><div class="cap" id="cp28"><span class="w">לייזר</span> <span class="w">חותך</span> <span class="w">אותו</span></div><div class="cap" id="cp29"><span class="w">והליטוש</span> <span class="w">נותן</span> <span class="w">לו</span></div><div class="cap" id="cp30"><span class="w">את</span> <span class="w a">הברק.</span></div><div class="cap" id="cp31"><span class="w">התוצאה?</span></div><div class="cap" id="cp32"><span class="w">יהלום</span> <span class="w a">אמיתי</span> <span class="w">לכל</span></div><div class="cap" id="cp33"><span class="w">דבר</span></div><div class="cap" id="cp34"><span class="w">אותו</span> <span class="w a">פחמן</span></div><div class="cap" id="cp35"><span class="w">אותו</span> <span class="w a">מבנה</span></div><div class="cap" id="cp36"><span class="w">אותה</span> <span class="w a">קשיות.</span></div><div class="cap" id="cp37"><span class="w">לטבע</span> <span class="w">זה</span> <span class="w">לקח</span></div><div class="cap" id="cp38"><span class="w a">מיליארדי</span> <span class="w a">שנים.</span></div><div class="cap" id="cp39"><span class="w">למעבדה</span></div><div class="cap" id="cp40"><span class="w">כמה</span> <span class="w a">שבועות.</span></div></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0.3" data-duration="46.6" data-track-index="10" data-volume="1"></audio>
+      <audio id="bed" src="assets/audio/bed.m4a" data-start="0" data-duration="48.8" data-track-index="11" data-volume="1"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const IR = { immediateRender: false };
+      const $ = (s) => document.querySelector(s), $$ = (s) => Array.from(document.querySelectorAll(s));
+      const ft = (sel, from, to, at) => { tl.set(sel, from, 0); tl.fromTo(sel, from, { ...to, ...IR }, at); };
+      const SC = [[0.0, 5.68, 1.22, 1.06, 0, ""], [5.68, 10.16, 1.05, 1.2, 1, "הזרע"], [10.16, 12.64, 1.04, 1.16, 2, "לחץ וחום"], [12.64, 17.14, 1.02, 1.2, 2, "לחץ וחום"], [17.14, 21.28, 1.02, 1.22, 2, "לחץ וחום"], [21.28, 24.8, 1.04, 1.18, 3, "גז"], [24.8, 30.44, 1.03, 1.14, 3, "גז"], [30.44, 33.22, 1.05, 1.2, 4, "חיתוך וליטוש"], [33.22, 34.5, 1.18, 1.05, 4, "חיתוך וליטוש"], [34.5, 36.58, 1.04, 1.18, 4, "חיתוך וליטוש"], [36.58, 42.58, 1.16, 1.04, 5, "התוצאה"], [42.58, 48.8, 1.04, 1.14, 5, "התוצאה"]], CH = [[0.3, [0.3, 0.78, 1.18]], [1.62, [1.62, 2.06]], [2.94, [2.94, 3.18, 3.42]], [4.3, [4.3, 4.66, 4.9]], [5.74, [5.74]], [6.46, [6.46, 7.02]], [7.9, [7.9, 8.3, 8.86]], [9.1, [9.1, 9.46]], [10.22, [10.22, 10.58]], [11.34, [11.34, 11.9]], [12.7, [12.7, 13.3, 13.58]], [13.94, [13.94, 14.06, 14.54]], [15.02, [15.02, 15.18, 15.82]], [16.14, [16.14]], [17.18, [17.18, 17.62, 18.06]], [18.38, [18.38, 18.54]], [19.38, [19.38, 19.9, 20.14]], [20.5, [20.5]], [21.34, [21.34, 21.78]], [22.66, [22.66]], [23.18, [23.18, 23.5]], [24.14, [24.14, 24.38, 24.86]], [25.3, [25.3, 25.86]], [26.74, [26.74, 27.14, 27.58]], [28.06, [28.06, 28.22]], [28.78, [28.78, 29.26, 29.66]], [30.5, [30.5, 30.82, 31.06]], [31.62, [31.62, 32.02, 32.46]], [33.26, [33.26, 33.58, 33.98]], [34.54, [34.54, 35.26, 35.54]], [35.66, [35.66, 35.78]], [36.62, [36.62]], [37.58, [37.58, 38.06, 38.54]], [38.86, [38.86]], [39.62, [39.62, 39.84]], [40.58, [40.58, 40.78]], [41.46, [41.46, 41.7]], [42.62, [42.62, 43.14, 43.26]], [43.66, [43.66, 44.22]], [44.9, [44.9]], [45.94, [45.94, 46.18]]], DUR = 48.8, V = 0.3;
+      let seed = 11; const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+
+      // ---------- scenes: a slow push on every image, a zoom-punch and a cold flash on every cut ----------
+      SC.forEach(([a, b, z0, z1], i) => {
+        const sc = $("#sc" + i), img = sc.querySelector("img");
+        if (i) { tl.set(sc, { opacity: 0 }, 0); tl.set(sc, { opacity: 1 }, a); } else gsap.set(sc, { opacity: 1 }); if (i < SC.length - 1) tl.set(sc, { opacity: 0 }, b + 0.02);
+        tl.fromTo(img, { scale: z0, y: 0 }, { scale: z1, y: i % 2 ? -14 : 14, duration: b - Math.max(0, a) + 0.05, ease: "none", ...IR }, Math.max(0, a));
+        if (i) { tl.fromTo(sc, { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.34, ease: "expo.out", ...IR }, a);
+          tl.fromTo("#flash", { opacity: 0.5 }, { opacity: 0, duration: 0.3, ease: "power2.out", ...IR }, a); }
+      });
+      tl.set("#flash", { opacity: 0 }, 0);
+      tl.fromTo("#sc0", { filter: "blur(22px) brightness(0.4)" }, { filter: "blur(0px) brightness(1)", duration: 0.7, ease: "power2.out" }, 0);
+      tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: DUR, ease: "none" }, 0);
+      for (let i = 0; i < 34; i++) { const d = document.createElement("div"); d.className = "dust"; const s = 0.4 + rnd() * 1.4;
+        d.style.cssText = "left:" + (rnd() * 1080).toFixed(0) + "px;top:" + (rnd() * 1920).toFixed(0) + "px;opacity:" + (0.08 + rnd() * 0.3).toFixed(2) + ";transform:scale(" + s.toFixed(2) + ")"; $("#dustL").appendChild(d);
+        tl.fromTo(d, { x: 0, y: 0 }, { x: -40 + rnd() * 80, y: -160 - rnd() * 240, duration: DUR, ease: "none" }, 0); }
+
+      // ---------- step titles and the counter ----------
+      const seen = [];
+      SC.forEach(([a, b, , , n, title], i) => {
+        if (!n || (seen.length && seen[seen.length - 1][0] === n)) { if (n) seen[seen.length - 1][2] = b; return; }
+        seen.push([n, a, b, title]);
+      });
+      seen.forEach(([n, a, b, title], k) => { const next = seen[k + 1];
+        const el = document.createElement("div"); el.className = "st"; el.innerHTML = "<span>0" + n + "</span>" + title; $("#steps").appendChild(el);
+        tl.set(el, { opacity: 0 }, 0);
+        tl.fromTo(el, { opacity: 0, x: 60, filter: "blur(10px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out", ...IR }, a + 0.08);
+        if (next) tl.to(el, { opacity: 0, x: -40, duration: 0.2, ease: "power2.in" }, next[1] - 0.12);
+        tl.call(() => ($("#cnt").textContent = "0" + n + " / 05"), null, a + 0.08);
+      });
+      tl.call(() => ($("#cnt").textContent = "00 / 05"), null, 0);
+      ft("#top", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 0.25);
+      ft("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.out" }, 0.3);
+      ft(".cm", { opacity: 0 }, { opacity: 1, duration: 0.5, stagger: 0.05 }, 0.3);
+
+      // ---------- captions ----------
+      CH.forEach(([a, ws], i) => {
+        const el = $("#cp" + i), spans = el.querySelectorAll(".w"), end = i < CH.length - 1 ? CH[i + 1][0] - 0.04 : DUR - 0.9;
+        tl.set(el, { display: "none" }, 0); tl.set(el, { display: "block" }, a - 0.04); tl.set(el, { display: "none" }, end);
+        spans.forEach((sp, k) => { tl.set(sp, { opacity: 0, y: 30, scale: 0.86 }, 0);
+          tl.fromTo(sp, { opacity: 0, y: 30, scale: 0.86 }, { opacity: 1, y: 0, scale: 1, duration: 0.18, ease: "back.out(2.2)", ...IR }, ws[k] - 0.03); });
+      });
+
+      // ---------- call-outs ----------
+      const count = (sel, to, a, d, fmt) => { const o = { v: 0 }, el = $(sel); tl.set(o, { v: 0 }, 0);
+        tl.fromTo(o, { v: 0 }, { v: to, duration: d, ease: "power2.out", ...IR, onUpdate: () => (el.textContent = fmt(Math.round(o.v))) }, a); };
+      const show = (sel, a, b, from = { opacity: 0, y: 30, scale: 0.9 }) => { ft(sel, from, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, a); if (b != null) tl.to(sel, { opacity: 0, duration: 0.18 }, b); };
+      // 50,000 atmospheres: the press closes in
+      show("#n1", V + 14.7, V + 16.8); count("#n1v", 50000, V + 14.88, 0.95, (v) => v.toLocaleString("en-US"));
+      ["#a1", "#a2"].forEach((a, i) => { ft(a, { opacity: 0, x: i ? 70 : -70 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, V + 13.28);
+        tl.to(a, { x: i ? -34 : 34, duration: 0.32, yoyo: true, repeat: 9, ease: "sine.inOut" }, V + 13.6); tl.to(a, { opacity: 0, duration: 0.15 }, V + 16.8); });
+      tl.to("#sc3", { x: 5, duration: 0.05, yoyo: true, repeat: 11, ease: "none" }, V + 14.88);
+      // 1,300 degrees, as deep as the mantle
+      show("#n2", V + 17.0, V + 20.94); count("#n2v", 1300, V + 17.32, 0.9, (v) => v.toLocaleString("en-US") + "°C");
+      show("#k0", V + 19.1, V + 20.94);
+      // methane -> plasma
+      show("#k1", V + 23.84, V + 26.4, { opacity: 0, x: 60 }); show("#k2", V + 25.0, V + 26.4, { opacity: 0, x: 60 });
+      // carbon atoms land on the seed, layer after layer
+      for (let i = 0; i < 26; i++) { const a = document.createElement("div"); a.className = "atom"; a.style.left = (200 + rnd() * 680).toFixed(0) + "px"; a.style.top = "0px"; $("#atoms").appendChild(a);
+        const t0 = V + 26.5 + rnd() * 2.9, y0 = 560 + rnd() * 120; tl.set(a, { opacity: 0, y: y0 }, 0);
+        tl.fromTo(a, { opacity: 0, y: y0 }, { keyframes: [{ opacity: 1, duration: 0.12 }, { y: 1010 + rnd() * 90, duration: 0.62, ease: "power1.in" }, { opacity: 0, scale: 2.2, duration: 0.16 }], ...IR }, t0); }
+      for (let i = 0; i < 7; i++) { const l = document.createElement("div"); l.className = "ly"; l.style.top = 660 - i * 22 + "px"; $("#layers").appendChild(l);
+        tl.set(l, { opacity: 0, scaleX: 0 }, 0); tl.fromTo(l, { opacity: 0, scaleX: 0 }, { opacity: 1 - i * 0.07, scaleX: 1, duration: 0.3, ease: "power3.out", ...IR }, V + 27.3 + i * 0.36);
+        tl.to(l, { opacity: 0, duration: 0.15 }, V + 30.1); }
+      show("#lyt", V + 28.48, V + 30.1, { opacity: 0, y: 14 });
+      // the result: same carbon, same structure, same hardness
+      show("#r1", V + 39.32, V + 42.24, { opacity: 0, x: 60 }); show("#r2", V + 40.28, V + 42.24, { opacity: 0, x: 60 }); show("#r3", V + 41.16, V + 42.24, { opacity: 0, x: 60 });
+      // nature vs lab
+      show("#v1", V + 43.3, null, { opacity: 0, y: -30 }); show("#v2", V + 44.6, null, { opacity: 0, y: -30 });
+      ft("#hand", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, V + 46.7);
+      tl.to("#sc11 img", { filter: "brightness(1.12)", duration: 0.5, yoyo: true, repeat: 1 }, V + 45.9);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
