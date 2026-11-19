@@ -2,13 +2,15 @@
 Run from the project root: python3 build.py"""
 import json
 
-W, H, VO0 = 1080, 1920, 0.3          # the narration starts 0.3 s into the film
+W, H, VO0 = 1080, 1920, 7.19         # the narration starts 0.3 s into the film
 words = json.load(open("data/words.json", encoding="utf8"))["words"]
-DUR = 48.8
+DUR = 59.2
 
 # scene: (start on the narration clock, image, focus x%, focus y%, zoom from, zoom to, step number, step title)
 S = [
-    (-0.3, "01", 50, 48, 1.22, 1.06, 0, ""),
+    (-7.19, "13", 50, 46, 1.02, 1.2, 0, ""),
+    (-2.85, "10", 50, 62, 1.16, 1.04, 0, ""),
+    (2.5, "01", 50, 48, 1.22, 1.06, 0, ""),
     (5.38, "02", 50, 46, 1.05, 1.2, 1, "הזרע"),
     (9.86, "03", 50, 44, 1.04, 1.16, 2, "לחץ וחום"),
     (12.34, "04", 50, 47, 1.02, 1.2, 2, "לחץ וחום"),
@@ -19,7 +21,8 @@ S = [
     (32.92, "08", 50, 66, 1.18, 1.05, 4, "חיתוך וליטוש"),
     (34.2, "09", 50, 50, 1.04, 1.18, 4, "חיתוך וליטוש"),
     (36.28, "12", 50, 50, 1.16, 1.04, 5, "התוצאה"),
-    (42.28, "10", 50, 62, 1.04, 1.14, 5, "התוצאה"),
+    (42.28, "11", 50, 74, 1.2, 1.04, 5, "התוצאה"),
+    (44.86, "10", 50, 62, 1.04, 1.14, 5, "התוצאה"),
 ]
 ends = [s[0] for s in S[1:]] + [DUR - VO0]
 
@@ -30,7 +33,7 @@ for w in words:
     if w["text"][-1] in ".?:," or len(cur) == 3:
         chunks.append(cur); cur = []
 if cur: chunks.append(cur)
-ACC = {"מעבדה,", "שבועות.", "בזרע:", "וחום.", "אטמוספרות,", "מעלות,", "גז.", "לפלזמה", "שכבה.", "גולמי.", "הברק.", "אמיתי", "פחמן,", "מבנה,", "קשיות.", "אין־ספור", "שנים."}
+ACC = {"זולים.", "טבעי?", "המקור.", "בהרבה.", "מעבדה,", "שבועות.", "בזרע:", "וחום.", "אטמוספרות,", "מעלות,", "גז.", "לפלזמה", "שכבה.", "גולמי.", "הברק.", "אמיתי", "פחמן,", "מבנה,", "קשיות.", "אין־ספור", "שנים."}
 
 scenes_html = "".join(
     '<div class="sc" id="sc%d"><img src="assets/img/%s.jpg" style="transform-origin:%d%% %d%%" /></div>' % (i, s[1], s[2], s[3]) for i, s in enumerate(S))
@@ -46,4 +49,5 @@ for k, v in [("__SCENES__", scenes_html), ("__CAPS__", caps_html), ("__JS_SCENES
     assert k in html, k
     html = html.replace(k, v)
 open("index.html", "w", encoding="utf8").write(html)
+json.dump([round(s[0] + VO0, 3) for s in S[1:]], open("data/cuts.json", "w"))
 print("index.html written:", len(S), "scenes,", len(chunks), "caption chunks")
