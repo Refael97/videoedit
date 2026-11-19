@@ -30,6 +30,7 @@
       #top b { position: absolute; left: 0; top: 0; font-weight: 500; } #top i { position: absolute; right: 0; top: 0; font-style: normal; font-weight: 700; color: var(--c); }
       #rule { position: absolute; left: 64px; right: 64px; top: 286px; height: 2px; background: rgba(244, 248, 251, 0.22); }
       #prog { position: absolute; left: 0; top: 0; height: 2px; width: 100%; background: var(--c); transform-origin: 0 50%; box-shadow: 0 0 10px rgba(111, 227, 255, 0.7); }
+      #top, #rule, .cm, #steps { display: none !important; }
       .cm { position: absolute; width: 26px; height: 26px; border: 2px solid rgba(244, 248, 251, 0.4); }
       .st { position: absolute; right: 64px; top: 308px; font-size: 44px; font-weight: 800; line-height: 1.1; white-space: nowrap; opacity: 0; }
       .st span { color: var(--c); font-family: "Mono", monospace; font-weight: 700; font-size: 34px; letter-spacing: 2px; margin-left: 16px; direction: ltr; display: inline-block; }
@@ -80,7 +81,7 @@
       <div class="chip" id="r1" style="right:96px;top:420px"><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L20 7" fill="none" stroke="#6fe3ff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg>אותו פחמן</div>
       <div class="chip" id="r2" style="right:96px;top:524px"><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L20 7" fill="none" stroke="#6fe3ff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg>אותו מבנה</div>
       <div class="chip" id="r3" style="right:96px;top:628px"><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L20 7" fill="none" stroke="#6fe3ff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg>אותה קשיות</div>
-      <div class="vs" id="v1" style="left:596px"><small>NATURE</small><b>מיליארדי שנים</b><i></i></div>
+      <div class="vs" id="v1" style="left:596px"><small>NATURE</small><b>אין־ספור שנים</b><i></i></div>
       <div class="vs" id="v2" style="left:64px"><small>LAB</small><b style="color:var(--c)">כמה שבועות</b><i></i></div>
       <div id="hand">@refaelleviii</div>
 
@@ -95,7 +96,7 @@
 
       <div id="caps">__CAPS__</div>
 
-      <audio id="vo" src="assets/audio/vo.mp3" data-start="__VO0__" data-duration="46.6" data-track-index="10" data-volume="1"></audio>
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="__VO0__" data-duration="47.2" data-track-index="10" data-volume="1"></audio>
       <audio id="bed" src="assets/audio/bed.m4a" data-start="0" data-duration="__DUR__" data-track-index="11" data-volume="1"></audio>
     </div>
 
@@ -173,9 +174,9 @@
       // the result: same carbon, same structure, same hardness
       show("#r1", V + 39.32, V + 42.24, { opacity: 0, x: 60 }); show("#r2", V + 40.28, V + 42.24, { opacity: 0, x: 60 }); show("#r3", V + 41.16, V + 42.24, { opacity: 0, x: 60 });
       // nature vs lab
-      show("#v1", V + 43.3, null, { opacity: 0, y: -30 }); show("#v2", V + 44.6, null, { opacity: 0, y: -30 });
-      ft("#hand", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, V + 46.7);
-      tl.to("#sc11 img", { filter: "brightness(1.12)", duration: 0.5, yoyo: true, repeat: 1 }, V + 45.9);
+      show("#v1", V + 43.55, null, { opacity: 0, y: -30 }); show("#v2", V + 46.0, null, { opacity: 0, y: -30 });
+      ft("#hand", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, V + 47.2);
+      tl.to("#sc11 img", { filter: "brightness(1.12)", duration: 0.5, yoyo: true, repeat: 1 }, V + 46.3);
 
       tl.set({}, {}, DUR);
       window.__timelines = window.__timelines || {};
