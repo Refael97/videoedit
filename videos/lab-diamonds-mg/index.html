@@ -7,33 +7,134 @@
     <style>
       @font-face { font-family: "Heebo"; font-weight: 900; src: url("assets/fonts/heebo-hebrew-900-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; }
       @font-face { font-family: "Heebo"; font-weight: 900; src: url("assets/fonts/heebo-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Mono"; font-weight: 700; src: url("assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
       html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #fdefd6; }
       #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #fdefd6; font-family: "Heebo", sans-serif; }
-      #clip { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
-      /* captions: a cream card with a thick ink outline, like a part of the machine */
-      .cap { position: absolute; left: 0; right: 0; top: 1392px; text-align: center; direction: rtl; display: none; }
+      #art { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      .cap { position: absolute; left: 0; right: 0; top: 1560px; text-align: center; direction: rtl; opacity: 0; }
       .cap div { display: inline-block; padding: 14px 38px 18px; border-radius: 34px; background: #fff7e8; border: 6px solid #23323c; box-shadow: 0 10px 0 #23323c; font-size: 84px; font-weight: 900; line-height: 1.1; color: #23323c; white-space: nowrap; }
       .cap span { display: inline-block; margin: 0 11px; }
       .cap .a { color: #8a3ffc; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1080" data-height="1920">
-      <video id="clip" src="assets/video/machineB.mp4" muted playsinline data-start="0" data-duration="5" data-track-index="1"></video>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="6.9" data-width="1080" data-height="1920">
+      <svg id="art" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
       <div class="cap" id="c0"><div><span>גז</span><span>מתאן</span></div></div>
       <div class="cap" id="c1"><div><span>הופך</span><span class="a">לפלזמה</span><span>זוהרת</span></div></div>
       <div class="cap" id="c2"><div><span>ואטומי</span><span>פחמן</span></div></div>
       <div class="cap" id="c3"><div><span>נוחתים</span><span>על</span><span class="a">הזרע</span></div></div>
-      <audio id="vo" src="assets/audio/vo_sB.mp3" data-start="0" data-duration="5" data-track-index="10" data-volume="1"></audio>
+      <div class="cap" id="c4"><div><span>שכבה</span><span>אחרי</span><span class="a">שכבה</span></div></div>
+      <audio id="vo" src="assets/audio/vo_s06.mp3" data-start="0" data-duration="6.9" data-track-index="10" data-volume="1"></audio>
     </div>
     <script>
-      const tl = gsap.timeline({ paused: true });
-      const CAPS = [[0.1, 0.8, [0.14, 0.38]], [0.8, 2.66, [0.86, 1.3, 1.86]], [2.66, 3.52, [2.74, 3.14]], [3.52, 5, [3.58, 4.06, 4.22]]];
-      CAPS.forEach(([a, b, ws], i) => { const el = document.getElementById("c" + i), card = el.firstElementChild;
-        tl.set(el, { display: "none" }, 0); tl.set(el, { display: "block" }, a); if (b < 5) tl.set(el, { display: "none" }, b);
-        tl.fromTo(card, { scale: 0.8, y: 30 }, { scale: 1, y: 0, duration: 0.3, ease: "back.out(2.4)", immediateRender: false }, a);
-        [...card.children].forEach((sp, k) => { tl.set(sp, { opacity: 0.18 }, 0); tl.fromTo(sp, { opacity: 0.18, y: 10 }, { opacity: 1, y: 0, duration: 0.16, ease: "back.out(2)", immediateRender: false }, ws[k] - 0.03); }); });
-      tl.set({}, {}, 5);
+      // The plasma station of the diamond machine, drawn and animated entirely in code (flat vector, thick ink outlines).
+      const DUR = 6.9, IGN = 1.36, INK = "#23323c", TEAL = "#2f5d6b", TEAL2 = "#3f7483", CORAL = "#f26d5b", MUST = "#e9b23c", GLASS = "#cfe8f3", VIO = "#8a3ffc";
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), seg = (t, a, b) => clamp((t - a) / (b - a)), lerp = (a, b, k) => a + (b - a) * k;
+      const outCubic = (x) => 1 - Math.pow(1 - x, 3), outBack = (x) => 1 + 2.7 * Math.pow(x - 1, 3) + 1.7 * Math.pow(x - 1, 2), inOut = (x) => -(Math.cos(Math.PI * x) - 1) / 2;
+      let seed = 41; const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+      const svg = document.getElementById("art"), CX = 540, CY = 930, PR = 232;
+
+      const gear = (r, n, tooth) => { let d = ""; for (let i = 0; i < n; i++) { const a = (i / n) * 6.2832, w = 3.1416 / n * 0.55;
+        [[a - w, r], [a - w * 0.6, r + tooth], [a + w * 0.6, r + tooth], [a + w, r]].forEach(([q, R], k) => { d += (i + k ? "L" : "M") + (Math.cos(q) * R).toFixed(1) + " " + (Math.sin(q) * R).toFixed(1); }); } return d + "Z"; };
+      const star = (r) => "M0 " + -r + " Q0 0 " + r + " 0 Q0 0 0 " + r + " Q0 0 " + -r + " 0 Q0 0 0 " + -r + "Z";
+      const tube = (id, d) => '<path d="' + d + '" fill="none" stroke="' + INK + '" stroke-width="84" stroke-linecap="butt"/><path id="' + id + '" d="' + d + '" fill="none" stroke="' + GLASS + '" stroke-width="68"/><path d="' + d + '" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="8" transform="translate(-20,0)"/>';
+      const rivet = (x, y) => '<circle cx="' + x + '" cy="' + y + '" r="9" fill="' + TEAL2 + '" stroke="' + INK + '" stroke-width="4"/>';
+      const gauge = (id, x, y, r) => '<g transform="translate(' + x + "," + y + ')"><circle r="' + (r + 12) + '" fill="' + MUST + '" stroke="' + INK + '" stroke-width="6"/><circle r="' + r + '" fill="#fff7e8" stroke="' + INK + '" stroke-width="5"/><path d="M' + -r * 0.72 + " " + r * 0.3 + " A" + r * 0.78 + " " + r * 0.78 + " 0 1 1 " + r * 0.72 + " " + r * 0.3 + '" fill="none" stroke="' + CORAL + '" stroke-width="7" stroke-linecap="round" stroke-dasharray="' + r * 1.1 + " " + r * 9 + '" stroke-dashoffset="' + -r * 1.75 + '"/><g id="' + id + '"><path d="M0 6 L0 ' + -r * 0.72 + '" stroke="' + INK + '" stroke-width="6" stroke-linecap="round"/></g><circle r="8" fill="' + INK + '"/></g>';
+
+      const IN = "M300 -60 L300 130 C300 300 780 230 780 400 C780 520 540 470 540 610", OUT = "M860 1330 L860 1980";
+      let h = '<defs><pattern id="dots" width="54" height="54" patternUnits="userSpaceOnUse"><circle cx="27" cy="27" r="3" fill="#ecd7ae"/></pattern><clipPath id="port"><circle cx="' + CX + '" cy="' + CY + '" r="' + PR + '"/></clipPath></defs>';
+      h += '<rect width="1080" height="1920" fill="url(#dots)"/><g id="sparks"></g><g id="cam">';
+      // gears peeking from behind the body
+      h += '<g transform="translate(118,1170)"><g id="g1"><path d="' + gear(74, 12, 20) + '" fill="' + MUST + '" stroke="' + INK + '" stroke-width="7" stroke-linejoin="round"/><circle r="26" fill="#fdefd6" stroke="' + INK + '" stroke-width="7"/></g></g>';
+      h += '<g transform="translate(968,1090)"><g id="g2"><path d="' + gear(54, 10, 17) + '" fill="' + CORAL + '" stroke="' + INK + '" stroke-width="7" stroke-linejoin="round"/><circle r="18" fill="#fdefd6" stroke="' + INK + '" stroke-width="7"/></g></g>';
+      h += tube("pin", IN) + tube("pout", OUT) + '<g id="balls"></g>';
+      // relief valve and handwheel on top of the body
+      h += '<rect x="846" y="520" width="44" height="90" fill="' + CORAL + '" stroke="' + INK + '" stroke-width="7"/><rect x="826" y="492" width="84" height="36" rx="10" fill="' + MUST + '" stroke="' + INK + '" stroke-width="7"/><g id="steam"></g>';
+      h += '<rect x="200" y="540" width="36" height="70" fill="' + CORAL + '" stroke="' + INK + '" stroke-width="7"/><g transform="translate(218,520)"><g id="wheel"><circle r="50" fill="none" stroke="' + INK + '" stroke-width="20"/><circle r="50" fill="none" stroke="' + CORAL + '" stroke-width="9"/><path d="M-50 0H50M0 -50V50" stroke="' + INK + '" stroke-width="9"/><circle r="13" fill="' + MUST + '" stroke="' + INK + '" stroke-width="6"/></g></g>';
+      // the body
+      h += '<g id="body"><rect x="140" y="600" width="800" height="730" rx="64" fill="' + TEAL + '" stroke="' + INK + '" stroke-width="9"/><rect x="170" y="630" width="740" height="670" rx="44" fill="none" stroke="' + TEAL2 + '" stroke-width="6"/>';
+      [[190, 650], [890, 650], [190, 1280], [890, 1280], [540, 1292], [190, 965], [890, 965]].forEach(([x, y]) => (h += rivet(x, y)));
+      h += '<rect x="474" y="574" width="132" height="52" rx="12" fill="' + CORAL + '" stroke="' + INK + '" stroke-width="8"/><rect x="794" y="1304" width="132" height="52" rx="12" fill="' + CORAL + '" stroke="' + INK + '" stroke-width="8"/>';
+      h += gauge("n1", 262, 716, 50) + gauge("n2", 818, 716, 50);
+      // lamps and a little slider
+      h += '<rect x="214" y="1196" width="230" height="70" rx="22" fill="' + INK + '"/>'; [0, 1, 2].forEach((i) => (h += '<circle id="lamp' + i + '" cx="' + (262 + i * 66) + '" cy="1231" r="19" fill="#48606b" stroke="#16222a" stroke-width="4"/>'));
+      h += '<rect x="640" y="1210" width="226" height="42" rx="21" fill="' + INK + '"/><rect id="sl" x="650" y="1217" width="62" height="28" rx="14" fill="' + MUST + '"/>';
+      // porthole
+      h += '<circle id="halo" cx="' + CX + '" cy="' + CY + '" r="262" fill="none" stroke="#c9a6ff" stroke-width="16" opacity="0"/>';
+      h += '<circle cx="' + CX + '" cy="' + CY + '" r="268" fill="' + MUST + '" stroke="' + INK + '" stroke-width="9"/>'; for (let i = 0; i < 12; i++) { const a = (i / 12) * 6.2832 + 0.26; h += '<circle cx="' + (CX + Math.cos(a) * 250).toFixed(1) + '" cy="' + (CY + Math.sin(a) * 250).toFixed(1) + '" r="7" fill="#b98420" stroke="' + INK + '" stroke-width="3.5"/>'; }
+      h += '<circle id="glassbg" cx="' + CX + '" cy="' + CY + '" r="' + PR + '" fill="#2b1657" stroke="' + INK + '" stroke-width="9"/>';
+      h += '<g clip-path="url(#port)"><g id="swirl"></g><g id="gas"></g><g id="arcs"></g><rect x="402" y="1092" width="276" height="26" rx="8" fill="' + GLASS + '" stroke="' + INK + '" stroke-width="6"/><rect x="452" y="1118" width="176" height="60" fill="' + TEAL2 + '" stroke="' + INK + '" stroke-width="6"/><g id="crystal"></g><g id="rain"></g><circle id="flash" cx="' + CX + '" cy="' + CY + '" r="' + PR + '" fill="#fff" opacity="0"/></g>';
+      h += '<path d="M372 782 A226 226 0 0 1 520 706" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="12" stroke-linecap="round"/></g>';
+      // the CH4 tag on the inlet
+      h += '<g id="tag"><path d="M356 232 L420 232" stroke="' + INK + '" stroke-width="6"/><rect x="420" y="196" width="170" height="72" rx="36" fill="#fff7e8" stroke="' + INK + '" stroke-width="6"/><text id="tagT" x="505" y="246" text-anchor="middle" font-family="Mono" font-weight="700" font-size="40" fill="' + INK + '">CH₄</text></g></g>';
+      svg.innerHTML = h;
+      const $ = (id) => document.getElementById(id), NS = "http://www.w3.org/2000/svg";
+      const mk = (parent, tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); $(parent).appendChild(e); return e; };
+
+      // moving parts
+      const pin = $("pin"), LIN = pin.getTotalLength(), GAP = 74, NB = Math.ceil(LIN / GAP) + 1;
+      const balls = []; for (let i = 0; i < NB; i++) balls.push(mk("balls", "g", {})), (balls[i].innerHTML = '<circle r="21" fill="#1c262d" stroke="' + INK + '" stroke-width="4"/><circle cx="-7" cy="-7" r="5" fill="#fff" opacity=".7"/>');
+      const sw = []; for (let i = 0; i < 4; i++) sw.push(mk("swirl", "ellipse", { cx: CX, cy: CY, rx: 250 - i * 44, ry: 120 - i * 18, fill: ["#3d2180", "#4f2aa3", "#6a37d0", "#8a3ffc"][i], opacity: 0.9 }));
+      const gasB = []; for (let i = 0; i < 16; i++) gasB.push({ e: mk("gas", "circle", { r: 16 + rnd() * 26, fill: "#b99cf5", opacity: 0.5 }), a: rnd() * 6.28, w: (0.5 + rnd()) * (rnd() < 0.5 ? -1 : 1), r: 30 + rnd() * 150, ph: rnd() * 6.28 });
+      const gasA = []; for (let i = 0; i < 9; i++) gasA.push({ e: mk("gas", "circle", { r: 13, fill: "#1c262d", stroke: "#0e1418", "stroke-width": 3 }), a: rnd() * 6.28, w: (0.8 + rnd()) * (rnd() < 0.5 ? -1 : 1), r: 40 + rnd() * 130, ph: rnd() * 6.28 });
+      const arcs = []; for (let i = 0; i < 6; i++) arcs.push({ a: mk("arcs", "path", { fill: "none", stroke: "#d9c2ff", "stroke-width": 9, "stroke-linecap": "round", "stroke-linejoin": "round" }), b: mk("arcs", "path", { fill: "none", stroke: "#fff", "stroke-width": 3, "stroke-linecap": "round" }), ang: (i / 6) * 3.1416 + rnd() * 0.3, f: 2 + rnd() * 2, sp: 5 + rnd() * 6, ph: rnd() * 6.28 });
+      // the crystal: six layers that stack into a gem
+      const HW = [86, 104, 104, 104, 104, 70, 0], LHh = 38, BASE = 1092, NLAY = 6, L0 = 3.3, LD = 0.52, layers = [];
+      for (let k = 0; k < NLAY; k++) { const y0 = BASE - k * LHh, y1 = y0 - LHh, a = HW[k], b = HW[k + 1], g = mk("crystal", "g", {});
+        g.innerHTML = '<path d="M' + (CX - a) + " " + y0 + " L" + (CX + a) + " " + y0 + " L" + (CX + b) + " " + y1 + " L" + (CX - b) + " " + y1 + 'Z" fill="' + (k % 2 ? "#e4f5fb" : "#bfe6f5") + '" stroke="' + INK + '" stroke-width="6" stroke-linejoin="round"/><path d="M' + (CX - a * 0.35) + " " + y0 + " L" + (CX - b * 0.35) + " " + y1 + " M" + (CX + a * 0.4) + " " + y0 + " L" + (CX + b * 0.4) + " " + y1 + '" stroke="' + INK + '" stroke-opacity=".55" stroke-width="5"/><path d="M' + (CX - a) + " " + y0 + " L" + (CX + a) + " " + y0 + " L" + (CX + b) + " " + y1 + " L" + (CX - b) + " " + y1 + 'Z" fill="#fff" class="fl"/>';
+        layers.push({ g, y0, t: L0 + (k + 1) * LD, fl: g.querySelector(".fl") }); }
+      const rain = []; for (let k = 0; k < NLAY; k++) for (let i = 0; i < 7; i++) rain.push({ e: mk("rain", "circle", { r: 12, fill: "#1c262d", stroke: "#0e1418", "stroke-width": 3 }), x: CX + (rnd() - 0.5) * 2 * Math.max(30, HW[k] - 10), y1: BASE - k * LHh - 12, t1: L0 + k * LD + 0.1 + rnd() * 0.42, d: 0.42 + rnd() * 0.16 });
+      for (let i = 0; i < 20; i++) rain.push({ e: mk("rain", "circle", { r: 12, fill: "#1c262d", stroke: "#0e1418", "stroke-width": 3 }), x: CX + (rnd() - 0.5) * 150, y1: BASE - 12, t1: 2.85 + rnd() * 0.5, d: 0.45, pre: 1 });
+      const tw = []; for (let i = 0; i < 5; i++) tw.push({ e: mk("crystal", "path", { d: star(22), fill: "#fff" }), x: CX + (i % 2 ? 1 : -1) * (130 + rnd() * 50), y: BASE - 30 - rnd() * 210, ph: rnd() * 3 });
+      const puffs = []; for (let i = 0; i < 4; i++) puffs.push(mk("steam", "g", {})), (puffs[i].innerHTML = '<path d="M-34 0 a22 22 0 0 1 14 -34 a26 26 0 0 1 46 -4 a22 22 0 0 1 12 38 Z" fill="#fff7e8" stroke="' + INK + '" stroke-width="6" stroke-linejoin="round"/>');
+      const bgS = []; for (let i = 0; i < 9; i++) bgS.push({ e: mk("sparks", "path", { d: star(12 + rnd() * 12), fill: [MUST, CORAL, "#9fd3e6"][i % 3] }), x: 60 + rnd() * 960, y: 80 + rnd() * 1760, ph: rnd() * 6.28 });
+
+      const CAPS = [[0.2, 0.92, [0.24, 0.48]], [0.92, 2.76, [0.96, 1.4, 1.96]], [2.76, 3.62, [2.84, 3.24]], [3.62, 4.82, [3.68, 4.16, 4.32]], [4.82, 6.9, [4.88, 5.36, 5.76]]];
+      const capEls = CAPS.map((_, i) => $("c" + i));
+      const T = (e, x, y, r, s) => e.setAttribute("transform", "translate(" + x.toFixed(2) + "," + y.toFixed(2) + ")" + (r ? " rotate(" + r.toFixed(2) + ")" : "") + (s != null ? " scale(" + s.toFixed(3) + ")" : ""));
+
+      function draw(t) {
+        t = clamp(t, 0, DUR);
+        const hot = seg(t, IGN, IGN + 0.35), on = t >= IGN ? 1 : 0, k = inOut(seg(t, 0, DUR));
+        // camera: slow push toward the porthole, plus a tiny rumble once the plasma is lit
+        const sc = lerp(1.0, 1.085, k), jx = on * Math.sin(t * 61) * 1.6, jy = on * Math.cos(t * 53) * 1.6;
+        $("cam").setAttribute("transform", "translate(" + (540 + jx).toFixed(2) + "," + (lerp(1040, 985, k) + jy).toFixed(2) + ") scale(" + sc.toFixed(4) + ") translate(-540,-930)");
+        // carbon rolls down the inlet
+        const off = (t * 300) % GAP; balls.forEach((b, i) => { const l = i * GAP + off - 20, p = pin.getPointAtLength(clamp(l, 0, LIN)); T(b, p.x + Math.sin(i * 7.3) * 6, p.y, 0, l > LIN - 6 ? 0 : 1); });
+        // machine parts
+        $("g1").setAttribute("transform", "rotate(" + (t * 70).toFixed(2) + ")"); $("g2").setAttribute("transform", "rotate(" + (-t * 96 + 12).toFixed(2) + ")"); $("wheel").setAttribute("transform", "rotate(" + (t * 40).toFixed(2) + ")");
+        const need = lerp(-70, 62, outBack(seg(t, IGN, IGN + 0.5))) + Math.sin(t * 17) * (3 + on * 6); $("n1").setAttribute("transform", "rotate(" + need.toFixed(2) + ")");
+        $("n2").setAttribute("transform", "rotate(" + (lerp(-60, 30, outCubic(seg(t, 0.2, 1.2))) + lerp(0, 40, outBack(seg(t, IGN, IGN + 0.6))) + Math.sin(t * 13 + 1) * 4).toFixed(2) + ")");
+        [0, 1, 2].forEach((i) => $("lamp" + i).setAttribute("fill", (Math.floor(t / 0.24) % 3 === i) ? (on ? "#c9a6ff" : MUST) : "#48606b"));
+        $("sl").setAttribute("x", (650 + 144 * (0.5 + 0.5 * Math.sin(t * 1.6))).toFixed(1));
+        puffs.forEach((p, i) => { const q = ((t + i * 0.55) % 2.2) / 2.2, vis = t > 0.3 ? 1 : 0; T(p, 868 + Math.sin(q * 5 + i) * 26, 470 - q * 250, 0, vis * (0.4 + q * 1.3)); p.setAttribute("opacity", (vis * (q < 0.15 ? q / 0.15 : 1 - seg(q, 0.55, 1))).toFixed(3)); });
+        bgS.forEach((s) => T(s.e, s.x, s.y + Math.sin(t * 0.8 + s.ph) * 10, t * 20, 0.6 + 0.5 * Math.sin(t * 2.2 + s.ph)));
+        // inside the porthole
+        $("glassbg").setAttribute("fill", on ? "#3a1c7a" : "#2b1657");
+        sw.forEach((e, i) => { e.setAttribute("transform", "rotate(" + (t * (30 + i * 22) * (i % 2 ? -1 : 1) + i * 40).toFixed(2) + " " + CX + " " + CY + ") "); e.setAttribute("opacity", (lerp(0.25, 0.95, hot) * (0.85 + 0.15 * Math.sin(t * 8 + i))).toFixed(3)); });
+        gasB.forEach((g) => { const a = g.a + t * g.w; g.e.setAttribute("cx", (CX + Math.cos(a) * g.r).toFixed(1)); g.e.setAttribute("cy", (CY - 20 + Math.sin(a) * g.r * 0.8 + Math.sin(t * 2 + g.ph) * 8).toFixed(1)); g.e.setAttribute("opacity", (0.5 * outCubic(seg(t, 0.1, 0.8)) * (1 - hot)).toFixed(3)); });
+        gasA.forEach((g) => { const a = g.a + t * g.w * (1 + on * 2.2), r = g.r * lerp(1, 0.75, hot); g.e.setAttribute("cx", (CX + Math.cos(a) * r).toFixed(1)); g.e.setAttribute("cy", (CY - 70 + Math.sin(a) * r * 0.55).toFixed(1)); g.e.setAttribute("opacity", (outCubic(seg(t, 0.2, 0.7)) * (1 - seg(t, 2.7, 3.2))).toFixed(3)); });
+        arcs.forEach((o) => { let d = ""; const ca = Math.cos(o.ang), sa = Math.sin(o.ang), amp = 26 * hot * (0.6 + 0.4 * Math.sin(t * 9 + o.ph));
+          for (let i = 0; i <= 24; i++) { const u = (i / 24) * 2 - 1, env = 1 - u * u, v = Math.sin(u * o.f * 3.1416 + t * o.sp + o.ph) * amp * env + Math.sin(u * 9 + t * 14 + o.ph) * 6 * env * hot;
+            d += (i ? "L" : "M") + (CX + (u * 226) * ca - v * sa).toFixed(1) + " " + (CY - 70 + ((u * 226) * sa + v * ca) * 0.72).toFixed(1); }
+          o.a.setAttribute("d", d); o.b.setAttribute("d", d); const op = hot * (0.55 + 0.45 * Math.sin(t * 23 + o.ph * 3)); o.a.setAttribute("opacity", (op * 0.8).toFixed(3)); o.b.setAttribute("opacity", op.toFixed(3)); });
+        const fl = seg(t, IGN, IGN + 0.08) * (1 - seg(t, IGN + 0.08, IGN + 0.5)); $("flash").setAttribute("opacity", (fl * 0.85).toFixed(3));
+        const hk = seg(t, IGN, IGN + 0.7); $("halo").setAttribute("r", lerp(262, 380, outCubic(hk)).toFixed(1)); $("halo").setAttribute("opacity", (hk > 0 && hk < 1 ? (1 - hk) * 0.9 : 0).toFixed(3));
+        $("tagT").textContent = "CH₄";
+        // atoms rain down and the crystal grows, layer after layer
+        rain.forEach((r) => { const q = seg(t, r.t1 - r.d, r.t1), vis = q > 0 && q < 1; r.e.setAttribute("opacity", vis ? 1 : 0); if (vis) { r.e.setAttribute("cx", (r.x + Math.sin(q * 6 + r.x) * 5).toFixed(1)); r.e.setAttribute("cy", lerp(CY - 150, r.y1, q * q).toFixed(1)); } });
+        layers.forEach((L, i) => { const q = seg(t, L.t - 0.22, L.t + 0.06), e = outBack(q); L.g.setAttribute("opacity", q > 0 ? 1 : 0); L.g.setAttribute("transform", "translate(0," + L.y0 + ") scale(" + (0.6 + 0.4 * e).toFixed(3) + "," + e.toFixed(3) + ") translate(0," + -L.y0 + ")");
+          L.g.setAttribute("transform", "translate(" + CX + "," + L.y0 + ") scale(" + (0.6 + 0.4 * e).toFixed(3) + "," + Math.max(0.001, e).toFixed(3) + ") translate(" + -CX + "," + -L.y0 + ")"); L.fl.setAttribute("opacity", (0.9 * (1 - seg(t, L.t - 0.1, L.t + 0.35))).toFixed(3)); });
+        tw.forEach((s, i) => { const q = seg(t, 5.0 + i * 0.3, 5.3 + i * 0.3); T(s.e, s.x, s.y, t * 60, q * (0.6 + 0.5 * Math.sin(t * 6 + s.ph))); });
+        // captions
+        CAPS.forEach(([a, b, ws], i) => { const el = capEls[i], vis = t >= a - 0.04 && t < b; el.style.opacity = vis ? 1 : 0; if (!vis) return; const card = el.firstElementChild, e = outBack(seg(t, a - 0.04, a + 0.24));
+          card.style.transform = "translateY(" + ((1 - e) * 36).toFixed(1) + "px) scale(" + (0.8 + 0.2 * e).toFixed(3) + ")";
+          [...card.children].forEach((sp, j) => { const q = seg(t, ws[j] - 0.03, ws[j] + 0.14); sp.style.opacity = (0.18 + 0.82 * q).toFixed(3); sp.style.transform = "translateY(" + ((1 - outBack(q)) * 12).toFixed(1) + "px)"; }); });
+      }
+      const tl = gsap.timeline({ paused: true }), pr = { t: 0 };
+      tl.to(pr, { t: DUR, duration: DUR, ease: "none", onUpdate: () => draw(pr.t) }, 0);
+      draw(0);
       window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl;
     </script>
   </body>
