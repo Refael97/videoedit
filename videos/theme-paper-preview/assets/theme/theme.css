@@ -1,0 +1,128 @@
+/* paper theme: layouts, materials and building blocks. Needs tokens.css. Read language.md first. */
+
+.p-root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--p-font); direction: rtl; color: var(--p-ink); letter-spacing: var(--p-track); background: var(--p-paper); }
+.aa { outline: 1px solid transparent; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+/* ===================== LAYOUTS (switched by PAPER.layout) ===================== */
+/* footage: one <video> inside .p-face; layouts move it with transforms only */
+.p-face { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+.p-face video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 0; }
+/* paper: the stage for graphics (top half in split, full screen in full-paper) */
+.p-stage { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 2; overflow: hidden;
+  background-color: var(--p-paper);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 30% 20%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 50% 40% at 80% 70%, rgba(120, 95, 60, 0.06), rgba(120, 95, 60, 0) 70%),
+    linear-gradient(var(--p-grid) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, var(--p-grid) 1.5px, transparent 1.5px);
+  background-size: 100% 100%, 100% 100%, var(--p-grid-step) var(--p-grid-step), var(--p-grid-step) var(--p-grid-step);
+  background-position: 0 0, 0 0, -1px -1px, -1px -1px; }
+.p-flash { position: absolute; inset: 0; background: #fbf8f2; z-index: 40; opacity: 0; pointer-events: none; }
+/* a "scene" is one paper composition; only one is visible at a time */
+.p-scene { position: absolute; inset: 0; }
+
+/* ===================== TEXT ===================== */
+.p-step { position: absolute; left: 0; right: 0; top: var(--p-step-top); text-align: center; font-size: var(--p-step); font-weight: 700; color: var(--p-ink); white-space: pre; z-index: 5; }
+.p-step b { color: var(--p-orange); font-weight: 700; }
+.p-title { position: absolute; left: 60px; right: 60px; text-align: center; font-size: 58px; font-weight: 700; color: var(--p-ink); white-space: pre; }
+.p-title em { font-style: normal; color: var(--p-orange); }
+.p-label { position: absolute; text-align: center; font-size: var(--p-label); font-weight: 700; color: var(--p-ink); white-space: pre; transform: translateX(50%); }
+.p-label.on { color: var(--p-orange); }
+.p-label small { display: block; font-size: 0.85em; color: var(--p-orange); }
+
+/* captions: white, heavy, black outline painted under the fill + soft shadow */
+.p-caps { position: absolute; left: 0; right: 0; top: 0; height: 0; z-index: 30; }
+.p-cap { position: absolute; left: 40px; right: 40px; height: 120px; margin-top: -60px; display: flex; align-items: center; justify-content: center; font-size: var(--p-cap); font-weight: 800; color: #fff; -webkit-text-stroke: var(--p-cap-stroke) #111; paint-order: stroke fill; text-shadow: 0 4px 10px rgba(0, 0, 0, 0.35); white-space: pre; opacity: 0; }
+
+/* hook: two white lines at the top over the face */
+.p-hook { position: absolute; left: 0; right: 0; top: var(--p-hook-top); text-align: center; font-size: var(--p-hook); font-weight: 800; line-height: 1.18; color: #fff; text-shadow: 0 3px 14px rgba(0, 0, 0, 0.55); z-index: 31; white-space: pre; }
+
+/* bright footage helpers (language.md §5) */
+.p-hook.stroke { -webkit-text-stroke: 10px #111; paint-order: stroke fill; text-shadow: 0 4px 10px rgba(0, 0, 0, 0.35); }
+.p-shade { position: absolute; left: 0; right: 0; top: 0; height: 960px; background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0)); z-index: 2; pointer-events: none; }
+.p-face.dim video { filter: brightness(0.85); }
+.p-seam { position: absolute; left: 0; right: 0; top: 960px; height: 60px; background: linear-gradient(rgba(40, 28, 12, 0.32), rgba(40, 28, 12, 0)); z-index: 3; pointer-events: none; opacity: 0; }
+
+/* ===================== MATERIALS ===================== */
+/* 1. card: a white app window or document (on paper or floating over the face) */
+.p-card { position: absolute; background: var(--p-card); border-radius: var(--p-r-card); border: 1px solid var(--p-card-edge); box-shadow: var(--p-card-shadow); overflow: hidden; color: var(--p-ink); font-size: 30px; font-weight: 500; letter-spacing: -0.3px; }
+.p-card.warm { background: var(--p-card-warm); }
+.p-card .bar { height: 44px; display: flex; align-items: center; gap: 9px; padding: 0 18px; direction: ltr; border-bottom: 1px solid var(--p-card-edge); }
+.p-card .bar i { width: 13px; height: 13px; border-radius: 50%; display: block; }
+.p-card .bar i:nth-child(1) { background: #ff5f57; } .p-card .bar i:nth-child(2) { background: #febc2e; } .p-card .bar i:nth-child(3) { background: #28c840; }
+.p-card .bar span { flex: 1; text-align: center; font-size: 26px; color: var(--p-ink-soft); margin-right: 52px; }
+.p-card .body { padding: 18px 24px; }
+.p-card .head { display: flex; align-items: center; gap: 12px; font-size: 40px; font-weight: 700; margin-bottom: 12px; }
+.p-card .row { display: flex; align-items: center; gap: 14px; min-height: 58px; border-top: 1px solid var(--p-card-edge); }
+.p-card .row b { font-weight: 700; } .p-card .row small { display: block; font-size: 26px; color: var(--p-ink-soft); }
+.p-card .link { margin-right: auto; color: var(--p-link); text-decoration: underline; font-size: 28px; direction: ltr; }
+.p-card .mono { font-family: var(--p-mono); direction: ltr; font-size: 28px; white-space: pre; }
+.p-card .hl { background: var(--p-yellow); border-radius: 4px; padding: 0 4px; }      /* the fill-in parts of a prompt */
+.p-card .send { width: 46px; height: 46px; border-radius: 12px; background: var(--p-orange); display: flex; align-items: center; justify-content: center; }
+.p-card .input { margin: 14px 0 0; min-height: 56px; border-radius: 14px; border: 1px solid var(--p-card-edge); background: var(--p-card-warm); display: flex; align-items: center; gap: 12px; padding: 0 12px 0 18px; white-space: pre; }
+/* UI zoom: the anchor's main technique - a real window shown big (80-90% wide), may bleed off one side,
+   cropped to the relevant part. Put .p-zoom on a .p-card and position it with left/right negative to bleed. */
+.p-card.p-zoom { width: 940px; border-radius: 22px; font-size: 38px; }
+.p-card.p-zoom .bar { height: 60px; } .p-card.p-zoom .bar i { width: 18px; height: 18px; }
+.p-card.p-zoom .body { padding: 26px 36px; }
+.p-card.p-zoom .mono { font-size: 40px; }
+/* dropdown / menu inside a card */
+.p-menu { position: absolute; background: #fff; border-radius: 14px; border: 1px solid var(--p-card-edge); box-shadow: 0 14px 34px rgba(60, 42, 20, 0.2); padding: 8px; font-size: 24px; }
+.p-menu .it { display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 12px; border-radius: 9px; white-space: pre; }
+.p-menu .it.sel { background: rgba(34, 28, 18, 0.06); }
+.p-menu .it .k { margin-right: auto; color: var(--p-ink-soft); font-size: 26px; }
+
+/* 2. objects: folders, tiles, thumbnails, illustrations (svg from PAPER.ART) */
+.p-obj { position: absolute; }
+.p-obj svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.p-tile { position: absolute; width: 150px; height: 150px; border-radius: var(--p-r-tile); background: var(--p-orange); box-shadow: 0 12px 26px rgba(198, 90, 60, 0.35); display: flex; align-items: center; justify-content: center; }
+.p-tile svg { width: 84px; height: 84px; }
+.p-ring { position: absolute; border-radius: 50%; border: 2px solid rgba(34, 28, 18, 0.12); background: rgba(255, 255, 255, 0.12); }
+.p-thumb { position: absolute; width: 240px; height: 426px; border-radius: 14px; border: 6px solid #fff; box-shadow: var(--p-card-shadow); background: #222 center / cover; overflow: hidden; }
+
+/* 3. ink: tags, dotted connectors, arrows, tree lines, strike */
+.p-tag { position: absolute; height: 54px; padding: 0 20px; border-radius: 27px; background: var(--p-orange); color: #fff; font-size: 30px; font-weight: 700; display: flex; align-items: center; white-space: pre; transform: translate(50%, -50%); box-shadow: 0 6px 14px rgba(198, 90, 60, 0.3); }
+.p-ink { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; pointer-events: none; z-index: 4; }
+.p-ink .dots { fill: none; stroke: var(--p-orange); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 0.1 11; }
+.p-ink .tree { fill: none; stroke: var(--p-ink-soft); stroke-width: 2.5; }
+.p-ink .strike { fill: none; stroke: var(--p-orange); stroke-width: 6; stroke-linecap: round; }
+.p-ink .arrow { fill: none; stroke: var(--p-orange); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* chat bubbles (feedback loop) */
+.p-bubble { position: absolute; z-index: 33; max-width: 760px; padding: 20px 28px; border-radius: 28px; background: #fff; box-shadow: var(--p-card-shadow); font-size: 36px; font-weight: 700; white-space: pre-wrap; }
+.p-bubble.me { border-bottom-left-radius: 8px; }
+.p-bubble.ai { border-bottom-right-radius: 8px; display: flex; gap: 14px; align-items: flex-start; font-weight: 500; }
+.p-bubble.ai .sp { width: 36px; height: 36px; flex: none; }
+
+/* calendar (contributor 70647, translated: white card, orange marks) */
+.p-cal .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.p-cal .grid b { font-size: 26px; color: var(--p-ink-soft); text-align: center; }
+.p-cal .d { height: 60px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; }
+.p-cal .d.mark { background: var(--p-orange); color: #fff; }
+.p-cal .d.soft { background: var(--p-orange-soft); color: var(--p-orange); }
+
+/* verdict stamps for comparisons (contributor 5777, translated: orange outline stamps) */
+.p-stamp { position: absolute; height: 52px; padding: 0 18px; border-radius: 10px; border: 3px solid var(--p-orange); color: var(--p-orange); background: rgba(255, 255, 255, 0.85); font-size: 28px; font-weight: 800; display: flex; align-items: center; white-space: pre; transform: translate(50%, -50%) rotate(-4deg); }
+.p-stamp.ok { border-color: var(--p-green); color: var(--p-green); }
+
+/* comment CTA pill */
+.p-cta { position: absolute; left: 90px; right: 90px; top: var(--p-cta-top); height: 96px; border-radius: 48px; background: #fff; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25); display: flex; align-items: center; gap: 16px; padding: 0 16px 0 30px; z-index: 32; direction: ltr; }
+.p-cta .sp { width: 40px; height: 40px; flex: none; }
+.p-cta .ph { position: absolute; left: 86px; font-size: 32px; color: #9a9184; font-weight: 500; }
+.p-cta .word { font-size: 38px; font-weight: 800; color: var(--p-ink); white-space: pre; letter-spacing: 0.5px; }
+.p-cta .go { margin-left: auto; width: 64px; height: 64px; border-radius: 50%; background: #1d1d1f; display: flex; align-items: center; justify-content: center; }
+
+/* cursor */
+.p-cursor { position: absolute; left: 0; top: 0; width: 36px; height: 50px; z-index: 20; }
+.p-cursor svg { width: 36px; height: 50px; display: block; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35)); }
+
+/* mini website inside a card (real content, never a skeleton) */
+.p-site { position: relative; background: #fff; overflow: hidden; direction: rtl; }
+.p-site nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; font-size: 26px; font-weight: 800; }
+.p-site nav span { color: var(--p-ink-soft); font-weight: 500; margin-right: 14px; }
+.p-site h3 { margin: 10px 20px 6px; font-size: 52px; line-height: 1.05; font-weight: 800; }
+.p-site p { margin: 0 20px; font-size: 26px; color: var(--p-ink-soft); }
+.p-site .btn { display: inline-flex; margin: 14px 20px; height: 56px; padding: 0 26px; border-radius: 28px; background: var(--p-ink); color: #fff; font-size: 26px; font-weight: 700; align-items: center; }
+.p-site .hero { position: absolute; left: 18px; bottom: 18px; width: 170px; height: 170px; border-radius: 22px; overflow: hidden; }
+.p-site.plain { font-family: "Times New Roman", serif; letter-spacing: 0; }
+.p-site.plain h3 { font-weight: 400; font-size: 44px; } .p-site.plain .btn { background: #ddd; color: #333; border-radius: 0; }

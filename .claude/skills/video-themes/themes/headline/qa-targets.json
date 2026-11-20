@@ -1,0 +1,244 @@
+{
+ "theme": "headline",
+ "anchor_videos": [
+  "references/headline/Video-97418.mp4",
+  "references/headline/Video-75789.mp4",
+  "references/headline/Video-81754.mp4",
+  "references/headline/Video-89398.mp4",
+  "references/headline/Video-98315.mp4"
+ ],
+ "measured": {
+  "Video-97418": {
+   "duration": 36.97,
+   "gfx_motion": 1.84,
+   "gfx_raw": 2.31,
+   "baseline": 0.47,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.89,
+   "flat_pct": 11.6,
+   "flat_full_frame": 16.3,
+   "max_hold": 0.86,
+   "holds": [
+    0.5,
+    0.4,
+    0.53,
+    0.5,
+    0.86,
+    0.4,
+    0.53
+   ],
+   "actions_per_s": 0.76,
+   "motion_all": 3.68,
+   "jitter_px": 0.21,
+   "punches": 8,
+   "drifts": 10
+  },
+  "Video-75789": {
+   "duration": 46.73,
+   "gfx_motion": 1.49,
+   "gfx_raw": 2.29,
+   "baseline": 0.8,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.89,
+   "flat_pct": 24.1,
+   "flat_full_frame": 10.9,
+   "max_hold": 0.87,
+   "holds": [
+    0.4,
+    0.76,
+    0.6,
+    0.77,
+    0.7,
+    0.74,
+    0.5,
+    0.77,
+    0.8,
+    0.53,
+    0.87,
+    0.43,
+    0.53,
+    0.6,
+    0.47,
+    0.4
+   ],
+   "actions_per_s": 0.66,
+   "motion_all": 3.84,
+   "jitter_px": 0.23,
+   "punches": 13,
+   "drifts": 15
+  },
+  "Video-81754": {
+   "duration": 38.33,
+   "gfx_motion": 1.73,
+   "gfx_raw": 2.39,
+   "baseline": 0.67,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.89,
+   "flat_pct": 14.8,
+   "flat_full_frame": 18.8,
+   "max_hold": 1.07,
+   "holds": [
+    0.47,
+    0.5,
+    1.07,
+    0.77,
+    0.43,
+    0.67,
+    0.73,
+    0.4
+   ],
+   "actions_per_s": 0.55,
+   "motion_all": 3.73,
+   "jitter_px": 0.23,
+   "punches": 4,
+   "drifts": 11
+  },
+  "Video-89398": {
+   "duration": 35.07,
+   "gfx_motion": 1.33,
+   "gfx_raw": 1.84,
+   "baseline": 0.52,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.86,
+   "flat_pct": 15.1,
+   "flat_full_frame": 22.2,
+   "max_hold": 0.67,
+   "holds": [
+    0.53,
+    0.5,
+    0.47,
+    0.44,
+    0.67,
+    0.4,
+    0.46,
+    0.64,
+    0.43
+   ],
+   "actions_per_s": 0.71,
+   "motion_all": 3.61,
+   "jitter_px": 0.17,
+   "punches": 3,
+   "drifts": 4
+  },
+  "Video-98315": {
+   "duration": 37.17,
+   "gfx_motion": 1.58,
+   "gfx_raw": 2.22,
+   "baseline": 0.64,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.76,
+   "flat_pct": 13.8,
+   "flat_full_frame": 13.3,
+   "max_hold": 1.0,
+   "holds": [
+    0.67,
+    1.0,
+    0.6,
+    0.5,
+    0.7,
+    0.4
+   ],
+   "actions_per_s": 0.51,
+   "motion_all": 3.77,
+   "jitter_px": 0.26,
+   "punches": 8,
+   "drifts": 9
+  }
+ },
+ "anchor": {
+  "gfx_motion": 1.59,
+  "flat_pct": 16.3,
+  "max_hold": 0.9,
+  "actions_per_s": 0.64,
+  "footage": "jitter 0.22 px/frame, 26.3 camera moves/min"
+ },
+ "targets": {
+  "gfx_motion_min": 1.19,
+  "flat_max": 17.0,
+  "max_hold": 0.9,
+  "events_min": 0.45,
+  "events_max": 0.83,
+  "footage_info": "jitter 0.22 px/frame, 26.3 camera moves/min"
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2,
+  "edge_nogfx": 0.012,
+  "punch": 0.04,
+  "drift": 0.03
+ },
+ "look": {
+  "anchor": {
+   "samples": 389,
+   "full_face_share": 0.149,
+   "full_face_max_gap": 33.5,
+   "face_h": 0.231,
+   "face_h_full": 0.42,
+   "face_luma": 152.584,
+   "warmth": 45.761,
+   "bg_luma": 193.441,
+   "bg_sat": 18.551,
+   "contrast": 217.81,
+   "garment_vs_bg": 177.314,
+   "hero_width": 0.8,
+   "hero_density": 0.495,
+   "span": 179.292,
+   "highlight": 0.207,
+   "glow": -3.196,
+   "accent_sat": 127.5
+  },
+  "targets": {
+   "face_h": [
+    0.196,
+    0.266
+   ],
+   "face_h_full": 0.42,
+   "face_luma": [
+    128,
+    178
+   ],
+   "warmth": [
+    34,
+    58
+   ],
+   "bg_luma": [
+    165,
+    221
+   ],
+   "bg_sat": [
+    0,
+    44
+   ],
+   "contrast_min": 174,
+   "garment_vs_bg_min": 106.4,
+   "hero_width_min": 0.68,
+   "hero_width_weak": 0.56,
+   "hero_density_min": 0.371,
+   "hero_density_weak": 0.272,
+   "full_face_share_min": 0.089,
+   "full_face_max_gap": 50.2,
+   "span_min": 126,
+   "glow_min": null,
+   "accent_sat_min": 89
+  },
+  "detector": {
+   "fps": 2,
+   "size": [
+    360,
+    640
+   ],
+   "face_split_y": 0.6,
+   "min_face_h": 0.07,
+   "cell": 9,
+   "detail_std": 6.0
+  }
+ }
+}

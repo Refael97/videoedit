@@ -1,0 +1,20 @@
+/* arcade → signature effects (effects/fx.css reads these). Mapped from this theme's own tokens; no new colors. */
+:root {
+  --fx-accent: var(--a-coral);
+  --fx-ink: var(--a-ink);
+  --fx-display: var(--a-sans);
+  --fx-display-weight: 700;
+  --fx-body: var(--a-sans);
+  --fx-card-bg: var(--a-card);
+  --fx-card-ink: var(--a-ink);
+  --fx-card-ink-soft: var(--a-ink-soft);
+  --fx-card-edge: 1px solid var(--a-card-edge);
+  --fx-card-r: var(--a-r-card);
+  --fx-card-shadow: var(--a-card-shadow);
+  --fx-card-blur: none;
+  --fx-word: var(--a-coral);
+  --fx-word-stroke: 0px transparent;
+  --fx-word-glow: none;
+  --fx-glow: none;
+  --fx-bar-muted: var(--a-page);
+}

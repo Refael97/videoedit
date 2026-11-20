@@ -1,0 +1,12 @@
+{
+  "_doc": "anchor creator's videos per theme (same creator only; contributors never count). Paths relative to the repo root.",
+  "glass": ["references/glass/Video-20957.mp4", "references/glass/Video-73421.mp4", "references/glass/Video-30868.mp4"],
+  "paper": ["references/paper/Video-15422.mp4"],
+  "night": ["references/night/Video-50462.mp4", "references/night/Video-19647.mp4", "references/night/Video-33830.mp4", "references/night/Video-41438.mp4"],
+  "editorial": ["references/editorial/Video-66150.mp4", "references/editorial/Video-72005.mp4", "references/editorial/Video-90553.mp4"],
+  "headline": ["references/headline/Video-97418.mp4", "references/headline/Video-75789.mp4", "references/headline/Video-81754.mp4", "references/headline/Video-89398.mp4", "references/headline/Video-98315.mp4"],
+  "arcade": ["references/arcade/Video-5777.mp4", "references/arcade/Video-208.mp4", "references/arcade/Video-58260.mp4", "references/arcade/Video-95186.mp4"],
+  "neon-studio": ["references/neon-studio/Video-70647.mp4", "references/neon-studio/Video-10899.mp4", "references/neon-studio/Video-1191.mp4", "references/neon-studio/Video-49478.mp4"],
+  "hooks": ["references/hooks/Video-7784.mp4", "references/hooks/Video-28202.mp4", "references/hooks/Video-68494.mp4", "references/hooks/Video-93864.mp4"],
+  "board": ["references/board/Video-31455.mp4", "references/board/Video-42755.mp4"]
+}

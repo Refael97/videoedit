@@ -1,0 +1,214 @@
+{
+ "project": "rafael-test-night",
+ "theme": "night",
+ "score": "11/12",
+ "ready": false,
+ "checks": {
+  "motion": {
+   "value": 1.03,
+   "target": ">= 0.8",
+   "pass": true,
+   "footage": "camera jitter 0.14 px/frame, 4 punches, 10 drifts (anchor: jitter 0.16 px/frame, 16.1 camera moves/min)"
+  },
+  "flat": {
+   "value": "10.5% (full frame 30.9%)",
+   "target": "<= 29.0%",
+   "pass": true
+  },
+  "hold": {
+   "value": "0.93 s",
+   "target": "<= 2.6 s",
+   "pass": true
+  },
+  "actions": {
+   "value": "0.59 events/s (GSAP 2.3 tweens/s)",
+   "target": "0.44–0.81",
+   "pass": true
+  },
+  "payoff": {
+   "value": "1 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "median 84%, 0 weak ranges",
+   "target": ">= 60%",
+   "pass": true
+  },
+  "collide": {
+   "value": "0 collisions",
+   "target": "0",
+   "pass": true,
+   "faces_detected": 283
+  },
+  "overlap": {
+   "value": "0 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": true
+  },
+  "placeholder": {
+   "value": "0 found",
+   "target": "0",
+   "pass": true
+  },
+  "facts": {
+   "value": "3 unsourced",
+   "target": "0",
+   "pass": false
+  },
+  "hook": {
+   "value": "visual on screen 3.0s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 70.93,
+  "motion": 1.78,
+  "flat_pct": 30.9,
+  "events_per_s": 0.54,
+  "graphics": {
+   "gfx_motion": 1.03,
+   "gfx_raw": 1.03,
+   "baseline": 0.0,
+   "baseline_s": 11,
+   "baseline_from": "none (graphics-only render)",
+   "gfx_share": 0.84,
+   "gfx_flat_pct": 10.5,
+   "gfx_flat_runs": [
+    [
+     7.17,
+     7.63
+    ],
+    [
+     15.97,
+     16.4
+    ],
+    [
+     23.87,
+     24.33
+    ],
+    [
+     26.0,
+     26.43
+    ],
+    [
+     37.17,
+     37.7
+    ],
+    [
+     38.47,
+     39.4
+    ],
+    [
+     40.6,
+     41.0
+    ],
+    [
+     48.6,
+     49.0
+    ],
+    [
+     54.57,
+     55.03
+    ],
+    [
+     56.5,
+     56.9
+    ],
+    [
+     57.17,
+     57.57
+    ],
+    [
+     57.6,
+     58.0
+    ],
+    [
+     68.0,
+     68.47
+    ]
+   ],
+   "max_hold": 0.93,
+   "footage": {
+    "jitter_px": 0.14,
+    "punches": [
+     24.37,
+     24.83,
+     31.5,
+     40.1
+    ],
+    "drifts": [
+     8.67,
+     23.67,
+     28.0,
+     30.67,
+     39.0,
+     41.0,
+     50.0,
+     54.67,
+     57.67,
+     66.33
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.14,
+   "punches": [
+    24.37,
+    24.83,
+    31.5,
+    40.1
+   ],
+   "drifts": [
+    8.67,
+    23.67,
+    28.0,
+    30.67,
+    39.0,
+    41.0,
+    50.0,
+    54.67,
+    57.67,
+    66.33
+   ]
+  },
+  "actions_per_s": 0.59
+ },
+ "targets": {
+  "gfx_motion_min": 0.8,
+  "flat_max": 29.0,
+  "max_hold": 2.6,
+  "events_min": 0.44,
+  "events_max": 0.81,
+  "footage_info": "jitter 0.16 px/frame, 16.1 camera moves/min"
+ },
+ "fix_list": [
+  {
+   "t": "18.8–20.8s",
+   "t0": 18.75,
+   "words": "תעלו את הסרטון הזה לקלוד. שלב",
+   "check": "facts on screen",
+   "fix": "'70' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  },
+  {
+   "t": "24.0–25.2s",
+   "t0": 24,
+   "words": "הסקיל שלי. מי",
+   "check": "facts on screen",
+   "fix": "'10' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  },
+  {
+   "t": "43.2–48.8s",
+   "t0": 43.25,
+   "words": "הצפיות משלוש מאות ארבע מאות צפיות לסרטון לעשרות אלפים. חבר'ה",
+   "check": "facts on screen",
+   "fix": "'5K' is not in data/facts.yaml or the transcript: take it from facts.yaml (add it there only if it is true and the user confirmed it) or remove it"
+  }
+ ]
+}

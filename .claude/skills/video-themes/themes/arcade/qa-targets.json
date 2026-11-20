@@ -1,0 +1,237 @@
+{
+ "theme": "arcade",
+ "anchor_videos": [
+  "references/arcade/Video-5777.mp4",
+  "references/arcade/Video-208.mp4",
+  "references/arcade/Video-58260.mp4",
+  "references/arcade/Video-95186.mp4"
+ ],
+ "measured": {
+  "Video-5777": {
+   "duration": 34.1,
+   "gfx_motion": 1.17,
+   "gfx_raw": 1.78,
+   "baseline": 0.62,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.97,
+   "flat_pct": 22.3,
+   "flat_full_frame": 13.2,
+   "max_hold": 1.13,
+   "holds": [
+    0.5,
+    0.5,
+    0.84,
+    0.4,
+    0.43,
+    0.4,
+    0.46,
+    1.13,
+    0.66,
+    0.66,
+    0.5,
+    0.44,
+    0.43
+   ],
+   "actions_per_s": 0.82,
+   "motion_all": 4.19,
+   "jitter_px": 0.19,
+   "punches": 8,
+   "drifts": 6
+  },
+  "Video-208": {
+   "duration": 44.3,
+   "gfx_motion": 1.3,
+   "gfx_raw": 1.61,
+   "baseline": 0.31,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.91,
+   "flat_pct": 23.2,
+   "flat_full_frame": 15.7,
+   "max_hold": 1.07,
+   "holds": [
+    0.57,
+    0.43,
+    0.67,
+    0.4,
+    0.57,
+    0.5,
+    0.4,
+    0.43,
+    0.83,
+    0.87,
+    0.44,
+    0.4,
+    1.07,
+    0.4,
+    0.4,
+    0.47,
+    0.43
+   ],
+   "actions_per_s": 1.04,
+   "motion_all": 2.69,
+   "jitter_px": 0.13,
+   "punches": 6,
+   "drifts": 4
+  },
+  "Video-58260": {
+   "duration": 33.4,
+   "gfx_motion": 1.29,
+   "gfx_raw": 1.86,
+   "baseline": 0.57,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 1.0,
+   "flat_pct": 17.6,
+   "flat_full_frame": 11.5,
+   "max_hold": 1.43,
+   "holds": [
+    1.43,
+    0.73,
+    0.86,
+    0.4,
+    0.4,
+    0.5,
+    0.44,
+    0.4,
+    0.64
+   ],
+   "actions_per_s": 0.9,
+   "motion_all": 2.72,
+   "jitter_px": 0.12,
+   "punches": 3,
+   "drifts": 5
+  },
+  "Video-95186": {
+   "duration": 43.8,
+   "gfx_motion": 1.08,
+   "gfx_raw": 1.61,
+   "baseline": 0.53,
+   "baseline_from": "quietest 10% of windows",
+   "gfx_share": 0.98,
+   "flat_pct": 26.0,
+   "flat_full_frame": 15.4,
+   "max_hold": 1.0,
+   "holds": [
+    1.0,
+    0.4,
+    0.4,
+    0.84,
+    0.4,
+    0.53,
+    0.66,
+    0.5,
+    0.8,
+    0.57,
+    0.5,
+    0.7,
+    0.67,
+    0.4,
+    0.43,
+    0.5,
+    0.6,
+    0.44,
+    0.6
+   ],
+   "actions_per_s": 1.37,
+   "motion_all": 3.26,
+   "jitter_px": 0.12,
+   "punches": 7,
+   "drifts": 3
+  }
+ },
+ "anchor": {
+  "gfx_motion": 1.21,
+  "flat_pct": 22.6,
+  "max_hold": 1.1,
+  "actions_per_s": 1.05,
+  "footage": "jitter 0.14 px/frame, 16.2 camera moves/min"
+ },
+ "targets": {
+  "gfx_motion_min": 0.91,
+  "flat_max": 23.0,
+  "max_hold": 1.1,
+  "events_min": 0.74,
+  "events_max": 1.37,
+  "footage_info": "jitter 0.14 px/frame, 16.2 camera moves/min"
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2,
+  "edge_nogfx": 0.012,
+  "punch": 0.04,
+  "drift": 0.03
+ },
+ "look": {
+  "anchor": {
+   "samples": 312,
+   "full_face_share": 0.022,
+   "full_face_max_gap": 54.5,
+   "face_h": 0.28,
+   "face_h_full": 0.289,
+   "face_luma": 129.856,
+   "warmth": 80.065,
+   "bg_luma": 128.209,
+   "bg_sat": 50.378,
+   "contrast": 154.996,
+   "garment_vs_bg": 38.643,
+   "hero_width": 0.85,
+   "hero_density": 0.533,
+   "span": 184.421,
+   "highlight": 0.023,
+   "glow": -19.468,
+   "accent_sat": 78.061
+  },
+  "targets": {
+   "face_h": [
+    0.238,
+    0.322
+   ],
+   "face_h_full": 0.289,
+   "face_luma": [
+    105,
+    155
+   ],
+   "warmth": [
+    68,
+    92
+   ],
+   "bg_luma": [
+    100,
+    156
+   ],
+   "bg_sat": [
+    25,
+    75
+   ],
+   "contrast_min": 124,
+   "garment_vs_bg_min": 25,
+   "hero_width_min": 0.722,
+   "hero_width_weak": 0.595,
+   "hero_density_min": 0.4,
+   "hero_density_weak": 0.293,
+   "full_face_share_min": null,
+   "full_face_max_gap": null,
+   "span_min": 129,
+   "glow_min": null,
+   "accent_sat_min": 55
+  },
+  "detector": {
+   "fps": 2,
+   "size": [
+    360,
+    640
+   ],
+   "face_split_y": 0.6,
+   "min_face_h": 0.07,
+   "cell": 9,
+   "detail_std": 6.0
+  }
+ }
+}

@@ -1,0 +1,20 @@
+/* hooks → signature effects (effects/fx.css reads these). Mapped from this theme's own tokens; no new colors. */
+:root {
+  --fx-accent: #ffc928;
+  --fx-ink: var(--h-white);
+  --fx-display: var(--h-font);
+  --fx-display-weight: 900;
+  --fx-body: var(--h-font);
+  --fx-card-bg: var(--h-glass);
+  --fx-card-ink: var(--h-white);
+  --fx-card-ink-soft: rgba(255,255,255,.7);
+  --fx-card-edge: 1px solid var(--h-glass-edge);
+  --fx-card-r: 18px;
+  --fx-card-shadow: 0 0 0 2px #ffc928, 0 18px 40px rgba(0,0,0,.4);
+  --fx-card-blur: blur(10px);
+  --fx-word: #ffd84a;
+  --fx-word-stroke: 0px transparent;
+  --fx-word-glow: 0 0 24px rgba(255,201,40,.75), 0 0 60px rgba(255,160,0,.35);
+  --fx-glow: 0 0 16px rgba(255,201,40,.7);
+  --fx-bar-muted: rgba(255,255,255,.25);
+}

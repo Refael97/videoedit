@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      .rtl { direction: rtl; text-align: right; }
+      .h-win .body { position: relative; }
+      .h-win h4 { margin: 0 0 18px; font-size: 48px; font-weight: 800; letter-spacing: -1.5px; }
+
+      /* chat (S1, S3, S8) */
+      .msg { display: block; width: fit-content; max-width: 760px; margin: 0 0 16px auto; padding: 20px 30px; border-radius: 30px 30px 8px 30px; background: #e3eeff; font-size: 42px; font-weight: 700; line-height: 1.25; }
+      .msg.ai { margin: 0 auto 16px 0; border-radius: 30px 30px 30px 8px; background: #fff; border: 2px solid #dfe3e8; font-weight: 600; color: #3a3f46; }
+      .msg.ai b { color: #151515; }
+      .inp { margin-top: 22px; height: 84px; border-radius: 22px; border: 2px solid #dfe3e8; display: flex; align-items: center; gap: 16px; padding: 0 16px 0 26px; font-size: 38px; color: #5c636c; }
+      .inp .go { margin-right: auto; width: 60px; height: 60px; border-radius: 16px; background: var(--h-blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 800; flex: none; }
+      #w1 { left: 70px; top: 440px; width: 940px; } #w1 .body { padding: 20px 34px; } #w1 .msg { font-size: 34px; padding: 11px 24px; margin-bottom: 9px; }
+      #w1 .cnt { direction: ltr; }
+
+      /* G2: this very clip */
+      #w2 { left: 70px; top: 440px; width: 940px; } #w2 .body { padding: 26px 30px; display: flex; gap: 28px; align-items: center; direction: rtl; }
+      .clip { position: relative; width: 300px; height: 533px; border-radius: 16px; overflow: hidden; background: #222 url(assets/img/raw.jpg) center / cover; flex: none; }
+      .clip .pl { position: absolute; left: 14px; right: 14px; bottom: 16px; height: 10px; border-radius: 5px; background: rgba(255,255,255,.4); overflow: hidden; }
+      .clip .pl i { display: block; height: 100%; width: 100%; background: #fff; transform-origin: 100% 50%; }
+      .meta { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+      .meta .nm { font-size: 52px; font-weight: 800; direction: ltr; text-align: right; }
+      .meta .row { font-size: 42px; font-weight: 700; color: #3a3f46; padding: 16px 22px; border-radius: 16px; border: 2px solid #dfe3e8; }
+      .meta .row b { color: var(--h-blue-text); }
+
+      /* S3: only the file, then Claude does the rest */
+      #w3a, #w3b { left: 70px; top: 180px; width: 940px; } #w3a .body, #w3b .body { padding: 30px 36px; }
+      .file { display: flex; align-items: center; gap: 22px; padding: 18px 22px; border-radius: 20px; border: 2px solid #dfe3e8; width: fit-content; margin-right: 0; margin-left: auto; }
+      .file .ic { width: 140px; height: 240px; border-radius: 12px; background: url(assets/img/raw.jpg) center / cover; flex: none; }
+      .file .nm { font-size: 54px; font-weight: 800; direction: ltr; }
+      .file.sm .ic { width: 80px; height: 142px; } .file.sm .nm { font-size: 40px; }
+      .file .st { font-size: 36px; color: #6a7078; margin-top: 4px; }
+      .steps p { display: flex; align-items: center; gap: 18px; margin: 0; padding: 11px 0; font-size: 38px; font-weight: 700; border-top: 1px solid #e3e3e6; }
+      .steps p:first-of-type { border-top: 0; }
+      .steps .ck { width: 48px; height: 48px; color: var(--h-blue); flex: none; } .steps .ck svg { width: 48px; height: 48px; display: block; }
+      .steps small { display: block; font-size: 28px; font-weight: 500; color: #5c636c; margin-top: 2px; }
+
+      /* G5: the videos edited with Claude */
+      #w5 { left: 115px; top: 440px; }
+      #w5 .body { display: grid; grid-template-columns: repeat(3, 250px); gap: 18px 20px; padding: 24px 30px; justify-content: center; }
+      .th { position: relative; width: 250px; height: 250px; border-radius: 14px; overflow: hidden; background: #ccc center 18% / cover; }
+      .th .nm { position: absolute; left: 8px; right: 8px; bottom: 8px; height: 44px; border-radius: 10px; background: rgba(255, 255, 255, 0.94); font-family: var(--h-mono); font-size: 26px; font-weight: 500; display: flex; align-items: center; justify-content: center; color: #151515; }
+      #w5 .h-ring, #w7 .h-ring { border-radius: 18px; }
+
+      /* D6: the skill, installed and at work */
+      #w6 { left: 60px; top: 450px; width: 960px; } #w6 .body { font-size: 38px; line-height: 1.4; white-space: normal; } #w6 .body div { white-space: pre; } #w6 .in { margin: 10px 0; }
+      #w6 .wel { color: #ff8a3d; font-weight: 700; }
+      #w6 .wbox { margin: 6px 0 12px; padding: 12px 24px; border: 2px solid #ff8a3d; border-radius: 14px; }
+      #w6 .he { direction: rtl; text-align: left; unicode-bidi: plaintext; }
+
+      /* G7: a style that fits the video */
+      #w7 { left: 115px; top: 440px; }
+      #w7 .body { display: grid; grid-template-columns: repeat(3, 250px); gap: 18px 20px; padding: 24px 30px; justify-content: center; }
+
+      /* S8: the loop */
+      #w8 { left: 70px; top: 130px; width: 940px; } #w8 .body { padding: 22px 40px; }
+      #w8 h4 { display: flex; justify-content: space-between; align-items: center; }
+      #w8 h4 .rd { font-size: 36px; font-weight: 800; color: #fff; background: var(--h-blue); padding: 6px 22px 10px; border-radius: 30px; }
+      .chk p { display: flex; align-items: center; gap: 18px; margin: 0; padding: 9px 0; font-size: 44px; font-weight: 700; border-top: 1px solid #e3e3e6; }
+      .chk p:first-child { border-top: 0; }
+      .chk .ck { width: 46px; height: 46px; color: var(--h-blue); flex: none; } .chk .ck svg { width: 46px; height: 46px; display: block; }
+      .chk .fx { margin-right: auto; font-size: 30px; font-weight: 700; color: #c2410c; background: #fff1e6; padding: 4px 16px 8px; border-radius: 12px; }
+      #st8 { left: 150px; top: 180px; width: 640px; } #st8 .n { font-size: 170px; direction: ltr; }
+      #w8b { left: 70px; top: 300px; width: 940px; } #w8b .body { padding: 30px 36px; }
+
+      /* G10: weeks of work (the real commit log) */
+      #w10 { left: 60px; top: 450px; width: 960px; } #w10 .body { padding: 22px 30px; font-family: var(--h-mono); font-size: 34px; line-height: 1.3; direction: ltr; text-align: left; }
+      .cm { display: flex; gap: 18px; padding: 14px 0; border-top: 1px solid #e3e3e6; white-space: nowrap; overflow: hidden; }
+      .cm:first-child { border-top: 0; }
+      .cm .d { color: #0f3a70; font-weight: 700; flex: none; }
+      .cm .s { color: #151515; overflow: hidden; text-overflow: ellipsis; }
+      #st10 { left: 220px; top: 200px; width: 640px; } #st10 .n { font-size: 170px; }
+
+      /* S11: comment "skill" */
+      #w11 { left: 70px; top: 200px; width: 940px; } #w11 .body { padding: 30px 40px; }
+      .post { display: flex; align-items: center; gap: 22px; padding-bottom: 24px; border-bottom: 1px solid #e3e3e6; margin-bottom: 24px; }
+      .post .av { width: 96px; height: 96px; border-radius: 50%; background: url(assets/img/avatar.jpg) center / cover; flex: none; }
+      .post b { font-size: 52px; } .post span { font-size: 38px; color: #5c636c; }
+      .post .rl { width: 150px; height: 266px; border-radius: 12px; background: url(assets/img/raw.jpg) center / cover; flex: none; margin-right: auto; }
+      .cin { height: 110px; border-radius: 55px; border: 2px solid #dfe3e8; display: flex; align-items: center; padding: 0 34px; gap: 16px; font-size: 48px; font-weight: 800; }
+      .cin .ph { color: #5c636c; font-weight: 500; font-size: 40px; }
+      .cin .snd { margin-right: auto; color: var(--h-blue-text); font-weight: 800; font-size: 40px; }
+
+      /* F12: the offer card over the face */
+      #w12 { left: 140px; top: 170px; width: 800px; } #w12 .body { padding: 30px 40px; text-align: center; direction: rtl; }
+      #w12 .big { font-size: 120px; font-weight: 800; line-height: 1; color: var(--h-blue); direction: ltr; }
+      #w12 .t { font-size: 52px; font-weight: 800; margin-top: 10px; }
+      #w12 .after { margin-top: 20px; padding-top: 20px; border-top: 1px solid #e3e3e6; font-size: 40px; font-weight: 700; color: #5c636c; display: flex; align-items: center; justify-content: center; gap: 14px; }
+      #w12 .after .lk { width: 44px; height: 44px; color: #5c636c; } #w12 .after .lk svg { width: 44px; height: 44px; display: block; }
+      #ctaK { margin-top: 24px; padding: 6px 54px 26px; border-radius: 60px; background: rgba(8, 17, 31, 0.86); box-shadow: 0 18px 50px rgba(0, 10, 30, 0.45); }  /* the keyword sits on the chest: a navy plate keeps it readable on any frame */
+      #ctaL { width: fit-content; margin: 0 auto; padding: 2px 30px 10px; border-radius: 30px; background: rgba(8, 17, 31, 0.72); }
+      #caps .h-cap.light { width: fit-content; margin: 0 auto; padding: 4px 30px 12px; border-radius: 30px; background: rgba(8, 17, 31, 0.72); }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="h-root" data-composition-id="main" data-start="0" data-duration="55.5" data-width="1080" data-height="1920">
+      <div id="face" class="h-face"><video id="faceVid" src="assets/video/face_prep.mp4" data-start="0" data-duration="55.5" data-track-index="0" muted playsinline></video></div>
+      <div id="air" class="h-air"><div class="h-leaves" id="leaves"></div></div>
+
+      <!-- S1 (split): the headline over the frustrating chat -->
+      <div id="s1" class="h-scene" style="z-index: 7">
+        <div class="h-title" id="t1">לערוך עם קלוד</div>
+        <div class="h-boxline" style="top: 300px"><span class="h-box" id="b1">מתסכל</span></div>
+        <div class="h-win" id="w1"><div class="bar"><i></i><i></i><i></i><span class="url">claude.ai</span></div>
+          <div class="body rtl" id="chat1">
+            <span class="msg" id="m1a">תזיז את הכתובית למעלה</span>
+            <span class="msg ai" id="m1b">הזזתי אותה ✓</span>
+            <span class="msg" id="m1c">עכשיו היא על הפנים 😩</span>
+            <span class="msg" id="m1d">ולמה הטקסט שוב קטן?</span>
+            <div class="h-ring" id="r1"></div></div>
+          <div class="h-streak" id="sk1" style="left: 0; top: -2px"></div></div>
+      </div>
+
+      <!-- S3 (split): only the file, then Claude does the rest -->
+      <div id="s3" class="h-scene" style="z-index: 7">
+        <div class="h-win" id="w3a"><div class="bar"><i></i><i></i><i></i><span class="url">claude.ai</span></div>
+          <div class="body rtl"><div class="file" id="file3"><span class="ic"></span><div><div class="nm">IMG_5600.MOV</div><div class="st">הועלה ✓</div></div></div>
+            <span class="msg ai" id="a3" style="margin-top: 18px">קיבלתי. מתחיל לעבוד ✓</span><div class="inp"><span id="ph3">בלי הוראות.</span><span class="go" id="go3">↑</span></div><div class="h-ring" id="r3"></div><div class="h-ring" id="r3b"></div></div></div>
+        <div class="h-win" id="w3b"><div class="bar"><i></i><i></i><i></i><span class="url">claude.ai · video-themes</span></div>
+          <div class="body rtl steps"><h4>קלוד עובד לבד</h4>
+            <p class="s3"><span class="ck"></span><span>מתמלל את הקריינות<small>מילה מילה, עם זמנים</small></span></p>
+            <p class="s3"><span class="ck"></span><span>מתאים צבע וחיתוך<small>לעולם של העיצוב</small></span></p>
+            <p class="s3"><span class="ck"></span><span>בונה כל סצנה<small>חלונות, כתוביות, סאונד</small></span></p>
+            <p class="s3"><span class="ck"></span><span>בודק את עצמו<small dir="rtl">20 בדיקות</small></span></p></div></div>
+      </div>
+
+      <!-- S8 (split): the loop -->
+      <div id="s8" class="h-scene" style="z-index: 7">
+        <div class="h-win" id="w8"><div class="bar"><i></i><i></i><i></i><span class="url">video-themes · qa</span></div>
+          <div class="body rtl"><h4><span>בדיקה</span><span class="rd" id="rd8">סבב 1</span></h4>
+            <div class="chk">
+              <p class="c8"><span class="ck"></span><span>כל פריים</span><span class="fx" id="fx8a">לתקן</span></p>
+              <p class="c8"><span class="ck"></span><span>כל אלמנט</span><span class="fx" id="fx8b">לתקן</span></p>
+              <p class="c8"><span class="ck"></span><span>כתוביות לא על הפנים</span></p>
+              <p class="c8"><span class="ck"></span><span>טקסט קריא</span></p>
+              <p class="c8"><span class="ck"></span><span>סאונד על כל אירוע</span></p>
+              <p class="c8"><span class="ck"></span><span>אור וחומר כמו בעוגן</span></p></div></div>
+          <div class="h-dim" id="dim8"></div>
+          <div class="h-stat" id="st8"><span class="n" id="n8" data-qa-payoff="המושלמת">0</span><span class="l">בדיקות בכל סבב</span></div>
+          <div class="h-streak" id="sk8" style="left: 0; top: -2px"></div></div>
+        <div class="h-win" id="w8b"><div class="bar"><i></i><i></i><i></i><span class="url">claude.ai</span></div>
+          <div class="body rtl"><span class="msg ai">הסרטון מוכן ✓</span><div class="file sm" style="margin: 0 auto 0 0"><span class="ic"></span><div><div class="nm">final.mov</div><div class="st" dir="ltr">1080×1920 · 60fps</div></div></div><div class="inp"><span>שלחו הודעה…</span><span class="go" id="go8">↑</span></div><div class="h-ring" id="r8"></div></div></div>
+      </div>
+
+      <!-- S11 (split): comment "skill" -->
+      <div id="s11" class="h-scene" style="z-index: 7">
+        <div class="h-win" id="w11"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/refaelleviii</span></div>
+          <div class="body rtl"><div class="post"><span class="av"></span><div><b>רפאל לוי</b><br /><span>@refaelleviii · תגובות</span></div><span class="rl"></span></div>
+            <div class="cin" id="cin11"><span class="ph" id="ph11">הוסיפו תגובה…</span><span id="ty11" dir="ltr"></span><span class="snd" id="snd11">פרסום</span></div><div class="h-ring" id="r11"></div><div class="h-ring" id="r11b"></div></div></div>
+      </div>
+
+      <!-- F12 (face): the offer -->
+      <div id="s12" class="h-scene" style="z-index: 7">
+        <div class="h-win" id="w12"><div class="bar"><i></i><i></i><i></i><span class="url">instagram.com/direct</span></div>
+          <div class="body"><div class="big" id="n12">50</div><div class="t">הראשונים מקבלים בחינם</div>
+            <div class="after" id="af12"><span class="lk"></span><span>אחרי זה: בתשלום</span></div></div></div>
+      </div>
+
+      <!-- page (G2, G5, G7, G10) -->
+      <div id="page" class="h-page">
+        <div id="g2" class="h-scene">
+          <div class="h-sec"><span class="t" id="t2">הסרטון הזה</span><span class="h-caret" id="c2"></span><span class="h-box" id="b2">נערך עם קלוד</span></div>
+          <div class="h-win" id="w2"><div class="bar"><i></i><i></i><i></i><span class="url">IMG_5600.MOV</span></div>
+            <div class="body"><div class="clip" id="clip2"><div class="pl"><i id="pl2"></i></div></div>
+              <div class="meta"><div class="nm">IMG_5600.MOV</div><div class="row">צילום: <b>טלפון, 9:16</b></div><div class="row">עריכה: <b>קלוד</b></div><div class="row" id="row2c">הוראות: <b>אין</b></div></div></div>
+            <div class="h-ring" id="r2"></div><div class="h-streak" id="sk2" style="left: 0; top: -2px"></div></div>
+        </div>
+        <div id="g5" class="h-scene">
+          <div class="h-sec"><span class="t" id="t5">אחרי עשרות</span><span class="h-caret" id="c5"></span><span class="h-box" id="b5">ומאות סרטונים</span></div>
+          <div class="h-win" id="w5"><div class="bar"><i></i><i></i><i></i><span class="url">videos/</span></div>
+            <div class="body" id="grid5">
+              <div class="th" style="background-image: url(assets/img/th-night.jpg)"><span class="nm">night</span></div>
+              <div class="th" style="background-image: url(assets/img/th-paper.jpg)"><span class="nm">paper</span></div>
+              <div class="th" style="background-image: url(assets/img/th-glass.jpg)"><span class="nm">glass</span></div>
+              <div class="th" style="background-image: url(assets/img/th-editorial.jpg)"><span class="nm">editorial</span></div>
+              <div class="th" style="background-image: url(assets/img/th-hooks.jpg)"><span class="nm">hooks</span></div>
+              <div class="th" style="background-image: url(assets/img/th-arcade.jpg)"><span class="nm">arcade</span></div>
+              <div class="th" style="background-image: url(assets/img/th-board.jpg)"><span class="nm">board</span></div>
+              <div class="th" style="background-image: url(assets/img/th-neon-studio.jpg)"><span class="nm">neon-studio</span></div>
+              <div class="th" style="background-image: url(assets/img/th-headline.jpg)"><span class="nm">headline</span></div></div>
+            <div class="h-streak" id="sk5" style="left: 0; top: -2px"></div></div>
+        </div>
+        <div id="g7" class="h-scene">
+          <div class="h-sec"><span class="t" id="t7">סגנון עריכה</span><span class="h-caret" id="c7"></span><span class="h-box" id="b7">שמתאים לסרטון</span></div>
+          <div class="h-win" id="w7"><div class="bar"><i></i><i></i><i></i><span class="url" data-qa-decor>video-themes/themes</span><span class="cnt">9</span></div>
+            <div class="body" id="grid7">
+              <div class="th" id="t7-glass" style="background-image: url(assets/img/th-glass.jpg)"><span class="nm">glass</span></div>
+              <div class="th" id="t7-paper" style="background-image: url(assets/img/th-paper.jpg)"><span class="nm">paper</span></div>
+              <div class="th" id="t7-night" style="background-image: url(assets/img/th-night.jpg)"><span class="nm">night</span></div>
+              <div class="th" id="t7-editorial" style="background-image: url(assets/img/th-editorial.jpg)"><span class="nm">editorial</span></div>
+              <div class="th" id="t7-headline" style="background-image: url(assets/img/th-headline.jpg)"><span class="nm">headline</span></div>
+              <div class="th" id="t7-arcade" style="background-image: url(assets/img/th-arcade.jpg)"><span class="nm">arcade</span></div>
+              <div class="th" id="t7-neon" style="background-image: url(assets/img/th-neon-studio.jpg)"><span class="nm">neon-studio</span></div>
+              <div class="th" id="t7-hooks" style="background-image: url(assets/img/th-hooks.jpg)"><span class="nm">hooks</span></div>
+              <div class="th" id="t7-board" style="background-image: url(assets/img/th-board.jpg)"><span class="nm">board</span></div></div>
+            <div class="h-ring" id="r7"></div><div class="h-streak" id="sk7" style="left: 0; top: -2px"></div></div>
+        </div>
+        <div id="g10" class="h-scene">
+          <div class="h-sec"><span class="t" id="t10">בניתי במשך</span><span class="h-caret" id="c10"></span><span class="h-box" id="b10">שבועות</span></div>
+          <div class="h-win" id="w10"><div class="bar"><i></i><i></i><i></i><span class="url">git log · video-themes</span><span class="cnt">121</span></div>
+            <div class="body">
+              <div class="cm"><span class="d">30.10</span><span class="s">look checks + review loop</span></div>
+              <div class="cm"><span class="d">29.10</span><span class="s">signature effects: wordBehind · chestChart</span></div>
+              <div class="cm"><span class="d">29.10</span><span class="s">face-relative placement per theme</span></div>
+              <div class="cm"><span class="d">29.10</span><span class="s">qa: facts check (numbers on screen)</span></div>
+              <div class="cm"><span class="d">29.10</span><span class="s">qa: collisions use the face track</span></div>
+              <div class="cm"><span class="d">29.10</span><span class="s">all-renders: every final render</span></div>
+              <div class="cm"><span class="d">28.10</span><span class="s">rafael-test: night edit</span></div>
+              <div class="cm"><span class="d">…</span><span class="s">…</span></div>
+              <div class="cm" id="cm10"><span class="d">11.10</span><span class="s">Add HyperFrames agent skills</span></div></div>
+            <div class="h-dim" id="dim10"></div>
+            <div class="h-stat" id="st10"><span class="n" id="n10" data-qa-payoff="קשה">0</span><span class="l">commits</span></div>
+            <div class="h-ring" id="r10"></div><div class="h-streak" id="sk10" style="left: 0; top: -2px"></div></div>
+        </div>
+      </div>
+
+      <!-- dark (D6): the skill, installed and at work -->
+      <div id="dark" class="h-dark" data-qa-scene>
+        <div class="h-sec"><span class="t" id="t6" style="color: #fff">בניתי</span><span class="h-caret" id="c6"></span><span class="h-box" id="b6" dir="ltr">skill</span></div>
+        <div class="h-win term" id="w6"><div class="bar"><i></i><i></i><i></i><span class="ttl">claude — my-video</span></div>
+          <div class="body"><div class="dim">~/my-video $ claude</div>
+            <div class="wbox"><div class="wel">✻ Welcome to Claude Code!</div><div class="dim">  /help for help</div><div class="dim">  /status for your current setup</div><div class="dim">  cwd: ~/my-video</div></div><div class="dim">Tip: run /init to create a CLAUDE.md</div>
+            <div class="in">&gt; <span id="cmd6"></span></div><div class="o6" id="ok6a"><span class="ok">✓</span> Installed: <b>video-themes</b></div>
+            <div class="in o6">&gt; <span id="cmd6b"></span></div>
+            <div class="o6"><span class="ok">●</span> video-themes: footage → captions → scenes</div>
+            <div class="o6 dim">└ theme: headline · 9:16 · 60fps</div>
+            <div class="o6" id="ok6"><span class="ok">●</span> editing <b>end to end</b>…</div><div class="h-ring" id="r6"></div></div></div>
+        <div class="h-streak" id="sk6" style="left: 70px; top: 468px"></div>
+      </div>
+
+      <div class="h-cursor" id="cur" style="z-index: 40"></div>
+      <div id="caps" class="h-caps"></div>
+
+      <!-- CTA (face) -->
+      <div id="cta" class="h-cta" style="top: 1470px"><span class="lead" id="ctaL">תגיבו</span><span class="kw" id="ctaK"><span class="q">“</span>skill<span class="q">”</span></span></div>
+
+      <audio id="vo" src="assets/audio/vo_prep.wav" data-start="0" data-duration="55.5" data-track-index="10" data-volume="0.85"></audio>
+      <audio id="sfx0" src="assets/theme/sfx/air.wav" data-start="0.1" data-duration="0.38" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx1" src="assets/theme/sfx/air.wav" data-start="0.9" data-duration="0.38" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx2" src="assets/theme/sfx/air.wav" data-start="1.8" data-duration="0.38" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx3" src="assets/theme/sfx/swish.wav" data-start="2.64" data-duration="0.25" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx4" src="assets/theme/sfx/click.wav" data-start="4.0" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx5" src="assets/theme/sfx/whoosh.wav" data-start="5.3" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx6" src="assets/theme/sfx/swish.wav" data-start="5.4" data-duration="0.25" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx7" src="assets/theme/sfx/click.wav" data-start="6.9" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx8" src="assets/theme/sfx/whoosh.wav" data-start="8.5" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx9" src="assets/theme/sfx/click.wav" data-start="9.68" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx10" src="assets/theme/sfx/click.wav" data-start="11.12" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx11" src="assets/theme/sfx/whoosh.wav" data-start="12.2" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx12" src="assets/theme/sfx/tick.wav" data-start="12.3" data-duration="0.03" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx13" src="assets/theme/sfx/tick.wav" data-start="12.55" data-duration="0.03" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx14" src="assets/theme/sfx/tick.wav" data-start="12.8" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx15" src="assets/theme/sfx/tick.wav" data-start="13.1" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx16" src="assets/theme/sfx/whoosh.wav" data-start="13.55" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx17" src="assets/theme/sfx/whoosh.wav" data-start="15.35" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx18" src="assets/theme/sfx/swish.wav" data-start="15.5" data-duration="0.25" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx19" src="assets/theme/sfx/air.wav" data-start="15.6" data-duration="0.38" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx20" src="assets/theme/sfx/whoosh.wav" data-start="19.85" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx21" src="assets/theme/sfx/swish.wav" data-start="19.96" data-duration="0.25" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx22" src="assets/theme/sfx/key.wav" data-start="20.6" data-duration="0.04" data-track-index="11" data-volume="0.15"></audio>
+      <audio id="sfx23" src="assets/theme/sfx/key.wav" data-start="21.0" data-duration="0.04" data-track-index="11" data-volume="0.15"></audio>
+      <audio id="sfx24" src="assets/theme/sfx/key.wav" data-start="21.4" data-duration="0.04" data-track-index="11" data-volume="0.15"></audio>
+      <audio id="sfx25" src="assets/theme/sfx/tick.wav" data-start="21.75" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx26" src="assets/theme/sfx/key.wav" data-start="22.3" data-duration="0.04" data-track-index="11" data-volume="0.15"></audio>
+      <audio id="sfx27" src="assets/theme/sfx/key.wav" data-start="22.7" data-duration="0.04" data-track-index="11" data-volume="0.15"></audio>
+      <audio id="sfx28" src="assets/theme/sfx/tick.wav" data-start="23.45" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx29" src="assets/theme/sfx/tick.wav" data-start="23.96" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx30" src="assets/theme/sfx/click.wav" data-start="24.1" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx31" src="assets/theme/sfx/whoosh.wav" data-start="24.85" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx32" src="assets/theme/sfx/swish.wav" data-start="25.0" data-duration="0.25" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx33" src="assets/theme/sfx/click.wav" data-start="25.8" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx34" src="assets/theme/sfx/tick.wav" data-start="26.1" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx35" src="assets/theme/sfx/click.wav" data-start="26.44" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx36" src="assets/theme/sfx/whoosh.wav" data-start="28.45" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx37" src="assets/theme/sfx/air.wav" data-start="28.72" data-duration="0.38" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx38" src="assets/theme/sfx/air.wav" data-start="29.68" data-duration="0.38" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx39" src="assets/theme/sfx/air.wav" data-start="30.64" data-duration="0.38" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx40" src="assets/theme/sfx/pop.wav" data-start="32.48" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx41" src="assets/theme/sfx/tick.wav" data-start="32.7" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx42" src="assets/theme/sfx/tick.wav" data-start="32.82" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx43" src="assets/theme/sfx/tick.wav" data-start="32.94" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx44" src="assets/theme/sfx/tick.wav" data-start="33.06" data-duration="0.03" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx45" src="assets/theme/sfx/air.wav" data-start="33.85" data-duration="0.38" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx46" src="assets/theme/sfx/roll.wav" data-start="33.92" data-duration="0.9" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx47" src="assets/theme/sfx/ding.wav" data-start="34.42" data-duration="0.7" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx48" src="assets/theme/sfx/whoosh.wav" data-start="35.44" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx49" src="assets/theme/sfx/click.wav" data-start="35.94" data-duration="0.05" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx50" src="assets/theme/sfx/whoosh.wav" data-start="37.05" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx51" src="assets/theme/sfx/whoosh.wav" data-start="39.1" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx52" src="assets/theme/sfx/swish.wav" data-start="39.2" data-duration="0.25" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx53" src="assets/theme/sfx/click.wav" data-start="41.04" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx54" src="assets/theme/sfx/air.wav" data-start="41.55" data-duration="0.38" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx55" src="assets/theme/sfx/roll.wav" data-start="41.6" data-duration="0.9" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx56" src="assets/theme/sfx/ding.wav" data-start="42.18" data-duration="0.7" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx57" src="assets/theme/sfx/whoosh.wav" data-start="44.2" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx58" src="assets/theme/sfx/click.wav" data-start="45.08" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx59" src="assets/theme/sfx/key.wav" data-start="45.72" data-duration="0.04" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx60" src="assets/theme/sfx/click.wav" data-start="46.3" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx61" src="assets/theme/sfx/whoosh.wav" data-start="47.6" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx62" src="assets/theme/sfx/pop.wav" data-start="48.74" data-duration="0.12" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx63" src="assets/theme/sfx/air.wav" data-start="49.95" data-duration="0.38" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx64" src="assets/theme/sfx/tick.wav" data-start="50.2" data-duration="0.03" data-track-index="12" data-volume="0.25"></audio>
+      <audio id="sfx65" src="assets/theme/sfx/air.wav" data-start="52.02" data-duration="0.38" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx66" src="assets/theme/sfx/tick.wav" data-start="52.94" data-duration="0.03" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx67" src="assets/theme/sfx/pop.wav" data-start="54.76" data-duration="0.12" data-track-index="11" data-volume="0.35"></audio>
+    </div>
+    <script>
+      const WORDS = [{"text": "לערוך", "start": 0.16, "end": 0.5}, {"text": "סרטונים", "start": 0.54, "end": 0.98}, {"text": "עם", "start": 1.0, "end": 1.14}, {"text": "קלוד", "start": 1.18, "end": 1.64}, {"text": "יכול", "start": 1.68, "end": 1.96}, {"text": "להיות", "start": 2.02, "end": 2.26}, {"text": "מאוד", "start": 2.38, "end": 2.6}, {"text": "מתסכל", "start": 2.64, "end": 3.2}, {"text": "וארוך", "start": 3.26, "end": 3.84}, {"text": "וגם", "start": 3.9, "end": 4.1}, {"text": "יכול", "start": 4.14, "end": 4.36}, {"text": "להיות", "start": 4.4, "end": 4.58}, {"text": "מאוד", "start": 4.62, "end": 4.78}, {"text": "מאוד", "start": 4.82, "end": 5.0}, {"text": "פשוט.", "start": 5.04, "end": 5.34}, {"text": "למשל", "start": 5.38, "end": 5.68}, {"text": "הסרטון", "start": 5.72, "end": 6.1}, {"text": "הזה", "start": 6.12, "end": 6.4}, {"text": "נערך", "start": 6.9, "end": 7.16}, {"text": "בעזרת", "start": 7.26, "end": 7.66}, {"text": "קלוד,", "start": 7.7, "end": 8.04}, {"text": "אבל", "start": 8.54, "end": 8.88}, {"text": "לא", "start": 9.54, "end": 9.64}, {"text": "ביקשתי", "start": 9.68, "end": 10.04}, {"text": "ממנו", "start": 10.08, "end": 10.24}, {"text": "שום", "start": 10.28, "end": 10.4}, {"text": "דבר.", "start": 10.44, "end": 10.74}, {"text": "פשוט", "start": 10.78, "end": 11.08}, {"text": "הבאתי", "start": 11.12, "end": 11.38}, {"text": "לו", "start": 11.4, "end": 11.48}, {"text": "את", "start": 11.5, "end": 11.52}, {"text": "הסרטון", "start": 11.58, "end": 12.04}, {"text": "ואת", "start": 12.08, "end": 12.22}, {"text": "כל", "start": 12.26, "end": 12.36}, {"text": "השאר", "start": 12.4, "end": 12.7}, {"text": "הוא", "start": 12.72, "end": 12.8}, {"text": "עשה", "start": 12.84, "end": 13.04}, {"text": "לבד.", "start": 13.1, "end": 13.4}, {"text": "אז", "start": 13.58, "end": 13.66}, {"text": "איך", "start": 13.7, "end": 13.76}, {"text": "הגעתי", "start": 13.82, "end": 14.08}, {"text": "לתוצאה", "start": 14.12, "end": 14.6}, {"text": "הזאתי?", "start": 14.68, "end": 15.06}, {"text": "אחרי", "start": 15.5, "end": 15.92}, {"text": "עשרות", "start": 15.98, "end": 16.34}, {"text": "ומאות", "start": 16.38, "end": 16.66}, {"text": "סרטונים", "start": 16.72, "end": 17.08}, {"text": "שערכתי", "start": 17.14, "end": 17.5}, {"text": "עם", "start": 17.52, "end": 17.6}, {"text": "קלוד", "start": 17.64, "end": 17.94}, {"text": "הבנתי", "start": 18.0, "end": 18.36}, {"text": "שיש", "start": 18.4, "end": 18.56}, {"text": "דרך", "start": 18.6, "end": 18.8}, {"text": "פשוטה", "start": 18.84, "end": 19.14}, {"text": "יותר.", "start": 19.16, "end": 19.5}, {"text": "בניתי", "start": 19.96, "end": 20.38}, {"text": "skill", "start": 20.46, "end": 20.78}, {"text": "שהופך", "start": 21.28, "end": 22.22}, {"text": "את", "start": 22.26, "end": 22.36}, {"text": "קלוד", "start": 22.42, "end": 22.66}, {"text": "לעורך", "start": 22.72, "end": 23.0}, {"text": "וידאו", "start": 23.1, "end": 23.38}, {"text": "מקצועי", "start": 23.42, "end": 23.9}, {"text": "מקצה", "start": 23.96, "end": 24.32}, {"text": "לקצה.", "start": 24.36, "end": 24.78}, {"text": "הוא", "start": 24.92, "end": 24.98}, {"text": "לא", "start": 25.02, "end": 25.1}, {"text": "רק", "start": 25.16, "end": 25.26}, {"text": "נותן", "start": 25.32, "end": 25.5}, {"text": "לכם", "start": 25.54, "end": 25.74}, {"text": "סגנון", "start": 25.8, "end": 26.06}, {"text": "עריכה", "start": 26.1, "end": 26.4}, {"text": "שמתאים", "start": 26.44, "end": 26.78}, {"text": "לסרטון,", "start": 26.82, "end": 27.3}, {"text": "הוא", "start": 27.44, "end": 27.5}, {"text": "גם", "start": 27.54, "end": 27.68}, {"text": "עובד", "start": 27.7, "end": 27.94}, {"text": "בלופ.", "start": 28.0, "end": 28.36}, {"text": "הוא", "start": 28.6, "end": 28.68}, {"text": "בודק", "start": 28.72, "end": 29.34}, {"text": "כל", "start": 29.42, "end": 29.6}, {"text": "frame,", "start": 29.68, "end": 29.94}, {"text": "כל", "start": 30.44, "end": 30.58}, {"text": "אלמנט,", "start": 30.64, "end": 31.099}, {"text": "כל", "start": 31.16, "end": 31.26}, {"text": "דבר", "start": 31.3, "end": 31.52}, {"text": "שהוא", "start": 31.58, "end": 31.68}, {"text": "עשה", "start": 31.74, "end": 32.38}, {"text": "בלופ", "start": 32.48, "end": 33.14}, {"text": "עד", "start": 33.2, "end": 33.3}, {"text": "שהוא", "start": 33.34, "end": 33.4}, {"text": "מביא", "start": 33.44, "end": 33.58}, {"text": "לכם", "start": 33.62, "end": 33.82}, {"text": "את", "start": 33.84, "end": 33.88}, {"text": "התוצאה", "start": 33.92, "end": 34.42}, {"text": "המושלמת", "start": 34.42, "end": 35.38}, {"text": "בלי", "start": 35.44, "end": 35.6}, {"text": "שאתם", "start": 35.66, "end": 35.9}, {"text": "תבקשו", "start": 35.94, "end": 36.3}, {"text": "ממנו", "start": 36.34, "end": 36.52}, {"text": "שום", "start": 36.58, "end": 36.7}, {"text": "דבר.", "start": 36.74, "end": 37.04}, {"text": "אתם", "start": 37.1, "end": 37.28}, {"text": "סך", "start": 37.34, "end": 37.44}, {"text": "הכל", "start": 37.48, "end": 37.62}, {"text": "צריכים", "start": 37.68, "end": 37.84}, {"text": "להביא", "start": 37.88, "end": 38.06}, {"text": "לו", "start": 38.1, "end": 38.16}, {"text": "את", "start": 38.16, "end": 38.22}, {"text": "הסרטון.", "start": 38.28, "end": 38.88}, {"text": "את", "start": 39.14, "end": 39.18}, {"text": "ה", "start": 39.24, "end": 39.26}, {"text": "skill", "start": 39.3, "end": 39.48}, {"text": "הזה", "start": 39.52, "end": 39.9}, {"text": "בניתי", "start": 39.96, "end": 40.52}, {"text": "במשך", "start": 40.58, "end": 40.96}, {"text": "שבועות.", "start": 41.04, "end": 41.46}, {"text": "עבדתי", "start": 41.52, "end": 41.74}, {"text": "עליו", "start": 41.76, "end": 41.88}, {"text": "מאוד", "start": 41.94, "end": 42.14}, {"text": "קשה", "start": 42.18, "end": 42.54}, {"text": "ואני", "start": 42.6, "end": 42.76}, {"text": "מוכן", "start": 42.8, "end": 43.02}, {"text": "לתת", "start": 43.06, "end": 43.32}, {"text": "אותו", "start": 43.36, "end": 43.54}, {"text": "עכשיו", "start": 43.6, "end": 44.18}, {"text": "לכל", "start": 44.26, "end": 44.46}, {"text": "מי", "start": 44.5, "end": 44.56}, {"text": "שמגיב", "start": 44.6, "end": 45.02}, {"text": "פה", "start": 45.08, "end": 45.6}, {"text": "את", "start": 45.62, "end": 45.66}, {"text": "המילה", "start": 45.72, "end": 46.2}, {"text": "skill", "start": 46.3, "end": 46.58}, {"text": "בסרטון.", "start": 46.64, "end": 47.3}, {"text": "אז", "start": 47.76, "end": 47.84}, {"text": "אם", "start": 47.88, "end": 47.92}, {"text": "אתם", "start": 47.96, "end": 48.1}, {"text": "רוצים", "start": 48.14, "end": 48.4}, {"text": "גם", "start": 48.46, "end": 48.68}, {"text": "תגיבו", "start": 48.74, "end": 49.08}, {"text": "skill", "start": 49.14, "end": 49.48}, {"text": "אבל", "start": 49.56, "end": 49.94}, {"text": "רק", "start": 50.0, "end": 50.14}, {"text": "החמישים", "start": 50.2, "end": 50.6}, {"text": "הראשונים", "start": 50.62, "end": 51.0}, {"text": "מקבלים", "start": 51.02, "end": 51.4}, {"text": "אותו.", "start": 51.42, "end": 51.7}, {"text": "אחרי", "start": 52.02, "end": 52.3}, {"text": "זה", "start": 52.36, "end": 52.54}, {"text": "זה", "start": 52.62, "end": 52.68}, {"text": "כבר", "start": 52.72, "end": 52.88}, {"text": "בתשלום.", "start": 52.94, "end": 53.5}, {"text": "אז", "start": 53.76, "end": 53.82}, {"text": "קדימה", "start": 53.86, "end": 54.18}, {"text": "תגיבו", "start": 54.22, "end": 54.54}, {"text": "פה", "start": 54.6, "end": 54.7}, {"text": "skill.", "start": 54.76, "end": 55.12}];
+      const H = window.HEADLINE;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        document.querySelectorAll(".steps .ck, .chk .ck").forEach((e) => (e.innerHTML = H.ART.check));
+        document.querySelector("#af12 .lk").innerHTML = H.ART.lock;
+        H.place("#r1", "#m1d", 8); H.place("#r3", "#file3", 8); H.place("#r3b", "#go3", 8); H.place("#r2", "#row2c", 8);
+        H.place("#r6", "#ok6", 6); H.place("#r8", "#go8", 8); H.place("#r10", "#cm10", 6); H.place("#r11", "#cin11", 6); H.place("#r11b", "#snd11", 8);
+        WORDS.forEach((w) => { if (/^(מתסכל|פשוט\.|לבד|skill|המושלמת|שבועות|בחינם)/.test(w.text)) w.em = true; });
+        // no captions while the CTA keyword is up (the keyword and the offer card are the text there)
+        const capWords = WORDS.filter((w) => !(w.start >= 48.6));
+
+        // ---- layouts ----
+        H.layout(tl, "split", 0, { drop: 460 });  // face box top ~724 after prep: drop 460 puts the head top below the split caption (935)
+        H.layout(tl, "page", 5.3);
+        H.layout(tl, "split", 8.5);
+        H.layout(tl, "face", 13.55);
+        H.layout(tl, "page", 15.35);
+        H.layout(tl, "dark", 19.85);
+        H.layout(tl, "page", 24.85);
+        H.layout(tl, "split", 28.45);
+        H.layout(tl, "face", 37.05);
+        H.layout(tl, "page", 39.1);
+        H.layout(tl, "split", 44.2);
+        H.layout(tl, "face", 47.6);
+        H.scene(tl, "#s1", 0, 5.3); H.scene(tl, "#s3", 8.5, 13.55); H.scene(tl, "#s8", 28.45, 37.05); H.scene(tl, "#s11", 44.2, 47.6); H.scene(tl, "#s12", 48.75);
+        H.scene(tl, "#g2", 5.3, 8.5); H.scene(tl, "#g5", 15.35, 19.85); H.scene(tl, "#g7", 24.85, 28.45); H.scene(tl, "#g10", 39.1, 44.2);
+        H.hide(tl, "#cta");
+
+        H.captions(tl, "#caps", capWords, { yFace: 1580, ySplit: 935 });
+
+        // ---- S1: the headline over the frustrating chat (all on screen from frame 1) ----
+        tl.fromTo(["#t1", "#b1", "#w1"], { scale: 1.04 }, { scale: 1, duration: 0.6, ease: "power2.out" }, 0);
+        H.pulse(tl, "#m1c", 0.9, 1.05); H.pulse(tl, "#m1d", 1.8, 1.05);  // the whole frustrating thread is on screen from frame 1
+        H.pulse(tl, "#b1", 2.64, 1.1);
+        H.hide(tl, "#r1"); H.ring(tl, "#r1", 4.0);
+        H.streak(tl, "#sk1", 1.3, 700);
+        H.push(tl, "#w1", 0.3, 5.0, 1.05);
+
+        // ---- G2 (page): this very clip, edited by Claude ----
+        H.section(tl, "#t2", "#c2", "#b2", 5.38);
+        H.hide(tl, "#w2"); H.win(tl, "#w2", 5.34);
+        tl.set("#pl2", { scaleX: 0 }, 0); tl.fromTo("#pl2", { scaleX: 0 }, { scaleX: 0.6, duration: 3.1, ease: "none", immediateRender: false }, 5.4);
+        H.hide(tl, "#r2"); H.ring(tl, "#r2", 6.9);
+        H.streak(tl, "#sk2", 7.2, 700);
+        H.push(tl, "#w2", 5.4, 3.1, 1.06);
+
+        // ---- S3 (split): only the file (no words), then Claude does the rest ----
+        H.win(tl, "#w3a", 8.55);
+        H.hide(tl, "#r3"); H.ring(tl, "#r3", 9.68);
+        H.hide(tl, "#a3"); H.blurIn(tl, "#a3", [11.5], 0, 0.2);
+        H.hide(tl, "#r3b"); H.ring(tl, "#r3b", 11.12); H.pulse(tl, "#go3", 11.2, 1.15);
+        H.hide(tl, "#w3b"); H.swap(tl, "#w3a", "#w3b", 12.2);
+        H.hide(tl, ".s3"); H.blurIn(tl, ".s3", [12.3, 12.55, 12.8, 13.1], 0, 0.2);
+        H.push(tl, "#w3a", 8.55, 3.6, 1.05);
+
+        // ---- F4 (face): "so how did I get here?" — the second camera creeps in ----
+        tl.fromTo("#faceVid", { scale: 1.18 }, { scale: 1.26, duration: 1.8, ease: "none", immediateRender: false }, 13.55);
+
+        // ---- G5 (page): tens and hundreds of videos ----
+        H.section(tl, "#t5", "#c5", "#b5", 15.5);
+        H.hide(tl, "#w5"); H.win(tl, "#w5", 15.4);
+        H.hide(tl, "#grid5 .th"); H.win(tl, "#grid5 .th", 15.6, 0.08);
+        H.streak(tl, "#sk5", 17.2, 700);
+        tl.to("#grid5", { scale: 1.08, duration: 3.6, ease: "none" }, 16.2);
+
+        // ---- D6 (dark): "I built a skill" — installed, then put to work ----
+        H.section(tl, "#t6", "#c6", "#b6", 19.96);
+        H.hide(tl, "#w6"); H.win(tl, "#w6", 19.9);
+        H.type(tl, "#cmd6", "/plugin install video-themes", 20.6, 26);
+        document.querySelectorAll(".o6").forEach((e, i) => { tl.set(e, { display: "none" }, 0); tl.set(e, { display: "block" }, [21.75, 21.95, 23.45, 23.65, 23.96][i]); });
+        H.hide(tl, ".o6"); H.blurIn(tl, ".o6", [21.75, 21.95, 23.45, 23.65, 23.96], 0, 0.2);
+        H.type(tl, "#cmd6b", "edit this video", 22.3, 22);
+        H.hide(tl, "#r6"); H.ring(tl, "#r6", 24.1);
+        H.streak(tl, "#sk6", 20.4, 760, 0.9);
+        H.push(tl, "#w6", 20.0, 4.8, 1.05);
+
+        // ---- G7 (page): a style that fits the video — the ring lands on this video's own ----
+        H.section(tl, "#t7", "#c7", "#b7", 25.0);
+        H.hide(tl, "#w7"); H.win(tl, "#w7", 24.9);
+        H.hide(tl, "#grid7 .th"); H.win(tl, "#grid7 .th", 25.05, 0.06);
+        const hop = (t, sel) => { const w = document.querySelector("#w7").getBoundingClientRect(), e = document.querySelector(sel).getBoundingClientRect();
+          tl.set("#r7", { width: e.width + 16, height: e.height + 16 }, 0); return [t, { x: e.left - w.left - 8, y: e.top - w.top - 8 }]; };
+        const hops = [hop(25.8, "#t7-night"), hop(26.1, "#t7-paper"), hop(26.44, "#t7-headline")];
+        tl.set("#r7", { left: 0, top: 0, x: hops[0][1].x, y: hops[0][1].y, opacity: 0 }, 0);
+        H.ring(tl, "#r7", 25.8);
+        hops.slice(1).forEach(([t, xy]) => tl.to("#r7", { x: xy.x, y: xy.y, duration: 0.22, ease: "power3.inOut" }, t));
+        H.pulse(tl, "#t7-headline", 27.0, 1.08);
+        H.streak(tl, "#sk7", 27.7, 700);
+
+        // ---- S8 (split): the loop — checks, fixes, round 2, every check passes on "המושלמת" ----
+        H.win(tl, "#w8", 28.5);
+        document.querySelectorAll(".c8").forEach((r, i) => H.pulse(tl, r, [28.9, 29.68, 30.64, 31.16, 31.58, 32.0][i], 1.04));  // all four checks on screen from the start; each pulses on its word
+        document.querySelectorAll(".c8 .ck").forEach((c) => { tl.set(c, { opacity: 0 }, 0); });
+        tl.set("#fx8a", { opacity: 1 }, 0); tl.set("#fx8b", { opacity: 1 }, 0);
+        tl.set("#rd8", { textContent: "סבב 2" }, 32.48); H.pulse(tl, "#rd8", 32.48, 1.15);
+        tl.to(["#fx8a", "#fx8b"], { opacity: 0, filter: "blur(8px)", duration: 0.18 }, 32.6);
+        tl.to(".c8 .ck", { opacity: 1, duration: 0.15, stagger: 0.12 }, 32.7);
+        H.streak(tl, "#sk8", 29.0, 700);
+        H.dim(tl, "#dim8", 33.8);
+        H.hide(tl, "#st8"); H.win(tl, "#st8", 33.85);
+        H.count(tl, "#n8", 0, 20, 33.92, 0.5, { fmt: (v) => String(Math.round(v)) });  // the real number of checks (facts.yaml), not a score
+        H.pulse(tl, "#st8", 34.42, 1.08);
+        H.push(tl, "#w8", 28.5, 6.9, 1.05);
+        H.hide(tl, "#w8b"); H.swap(tl, "#w8", "#w8b", 35.44);
+        H.hide(tl, "#r8"); H.ring(tl, "#r8", 35.94);
+
+        // ---- F9 (face): "all you bring is the video" ----
+        tl.fromTo("#faceVid", { scale: 1.18 }, { scale: 1.25, duration: 2.05, ease: "none", immediateRender: false }, 37.05);
+
+        // ---- G10 (page): weeks of work — the real commit log, then 121 lands on "קשה" ----
+        H.section(tl, "#t10", "#c10", "#b10", 39.2);
+        H.hide(tl, "#w10"); H.win(tl, "#w10", 39.1);
+        document.querySelectorAll("#w10 .cm").forEach((r, i) => H.pulse(tl, r, 39.4 + i * 0.12, 1.03));
+        H.hide(tl, "#r10"); H.ring(tl, "#r10", 41.04);
+        H.dim(tl, "#dim10", 41.5);
+        H.hide(tl, "#st10"); H.win(tl, "#st10", 41.55);
+        H.count(tl, "#n10", 0, 121, 41.6, 0.58);
+        H.pulse(tl, "#st10", 42.18, 1.08);
+        H.push(tl, "#w10", 39.2, 4.9, 1.05);
+
+        // ---- S11 (split): comment "skill" ----
+        H.win(tl, "#w11", 44.26);
+        H.hide(tl, "#r11"); H.ring(tl, "#r11", 45.08);
+        tl.set("#ph11", { opacity: 1 }, 0); tl.set("#ph11", { opacity: 0 }, 45.7);
+        H.type(tl, "#ty11", "skill", 45.72, 10);
+        H.hide(tl, "#r11b"); tl.to("#r11", { opacity: 0, duration: 0.15 }, 46.2); H.ring(tl, "#r11b", 46.3);
+        H.push(tl, "#w11", 44.26, 3.3, 1.05);
+
+        // ---- F12 (face): CTA "skill", the offer card: 50 first free, then paid ----
+        tl.fromTo("#faceVid", { scale: 1.18 }, { scale: 1.3, duration: 7.9, ease: "none", immediateRender: false }, 47.6);
+        H.cta(tl, "#ctaL", "#ctaK", 48.74); tl.set("#cta", { opacity: 1 }, 48.74);
+        H.pulse(tl, "#ctaK", 49.14, 1.08);
+        H.hide(tl, "#w12"); H.win(tl, "#w12", 48.8);
+        H.hide(tl, "#af12"); H.blurIn(tl, "#af12", [52.02], 0, 0.2);
+        H.pulse(tl, "#n12", 50.2, 1.12);
+        H.pulse(tl, "#af12", 52.94, 1.08);
+        H.pulse(tl, "#ctaK", 54.76, 1.12);
+        H.push(tl, "#w12", 48.9, 6.5, 1.05);
+
+        // ---- secondary acts: the cursor works the UI ----
+        H.art("#cur", "cursor");
+        const C = (sel, dx = 0, dy = 0) => { const r = document.querySelector(sel).getBoundingClientRect(); return [r.left + r.width / 2 + dx, r.top + r.height / 2 + dy]; };
+        const path = (pts, clicks, end) => H.cursor(tl, "#cur", pts.map(([sel, t, dx, dy]) => [...(Array.isArray(sel) ? sel : C(sel, dx, dy)), t]), clicks, { end });
+        path([["#w1", 2.4, 150, 120], ["#m1d", 3.9, 120, 0]], [4.0], 5.2);
+        path([["#w3a", 9.0, 120, 80], ["#file3", 9.6, 60, 0], ["#go3", 11.0]], [11.12], 11.9);
+        path([["#w11", 44.5, 100, 140], ["#cin11", 45.0, 80, 0], ["#snd11", 46.15]], [45.08, 46.3], 46.9);
+        path([["#w8b", 35.6, 120, 60], ["#go8", 35.9]], [], 36.8);
+        const body = (w) => document.querySelector(w + " .body");
+        const hold = (w, t1, s1, s2, t2, ox, oy) => { const b = body(w); tl.set(b, { transformOrigin: ox + "px " + oy + "px" }, t1 - 0.01); tl.to(b, { scale: s1, duration: 0.3, ease: "power3.out" }, t1); tl.to(b, { scale: s2, duration: Math.max(0.2, t2 - t1 - 0.6), ease: "none" }, t1 + 0.3); tl.to(b, { scale: 1, duration: 0.3, ease: "power3.inOut" }, t2 - 0.3); };
+        hold("#w1", 1.8, 1.05, 1.1, 4.9, 600, 320);
+        hold("#w2", 6.9, 1.06, 1.1, 8.4, 300, 300);
+        hold("#w6", 22.3, 1.06, 1.12, 24.6, 40, 420);
+        hold("#w8", 29.68, 1.05, 1.1, 32.4, 700, 140);
+        hold("#w10", 39.6, 1.04, 1.08, 41.4, 100, 200);
+        hold("#w3a", 8.9, 1.05, 1.1, 12.1, 700, 160);
+        hold("#w3b", 12.35, 1.04, 1.08, 13.5, 600, 300);
+        hold("#w8", 33.3, 1.05, 1.1, 35.4, 600, 300);
+        hold("#w11", 44.5, 1.05, 1.1, 45.6, 450, 300); hold("#w11", 45.9, 1.06, 1.12, 47.5, 450, 330);
+        hold("#w12", 49.2, 1.05, 1.1, 52.0, 360, 120); hold("#w12", 52.2, 1.05, 1.1, 55.4, 360, 260);
+        H.punch(tl, "#grid7", 26.44, 1.15, [395, 400]); tl.to("#grid7", { scale: 1.2, duration: 1.4, ease: "none" }, 26.8); H.unpunch(tl, "#grid7", 28.3);
+        // every window floats a few px, never fully still; the leaves drift the whole film
+        document.querySelectorAll(".h-win, .h-stat").forEach((w, i) => tl.fromTo(w, { y: -6 }, { y: 6, duration: 1.3 + (i % 3) * 0.2, repeat: 50, yoyo: true, ease: "sine.inOut", immediateRender: false }, 0));
+        tl.fromTo("#leaves", { x: -90, y: 10, rotation: -3 }, { x: 90, y: -30, rotation: 3, duration: 5.9, repeat: 9, yoyo: true, ease: "sine.inOut", immediateRender: false }, 0);
+        // secondary motion in the holds: light runs along each window's edge every ~1.3 s, the cursor browses the grids
+        [["#sk1", 0.4, 5.0], ["#sk2", 5.6, 8.3], ["#sk5", 15.8, 19.6], ["#sk7", 25.3, 28.2], ["#sk8", 28.7, 33.6], ["#sk10", 39.3, 41.3], ["#sk6", 20.2, 24.6]].forEach(([sk, a, b]) => { for (let t = a; t < b; t += 0.9) H.streak(tl, sk, t, 700); });
+        path([["#grid5", 15.9, -200, -150], ["#grid5", 16.9, 180, -40], ["#grid5", 17.9, -120, 160], ["#grid5", 18.9, 160, 120]], [], 19.6);
+        path([["#t7-glass", 25.2, 0, 0], ["#t7-night", 25.75, 20, 20], ["#t7-paper", 26.05, 20, 20], ["#t7-headline", 26.4, 20, 20]], [25.8, 26.1, 26.44], 27.6);
+        document.querySelectorAll("#grid5 .th").forEach((t, i) => H.pulse(tl, t, 16.2 + i * 0.35, 1.06));
+        H.pulse(tl, "#n12", 51.0, 1.08); H.pulse(tl, "#n12", 53.9, 1.08);
+        // more acts in the holds: the rows of the window on screen take turns (a small pulse every ~0.55 s)
+        [["#chat1 .msg", 0.6, 5.0], [".meta .row", 5.6, 8.3], ["#w3a .file, #w3a .inp", 8.8, 12.0], [".s3", 12.4, 13.4], ["#w6 .body > div", 20.3, 24.7], [".c8", 33.2, 35.3], ["#w8b .msg, #w8b .file", 35.6, 37.0], ["#w10 .cm", 40.1, 41.4], ["#w11 .post, #cin11", 44.5, 47.4], ["#w12 .big, #w12 .t, #af12", 49.3, 55.3], ["#grid7 .th", 27.0, 28.3], ["#w2 .clip, #w2 .nm", 7.0, 8.3]].forEach(([sel, a, b]) => {
+          const els = [...document.querySelectorAll(sel)]; if (!els.length) return; let i = 0;
+          for (let t = a; t < b; t += 0.42) H.pulse(tl, els[i++ % els.length], t, 1.035); });
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

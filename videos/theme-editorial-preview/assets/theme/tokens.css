@@ -1,0 +1,45 @@
+/* editorial theme: design tokens. Canvas 1080x1920 (9:16). Measured on the anchor (66150 + 72005, 90553; 720x1280) and scaled x1.5. */
+/* display serif: Instrument Serif (Latin) + Noto Serif Hebrew condensed (wdth 62.5) | heavy sans: Inter Tight 900 + Heebo 900 | mono: JetBrains Mono */
+@font-face { font-family: "EdSerif"; font-weight: 300 500; font-stretch: 62.5% 100%; src: url("fonts/noto-serif-hebrew-hebrew-wdth-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "EdSerif"; font-weight: 300 500; font-stretch: 62.5% 100%; src: url("fonts/instrument-serif-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "EdItalic"; font-weight: 300 500; font-stretch: 62.5% 100%; src: url("fonts/noto-serif-hebrew-hebrew-wdth-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "EdItalic"; font-weight: 300 500; font-stretch: 62.5% 100%; src: url("fonts/instrument-serif-latin-400-italic.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "EdSans"; font-weight: 900; src: url("fonts/heebo-hebrew-900-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "EdSans"; font-weight: 900; src: url("fonts/inter-tight-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "EdSans"; font-weight: 500; src: url("fonts/heebo-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "EdSans"; font-weight: 500; src: url("fonts/inter-tight-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "EdMono"; font-weight: 500; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+
+:root {
+  /* paper stock */
+  --e-green: #163227;          /* the page: forest green (measured 22,50,39 on every anchor video) */
+  --e-green-2: #1d3d30;        /* card / caption box, a step lighter */
+  --e-green-3: #24493a;        /* card inner panel, rules */
+  --e-cream: #ede9df;          /* ink on green (measured 237,234,223) */
+  --e-gold: #c1a85e;           /* the accent word, timecode digits, frame rule (measured 193,168,94) */
+  --e-sage: #8ea595;           /* words not yet spoken in a caption, dim timecode */
+  --e-ink: #14140f;            /* dark text on cream cards / the white CTA pill */
+  --e-paper: #f6f3ec;          /* cream card (chat input, comment) */
+  --e-red: #b8442f;            /* a strike through a word that stops being true (rare) */
+  --e-rule: rgba(193, 168, 94, 0.55);   /* the cover's thin gold frame */
+
+  /* type */
+  --e-serif: "EdSerif", serif;
+  --e-italic: "EdItalic", serif;
+  --e-sans: "EdSans", sans-serif;
+  --e-mono: "EdMono", monospace;
+  --e-he-stretch: 62.5%;       /* Hebrew display serif is the condensed width */
+  --e-display: 250px;          /* display serif on the cover / opening (measured cap ≈120px at 720) */
+  --e-heavy: 128px;            /* heavy sans headline (measured cap ≈57px at 720) */
+  --e-accent: 112px;           /* italic accent line */
+  --e-cap: 54px;               /* caption serif */
+  --e-kicker: 26px;            /* mono kicker, letter-spacing .32em */
+  --e-ui: 32px;                /* text inside cards, minimum 26 */
+
+  /* layout (1920 tall) */
+  --e-margin: 62px;            /* left/right margin for headlines and cards (measured 41 at 720) */
+  --e-top: 240px;              /* top of overlays on the face (measured 150-160 at 720) */
+  --e-cap-y: 1358px;           /* caption box center (measured 905/1280 = 70.7%) */
+  --e-cap-h: 77px;             /* caption box height (measured 51) */
+  --e-frame: 40px;             /* cover frame inset (measured 27) */
+}
