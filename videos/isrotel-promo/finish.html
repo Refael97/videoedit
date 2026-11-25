@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Heebo"; font-weight: 300; src: url("assets/fonts/heebo-hebrew-300.woff2") format("woff2"); unicode-range: U+0590-05FF, U+20AA; }
+      @font-face { font-family: "Heebo"; font-weight: 300; src: url("assets/fonts/heebo-latin-300.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Heebo"; font-weight: 400; src: url("assets/fonts/heebo-hebrew-400.woff2") format("woff2"); unicode-range: U+0590-05FF, U+20AA; }
+      @font-face { font-family: "Heebo"; font-weight: 400; src: url("assets/fonts/heebo-latin-400.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Heebo"; font-weight: 700; src: url("assets/fonts/heebo-hebrew-700.woff2") format("woff2"); unicode-range: U+0590-05FF, U+20AA; }
+      @font-face { font-family: "Heebo"; font-weight: 700; src: url("assets/fonts/heebo-latin-700.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Heebo"; font-weight: 900; src: url("assets/fonts/heebo-hebrew-900.woff2") format("woff2"); unicode-range: U+0590-05FF, U+20AA; }
+      :root { --n: #002d74; --ink: #131a2b; --mut: #6f7890; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #eef0f4; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: "Heebo", sans-serif; color: var(--ink);
+        background: radial-gradient(120% 95% at 50% 30%, #ffffff 0%, #f2f4f8 48%, #dde2ea 100%); }
+      #cam { position: absolute; inset: 0; perspective: 1600px; perspective-origin: 50% 50%; overflow: hidden; }
+      #world { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; }
+      .o { position: absolute; left: 0; top: 0; will-change: transform, filter; }
+      .ph { border-radius: 30px; overflow: hidden; background: #ccd; box-shadow: 0 2px 3px rgba(0, 25, 70, 0.1), 0 14px 30px rgba(0, 25, 70, 0.12), 0 60px 110px -20px rgba(0, 25, 70, 0.34); }
+      .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .ph::after { content: ""; position: absolute; inset: 0; border-radius: 30px; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.55), inset 0 2px 0 rgba(255, 255, 255, 0.5); background: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 38%); }
+      .card { background: linear-gradient(180deg, #ffffff, #fbfcfe); border-radius: 44px; direction: rtl;
+        box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.9), 0 2px 3px rgba(0, 25, 70, 0.06), 0 16px 34px rgba(0, 25, 70, 0.08), 0 80px 140px -30px rgba(0, 25, 70, 0.3); }
+      #ttl { width: 900px; height: 420px; direction: rtl; text-align: right; }
+      #ttl .k { font: 400 26px "Heebo"; letter-spacing: 6px; color: var(--mut); direction: ltr; text-align: right; }
+      #ttl .t { font-size: 250px; font-weight: 700; line-height: 0.98; color: var(--n); margin-top: 6px; white-space: nowrap; }
+      #ttl .t span, #ttl .s span { display: inline-block; }
+      #ttl .s { font-size: 46px; font-weight: 300; color: var(--ink); margin-top: 18px; white-space: nowrap; } #ttl .s span { margin-left: 14px; }
+      .chip { height: 96px; padding: 0 40px; border-radius: 48px; display: flex; align-items: center; gap: 14px; direction: rtl; font-size: 38px; font-weight: 400; white-space: nowrap; background: #fff; color: var(--ink);
+        box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.9), 0 2px 3px rgba(0, 25, 70, 0.07), 0 12px 26px rgba(0, 25, 70, 0.1), 0 40px 70px -18px rgba(0, 25, 70, 0.28); }
+      .chip b { font-weight: 700; color: var(--n); }
+      .chip.d { background: linear-gradient(180deg, #0a3d8f, #002d74); color: #fff; font-size: 30px; letter-spacing: 2px; direction: ltr; box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.28), 0 12px 26px rgba(0, 45, 116, 0.3), 0 40px 70px -18px rgba(0, 45, 116, 0.5); }
+      #room { width: 1320px; height: 720px; }
+      #room .p { position: absolute; left: 26px; top: 26px; width: 600px; height: 668px; border-radius: 26px; overflow: hidden; } #room .p img { width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; }
+      #room .x { position: absolute; right: 64px; top: 62px; width: 580px; }
+      #room .l { font: 400 22px "Heebo"; letter-spacing: 5px; color: var(--mut); direction: ltr; text-align: right; }
+      #room .n { font-size: 52px; white-space: nowrap; font-weight: 700; color: var(--ink); line-height: 1.12; margin-top: 10px; }
+      #room .f { font-size: 30px; font-weight: 300; color: var(--mut); margin-top: 34px; }
+      #room .pr { font-size: 176px; font-weight: 700; color: var(--n); line-height: 1; direction: ltr; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; margin-top: 2px; } #room .pr i { font-style: normal; font-size: 92px; font-weight: 400; margin-right: 10px; }
+      #room .u { font-size: 30px; font-weight: 300; color: var(--mut); }
+      #bk { position: absolute; right: 64px; bottom: 54px; width: 360px; height: 112px; border-radius: 56px; background: linear-gradient(180deg, #0a3d8f, #002d74); color: #fff; font-size: 44px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+        box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.3), 0 10px 22px rgba(0, 45, 116, 0.3), 0 34px 60px -14px rgba(0, 45, 116, 0.55); }
+      #fill { position: absolute; inset: 0; background: radial-gradient(90% 90% at 50% 40%, #0c429a, #002d74 60%, #001f55); clip-path: circle(0px at 50% 50%); }
+      #cur { position: absolute; left: 0; top: 0; width: 54px; height: 54px; filter: drop-shadow(0 8px 12px rgba(0, 20, 60, 0.4)); }
+      #vig { position: absolute; inset: 0; background: radial-gradient(75% 75% at 50% 50%, rgba(0, 0, 0, 0) 60%, rgba(10, 25, 60, 0.13) 100%); pointer-events: none; }
+      #grain { position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: multiply; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="1920" data-height="1080">
+      <div id="cam"><div id="world"></div></div>
+      <div id="fill"></div>
+      <svg id="grain" width="1920" height="1080"><filter id="nz"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" /><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.1 -0.2" /></filter><rect width="1920" height="1080" filter="url(#nz)" /></svg>
+      <div id="vig"></div>
+      <svg id="cur" viewBox="0 0 24 24"><path d="M5 3l14 7.5-6 1.6 3.4 6.2-2.6 1.4-3.4-6.2L6 18z" fill="#fff" stroke="#131a2b" stroke-width="1.4" stroke-linejoin="round" /></svg>
+    </div>
+    <script>
+      const DUR = 6, P = 1600;
+      const clamp = (v, a, b) => Math.max(a, Math.min(b, v)), seg = (t, a, b) => clamp((t - a) / (b - a), 0, 1), lerp = (a, b, k) => a + (b - a) * k;
+      const outCubic = (k) => 1 - Math.pow(1 - k, 3), outExpo = (k) => (k >= 1 ? 1 : 1 - Math.pow(2, -10 * k)), inOut = (k) => (k < 0.5 ? 8 * k * k * k * k : 1 - Math.pow(-2 * k + 2, 4) / 2), inCubic = (k) => k * k * k;
+      const spring = (k) => (k <= 0 ? 0 : 1 - Math.exp(-7 * k) * Math.cos(9.5 * k));
+      const W = document.getElementById("world"), $ = (id) => document.getElementById(id);
+      const O = []; // every object in the world: {el, x, y, z, w, h}
+      function add(html, cls, x, y, z, w, h, id) {
+        const el = document.createElement("div"); el.className = "o " + cls; if (id) el.id = id; el.innerHTML = html;
+        if (w) { el.style.width = w + "px"; el.style.height = h + "px"; } W.appendChild(el);
+        const o = { el, x, y, z, w: w || el.offsetWidth, h: h || el.offsetHeight }; O.push(o); return o;
+      }
+      // station 1: the hotel
+      const hero = add('<img src="assets/img/berhero_1.jpg">', "ph", 350, 570, -130, 860, 640);
+      const ttl = add('<div class="k">ISROTEL EXCLUSIVE COLLECTION</div><div class="t">' + [..."בראשית"].map((c) => "<span>" + c + "</span>").join("") + '</div><div class="s"><span>מצפה</span><span>רמון</span><span>והנגב</span></div>', "", 1330, 430, 0, 900, 420, "ttl");
+      const chips = [add("<b>111</b> חדרים", "chip", 1640, 760, 90), add("נפתח ב־<b>2011</b>", "chip", 1310, 760, 130), add("ISROTEL EXCLUSIVE", "chip d", 1450, 900, 170)];
+      // photos scattered in depth: [file, x, y, z, w, h]
+      const PH = [["ber_09", -260, -150, -900, 760, 500], ["ber_02", 2300, -80, -700, 700, 470], ["ber_12", 2380, 1240, -500, 640, 430], ["ber_04", -420, 1500, -620, 720, 480],
+        ["ber_00", 180, 1180, 520, 420, 280], ["ber_08", 1840, 150, 620, 400, 270], ["ber_10", 1900, 1500, 560, 440, 300], ["ber_13", 20, 2060, 480, 420, 280], ["ber_15", 2250, 2240, -640, 700, 470], ["ber_07", -380, 2500, -480, 640, 430]]
+        .map((p) => add('<img src="assets/img/' + p[0] + '.jpg">', "ph", p[1], p[2], p[3], p[4], p[5]));
+      // station 2: the room
+      const room = add('<div class="p"><img src="assets/img/ber_11.jpg"></div><div class="x"><div class="l">ROOM · 01</div><div class="n">חדר בראשית עם מרפסת</div><div class="f">החל מ:</div><div class="pr"><i>₪</i><span id="num">0</span></div><div class="u">לזוג ללילה</div></div><div id="bk">הזמן עכשיו</div>', "card", 960, 1900, 100, 1320, 720, "room");
+      const L = [...ttl.el.querySelectorAll(".t span")], S = [...ttl.el.querySelectorAll(".s span")], K = ttl.el.querySelector(".k"), rimg = room.el.querySelector(".p img");
+      // camera keys: [t, cx, cy, cz, focusZ, rx, ry]
+      const CK = [[0, 350, 570, -520, -130, 0, 0], [1.25, 930, 580, -20, 0, 2, -4], [2.55, 940, 600, -90, 60, 1, -2.5], [3.5, 960, 1900, 120, 100, 3, 3], [4.9, 930, 1925, -130, 100, 0, -1.5], [6, 925, 1930, -180, 100, 0, -1]];
+      function camAt(t) {
+        let i = 0; while (i < CK.length - 2 && t > CK[i + 1][0]) i++;
+        const a = CK[i], b = CK[i + 1], k = (i === 0 ? outExpo : i === 2 ? inOut : i === 1 || i >= 3 ? (x) => x : inOut)(seg(t, a[0], b[0]));
+        return a.map((v, j) => lerp(v, b[j], k));
+      }
+      function put(o, c, t, extra) {
+        const e = extra || {}, z = o.z + (e.dz || 0), d = Math.abs(z - c[4]), bl = Math.min(34, Math.max(0, d - 60) * 0.03) + (e.blur || 0), op = e.op === undefined ? 1 : e.op;
+        const near = clamp((z - c[3] - 900) / 300, 0, 1); // fade what is about to cross the lens
+        o.el.style.transform = "translate3d(" + (o.x - o.w / 2 + (e.dx || 0)) + "px," + (o.y - o.h / 2 + (e.dy || 0)) + "px," + z + "px) rotateX(" + (e.rx || 0) + "deg) rotateY(" + (e.ry || 0) + "deg) scale(" + (e.s === undefined ? 1 : e.s) + ")";
+        o.el.style.filter = bl > 0.3 ? "blur(" + bl.toFixed(2) + "px)" : "none"; o.el.style.opacity = op * (1 - near);
+      }
+      function draw(t) {
+        t = clamp(t, 0, DUR); const c = camAt(t);
+        W.style.transform = "translate3d(960px,540px,0) rotateX(" + c[5] + "deg) rotateY(" + c[6] + "deg) translate3d(" + -c[1] + "px," + -c[2] + "px," + -c[3] + "px)";
+        put(hero, c, t, { ry: lerp(0, 9, outCubic(seg(t, 0.2, 1.5))), dy: Math.sin(t * 0.9) * 6 });
+        // title: label, letters out of blur one by one (right to left), sub line
+        put(ttl, c, t); K.style.opacity = seg(t, 0.75, 1.1); K.style.transform = "translateX(" + lerp(40, 0, outCubic(seg(t, 0.75, 1.3))) + "px)";
+        L.forEach((s, i) => { const k = seg(t, 0.8 + i * 0.06, 1.35 + i * 0.06), e = outExpo(k); s.style.opacity = Math.min(1, k * 2.5); s.style.transform = "translate3d(" + lerp(90, 0, e) + "px," + lerp(30, 0, e) + "px,0) scale(" + lerp(1.18, 1, e) + ")"; s.style.filter = k < 1 ? "blur(" + lerp(26, 0, e).toFixed(1) + "px)" : "none"; });
+        S.forEach((s, i) => { const k = seg(t, 1.3 + i * 0.08, 1.75 + i * 0.08), e = outCubic(k); s.style.opacity = k; s.style.transform = "translateY(" + lerp(28, 0, e) + "px)"; s.style.filter = k < 1 ? "blur(" + lerp(12, 0, e).toFixed(1) + "px)" : "none"; });
+        chips.forEach((o, i) => { const k = seg(t, 1.65 + i * 0.13, 2.45 + i * 0.13), s = spring(k); put(o, c, t, { s: lerp(0.5, 1, s), dy: lerp(70, 0, s) + Math.sin(t * 1.3 + i * 2) * 5, rx: lerp(-35, 0, s), op: Math.min(1, k * 6), blur: lerp(10, 0, Math.min(1, k * 3)) }); });
+        PH.forEach((o, i) => put(o, c, t, { dy: Math.sin(t * 0.7 + i * 1.7) * 14, dx: Math.cos(t * 0.5 + i) * 8, ry: (i % 2 ? -1 : 1) * (10 + i * 1.5), rx: (i % 3) * 3 - 3 }));
+        // room card rises as the camera lands, price counts, photo settles
+        const rk = seg(t, 2.95, 3.95), rs = spring(rk);
+        put(room, c, t, { s: lerp(0.82, 1, rs), rx: lerp(22, 0, rs), dy: lerp(160, 0, rs), op: Math.min(1, rk * 5), blur: lerp(14, 0, Math.min(1, rk * 2.2)) });
+        rimg.style.transform = "scale(" + lerp(1.22, 1.06, outCubic(seg(t, 3, 5.2))) + ")";
+        $("num").textContent = Math.round(1807 * outExpo(seg(t, 3.45, 4.5))).toLocaleString("en-US");
+        // cursor + press + navy fill grows out of the button
+        const b = $("bk").getBoundingClientRect(), bx = b.left + b.width / 2, by = b.top + b.height / 2, ck = inOut(seg(t, 4.2, 4.95)), pr = seg(t, 5.0, 5.08) - seg(t, 5.08, 5.22);
+        $("cur").style.transform = "translate(" + lerp(1500, bx - 6, ck) + "px," + lerp(1180, by + 2, ck) + "px) scale(" + (1 - pr * 0.14) + ")"; $("cur").style.opacity = 1 - seg(t, 5.2, 5.35);
+        $("bk").style.transform = "scale(" + (1 - pr * 0.07) + ")";
+        $("fill").style.clipPath = "circle(" + lerp(0, 2300, inCubic(seg(t, 5.12, 5.85))) + "px at " + bx + "px " + by + "px)";
+      }
+      const pr = { t: 0 }, tl = gsap.timeline({ paused: true }); tl.to(pr, { t: DUR, duration: DUR, ease: "none", onUpdate: () => draw(pr.t) });
+      window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; window.__draw = draw; draw(0);
+    </script>
+  </body>
+</html>
