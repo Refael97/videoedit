@@ -1,0 +1,60 @@
+/* neon-studio theme: design tokens. Canvas 1080x1920 (9:16). Measured on the anchor (70647 + 10899, 1191, 49478; 720x1280) and scaled x1.5. */
+/* sans: Heebo (Hebrew) + Inter (Latin) | the keyword: thin italic (Inter 300 italic / Heebo 300 slanted) | pixel labels: Pixelify Sans (Latin) */
+@font-face { font-family: "StudioSans"; font-weight: 300; src: url("fonts/heebo-hebrew-300-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "StudioSans"; font-weight: 600; src: url("fonts/heebo-hebrew-600-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "StudioSans"; font-weight: 800; src: url("fonts/heebo-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "StudioSans"; font-weight: 300; font-style: italic; src: url("fonts/inter-latin-300-italic.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "StudioSans"; font-weight: 600; src: url("fonts/inter-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "StudioSans"; font-weight: 800; src: url("fonts/inter-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "StudioThin"; font-weight: 300; src: url("fonts/heebo-hebrew-300-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "StudioThin"; font-weight: 300; src: url("fonts/inter-latin-300-italic.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122, U+2190-2199; }
+@font-face { font-family: "StudioPixel"; font-weight: 700; src: url("fonts/pixelify-sans-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "StudioMono"; font-weight: 500; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+
+:root {
+  /* the studio is the footage itself: a dark room with neon. The graphics surfaces are light or ambient. */
+  --s-page: #f7f5f1;           /* warm off-white page (measured 247,245,241) */
+  --s-page-cool: #fcfcfc;      /* cool white page variant (measured 252,252,252, 1191) */
+  --s-card: #ffffff;
+  --s-card-edge: rgba(20, 20, 30, 0.08);
+  --s-card-shadow: 0 22px 50px rgba(15, 15, 30, 0.14), 0 3px 8px rgba(15, 15, 30, 0.06);
+  --s-r-card: 18px;
+  --s-ink: #111111;
+  --s-ink-soft: #5d5d66;
+
+  /* accents: each has one meaning (language.md §4) */
+  --s-yellow: #f9fc04;         /* THE word: captions keyword, the CTA keyword, highlight behind the key line (measured 249,252,4) */
+  --s-yellow-mark: #f2c230;    /* highlight sweep behind words inside a light document (measured on the README) */
+  --s-blue: #074ffa;           /* action / progress: progress bars, download icons, connectors, the active button (measured 7,79,250) */
+  --s-green: #22b45a;          /* done: check circles, "on" pills */
+  --s-sprite: #fc410e;         /* pixel sprites (measured 252,65,14) */
+  --s-sprite-hi: #ff7a45;
+  --s-sprite-lo: #b52a06;
+  --s-gold: #f3c84a;           /* pixel icons above sprites */
+
+  /* ambient: a blurred, darkened copy of the media behind a media card */
+  --s-amb-blur: 46px;
+  --s-amb-dim: 0.5;
+
+  /* type */
+  --s-font: "StudioSans", sans-serif;
+  --s-thin: "StudioThin", sans-serif;
+  --s-pixel: "StudioPixel", "StudioSans", monospace;
+  --s-mono: "StudioMono", monospace;
+  --s-cap: 78px;               /* caption line (measured ~52px at 720) */
+  --s-cap-key: 108px;          /* the yellow keyword line when it is 2+ words */
+  --s-cap-big: 190px;          /* a single yellow word / the thin CTA keyword (measured cap height 92px at 720) */
+  --s-head: 96px;              /* page header, 2 lines: ink + blue (1191 "Install / Hunyuan Video") */
+  --s-title: 44px;             /* small page title above an object (70647 "Connect Claude to LinkedIn.") */
+  --s-ui: 32px;                /* text in cards, minimum 26 */
+  --s-track: -1.5px;
+  --s-thin-slant: -12deg;      /* Hebrew thin keyword is slanted with skewX (Heebo has no italic) */
+
+  /* layout (1920 tall) */
+  --s-seam: 960px;             /* split: media 0-960, face 960-1920 (measured 50%) */
+  --s-cap-face: 1040px;        /* caption line center on the full face (54%) — keyword sits under it */
+  --s-cap-split: 860px;        /* caption just above the seam */
+  --s-cap-page: 1300px;        /* caption on the page (68%), ink */
+  --s-title-top: 280px;        /* page title top (14.6%) */
+  --s-head-top: 250px;         /* page header top */
+}

@@ -1,0 +1,40 @@
+{
+ "theme": "paper",
+ "samples": 87,
+ "full_face": {
+  "samples": 27,
+  "chin_y": 1137,
+  "face_h": 420,
+  "center_x": 540,
+  "caption": {
+   "at": "chin",
+   "dy": -1.82,
+   "iqr": [
+    -1.93,
+    -1.57
+   ],
+   "n": 26
+  }
+ },
+ "low_face": {
+  "samples": 56,
+  "chin_y": 1623,
+  "face_h": 423,
+  "center_x": 541,
+  "caption": {
+   "at": "chin",
+   "dy": -2.63,
+   "iqr": [
+    -3.0,
+    -1.69
+   ],
+   "n": 56
+  }
+ },
+ "card_beside_face": {
+  "at": "eyes",
+  "side": "free",
+  "gap": 0.4
+ },
+ "safe_core": "eyes to mouth (x 18-82%, y 22-92% of the face box) is never covered"
+}

@@ -1,0 +1,117 @@
+{
+ "project": "theme-arcade-preview",
+ "theme": "arcade",
+ "score": "10/10",
+ "ready": true,
+ "checks": {
+  "motion": {
+   "value": 1.44,
+   "target": ">= 0.91",
+   "pass": true,
+   "footage": "camera jitter 0.24 px/frame, 8 punches, 2 drifts (anchor: jitter 0.14 px/frame, 16.2 camera moves/min)"
+  },
+  "flat": {
+   "value": "10.7%",
+   "target": "<= 15.0%",
+   "pass": true
+  },
+  "actions": {
+   "value": "1.05 events/s (GSAP 4.48 tweens/s)",
+   "target": "0.74–1.37",
+   "pass": true
+  },
+  "payoff": {
+   "value": "0 marked, 0 problems",
+   "target": "ends on word ±0.15, holds 0.8, stamp after",
+   "pass": true
+  },
+  "text": {
+   "value": "0 items < 26px",
+   "target": ">= 26px",
+   "pass": true
+  },
+  "hero": {
+   "value": "median 70%, 0 weak ranges",
+   "target": ">= 60%",
+   "pass": true
+  },
+  "collide": {
+   "value": "0 collisions",
+   "target": "0",
+   "pass": true,
+   "faces_detected": 68
+  },
+  "overlap": {
+   "value": "0 overlaps",
+   "target": "0 (unless in one data-qa-stack)",
+   "pass": true
+  },
+  "placeholder": {
+   "value": "0 found",
+   "target": "0",
+   "pass": true
+  },
+  "hook": {
+   "value": "visual on screen 2.8s of the first 3s",
+   "target": ">= 0.5s",
+   "pass": true
+  }
+ },
+ "metrics": {
+  "duration": 17.17,
+  "motion": 2.7,
+  "flat_pct": 10.7,
+  "events_per_s": 1.05,
+  "graphics": {
+   "gfx_motion": 1.44,
+   "gfx_raw": 1.44,
+   "baseline": 0.0,
+   "baseline_s": 2,
+   "baseline_from": "none (graphics-only render)",
+   "gfx_share": 0.88,
+   "footage": {
+    "jitter_px": 0.24,
+    "punches": [
+     1.07,
+     1.57,
+     2.07,
+     2.63,
+     6.37,
+     7.53,
+     8.67,
+     9.27
+    ],
+    "drifts": [
+     0.67,
+     9.0
+    ]
+   }
+  },
+  "footage": {
+   "jitter_px": 0.24,
+   "punches": [
+    1.07,
+    1.57,
+    2.07,
+    2.63,
+    6.37,
+    7.53,
+    8.67,
+    9.27
+   ],
+   "drifts": [
+    0.67,
+    9.0
+   ]
+  },
+  "actions_per_s": 1.05
+ },
+ "targets": {
+  "gfx_motion_min": 0.91,
+  "flat_max": 15.0,
+  "events_min": 0.74,
+  "events_max": 1.37,
+  "footage_info": "jitter 0.14 px/frame, 16.2 camera moves/min"
+ },
+ "fix_list": []
+}

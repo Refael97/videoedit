@@ -1,0 +1,147 @@
+{
+ "theme": "paper",
+ "anchor_videos": [
+  "references/paper/Video-15422.mp4"
+ ],
+ "measured": {
+  "Video-15422": {
+   "duration": 76.83,
+   "gfx_motion": 0.92,
+   "gfx_raw": 1.38,
+   "baseline": 0.47,
+   "baseline_from": "no-graphics windows",
+   "gfx_share": 0.93,
+   "flat_pct": 19.5,
+   "flat_full_frame": 18.5,
+   "max_hold": 0.9,
+   "holds": [
+    0.4,
+    0.43,
+    0.6,
+    0.86,
+    0.47,
+    0.47,
+    0.47,
+    0.43,
+    0.4,
+    0.47,
+    0.76,
+    0.44,
+    0.8,
+    0.9,
+    0.43,
+    0.53,
+    0.63,
+    0.4,
+    0.4,
+    0.46,
+    0.56,
+    0.47,
+    0.84,
+    0.7,
+    0.54
+   ],
+   "actions_per_s": 0.51,
+   "motion_all": 2.96,
+   "jitter_px": 0.16,
+   "punches": 5,
+   "drifts": 7
+  }
+ },
+ "anchor": {
+  "gfx_motion": 0.92,
+  "flat_pct": 19.5,
+  "max_hold": 0.9,
+  "actions_per_s": 0.51,
+  "footage": "jitter 0.16 px/frame, 9.4 camera moves/min"
+ },
+ "targets": {
+  "gfx_motion_min": 0.69,
+  "flat_max": 20.0,
+  "max_hold": 0.9,
+  "events_min": 0.36,
+  "events_max": 0.66,
+  "footage_info": "jitter 0.16 px/frame, 9.4 camera moves/min"
+ },
+ "detector": {
+  "fps": 30,
+  "size": [
+   270,
+   480
+  ],
+  "flat_thr": 1.0,
+  "flat_min_s": 0.4,
+  "ev_abs": 3.0,
+  "ev_rel": 3.0,
+  "ev_gap": 0.2,
+  "edge_nogfx": 0.012,
+  "punch": 0.04,
+  "drift": 0.03
+ },
+ "look": {
+  "anchor": {
+   "samples": 154,
+   "full_face_share": 0.175,
+   "full_face_max_gap": 31.5,
+   "face_h": 0.22,
+   "face_h_full": 0.219,
+   "face_luma": 178.699,
+   "warmth": 74.791,
+   "bg_luma": 67.338,
+   "bg_sat": 59.576,
+   "contrast": 188.556,
+   "garment_vs_bg": 44.652,
+   "hero_width": 0.7,
+   "hero_density": 0.426,
+   "span": 173.329,
+   "highlight": 0.023,
+   "glow": -10.079,
+   "accent_sat": 137.308
+  },
+  "targets": {
+   "face_h": [
+    0.187,
+    0.253
+   ],
+   "face_h_full": 0.219,
+   "face_luma": [
+    154,
+    204
+   ],
+   "warmth": [
+    63,
+    87
+   ],
+   "bg_luma": [
+    39,
+    95
+   ],
+   "bg_sat": [
+    35,
+    85
+   ],
+   "contrast_min": 151,
+   "garment_vs_bg_min": 26.8,
+   "hero_width_min": 0.595,
+   "hero_width_weak": 0.49,
+   "hero_density_min": 0.32,
+   "hero_density_weak": 0.234,
+   "full_face_share_min": 0.105,
+   "full_face_max_gap": 47.2,
+   "span_min": 121,
+   "glow_min": null,
+   "accent_sat_min": 96
+  },
+  "detector": {
+   "fps": 2,
+   "size": [
+    360,
+    640
+   ],
+   "face_split_y": 0.6,
+   "min_face_h": 0.07,
+   "cell": 9,
+   "detail_std": 6.0
+  }
+ }
+}

@@ -1,0 +1,20 @@
+/* headline → signature effects (effects/fx.css reads these). Mapped from this theme's own tokens; no new colors. */
+:root {
+  --fx-accent: var(--h-blue);
+  --fx-ink: var(--h-ink);
+  --fx-display: var(--h-font);
+  --fx-display-weight: 800;
+  --fx-body: var(--h-font);
+  --fx-card-bg: var(--h-page);
+  --fx-card-ink: var(--h-ink);
+  --fx-card-ink-soft: var(--h-ink-soft);
+  --fx-card-edge: 2px solid var(--h-win-edge);
+  --fx-card-r: var(--h-r-win);
+  --fx-card-shadow: var(--h-win-shadow);
+  --fx-card-blur: none;
+  --fx-word: var(--h-blue);
+  --fx-word-stroke: 0px transparent;
+  --fx-word-glow: none;
+  --fx-glow: none;
+  --fx-bar-muted: var(--h-blue-soft);
+}

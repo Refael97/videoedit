@@ -1,0 +1,20 @@
+/* night → signature effects (effects/fx.css reads these). Mapped from this theme's own tokens; no new colors. */
+:root {
+  --fx-accent: var(--n-red);
+  --fx-ink: var(--n-white);
+  --fx-display: var(--n-font);
+  --fx-display-weight: 800;
+  --fx-body: var(--n-font);
+  --fx-card-bg: rgba(16,16,16,.92);
+  --fx-card-ink: var(--n-white);
+  --fx-card-ink-soft: rgba(255,255,255,.6);
+  --fx-card-edge: 1px solid var(--n-panel-edge);
+  --fx-card-r: 10px;
+  --fx-card-shadow: 0 0 0 2px var(--n-red), var(--n-glow-r);
+  --fx-card-blur: none;
+  --fx-word: var(--n-white);
+  --fx-word-stroke: 0px transparent;
+  --fx-word-glow: var(--n-glow-w);
+  --fx-glow: var(--n-glow-r);
+  --fx-bar-muted: #3a3a3a;
+}

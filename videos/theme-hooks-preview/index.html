@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/theme/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/theme/tokens.css" />
+    <link rel="stylesheet" href="assets/theme/theme.css" />
+    <script src="assets/theme/motion.js"></script>
+    <style>
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      /* this footage sits low (chin at y≈1245): glow titles and captions move under the chin (language.md §5) */
+      .h-glowt { top: 1480px; }
+
+      /* opening: three real sites as example cards above the head */
+      /* the hero site in the middle (>= 35% of the width), two more behind it */
+      #thumbs0 { position: absolute; inset: 0; z-index: 10; transform-origin: 50% 25%; }
+      #th1 { left: 40px; top: 170px; width: 300px; height: 470px; }
+      #th2 { left: 320px; top: 70px; width: 440px; height: 640px; z-index: 12; }
+      #th3 { left: 740px; top: 170px; width: 300px; height: 470px; }
+      .h-thumb .t { top: 80px; text-align: right; right: 22px; left: 22px; font-size: 44px; }
+      #th2 .t { font-size: 58px; }
+      .h-thumb .nav { position: absolute; right: 22px; left: 22px; top: 24px; font-size: 26px; font-weight: 800; opacity: 0.7; white-space: pre; }
+      .h-thumb .pic { position: absolute; left: 22px; right: 22px; top: 200px; height: 140px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      #th2 .pic { top: 240px; height: 220px; }
+      .h-thumb .pic i { display: flex; align-items: flex-end; justify-content: flex-end; padding: 8px; border-radius: 10px; font-style: normal; font-size: 26px; font-weight: 800; }
+      .h-thumb .b { position: absolute; right: 22px; bottom: 70px; height: 56px; padding: 0 22px; border-radius: 28px; font-size: 28px; font-weight: 900; display: flex; align-items: center; }
+
+      /* S1 (void): three glossy pills + the site meter */
+      #s1 { transform-origin: 50% 45%; }
+      #pl1, #pl2, #pl3 { height: 150px; min-width: 640px; font-size: 64px; border-radius: 24px; }
+      #pl1 { right: 540px; top: 330px; } #pl2 { right: 540px; top: 520px; } #pl3 { right: 540px; top: 710px; }
+      #bar1 { left: 90px; right: 90px; top: 860px; height: 56px; }
+      #bar1 .mk { right: 100%; }
+      #lb1 { position: absolute; left: 0; right: 0; top: 950px; text-align: center; font-size: 50px; font-weight: 800; line-height: 1.1; }
+      #pc1 { display: block; color: #ffc928; direction: ltr; font-size: 210px; font-weight: 900; text-shadow: 0 0 30px rgba(255, 201, 40, 0.6), 0 0 80px rgba(255, 160, 20, 0.35); }
+
+      /* S2 (void): the real skills screen */
+      #scr2 { left: 110px; right: 110px; top: 330px; }
+      #scr2 .srch { height: 110px; margin: 24px 30px; border-radius: 22px; background: #1e1e24; display: flex; align-items: center; padding: 0 30px; gap: 18px; direction: ltr; font-family: "HooksMono", monospace; font-weight: 500; font-size: 42px; color: #fff; }
+      #scr2 .srch b { color: rgba(255, 255, 255, 0.4); font-weight: 500; }
+      #scr2 .row .nm { direction: ltr; line-height: 1.1; font-size: 50px; }
+      #scr2 .row small { font-size: 32px; }
+      #scr2 .row { height: 132px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="h-root" data-composition-id="main" data-start="0" data-duration="17.2" data-width="1080" data-height="1920">
+      <div id="room" class="h-room warm"><video id="roomVid" src="assets/video/face.mp4" data-start="0" data-duration="17.2" data-track-index="0" muted playsinline></video></div>
+
+      <!-- opening (rule e): three real sites as example cards, view counts glint -->
+      <div id="thumbs0"><div class="h-thumb aa" id="th1" style="background: #f3ece2; color: #2a2118"><div class="nav">בית · עבודות</div><div class="t" style="color: #2a2118; text-shadow: none">סטודיו
+לעיצוב פנים</div><div class="pic"><i style="background:#d9c7ad">סלון</i><i style="background:#b99876;color:#fff">מטבח</i></div><span class="b" style="background: #2a2118; color: #fff">לתיאום</span><div class="h-views sm" id="v1"><span class="ey"></span>48K<i class="shine"></i></div></div>
+      <div class="h-thumb aa" id="th2" style="background: #1d1d1f; color: #fff"><div class="nav">תפריט · שעות · הזמנות</div><div class="t">קפה
+של בוקר</div><div class="pic"><i style="background:#6b4a33;color:#fff">אספרסו</i><i style="background:#ff6a1a;color:#fff">קרואסון</i><i style="background:#3a2a20;color:#fff">פתוח מ-7:00</i><i style="background:#f3ece2;color:#1d1d1f">משלוחים</i></div><span class="b" style="background: #ff6a1a; color: #fff">להזמנה</span><div class="h-views sm" id="v2"><span class="ey"></span>1.2M<i class="shine"></i></div></div>
+      <div class="h-thumb aa" id="th3" style="background: #e3efe6; color: #17331f"><div class="nav">חנות · סדנה</div><div class="t" style="color: #17331f; text-shadow: none">רהיטים
+מעץ מלא</div><div class="pic"><i style="background:#a7c4ae">שולחן</i><i style="background:#2f8a4a;color:#fff">כיסא</i></div><span class="b" style="background: #2f8a4a; color: #fff">לחנות</span><div class="h-views sm" id="v3"><span class="ey"></span>310K<i class="shine"></i></div></div></div>
+
+      <div id="void" class="h-void">
+        <!-- S1: what a good site needs; each pill pops on its word, the meter lands on "כמו שצריך" -->
+        <div id="s1" class="h-scene">
+          <div class="h-gpill red aa" id="pl1">Motion</div>
+          <div class="h-gpill orange aa" id="pl2">מעברים</div>
+          <div class="h-gpill green aa" id="pl3">מבנה</div>
+          <div class="h-bar" id="bar1"><div class="fill" id="fill1" style="left: 0"></div></div>
+          <div id="lb1">אתר שנראה טוב<span id="pc1" data-qa-payoff="כמו">0%</span></div>
+        </div>
+        <!-- S2: the real skills screen; the name is typed, the row appears, the switch flips on "Kowalski" -->
+        <div id="s2" class="h-scene">
+          <div class="h-screen aa" id="scr2">
+            <div class="hd">Skills</div>
+            <div class="srch">⌕ <span id="q2"></span><b id="ph2">search skills</b></div>
+            <div class="row" id="rk"><span class="nm">kowalski<small>motion · transitions · layout</small></span><span class="h-new">NEW</span><span class="h-toggle" id="tg0"><i></i></span></div>
+            <div class="row r2"><span class="nm">motion presets<small>12 entrance styles</small></span><span class="h-toggle" id="tg1"><i></i></span></div>
+            <div class="row r2"><span class="nm">page transitions<small>between every section</small></span><span class="h-toggle" id="tg2"><i></i></span></div>
+            <div class="row r2"><span class="nm">layout system<small>grid + spacing scale</small></span><span class="h-toggle" id="tg3"><i></i></span></div>
+            <div class="h-cursor" id="cur2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- glow titles on the chest -->
+      <div class="h-glowt gold shade" id="g0"><span class="lead">לבנות אתרים</span><span class="glw">שנראים טוב</span></div>
+      <div class="h-glowt violet shade" id="g1"><span class="lead">הופך את האתר שלכם</span><span class="glw">למטורף</span></div>
+      <div class="h-glowt gold shade" id="g2"><span class="lead">תגיבו לי</span><span class="glw" dir="ltr">"KOWALSKI"</span><span class="sub">ואני שולח לכם</span></div>
+
+      <div id="caps" class="h-caps"></div>
+
+      <audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="17.2" data-track-index="10" data-volume="1"></audio>
+      <audio id="sfx0" src="assets/theme/sfx/pop.wav" data-start="0.1" data-duration="0.12" data-track-index="11" data-volume="0.28"></audio>
+      <audio id="sfx1" src="assets/theme/sfx/pop.wav" data-start="0.35" data-duration="0.12" data-track-index="11" data-volume="0.28"></audio>
+      <audio id="sfx2" src="assets/theme/sfx/pop.wav" data-start="0.6" data-duration="0.12" data-track-index="11" data-volume="0.28"></audio>
+      <audio id="sfx3" src="assets/theme/sfx/glint.wav" data-start="0.75" data-duration="0.3" data-track-index="11" data-volume="0.18"></audio>
+      <audio id="sfx4" src="assets/theme/sfx/glow.wav" data-start="1.7" data-duration="0.45" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="sfx5" src="assets/theme/sfx/hit.wav" data-start="2.92" data-duration="0.35" data-track-index="11" data-volume="0.4"></audio>
+      <audio id="sfx6" src="assets/theme/sfx/pop.wav" data-start="3.2" data-duration="0.12" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx7" src="assets/theme/sfx/tick.wav" data-start="3.3" data-duration="0.03" data-track-index="11" data-volume="0.22"></audio>
+      <audio id="sfx8" src="assets/theme/sfx/pop.wav" data-start="4.5" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx9" src="assets/theme/sfx/tick.wav" data-start="4.6" data-duration="0.03" data-track-index="12" data-volume="0.22"></audio>
+      <audio id="sfx10" src="assets/theme/sfx/pop.wav" data-start="5.4" data-duration="0.12" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx11" src="assets/theme/sfx/tick.wav" data-start="5.5" data-duration="0.03" data-track-index="12" data-volume="0.22"></audio>
+      <audio id="sfx12" src="assets/theme/sfx/ding.wav" data-start="6.0" data-duration="0.7" data-track-index="11" data-volume="0.22"></audio>
+      <audio id="sfx13" src="assets/theme/sfx/whoosh.wav" data-start="6.9" data-duration="0.55" data-track-index="11" data-volume="0.25"></audio>
+      <audio id="sfx14" src="assets/theme/sfx/key.wav" data-start="7.1" data-duration="0.04" data-track-index="12" data-volume="0.22"></audio>
+      <audio id="sfx15" src="assets/theme/sfx/key.wav" data-start="7.35" data-duration="0.04" data-track-index="12" data-volume="0.22"></audio>
+      <audio id="sfx16" src="assets/theme/sfx/key.wav" data-start="7.6" data-duration="0.04" data-track-index="11" data-volume="0.22"></audio>
+      <audio id="sfx17" src="assets/theme/sfx/pop.wav" data-start="7.95" data-duration="0.12" data-track-index="11" data-volume="0.28"></audio>
+      <audio id="sfx18" src="assets/theme/sfx/click.wav" data-start="8.3" data-duration="0.05" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx19" src="assets/theme/sfx/toggle.wav" data-start="8.8" data-duration="0.09" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="sfx20" src="assets/theme/sfx/glint.wav" data-start="8.82" data-duration="0.3" data-track-index="12" data-volume="0.2"></audio>
+      <audio id="sfx21" src="assets/theme/sfx/toggle.wav" data-start="9.3" data-duration="0.09" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx22" src="assets/theme/sfx/toggle.wav" data-start="9.45" data-duration="0.09" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx23" src="assets/theme/sfx/toggle.wav" data-start="9.6" data-duration="0.09" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx24" src="assets/theme/sfx/swish.wav" data-start="9.92" data-duration="0.25" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx25" src="assets/theme/sfx/glow.wav" data-start="12.1" data-duration="0.45" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="sfx26" src="assets/theme/sfx/swish.wav" data-start="12.9" data-duration="0.25" data-track-index="11" data-volume="0.22"></audio>
+      <audio id="sfx27" src="assets/theme/sfx/glow.wav" data-start="14.9" data-duration="0.45" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="sfx28" src="assets/theme/sfx/glint.wav" data-start="15.15" data-duration="0.3" data-track-index="12" data-volume="0.18"></audio>
+      <audio id="sfx29" src="assets/theme/sfx/swish.wav" data-start="15.4" data-duration="0.25" data-track-index="11" data-volume="0.22"></audio>
+    </div>
+    <script>
+      const WORDS = [{"text": "אם", "start": 0.24, "end": 0.34}, {"text": "אתם", "start": 0.36, "end": 0.56}, {"text": "רוצים", "start": 0.58, "end": 0.8}, {"text": "לבנות", "start": 0.82, "end": 1.14}, {"text": "אתרים", "start": 1.18, "end": 1.6}, {"text": "שנראים", "start": 1.66, "end": 2.08}, {"text": "טוב", "start": 2.22, "end": 2.9}, {"text": "עם", "start": 2.94, "end": 3.08}, {"text": "motion,", "start": 3.16, "end": 3.76}, {"text": "מעברים", "start": 4.46, "end": 5.34}, {"text": "ומבנה", "start": 5.42, "end": 5.96}, {"text": "כמו", "start": 6.0, "end": 6.16}, {"text": "שצריך,", "start": 6.2, "end": 6.62}, {"text": "אתם", "start": 6.68, "end": 6.839}, {"text": "צריכים", "start": 6.919, "end": 7.1}, {"text": "להתקין", "start": 7.14, "end": 7.6}, {"text": "skill", "start": 7.86, "end": 8.24}, {"text": "שנקרא", "start": 8.3, "end": 8.7}, {"text": "Kowalski.", "start": 8.76, "end": 9.46}, {"text": "הסקיל", "start": 9.96, "end": 10.34}, {"text": "הזה", "start": 10.36, "end": 10.68}, {"text": "בעצם", "start": 10.74, "end": 11.1}, {"text": "הופך", "start": 11.12, "end": 11.38}, {"text": "את", "start": 11.38, "end": 11.44}, {"text": "האתר", "start": 11.48, "end": 11.7}, {"text": "שלכם", "start": 11.8, "end": 12.08}, {"text": "למטורף.", "start": 12.1, "end": 12.76}, {"text": "כל", "start": 13.34, "end": 13.44}, {"text": "מה", "start": 13.48, "end": 13.54}, {"text": "שאתם", "start": 13.58, "end": 13.74}, {"text": "צריכים", "start": 13.78, "end": 13.94}, {"text": "לעשות", "start": 13.98, "end": 14.4}, {"text": "זה", "start": 14.42, "end": 14.5}, {"text": "להגיב", "start": 14.56, "end": 14.84}, {"text": "לי", "start": 14.879, "end": 14.98}, {"text": "פה", "start": 15.039, "end": 15.14}, {"text": "ואני", "start": 15.2, "end": 15.36}, {"text": "שולח", "start": 15.4, "end": 15.7}, {"text": "לכם", "start": 15.76, "end": 16.0}, {"text": "את", "start": 16.02, "end": 16.14}, {"text": "זה.", "start": 16.18, "end": 16.34}];
+      const H = window.HOOKS;
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        document.querySelectorAll(".h-views .ey").forEach((e) => (e.innerHTML = H.ART.eye));
+        H.fit("#g0 .glw", 0.72); H.fit("#g1 .glw", 0.62); H.fit("#g2 .glw", 0.78);
+
+        // ---- layouts ----
+        H.layout(tl, "face", 0);
+        H.layout(tl, "void", 2.92);
+        H.layout(tl, "face", 9.92, { zoom: 1.18 });   // the "second angle": a jump-cut punch
+        H.layout(tl, "face", 12.9);
+        H.layout(tl, "face", 15.4, { zoom: 1.15 });   // jump-cut on "שולח"
+        H.scene(tl, "#s1", 0, 6.9); H.scene(tl, "#s2", 6.9);
+
+        // ---- captions (silent while a glow title speaks) ----
+        H.captions(tl, "#caps", WORDS, { y: 1440, mute: [[0.8, 2.9], [11.1, 12.9], [14.6, 17.2]], yAt: (t) => (H.modeAt(t) === "void" ? 1560 : 1440) });
+
+        // ---- opening: example sites pop above the head, their counts glint; the glow title on the chest ----
+        H.pop(tl, ["#th2", "#th1", "#th3"], [0.1, 0.35, 0.6]);
+        H.push(tl, "#thumbs0", 0.1, 2.82, 1.14);
+        H.views(tl, "#v2", 0.45, 0.3); H.views(tl, "#v1", 0.6, 0.3); H.views(tl, "#v3", 0.75, 0.3);
+        H.glow(tl, "#g0", 0.8, 1.7, 2.92);
+        tl.set("#thumbs0", { autoAlpha: 0 }, 2.92);
+
+        // ---- S1 (void): pills on their words, the meter fills and lands on "כמו שצריך" ----
+        H.pop(tl, "#pl1", 3.2); H.pop(tl, "#pl2", 4.5); H.pop(tl, "#pl3", 5.4);
+        // the meter and the % land together ON "כמו" (6.0) and hold to the cut (6.9)
+        tl.set("#fill1", { transformOrigin: "100% 50%" }, 0);
+        H.bar(tl, "#fill1", 3.3, 0.33, 0.4); tl.to("#fill1", { scaleX: 0.66, duration: 0.4, ease: "power2.out" }, 4.6); tl.to("#fill1", { scaleX: 1, duration: 0.5, ease: "none" }, 5.5);
+        H.count(tl, "#pc1", 0, 33, 3.3, 0.4, { suffix: "%" });
+        H.count(tl, "#pc1", 33, 66, 4.6, 0.4, { suffix: "%", keep: true });
+        H.count(tl, "#pc1", 66, 100, 5.5, 0.5, { suffix: "%", keep: true, ease: "none" });
+        H.pulse(tl, "#pc1", 6.05, 1.08);
+        H.push(tl, "#s1", 2.92, 3.98, 1.1);
+
+        // ---- S2 (void): the screen rises, the name is typed, the switch flips on "Kowalski", the parts follow ----
+        H.rise(tl, "#scr2", 6.92);
+        H.push(tl, "#scr2", 7.3, 2.6, 1.08);
+        document.querySelector("#cur2").innerHTML = H.ART.cursor;
+        tl.set("#ph2", { opacity: 1 }, 0); tl.set("#ph2", { opacity: 0 }, 7.1);
+        H.type(tl, "#q2", "kowalski", 7.1, 12);
+        // the rows wait dim with their real names and light up when they are acted on
+        tl.set(["#rk", ".r2"], { opacity: 0.5 }, 0);
+        tl.to("#rk", { opacity: 1, duration: 0.2 }, 7.95); H.pulse(tl, "#rk", 7.95, 1.04);
+        H.select(tl, "#rk", 8.3);
+        H.toggle(tl, "#tg0", 8.8);
+        tl.to(".r2", { opacity: 1, duration: 0.2, stagger: 0.12 }, 9.0);
+        H.toggle(tl, "#tg1", 9.3); H.toggle(tl, "#tg2", 9.45); H.toggle(tl, "#tg3", 9.6);
+        // the hand that flips them
+        const tg = (id) => { const r = document.querySelector(id).getBoundingClientRect(), b = document.querySelector("#scr2").getBoundingClientRect(); return [r.left - b.left + r.width / 2, r.top - b.top + r.height / 2]; };
+        const p0 = tg("#tg0"), p1 = tg("#tg1"), p2 = tg("#tg2"), p3 = tg("#tg3");
+        H.cursor(tl, "#cur2", [[p0[0] + 300, p0[1] - 120, 8.3], [p0[0], p0[1], 8.75], [p1[0], p1[1], 9.27], [p2[0], p2[1], 9.42], [p3[0], p3[1], 9.57]], [8.78, 9.28, 9.43, 9.58], { end: 9.9 });
+
+        // ---- S3 (face, punched): the payoff word glows violet on "למטורף" and holds ----
+        H.glow(tl, "#g1", 11.1, 12.1, 12.9);
+        H.push(tl, "#g1", 11.1, 1.8, 1.06);
+
+        // ---- CTA: '"KOWALSKI" ואני שולח לכם' ----
+        H.glow(tl, "#g2", 14.6, 14.9, null);
+
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

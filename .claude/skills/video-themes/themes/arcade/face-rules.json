@@ -1,0 +1,29 @@
+{
+ "theme": "arcade",
+ "samples": 194,
+ "full_face": {
+  "samples": 3,
+  "note": "too few samples"
+ },
+ "low_face": {
+  "samples": 191,
+  "chin_y": 1527,
+  "face_h": 543,
+  "center_x": 564,
+  "caption": {
+   "at": "chin",
+   "dy": -1.6,
+   "iqr": [
+    -1.96,
+    -1.44
+   ],
+   "n": 191
+  }
+ },
+ "card_beside_face": {
+  "at": "eyes",
+  "side": "free",
+  "gap": 0.4
+ },
+ "safe_core": "eyes to mouth (x 18-82%, y 22-92% of the face box) is never covered"
+}

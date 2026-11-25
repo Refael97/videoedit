@@ -1,0 +1,11 @@
+0.2 whoosh 0.25
+0.4 neon 0.3
+5.5 whoosh 0.25
+5.5 neon 0.3
+5.85 tick 0.25
+6.2 tick 0.25
+6.55 tick 0.25
+12.9 whoosh 0.25
+13.4 tick 0.25
+18.5 riser 0.2
+19.42 boom 0.4

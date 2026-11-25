@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 300; src: url("assets/fonts/noto-sans-hebrew-hebrew-300-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 300; src: url("assets/fonts/noto-sans-hebrew-latin-300-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 500; src: url("assets/fonts/noto-sans-hebrew-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 500; src: url("assets/fonts/noto-sans-hebrew-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/fonts/noto-sans-hebrew-hebrew-800-normal.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/fonts/noto-sans-hebrew-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      :root { --ink: #0c0c0e; --mute: #5a6270; --acc: #0b86bd; --cy: #1AAEE5; }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #f4f6f9; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #f4f6f9; font-family: "Noto Sans Hebrew", sans-serif; }
+      .blob { position: absolute; border-radius: 50%; pointer-events: none; }
+      #b1 { width: 1300px; height: 1300px; left: -520px; top: -260px; background: radial-gradient(circle, rgba(26,174,229,0.30) 0%, rgba(26,174,229,0) 65%); }
+      #b2 { width: 1400px; height: 1400px; left: 300px; top: 1000px; background: radial-gradient(circle, rgba(80,140,255,0.22) 0%, rgba(80,140,255,0) 65%); }
+      #b3 { width: 1000px; height: 1000px; left: 380px; top: 300px; background: radial-gradient(circle, rgba(120,220,245,0.22) 0%, rgba(120,220,245,0) 65%); }
+      .scene { position: absolute; inset: 0; }
+      .title { position: absolute; left: 0; right: 0; text-align: center; direction: rtl; }
+      .title h1 { margin: 0; font: 300 124px/1.16 "Noto Sans Hebrew"; color: var(--ink); white-space: nowrap; letter-spacing: -0.01em; text-shadow: 0 14px 34px rgba(20,30,45,0.08); }
+      .w { display: inline-block; position: relative; opacity: 0; }
+      .w.k { color: var(--acc); font-weight: 800; }
+      .card { position: absolute; background: rgba(255,255,255,0.92); border-radius: 36px; box-shadow: 0 30px 80px rgba(20,40,70,0.14); direction: rtl; box-sizing: border-box; opacity: 0; }
+      /* guide document */
+      #doc { left: 162px; top: 660px; width: 756px; height: 840px; overflow: hidden; }
+      #doc .hd { height: 210px; background: linear-gradient(120deg, #0b86bd, #2f62d8); color: #fff; text-align: center; }
+      #doc .hd small { display: block; padding-top: 40px; font: 500 38px/1 "Noto Sans Hebrew"; opacity: 0.95; }
+      #doc .hd b { display: block; margin-top: 18px; font: 800 70px/1.1 "Noto Sans Hebrew"; }
+      #doc .sec { position: relative; margin: 56px 64px 0; opacity: 0; }
+      #doc .sec h3 { margin: 0; font: 800 46px/1.1 "Noto Sans Hebrew"; color: var(--ink); }
+      #doc .sec h3 em { font-style: normal; display: inline-block; width: 64px; height: 64px; line-height: 64px; margin-left: 20px; border-radius: 18px; background: rgba(26,174,229,0.14); color: var(--acc); text-align: center; font-size: 38px; vertical-align: middle; }
+      #doc .ln { height: 18px; border-radius: 9px; background: #e3e8ee; margin-top: 22px; transform-origin: 100% 50%; }
+      /* phones */
+      .ph { position: absolute; top: 690px; width: 310px; height: 551px; border-radius: 40px; border: 8px solid #15171b; overflow: hidden; background: #fff; box-shadow: 0 30px 70px rgba(20,40,70,0.22); opacity: 0; box-sizing: border-box; }
+      .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .phl { position: absolute; top: 1278px; width: 310px; text-align: center; direction: rtl; font: 500 48px/1 "Noto Sans Hebrew"; color: var(--mute); opacity: 0; }
+      #lg { display: inline-block; width: 112px; height: 112px; vertical-align: -18px; margin-right: 20px; opacity: 0; }
+      /* comment */
+      #kw { position: absolute; left: 0; right: 0; top: 440px; text-align: center; direction: rtl; font: 800 300px/1.1 "Noto Sans Hebrew"; color: var(--acc); opacity: 0; text-shadow: 0 30px 70px rgba(26,174,229,0.25); }
+      #cmt { left: 54px; top: 930px; width: 972px; height: 190px; border-radius: 95px; }
+      #cmt .av { position: absolute; right: 30px; top: 30px; width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, #c9d6e2, #e9eef3); }
+      #cmt .fld { position: absolute; right: 186px; left: 220px; top: 30px; height: 130px; border-radius: 65px; background: #f1f4f7; font: 500 56px/130px "Noto Sans Hebrew"; color: var(--ink); padding-right: 40px; white-space: nowrap; }
+      #cmt .ph0 { color: #9aa3ad; font-weight: 300; position: absolute; right: 40px; top: 0; }
+      #cmt .typed { display: inline-block; } #cmt .typed span { opacity: 0; }
+      #caret { display: inline-block; width: 4px; height: 58px; vertical-align: -10px; margin-right: 6px; background: var(--cy); opacity: 0; }
+      #post { position: absolute; left: 44px; top: 30px; height: 130px; font: 800 52px/130px "Noto Sans Hebrew"; color: #9ccfe8; }
+      /* DM */
+      #dm { left: 81px; top: 640px; width: 918px; height: 660px; }
+      #dm .top { position: absolute; right: 50px; top: 46px; left: 50px; height: 140px; }
+      #dm .top img { position: absolute; right: 0; top: 0; width: 136px; height: 136px; border-radius: 50%; object-fit: cover; }
+      #dm .top b { position: absolute; right: 166px; top: 20px; font: 800 54px/1 "Noto Sans Hebrew"; color: var(--ink); direction: ltr; }
+      #dm .top span { position: absolute; right: 166px; top: 90px; font: 300 40px/1 "Noto Sans Hebrew"; color: var(--mute); }
+      #dm .sep { position: absolute; right: 50px; left: 50px; top: 232px; height: 2px; background: #e8ecf0; }
+      #typing { position: absolute; right: 170px; top: 360px; width: 150px; height: 80px; border-radius: 40px; background: #eef1f4; opacity: 0; }
+      #typing i { position: absolute; top: 31px; width: 18px; height: 18px; border-radius: 50%; background: #9aa3ad; }
+      #bub { position: absolute; right: 170px; top: 330px; padding: 40px 56px; border-radius: 56px 56px 16px 56px; background: #eef1f4; font: 500 60px/1.1 "Noto Sans Hebrew"; color: var(--ink); white-space: nowrap; opacity: 0; transform-origin: 100% 100%; }
+      #bub svg { width: 52px; height: 52px; vertical-align: -8px; margin-right: 14px; }
+      #mini { position: absolute; right: 50px; top: 400px; width: 100px; height: 100px; border-radius: 50%; object-fit: cover; opacity: 0; }
+      /* CTA */
+      #cta { position: absolute; left: 0; right: 0; top: 520px; text-align: center; direction: rtl; }
+      #cav { display: block; margin: 0 auto; width: 300px; height: 300px; border-radius: 50%; padding: 11px; background: linear-gradient(135deg, #1AAEE5, #4f8dff); opacity: 0; box-sizing: border-box; }
+      #cav img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 8px solid #fff; box-sizing: border-box; display: block; }
+      #handle { display: block; margin-top: 50px; font: 800 72px/1 "Noto Sans Hebrew"; color: var(--ink); direction: ltr; opacity: 0; }
+      #role { display: block; margin-top: 26px; font: 300 50px/1.2 "Noto Sans Hebrew"; color: var(--mute); opacity: 0; }
+      #pill { display: inline-block; margin-top: 76px; padding: 34px 80px; border-radius: 999px; background: linear-gradient(120deg, #0b86bd, #2f62d8); color: #fff; font: 300 72px/1 "Noto Sans Hebrew"; box-shadow: 0 24px 60px rgba(26,174,229,0.40); opacity: 0; }
+      #pill b { font-weight: 800; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="8.6" data-width="1080" data-height="1920">
+      <div class="blob" id="b1"></div><div class="blob" id="b2"></div><div class="blob" id="b3"></div>
+
+      <!-- S1 0–2.7: the full guide -->
+      <div class="scene" id="s1">
+        <div class="title" style="top: 290px">
+          <h1><span class="w" data-at="0.1">רוצים</span> <span class="w" data-at="0.38">לקבל</span> <span class="w" data-at="0.72">את</span></h1>
+          <h1><span class="w k" data-at="0.82" data-pulse="1">המדריך</span> <span class="w" data-at="1.26">המלא?</span></h1>
+        </div>
+        <div class="card" id="doc">
+          <div class="hd"><small>המדריך המלא</small><b>שלוש רמות עריכה</b></div>
+          <div class="sec"><h3><em>1</em>רמה 1</h3><div class="ln"></div><div class="ln" style="width: 72%"></div></div>
+          <div class="sec"><h3><em>2</em>רמה 2</h3><div class="ln"></div><div class="ln" style="width: 64%"></div></div>
+          <div class="sec"><h3><em>3</em>רמה 3</h3><div class="ln"></div><div class="ln" style="width: 80%"></div></div>
+        </div>
+      </div>
+
+      <!-- S2 2.74–4.5: all these videos, with Claude -->
+      <div class="scene" id="s2">
+        <div class="title" style="top: 290px">
+          <h1><span class="w" data-at="2.74">כל</span> <span class="w k" data-at="2.92" data-pulse="1">הסרטונים</span></h1>
+          <h1><span class="w" data-at="3.46">האלה</span> <span class="w" data-at="3.7">עם</span> <span class="w k" data-at="3.86">קלוד</span><svg id="lg" viewBox="-100 -100 200 200"><g id="rays"></g></svg></h1>
+        </div>
+        <div class="ph" id="ph1" style="left: 725px"><img src="assets/img/thumb1.jpg" alt="" /></div>
+        <div class="ph" id="ph2" style="left: 385px"><img src="assets/img/thumb2.jpg" alt="" /></div>
+        <div class="ph" id="ph3" style="left: 45px"><img src="assets/img/thumb3.jpg" alt="" /></div>
+        <div class="phl" id="pl1" style="left: 725px">רמה 1</div>
+        <div class="phl" id="pl2" style="left: 385px">רמה 2</div>
+        <div class="phl" id="pl3" style="left: 45px">רמה 3</div>
+      </div>
+
+      <!-- S3 4.58–6.1: comment the word -->
+      <div class="scene" id="s3">
+        <div class="title" style="top: 300px">
+          <h1 style="font-size: 112px"><span class="w" data-at="4.58">תגיבו</span> <span class="w" data-at="4.92">לי</span> <span class="w" data-at="5.0">את</span> <span class="w" data-at="5.12">המילה</span></h1>
+        </div>
+        <div id="kw">רמה</div>
+        <div class="card" id="cmt">
+          <div class="av"></div>
+          <div class="fld"><span class="ph0" id="ph0">הוסיפו תגובה...</span><span class="typed"><span>ר</span><span>מ</span><span>ה</span></span><i id="caret"></i></div>
+          <div id="post">פרסום</div>
+        </div>
+      </div>
+
+      <!-- S4 6.14–7.35: it's in your DMs -->
+      <div class="scene" id="s4">
+        <div class="title" style="top: 330px">
+          <h1 style="font-size: 116px"><span class="w" data-at="6.16">וזה</span> <span class="w" data-at="6.34">אצלכם</span> <span class="w k" data-at="6.76" data-pulse="1">בפרטי</span></h1>
+        </div>
+        <div class="card" id="dm">
+          <div class="top"><img src="assets/img/avatar.jpg" alt="" /><b>@refaelleviii</b><span>רפאל לוי</span></div>
+          <div class="sep"></div>
+          <img id="mini" src="assets/img/avatar.jpg" alt="" />
+          <div id="typing"><i style="right: 30px"></i><i style="right: 66px"></i><i style="right: 102px"></i></div>
+          <div id="bub">הנה המדריך<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1AAEE5" /><path d="M6.5 12.5l3.6 3.6 7.4-7.6" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+        </div>
+      </div>
+
+      <!-- S5 7.4–8.6: CTA -->
+      <div class="scene" id="s5">
+        <div id="cta">
+          <div id="cav"><img src="assets/img/avatar.jpg" alt="" /></div>
+          <span id="handle">@refaelleviii</span>
+          <span id="role">מומחה AI ושיווק דיגיטלי</span>
+          <span id="pill">תגיבו: <b>רמה</b></span>
+        </div>
+      </div>
+
+      <audio id="mix" src="assets/mix.wav" data-start="0" data-duration="8.6" data-track-index="1" data-volume="1"></audio>
+    </div>
+    <script>
+      const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+      const tl = gsap.timeline({ paused: true });
+      const reveal = (el, t, d = 0.45) => tl.fromTo(el, { opacity: 0, filter: "blur(16px)", y: 26 }, { opacity: 1, filter: "blur(0px)", y: 0, duration: d, ease: "power3.out" }, t);
+      const pulse = (el, t) => { tl.to(el, { scale: 1.06, duration: 0.2, ease: "sine.out" }, t); tl.to(el, { scale: 1, duration: 0.2, ease: "sine.in" }, t + 0.2); };
+      const sceneOut = (el, t, d = 0.3) => { tl.to(el, { opacity: 0, filter: "blur(16px)", y: -50, duration: d, ease: "power2.in" }, t); tl.set(el, { visibility: "hidden" }, t + d); };
+      $$(".w[data-at]").forEach((w) => { const t = parseFloat(w.dataset.at); reveal(w, t); if (w.dataset.pulse) pulse(w, t + 0.42); });
+
+      tl.fromTo("#b1", { x: 0, y: 0 }, { x: 240, y: 200, duration: 8.6, ease: "sine.inOut" }, 0);
+      tl.fromTo("#b2", { x: 0, y: 0 }, { x: -300, y: -240, duration: 8.6, ease: "sine.inOut" }, 0);
+      tl.fromTo("#b3", { x: 0, y: 0, scale: 0.9 }, { x: -180, y: 140, scale: 1.15, duration: 8.6, ease: "sine.inOut" }, 0);
+
+      // ---------- S1: guide document opens ----------
+      tl.fromTo("#doc", { opacity: 0, rotationY: -80, transformPerspective: 1800, transformOrigin: "100% 50%", y: 40 },
+        { opacity: 1, rotationY: 0, y: 0, duration: 0.75, ease: "power3.out" }, 0.82);
+      $$("#doc .sec").forEach((s, i) => {
+        const t = 1.26 + i * 0.24;
+        tl.fromTo(s, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, t);
+        s.querySelectorAll(".ln").forEach((l, j) => tl.fromTo(l, { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, t + 0.1 + j * 0.08));
+      });
+      tl.to("#doc", { rotationY: 6, duration: 0.9, ease: "sine.inOut" }, 1.6);
+      sceneOut("#s1", 2.42, 0.3);
+
+      // ---------- S2: three phones ----------
+      [["#ph1", "#pl1", 2.74], ["#ph2", "#pl2", 2.92], ["#ph3", "#pl3", 3.1]].forEach(([p, l, t]) => {
+        tl.fromTo(p, { opacity: 0, y: 160, rotation: 6, filter: "blur(14px)" }, { opacity: 1, y: 0, rotation: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.out" }, t);
+        reveal(l, t + 0.15);
+      });
+      tl.to(["#ph1", "#ph3"], { y: -12, duration: 0.7, ease: "sine.inOut" }, 3.4);
+      tl.to("#ph2", { y: 12, duration: 0.7, ease: "sine.inOut" }, 3.4);
+      // small Claude mark next to "קלוד"
+      const rays = $("#rays"), L = [92, 78, 88, 74, 94, 82, 76, 90, 80, 86, 75, 89], A0 = [0, 31, 59, 91, 119, 151, 181, 209, 241, 269, 301, 329];
+      L.forEach((len, i) => {
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g"); g.setAttribute("transform", `rotate(${A0[i] - 90})`);
+        const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        p.setAttribute("d", `M 8 -5 L ${len - 9} -10.5 A 10.5 10.5 0 0 1 ${len - 9} 10.5 L 8 5 A 5 5 0 0 1 8 -5 Z`); p.setAttribute("fill", "#D97757"); p.setAttribute("class", "ray");
+        g.appendChild(p); rays.appendChild(g);
+      });
+      tl.fromTo("#lg", { opacity: 0, rotation: -60, scale: 0.4 }, { opacity: 1, rotation: 0, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 3.86);
+      tl.to("#lg", { rotation: 20, duration: 0.5, ease: "none" }, 4.36);
+      tl.to(["#ph1", "#ph2", "#ph3", "#pl1", "#pl2", "#pl3"], { y: 260, opacity: 0, filter: "blur(14px)", duration: 0.32, ease: "power2.in", stagger: 0.02 }, 4.14);
+      sceneOut("#s2 .title", 4.36, 0.25);
+
+      // ---------- S3: Instagram comment ----------
+      tl.fromTo("#cmt", { opacity: 0, y: 120, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 4.62);
+      tl.fromTo("#kw", { opacity: 0, scale: 1.5, filter: "blur(18px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.24, ease: "power4.out" }, 5.52);
+      tl.to("#kw", { scale: 1.06, duration: 0.1, ease: "sine.out" }, 5.77); tl.to("#kw", { scale: 1, duration: 0.09, ease: "sine.in" }, 5.87);
+      tl.set("#ph0", { opacity: 0 }, 5.52);
+      tl.set("#caret", { opacity: 1 }, 5.52);
+      $$("#cmt .typed span").forEach((s, i) => tl.set(s, { opacity: 1 }, 5.52 + i * 0.12));
+      tl.to("#post", { color: "#0b86bd", duration: 0.1 }, 5.78);
+      tl.to("#post", { scale: 0.86, duration: 0.07, ease: "power2.out" }, 5.84);
+      tl.to("#post", { scale: 1, duration: 0.12, ease: "back.out(3)" }, 5.91);
+      tl.set("#caret", { opacity: 0 }, 5.84);
+      tl.to("#cmt .typed", { y: -60, opacity: 0, duration: 0.14, ease: "power2.in" }, 5.88);
+      sceneOut("#s3", 5.96, 0.18);
+
+      // ---------- S4: DM arrives ----------
+      tl.fromTo("#dm", { opacity: 0, y: 140, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 6.3);
+      tl.fromTo("#mini", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 6.5);
+      tl.fromTo("#typing", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" }, 6.5);
+      $$("#typing i").forEach((d, i) => tl.to(d, { y: -10, duration: 0.12, yoyo: true, repeat: 1, ease: "sine.out" }, 6.55 + i * 0.06));
+      tl.to("#typing", { opacity: 0, scale: 0.6, duration: 0.12, ease: "power2.in" }, 6.74);
+      tl.fromTo("#bub", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 6.8);
+      tl.to("#dm", { y: -12, duration: 0.4, ease: "sine.inOut" }, 6.88);
+      tl.to("#dm", { opacity: 0, y: -160, filter: "blur(16px)", duration: 0.32, ease: "power2.in" }, 7.3);
+      sceneOut("#s4 .title", 7.3, 0.3);
+
+      // ---------- S5: CTA ----------
+      tl.fromTo("#cav", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, 7.5);
+      reveal("#handle", 7.62);
+      reveal("#role", 7.74);
+      tl.fromTo("#pill", { opacity: 0, y: 40, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(2)" }, 7.86);
+      pulse("#pill", 8.2);
+      tl.fromTo("#cta", { scale: 1 }, { scale: 1.03, duration: 1.1, ease: "none" }, 7.5);
+
+      tl.set({}, {}, 8.6);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+/* neon-studio → signature effects (effects/fx.css reads these). Mapped from this theme's own tokens; no new colors. */
+:root {
+  --fx-accent: var(--s-yellow);
+  --fx-ink: var(--s-ink);
+  --fx-display: var(--s-font);
+  --fx-display-weight: 800;
+  --fx-body: var(--s-font);
+  --fx-card-bg: var(--s-card);
+  --fx-card-ink: var(--s-ink);
+  --fx-card-ink-soft: var(--s-ink-soft);
+  --fx-card-edge: 1px solid var(--s-card-edge);
+  --fx-card-r: var(--s-r-card);
+  --fx-card-shadow: var(--s-card-shadow);
+  --fx-card-blur: none;
+  --fx-word: var(--s-yellow);
+  --fx-word-stroke: 0px transparent;
+  --fx-word-glow: 0 0 30px rgba(249,252,4,.45);
+  --fx-glow: none;
+  --fx-bar-muted: #d9d9df;
+}

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 300; src: url("assets/noto-sans-hebrew-hebrew-300-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Noto Sans Hebrew"; font-weight: 800; src: url("assets/noto-sans-hebrew-hebrew-800-normal.woff2") format("woff2"); }
+      html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+      /* the brand sky (the site's gradient), the first frame of the film */
+      #sky { position: absolute; inset: 0; background: linear-gradient(180deg, #3f9fcb 0%, #5bb6d6 55%, #86d2e0 100%); z-index: 2; }
+      /* the real Jerufun ride shot (1280x712) fills the lower part of the frame; its own pale sky continues into a sky gradient above */
+      #sky2 { position: absolute; inset: 0; background: linear-gradient(180deg, #b3d1e0 0px, #c4dae5 420px, #cbdee6 640px, #cbdee6 100%); z-index: 0; }
+      #shot { position: absolute; left: 0; top: 638px; width: 1080px; height: 1282px; object-fit: cover; object-position: 54.1% 0; z-index: 1; }
+      #feather { position: absolute; left: 0; right: 0; top: 630px; height: 220px; background: linear-gradient(180deg, #cbdee6 0%, rgba(203, 222, 230, 0) 100%); z-index: 1; }
+      /* the logo is three layers (letters + the two wheel arcs) so each wheel can leave on its own */
+      .logo { position: absolute; left: 0; top: 0; width: 1386px; height: 738px; z-index: 5; will-change: transform, filter, opacity; }
+      .logo img { width: 100%; height: 100%; display: block; }
+      .arc { position: absolute; left: 0; top: 0; z-index: 5; overflow: visible; will-change: transform, filter, opacity; }
+      .ring { position: absolute; left: 0; top: 0; z-index: 6; overflow: visible; }
+      #title { position: absolute; left: 0; right: 0; top: 300px; text-align: center; direction: rtl; z-index: 8;
+        font: 300 176px/1 "Noto Sans Hebrew"; color: #0f3a52; letter-spacing: -2px; }
+      #title b { font-weight: 800; }
+      #title .w { display: inline-block; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3.4" data-width="1080" data-height="1920">
+      <div id="sky2"></div>
+      <video id="shot" src="assets/ride.mp4" data-start="1.3" data-duration="2.1" data-track-index="0" muted playsinline></video>
+      <div id="feather"></div>
+      <div id="sky"></div>
+      <div class="logo" id="letters"><img src="assets/letters.png" alt="" /></div>
+      <!-- the logo's wheels, redrawn whole as vector crescents (the supplied PNG is cut flat at the bottom) -->
+      <svg class="arc" id="arcL" width="240" height="240" viewBox="-120 -120 240 240">
+        <defs><mask id="mL"><circle r="100" fill="#fff" /><circle cx="14" r="92" fill="#000" /></mask></defs>
+        <circle r="100" fill="#fff" mask="url(#mL)" />
+      </svg>
+      <svg class="arc" id="arcR" width="240" height="240" viewBox="-120 -120 240 240">
+        <defs><mask id="mR"><circle r="100" fill="#fff" /><circle cx="-14" r="92" fill="#000" /></mask></defs>
+        <circle r="100" fill="#fff" mask="url(#mR)" />
+      </svg>
+      <svg class="ring" width="1080" height="1920" viewBox="0 0 1080 1920">
+        <circle id="ringL" cx="250" cy="1588" r="142" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" />
+        <circle id="ringR" cx="806" cy="1576" r="146" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" />
+      </svg>
+      <div id="title"><span class="w">ירושלים</span><span class="w"><b>.</b></span></div>
+    </div>
+    <script>
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        // logo on screen: 900 px wide (scale 0.649 of the 3x art), top-left at (90, 520)
+        const S0 = 0.649, X0 = 90, Y0 = 700;  // logo centred a little above the middle of the frame
+        // each arc's circle centre inside the 3x art, and where its wheel is in the first frame of the shot
+        // each wheel: its circle centre inside the logo art (3x px) and where its real wheel is in the first frame of the shot.
+        // the vector crescent is drawn at radius 100 around the centre of a 240x240 box (origin 120,120)
+        const arcs = [
+          { el: "#arcL", cx: 273, cy: 507, to: [250, 1588], ring: "#ringL", r: 142 },
+          { el: "#arcR", cx: 1134, cy: 504, to: [806, 1576], ring: "#ringR", r: 146 },
+        ];
+        const R0 = 77 * 3 * S0;  // the wheel radius as the logo shows it (77 px in the 1x art)
+        // letters: same placement, origin at the logo centre
+        tl.set("#letters", { x: X0, y: Y0, scale: S0, transformOrigin: "0 0" }, 0);
+        tl.fromTo("#letters", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power2.out" }, 0.05);
+        tl.to("#letters", { y: Y0 - 140, opacity: 0, filter: "blur(12px)", duration: 0.45, ease: "power2.in" }, 0.85);
+        arcs.forEach(({ el, cx, cy, to, ring, r }, i) => {
+          // the crescent's centre sits where the wheel sits inside the logo; scale maps radius 100 to the logo's wheel
+          const sx = X0 + cx * S0, sy = Y0 + cy * S0, s0 = R0 / 100, s = r / 100;
+          cx = 120; cy = 120;
+          tl.set(el, { transformOrigin: "120px 120px", x: sx - cx, y: sy - cy, scale: s0, rotation: 0 }, 0);
+          tl.fromTo(el, { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power2.out" }, 0.05);
+          // a small anticipation, then the wheel rolls down onto the real wheel (clockwise: the bike rides to the right)
+          tl.to(el, { rotation: -14, y: sy - cy - 22, duration: 0.22, ease: "power2.out" }, 0.6 + i * 0.04);
+          tl.to(el, { x: to[0] - cx, y: to[1] - cy, scale: s, rotation: 360, duration: 0.62, ease: "power3.inOut" }, 0.82 + i * 0.04);
+          // landing: the white arc closes into a full ring around the real tyre, then lets the tyre through
+          const C = 2 * Math.PI * r;
+          tl.set(ring, { strokeDasharray: C, strokeDashoffset: C, opacity: 0, rotation: 90, transformOrigin: "50% 50%" }, 0);  // hidden until it draws (a round cap would show as a dot)
+          tl.set(ring, { opacity: 1 }, 1.38 + i * 0.04);
+          tl.to(ring, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 1.38 + i * 0.04);
+          tl.to(el, { opacity: 0, duration: 0.12 }, 1.44 + i * 0.04);
+          tl.to(ring, { opacity: 0, strokeWidth: 2, duration: 0.35, ease: "power2.in" }, 1.62 + i * 0.04);
+        });
+        // the sky opens onto the street exactly as the wheels land
+        tl.to("#sky", { opacity: 0, duration: 0.2, ease: "power1.inOut" }, 1.3);
+        // the city's name, light weight, on the beat after the landing
+        tl.fromTo("#title .w", { opacity: 0, y: 40, filter: "blur(16px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, stagger: 0.12, ease: "power3.out" }, 1.8);
+        tl.to("#title", { scale: 1.04, duration: 1.1, ease: "none" }, 2.3);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

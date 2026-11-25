@@ -1,0 +1,5 @@
+renders/*.mp4
+!renders/intro.mp4
+!renders/outro.mp4
+node_modules/
+.DS_Store
