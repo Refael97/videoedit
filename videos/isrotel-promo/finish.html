@@ -43,6 +43,14 @@
       #room .u { font-size: 30px; font-weight: 300; color: var(--mut); }
       #bk { position: absolute; right: 64px; bottom: 54px; width: 360px; height: 112px; border-radius: 56px; background: linear-gradient(180deg, #0a3d8f, #002d74); color: #fff; font-size: 44px; font-weight: 700; display: flex; align-items: center; justify-content: center;
         box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.3), 0 10px 22px rgba(0, 45, 116, 0.3), 0 34px 60px -14px rgba(0, 45, 116, 0.55); }
+      #portal { position: absolute; left: 0; top: 0; overflow: hidden; opacity: 0; transform-origin: 0 0; }
+      #vid { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; margin: -540px 0 0 -960px; transform-origin: 50% 50%; }
+      #vt { position: absolute; left: 0; right: 0; top: 96px; text-align: center; direction: rtl; font-size: 150px; font-weight: 300; line-height: 1.08; color: var(--n); text-shadow: 0 0 60px rgba(255, 255, 255, 0.85), 0 0 14px rgba(255, 255, 255, 0.5); }
+      #vt span { display: inline-block; margin: 0 18px; opacity: 0; } #vt .b { font-weight: 700; }
+      #cta { position: absolute; left: 480px; bottom: 76px; width: 960px; height: 136px; border-radius: 68px; box-sizing: border-box; padding: 0 16px 0 16px; direction: rtl; display: flex; align-items: center; justify-content: space-between; opacity: 0;
+        background: rgba(255, 255, 255, 0.74); backdrop-filter: blur(26px) saturate(1.5); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.85), 0 34px 80px -12px rgba(0, 20, 60, 0.5), 0 6px 16px rgba(0, 20, 60, 0.12); }
+      #cta .tx { font-size: 40px; font-weight: 300; color: var(--ink); padding-right: 44px; white-space: nowrap; } #cta .tx b { font-weight: 700; color: var(--n); font-size: 50px; margin: 0 6px; }
+      #cb { width: 330px; height: 104px; border-radius: 52px; background: linear-gradient(180deg, #0a3d8f, #002d74); color: #fff; font-size: 40px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.3), 0 12px 26px rgba(0, 45, 116, 0.4); }
       #fill { position: absolute; inset: 0; background: radial-gradient(90% 90% at 50% 40%, #0c429a, #002d74 60%, #001f55); clip-path: circle(0px at 50% 50%); }
       #cur { position: absolute; left: 0; top: 0; width: 54px; height: 54px; filter: drop-shadow(0 8px 12px rgba(0, 20, 60, 0.4)); }
       #vig { position: absolute; inset: 0; background: radial-gradient(75% 75% at 50% 50%, rgba(0, 0, 0, 0) 60%, rgba(10, 25, 60, 0.13) 100%); pointer-events: none; }
@@ -50,15 +58,18 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="9.6" data-width="1920" data-height="1080">
       <div id="cam"><div id="world"></div></div>
+      <div id="portal"><canvas id="vid" width="1920" height="1080"></canvas></div>
+      <div id="vt"><span>בוקר</span><span>טוב,</span><br /><span class="b">מכתש</span><span class="b">רמון.</span></div>
+      <div id="cta"><div class="tx">החל מ־<b>₪1,807</b> לזוג ללילה</div><div id="cb">הזמן עכשיו</div></div>
       <div id="fill"></div>
       <svg id="grain" width="1920" height="1080"><filter id="nz"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" /><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.1 -0.2" /></filter><rect width="1920" height="1080" filter="url(#nz)" /></svg>
       <div id="vig"></div>
       <svg id="cur" viewBox="0 0 24 24"><path d="M5 3l14 7.5-6 1.6 3.4 6.2-2.6 1.4-3.4-6.2L6 18z" fill="#fff" stroke="#131a2b" stroke-width="1.4" stroke-linejoin="round" /></svg>
     </div>
     <script>
-      const DUR = 6, P = 1600;
+      const DUR = 9.6, P = 1600;
       const clamp = (v, a, b) => Math.max(a, Math.min(b, v)), seg = (t, a, b) => clamp((t - a) / (b - a), 0, 1), lerp = (a, b, k) => a + (b - a) * k;
       const outCubic = (k) => 1 - Math.pow(1 - k, 3), outExpo = (k) => (k >= 1 ? 1 : 1 - Math.pow(2, -10 * k)), inOut = (k) => (k < 0.5 ? 8 * k * k * k * k : 1 - Math.pow(-2 * k + 2, 4) / 2), inCubic = (k) => k * k * k;
       const spring = (k) => (k <= 0 ? 0 : 1 - Math.exp(-7 * k) * Math.cos(9.5 * k));
@@ -80,11 +91,13 @@
       // station 2: the room
       const room = add('<div class="p"><img src="assets/img/ber_11.jpg"></div><div class="x"><div class="l">ROOM · 01</div><div class="n">חדר בראשית עם מרפסת</div><div class="f">החל מ:</div><div class="pr"><i>₪</i><span id="num">0</span></div><div class="u">לזוג ללילה</div></div><div id="bk">הזמן עכשיו</div>', "card", 960, 1900, 100, 1320, 720, "room");
       const L = [...ttl.el.querySelectorAll(".t span")], S = [...ttl.el.querySelectorAll(".s span")], K = ttl.el.querySelector(".k"), rimg = room.el.querySelector(".p img");
+      const NF = 308, FR = [], ctx = $("vid").getContext("2d"), RP = room.el.querySelector(".p"), VW = [...document.querySelectorAll("#vt span")]; let lastVi = -1, loaded = 0;
+      for (let i = 0; i < NF; i++) { const im = new Image(); im.onload = () => { if (++loaded === NF) { window.__ready = true; lastVi = -1; } }; im.src = "assets/video/magi_room/f" + String(i + 1).padStart(4, "0") + ".jpg"; FR.push(im); }
       // camera keys: [t, cx, cy, cz, focusZ, rx, ry]
-      const CK = [[0, 350, 570, -520, -130, 0, 0], [1.25, 930, 580, -20, 0, 2, -4], [2.55, 940, 600, -90, 60, 1, -2.5], [3.5, 960, 1900, 120, 100, 3, 3], [4.9, 930, 1925, -130, 100, 0, -1.5], [6, 925, 1930, -180, 100, 0, -1]];
+      const CK = [[0, 350, 570, -520, -130, 0, 0], [1.25, 930, 580, -20, 0, 2, -4], [2.55, 940, 600, -90, 60, 1, -2.5], [3.5, 960, 1900, 120, 100, 3, 3], [4.7, 930, 1920, -120, 100, 0, -1.5], [5.65, 626, 1900, -520, 100, 0, 0], [9.6, 626, 1900, -520, 100, 0, 0]];
       function camAt(t) {
         let i = 0; while (i < CK.length - 2 && t > CK[i + 1][0]) i++;
-        const a = CK[i], b = CK[i + 1], k = (i === 0 ? outExpo : i === 2 ? inOut : i === 1 || i >= 3 ? (x) => x : inOut)(seg(t, a[0], b[0]));
+        const a = CK[i], b = CK[i + 1], k = (i === 0 ? outExpo : i === 2 ? inOut : i === 1 || i === 3 ? (x) => x : inOut)(seg(t, a[0], b[0]));
         return a.map((v, j) => lerp(v, b[j], k));
       }
       function put(o, c, t, extra) {
@@ -108,11 +121,17 @@
         put(room, c, t, { s: lerp(0.82, 1, rs), rx: lerp(22, 0, rs), dy: lerp(160, 0, rs), op: Math.min(1, rk * 5), blur: lerp(14, 0, Math.min(1, rk * 2.2)) });
         rimg.style.transform = "scale(" + lerp(1.22, 1.06, outCubic(seg(t, 3, 5.2))) + ")";
         $("num").textContent = Math.round(1807 * outExpo(seg(t, 3.45, 4.5))).toLocaleString("en-US");
-        // cursor + press + navy fill grows out of the button
-        const b = $("bk").getBoundingClientRect(), bx = b.left + b.width / 2, by = b.top + b.height / 2, ck = inOut(seg(t, 4.2, 4.95)), pr = seg(t, 5.0, 5.08) - seg(t, 5.08, 5.22);
-        $("cur").style.transform = "translate(" + lerp(1500, bx - 6, ck) + "px," + lerp(1180, by + 2, ck) + "px) scale(" + (1 - pr * 0.14) + ")"; $("cur").style.opacity = 1 - seg(t, 5.2, 5.35);
-        $("bk").style.transform = "scale(" + (1 - pr * 0.07) + ")";
-        $("fill").style.clipPath = "circle(" + lerp(0, 2300, inCubic(seg(t, 5.12, 5.85))) + "px at " + bx + "px " + by + "px)";
+        // the room photo comes alive: the clip plays inside the card, then the card photo opens to the full frame
+        const vi = clamp(Math.round((t - 4.2) * 60), 0, NF - 1); if (vi !== lastVi && FR[vi].complete && FR[vi].naturalWidth) { ctx.drawImage(FR[vi], 0, 0, 1920, 1080); lastVi = vi; }
+        const r = RP.getBoundingClientRect(), ek = inOut(seg(t, 4.75, 5.65)), w = lerp(r.width, 1920, ek), h = lerp(r.height, 1080, ek), PO = $("portal");
+        PO.style.transform = "translate(" + lerp(r.left, 0, ek) + "px," + lerp(r.top, 0, ek) + "px)"; PO.style.width = w + "px"; PO.style.height = h + "px"; PO.style.borderRadius = lerp((26 * r.width) / 600, 0, ek) + "px"; PO.style.opacity = seg(t, 4.0, 4.3);
+        $("vid").style.transform = "scale(" + Math.max(w / 1920, h / 1080) + ")"; $("cam").style.opacity = t > 5.7 ? 0 : 1;
+        VW.forEach((sp, i) => { const k = seg(t, 6.5 + i * 0.11, 7.1 + i * 0.11), e = outExpo(k); sp.style.opacity = Math.min(1, k * 2.2); sp.style.transform = "translate3d(" + lerp(70, 0, e) + "px," + lerp(24, 0, e) + "px,0) scale(" + lerp(1.12, 1, e) + ")"; sp.style.filter = k < 1 ? "blur(" + lerp(22, 0, e).toFixed(1) + "px)" : "none"; });
+        const ck2 = seg(t, 7.35, 8.2), cs = spring(ck2), press = seg(t, 8.6, 8.68) - seg(t, 8.68, 8.82);
+        $("cta").style.opacity = Math.min(1, ck2 * 5); $("cta").style.transform = "translateY(" + lerp(170, 0, cs) + "px) scale(" + lerp(0.9, 1, cs) + ")"; $("cb").style.transform = "scale(" + (1 - press * 0.07) + ")";
+        const b = $("cb").getBoundingClientRect(), bx = b.left + b.width / 2, by = b.top + b.height / 2, ck = inOut(seg(t, 7.9, 8.55));
+        $("cur").style.transform = "translate(" + lerp(1560, bx + 60, ck) + "px," + lerp(1180, by + 6, ck) + "px) scale(" + (1 - press * 0.14) + ")"; $("cur").style.opacity = 1 - seg(t, 8.8, 8.95);
+        $("fill").style.clipPath = "circle(" + lerp(0, 2300, inCubic(seg(t, 8.72, 9.45))) + "px at " + bx + "px " + by + "px)";
       }
       const pr = { t: 0 }, tl = gsap.timeline({ paused: true }); tl.to(pr, { t: DUR, duration: DUR, ease: "none", onUpdate: () => draw(pr.t) });
       window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; window.__draw = draw; draw(0);

@@ -6,7 +6,7 @@ const { chromium } = require("playwright");
   const [mode, page, out, ...rest] = process.argv.slice(2);
   const b = await chromium.launch(), p = await b.newPage({ viewport: { width: 1920, height: 1080 } }), errs = [];
   p.on("pageerror", (e) => errs.push(String(e))); p.on("console", (m) => { if (m.type() === "error") errs.push(m.text()); });
-  await p.goto("http://localhost:8767/" + page); await p.waitForTimeout(1200);
+  await p.goto("http://localhost:8767/" + page); await p.waitForTimeout(1200); await p.waitForFunction(() => window.__ready !== false && (window.__ready || !document.getElementById("vid")), null, { timeout: 120000 });
   if (mode === "shots") { for (const t of rest) { await p.evaluate((t) => window.__draw(+t), t); await p.screenshot({ path: out + "/f" + t + ".png" }); } }
   else {
     const from = +rest[0], to = +rest[1], sub = +(rest[2] || 6); let n = 0;

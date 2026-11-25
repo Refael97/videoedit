@@ -1,7 +1,7 @@
-"""Audio bed for the finish-level test beat (finish.html, 6 s). Run from the project root."""
+"""Audio bed for the finish-level test beat (finish.html, 9.6 s). Run from the project root."""
 import subprocess
-DUR = 6.0
-ev = [("whoosh", 0.0, 0.6), ("impact", 0.85, 0.35), ("pop", 1.7, 0.4), ("pop", 1.83, 0.4), ("pop", 1.96, 0.45), ("whoosh", 2.5, 0.7), ("pop", 3.05, 0.5), ("click", 5.0, 0.9), ("whoosh", 5.1, 0.6), ("impact", 5.2, 0.6)]
+DUR = 9.6
+ev = [("whoosh", 0.0, 0.6), ("impact", 0.85, 0.35), ("pop", 1.7, 0.4), ("pop", 1.83, 0.4), ("pop", 1.96, 0.45), ("whoosh", 2.5, 0.7), ("pop", 3.05, 0.5), ("whoosh", 4.75, 0.7), ("impact", 5.6, 0.4), ("pop", 6.55, 0.35), ("pop", 6.8, 0.35), ("pop", 7.4, 0.5), ("click", 8.6, 0.9), ("whoosh", 8.7, 0.6), ("impact", 8.8, 0.6)]
 cmd = ["ffmpeg", "-y", "-v", "error", "-ss", "8", "-i", "../sonol-spec/assets/audio/music.mp3"]
 for n, _, _ in ev: cmd += ["-i", "assets/audio/%s.wav" % n]
 f = ["[0:a]atrim=0:%s,afade=t=in:d=0.15,afade=t=out:st=%s:d=0.6,volume=0.5[m]" % (DUR, DUR - 0.6)]
