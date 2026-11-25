@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
     <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/img/logo_paths.js"></script>
     <style>
       @font-face { font-family: "Heebo"; font-weight: 300; src: url("assets/fonts/heebo-hebrew-300.woff2") format("woff2"); unicode-range: U+0590-05FF, U+20AA; }
       @font-face { font-family: "Heebo"; font-weight: 300; src: url("assets/fonts/heebo-latin-300.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
@@ -24,8 +25,10 @@
       #rip { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px; border-radius: 50%; background: rgba(255, 255, 255, 0.45); }
       #h { position: absolute; left: 0; right: 0; top: 250px; text-align: center; direction: rtl; font-size: 86px; font-weight: 300; color: var(--n); white-space: nowrap; }
       #h span { display: inline-block; margin: 0 12px; }
-      #logo { position: absolute; left: 830px; top: 370px; width: 260px; height: 260px; border-radius: 6px; box-shadow: 0 40px 100px rgba(0, 45, 116, 0.35); }
-      #sun { position: absolute; left: 860px; top: 400px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ffe770, var(--sun) 60%, #ffb800); }
+      #logo { position: absolute; left: 660px; top: 356px; width: 600px; height: 354px; overflow: visible; transform-origin: 50% 50%; }
+      #logo path { fill: #002d74; fill-rule: evenodd; stroke: #002d74; stroke-width: 1.6; stroke-linejoin: round; }
+      #rings { position: absolute; left: 960px; top: 520px; width: 0; height: 0; transform-style: preserve-3d; }
+      #rings i { position: absolute; border-radius: 50%; border: 2.5px solid #002d74; }
       #tagline { position: absolute; left: 0; right: 0; top: 690px; text-align: center; direction: rtl; font-size: 40px; font-weight: 300; color: var(--n); opacity: 0; }
       /* suggestion + calendar */
       #sug { display: flex; align-items: center; gap: 20px; padding: 18px 22px; box-sizing: border-box; }
@@ -48,8 +51,8 @@
       <div class="blob" id="b0" style="left:-200px;top:-260px;width:900px;height:800px;background:#dfe9ff"></div>
       <div class="blob" id="b1" style="left:1200px;top:480px;width:900px;height:800px;background:#fff3c4;opacity:.8"></div>
       <div id="world">
-        <div id="sun"></div>
-        <img id="logo" src="assets/img/logo.svg" />
+        <div id="rings"></div>
+        <svg id="logo" xmlns="http://www.w3.org/2000/svg"></svg>
         <div id="tagline">החופשה המושלמת שלכם מתחילה כאן.</div>
         <div id="h"><span>איתכם</span><span>בכל</span><span>חופשה</span><span>שתבחרו</span></div>
 
@@ -75,8 +78,12 @@
       const T3 = (e, x, y, z, s = 1, rx = 0, ry = 0) => (e.style.transform = "translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px," + z.toFixed(1) + "px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg) scale(" + Math.max(0.0001, s).toFixed(4) + ")");
       // December 2026 starts on a Tuesday
       { const g = $("#calg"); "אבגדהוש".split("").forEach((d) => (g.innerHTML += "<i>" + d + "׳</i>")); for (let i = 0; i < 2; i++) g.innerHTML += "<u></u>"; for (let d = 1; d <= 31; d++) g.innerHTML += '<u id="d' + d + '"><s></s><b></b><em>' + d + "</em></u>"; }
+      // the logo: one path per letter, so the outline can draw before the fill arrives
+      const LG = $("#logo"), NSV = "http://www.w3.org/2000/svg", B = LOGO.box; LG.setAttribute("viewBox", (B[0] - 6) + " " + (B[1] - 6) + " " + (B[2] + 12) + " " + (B[3] + 12));
+      const letters = [...LOGO.top.map((d, i) => [d, 0, i]), ...LOGO.bot.map((d, i) => [d, 1, i])].map(([d, row, i]) => { const e = document.createElementNS(NSV, "path"); e.setAttribute("d", d); LG.appendChild(e); const L = e.getTotalLength(); e.style.strokeDasharray = L; return { e, L, row, i }; });
+      const rings = []; for (let i = 0; i < 7; i++) { const r = document.createElement("i"), w = 520 + i * 70, h = 150 + i * 46; r.style.cssText = "width:" + w + "px;height:" + h + "px;left:" + -w / 2 + "px;top:" + -h / 2 + "px"; $("#rings").appendChild(r); rings.push(r); }
       // cursor path: [time, x, y]
-      const CP = [[1.9, 1560, 940], [2.45, 1500, 524], [3.3, 1500, 530], [3.75, 1070, 524], [4.2, 1236, 896], [4.55, 1236, 896], [4.8, 1127, 896], [5.1, 1127, 896], [5.55, 306, 524], [6.2, 306, 524]];
+      const CP = [[2.1, 1560, 940], [2.47, 1500, 524], [3.3, 1500, 530], [3.75, 1070, 524], [4.2, 1236, 896], [4.55, 1236, 896], [4.8, 1127, 896], [5.1, 1127, 896], [5.55, 306, 524], [6.2, 306, 524]];
       const CLICK = [2.5, 3.8, 4.28, 4.88, 5.62];
       const curAt = (t) => { let i = 0; while (i < CP.length - 2 && t > CP[i + 1][0]) i++; const a = CP[i], b = CP[i + 1], k = inOut(seg(t, a[0], b[0])); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k) - Math.sin(k * Math.PI) * 26]; };
 
@@ -84,18 +91,22 @@
         t = clamp(t, 0, DUR);
         [0, 1].forEach((i) => ($("#b" + i).style.transform = "translate(" + (Math.sin(t * 0.5 + i * 2) * 70).toFixed(1) + "px," + (Math.cos(t * 0.4 + i) * 50).toFixed(1) + "px)"));
         // camera: a slow drift, then a push into the search button
-        const push = inCubic(seg(t, 5.62, 6.15)), k = inOut(seg(t, 1.4, 5.6));
+        const push = inCubic(seg(t, 5.62, 6.15)), k = inOut(seg(t, 1.5, 5.6));
         $("#world").style.transformOrigin = lerp(50, 16.1, push) + "% " + lerp(50, 48.3, push) + "%";
         T3($("#world"), 0, 0, 0, lerp(0.97, 1.04, k) + push * 5, lerp(9, 3, k) * (1 - push), lerp(-7, 5, k) * (1 - push));
         $("#wh").style.opacity = seg(t, 5.9, 6.15);
-        // 1. logo: the sun rises behind it, the square flips in
-        const li = outBack(seg(t, 0.1, 0.65)), out = inOut(seg(t, 1.35, 1.9)); const lg = $("#logo"); lg.style.opacity = seg(t, 0.1, 0.2);
-        T3(lg, lerp(0, 768, out), lerp(0, -326, out), 60 * (1 - out), li * lerp(1, 0.4, out), 0, (1 - li) * -90);
-        const si = outBack(seg(t, 0.35, 0.95)); T3($("#sun"), lerp(0, 150, si) + lerp(0, 718, out), lerp(60, -120, si) + lerp(0, -260, out), -80, si * lerp(1, 0.28, out)); $("#sun").style.opacity = si > 0 ? 1 : 0;
-        const tg = $("#tagline"); tg.style.opacity = seg(t, 0.7, 1.05) * (1 - seg(t, 1.3, 1.5)); tg.style.transform = "translateY(" + ((1 - outCubic(seg(t, 0.7, 1.1))) * 24).toFixed(1) + "px)";
+        // 1. logo: contour rings spin in and tighten, the outline draws letter by letter, the fill lands, then it flies to the corner
+        const out = inOut(seg(t, 1.5, 2.05)), settle = outBack(seg(t, 0.95, 1.35));
+        rings.forEach((r, i) => { const q = seg(t, 0.0 + i * 0.03, 1.0 + i * 0.03), e = outCubic(q); r.style.opacity = (seg(t, 0, 0.12) * (1 - seg(q, 0.62, 1)) * (0.9 - i * 0.09)).toFixed(3);
+          r.style.transform = "rotateX(" + (lerp(78, 0, e) + i * 3).toFixed(1) + "deg) rotateY(" + (lerp(-60 + i * 22, 0, e)).toFixed(1) + "deg) rotateZ(" + (lerp(i * 40, 0, e) + t * 30).toFixed(1) + "deg) scale(" + lerp(1.5 - i * 0.05, 0.55, e).toFixed(3) + ")"; });
+        letters.forEach((l) => { const a = l.row ? 1.0 + l.i * 0.05 : 0.28 + l.i * 0.075, d = seg(t, a, a + (l.row ? 0.3 : 0.55)), f = seg(t, a + (l.row ? 0.12 : 0.4), a + (l.row ? 0.34 : 0.7));
+          l.e.style.strokeDashoffset = (l.L * (1 - inOut(d))).toFixed(1); l.e.style.fillOpacity = f.toFixed(3); l.e.style.opacity = d > 0 ? 1 : 0;
+          l.e.style.transform = "translateY(" + ((1 - outCubic(seg(t, a, a + 0.4))) * (l.row ? 14 : -10)).toFixed(1) + "px)"; });
+        LG.style.transform = "translate3d(" + lerp(0, 736, out).toFixed(1) + "px," + lerp(0, -432, out).toFixed(1) + "px," + (70 * (1 - out)).toFixed(1) + "px) scale(" + ((0.94 + 0.06 * settle) * lerp(1, 0.3, out)).toFixed(4) + ")";
+        const tg = $("#tagline"); tg.style.opacity = seg(t, 1.05, 1.35) * (1 - seg(t, 1.45, 1.62)); tg.style.transform = "translateY(" + ((1 - outCubic(seg(t, 1.05, 1.4))) * 24 + 40).toFixed(1) + "px)";
         // 2. headline and the search bar, card by card
-        $$("#h span").forEach((s, i) => { const q = outExpo(seg(t, 1.5 + i * 0.09, 2.0 + i * 0.09)); s.style.opacity = q; s.style.filter = "blur(" + ((1 - q) * 14).toFixed(1) + "px)"; s.style.transform = "translateY(" + ((1 - q) * 40).toFixed(1) + "px)"; });
-        [["#f1", 1.6, 70], ["#f2", 1.72, 40], ["#f3", 1.84, 20], ["#btn", 1.96, 90]].forEach(([id, a, z], i) => { const q = outBack(seg(t, a, a + 0.5)), e = $(id); e.style.opacity = seg(t, a, a + 0.12);
+        $$("#h span").forEach((s, i) => { const q = outExpo(seg(t, 1.9 + i * 0.09, 2.4 + i * 0.09)); s.style.opacity = q; s.style.filter = "blur(" + ((1 - q) * 14).toFixed(1) + "px)"; s.style.transform = "translateY(" + ((1 - q) * 40).toFixed(1) + "px)"; });
+        [["#f1", 1.8, 70], ["#f2", 1.92, 40], ["#f3", 2.04, 20], ["#btn", 2.16, 90]].forEach(([id, a, z], i) => { const q = outBack(seg(t, a, a + 0.5)), e = $(id); e.style.opacity = seg(t, a, a + 0.12);
           const press = id === "#btn" ? seg(t, 5.6, 5.66) * (1 - seg(t, 5.66, 5.85)) : 0, act = (id === "#f1" ? seg(t, 2.45, 2.6) * (1 - seg(t, 3.5, 3.7)) : id === "#f2" ? seg(t, 3.75, 3.9) * (1 - seg(t, 5.2, 5.4)) : 0);
           T3(e, 0, (1 - q) * 160 + Math.sin(t * 1.3 + i) * 4, z * q + act * 40, (0.8 + 0.2 * q) * (1 - 0.05 * press) * (1 + 0.03 * act), (1 - q) * 30, 0);
           e.style.boxShadow = act > 0 ? "0 44px 110px rgba(0,45,116," + (0.16 + 0.14 * act).toFixed(3) + "), inset 0 0 0 " + (3 * act).toFixed(1) + "px #002d74" : ""; });
@@ -111,7 +122,7 @@
         $("#f2t").innerHTML = t > 4.95 ? "<b>20/12/26 - 22/12/26</b>" : t > 4.35 ? "<b>20/12/26</b> - מתי עוזבים?" : "מתי מגיעים? - מתי עוזבים?";
         // cursor
         const [cx, cy] = curAt(t), pr = Math.max(...CLICK.map((c) => seg(t, c - 0.06, c) * (1 - seg(t, c, c + 0.16)))), cur = $("#cur");
-        cur.style.opacity = seg(t, 1.9, 2.1) * (1 - seg(t, 5.9, 6.05)); cur.style.transform = "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,170px) scale(" + (1 - 0.22 * pr).toFixed(3) + ")";
+        cur.style.opacity = seg(t, 2.1, 2.3) * (1 - seg(t, 5.9, 6.05)); cur.style.transform = "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,170px) scale(" + (1 - 0.22 * pr).toFixed(3) + ")";
       }
       const tl = gsap.timeline({ paused: true }), pr = { t: 0 };
       tl.to(pr, { t: DUR, duration: DUR, ease: "none", onUpdate: () => draw(pr.t) }, 0);

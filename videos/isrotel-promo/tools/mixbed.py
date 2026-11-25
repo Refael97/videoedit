@@ -1,7 +1,7 @@
 """Audio bed for the approval beat: temporary music + a pop per card, a click per press, a whoosh on the push. Run from the project root."""
 import subprocess
 DUR = 6.2
-ev = [("impact", 0.1, 0.5), ("pop", 0.38, 0.5), ("whoosh", 1.3, 0.5), ("pop", 1.6, 0.4), ("pop", 1.72, 0.4), ("pop", 1.84, 0.4), ("pop", 1.96, 0.5),
+ev = [("whoosh", 0.0, 0.5), ("impact", 1.0, 0.5), ("whoosh", 1.45, 0.5), ("pop", 1.8, 0.4), ("pop", 1.92, 0.4), ("pop", 2.04, 0.4), ("pop", 2.16, 0.5),
       ("click", 2.5, 0.8), ("pop", 3.0, 0.5), ("click", 3.8, 0.8), ("pop", 3.86, 0.5), ("click", 4.28, 0.8), ("click", 4.88, 0.8), ("click", 5.62, 0.9), ("whoosh", 5.6, 0.7)]
 cmd = ["ffmpeg", "-y", "-v", "error", "-ss", "8", "-i", "../sonol-spec/assets/audio/music.mp3"]
 for n, _, _ in ev: cmd += ["-i", "assets/audio/%s.wav" % n]
