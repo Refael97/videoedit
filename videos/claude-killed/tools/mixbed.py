@@ -1,7 +1,8 @@
 """Audio bed for the approval scene: music + sound effects on the hits. Run from the project root: python3 tools/mixbed.py"""
 import subprocess
-DUR, SW = 5.2, 2.85
-ev = [("whoosh", 0.7, 0.5), ("impact", 0.78, 0.8), ("pop", 1.8, 0.4), ("pop", 1.95, 0.4), ("pop", 2.1, 0.4), ("pop", 2.32, 0.6), ("whoosh", SW - 0.14, 0.6), ("impact", SW + 0.1, 0.85), ("pop", SW + 0.75, 0.4), ("pop", SW + 0.95, 0.4), ("pop", SW + 1.15, 0.4), ("pop", SW + 1.78, 0.6)]
+H0 = 2.2
+DUR, SW = 5.2 + H0, 2.85 + H0
+ev = [("impact", 0.0, 0.7), ("impact", 0.62, 0.95), ("riser", 0.9, 0.35), ("whoosh", 1.9, 0.8), ("whoosh", 0.7 + H0, 0.4), ("pop", 1.8 + H0, 0.4), ("pop", 1.95 + H0, 0.4), ("pop", 2.1 + H0, 0.4), ("pop", 2.32 + H0, 0.6), ("whoosh", SW - 0.14, 0.6), ("impact", SW + 0.1, 0.85), ("pop", SW + 0.75, 0.4), ("pop", SW + 0.95, 0.4), ("pop", SW + 1.15, 0.4), ("pop", SW + 1.78, 0.6)]
 cmd = ["ffmpeg", "-y", "-v", "error", "-i", "../bit-spec/assets/music.mp3"]
 for n, _, _ in ev: cmd += ["-i", "assets/audio/%s.wav" % n]
 f = ["[0:a]atrim=0:%s,afade=t=in:d=0.2,afade=t=out:st=%s:d=0.5,volume=0.5[m]" % (DUR, DUR - 0.5)]
