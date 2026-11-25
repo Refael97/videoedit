@@ -120,7 +120,7 @@
         const rk = seg(t, 2.95, 3.95), rs = spring(rk);
         put(room, c, t, { s: lerp(0.82, 1, rs), rx: lerp(22, 0, rs), dy: lerp(160, 0, rs), op: Math.min(1, rk * 5), blur: lerp(14, 0, Math.min(1, rk * 2.2)) });
         rimg.style.transform = "scale(" + lerp(1.22, 1.06, outCubic(seg(t, 3, 5.2))) + ")";
-        $("num").textContent = Math.round(1807 * outExpo(seg(t, 3.45, 4.5))).toLocaleString("en-US");
+        $("num").textContent = Math.round(1807 * outExpo(seg(Math.floor(t * 60 + 1e-6) / 60, 3.45, 4.5))).toLocaleString("en-US");
         // the room photo comes alive: the clip plays inside the card, then the card photo opens to the full frame
         const vi = clamp(Math.round((t - 4.2) * 60), 0, NF - 1); if (vi !== lastVi && FR[vi].complete && FR[vi].naturalWidth) { ctx.drawImage(FR[vi], 0, 0, 1920, 1080); lastVi = vi; }
         const r = RP.getBoundingClientRect(), ek = inOut(seg(t, 4.75, 5.65)), w = lerp(r.width, 1920, ek), h = lerp(r.height, 1080, ek), PO = $("portal");
