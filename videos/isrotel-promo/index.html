@@ -14,7 +14,9 @@
       @font-face { font-family: "Heebo"; font-weight: 700; src: url("assets/fonts/heebo-latin-700.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
       :root { --n: #002d74; --ink: #1b2233; --sun: #ffd21f; --mut: #7b8499; }
       html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #f5f7fb; }
-      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #f5f7fb; font-family: "Heebo", sans-serif; color: var(--ink); perspective: 2200px; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #f5f7fb; font-family: "Heebo", sans-serif; color: var(--ink); }
+      .scn { position: absolute; inset: 0; overflow: hidden; perspective: 2200px; background: #f5f7fb; }
+      .world { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-style: preserve-3d; }
       .blob { position: absolute; border-radius: 50%; filter: blur(110px); }
       #world { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-style: preserve-3d; transform-origin: 50% 50%; }
       .c { position: absolute; background: #fff; border-radius: 22px; box-shadow: 0 34px 90px rgba(0, 45, 116, 0.16), 0 4px 14px rgba(0, 20, 60, 0.06); direction: rtl; will-change: transform; }
@@ -44,10 +46,40 @@
       #cal .g u em { position: relative; font-style: normal; }
       #cur { position: absolute; left: 0; top: 0; width: 44px; height: 44px; z-index: 50; filter: drop-shadow(0 6px 10px rgba(0, 20, 60, 0.35)); }
       #wh { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 60; }
+      .cur { position: absolute; left: 0; top: 0; width: 44px; height: 44px; filter: drop-shadow(0 6px 10px rgba(0, 20, 60, 0.35)); }
+      .hud { position: absolute; right: 120px; top: 96px; direction: rtl; font-size: 72px; font-weight: 300; color: var(--n); white-space: nowrap; }
+      .hud b { font-weight: 700; }
+      /* map */
+      .pin { position: absolute; width: 0; height: 0; }
+      .pin > i { position: absolute; left: -13px; top: -13px; width: 26px; height: 26px; border-radius: 50%; background: var(--n); box-shadow: 0 0 0 7px rgba(0, 45, 116, 0.18); }
+      .pl { top: -40px; height: 80px; padding: 0 26px; display: flex; flex-direction: column; justify-content: center; white-space: nowrap; border-radius: 18px; }
+      .pl b { font-size: 30px; font-weight: 700; color: var(--n); line-height: 1.1; } .pl span { font-size: 20px; color: var(--mut); }
+      /* navy card */
+      #cT { position: absolute; left: 0; right: 0; top: 330px; text-align: center; direction: rtl; color: #fff; font-size: 150px; font-weight: 300; line-height: 1.15; }
+      #cT span { display: inline-block; margin: 0 18px; } #cT .b { font-weight: 700; }
+      #cR { position: absolute; left: 960px; top: 560px; width: 0; height: 0; } #cR i { position: absolute; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.14); }
+      /* carousel */
+      #ring { position: absolute; left: 960px; top: 560px; width: 0; height: 0; transform-style: preserve-3d; }
+      .ph { left: -260px; top: -330px; width: 520px; height: 660px; overflow: hidden; border-radius: 30px; backface-visibility: hidden; } .ph img { width: 100%; height: 100%; object-fit: cover; }
+      #hD { top: auto; bottom: 70px; right: 0; left: 0; text-align: center; font-size: 46px; }
+      /* hotel page */
+      #eT .t { font-size: 150px; font-weight: 700; color: var(--n); line-height: 1; } #eT .s { font-size: 34px; font-weight: 300; color: var(--ink); margin-top: 14px; }
+      .chip { height: 66px; padding: 0 28px; border-radius: 33px; display: flex; align-items: center; font-size: 28px; white-space: nowrap; }
+      #eRp { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); }
+      /* booking */
+      .row { position: absolute; right: 50px; left: 50px; height: 80px; border-bottom: 2px solid #e6eaf3; display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: center; opacity: 0; }
+      .row b { font-size: 34px; font-weight: 700; color: var(--ink); } .row span { font-size: 24px; color: var(--mut); }
+      #fSun { position: absolute; right: 26px; top: 25px; width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ffe770, #ffd21f 60%, #ffb800); box-shadow: 0 0 0 10px rgba(255, 210, 31, 0.25); }
+      /* outro */
+      #gT { position: absolute; left: 0; right: 0; top: 470px; text-align: center; direction: rtl; font-size: 84px; font-weight: 300; color: var(--n); white-space: nowrap; } #gT span { display: inline-block; margin: 0 12px; }
+      #gL { position: absolute; left: 610px; top: 380px; width: 700px; height: 413px; overflow: visible; transform-origin: 50% 50%; } #gL path { fill: #002d74; fill-rule: evenodd; stroke: #002d74; stroke-width: 1.6; stroke-linejoin: round; }
+      #gR { position: absolute; left: 960px; top: 586px; width: 0; height: 0; transform-style: preserve-3d; } #gR i { position: absolute; border-radius: 50%; border: 2.5px solid #002d74; }
+      #gC { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; direction: rtl; font-size: 30px; color: var(--mut); opacity: 0; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="6.2" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="25.2" data-width="1920" data-height="1080">
+      <div class="scn" id="SA">
       <div class="blob" id="b0" style="left:-200px;top:-260px;width:900px;height:800px;background:#dfe9ff"></div>
       <div class="blob" id="b1" style="left:1200px;top:480px;width:900px;height:800px;background:#fff3c4;opacity:.8"></div>
       <div id="world">
@@ -66,7 +98,8 @@
         <svg id="cur" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.500L10 19z" fill="#fff" stroke="#0b1530" stroke-width="1.6" stroke-linejoin="round" /></svg>
       </div>
       <div id="wh"></div>
-      <audio id="bed" src="assets/audio/bed.m4a" data-start="0" data-duration="6.2" data-track-index="10" data-volume="1"></audio>
+      </div>
+      <audio id="bed" src="assets/audio/bed.m4a" data-start="0" data-duration="25.2" data-track-index="10" data-volume="1"></audio>
     </div>
     <script>
       // Isrotel brand-flow promo — beat 1 and 2 for approval: the logo, then the site's real search bar taken apart into floating cards.
@@ -87,7 +120,7 @@
       const CLICK = [2.5, 3.8, 4.28, 4.88, 5.62];
       const curAt = (t) => { let i = 0; while (i < CP.length - 2 && t > CP[i + 1][0]) i++; const a = CP[i], b = CP[i + 1], k = inOut(seg(t, a[0], b[0])); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k) - Math.sin(k * Math.PI) * 26]; };
 
-      function draw(t) {
+      function drawA(t) {
         t = clamp(t, 0, DUR);
         [0, 1].forEach((i) => ($("#b" + i).style.transform = "translate(" + (Math.sin(t * 0.5 + i * 2) * 70).toFixed(1) + "px," + (Math.cos(t * 0.4 + i) * 50).toFixed(1) + "px)"));
         // camera: a slow drift, then a push into the search button
@@ -128,10 +161,7 @@
         const [cx, cy] = curAt(t), pr = Math.max(...CLICK.map((c) => seg(t, c - 0.06, c) * (1 - seg(t, c, c + 0.16)))), cur = $("#cur");
         cur.style.opacity = seg(t, 2.1, 2.3) * (1 - seg(t, 5.9, 6.05)); cur.style.transform = "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,170px) scale(" + (1 - 0.22 * pr).toFixed(3) + ")";
       }
-      const tl = gsap.timeline({ paused: true }), pr = { t: 0 };
-      tl.to(pr, { t: DUR, duration: DUR, ease: "none", onUpdate: () => draw(pr.t) }, 0);
-      draw(0);
-      window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; window.__draw = draw;
     </script>
+    <script src="film.js"></script>
   </body>
 </html>
