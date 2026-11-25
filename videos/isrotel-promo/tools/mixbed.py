@@ -2,7 +2,7 @@
 import subprocess
 DUR = 6.2
 ev = [("whoosh", 0.0, 0.5), ("impact", 1.0, 0.5), ("whoosh", 1.45, 0.5), ("pop", 1.8, 0.4), ("pop", 1.92, 0.4), ("pop", 2.04, 0.4), ("pop", 2.16, 0.5),
-      ("click", 2.5, 0.8), ("pop", 3.0, 0.5), ("click", 3.8, 0.8), ("pop", 3.86, 0.5), ("click", 4.28, 0.8), ("click", 4.88, 0.8), ("click", 5.62, 0.9), ("whoosh", 5.6, 0.7)]
+      ("click", 2.5, 0.8), ("pop", 3.0, 0.5), ("click", 3.8, 0.8), ("pop", 3.86, 0.5), ("click", 4.28, 0.8), ("click", 4.88, 0.8), ("click", 5.62, 0.9), ("whoosh", 5.6, 0.7), ("whoosh", 2.45, 0.35), ("whoosh", 3.65, 0.35), ("whoosh", 5.15, 0.35)]
 cmd = ["ffmpeg", "-y", "-v", "error", "-ss", "8", "-i", "../sonol-spec/assets/audio/music.mp3"]
 for n, _, _ in ev: cmd += ["-i", "assets/audio/%s.wav" % n]
 f = ["[0:a]atrim=0:%s,afade=t=in:d=0.15,afade=t=out:st=%s:d=0.5,volume=0.5[m]" % (DUR, DUR - 0.5)]
