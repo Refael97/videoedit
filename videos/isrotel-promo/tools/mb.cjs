@@ -11,8 +11,9 @@ const { chromium } = require("playwright");
   else {
     const from = +rest[0], to = +rest[1], sub = +(rest[2] || 6); let n = 0;
     for (let f = Math.round(from * 60); f < Math.round(to * 60); f++) for (let j = 0; j < sub; j++) {
+      const file = out + "/s" + String(n).padStart(6, "0") + ".jpg"; if (require("fs").existsSync(file) && require("fs").existsSync(out + "/s" + String(n + 1).padStart(6, "0") + ".jpg")) { n++; continue; } // resume: keep finished samples
       await p.evaluate(async (t) => { window.__draw(t); if (window.__settle) await window.__settle(); }, f / 60 + (j / sub) * (0.5 / 60));
-      await p.screenshot({ path: out + "/s" + String(n++).padStart(6, "0") + ".jpg", type: "jpeg", quality: 96 });
+      await p.screenshot({ path: file, type: "jpeg", quality: 96 }); n++;
     }
     console.log(n + " samples");
   }
