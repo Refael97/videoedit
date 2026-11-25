@@ -11,48 +11,50 @@
       @font-face { font-family: "Heebo"; font-weight: 900; src: url("assets/fonts/heebo-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
       @font-face { font-family: "Mono"; font-weight: 500; src: url("assets/fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
       @font-face { font-family: "Mono"; font-weight: 700; src: url("assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
-      :root { --g: #131010; --c: #ff8a5c; --c2: #d97757; --ink: #f6efe9; }
+      :root { --g: #faf6f1; --c: #e8733f; --c2: #d97757; --ink: #1d1a18; }
       html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: var(--g); }
       #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--g); font-family: "Heebo", sans-serif; color: var(--ink); }
-      #halo { position: absolute; inset: 0; background: radial-gradient(ellipse 55% 62% at 50% 52%, rgba(255, 138, 92, 0.17) 0, rgba(217, 119, 87, 0.06) 45%, rgba(0, 0, 0, 0) 74%); }
-      #grain { position: absolute; inset: 0; opacity: 0.05; background-image: radial-gradient(rgba(255, 255, 255, 0.9) 0.6px, transparent 0.7px); background-size: 5px 5px; }
-      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.55) 100%); pointer-events: none; }
-      #neon { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      #halo { position: absolute; inset: 0; }
+      .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.75; }
+      #grain { position: absolute; inset: 0; opacity: 0.05; background-image: radial-gradient(rgba(80, 50, 30, 0.9) 0.6px, transparent 0.7px); background-size: 5px 5px; }
+      #vig { display: none; }
+      #neon, .head { display: none !important; }
+      #neon0 { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
       .sH { fill: none; stroke: rgba(240, 110, 60, 0.6); stroke-width: 18; stroke-linecap: round; filter: blur(10px); }
       .sT { fill: none; stroke: var(--c); stroke-width: 5.5; stroke-linecap: round; filter: drop-shadow(0 0 5px #ff8a5c) drop-shadow(0 0 16px rgba(255, 110, 60, 0.85)); }
       .sC { fill: none; stroke: #fff3ec; stroke-width: 1.9; stroke-linecap: round; }
       .head { position: absolute; left: 0; top: 0; width: 0; height: 0; }
       .head b { position: absolute; left: -38px; top: -38px; width: 76px; height: 76px; border-radius: 50%; background: radial-gradient(circle, #fff 0, #ffe6d8 18%, rgba(255, 138, 92, 0.6) 38%, rgba(255, 138, 92, 0) 70%); }
       /* headline */
-      #h1 { position: absolute; right: 120px; top: 306px; width: 840px; text-align: right; direction: rtl; font-size: 104px; font-weight: 900; line-height: 1; white-space: nowrap; }
+      #h1 { position: absolute; right: 120px; top: 306px; width: 840px; text-align: right; direction: rtl; font-size: 100px; font-weight: 500; line-height: 1; white-space: nowrap; }
       #h1 span { display: inline-block; margin-left: 22px; }
       #h1 .cl { direction: ltr; }
       #jobs { position: absolute; right: 120px; top: 436px; width: 840px; height: 200px; overflow: hidden; direction: rtl; }
-      .job { position: absolute; right: 0; top: 22px; font-size: 118px; font-weight: 900; line-height: 1.12; white-space: nowrap; color: var(--c); text-shadow: 0 0 38px rgba(255, 120, 70, 0.5); }
-      .job i { position: absolute; left: -10px; right: -10px; top: 56%; height: 12px; border-radius: 6px; background: var(--ink); transform-origin: 100% 50%; box-shadow: 0 0 18px rgba(255, 255, 255, 0.6); }
-      #tag { position: absolute; right: 124px; top: 250px; direction: ltr; font-family: "Mono", monospace; font-weight: 500; font-size: 24px; letter-spacing: 5px; color: rgba(246, 239, 233, 0.6); }
+      .job { position: absolute; right: 0; top: 22px; font-size: 118px; font-weight: 900; line-height: 1.12; white-space: nowrap; background: linear-gradient(90deg, #b65a3c, #ff9e6b 50%, #d97757); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 4px 14px; }
+      .job i { position: absolute; left: -10px; right: -10px; top: 56%; height: 12px; border-radius: 6px; background: var(--ink); transform-origin: 100% 50%; }
+      #tag { position: absolute; right: 124px; top: 250px; direction: ltr; font-family: "Mono", monospace; font-weight: 500; font-size: 24px; letter-spacing: 5px; color: rgba(60, 45, 35, 0.55); }
       #tag b { color: var(--c); font-weight: 700; }
       /* the panel */
-      #panel { position: absolute; left: 130px; top: 190px; width: 800px; height: 700px; border-radius: 30px; background: linear-gradient(160deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.12), 0 40px 90px rgba(0, 0, 0, 0.5); overflow: hidden; }
+      #panel { position: absolute; left: 130px; top: 190px; width: 800px; height: 700px; border-radius: 30px; background: rgba(255, 255, 255, 0.72); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.95), 0 50px 110px rgba(150, 90, 60, 0.22); overflow: hidden; }
       .scn { position: absolute; inset: 0; }
-      .prompt { position: absolute; right: 34px; top: 34px; height: 76px; padding: 0 26px 0 30px; border-radius: 38px; background: rgba(20, 16, 15, 0.9); box-shadow: inset 0 0 0 1.5px rgba(255, 138, 92, 0.65), 0 0 26px rgba(255, 120, 70, 0.25); display: flex; align-items: center; gap: 18px; direction: rtl; font-size: 34px; font-weight: 500; white-space: nowrap; }
+      .prompt { position: absolute; right: 34px; top: 34px; height: 76px; padding: 0 26px 0 30px; border-radius: 38px; background: #fff; box-shadow: inset 0 0 0 2px rgba(232, 115, 63, 0.7), 0 12px 30px rgba(200, 110, 70, 0.18); display: flex; align-items: center; gap: 18px; direction: rtl; font-size: 34px; font-weight: 500; white-space: nowrap; }
       .prompt svg { width: 40px; height: 40px; flex: none; }
       .prompt u { text-decoration: none; display: inline-block; width: 3px; height: 38px; background: var(--c); margin-right: 4px; }
-      .lab { position: absolute; left: 36px; top: 54px; direction: ltr; font-family: "Mono", monospace; font-size: 20px; letter-spacing: 4px; color: rgba(246, 239, 233, 0.5); }
-      .done { position: absolute; left: 34px; bottom: 30px; height: 62px; padding: 0 26px; border-radius: 31px; background: var(--c); color: #2a120a; display: flex; align-items: center; gap: 12px; direction: rtl; font-size: 30px; font-weight: 900; white-space: nowrap; box-shadow: 0 0 34px rgba(255, 120, 70, 0.55); }
+      .lab { position: absolute; left: 36px; top: 54px; direction: ltr; font-family: "Mono", monospace; font-size: 20px; letter-spacing: 4px; color: rgba(60, 45, 35, 0.45); }
+      .done { position: absolute; left: 34px; bottom: 30px; height: 62px; padding: 0 26px; border-radius: 31px; background: var(--c); color: #fff; display: flex; align-items: center; gap: 12px; direction: rtl; font-size: 30px; font-weight: 900; white-space: nowrap; box-shadow: 0 14px 30px rgba(232, 115, 63, 0.4); }
       /* A: the editing timeline */
-      #prev { position: absolute; left: 36px; top: 148px; width: 728px; height: 236px; border-radius: 18px; background: #0c0a0a; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.1); overflow: hidden; }
+      #prev { position: absolute; left: 36px; top: 148px; width: 728px; height: 236px; border-radius: 18px; background: #efe6dd; overflow: hidden; }
       #prevG { position: absolute; inset: 0; background: linear-gradient(120deg, #3b1d12, #a5512f 40%, #f3a777 60%, #46231a); background-size: 300% 100%; }
       #prevP { position: absolute; left: 50%; top: 50%; width: 84px; height: 84px; margin: -42px; border-radius: 50%; background: rgba(0, 0, 0, 0.45); box-shadow: inset 0 0 0 3px #fff; }
       #prevP::after { content: ""; position: absolute; left: 32px; top: 24px; border-style: solid; border-width: 18px 0 18px 30px; border-color: transparent transparent transparent #fff; }
       #prevT { position: absolute; left: 20px; bottom: 14px; font-family: "Mono", monospace; font-size: 22px; color: #fff; direction: ltr; }
-      .trk { position: absolute; left: 36px; width: 728px; height: 62px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); }
-      .clip { position: absolute; top: 6px; height: 50px; border-radius: 9px; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.28); overflow: hidden; }
+      .trk { position: absolute; left: 36px; width: 728px; height: 62px; border-radius: 12px; background: rgba(90, 60, 40, 0.07); }
+      .clip { position: absolute; top: 6px; height: 50px; border-radius: 9px; overflow: hidden; }
       .clip.a { background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0 3px, transparent 3px 8px), #3c2a55; background-size: auto 60%, auto; background-repeat: repeat-x; background-position: 0 50%; }
-      #ph { position: absolute; top: 400px; width: 3px; height: 232px; background: #fff; box-shadow: 0 0 12px #fff; }
-      #ph::before { content: ""; position: absolute; left: -9px; top: -6px; border-style: solid; border-width: 14px 10.5px 0; border-color: #fff transparent transparent; }
+      #ph { position: absolute; top: 400px; width: 4px; height: 232px; background: #1d1a18; border-radius: 2px; }
+      #ph::before { content: ""; position: absolute; left: -9px; top: -6px; border-style: solid; border-width: 14px 10.5px 0; border-color: #1d1a18 transparent transparent; }
       /* B: the website */
-      .win { position: absolute; border-radius: 18px; background: #f7f3ee; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55); overflow: hidden; }
+      .win { position: absolute; border-radius: 18px; background: #f7f3ee; box-shadow: 0 24px 60px rgba(120, 70, 40, 0.28), inset 0 0 0 1.5px rgba(60, 40, 30, 0.08); overflow: hidden; }
       .bar { position: absolute; left: 0; right: 0; top: 0; height: 44px; background: #e6dfd7; }
       .bar i { position: absolute; top: 15px; width: 14px; height: 14px; border-radius: 50%; }
       .bar b { position: absolute; left: 110px; right: 110px; top: 9px; height: 26px; border-radius: 13px; background: #fff; font-family: "Mono", monospace; font-size: 15px; line-height: 26px; text-align: center; color: #7a6f66; font-weight: 500; }
@@ -61,14 +63,14 @@
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="5.2" data-width="1920" data-height="1080">
-      <div id="halo"></div>
+      <div id="halo"><div class="blob" id="b0" style="left:-100px;top:-160px;width:900px;height:800px;background:#ffd3b8"></div><div class="blob" id="b1" style="left:1100px;top:420px;width:900px;height:800px;background:#e0d2ff"></div><div class="blob" id="b2" style="left:700px;top:-300px;width:700px;height:600px;background:#fff0c9"></div></div>
       <div id="grain"></div>
       <svg id="neon" viewBox="0 0 1920 1080"><g id="gH"></g><g id="gT"></g><g id="gC"></g></svg>
 
       <div id="panel">
         <div class="scn" id="sA">
           <div class="lab">VIDEO EDITOR</div>
-          <div class="prompt"><svg viewBox="-12 -12 24 24"><g id="spk" fill="#ff8a5c"></g></svg><span id="pA"></span><u id="cA"></u></div>
+          <div class="prompt"><svg viewBox="-12 -12 24 24"><g id="spk" fill="#e8733f"></g></svg><span id="pA"></span><u id="cA"></u></div>
           <div id="prev"><div id="prevG"></div><div id="prevP"></div><div id="prevT">00:00</div></div>
           <div class="trk" style="top:404px" id="t1"></div><div class="trk" style="top:478px" id="t2"></div><div class="trk" style="top:552px" id="t3"></div>
           <div id="ph"></div>
@@ -128,12 +130,12 @@
         const sw = seg(t, SW, SW + 0.5);
         // slow push-in on the whole frame, with a small kick on the flip
         const kick = seg(t, SW, SW + 0.08) * (1 - seg(t, SW + 0.08, SW + 0.45));
-        $("#halo").style.transform = "scale(" + (1 + 0.06 * inOut(seg(t, 0, DUR)) + 0.05 * kick).toFixed(4) + ")"; $("#halo").style.opacity = (0.85 + 0.15 * Math.sin(t * 2.2) + 0.5 * kick).toFixed(3);
+        [0, 1, 2].forEach((i) => ($("#b" + i).style.transform = "translate(" + (Math.sin(t * 0.5 + i * 2) * 90).toFixed(1) + "px," + (Math.cos(t * 0.4 + i * 1.7) * 70).toFixed(1) + "px) scale(" + (1 + 0.08 * Math.sin(t * 0.7 + i) + 0.1 * kick).toFixed(3) + ")"));
         // headline: words resolve from blur, the job slams in
         $$("#h1 span").forEach((s, i) => { const q = outExpo(seg(t, 0.2 + i * 0.13, 0.75 + i * 0.13)); s.style.opacity = q; s.style.filter = "blur(" + ((1 - q) * 16).toFixed(1) + "px)"; s.style.transform = "translateY(" + ((1 - q) * 46).toFixed(1) + "px)"; });
         const j0 = $("#j0"), j1 = $("#j1"), a0 = outExpo(seg(t, 0.72, 1.12)), st = outCubic(seg(t, SW - 0.3, SW - 0.02)), out = inCubic(seg(t, SW, SW + 0.26)), in1 = outExpo(seg(t, SW + 0.1, SW + 0.5));
         j0.style.opacity = a0 * (1 - out); j0.style.transform = "translateY(" + ((1 - a0) * 150 + out * 190).toFixed(1) + "px) scale(" + (1 + 0.5 * (1 - a0)).toFixed(3) + ") rotate(" + (out * 5).toFixed(2) + "deg)"; j0.style.filter = "blur(" + ((1 - a0) * 14 + out * 10).toFixed(1) + "px)";
-        j0.querySelector("i").style.transform = "scaleX(" + st.toFixed(3) + ")"; j0.style.color = st > 0.6 ? "#8d7468" : ""; j0.style.textShadow = st > 0.6 ? "none" : "";
+        j0.querySelector("i").style.transform = "scaleX(" + st.toFixed(3) + ")"; j0.style.opacity = a0 * (1 - out) * (1 - 0.45 * st);
         j1.style.opacity = in1; j1.style.transform = "translateY(" + ((1 - in1) * -170).toFixed(1) + "px)"; j1.style.filter = "blur(" + ((1 - in1) * 12).toFixed(1) + "px)"; j1.querySelector("i").style.transform = "scaleX(0)";
         const tg = seg(t, 0.9, 1.3); $("#tag").style.opacity = tg; $("#cnt").textContent = t < SW + 0.1 ? "01" : "02"; $("#cnt").style.display = "inline-block"; $("#cnt").style.transform = "scale(" + (1 + 0.5 * kick).toFixed(3) + ")";
         // the neon line and its spark
