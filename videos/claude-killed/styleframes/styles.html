@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("../assets/fonts/heebo-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0590-05FF; }
+      @font-face { font-family: "Heebo"; font-weight: 500; src: url("../assets/fonts/heebo-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Heebo"; font-weight: 900; src: url("../assets/fonts/heebo-hebrew-900-normal.woff2") format("woff2"); unicode-range: U+0590-05FF; }
+      @font-face { font-family: "Heebo"; font-weight: 900; src: url("../assets/fonts/heebo-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+      @font-face { font-family: "Mono"; font-weight: 500; src: url("../assets/fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Mono"; font-weight: 700; src: url("../assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+      body { margin: 0; background: #111; font-family: "Heebo", sans-serif; }
+      .f { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      .n { position: absolute; left: 40px; top: 30px; width: 90px; height: 90px; border-radius: 50%; background: #fff; color: #111; font: 700 54px/90px "Mono"; text-align: center; z-index: 9; box-shadow: 0 6px 20px rgba(0,0,0,.4); }
+
+      /* 1. poster: giant type on Claude orange */
+      #s1 { background: #d97757; color: #1b1310; direction: rtl; }
+      #s1 .a { position: absolute; right: 90px; top: 110px; font-size: 150px; font-weight: 900; line-height: 1; }
+      #s1 .b { position: absolute; right: 80px; top: 280px; font-size: 330px; font-weight: 900; line-height: 0.95; color: #fff4ea; white-space: nowrap; letter-spacing: -4px; }
+      #s1 .b i { position: absolute; left: -30px; right: -30px; top: 52%; height: 34px; background: #1b1310; transform: rotate(-3deg); }
+      #s1 .c { position: absolute; left: 90px; bottom: 80px; direction: ltr; font: 700 34px "Mono"; letter-spacing: 8px; }
+      #s1 .d { position: absolute; right: 90px; bottom: 70px; font-size: 64px; font-weight: 900; }
+      #s1 .tape { position: absolute; left: -100px; right: -100px; top: 792px; height: 86px; background: #1b1310; color: #d97757; transform: rotate(-3deg); font: 700 44px/86px "Mono"; letter-spacing: 10px; white-space: nowrap; direction: ltr; text-align: center; }
+
+      /* 2. terminal */
+      #s2 { background: #0d0f12; color: #d7dde4; }
+      #s2 .w { position: absolute; left: 190px; top: 90px; width: 1540px; height: 720px; border-radius: 26px; background: #15181d; box-shadow: 0 0 0 2px #2a2f37, 0 50px 120px rgba(0,0,0,.7); overflow: hidden; }
+      #s2 .bar { height: 70px; background: #1d2127; position: relative; } #s2 .bar i { position: absolute; top: 25px; width: 20px; height: 20px; border-radius: 50%; }
+      #s2 .bar b { position: absolute; left: 0; right: 0; top: 20px; text-align: center; font: 500 26px "Mono"; color: #7c8794; }
+      #s2 pre { margin: 0; padding: 46px 60px; font: 500 42px/1.62 "Mono"; direction: ltr; }
+      #s2 .o { color: #ff8a5c; } #s2 .g { color: #5fd38d; } #s2 .dm { color: #6b7684; } #s2 .he { font-family: "Heebo"; font-weight: 900; color: #fff; }
+      #s2 .big { position: absolute; right: 190px; bottom: 90px; direction: rtl; font-size: 92px; font-weight: 900; color: #fff; } #s2 .big em { font-style: normal; color: #ff8a5c; }
+      #s2 .cur { display: inline-block; width: 24px; height: 46px; background: #ff8a5c; vertical-align: -8px; }
+
+      /* 3. arcade K.O. */
+      #s3 { background: linear-gradient(#1a0b3a, #3a1260 60%, #0d0620); color: #fff; image-rendering: pixelated; }
+      #s3::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 3px, transparent 3px 6px); z-index: 5; pointer-events: none; }
+      #s3 .floor { position: absolute; left: -200px; right: -200px; bottom: -160px; height: 520px; background: repeating-linear-gradient(90deg, rgba(255,90,200,.55) 0 4px, transparent 4px 120px), repeating-linear-gradient(0deg, rgba(255,90,200,.55) 0 4px, transparent 4px 70px); transform: perspective(600px) rotateX(62deg); }
+      #s3 .hp { position: absolute; top: 80px; width: 720px; height: 54px; border: 6px solid #fff; background: #2a0a30; } #s3 .hp i { position: absolute; top: 0; bottom: 0; }
+      #s3 .nm { position: absolute; top: 150px; font: 700 40px "Mono"; letter-spacing: 3px; } #s3 .nmh { font-family: "Heebo"; font-weight: 900; font-size: 46px; }
+      #s3 .ko { position: absolute; left: 0; right: 0; top: 250px; text-align: center; font: 700 420px/1 "Mono"; color: #ffe14a; text-shadow: 12px 12px 0 #ff3d7f, 24px 24px 0 #7a1fd0; letter-spacing: -10px; }
+      #s3 .sub { position: absolute; left: 0; right: 0; top: 720px; text-align: center; direction: rtl; font-size: 96px; font-weight: 900; text-shadow: 6px 6px 0 #ff3d7f; }
+      #s3 .vs { position: absolute; left: 0; right: 0; top: 70px; text-align: center; font: 700 70px "Mono"; color: #ffe14a; }
+      #s3 .ins { position: absolute; left: 0; right: 0; bottom: 60px; text-align: center; font: 700 38px "Mono"; letter-spacing: 6px; color: #9fe8ff; }
+
+      /* 4. flat illustration (the look of the diamond machine) */
+      #s4 { background: #fdefd6; color: #23323c; direction: rtl; background-image: radial-gradient(#ecd7ae 3px, transparent 3.5px); background-size: 54px 54px; }
+      #s4 .a { position: absolute; right: 110px; top: 250px; font-size: 110px; font-weight: 900; }
+      #s4 .b { position: absolute; right: 110px; top: 400px; padding: 6px 44px 18px; border-radius: 44px; background: #f26d5b; border: 9px solid #23323c; box-shadow: 0 16px 0 #23323c; font-size: 140px; font-weight: 900; color: #fff7e8; white-space: nowrap; transform: rotate(-2deg); }
+      #s4 .pc { position: absolute; left: 130px; top: 200px; width: 760px; height: 520px; border-radius: 40px; background: #2f5d6b; border: 9px solid #23323c; box-shadow: 0 16px 0 #23323c; }
+      #s4 .sc { position: absolute; left: 34px; top: 34px; right: 34px; bottom: 34px; border-radius: 22px; background: #16222a; border: 7px solid #23323c; overflow: hidden; }
+      #s4 .cl { position: absolute; height: 58px; border-radius: 12px; border: 5px solid #23323c; }
+      #s4 .st { position: absolute; left: 400px; top: 720px; width: 220px; height: 90px; background: #e9b23c; border: 9px solid #23323c; } #s4 .ba { position: absolute; left: 250px; top: 800px; width: 520px; height: 60px; border-radius: 20px; background: #2f5d6b; border: 9px solid #23323c; }
+      #s4 .x { position: absolute; left: 240px; top: 330px; font: 900 300px/1 "Heebo"; color: #f26d5b; -webkit-text-stroke: 10px #23323c; transform: rotate(-8deg); }
+      #s4 .tag { position: absolute; right: 116px; top: 690px; padding: 10px 34px 14px; border-radius: 40px; background: #fff7e8; border: 6px solid #23323c; box-shadow: 0 9px 0 #23323c; font-size: 52px; font-weight: 900; }
+
+      /* 5. light and clean: soft pastel, serif accent */
+      #s5 { background: radial-gradient(ellipse 70% 80% at 20% 20%, #ffd9c2 0, transparent 60%), radial-gradient(ellipse 60% 70% at 85% 80%, #e2d4ff 0, transparent 60%), #faf6f1; color: #1d1a18; direction: rtl; }
+      #s5 .a { position: absolute; left: 0; right: 0; top: 250px; text-align: center; font-size: 110px; font-weight: 500; }
+      #s5 .b { position: absolute; left: 0; right: 0; top: 400px; text-align: center; font-size: 230px; font-weight: 900; line-height: 1.05; background: linear-gradient(90deg, #d97757, #ff9e6b 50%, #b65a3c); -webkit-background-clip: text; color: transparent; }
+      #s5 .card { position: absolute; top: 730px; width: 300px; height: 190px; border-radius: 28px; background: rgba(255,255,255,.75); box-shadow: 0 30px 60px rgba(120,80,60,.18), inset 0 0 0 1.5px rgba(255,255,255,.9); }
+      #s5 .card i { position: absolute; left: 24px; right: 24px; height: 18px; border-radius: 9px; background: #e9dfd6; }
+      #s5 .m { position: absolute; left: 0; right: 0; top: 150px; text-align: center; direction: ltr; font: 500 28px "Mono"; letter-spacing: 8px; color: #9a8778; }
+    </style>
+  </head>
+  <body>
+    <div class="f" id="s1"><div class="n">1</div><div class="a">Claude הרג את</div><div class="b">עורכי הווידאו<i></i></div><div class="tape">KILLED · KILLED · KILLED · KILLED · KILLED · KILLED · KILLED · KILLED · KILLED</div><div class="c">JOB 01 / 12</div><div class="d">הבא בתור: מעצבי אתרים</div></div>
+
+    <div class="f" id="s2"><div class="n">2</div><div class="w"><div class="bar"><i style="left:30px;background:#f26d5b"></i><i style="left:62px;background:#e9b23c"></i><i style="left:94px;background:#5fd38d"></i><b>claude — jobs</b></div>
+<pre><span class="dm">~/jobs $</span> <span class="o">claude</span> kill <span class="he">"עורכי וידאו"</span>
+<span class="g">✓ killed</span>  <span class="dm">pid 0412 · 12 seconds</span>
+<span class="dm">~/jobs $</span> <span class="o">claude</span> kill <span class="he">"מעצבי אתרים"</span>
+<span class="g">✓ killed</span>  <span class="dm">pid 0413 · 90 seconds</span>
+<span class="dm">~/jobs $</span> <span class="o">claude</span> kill <span class="he">"מפתחי תוכנה"</span><span class="cur"></span></pre></div>
+      <div class="big">Claude הרג את <em>עורכי הווידאו</em></div></div>
+
+    <div class="f" id="s3"><div class="n" style="z-index:9">3</div><div class="floor"></div>
+      <div class="hp" style="left:110px"><i style="left:0;width:100%;background:#ff8a5c"></i></div><div class="hp" style="right:110px"><i style="right:0;width:4%;background:#ff3d7f"></i></div>
+      <div class="nm" style="left:110px">CLAUDE</div><div class="nm nmh" style="right:110px">עורכי הווידאו</div><div class="vs">VS</div>
+      <div class="ko">K.O.</div><div class="sub">Claude הרג את עורכי הווידאו</div><div class="ins">NEXT CHALLENGER →</div></div>
+
+    <div class="f" id="s4"><div class="n">4</div>
+      <div class="pc"><div class="sc"><div class="cl" style="left:30px;top:250px;width:170px;background:#f26d5b"></div><div class="cl" style="left:210px;top:250px;width:120px;background:#e9b23c"></div><div class="cl" style="left:340px;top:250px;width:230px;background:#f26d5b"></div><div class="cl" style="left:30px;top:324px;width:330px;background:#8a3ffc"></div><div class="cl" style="left:370px;top:324px;width:240px;background:#8a3ffc"></div><div class="cl" style="left:30px;top:30px;width:580px;height:190px;background:#3f7483"></div></div></div>
+      <div class="st"></div><div class="ba"></div><div class="x">✕</div>
+      <div class="a">Claude הרג את</div><div class="b">עורכי הווידאו</div><div class="tag">מקצוע 01 · נשארו עוד הרבה</div></div>
+
+    <div class="f" id="s5"><div class="n">5</div><div class="m">CLAUDE KILLED · 01</div><div class="a">Claude הרג את</div><div class="b">עורכי הווידאו</div>
+      <div class="card" style="left:330px;transform:rotate(-5deg)"><i style="top:30px"></i><i style="top:66px;right:120px"></i><i style="top:120px;background:#ffcbb0;height:40px"></i></div>
+      <div class="card" style="left:810px;top:760px"><i style="top:30px;background:#ffcbb0;height:70px"></i><i style="top:124px"></i></div>
+      <div class="card" style="left:1290px;transform:rotate(5deg)"><i style="top:30px"></i><i style="top:66px"></i><i style="top:102px;right:150px"></i></div></div>
+  </body>
+</html>
