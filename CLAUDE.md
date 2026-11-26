@@ -82,3 +82,4 @@
 
 ## סקילים שבנינו
 - פרסומת "ספק אד" לאפליקציה בסגנון Duolingo / Yellow / ביט: הסקיל `app-spec-ad` (`.claude/skills/app-spec-ad/`). מתחילים מ-`scripts/new.sh <שם>`.
+- פרסומת מותג מלינק לאתר, ברמת הסרטון של ישרוטל / Airbnb (לוגו, מפה או במה תלת־ממדית, כרטיסים שנפתחים לסרטון חי, קרוסלה על צבע המותג, חלל פרטים צפים, הזמנה עד "אושרה", לוגו): הסקיל `brand-flow-promo` (`.claude/skills/brand-flow-promo/`). מתחילים מ-`scripts/new.sh <שם> <לינק>`, וקוראים קודם את `reference/lessons.md`.
