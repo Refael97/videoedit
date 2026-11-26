@@ -46,7 +46,4 @@ The user's words are quoted in Hebrew as written. "Mine" marks my reading of the
 - The render is the slowest step. Three failed "final" renders were all caught by tiling frames of the mp4;
   each could have been caught in stills first.
 - Keep the old render until the new one is checked; when only sound changes, re-mux.
-- Raw captures, reference videos and video frames stay out of git; a temporary branch that carried someone
-  else's reels must be deleted when the work is done (the repo is public).
-- Standing preferences of this user: Hebrew replies, one terminal step per message, costs reported, personal
-  data never shown, religious sensitivity in wording, logo first, no "final" before a detail pass.
+- Raw captures, reference videos and video frames stay out of git.
